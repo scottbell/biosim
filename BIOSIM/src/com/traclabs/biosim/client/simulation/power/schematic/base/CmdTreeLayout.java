@@ -24,7 +24,7 @@ import org.tigris.gef.graph.presentation.NetPort;
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigNode;
 
-import com.traclabs.biosim.client.simulation.power.schematic.graph.EditorPort;
+import com.traclabs.biosim.client.simulation.power.schematic.graph.PowerPort;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.FigModuleNode;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.ModuleNode;
 
@@ -186,7 +186,7 @@ public class CmdTreeLayout extends Cmd {
     private Vector getOutboundEdges(FigModuleNode fig) {
         ModuleNode source = (ModuleNode) fig.getOwner();
         Vector<NetEdge> outboundEdges = new Vector<NetEdge>();
-        EditorPort port = (EditorPort) source.getPort();
+        PowerPort port = (PowerPort) source.getPort();
         Vector edges = port.getEdges();
         Enumeration e = edges.elements();
         while (e.hasMoreElements()) {

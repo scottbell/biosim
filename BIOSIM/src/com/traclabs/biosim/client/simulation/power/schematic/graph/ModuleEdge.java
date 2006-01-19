@@ -95,8 +95,8 @@ public class ModuleEdge extends NetEdge {
     public StoreImpl getStoreImpl(){
         if (myStoreImpl != null)
             return myStoreImpl;
-        EditorPort sourcePort = (EditorPort)getSourcePort();
-        EditorPort destPort = (EditorPort)getDestPort();
+        PowerPort sourcePort = (PowerPort)getSourcePort();
+        PowerPort destPort = (PowerPort)getDestPort();
         if (sourcePort.getParent() instanceof StoreNode){
             //we're consuming
             myStoreImpl = (StoreImpl)((PassiveNode)sourcePort.getParent()).getSimBioModuleImpl();
@@ -117,8 +117,8 @@ public class ModuleEdge extends NetEdge {
     public SimEnvironmentImpl getSimEnvironmentImpl(){
         if (mySimEnvironmentImpl != null)
             return mySimEnvironmentImpl;
-        EditorPort sourcePort = (EditorPort)getSourcePort();
-        EditorPort destPort = (EditorPort)getDestPort();
+        PowerPort sourcePort = (PowerPort)getSourcePort();
+        PowerPort destPort = (PowerPort)getDestPort();
         if (sourcePort.getParent() instanceof SimEnvironmentNode){
         	mySimEnvironmentImpl = (SimEnvironmentImpl)((PassiveNode)sourcePort.getParent()).getSimBioModuleImpl();
             return mySimEnvironmentImpl;
@@ -145,8 +145,8 @@ public class ModuleEdge extends NetEdge {
     private SingleFlowRateControllable initializeOperations(Class selectedConsumerOrProducerClass) {
         SingleFlowRateControllable initializedOperations = null;
         myFlowRateType = calculateFlowRateType(selectedConsumerOrProducerClass);
-        EditorPort sourcePort = (EditorPort)getSourcePort();
-        EditorPort destPort = (EditorPort)getDestPort();
+        PowerPort sourcePort = (PowerPort)getSourcePort();
+        PowerPort destPort = (PowerPort)getDestPort();
         if (sourcePort.getParent() instanceof ActiveNode){
             //we're producing
             amProducerEdge = true;

@@ -60,6 +60,11 @@ public class PowerSchematicFrame extends BioFrame {
         ResourceLoader.addResourceLocation("/org/tigris/gef/Images");
     }
     
+    public void setVisible(boolean visible){
+    	super.setVisible(visible);
+    	myPowerSchematicPanel.visibilityChange(visible);
+    }
+    
     /**
      *  
      */

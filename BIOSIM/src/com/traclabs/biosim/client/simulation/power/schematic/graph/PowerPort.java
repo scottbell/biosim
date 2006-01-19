@@ -8,9 +8,9 @@ import org.tigris.gef.graph.presentation.NetEdge;
 import org.tigris.gef.graph.presentation.NetNode;
 import org.tigris.gef.graph.presentation.NetPort;
 
-public class EditorPort extends NetPort implements Serializable {
+public class PowerPort extends NetPort implements Serializable {
 
-    public EditorPort(NetNode parent) {
+    public PowerPort(NetNode parent) {
         super(parent);
     }
 
