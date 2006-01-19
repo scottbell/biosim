@@ -21,13 +21,13 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
  * in the Editor application will be subclasses of ModuleNode
  */
 public abstract class ModuleNode extends NetNode implements Serializable {
-    protected EditorPort _port;
+    protected PowerPort myPort;
 
-    protected MutableGraphModel _nestedModel;
-    
+    protected MutableGraphModel myNestedModel;
 
     public ModuleNode() {
-        _nestedModel = createNestedGraphModel();
+        myNestedModel = createNestedGraphModel();
+        //myPort = new PowerPort(this);
     }
     
     public abstract SimBioModuleImpl getSimBioModuleImpl();
@@ -40,17 +40,17 @@ public abstract class ModuleNode extends NetNode implements Serializable {
      * <p>
      */
     public void initialize(Hashtable args) {
-        addPort(_port = new EditorPort(this));
+        addPort(myPort = new PowerPort(this));
         //center.printEdges();
 
     }
 
     public Object getPort() {
-        return _port;
+        return myPort;
     }
 
     public MutableGraphModel getNestedModel() {
-        return _nestedModel;
+        return myNestedModel;
     }
 
     /** Returns all source nodes for this node. */
