@@ -10,10 +10,11 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.graph.MutableGraphModel;
 import org.tigris.gef.graph.presentation.JGraph;
 import org.tigris.gef.graph.presentation.NetPort;
-import org.tigris.gef.presentation.FigNode;
+import org.tigris.gef.presentation.FigEdge;
 
 import com.traclabs.biosim.client.framework.TimedPanel;
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicEditor;
+import com.traclabs.biosim.client.simulation.power.schematic.graph.FigModuleNode;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.ModuleNode;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.power.PowerStoreNode;
 
@@ -31,7 +32,7 @@ public class PowerSchematicPanel extends TimedPanel {
 
 	private Logger myLogger;
 
-	private ModuleNode myLastNode;
+	private FigModuleNode myLastNode;
 
 	public PowerSchematicPanel() {
 		myLogger = Logger.getLogger(PowerSchematicPanel.class);
@@ -45,42 +46,49 @@ public class PowerSchematicPanel extends TimedPanel {
 		setLayout(new GridLayout(1, 1));
 		add(myGraph);
 		myRandomGen = new Random();
+		FigModuleNode firstFigNode = createNode();
+		FigModuleNode secondFigNode = createNode();
+		ModuleNode firstNode = (ModuleNode)firstFigNode.getOwner();
+		ModuleNode secondNode = (ModuleNode)secondFigNode.getOwner();
+		connectNodes(firstFigNode, secondFigNode);
+		myLogger.info("Connected nodes");
 	}
 
 	public void refresh() {
-		ModuleNode newNode = createNode();
-		// connect them
-		if (myLastNode != null) {
-			MutableGraphModel mutableGraphModel = (MutableGraphModel) myGraph
-					.getGraphModel();
-			NetPort fromPort = (NetPort) myLastNode.getPort();
-			NetPort destinationPort = (NetPort) newNode.getPort();
-			Object newEdge = mutableGraphModel.connect(fromPort,
-					destinationPort);
-		}
-		myLastNode = newNode;
 	}
 
 	public PowerSchematicEditor getEditor() {
 		return myEditor;
 	}
 
-	private ModuleNode createNode() {
-		PowerStoreNode node = new PowerStoreNode();
-		node.initialize(null); // Currently we are not using the args to
-		// initialize.
+	private void connectNodes(FigModuleNode sourceNode, FigModuleNode destNode) {
+		MutableGraphModel mutableGraphModel = (MutableGraphModel) myGraph
+				.getGraphModel();
+		NetPort sourcePort = (NetPort) sourceNode.getPort();
+		NetPort destPort = (NetPort) destNode.getPort();
+		Object newEdge = mutableGraphModel.connect(sourcePort, destPort);
 
-		// Get the FigNode used to present this Node in the new Diagram
-		// Then add the Fig to the Layer and the Node to the GraphModel
 		Layer theActiveLayer = myGraph.getEditor().getLayerManager()
 				.getActiveLayer();
-		FigNode figNode = (FigNode) node.makePresentation(theActiveLayer);
+		FigEdge newFigEdge = (FigEdge) theActiveLayer.presentationFor(newEdge);
+		
+		newFigEdge.setSourcePortFig(sourceNode.getPortFig());
+		newFigEdge.setSourceFigNode(sourceNode);
+		newFigEdge.setDestPortFig(destNode.getPortFig());
+		newFigEdge.setDestFigNode(destNode);
+		
+	}
+
+	private FigModuleNode createNode() {
+		PowerStoreNode node = new PowerStoreNode();
+		Layer theActiveLayer = myGraph.getEditor().getLayerManager()
+				.getActiveLayer();
+		FigModuleNode figNode = (FigModuleNode) node.makePresentation(theActiveLayer);
 		myEditor.add(figNode);
 		myGraph.getGraphModel().getNodes().add(node);
 		int x = myRandomGen.nextInt(300);
 		int y = myRandomGen.nextInt(300);
 		figNode.setCenter(new Point(x, y));
-		myLogger.info("created node");
-		return node;
+		return figNode;
 	}
 }
