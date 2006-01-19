@@ -141,48 +141,6 @@ public abstract class ModuleNode extends NetNode implements Serializable {
         }
         return false;
     }
-
-    /**
-     * @param sourceNode
-     * @param destNode
-     * @return
-     */
-    public static Class[] getClassesMeetingConstraintsForEdge(ModuleNode sourceNode, ModuleNode destNode) {
-        //only allow 2 edges (one each way) for each module
-        if (sourceNode.edgeExists(destNode))
-            return new Class[0];
-        
-        //check to see if active node already has an edge for this (allow in future revisions)
-        if (sourceNode instanceof ActiveNode){
-            if (!(destNode instanceof PassiveNode))
-                return new Class[0];
-            ActiveNode sourceActiveNode = (ActiveNode)sourceNode;
-            if (sourceActiveNode.isProducingForNode((PassiveNode)destNode))
-                return new Class[0];
-        }
-        else if (destNode instanceof ActiveNode){
-            if (!(sourceNode instanceof PassiveNode))
-                return new Class[0];
-            ActiveNode destActiveNode = (ActiveNode)destNode;
-            if (destActiveNode.isConsumingFromNode((PassiveNode)sourceNode))
-                return new Class[0];
-        }
-        //connecting two active nodes?
-        else
-            return new Class[0]; 
-        
-        //check to see if consumption/production is allowed
-        if (sourceNode instanceof PassiveNode){
-            PassiveNode sourcePassiveNode = (PassiveNode)sourceNode;
-            return sourcePassiveNode.getClassesMatchingConsumptionFromActiveNode((ActiveNode)destNode);
-        }
-        else if (destNode instanceof PassiveNode){
-            PassiveNode destPassiveNode = (PassiveNode)destNode;
-            return destPassiveNode.getClassesMatchingProductionFromActiveNode((ActiveNode)sourceNode);
-        }
-        
-        return new Class[0];
-    }
     
     public String getId(){
         return getSimBioModuleImpl().getModuleName();
