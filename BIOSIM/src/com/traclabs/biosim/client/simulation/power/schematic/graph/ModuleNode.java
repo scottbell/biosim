@@ -27,7 +27,7 @@ public abstract class ModuleNode extends NetNode implements Serializable {
 
     public ModuleNode() {
         myNestedModel = createNestedGraphModel();
-        //myPort = new PowerPort(this);
+        myPort = new PowerPort(this);
     }
     
     public abstract SimBioModuleImpl getSimBioModuleImpl();
@@ -42,7 +42,6 @@ public abstract class ModuleNode extends NetNode implements Serializable {
     public void initialize(Hashtable args) {
         addPort(myPort = new PowerPort(this));
         //center.printEdges();
-
     }
 
     public Object getPort() {
