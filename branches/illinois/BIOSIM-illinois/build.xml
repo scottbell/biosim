@@ -447,6 +447,6 @@
 					<exclude name="license-INF" />
 				</fileset>
 			</jar>
-		<signjar jar="${jnlpDistDir}/biosim.jar" alias="myself" keystore="${jnlpDistLibDir}/biosimKeystore" storepass="traclabs"/>
+		<signjar jar="${jnlpDistDir}/biosim.jar" alias="mykey" keystore="${jnlpDistLibDir}/biosimKeystore" storepass="traclabs"/>
 		</target>
 </project>
