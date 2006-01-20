@@ -94,8 +94,10 @@ import com.traclabs.biosim.idl.simulation.framework.AccumulatorHelper;
 import com.traclabs.biosim.idl.simulation.framework.EffluentValveHelper;
 import com.traclabs.biosim.idl.simulation.framework.InfluentValveHelper;
 import com.traclabs.biosim.idl.simulation.framework.InjectorHelper;
+import com.traclabs.biosim.idl.simulation.power.GenericPowerConsumerHelper;
 import com.traclabs.biosim.idl.simulation.power.PowerPSHelper;
 import com.traclabs.biosim.idl.simulation.power.PowerStoreHelper;
+import com.traclabs.biosim.idl.simulation.power.RPCMHelper;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteStoreHelper;
 import com.traclabs.biosim.idl.simulation.waste.IncineratorHelper;
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterStoreHelper;
@@ -507,6 +509,16 @@ public class BioHolderInitializer {
         myBioHolder.thePowerStores.add(PowerStoreHelper
                 .narrow(grabModule(getModuleName(node))));
     }
+    
+    private static void fetchRPCM(Node node) {
+        myBioHolder.theRPCMs.add(RPCMHelper
+                .narrow(grabModule(getModuleName(node))));
+    }
+    
+    private static void fetchGenericPowerConsumer(Node node) {
+        myBioHolder.theGenericPowerConsumers.add(GenericPowerConsumerHelper
+                .narrow(grabModule(getModuleName(node))));
+    }
 
     private static void crawlPowerModules(Node node) {
         Node child = node.getFirstChild();
@@ -516,6 +528,10 @@ public class BioHolderInitializer {
                 fetchPowerPS(child);
             else if (childName.equals("PowerStore"))
                 fetchPowerStore(child);
+            else if (childName.equals("RPCM"))
+                fetchRPCM(child);
+            else if (childName.equals("GenericPowerConsumer"))
+                fetchGenericPowerConsumer(child);
             child = child.getNextSibling();
         }
     }

@@ -104,8 +104,10 @@ import com.traclabs.biosim.idl.simulation.framework.EffluentValve;
 import com.traclabs.biosim.idl.simulation.framework.InfluentValve;
 import com.traclabs.biosim.idl.simulation.framework.Injector;
 import com.traclabs.biosim.idl.simulation.framework.SimBioModule;
+import com.traclabs.biosim.idl.simulation.power.GenericPowerConsumer;
 import com.traclabs.biosim.idl.simulation.power.PowerPS;
 import com.traclabs.biosim.idl.simulation.power.PowerStore;
+import com.traclabs.biosim.idl.simulation.power.RPCM;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteStore;
 import com.traclabs.biosim.idl.simulation.waste.Incinerator;
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
@@ -181,6 +183,10 @@ public class BioHolder {
     public List<PowerPS> thePowerPSModules = new Vector<PowerPS>();
 
     public List<PowerStore> thePowerStores = new Vector<PowerStore>();
+    
+    public List<RPCM> theRPCMs = new Vector<RPCM>();
+    
+    public List<GenericPowerConsumer> theGenericPowerConsumers = new Vector<GenericPowerConsumer>();
 
     //Waste
     public List<Incinerator> theIncinerators = new Vector<Incinerator>();
@@ -461,6 +467,8 @@ public class BioHolder {
         //Power
         theSimModules.addAll(thePowerPSModules);
         theSimModules.addAll(thePowerStores);
+        theSimModules.addAll(theRPCMs);
+        theSimModules.addAll(theGenericPowerConsumers);
         //Waste
         theSimModules.addAll(theIncinerators);
         theSimModules.addAll(theDryWasteStores);
@@ -607,6 +615,8 @@ public class BioHolder {
         //Power
         thePowerPSModules.clear();
         thePowerStores.clear();
+        theRPCMs.clear();
+        theGenericPowerConsumers.clear();
         //Waste
         theIncinerators.clear();
         theDryWasteStores.clear();
