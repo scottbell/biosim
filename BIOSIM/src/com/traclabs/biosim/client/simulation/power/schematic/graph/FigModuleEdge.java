@@ -12,9 +12,6 @@ import org.tigris.gef.presentation.FigLine;
 import org.tigris.gef.presentation.FigText;
 
 import com.traclabs.biosim.client.simulation.power.schematic.ui.FlowratePropertiesFrame;
-import com.traclabs.biosim.client.simulation.power.schematic.ui.SimEnvironmentFlowratePropertiesFrame;
-import com.traclabs.biosim.client.simulation.power.schematic.ui.StoreFlowratePropertiesFrame;
-import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOperations;
 
 public class FigModuleEdge extends FigEdgeLine implements MouseListener {
     private FlowratePropertiesFrame myFlowratePropertiesFrame;
@@ -52,10 +49,6 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
     public void editProperties(int x, int y){
         if (myFlowratePropertiesFrame == null){
             ModuleEdge theModuleEdge = (ModuleEdge)getOwner();
-            if (theModuleEdge.getOperations() instanceof StoreFlowRateControllableOperations)
-            	myFlowratePropertiesFrame = new StoreFlowratePropertiesFrame(this, theModuleEdge.getOperations());
-            else
-            	myFlowratePropertiesFrame = new SimEnvironmentFlowratePropertiesFrame(this, theModuleEdge.getOperations());
             myFlowratePropertiesFrame.pack();
         }
         myFlowratePropertiesFrame.setLocation(x, y);
