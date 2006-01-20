@@ -16,6 +16,8 @@ import com.traclabs.biosim.client.framework.TimedPanel;
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicEditor;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.FigModuleNode;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.power.PowerStoreNode;
+import com.traclabs.biosim.client.util.BioHolder;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
 
 /**
  * This is the JPanel that displays a schematic
@@ -30,14 +32,15 @@ public class PowerSchematicPanel extends TimedPanel {
 	private Random myRandomGen;
 
 	private Logger myLogger;
-
-	private FigModuleNode myLastNode;
+	
+	private BioHolder myBioHolder;
 
 	public PowerSchematicPanel() {
 		myLogger = Logger.getLogger(PowerSchematicPanel.class);
 		myEditor = new PowerSchematicEditor();
 		myGraph = new JGraph(myEditor);
 		myGraph.setDrawingSize(600, 400);
+		myBioHolder = BioHolderInitializer.getBioHolder();
 		Globals.curEditor(myEditor);
 		setLayout(new GridLayout(1, 1));
 		add(myGraph);
@@ -45,10 +48,8 @@ public class PowerSchematicPanel extends TimedPanel {
 	}
 
 	public void refresh() {
-		FigModuleNode newNode = createNode();
-		if (myLastNode != null)
-			connectNodes(myLastNode, newNode);
-		myLastNode = newNode;
+		//change color of lines
+		//change color of nodes
 	}
 
 	public PowerSchematicEditor getEditor() {
@@ -84,5 +85,8 @@ public class PowerSchematicPanel extends TimedPanel {
 		int y = myRandomGen.nextInt(400);
 		figNode.setCenter(new Point(x, y));
 		return figNode;
+	}
+	
+	private void createPowerNodes(){
 	}
 }

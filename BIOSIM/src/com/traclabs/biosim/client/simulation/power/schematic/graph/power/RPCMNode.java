@@ -5,32 +5,30 @@ import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.client.simulation.power.schematic.graph.ActiveNode;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
-import com.traclabs.biosim.server.simulation.power.PowerPSImpl;
-import com.traclabs.biosim.server.simulation.power.SolarPowerPS;
+import com.traclabs.biosim.server.simulation.power.RPCMImpl;
 
 
-public class SolarPowerPSNode extends ActiveNode{
+public class RPCMNode extends ActiveNode{
     private static int nameID = 0;
     
-    private PowerPSImpl myPowerPSImpl;
-    public SolarPowerPSNode() {
-        myPowerPSImpl = new SolarPowerPS(0, "SolarPowerPS" + nameID++);
+    private RPCMImpl myRPCMImpl;
+    public RPCMNode() {
     }
 
     public FigNode makePresentation(Layer lay) {
-        FigSolarPowerPSNode node = new FigSolarPowerPSNode();
+        FigRPCMNode node = new FigRPCMNode();
         node.setOwner(this);
         return node;
     }
     
     public SimBioModuleImpl getSimBioModuleImpl(){
-        return myPowerPSImpl;
+        return myRPCMImpl;
     }
 
     /* (non-Javadoc)
      * @see com.traclabs.biosim.client.simulation.power.schematic.graph.ModuleNode#getModuleType()
      */
     public String getModuleType() {
-        return "PowerPS";
+        return "RPCM";
     }
 }
