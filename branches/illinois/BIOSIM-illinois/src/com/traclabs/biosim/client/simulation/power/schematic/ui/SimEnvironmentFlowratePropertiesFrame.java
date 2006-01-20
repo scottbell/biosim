@@ -1,0 +1,15 @@
+/*
+ * Created on Apr 28, 2005
+ *
+ */
+package com.traclabs.biosim.client.simulation.power.schematic.ui;
+
+import com.traclabs.biosim.client.simulation.power.schematic.graph.FigModuleEdge;
+import com.traclabs.biosim.idl.simulation.framework.SingleFlowRateControllable;
+
+
+public class SimEnvironmentFlowratePropertiesFrame extends FlowratePropertiesFrame {
+    public SimEnvironmentFlowratePropertiesFrame(FigModuleEdge pEdge, SingleFlowRateControllable pOpertations) {
+        super(pEdge, pOpertations);
+    }
+}

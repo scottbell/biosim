@@ -14,7 +14,7 @@ import javax.swing.WindowConstants;
 
 public class BioFrame extends javax.swing.JFrame {
 	//Flag that decides if the frame pops up a dialog box when closing
-    private boolean showCloseDialog = true;
+    private boolean showCloseDialog = false;
 
     /**
      * Default constructor makes the frame and registers the close listener
