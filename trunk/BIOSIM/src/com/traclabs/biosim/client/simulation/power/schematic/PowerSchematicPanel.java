@@ -35,13 +35,10 @@ public class PowerSchematicPanel extends TimedPanel {
 
 	public PowerSchematicPanel() {
 		myLogger = Logger.getLogger(PowerSchematicPanel.class);
-		// need to add ScrollPane
 		myEditor = new PowerSchematicEditor();
-		// myEditor.setGridHidden(true);
 		myGraph = new JGraph(myEditor);
 		myGraph.setDrawingSize(600, 400);
 		Globals.curEditor(myEditor);
-		// myGraph.setDrawingSize(0, 0);
 		setLayout(new GridLayout(1, 1));
 		add(myGraph);
 		myRandomGen = new Random();

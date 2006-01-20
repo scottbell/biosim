@@ -1,12 +1,18 @@
 package com.traclabs.biosim.client.simulation.power.schematic.base;
 
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 
 import org.tigris.gef.base.Editor;
+import org.tigris.gef.base.Layer;
+import org.tigris.gef.base.LayerDiagram;
+import org.tigris.gef.base.LayerGrid;
+import org.tigris.gef.base.LayerPerspective;
 import org.tigris.gef.base.ModeDragScroll;
 import org.tigris.gef.base.ModeSelect;
+import org.tigris.gef.graph.GraphModel;
 import org.tigris.gef.graph.presentation.DefaultGraphNodeRenderer;
 
 import com.traclabs.biosim.client.simulation.power.schematic.graph.FigModuleNode;
@@ -41,6 +47,17 @@ public class PowerSchematicEditor extends Editor {
         pushMode(new ModeSelect(this));
         pushMode(new ModeDragScroll(this));
         setGraphNodeRenderer(new DefaultGraphNodeRenderer());
+    }
+    
+    protected void defineLayers(GraphModel gm, Layer lay) {
+    	LayerGrid layerGrid = new LayerGrid(Color.WHITE, Color.WHITE, 16, false);
+        _layerManager.addLayer(layerGrid);
+        if(lay != null)
+            _layerManager.addLayer(lay);
+        else if(gm == null)
+            _layerManager.addLayer(new LayerDiagram("Example"));
+        else
+            _layerManager.addLayer(new LayerPerspective("untitled", gm));
     }
 
     public void document(Object d) {
