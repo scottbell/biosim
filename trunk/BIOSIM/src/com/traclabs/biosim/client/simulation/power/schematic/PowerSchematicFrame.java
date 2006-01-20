@@ -22,6 +22,7 @@ import org.tigris.gef.util.Localizer;
 import org.tigris.gef.util.ResourceLoader;
 
 import com.traclabs.biosim.client.framework.BioFrame;
+import com.traclabs.biosim.client.simulation.framework.SimDesktop;
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicDocument;
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicEditor;
 import com.traclabs.biosim.util.OrbUtils;
@@ -157,7 +158,12 @@ public class PowerSchematicFrame extends BioFrame {
     public static void main(String[] args){
     	OrbUtils.initializeLog();
     	PowerSchematicFrame newPowerSchematicFrame = new PowerSchematicFrame("BioSim Power Schematic");
+    	ImageIcon powerIcon = new ImageIcon(SimDesktop.class.getClassLoader()
+                .getResource(
+                        "com/traclabs/biosim/client/power/power.png"));
+    	newPowerSchematicFrame.setIconImage(powerIcon.getImage());
     	newPowerSchematicFrame.setSize(640, 480);
+    	newPowerSchematicFrame.setLocationRelativeTo(null); 
     	newPowerSchematicFrame.setVisible(true);
     }
 }

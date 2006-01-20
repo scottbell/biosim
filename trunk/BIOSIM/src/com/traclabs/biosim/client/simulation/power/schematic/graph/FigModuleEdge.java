@@ -39,26 +39,13 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
     }
     
 	public void computeRoute() {
-        ModuleEdge theEdge = (ModuleEdge)getOwner();
-        Point sourcePoint = getSourcePortFig().getCenter();
-        Point destPoint = getDestPortFig().getCenter();
-        if (!theEdge.isProducerEdge()){
-            sourcePoint.x += 100;
-            sourcePoint.y += 100;
-            destPoint.x -= 100;
-            destPoint.y -= 100;
-        }
-        else{
-            sourcePoint.x -= 100;
-            sourcePoint.y -= 100;
-            destPoint.x += 100;
-            destPoint.y += 100;
-        }
+		Point srcPt = getSourcePortFig().getCenter();
+        Point dstPt = getDestPortFig().getCenter();
 
-        sourcePoint = _sourceFigNode.connectionPoint(destPoint);
-        destPoint = _destFigNode.connectionPoint(sourcePoint);
+        srcPt = _sourceFigNode.connectionPoint(dstPt);
+        dstPt = _destFigNode.connectionPoint(srcPt);
 
-        ((FigLine) _fig).setShape(sourcePoint, destPoint);
+        ((FigLine) _fig).setShape(srcPt, dstPt);
         calcBounds();
     } 
     

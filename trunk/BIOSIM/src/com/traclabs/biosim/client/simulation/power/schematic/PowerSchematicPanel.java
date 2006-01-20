@@ -15,7 +15,6 @@ import org.tigris.gef.presentation.FigEdge;
 import com.traclabs.biosim.client.framework.TimedPanel;
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicEditor;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.FigModuleNode;
-import com.traclabs.biosim.client.simulation.power.schematic.graph.ModuleNode;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.power.PowerStoreNode;
 
 /**
@@ -40,21 +39,19 @@ public class PowerSchematicPanel extends TimedPanel {
 		myEditor = new PowerSchematicEditor();
 		// myEditor.setGridHidden(true);
 		myGraph = new JGraph(myEditor);
-		myGraph.setDrawingSize(300, 300);
+		myGraph.setDrawingSize(600, 400);
 		Globals.curEditor(myEditor);
 		// myGraph.setDrawingSize(0, 0);
 		setLayout(new GridLayout(1, 1));
 		add(myGraph);
 		myRandomGen = new Random();
-		FigModuleNode firstFigNode = createNode();
-		FigModuleNode secondFigNode = createNode();
-		ModuleNode firstNode = (ModuleNode)firstFigNode.getOwner();
-		ModuleNode secondNode = (ModuleNode)secondFigNode.getOwner();
-		connectNodes(firstFigNode, secondFigNode);
-		myLogger.info("Connected nodes");
 	}
 
 	public void refresh() {
+		FigModuleNode newNode = createNode();
+		if (myLastNode != null)
+			connectNodes(myLastNode, newNode);
+		myLastNode = newNode;
 	}
 
 	public PowerSchematicEditor getEditor() {
@@ -86,8 +83,8 @@ public class PowerSchematicPanel extends TimedPanel {
 		FigModuleNode figNode = (FigModuleNode) node.makePresentation(theActiveLayer);
 		myEditor.add(figNode);
 		myGraph.getGraphModel().getNodes().add(node);
-		int x = myRandomGen.nextInt(300);
-		int y = myRandomGen.nextInt(300);
+		int x = myRandomGen.nextInt(600);
+		int y = myRandomGen.nextInt(400);
 		figNode.setCenter(new Point(x, y));
 		return figNode;
 	}
