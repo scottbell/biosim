@@ -10,6 +10,7 @@ import com.traclabs.biosim.client.framework.apollo13.Apollo13Viewer;
 import com.traclabs.biosim.client.sensor.framework.SensorViewer;
 import com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisPanel;
 import com.traclabs.biosim.client.simulation.framework.SimDesktop;
+import com.traclabs.biosim.client.simulation.power.schematic.PowerSchematicFrame;
 import com.traclabs.biosim.client.unrealCom.UnrealCom;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.util.OrbUtils;
@@ -50,6 +51,7 @@ public class BiosimMain {
         boolean wantsToPhotosynthesis = false;
         boolean wantsToRunSensorViewer = false;
         boolean wantsToRunApollo13Viewer = false;
+        boolean wantsToRunPowerSchematic = false;
         boolean unrealServerGiven = false;
         String unrealServer = "";
         for (int i = 0; i < myArgs.length; i++) {
@@ -67,6 +69,8 @@ public class BiosimMain {
             	wantsToRunSensorViewer = true;
             } else if (myArgs[i].equals("apollo")) {
             	wantsToRunApollo13Viewer = true;
+            } else if (myArgs[i].equals("power")) {
+            	wantsToRunPowerSchematic = true;
             } else if (myArgs[i].equals("-debug")) {
                 OrbUtils.initializeClientForDebug();
             } else if (myArgs[i].startsWith("-xml=")) {
@@ -113,6 +117,8 @@ public class BiosimMain {
             runSensorViewer();
         else if (wantsToRunApollo13Viewer)
             runApollo13Viewer();
+        else if (wantsToRunPowerSchematic)
+            runPowerSchematic();
         else if (wantsToRunUnreal) {
             if (unrealServerGiven) {
                 runUnreal2(unrealServer);
@@ -191,6 +197,13 @@ public class BiosimMain {
      */
     private void runApollo13Viewer() {
     	Apollo13Viewer.main(new String[]{}); 
+    }
+    
+    /**
+     * Runs the sensor viewer
+     */
+    private void runPowerSchematic() {
+    	PowerSchematicFrame.main(new String[]{});
     }
 }
 
