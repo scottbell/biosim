@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
-<biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../../BiosimInitSchema.xsd'>
+<biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../BiosimInitSchema.xsd">
 	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="2.77777777777e-04" runTillN="16200">
 		<comment>
 			This is the Apollo 13 initialization.
 			It is on a 1Hz time step and runs for 16200 seconds.
 			It has the following modules:
-				A 3 person crew.
-				2 oxygen tanks (main and reservoir)
-				An cabin for the crew.
-				A valve alternating oxygen flow to the crew.
+			A 3 person crew.
+			2 oxygen tanks (main and reservoir)
+			An cabin for the crew.
+			A valve alternating oxygen flow to the crew.
 		</comment>
 		<author>Scott Bell</author>
 		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.simulation.crew" value="DEBUG"/> -->

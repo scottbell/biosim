@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<biosim xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='BiosimInitSchema.xsd'>
-	<Globals crewsToWatch="BaseCrewGroup EVACrewGroup" runTillCrewDeath="true">
+<biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim BiosimInitSchema.xsd">
+		<Globals crewsToWatch="BaseCrewGroup EVACrewGroup" runTillCrewDeath="true">
 		<comment>
 			The lunar mission initialization for BioSim (scenario 5)
 			Has the following properties:
