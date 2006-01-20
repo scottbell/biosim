@@ -1,12 +1,14 @@
 package com.traclabs.biosim.client.simulation.power.schematic.graph;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import org.tigris.gef.base.PathConvPercent;
 import org.tigris.gef.presentation.ArrowHeadTriangle;
 import org.tigris.gef.presentation.FigEdgeLine;
+import org.tigris.gef.presentation.FigLine;
 import org.tigris.gef.presentation.FigText;
 
 import com.traclabs.biosim.client.simulation.power.schematic.ui.FlowratePropertiesFrame;
@@ -36,7 +38,6 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
     public void setBetweenNearestPoints(boolean un) {
     }
     
-    /*
 	public void computeRoute() {
         ModuleEdge theEdge = (ModuleEdge)getOwner();
         Point sourcePoint = getSourcePortFig().getCenter();
@@ -60,7 +61,6 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
         ((FigLine) _fig).setShape(sourcePoint, destPoint);
         calcBounds();
     } 
-    */
     
     public void editProperties(int x, int y){
         if (myFlowratePropertiesFrame == null){
