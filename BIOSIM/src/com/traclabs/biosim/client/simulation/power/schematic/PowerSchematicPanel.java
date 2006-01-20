@@ -2,7 +2,6 @@ package com.traclabs.biosim.client.simulation.power.schematic;
 
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.tigris.gef.base.Globals;
@@ -15,9 +14,11 @@ import org.tigris.gef.presentation.FigEdge;
 import com.traclabs.biosim.client.framework.TimedPanel;
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicEditor;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.FigModuleNode;
+import com.traclabs.biosim.client.simulation.power.schematic.graph.ModuleNode;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.power.PowerStoreNode;
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.simulation.power.PowerStore;
 
 /**
  * This is the JPanel that displays a schematic
@@ -28,8 +29,6 @@ public class PowerSchematicPanel extends TimedPanel {
 	private JGraph myGraph;
 
 	private PowerSchematicEditor myEditor;
-
-	private Random myRandomGen;
 
 	private Logger myLogger;
 	
@@ -44,7 +43,6 @@ public class PowerSchematicPanel extends TimedPanel {
 		Globals.curEditor(myEditor);
 		setLayout(new GridLayout(1, 1));
 		add(myGraph);
-		myRandomGen = new Random();
 	}
 
 	public void refresh() {
@@ -74,19 +72,22 @@ public class PowerSchematicPanel extends TimedPanel {
 		
 	}
 
-	private FigModuleNode createNode() {
-		PowerStoreNode node = new PowerStoreNode();
+	private void addNode(ModuleNode node, int x, int y) {
 		Layer theActiveLayer = myGraph.getEditor().getLayerManager()
 				.getActiveLayer();
 		FigModuleNode figNode = (FigModuleNode) node.makePresentation(theActiveLayer);
 		myEditor.add(figNode);
 		myGraph.getGraphModel().getNodes().add(node);
-		int x = myRandomGen.nextInt(600);
-		int y = myRandomGen.nextInt(400);
 		figNode.setCenter(new Point(x, y));
-		return figNode;
 	}
 	
 	private void createPowerNodes(){
+		int x = 10;
+		int y = 10;
+		for (PowerStore powerStore : myBioHolder.thePowerStores) {
+			myLogger.info("Adding node");
+			addNode(new PowerStoreNode(powerStore), x, y);
+			x += 10;
+		}
 	}
 }

@@ -8,7 +8,7 @@ public class FigRPCMNode extends FigActiveNode {
     
     public FigRPCMNode() {
         super();
-        setFillColor(Color.YELLOW);
+        setFillColor(Color.BLACK);
         setLineColor(Color.RED);
     }
 

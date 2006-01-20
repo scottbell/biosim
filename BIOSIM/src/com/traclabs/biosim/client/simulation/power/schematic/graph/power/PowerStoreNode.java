@@ -6,19 +6,19 @@ import org.tigris.gef.presentation.FigNode;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.StoreNode;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerProducerOperations;
+import com.traclabs.biosim.idl.simulation.power.PowerStore;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
-import com.traclabs.biosim.server.simulation.power.PowerStoreImpl;
 
 
 public class PowerStoreNode extends StoreNode{
-    private PowerStoreImpl myPowerStoreImpl;
+    private PowerStore myPowerStore;
     private static int nameID = 0;
     
     private final static Class[] myProducersAllowed = {PowerProducerOperations.class};
     private final static Class[] myConsumersAllowed = {PowerConsumerOperations.class};
     
-    public PowerStoreNode() {
-        myPowerStoreImpl = new PowerStoreImpl(0, "PowerStore"+nameID++);
+    public PowerStoreNode(PowerStore pPowerStore) {
+    	myPowerStore = pPowerStore;
     }
 
     public FigNode makePresentation(Layer lay) {
@@ -27,9 +27,6 @@ public class PowerStoreNode extends StoreNode{
         return node;
     }
     
-    public SimBioModuleImpl getSimBioModuleImpl(){
-        return myPowerStoreImpl;
-    }
 
     /* (non-Javadoc)
      * @see com.traclabs.biosim.client.simulation.power.schematic.graph.PassiveNode#getProducersAllowed()
@@ -51,4 +48,10 @@ public class PowerStoreNode extends StoreNode{
     public String getModuleType() {
         return "PowerStore";
     }
+
+	@Override
+	public SimBioModuleImpl getSimBioModuleImpl() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
