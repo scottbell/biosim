@@ -20,29 +20,38 @@
 				<airConsumer desiredFlowRates="10000" maxFlowRates="10000" inputs="CrewEnvironment"/>	
 				<airProducer desiredFlowRates="100" maxFlowRates="100" outputs="CrewEnvironment"/>
 				<CO2Producer desiredFlowRates="100" maxFlowRates="100" outputs="DumpedCO2"/>
-				<powerConsumer desiredFlowRates="70000" maxFlowRates="70000" inputs="PowerStore0"/>
+				<powerConsumer desiredFlowRates="70000" maxFlowRates="70000" inputs="RPCMPowerStore3"/>
 			</VCCR>
 		</air>
 		<power>
-            <PowerPS moduleName="FuelCell1">
-                <powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="PowerStore0"/>
+            <PowerPS moduleName="FuelCell">
+                <powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="RootPowerStore"/>
             </PowerPS>
-            <PowerPS moduleName="FuelCell2">
-            	<powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="PowerStore1"/>
-           	</PowerPS>
-            <PowerPS moduleName="FuelCell3">
-                <powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="PowerStore2"/>
-            </PowerPS>
-			<GenericPowerConsumer moduleName="CabinLights">
-				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="PowerStore0"/>
-			</GenericPowerConsumer>
+            <PowerStore capacity="100.0" level="100.0" moduleName="RootPowerStore"/>
 			<RPCM moduleName="RPCM1">
-				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="PowerStore0"/>
-				<powerProducer desiredFlowRates="10" maxFlowRates="10" outputs="PowerStore0"/>
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RootPowerStore"/>
+				<powerProducer desiredFlowRates="10" maxFlowRates="10" outputs="RPCMPowerStore1"/>
 			</RPCM>
-            <PowerStore capacity="100.0" level="100.0" moduleName="PowerStore0"/>
-            <PowerStore capacity="100.0" level="100.0" moduleName="PowerStore1"/>
-            <PowerStore capacity="100.0" level="100.0" moduleName="PowerStore2"/>
+			<RPCM moduleName="RPCM2">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RootPowerStore"/>
+				<powerProducer desiredFlowRates="10" maxFlowRates="10" outputs="RPCMPowerStore2"/>
+			</RPCM>
+			<RPCM moduleName="RPCM3">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RootPowerStore"/>
+				<powerProducer desiredFlowRates="10" maxFlowRates="10" outputs="RPCMPowerStore3"/>
+			</RPCM>
+            <PowerStore capacity="100.0" level="100.0" moduleName="RPCMPowerStore1"/>
+            <PowerStore capacity="100.0" level="100.0" moduleName="RPCMPowerStore2"/>
+            <PowerStore capacity="100.0" level="100.0" moduleName="RPCMPowerStore3"/>
+			<GenericPowerConsumer moduleName="CabinLights">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1"/>
+			</GenericPowerConsumer>
+			<GenericPowerConsumer moduleName="LaboratoryEquipment">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1"/>
+			</GenericPowerConsumer>
+			<GenericPowerConsumer moduleName="ExerciseMachine">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore2"/>
+			</GenericPowerConsumer>
         </power>
 		<crew>
 			<CrewGroup moduleName="Crew">

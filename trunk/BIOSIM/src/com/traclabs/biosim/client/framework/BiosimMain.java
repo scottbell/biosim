@@ -81,7 +81,17 @@ public class BiosimMain {
                             + myArgs[i]);
                     e.printStackTrace();
                 }
-            } else if (myArgs[i].startsWith("-id=")) {
+            } 
+            else if ((myArgs[i].startsWith("-xml")) && (myArgs.length >= i)){
+                try {
+                    xmlFile = myArgs[i + 1];
+                } catch (Exception e) {
+                    myLogger.error("Problem parsing arguments on arg "
+                            + myArgs[i]);
+                    e.printStackTrace();
+                }
+            } 
+            else if (myArgs[i].startsWith("-id=")) {
                 try {
                     myID = Integer.parseInt(myArgs[i].split("=")[1]);
                 } catch (Exception e) {
@@ -89,7 +99,17 @@ public class BiosimMain {
                             + myArgs[i]);
                     e.printStackTrace();
                 }
-            } else if (myArgs[i].startsWith("-utServer=")) {
+            }  
+            else if ((myArgs[i].startsWith("-id")) && (myArgs.length >= i)){
+                try {
+                	myID = Integer.parseInt(myArgs[i + 1]);
+                } catch (Exception e) {
+                    myLogger.error("Problem parsing arguments on arg "
+                            + myArgs[i]);
+                    e.printStackTrace();
+                }
+            } 
+            else if (myArgs[i].startsWith("-utServer=")) {
                 try {
                     unrealServerGiven = true;
                     unrealServer = myArgs[i].split("=")[1];
@@ -98,7 +118,17 @@ public class BiosimMain {
                             + myArgs[i]);
                     e.printStackTrace();
                 }
-            }
+            }  
+            else if ((myArgs[i].startsWith("-utServer")) && (myArgs.length >= i)){
+                try {
+                    unrealServerGiven = true;
+                    unrealServer = myArgs[i + 1];
+                } catch (Exception e) {
+                    myLogger.error("Problem parsing arguments on arg "
+                            + myArgs[i]);
+                    e.printStackTrace();
+                }
+            } 
         }
         if (xmlFile != null)
             BioHolderInitializer.setFileAndID(myID, xmlFile);

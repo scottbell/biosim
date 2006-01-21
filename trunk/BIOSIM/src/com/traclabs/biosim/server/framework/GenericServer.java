@@ -47,6 +47,15 @@ public class GenericServer {
                     e.printStackTrace();
                 }
             }
+            else if ((myArgs[i].startsWith("-id") && (myArgs.length >= i))) {
+            	try {
+                    myID = Integer.parseInt(myArgs[i + 1]);
+                } catch (Exception e) {
+                    Logger.getLogger(GenericServer.class).warn(
+                            "Problem parsing arguments on arg " + myArgs[i]);
+                    e.printStackTrace();
+                }
+            }
         }
         return myID;
     }
@@ -64,6 +73,8 @@ public class GenericServer {
         for (int i = 0; i < myArgs.length; i++) {
             if (myArgs[i].startsWith("-name="))
                 myName = myArgs[i].split("=")[1];
+            else if ((myArgs[i].startsWith("-name") && (myArgs.length >= i)))
+            	myName = myArgs[i + 1];
         }
         return myName;
     }
@@ -81,6 +92,8 @@ public class GenericServer {
         for (int i = 0; i < myArgs.length; i++) {
             if (myArgs[i].startsWith("-xml="))
                 xmlLocation = myArgs[i].split("=")[1];
+            else if ((myArgs[i].startsWith("-xml") && (myArgs.length >= i)))
+            	xmlLocation = myArgs[i + 1];
         }
         return xmlLocation;
     }
