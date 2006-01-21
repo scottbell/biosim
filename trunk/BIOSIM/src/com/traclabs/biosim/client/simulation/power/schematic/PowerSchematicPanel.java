@@ -47,7 +47,7 @@ public class PowerSchematicPanel extends TimedPanel {
 		myLogger = Logger.getLogger(PowerSchematicPanel.class);
 		myEditor = new PowerSchematicEditor();
 		myGraph = new JGraph(myEditor);
-		myGraph.setDrawingSize(600, 400);
+		myGraph.setDrawingSize(1000, 600);
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myCmdTreeLayout = new CmdTreeLayout();
 		createPowerNodes();
@@ -94,7 +94,7 @@ public class PowerSchematicPanel extends TimedPanel {
 	private void createPowerNodes(){
 		PowerStore rootPowerStore = myBioHolder.thePowerStores.get(0);
 		FigModuleNode rootPowerStoreNode = addNode(new PowerStoreNode(rootPowerStore));
-		rootPowerStoreNode.setCenter(new Point(0, myGraph.getWidth()));
+		rootPowerStoreNode.setCenter(new Point(500, 40));
 		for (RPCM rpcm : myBioHolder.theRPCMs) {
 			//find the RPCMs connected to the battery and connect them to the battery
 			if (rpcm.getPowerConsumerDefinition().connectsTo(rootPowerStore)){
