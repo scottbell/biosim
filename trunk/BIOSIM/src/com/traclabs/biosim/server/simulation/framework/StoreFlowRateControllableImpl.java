@@ -28,6 +28,14 @@ public abstract class StoreFlowRateControllableImpl extends
         float[] emptyActualFlowRates = new float[pStores.length];
         setActualFlowRates(emptyActualFlowRates);
     }
+    
+    public boolean connectsTo(Store pStore){
+    	for (Store store : myStores){
+    		if (store._is_equivalent(pStore))
+    			return true;
+    	}
+    	return false;
+    }
 
     /**
      * Grabs as much resources as it can (i.e., the maxFlowRate) from stores.

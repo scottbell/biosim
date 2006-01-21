@@ -289,7 +289,7 @@ public abstract class FigModuleNode extends FigNode {
 
     public String getTag() {
         ModuleNode node = (ModuleNode)getOwner();
-        return node.getSimBioModuleImpl().getModuleName();
+        return node.getSimBioModule().getModuleName();
     }
 
     protected void setTextFillColor(FigText text, Color col) {
@@ -312,7 +312,7 @@ public abstract class FigModuleNode extends FigNode {
     public String getText() {
         ModuleNode own = (ModuleNode) getOwner();
         if (own != null) {
-            return own.getSimBioModuleImpl().getModuleName();
+            return own.getSimBioModule().getModuleName();
         }
         return getTag();
     }
@@ -498,7 +498,7 @@ public abstract class FigModuleNode extends FigNode {
     
     public String toString(){
         ModuleNode owner = (ModuleNode)getOwner();
-        return owner.getSimBioModuleImpl().getClass().getSimpleName();
+        return owner.getSimBioModule().getClass().getSimpleName();
     }
     
 }

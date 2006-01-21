@@ -7,13 +7,13 @@ import java.awt.event.MouseListener;
 
 import org.tigris.gef.base.PathConvPercent;
 import org.tigris.gef.presentation.ArrowHeadTriangle;
-import org.tigris.gef.presentation.FigEdgeLine;
+import org.tigris.gef.presentation.FigEdgeRectiline;
 import org.tigris.gef.presentation.FigLine;
 import org.tigris.gef.presentation.FigText;
 
 import com.traclabs.biosim.client.simulation.power.schematic.ui.FlowratePropertiesFrame;
 
-public class FigModuleEdge extends FigEdgeLine implements MouseListener {
+public class FigModuleEdge extends FigEdgeRectiline implements MouseListener {
     private FlowratePropertiesFrame myFlowratePropertiesFrame;
     
     private FigText myTextDescription;

@@ -303,6 +303,7 @@ module com{
                                                 interface StoreFlowRateControllable : SingleFlowRateControllable{
                                                         simulation::framework::StoreList getStores();
                                                         void setStores(in simulation::framework::StoreList pStores);
+                                                        boolean connectsTo(in simulation::framework::Store pStore);
                                                 };
                                                 
                                                 interface Store : PassiveModule{
@@ -473,6 +474,7 @@ module com{
                                                 };
                                                 interface EnvironmentFlowRateControllable : framework::SingleFlowRateControllable{
                                                         simulation::environment::SimEnvironmentList getEnvironments();
+                                                        boolean connectsTo(in simulation::environment::SimEnvironment pSimEnvironment);
                                                 };
                                                 interface AirConsumerDefinition : EnvironmentFlowRateControllable{
                                                         void setAirInputs(in simulation::environment::SimEnvironmentList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);

@@ -128,12 +128,12 @@ public class PowerSchematicFrame extends BioFrame {
         help.setMnemonic('H');
         myMenuBar.add(help);
         
-        JMenuItem About = new JMenuItem("About Biosim Editor");
-        About.setMnemonic('A');
-        About.setEnabled(false);
-        help.add(About);
+        JMenuItem about = new JMenuItem("About Biosim Editor");
+        about.setMnemonic('A');
+        about.setEnabled(false);
+        help.add(about);
     }
-
+    
     public PowerSchematicDocument getDocument() {
         return (PowerSchematicDocument) this.myEditor.document();
     }

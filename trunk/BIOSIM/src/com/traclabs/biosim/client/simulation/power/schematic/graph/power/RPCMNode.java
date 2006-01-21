@@ -4,15 +4,16 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.client.simulation.power.schematic.graph.ActiveNode;
-import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
-import com.traclabs.biosim.server.simulation.power.RPCMImpl;
+import com.traclabs.biosim.idl.simulation.framework.SimBioModule;
+import com.traclabs.biosim.idl.simulation.power.RPCM;
 
 
 public class RPCMNode extends ActiveNode{
     private static int nameID = 0;
     
-    private RPCMImpl myRPCMImpl;
-    public RPCMNode() {
+    private RPCM myRPCM;
+    public RPCMNode(RPCM pRPCM) {
+    	myRPCM = pRPCM;
     }
 
     public FigNode makePresentation(Layer lay) {
@@ -21,8 +22,8 @@ public class RPCMNode extends ActiveNode{
         return node;
     }
     
-    public SimBioModuleImpl getSimBioModuleImpl(){
-        return myRPCMImpl;
+    public SimBioModule getSimBioModule(){
+        return myRPCM;
     }
 
     /* (non-Javadoc)
