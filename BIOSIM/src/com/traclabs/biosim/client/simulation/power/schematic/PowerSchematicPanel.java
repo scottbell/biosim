@@ -1,6 +1,7 @@
 package com.traclabs.biosim.client.simulation.power.schematic;
 
 import java.awt.GridLayout;
+import java.awt.Point;
 
 import org.apache.log4j.Logger;
 import org.tigris.gef.base.Globals;
@@ -93,6 +94,7 @@ public class PowerSchematicPanel extends TimedPanel {
 	private void createPowerNodes(){
 		PowerStore rootPowerStore = myBioHolder.thePowerStores.get(0);
 		FigModuleNode rootPowerStoreNode = addNode(new PowerStoreNode(rootPowerStore));
+		rootPowerStoreNode.setCenter(new Point(0, myGraph.getWidth()));
 		for (RPCM rpcm : myBioHolder.theRPCMs) {
 			//find the RPCMs connected to the battery and connect them to the battery
 			if (rpcm.getPowerConsumerDefinition().connectsTo(rootPowerStore)){
