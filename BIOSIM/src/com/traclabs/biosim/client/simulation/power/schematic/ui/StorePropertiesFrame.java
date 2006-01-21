@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 import com.traclabs.biosim.client.simulation.power.schematic.graph.FigStoreNode;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.ModuleNode;
-import com.traclabs.biosim.server.simulation.framework.StoreImpl;
+import com.traclabs.biosim.idl.simulation.framework.Store;
 
 /**
  * @author scott
@@ -35,25 +35,23 @@ public class StorePropertiesFrame extends JFrame {
     
     private JButton myOKButton;
 
-    private StoreImpl myStoreImpl;
+    private Store myStore;
     
     private FigStoreNode myFigStoreNode;
 
     public StorePropertiesFrame(FigStoreNode pNode) {
         myFigStoreNode = pNode;
         ModuleNode owner = (ModuleNode) pNode.getOwner();
-        myStoreImpl = (StoreImpl) owner.getSimBioModuleImpl();
-        myNameField = new JTextField(myStoreImpl.getModuleName());
+        myStore = (Store) owner.getSimBioModule();
+        myNameField = new JTextField(myStore.getModuleName());
         myCapacityField = new JFormattedTextField(NumberFormat.getNumberInstance());
-        myCapacityField.setValue(new Float(myStoreImpl.getInitialCapacity()));
+        myCapacityField.setValue(new Float(myStore.getInitialCapacity()));
         myLevelField = new JFormattedTextField(NumberFormat.getNumberInstance());
-        myLevelField.setValue(new Float(myStoreImpl.getInitialLevel()));
+        myLevelField.setValue(new Float(myStore.getInitialLevel()));
         mySensorCheckBox = new JCheckBox();
         myOKButton = new JButton(new OKAction());
 
-        setLayout(new GridLayout(5, 2));
-        add(new JLabel("Name"));
-        add(myNameField);
+        setLayout(new GridLayout(4, 2));
         add(new JLabel("Capacity"));
         add(myCapacityField);
         add(new JLabel("Level"));
@@ -73,11 +71,10 @@ public class StorePropertiesFrame extends JFrame {
         }
 
         public void actionPerformed(ActionEvent ae) {
-            myStoreImpl.setModuleName(myNameField.getText());
             float capacity = ((Number)myCapacityField.getValue()).floatValue();
             float level = ((Number)myCapacityField.getValue()).floatValue();
-            myStoreImpl.setInitialCapacity(capacity);
-            myStoreImpl.setInitialLevel(level);
+            myStore.setInitialCapacity(capacity);
+            myStore.setInitialLevel(level);
             myFigStoreNode.setIsSensed(mySensorCheckBox.isSelected());
             myFigStoreNode.damage();
             dispose();

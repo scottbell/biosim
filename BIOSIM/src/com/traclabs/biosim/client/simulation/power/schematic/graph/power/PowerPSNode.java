@@ -4,17 +4,16 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.client.simulation.power.schematic.graph.ActiveNode;
-import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
-import com.traclabs.biosim.server.simulation.power.PowerPSImpl;
-import com.traclabs.biosim.server.simulation.power.SolarPowerPS;
+import com.traclabs.biosim.idl.simulation.framework.SimBioModule;
+import com.traclabs.biosim.idl.simulation.power.PowerPS;
 
 
 public class PowerPSNode extends ActiveNode{
     private static int nameID = 0;
     
-    private PowerPSImpl myPowerPSImpl;
-    public PowerPSNode() {
-        myPowerPSImpl = new SolarPowerPS(0, "SolarPowerPS" + nameID++);
+    private PowerPS myPowerPS;
+    public PowerPSNode(PowerPS pPowerPS) {
+        myPowerPS = pPowerPS;
     }
 
     public FigNode makePresentation(Layer lay) {
@@ -23,8 +22,8 @@ public class PowerPSNode extends ActiveNode{
         return node;
     }
     
-    public SimBioModuleImpl getSimBioModuleImpl(){
-        return myPowerPSImpl;
+    public SimBioModule getSimBioModule(){
+        return myPowerPS;
     }
 
     /* (non-Javadoc)

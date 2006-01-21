@@ -10,7 +10,7 @@ public abstract class StoreNode extends PassiveNode {
      * 
      */
     public void addSensor() {
-        myLevelSensor = new StoreLevelSensorImpl(0, getSimBioModuleImpl().getModuleName() + "LevelSensor");
+        myLevelSensor = new StoreLevelSensorImpl(0, getSimBioModule().getModuleName() + "LevelSensor");
     }
 
     /**

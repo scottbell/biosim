@@ -4,10 +4,10 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.presentation.FigNode;
 
 import com.traclabs.biosim.client.simulation.power.schematic.graph.StoreNode;
+import com.traclabs.biosim.idl.simulation.framework.SimBioModule;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerProducerOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerStore;
-import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 
 
 public class PowerStoreNode extends StoreNode{
@@ -50,8 +50,7 @@ public class PowerStoreNode extends StoreNode{
     }
 
 	@Override
-	public SimBioModuleImpl getSimBioModuleImpl() {
-		// TODO Auto-generated method stub
-		return null;
+	public SimBioModule getSimBioModule() {
+		return myPowerStore;
 	}
 }

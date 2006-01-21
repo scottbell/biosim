@@ -1,11 +1,3 @@
-/*
- * Copyright © 2004 S&K Technologies, Inc, 56 Old Hwy 93, St Ignatius, MT 98865
- * All rights reserved.
- * U.S. Government Rights - Commercial software.  Government users are subject
- * to S&K Technologies, Inc, standard license agreement and applicable 
- * provisions of the FAR and its supplements.
- * Use is subject to license terms.
- */
 package com.traclabs.biosim.client.simulation.power.schematic.base;
 
 import java.awt.Rectangle;
@@ -61,7 +53,7 @@ public class CmdTreeLayout extends Cmd {
             if (f instanceof FigModuleNode) {
                 Rectangle rect = getBoundingBox((FigModuleNode) f);
 
-                arrangeRoot((FigModuleNode) f, rect);
+                arrangeRoot((FigModuleNode) f);
             }
         }
         // Must force a refresh here
@@ -87,8 +79,8 @@ public class CmdTreeLayout extends Cmd {
      * top of the root. The children will be placed starting at (Height of
      * parent) + VerticalSep below the root.
      */
-    private void arrangeRoot(FigModuleNode fig, Rectangle rect) {
-
+    public void arrangeRoot(FigModuleNode fig) {
+    	Rectangle rect = getBoundingBox((FigModuleNode) fig);
         // Child Rect is the portion of rect which will be used
         // to place the (remaining) children.
         // UsedChildRect is the portion of

@@ -26,5 +26,12 @@ public abstract class EnvironmentFlowRateControllableImpl extends
         float[] emptyActualFlowRates = new float[pSimEnvironments.length];
         setActualFlowRates(emptyActualFlowRates);
     }
-
+    
+    public boolean connectsTo(SimEnvironment pSimEnvironment){
+    	for (SimEnvironment environment : mySimEnvironments){
+    		if (environment._is_equivalent(pSimEnvironment))
+    			return true;
+    	}
+    	return false;
+    }
 }

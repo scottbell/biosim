@@ -1,7 +1,6 @@
 package com.traclabs.biosim.client.simulation.power.schematic;
 
 import java.awt.GridLayout;
-import java.awt.Point;
 
 import org.apache.log4j.Logger;
 import org.tigris.gef.base.Globals;
@@ -12,13 +11,20 @@ import org.tigris.gef.graph.presentation.NetPort;
 import org.tigris.gef.presentation.FigEdge;
 
 import com.traclabs.biosim.client.framework.TimedPanel;
+import com.traclabs.biosim.client.simulation.power.schematic.base.CmdTreeLayout;
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicEditor;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.FigModuleNode;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.ModuleNode;
+import com.traclabs.biosim.client.simulation.power.schematic.graph.power.GenericPowerConsumerNode;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.power.PowerStoreNode;
+import com.traclabs.biosim.client.simulation.power.schematic.graph.power.RPCMNode;
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.simulation.framework.Store;
+import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllable;
+import com.traclabs.biosim.idl.simulation.power.GenericPowerConsumer;
 import com.traclabs.biosim.idl.simulation.power.PowerStore;
+import com.traclabs.biosim.idl.simulation.power.RPCM;
 
 /**
  * This is the JPanel that displays a schematic
@@ -33,6 +39,8 @@ public class PowerSchematicPanel extends TimedPanel {
 	private Logger myLogger;
 	
 	private BioHolder myBioHolder;
+	
+	public CmdTreeLayout myCmdTreeLayout;
 
 	public PowerSchematicPanel() {
 		myLogger = Logger.getLogger(PowerSchematicPanel.class);
@@ -40,6 +48,8 @@ public class PowerSchematicPanel extends TimedPanel {
 		myGraph = new JGraph(myEditor);
 		myGraph.setDrawingSize(600, 400);
 		myBioHolder = BioHolderInitializer.getBioHolder();
+		myCmdTreeLayout = new CmdTreeLayout();
+		createPowerNodes();
 		Globals.curEditor(myEditor);
 		setLayout(new GridLayout(1, 1));
 		add(myGraph);
@@ -69,25 +79,42 @@ public class PowerSchematicPanel extends TimedPanel {
 		newFigEdge.setSourceFigNode(sourceNode);
 		newFigEdge.setDestPortFig(destNode.getPortFig());
 		newFigEdge.setDestFigNode(destNode);
-		
 	}
 
-	private void addNode(ModuleNode node, int x, int y) {
+	private FigModuleNode addNode(ModuleNode node) {
 		Layer theActiveLayer = myGraph.getEditor().getLayerManager()
 				.getActiveLayer();
 		FigModuleNode figNode = (FigModuleNode) node.makePresentation(theActiveLayer);
 		myEditor.add(figNode);
 		myGraph.getGraphModel().getNodes().add(node);
-		figNode.setCenter(new Point(x, y));
+		return figNode;
 	}
 	
 	private void createPowerNodes(){
-		int x = 10;
-		int y = 10;
-		for (PowerStore powerStore : myBioHolder.thePowerStores) {
-			myLogger.info("Adding node");
-			addNode(new PowerStoreNode(powerStore), x, y);
-			x += 10;
+		PowerStore rootPowerStore = myBioHolder.thePowerStores.get(0);
+		FigModuleNode rootPowerStoreNode = addNode(new PowerStoreNode(rootPowerStore));
+		for (RPCM rpcm : myBioHolder.theRPCMs) {
+			//find the RPCMs connected to the battery and connect them to the battery
+			if (rpcm.getPowerConsumerDefinition().connectsTo(rootPowerStore)){
+				FigModuleNode rpcmNode = addNode(new RPCMNode(rpcm));
+				connectNodes(rootPowerStoreNode, rpcmNode);
+				//find the generic power consumers connected to the RPCMs and connect them to the RPCMs
+				for (GenericPowerConsumer powerConsumer : myBioHolder.theGenericPowerConsumers) {
+					if (connected(powerConsumer.getPowerConsumerDefinition(),rpcm.getPowerProducerDefinition())){
+						FigModuleNode consumerNode = addNode(new GenericPowerConsumerNode(powerConsumer));
+						connectNodes(rpcmNode, consumerNode);
+					}
+				}
+			}
 		}
+		myCmdTreeLayout.arrangeRoot(rootPowerStoreNode);
+	}
+	
+	private boolean connected(StoreFlowRateControllable consumerA, StoreFlowRateControllable consumerB){
+		for (Store storeFromA : consumerA.getStores()) {
+			if (consumerB.connectsTo(storeFromA))
+				return true;
+		}
+		return false;
 	}
 }

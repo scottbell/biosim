@@ -14,7 +14,7 @@ import org.tigris.gef.graph.presentation.NetNode;
 import org.tigris.gef.graph.presentation.NetPort;
 import org.tigris.gef.presentation.FigNode;
 
-import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
+import com.traclabs.biosim.idl.simulation.framework.SimBioModule;
 
 /**
  * An abstract subclass of NetNode for use in the Editor application. All nodes
@@ -30,7 +30,7 @@ public abstract class ModuleNode extends NetNode implements Serializable {
         myPort = new PowerPort(this);
     }
     
-    public abstract SimBioModuleImpl getSimBioModuleImpl();
+    public abstract SimBioModule getSimBioModule();
     
     public abstract String getModuleType();
 
@@ -142,7 +142,7 @@ public abstract class ModuleNode extends NetNode implements Serializable {
     }
     
     public String getId(){
-        return getSimBioModuleImpl().getModuleName();
+        return getSimBioModule().getModuleName();
     }
 
     /**

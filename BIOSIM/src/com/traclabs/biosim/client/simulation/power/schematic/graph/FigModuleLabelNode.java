@@ -117,8 +117,8 @@ public abstract class FigModuleLabelNode extends FigModuleNode {
 
     public void update() {
         ModuleNode node = (ModuleNode) getOwner();
-        if (!myNameLabel.getText().equals(node.getSimBioModuleImpl().getModuleName())) {
-            myNameLabel.setText(node.getSimBioModuleImpl().getModuleName());
+        if (!myNameLabel.getText().equals(node.getSimBioModule().getModuleName())) {
+            myNameLabel.setText(node.getSimBioModule().getModuleName());
             doLayout();
         }
         
