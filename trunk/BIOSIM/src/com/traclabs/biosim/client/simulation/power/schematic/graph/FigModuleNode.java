@@ -24,15 +24,6 @@ import org.tigris.gef.presentation.FigText;
 
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicLayer;
 
-/**
- * Fig level representation of a EditorNode. Visually, it has
- * a drop shadow fig which can be hidden or shown for decoration, and a
- * background fig for subclasses to draw on. This fig has a single port for both
- * input and output connections. It also has a nested layer which displays its
- * child nodes.
- * 
- * @author kkusy
- */
 public abstract class FigModuleNode extends FigNode {
     protected Fig _port;
 
@@ -500,5 +491,7 @@ public abstract class FigModuleNode extends FigNode {
         ModuleNode owner = (ModuleNode)getOwner();
         return owner.getSimBioModule().getClass().getSimpleName();
     }
+
+	public abstract void refresh();
     
 }

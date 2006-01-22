@@ -375,4 +375,10 @@ public class StoreImpl extends PassiveModuleImpl implements
     protected float getNonCachedLevel(){
     	return currentLevel;
     }
+
+	public float getPercentageFilled() {
+		if (currentCapacity <= 0)
+			return 1f;
+		return currentLevel / currentCapacity;
+	}
 }

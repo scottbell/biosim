@@ -79,4 +79,8 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
         ModuleEdge owner = (ModuleEdge)getOwner();
         return owner.getName();
     }
+
+	public void refresh() {
+		// TODO Auto-generated method stub
+	}
 }

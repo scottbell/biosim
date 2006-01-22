@@ -17,7 +17,7 @@ public class GenericPowerConsumerNode extends ActiveNode{
     }
 
     public FigNode makePresentation(Layer lay) {
-        FigGenericPowerConsumingNode node = new FigGenericPowerConsumingNode();
+        FigGenericPowerConsumerNode node = new FigGenericPowerConsumerNode();
         node.setOwner(this);
         return node;
     }
