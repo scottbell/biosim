@@ -10,7 +10,7 @@ public class FigPowerStoreNode extends FigStoreNode {
 	
     public FigPowerStoreNode() {
         super();
-        setFillColor(Color.WHITE);
+        setFillColor(Color.LIGHT_GRAY);
         setLineColor(Color.BLUE);
     }
 
@@ -18,7 +18,9 @@ public class FigPowerStoreNode extends FigStoreNode {
 	public void refresh() {
 		PowerStoreNode powerStoreNode = (PowerStoreNode)getOwner();
 		PowerStore myStore = (PowerStore)powerStoreNode.getSimBioModule();
-		setFillColor(computeColorOnPercentage(myStore.getPercentageFilled()));
+		float percentage = myStore.getPercentageFilled();
+		myLogger.debug("percentage is "+percentage);
+		setFillColor(computeColorOnPercentage(percentage));
 	}
 
 }

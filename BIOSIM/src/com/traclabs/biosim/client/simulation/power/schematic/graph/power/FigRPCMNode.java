@@ -8,7 +8,7 @@ import com.traclabs.biosim.idl.simulation.power.RPCM;
 public class FigRPCMNode extends FigActiveNode {
     public FigRPCMNode() {
         super();
-        setFillColor(Color.WHITE);
+        setFillColor(Color.LIGHT_GRAY);
         setLineColor(Color.BLACK);
     }
 
@@ -16,10 +16,14 @@ public class FigRPCMNode extends FigActiveNode {
 	public void refresh() {
 		RPCMNode rpcmNode = (RPCMNode)getOwner();
 		RPCM myRPCM = (RPCM)rpcmNode.getSimBioModule();
-		if (myRPCM.isOverTripped() || myRPCM.isUnderTripped())
+		if (myRPCM.isOverTripped() || myRPCM.isUnderTripped()){
 			setFillColor(computeColorOnPercentage(0));
+			myLogger.debug("percentage is 0");
+		}
 		else{
-			setFillColor(computeColorOnPercentage(myRPCM.getPowerConsumerDefinition().getAveragePercentageFull()));
+			float percentage = myRPCM.getPowerConsumerDefinition().getAveragePercentageFull();
+			myLogger.debug("percentage is "+percentage);
+			setFillColor(computeColorOnPercentage(percentage));
 		}
 	}
 
