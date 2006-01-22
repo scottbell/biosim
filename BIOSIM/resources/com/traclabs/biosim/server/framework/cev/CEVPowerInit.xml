@@ -44,13 +44,16 @@
             <PowerStore capacity="100.0" level="100.0" moduleName="RPCMPowerStore2"/>
             <PowerStore capacity="100.0" level="100.0" moduleName="RPCMPowerStore3"/>
 			<GenericPowerConsumer moduleName="CabinLights">
-				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1"/>
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1 RPCMPowerStore2"/>
 			</GenericPowerConsumer>
 			<GenericPowerConsumer moduleName="LaboratoryEquipment">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1"/>
 			</GenericPowerConsumer>
 			<GenericPowerConsumer moduleName="ExerciseMachine">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore2"/>
+			</GenericPowerConsumer>
+			<GenericPowerConsumer moduleName="Computer">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore3"/>
 			</GenericPowerConsumer>
         </power>
 		<crew>

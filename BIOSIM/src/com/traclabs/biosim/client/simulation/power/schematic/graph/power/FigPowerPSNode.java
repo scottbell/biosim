@@ -8,7 +8,7 @@ public class FigPowerPSNode extends FigActiveNode {
     
     public FigPowerPSNode() {
         super();
-        setFillColor(Color.YELLOW);
+        setFillColor(Color.WHITE);
         setLineColor(Color.RED);
     }
 

@@ -162,7 +162,7 @@ public class PowerSchematicFrame extends BioFrame {
                 .getResource(
                         "com/traclabs/biosim/client/power/power.png"));
     	newPowerSchematicFrame.setIconImage(powerIcon.getImage());
-    	newPowerSchematicFrame.setSize(640, 480);
+    	newPowerSchematicFrame.setSize(1000, 500);
     	newPowerSchematicFrame.setLocationRelativeTo(null); 
     	newPowerSchematicFrame.setVisible(true);
     }
