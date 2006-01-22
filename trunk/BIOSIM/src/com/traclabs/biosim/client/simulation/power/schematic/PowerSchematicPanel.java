@@ -47,7 +47,7 @@ public class PowerSchematicPanel extends TimedPanel {
 		myLogger = Logger.getLogger(PowerSchematicPanel.class);
 		myEditor = new PowerSchematicEditor();
 		myGraph = new JGraph(myEditor);
-		myGraph.setDrawingSize(1000, 600);
+		myGraph.setDrawingSize(900, 400);
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myCmdTreeLayout = new CmdTreeLayout();
 		createPowerNodes();
@@ -83,8 +83,7 @@ public class PowerSchematicPanel extends TimedPanel {
 	}
 
 	private FigModuleNode addNode(ModuleNode node) {
-		Layer theActiveLayer = myGraph.getEditor().getLayerManager()
-				.getActiveLayer();
+		Layer theActiveLayer = myGraph.getEditor().getLayerManager().getActiveLayer();
 		FigModuleNode figNode = (FigModuleNode) node.makePresentation(theActiveLayer);
 		myEditor.add(figNode);
 		myGraph.getGraphModel().getNodes().add(node);
@@ -94,7 +93,7 @@ public class PowerSchematicPanel extends TimedPanel {
 	private void createPowerNodes(){
 		PowerStore rootPowerStore = myBioHolder.thePowerStores.get(0);
 		FigModuleNode rootPowerStoreNode = addNode(new PowerStoreNode(rootPowerStore));
-		rootPowerStoreNode.setCenter(new Point(500, 40));
+		rootPowerStoreNode.setCenter((new Point(450, 50)));
 		for (RPCM rpcm : myBioHolder.theRPCMs) {
 			//find the RPCMs connected to the battery and connect them to the battery
 			if (rpcm.getPowerConsumerDefinition().connectsTo(rootPowerStore)){
@@ -102,14 +101,29 @@ public class PowerSchematicPanel extends TimedPanel {
 				connectNodes(rootPowerStoreNode, rpcmNode);
 				//find the generic power consumers connected to the RPCMs and connect them to the RPCMs
 				for (GenericPowerConsumer powerConsumer : myBioHolder.theGenericPowerConsumers) {
-					if (connected(powerConsumer.getPowerConsumerDefinition(),rpcm.getPowerProducerDefinition())){
-						FigModuleNode consumerNode = addNode(new GenericPowerConsumerNode(powerConsumer));
+					if (connected(powerConsumer.getPowerConsumerDefinition(), rpcm.getPowerProducerDefinition())){
+						FigModuleNode consumerNode = findModule(powerConsumer.getModuleName());
+						//if it already exists, connect to the existing one
+						if (consumerNode == null)
+							consumerNode = addNode(new GenericPowerConsumerNode(powerConsumer));
 						connectNodes(rpcmNode, consumerNode);
 					}
 				}
 			}
 		}
 		myCmdTreeLayout.arrangeRoot(rootPowerStoreNode);
+	}
+	
+	private FigModuleNode findModule(String moduleName){
+		for (Object figObject : myEditor.getLayerManager().getActiveLayer().getContents()) {
+			if (figObject instanceof FigModuleNode){
+				FigModuleNode currentFigModuleNode = (FigModuleNode)figObject;
+				ModuleNode moduleNode = (ModuleNode)currentFigModuleNode.getOwner();
+			if (moduleNode.getSimBioModule().getModuleName().equals(moduleName))
+				return currentFigModuleNode;
+			}
+		}
+		return null;
 	}
 	
 	private boolean connected(StoreFlowRateControllable consumerA, StoreFlowRateControllable consumerB){
