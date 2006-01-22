@@ -69,6 +69,7 @@ public class PowerSchematicPanel extends TimedPanel {
 		//change color of nodes
 		for (FigModuleNode module : myFigModules)
 			module.refresh();
+		myGraph.repaint();
 	}
 
 	public PowerSchematicEditor getEditor() {

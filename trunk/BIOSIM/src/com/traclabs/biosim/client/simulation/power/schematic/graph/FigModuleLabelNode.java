@@ -11,6 +11,8 @@ import java.awt.Rectangle;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import org.apache.log4j.Logger;
+
 /**
  * Adds a label to display the text from a FigModuleNode.
  * 
@@ -22,9 +24,11 @@ public abstract class FigModuleLabelNode extends FigModuleNode {
     
     private static final int X_DESCRIPTION_OFFSET = 17;
     private static final int Y_DESCRIPTION_OFFSET = 15;
+    protected Logger myLogger;
     
     public FigModuleLabelNode() {
         super();
+        myLogger = Logger.getLogger(this.getClass());
     }
 
     protected void addFigs() {
@@ -137,9 +141,10 @@ public abstract class FigModuleLabelNode extends FigModuleNode {
     }
     
     protected Color computeColorOnPercentage(float percentage){
-    	//green's hue is 125, 100, 80
-    	//adjust to 0, 100, 80
-    	float hue = percentage * 125f;
-    	return Color.getHSBColor(hue, 80, 100);
+    	//green's hue is 0.3, 0.4, 0.8
+    	//red's hue is 0.0, 0.4, 0.8
+    	//adjust to somewhere between there
+    	float hue = (percentage) * 0.3f;
+    	return Color.getHSBColor(hue, 0.4f, 0.8f);
     }
 }

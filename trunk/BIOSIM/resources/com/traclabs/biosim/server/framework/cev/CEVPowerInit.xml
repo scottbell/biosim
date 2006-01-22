@@ -25,31 +25,31 @@
 		</air>
 		<power>
             <PowerPS moduleName="FuelCell">
-                <powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="MainPowerStore"/>
+                <powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="Main_Power_Store"/>
             </PowerPS>
-            <PowerStore capacity="100.0" level="100.0" moduleName="MainPowerStore"/>
-			<RPCM moduleName="RPCM1">
-				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="MainPowerStore"/>
+            <PowerStore capacity="100.0" level="100.0" moduleName="Main_Power_Store"/>
+			<RPCM moduleName="RPCM_1">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="Main_Power_Store"/>
 				<powerProducer desiredFlowRates="10" maxFlowRates="10" outputs="RPCMPowerStore1"/>
 			</RPCM>
-			<RPCM moduleName="RPCM2">
-				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="MainPowerStore"/>
+			<RPCM moduleName="RPCM_2">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="Main_Power_Store"/>
 				<powerProducer desiredFlowRates="10" maxFlowRates="10" outputs="RPCMPowerStore2"/>
 			</RPCM>
-			<RPCM moduleName="RPCM3">
-				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="MainPowerStore"/>
+			<RPCM moduleName="RPCM_3">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="Main_Power_Store"/>
 				<powerProducer desiredFlowRates="10" maxFlowRates="10" outputs="RPCMPowerStore3"/>
 			</RPCM>
             <PowerStore capacity="100.0" level="100.0" moduleName="RPCMPowerStore1"/>
             <PowerStore capacity="100.0" level="100.0" moduleName="RPCMPowerStore2"/>
             <PowerStore capacity="100.0" level="100.0" moduleName="RPCMPowerStore3"/>
-			<GenericPowerConsumer moduleName="CabinLights">
+			<GenericPowerConsumer moduleName="Cabin_Lights">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1 RPCMPowerStore2"/>
 			</GenericPowerConsumer>
 			<GenericPowerConsumer moduleName="Laboratory">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1"/>
 			</GenericPowerConsumer>
-			<GenericPowerConsumer moduleName="LifeSupport">
+			<GenericPowerConsumer moduleName="Life_Support">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore2"/>
 			</GenericPowerConsumer>
 			<GenericPowerConsumer moduleName="Navigation">

@@ -9,7 +9,7 @@ public class FigPowerPSNode extends FigActiveNode {
     
     public FigPowerPSNode() {
         super();
-        setFillColor(Color.WHITE);
+        setFillColor(Color.LIGHT_GRAY);
         setLineColor(Color.RED);
     }
 
@@ -17,7 +17,9 @@ public class FigPowerPSNode extends FigActiveNode {
 	public void refresh() {
 		PowerPSNode powerPSNode = (PowerPSNode)getOwner();
 		PowerPS myPowerPS = (PowerPS)powerPSNode.getSimBioModule();
-		setFillColor(computeColorOnPercentage(myPowerPS.getPowerProducerDefinition().getAveragePercentageFull()));
+		float percentage = myPowerPS.getPowerProducerDefinition().getAveragePercentageFull();
+		myLogger.debug("percentage is " + percentage);
+		setFillColor(computeColorOnPercentage(percentage));
 	}
 
 }
