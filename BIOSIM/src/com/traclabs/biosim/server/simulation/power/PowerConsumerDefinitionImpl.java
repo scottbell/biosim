@@ -27,8 +27,8 @@ public class PowerConsumerDefinitionImpl extends StoreFlowRateControllableImpl
 
     public void setPowerInputs(PowerStore[] pStores, float[] pMaxFlowRates,
             float[] pDesiredFlowRates) {
-        setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
+        setStores(pStores);
     }
 }

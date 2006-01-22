@@ -28,8 +28,8 @@ public class NitrogenProducerDefinitionImpl extends
 
     public void setNitrogenOutputs(NitrogenStore[] pStores,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
-        setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
+        setStores(pStores);
     }
 }

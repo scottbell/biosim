@@ -26,8 +26,8 @@ public class PowerProducerDefinitionImpl extends StoreFlowRateControllableImpl
 
     public void setPowerOutputs(PowerStore[] pStores, float[] pMaxFlowRates,
             float[] pDesiredFlowRates) {
-        setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
+        setStores(pStores);
     }
 }

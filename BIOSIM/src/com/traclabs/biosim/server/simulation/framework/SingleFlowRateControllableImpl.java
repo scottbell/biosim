@@ -1,5 +1,7 @@
 package com.traclabs.biosim.server.simulation.framework;
 
+import org.apache.log4j.Logger;
+
 import com.traclabs.biosim.idl.simulation.framework.SingleFlowRateControllablePOA;
 
 /**
@@ -13,8 +15,11 @@ public abstract class SingleFlowRateControllableImpl extends
     private float[] myActualFlowRates;
 
     private float[] myDesiredFlowRates;
+    
+    protected Logger myLogger;
 
     public SingleFlowRateControllableImpl() {
+    	myLogger = Logger.getLogger(this.getClass());
         myMaxFlowRates = new float[0];
         myActualFlowRates = new float[0];
         myDesiredFlowRates = new float[0];

@@ -27,8 +27,8 @@ public class CO2ConsumerDefinitionImpl extends StoreFlowRateControllableImpl
 
     public void setCO2Inputs(CO2Store[] pStores, float[] pMaxFlowRates,
             float[] pDesiredFlowRates) {
-        setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
+        setStores(pStores);
     }
 }

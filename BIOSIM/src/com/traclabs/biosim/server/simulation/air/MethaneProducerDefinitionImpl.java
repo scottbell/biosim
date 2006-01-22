@@ -28,8 +28,8 @@ public class MethaneProducerDefinitionImpl extends
 
     public void setMethaneOutputs(MethaneStore[] pStores,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
-        setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
+        setStores(pStores);
     }
 }

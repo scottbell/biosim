@@ -27,8 +27,8 @@ public class WaterConsumerDefinitionImpl extends StoreFlowRateControllableImpl
 
     public void setWaterInputs(WaterStore[] pStores, float[] pMaxFlowRates,
             float[] pDesiredFlowRates) {
-        setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
+        setStores(pStores);
     }
 }

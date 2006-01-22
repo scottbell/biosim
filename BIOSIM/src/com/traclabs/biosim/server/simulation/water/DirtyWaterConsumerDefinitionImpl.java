@@ -28,8 +28,8 @@ public class DirtyWaterConsumerDefinitionImpl extends
 
     public void setDirtyWaterInputs(DirtyWaterStore[] pStores,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
-        setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
+        setStores(pStores);
     }
 }

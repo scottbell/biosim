@@ -28,8 +28,8 @@ public class DryWasteConsumerDefinitionImpl extends
 
     public void setDryWasteInputs(DryWasteStore[] pStores,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
-        setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
+        setStores(pStores);
     }
 }
