@@ -28,8 +28,8 @@ public class PotableWaterConsumerDefinitionImpl extends
 
     public void setPotableWaterInputs(PotableWaterStore[] pStores,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
-        setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
+        setStores(pStores);
     }
 }

@@ -28,8 +28,8 @@ public class PotableWaterProducerDefinitionImpl extends
 
     public void setPotableWaterOutputs(PotableWaterStore[] pStores,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
-        setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
+        setStores(pStores);
     }
 }

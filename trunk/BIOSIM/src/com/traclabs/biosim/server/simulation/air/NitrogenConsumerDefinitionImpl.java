@@ -28,8 +28,8 @@ public class NitrogenConsumerDefinitionImpl extends
 
     public void setNitrogenInputs(NitrogenStore[] pStores,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
-        setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
+        setStores(pStores);
     }
 }

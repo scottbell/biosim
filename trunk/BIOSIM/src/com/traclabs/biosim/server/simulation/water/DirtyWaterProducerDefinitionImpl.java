@@ -28,8 +28,8 @@ public class DirtyWaterProducerDefinitionImpl extends
 
     public void setDirtyWaterOutputs(DirtyWaterStore[] pStores,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
-        setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
+        setStores(pStores);
     }
 }

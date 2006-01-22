@@ -26,8 +26,8 @@ public class H2ProducerDefinitionImpl extends StoreFlowRateControllableImpl
 
     public void setH2Outputs(H2Store[] pStores, float[] pMaxFlowRates,
             float[] pDesiredFlowRates) {
-        setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
+        setStores(pStores);
     }
 }

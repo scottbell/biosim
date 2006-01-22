@@ -44,7 +44,7 @@
             <PowerStore capacity="100.0" level="100.0" moduleName="RPCMPowerStore2"/>
             <PowerStore capacity="100.0" level="100.0" moduleName="RPCMPowerStore3"/>
 			<GenericPowerConsumer moduleName="Cabin_Lights">
-				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1 RPCMPowerStore2"/>
+				<powerConsumer desiredFlowRates="10 10" maxFlowRates="10 10" inputs="RPCMPowerStore1 RPCMPowerStore2"/>
 			</GenericPowerConsumer>
 			<GenericPowerConsumer moduleName="Laboratory">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1"/>

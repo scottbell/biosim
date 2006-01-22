@@ -29,9 +29,9 @@ public class BiomassProducerDefinitionImpl extends
 
     public void setBiomassOutputs(BiomassStore[] pStores,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
-        setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
+        setStores(pStores);
     }
 
     public float pushFractionalResourceToBiomassStore(BioMatter matterToPush,

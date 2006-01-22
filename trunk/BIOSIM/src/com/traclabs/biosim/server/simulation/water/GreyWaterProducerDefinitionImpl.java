@@ -28,8 +28,8 @@ public class GreyWaterProducerDefinitionImpl extends
 
     public void setGreyWaterOutputs(GreyWaterStore[] pStores,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
-        setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
+        setStores(pStores);
     }
 }

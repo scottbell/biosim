@@ -26,6 +26,10 @@ public abstract class StoreFlowRateControllableImpl extends
     public void setStores(Store[] pStores) {
         myStores = pStores;
         float[] emptyActualFlowRates = new float[pStores.length];
+        if (getDesiredFlowRates().length != pStores.length)
+        	myLogger.warn("Desired flow rate cardinality is "+getDesiredFlowRates().length+" while store cardinality is "+pStores.length);
+        if (getMaxFlowRates().length != pStores.length)
+        	myLogger.warn("Max flow rate cardinality is "+getMaxFlowRates().length+" while store cardinality is "+pStores.length);
         setActualFlowRates(emptyActualFlowRates);
     }
     

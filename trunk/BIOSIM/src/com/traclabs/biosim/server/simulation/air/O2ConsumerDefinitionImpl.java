@@ -27,8 +27,8 @@ public class O2ConsumerDefinitionImpl extends StoreFlowRateControllableImpl
 
     public void setO2Inputs(O2Store[] pStores, float[] pMaxFlowRates,
             float[] pDesiredFlowRates) {
-        setStores(pStores);
         setMaxFlowRates(pMaxFlowRates);
         setDesiredFlowRates(pDesiredFlowRates);
+        setStores(pStores);
     }
 }
