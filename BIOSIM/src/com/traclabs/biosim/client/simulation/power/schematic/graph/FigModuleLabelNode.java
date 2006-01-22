@@ -22,7 +22,7 @@ public abstract class FigModuleLabelNode extends FigModuleNode {
     
     private static final int X_DESCRIPTION_OFFSET = 17;
     private static final int Y_DESCRIPTION_OFFSET = 15;
-
+    
     public FigModuleLabelNode() {
         super();
     }
@@ -39,7 +39,7 @@ public abstract class FigModuleLabelNode extends FigModuleNode {
         
         myDescriptionLabel = new FigLabel(myNameLabel.getX() + X_DESCRIPTION_OFFSET, myNameLabel.getY() + Y_DESCRIPTION_OFFSET, 0, 0);
         myDescriptionLabel.setText("");
-        myDescriptionLabel.setFontSize(10);
+        myDescriptionLabel.setFontSize(8);
         myDescriptionLabel.addPropertyChangeListener(new LabelEditingListener());
 
         addFig(myNameLabel);
@@ -134,5 +134,12 @@ public abstract class FigModuleLabelNode extends FigModuleNode {
                 }
             }
         }
+    }
+    
+    protected Color computeColorOnPercentage(float percentage){
+    	//green's hue is 125, 100, 80
+    	//adjust to 0, 100, 80
+    	float hue = percentage * 125f;
+    	return Color.getHSBColor(hue, 80, 100);
     }
 }

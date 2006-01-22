@@ -2,6 +2,8 @@ package com.traclabs.biosim.client.simulation.power.schematic;
 
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.util.List;
+import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.tigris.gef.base.Globals;
@@ -9,11 +11,11 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.graph.MutableGraphModel;
 import org.tigris.gef.graph.presentation.JGraph;
 import org.tigris.gef.graph.presentation.NetPort;
-import org.tigris.gef.presentation.FigEdge;
 
 import com.traclabs.biosim.client.framework.TimedPanel;
 import com.traclabs.biosim.client.simulation.power.schematic.base.CmdTreeLayout;
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicEditor;
+import com.traclabs.biosim.client.simulation.power.schematic.graph.FigModuleEdge;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.FigModuleNode;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.ModuleNode;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.power.GenericPowerConsumerNode;
@@ -42,6 +44,10 @@ public class PowerSchematicPanel extends TimedPanel {
 	private BioHolder myBioHolder;
 	
 	public CmdTreeLayout myCmdTreeLayout;
+	
+	public List<FigModuleEdge> myFigEdges = new Vector<FigModuleEdge>();
+	
+	public List<FigModuleNode> myFigModules = new Vector<FigModuleNode>();
 
 	public PowerSchematicPanel() {
 		myLogger = Logger.getLogger(PowerSchematicPanel.class);
@@ -58,7 +64,11 @@ public class PowerSchematicPanel extends TimedPanel {
 
 	public void refresh() {
 		//change color of lines
+		for (FigModuleEdge edge : myFigEdges)
+			edge.refresh();
 		//change color of nodes
+		for (FigModuleNode module : myFigModules)
+			module.refresh();
 	}
 
 	public PowerSchematicEditor getEditor() {
@@ -74,12 +84,13 @@ public class PowerSchematicPanel extends TimedPanel {
 
 		Layer theActiveLayer = myGraph.getEditor().getLayerManager()
 				.getActiveLayer();
-		FigEdge newFigEdge = (FigEdge) theActiveLayer.presentationFor(newEdge);
+		FigModuleEdge newFigEdge = (FigModuleEdge) theActiveLayer.presentationFor(newEdge);
 		
 		newFigEdge.setSourcePortFig(sourceNode.getPortFig());
 		newFigEdge.setSourceFigNode(sourceNode);
 		newFigEdge.setDestPortFig(destNode.getPortFig());
 		newFigEdge.setDestFigNode(destNode);
+		myFigEdges.add(newFigEdge);
 	}
 
 	private FigModuleNode addNode(ModuleNode node) {
@@ -87,6 +98,7 @@ public class PowerSchematicPanel extends TimedPanel {
 		FigModuleNode figNode = (FigModuleNode) node.makePresentation(theActiveLayer);
 		myEditor.add(figNode);
 		myGraph.getGraphModel().getNodes().add(node);
+		myFigModules.add(figNode);
 		return figNode;
 	}
 	

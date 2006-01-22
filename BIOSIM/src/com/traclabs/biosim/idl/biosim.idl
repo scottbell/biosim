@@ -298,6 +298,11 @@ module com{
                                                         void setMaxFlowRates(in FloatList flowrates);
                                                         void setDesiredFlowRates(in FloatList flowrates);
                                                         void setActualFlowRates(in FloatList flowrates);
+                                                        float getTotalMaxFlowRate();
+                                                        float getTotalDesiredFlowRate();
+                                                        float getTotalActualFlowRate();
+                                                        float getAveragePercentageFull();
+                                                        float getPercentageFull(in long index);
                                                 };
                                                 
                                                 interface StoreFlowRateControllable : SingleFlowRateControllable{
@@ -318,6 +323,7 @@ module com{
                                                         float getCurrentLevel();
                                                         float getCurrentCapacity();
                                                         float getOverflow();
+                                                        float getPercentageFilled();
                                                         boolean isPipe();                                                     
                                                         void setPipe(in boolean pPipe);
                                                 };

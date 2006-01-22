@@ -81,4 +81,24 @@ public abstract class SingleFlowRateControllableImpl extends
     		totalDesiredFlowRate += maxFlowRate;
     	return totalDesiredFlowRate;
     }
+    
+    public float getTotalActualFlowRate(){
+    	float totalActualFlowRate = 0;
+    	for (float actualFlowRate : myActualFlowRates)
+    		totalActualFlowRate += actualFlowRate;
+    	return totalActualFlowRate;
+    }
+    
+    public float getAveragePercentageFull(){
+    	float totalDesiredFlowRate = getTotalDesiredFlowRate();
+    	if (totalDesiredFlowRate <= 0)
+    		return 1f;
+    	return getTotalActualFlowRate() / totalDesiredFlowRate;
+    }
+    
+    public float getPercentageFull(int index){
+    	if (myDesiredFlowRates[index] <= 0)
+    		return 1f;
+    	return myActualFlowRates[index] / myDesiredFlowRates[index];
+    }
 }

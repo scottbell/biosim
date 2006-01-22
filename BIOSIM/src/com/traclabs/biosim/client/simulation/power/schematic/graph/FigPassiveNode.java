@@ -13,7 +13,7 @@ public abstract class FigPassiveNode extends FigModuleLabelNode {
     }
 
     protected Fig createBgFig() {
-        return new FigCircle(0, 0, 75, 50);
+        return new FigCircle(0, 0, 40, 30);
     }
 
     public Point connectionPoint(Point anotherPt) {
