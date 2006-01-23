@@ -42,9 +42,9 @@ public class StorePropertiesFrame extends JFrame {
         myStore = (Store) owner.getSimBioModule();
         myNameField = new JTextField(myStore.getModuleName());
         myCapacityField = new JFormattedTextField(NumberFormat.getNumberInstance());
-        myCapacityField.setValue(new Float(myStore.getInitialCapacity()));
+        myCapacityField.setValue(new Float(myStore.getCurrentCapacity()));
         myLevelField = new JFormattedTextField(NumberFormat.getNumberInstance());
-        myLevelField.setValue(new Float(myStore.getInitialLevel()));
+        myLevelField.setValue(new Float(myStore.getCurrentLevel()));
         myOKButton = new JButton(new OKAction());
 
         setLayout(new GridLayout(3, 2));
