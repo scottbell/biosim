@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../BiosimInitSchema.xsd">
-	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="1" runTillN="1000" driverStutterLength="10">
+	<Globals crewsToWatch="Crew" runTillCrewDeath="true" startPaused="false" runTillN="2000" driverStutterLength="100" isLooping="true">
 		<comment>
 			This is the CEV power initialization.
 			It has the following modules:
@@ -30,27 +30,29 @@
             <PowerStore capacity="1000000" level="1000000" moduleName="Main_Power_Store"/>
 			<RPCM moduleName="RPCM_1">
 				<powerConsumer desiredFlowRates="20" maxFlowRates="20" inputs="Main_Power_Store"/>
-				<powerProducer desiredFlowRates="20" maxFlowRates="20" outputs="RPCMPowerStore1"/>
+				<powerProducer desiredFlowRates="10 10" maxFlowRates="10 10" outputs="RPCMPowerStore1B RPCMPowerStore1A"/>
 			</RPCM>
 			<RPCM moduleName="RPCM_2">
 				<powerConsumer desiredFlowRates="20" maxFlowRates="20" inputs="Main_Power_Store"/>
-				<powerProducer desiredFlowRates="20" maxFlowRates="20" outputs="RPCMPowerStore2"/>
+				<powerProducer desiredFlowRates="10 10" maxFlowRates="10 10" outputs="RPCMPowerStore2A RPCMPowerStore2B"/>
 			</RPCM>
 			<RPCM moduleName="RPCM_3">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="Main_Power_Store"/>
 				<powerProducer desiredFlowRates="10" maxFlowRates="10" outputs="RPCMPowerStore3"/>
 			</RPCM>
-            <PowerStore capacity="20" level="20" moduleName="RPCMPowerStore1"/>
-            <PowerStore capacity="20" level="20" moduleName="RPCMPowerStore2"/>
+            <PowerStore capacity="20" level="20" moduleName="RPCMPowerStore1A"/>
+            <PowerStore capacity="20" level="20" moduleName="RPCMPowerStore1B"/>
+            <PowerStore capacity="20" level="20" moduleName="RPCMPowerStore2A"/>
+            <PowerStore capacity="20" level="20" moduleName="RPCMPowerStore2B"/>
             <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore3"/>
 			<GenericPowerConsumer moduleName="Cabin_Lights">
-				<powerConsumer desiredFlowRates="10 10" maxFlowRates="10 10" inputs="RPCMPowerStore1 RPCMPowerStore2"/>
+				<powerConsumer desiredFlowRates="10 10" maxFlowRates="10 10" inputs="RPCMPowerStore1A RPCMPowerStore2A"/>
 			</GenericPowerConsumer>
 			<GenericPowerConsumer moduleName="Laboratory">
-				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1"/>
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1B"/>
 			</GenericPowerConsumer>
 			<GenericPowerConsumer moduleName="Life_Support">
-				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore2"/>
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore2B"/>
 			</GenericPowerConsumer>
 			<GenericPowerConsumer moduleName="Navigation">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore3"/>

@@ -84,10 +84,7 @@ public class SimulationToolBar extends JToolBar {
 		public void actionPerformed(ActionEvent ae) {
 			getTopLevelAncestor().setCursor(
 					Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			if(!myBioDriver.isStarted())
-				myBioDriver.startSimulation();
-			else
-				myBioDriver.setPauseSimulation(!myBioDriver.isPaused());
+			myBioDriver.setPauseSimulation(!myBioDriver.isPaused());
 			getTopLevelAncestor().setCursor(Cursor.getDefaultCursor());
 			refresh();
 		}
@@ -121,7 +118,10 @@ public class SimulationToolBar extends JToolBar {
 		public void actionPerformed(ActionEvent ae) {
 			getTopLevelAncestor().setCursor(
 					Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			myBioDriver.reset();
+			if(!myBioDriver.isStarted())
+						myBioDriver.startSimulation();
+			else
+				myBioDriver.reset();
 			getTopLevelAncestor().setCursor(Cursor.getDefaultCursor());
 		}
 	}
