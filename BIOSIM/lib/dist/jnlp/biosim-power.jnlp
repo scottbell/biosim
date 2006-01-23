@@ -23,5 +23,5 @@
 		<property name="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
 		<property name="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
 	</resources>
-  <application-desc main-class="com.traclabs.biosim.framework.BiosimStandalone"/>
+  <application-desc main-class="com.traclabs.biosim.framework.CEVPowerStandalone"/>
 </jnlp>
