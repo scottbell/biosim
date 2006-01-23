@@ -72,6 +72,7 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
 	public void clearTrips(){
     	myUndertripped = false;
     	myOvertripped = false;
+        myPowerConsumerDefinitionImpl.reset();
 	}
 	
 	public void tick() {
@@ -80,12 +81,12 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
         	return;
         float powerGathered = myPowerConsumerDefinitionImpl.getMostResourceFromStores();
         //check to see if difference is greater than threshold
-        if ((powerGathered - TRIP_THRESHOLD) > myPowerProducerDefinitionImpl.getTotalDesiredFlowRate()){
+        if ((powerGathered - TRIP_THRESHOLD) > myPowerConsumerDefinitionImpl.getTotalDesiredFlowRate()){
         	myOvertripped = true;
         	turnOff();
             myLogger.info("RPCM over tripped");
         }
-        else if ((powerGathered + TRIP_THRESHOLD) < myPowerProducerDefinitionImpl.getTotalDesiredFlowRate()){
+        else if ((powerGathered + TRIP_THRESHOLD) < myPowerConsumerDefinitionImpl.getTotalDesiredFlowRate()){
         	myUndertripped = true;
         	turnOff();
             myLogger.info("RPCM under tripped");

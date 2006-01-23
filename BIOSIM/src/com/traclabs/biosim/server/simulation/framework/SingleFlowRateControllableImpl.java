@@ -93,8 +93,8 @@ public abstract class SingleFlowRateControllableImpl extends
     
     public float getTotalDesiredFlowRate(){
     	float totalDesiredFlowRate = 0;
-    	for (float maxFlowRate : myDesiredFlowRates)
-    		totalDesiredFlowRate += maxFlowRate;
+    	for (float desiredFlowRate : myDesiredFlowRates)
+    		totalDesiredFlowRate += desiredFlowRate;
     	return totalDesiredFlowRate;
     }
     
