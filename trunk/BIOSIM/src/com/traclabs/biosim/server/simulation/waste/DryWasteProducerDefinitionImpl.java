@@ -28,8 +28,8 @@ public class DryWasteProducerDefinitionImpl extends
 
     public void setDryWasteOutputs(DryWasteStore[] pStores,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
-        setStores(pStores);
+        setInitialMaxFlowRates(pMaxFlowRates);
+        setInitialDesiredFlowRates(pDesiredFlowRates);
+        setInitialStores(pStores);
     }
 }

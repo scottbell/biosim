@@ -27,5 +27,10 @@ public class GenericPowerConsumerImpl extends SimBioModuleImpl implements PowerC
 	public PowerConsumerDefinition getPowerConsumerDefinition() {
         return myPowerConsumerDefinitionImpl.getCorbaObject();
 	}
+	
+	public void reset(){
+		super.reset();
+		myPowerConsumerDefinitionImpl.reset();
+	}
 
 }

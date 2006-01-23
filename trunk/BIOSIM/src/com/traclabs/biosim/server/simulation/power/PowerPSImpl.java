@@ -108,6 +108,8 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
     public void reset() {
         super.reset();
         currentPowerProduced = 0f;
+        myPowerProducerDefinitionImpl.reset();
+        myLightConsumerDefinitionImpl.reset();
     }
 
     /**

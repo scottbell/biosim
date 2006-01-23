@@ -273,6 +273,33 @@ public class AccumulatorImpl extends SimBioModuleImpl implements
 
 	public void reset() {
 		super.reset();
+		myPowerConsumerDefinitionImpl.reset();
+		myPotableWaterConsumerDefinitionImpl.reset();
+		myGreyWaterConsumerDefinitionImpl.reset();
+		myDirtyWaterConsumerDefinitionImpl.reset();
+		myO2ConsumerDefinitionImpl.reset();
+		myCO2ConsumerDefinitionImpl.reset();
+		myH2ConsumerDefinitionImpl.reset();
+		myNitrogenConsumerDefinitionImpl.reset();
+		myAirConsumerDefinitionImpl.reset();
+		myBiomassConsumerDefinitionImpl.reset();
+		myFoodConsumerDefinitionImpl.reset();
+		myDryWasteConsumerDefinitionImpl.reset();
+		myWaterConsumerDefinitionImpl.reset();
+
+		myPowerProducerDefinitionImpl.reset();
+		myPotableWaterProducerDefinitionImpl.reset();
+		myGreyWaterProducerDefinitionImpl.reset();
+		myDirtyWaterProducerDefinitionImpl.reset();
+		myO2ProducerDefinitionImpl.reset();
+		myCO2ProducerDefinitionImpl.reset();
+		myH2ProducerDefinitionImpl.reset();
+		myNitrogenProducerDefinitionImpl.reset();
+		myAirProducerDefinitionImpl.reset();
+		myBiomassProducerDefinitionImpl.reset();
+		myFoodProducerDefinitionImpl.reset();
+		myDryWasteProducerDefinitionImpl.reset();
+		myWaterProducerDefinitionImpl.reset();
 	}
 
 	public void log() {

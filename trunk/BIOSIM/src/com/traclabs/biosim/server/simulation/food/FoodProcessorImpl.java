@@ -116,6 +116,11 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
         biomatterConsumed = null;
         currentPowerConsumed = 0f;
         currentFoodProduced = 0f;
+        myBiomassConsumerDefinitionImpl.reset();
+        myPowerConsumerDefinitionImpl.reset();
+        myWaterProducerDefinitionImpl.reset();
+        myFoodProducerDefinitionImpl.reset();
+        myDryWasteProducerDefinitionImpl.reset();
     }
 
     /**

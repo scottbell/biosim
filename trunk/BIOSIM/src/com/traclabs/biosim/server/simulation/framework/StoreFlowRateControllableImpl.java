@@ -14,23 +14,35 @@ public abstract class StoreFlowRateControllableImpl extends
         SingleFlowRateControllableImpl implements
         StoreFlowRateControllableOperations {
     private Store[] myStores;
+    private Store[] myInitialStores;
     
     public StoreFlowRateControllableImpl(){
         myStores = new Store[0];
+    }
+    
+    public void reset(){
+    	super.reset();
+        System.arraycopy(myInitialStores, 0, myStores, 0, myInitialStores.length);
     }
 
     public Store[] getStores() {
         return myStores;
     }
+    
+    public void setStore(Store store, int index){
+    	myStores[index] = store;
+    }
 
-    public void setStores(Store[] pStores) {
-        myStores = pStores;
+    public void setInitialStores(Store[] pStores) {
+    	myInitialStores = pStores;
+    	myStores = new Store[myInitialStores.length];
+        System.arraycopy(myInitialStores, 0, myStores, 0, myInitialStores.length);
         float[] emptyActualFlowRates = new float[pStores.length];
         if (getDesiredFlowRates().length != pStores.length)
         	myLogger.warn("Desired flow rate cardinality is "+getDesiredFlowRates().length+" while store cardinality is "+pStores.length);
         if (getMaxFlowRates().length != pStores.length)
         	myLogger.warn("Max flow rate cardinality is "+getMaxFlowRates().length+" while store cardinality is "+pStores.length);
-        setActualFlowRates(emptyActualFlowRates);
+        setInitialActualFlowRates(emptyActualFlowRates);
     }
     
     public boolean connectsTo(Store pStore){

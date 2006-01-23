@@ -165,5 +165,9 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
 		currentCO2Produced = 0f;
 		for (VCCRSubsystem subsystem : mySubsystems)
 			subsystem.reset();
+		myPowerConsumerDefinitionImpl.reset();
+		myAirConsumerDefinitionImpl.reset();
+		myAirProducerDefinitionImpl.reset();
+		myCO2ProducerDefinitionImpl.reset();
 	}
 }

@@ -90,6 +90,10 @@ public class VCCRLinearImpl extends SimBioModuleImpl implements VCCROperations,
         super.reset();
         currentPowerConsumed = 0;
         currentCO2Produced = 0f;
+        myPowerConsumerDefinitionImpl.reset();
+        myAirConsumerDefinitionImpl.reset();
+        myAirProducerDefinitionImpl.reset();
+        myCO2ProducerDefinitionImpl.reset();
     }
 
     private void gatherCO2() {

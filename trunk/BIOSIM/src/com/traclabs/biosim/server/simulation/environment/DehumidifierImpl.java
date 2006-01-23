@@ -30,7 +30,6 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
 
     public DehumidifierImpl(int pID, String pName) {
         super(pID, pName);
-
         myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
         myDirtyWaterProducerDefinitionImpl = new DirtyWaterProducerDefinitionImpl();
     }
@@ -132,6 +131,8 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
 
     public void reset() {
         super.reset();
+        myAirConsumerDefinitionImpl.reset();
+        myDirtyWaterProducerDefinitionImpl.reset();
     }
 
     public void log() {

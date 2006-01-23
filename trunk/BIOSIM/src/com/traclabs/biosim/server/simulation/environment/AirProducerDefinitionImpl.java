@@ -27,8 +27,8 @@ public class AirProducerDefinitionImpl extends
 
     public void setAirOutputs(SimEnvironment[] pSimEnvironments,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
-        setEnvironments(pSimEnvironments);
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
+    	setInitialEnvironments(pSimEnvironments);
+        setInitialMaxFlowRates(pMaxFlowRates);
+        setInitialDesiredFlowRates(pDesiredFlowRates);
     }
 }

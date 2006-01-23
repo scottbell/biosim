@@ -33,9 +33,9 @@ public class FoodConsumerDefinitionImpl extends StoreFlowRateControllableImpl
 
     public void setFoodInputs(FoodStore[] pStores, float[] pMaxFlowRates,
             float[] pDesiredFlowRates) {
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
-        setStores(pStores);
+        setInitialMaxFlowRates(pMaxFlowRates);
+        setInitialDesiredFlowRates(pDesiredFlowRates);
+        setInitialStores(pStores);
     }
 
     public static FoodMatter[] getCaloriesFromStore(

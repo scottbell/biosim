@@ -28,8 +28,8 @@ public class MethaneConsumerDefinitionImpl extends
 
     public void setMethaneInputs(MethaneStore[] pStores,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
-        setStores(pStores);
+        setInitialMaxFlowRates(pMaxFlowRates);
+        setInitialDesiredFlowRates(pDesiredFlowRates);
+        setInitialStores(pStores);
     }
 }

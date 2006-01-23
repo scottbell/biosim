@@ -89,6 +89,10 @@ public class WaterRSMatlabImpl extends SimBioModuleImpl implements
     public void reset() {
         super.reset();
         myEngine.reset();
+        myPowerConsumerDefinitionImpl.reset();
+        myGreyWaterConsumerDefinitionImpl.reset();
+        myDirtyWaterConsumerDefinitionImpl.reset();
+        myPotableWaterProducerDefinitionImpl.reset();
     }
 
     /**

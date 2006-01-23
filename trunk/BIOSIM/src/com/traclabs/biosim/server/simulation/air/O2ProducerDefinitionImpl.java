@@ -27,8 +27,8 @@ public class O2ProducerDefinitionImpl extends StoreFlowRateControllableImpl
 
     public void setO2Outputs(O2Store[] pStores, float[] pMaxFlowRates,
             float[] pDesiredFlowRates) {
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
-        setStores(pStores);
+        setInitialMaxFlowRates(pMaxFlowRates);
+        setInitialDesiredFlowRates(pDesiredFlowRates);
+        setInitialStores(pStores);
     }
 }

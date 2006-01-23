@@ -161,6 +161,12 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
      */
     public void reset() {
         super.reset();
+        myPowerConsumerDefinitionImpl.reset();
+        myPotableWaterProducerDefinitionImpl.reset();
+        myO2ProducerDefinitionImpl.reset();
+        myCO2ConsumerDefinitionImpl.reset();
+        myH2ConsumerDefinitionImpl.reset();
+        myMethaneProducerDefinitionImpl.reset();
     }
 
 }

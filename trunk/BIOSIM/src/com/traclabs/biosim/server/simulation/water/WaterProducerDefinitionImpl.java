@@ -27,8 +27,8 @@ public class WaterProducerDefinitionImpl extends StoreFlowRateControllableImpl
 
     public void setWaterOutputs(WaterStore[] pStores, float[] pMaxFlowRates,
             float[] pDesiredFlowRates) {
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
-        setStores(pStores);
+        setInitialMaxFlowRates(pMaxFlowRates);
+        setInitialDesiredFlowRates(pDesiredFlowRates);
+        setInitialStores(pStores);
     }
 }

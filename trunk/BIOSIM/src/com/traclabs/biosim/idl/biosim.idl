@@ -295,19 +295,21 @@ module com{
                                                         FloatList getMaxFlowRates();
                                                         FloatList getDesiredFlowRates();
                                                         FloatList getActualFlowRates();
-                                                        void setMaxFlowRates(in FloatList flowrates);
-                                                        void setDesiredFlowRates(in FloatList flowrates);
-                                                        void setActualFlowRates(in FloatList flowrates);
+                                                        void setInitialMaxFlowRates(in FloatList flowrates);
+                                                        void setInitialDesiredFlowRates(in FloatList flowrates);
+                                                        void setInitialActualFlowRates(in FloatList flowrates);
                                                         float getTotalMaxFlowRate();
                                                         float getTotalDesiredFlowRate();
                                                         float getTotalActualFlowRate();
                                                         float getAveragePercentageFull();
                                                         float getPercentageFull(in long index);
+                                                        void reset();
                                                 };
                                                 
                                                 interface StoreFlowRateControllable : SingleFlowRateControllable{
                                                         simulation::framework::StoreList getStores();
-                                                        void setStores(in simulation::framework::StoreList pStores);
+                                                        void setInitialStores(in simulation::framework::StoreList pStores);
+                                                        void setStore(in simulation::framework::Store pStore, in long index);
                                                         boolean connectsTo(in simulation::framework::Store pStore);
                                                 };
                                                 

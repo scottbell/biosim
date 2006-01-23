@@ -80,9 +80,9 @@ public class ModuleEdge extends NetEdge {
             float[] maxFlowrates = {0f};
             float[] desiredFlowrates = {0f};
             float[] actualFlowrates = {0f};
-            myOperations.setMaxFlowRates(maxFlowrates);
-            myOperations.setDesiredFlowRates(desiredFlowrates);
-            myOperations.setActualFlowRates(actualFlowrates);
+            myOperations.setInitialMaxFlowRates(maxFlowrates);
+            myOperations.setInitialDesiredFlowRates(desiredFlowrates);
+            myOperations.setInitialActualFlowRates(actualFlowrates);
         }
         else if (myOperations.getMaxFlowRates().length < myIndex + 1){
             myLogger.info("doesn't support more than 1 edge right now");

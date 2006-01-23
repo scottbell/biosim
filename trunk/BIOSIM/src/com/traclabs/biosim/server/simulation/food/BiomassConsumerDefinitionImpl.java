@@ -34,9 +34,9 @@ public class BiomassConsumerDefinitionImpl extends
 
     public void setBiomassInputs(BiomassStore[] pStores, float[] pMaxFlowRates,
             float[] pDesiredFlowRates) {
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
-        setStores(pStores);
+        setInitialMaxFlowRates(pMaxFlowRates);
+        setInitialDesiredFlowRates(pDesiredFlowRates);
+        setInitialStores(pStores);
     }
 
     public BioMatter[] getBioMassFromStore(float amountNeeded) {

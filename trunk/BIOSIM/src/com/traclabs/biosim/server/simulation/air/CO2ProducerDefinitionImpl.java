@@ -26,8 +26,8 @@ public class CO2ProducerDefinitionImpl extends StoreFlowRateControllableImpl
 
     public void setCO2Outputs(CO2Store[] pStores, float[] pMaxFlowRates,
             float[] pDesiredFlowRates) {
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
-        setStores(pStores);
+        setInitialMaxFlowRates(pMaxFlowRates);
+        setInitialDesiredFlowRates(pDesiredFlowRates);
+        setInitialStores(pStores);
     }
 }
