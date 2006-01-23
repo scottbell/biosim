@@ -35,6 +35,7 @@ import com.traclabs.biosim.idl.simulation.power.RPCM;
  * @author Scott Bell
  */
 public class PowerSchematicPanel extends TimedPanel {
+	private static final int REFRESH_RATE = 250;
 	private JGraph myGraph;
 
 	private PowerSchematicEditor myEditor;
@@ -60,6 +61,7 @@ public class PowerSchematicPanel extends TimedPanel {
 		Globals.curEditor(myEditor);
 		setLayout(new GridLayout(1, 1));
 		add(myGraph);
+		setDelay(REFRESH_RATE);
 	}
 
 	public void refresh() {

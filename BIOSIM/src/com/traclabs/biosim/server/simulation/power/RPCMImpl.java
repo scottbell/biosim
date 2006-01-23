@@ -72,7 +72,14 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
 	public void clearTrips(){
     	myUndertripped = false;
     	myOvertripped = false;
-        myPowerConsumerDefinitionImpl.reset();
+    	for (int i = 0; i < myPowerConsumerDefinitionImpl.getDesiredFlowRates().length; i++){
+    		float initialDesiredFlowRate = myPowerConsumerDefinitionImpl.getInitialDesiredFlowRates()[i];
+    		myPowerConsumerDefinitionImpl.setDesiredFlowRate(initialDesiredFlowRate, i);
+    	}
+    	for (int i = 0; i < myPowerProducerDefinitionImpl.getDesiredFlowRates().length; i++){
+    		float initialDesiredFlowRate = myPowerProducerDefinitionImpl.getInitialDesiredFlowRates()[i];
+    		myPowerProducerDefinitionImpl.setDesiredFlowRate(initialDesiredFlowRate, i);
+    	}
 	}
 	
 	public void tick() {

@@ -27,6 +27,7 @@ import com.traclabs.biosim.client.simulation.framework.SimDesktop;
 import com.traclabs.biosim.client.simulation.framework.SimulationToolBar;
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicDocument;
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicEditor;
+import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.util.OrbUtils;
 
 public class PowerSchematicFrame extends BioFrame {
@@ -171,6 +172,7 @@ public class PowerSchematicFrame extends BioFrame {
     	newPowerSchematicFrame.setSize(1000, 500);
     	newPowerSchematicFrame.setLocationRelativeTo(null); 
     	newPowerSchematicFrame.setVisible(true);
+		BioHolderInitializer.getBioHolder().theBioDriver.startSimulation();
     }
     
 	/**

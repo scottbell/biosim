@@ -43,8 +43,10 @@ public class RPCMPropertiesFrame extends JFrame {
         
         mySwitches = new JCheckBox[myRPCM.getPowerProducerDefinition().getStores().length];
         mySwitchPanel.setLayout(new GridLayout(1, mySwitches.length));
+        boolean[] switchStatuses = myRPCM.getSwitchStatuses();
         for (int i = 0; i < mySwitches.length; i++){
         	mySwitches[i] = new JCheckBox("Effluent "+(i + 1));
+        	mySwitches[i].setSelected(switchStatuses[i]);
         	mySwitchPanel.add(mySwitches[i]);
 		}
         mySwitchPanel.setBorder(BorderFactory.createTitledBorder("Switches"));

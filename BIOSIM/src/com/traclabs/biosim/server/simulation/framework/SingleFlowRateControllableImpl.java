@@ -61,6 +61,10 @@ public abstract class SingleFlowRateControllableImpl extends
     public float[] getActualFlowRates() {
         return myActualFlowRates;
     }
+    
+    public float[] getInitialDesiredFlowRates(){
+    	return myInitialDesiredFlowRates;
+    }
 
     public void setInitialMaxFlowRates(float[] pMaxFlowRates) {
         myInitalMaxFlowRates = pMaxFlowRates;
