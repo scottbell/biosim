@@ -463,6 +463,7 @@ public class BioDriverImpl extends BioDriverPOA {
 		myLogger.info("BioDriverImpl" + myID + ": Resetting simulation");
 		ticksGoneBy = 0;
 		for (BioModule currentBioModule : modules) {
+			myLogger.debug("resetting "+currentBioModule.getModuleName());
 			currentBioModule.reset();
 			currentBioModule.setTickLength(getTickLength());
 		}
