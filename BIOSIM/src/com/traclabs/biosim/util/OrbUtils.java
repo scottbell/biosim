@@ -94,7 +94,7 @@ public class OrbUtils {
             module = BioModuleHelper.narrow(getNamingContext(pID).resolve_str(
                     pModuleName));
         } catch (Exception e) {
-            Logger.getLogger(OrbUtils.class).info(
+            Logger.getLogger(OrbUtils.class).warn(
                     "(id=" + pID + ") Had problems getting module:"
                             + pModuleName + " " + e);
         }
@@ -135,7 +135,7 @@ public class OrbUtils {
             myBiosimNamingContext.bind_new_context(idComponents);
         } catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e) {
         } catch (Exception e) {
-            Logger.getLogger(OrbUtils.class).info(
+            Logger.getLogger(OrbUtils.class).warn(
                     "Had problems getting naming context " + e);
         }
     }
@@ -189,7 +189,7 @@ public class OrbUtils {
             comContext.bind_new_context(traclabsComponentArray);
         } catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e) {
         } catch (Exception e) {
-            Logger.getLogger(OrbUtils.class).info(
+            Logger.getLogger(OrbUtils.class).warn(
                     "nameserver not found, polling again: " + e);
             myOrb = null;
             myRootPOA = null;
@@ -208,7 +208,7 @@ public class OrbUtils {
             traclabsContext.bind_new_context(biosimComponentArray);
         } catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e) {
         } catch (Exception e) {
-            Logger.getLogger(OrbUtils.class).info(
+            Logger.getLogger(OrbUtils.class).warn(
                     "had trouble creating biosim context: " + e);
         }
 
@@ -221,7 +221,7 @@ public class OrbUtils {
                     .narrow(traclabsContext.resolve_str("biosim"));
             initializeOrbRunOnce = true;
         } catch (Exception e) {
-            Logger.getLogger(OrbUtils.class).info(
+            Logger.getLogger(OrbUtils.class).warn(
                     "had trouble retrieving biosim context: " + e);
         }
         return true;
