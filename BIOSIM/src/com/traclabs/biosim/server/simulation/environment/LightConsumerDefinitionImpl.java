@@ -27,6 +27,6 @@ public class LightConsumerDefinitionImpl extends
     public void setLightInput(SimEnvironment pSimEnvironment) {
         SimEnvironment[] singleArray = new SimEnvironment[1];
         singleArray[0] = pSimEnvironment;
-        setEnvironments(singleArray);
+        setInitialEnvironments(singleArray);
     }
 }

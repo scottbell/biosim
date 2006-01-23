@@ -77,6 +77,10 @@ public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
         currentO2Produced = 0;
         currentH2Produced = 0;
         currentPowerConsumed = 0;
+        myPowerConsumerDefinitionImpl.reset();
+        myPotableWaterConsumerDefinitionImpl.reset();
+        myO2ProducerDefinitionImpl.reset();
+        myH2ProducerDefinitionImpl.reset();
     }
 
     private void gatherPower() {

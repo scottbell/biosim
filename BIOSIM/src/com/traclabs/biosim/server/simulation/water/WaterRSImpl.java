@@ -104,6 +104,10 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
         super.reset();
         for (int i = 0; i < mySubsystems.length; i++)
             mySubsystems[i].reset();
+        myPowerConsumerDefinitionImpl.reset();
+        myGreyWaterConsumerDefinitionImpl.reset();
+        myDirtyWaterConsumerDefinitionImpl.reset();
+        myPotableWaterProducerDefinitionImpl.reset();
     }
 
     /**

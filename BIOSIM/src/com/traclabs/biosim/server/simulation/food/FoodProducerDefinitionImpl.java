@@ -28,9 +28,9 @@ public class FoodProducerDefinitionImpl extends StoreFlowRateControllableImpl
 
     public void setFoodOutputs(FoodStore[] pStores, float[] pMaxFlowRates,
             float[] pDesiredFlowRates) {
-        setMaxFlowRates(pMaxFlowRates);
-        setDesiredFlowRates(pDesiredFlowRates);
-        setStores(pStores);
+        setInitialMaxFlowRates(pMaxFlowRates);
+        setInitialDesiredFlowRates(pDesiredFlowRates);
+        setInitialStores(pStores);
     }
 
     public float pushFoodToStore(FoodMatter[] foodToPush) {

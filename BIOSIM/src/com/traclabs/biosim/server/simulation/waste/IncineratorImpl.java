@@ -111,6 +111,10 @@ public class IncineratorImpl extends SimBioModuleImpl implements
         currentPowerConsumed = 0f;
         currentO2Consumed = 0f;
         currentCO2Produced = 0f;
+        myPowerConsumerDefinitionImpl.reset();
+        myO2ConsumerDefinitionImpl.reset();
+        myDryWasteConsumerDefinitionImpl.reset();
+        myCO2ProducerDefinitionImpl.reset();
     }
 
     /**

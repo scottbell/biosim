@@ -11,20 +11,26 @@ import com.traclabs.biosim.server.simulation.framework.SingleFlowRateControllabl
 public abstract class EnvironmentFlowRateControllableImpl extends
         SingleFlowRateControllableImpl implements
         EnvironmentFlowRateControllableOperations {
-    private SimEnvironment[] mySimEnvironments;
+    private SimEnvironment[] mySimEnvironments = new SimEnvironment[0];
+    private SimEnvironment[] myInitialSimEnvironments = new SimEnvironment[0];
     
     public EnvironmentFlowRateControllableImpl(){
-        mySimEnvironments = new SimEnvironment[0];
     }
 
     public SimEnvironment[] getEnvironments() {
         return mySimEnvironments;
     }
 
-    protected void setEnvironments(SimEnvironment[] pSimEnvironments) {
-        mySimEnvironments = pSimEnvironments;
+    protected void setInitialEnvironments(SimEnvironment[] pSimEnvironments) {
+    	myInitialSimEnvironments = pSimEnvironments;
+    	mySimEnvironments = new SimEnvironment[myInitialSimEnvironments.length];
+        System.arraycopy(myInitialSimEnvironments, 0, mySimEnvironments, 0, myInitialSimEnvironments.length);
         float[] emptyActualFlowRates = new float[pSimEnvironments.length];
-        setActualFlowRates(emptyActualFlowRates);
+        setInitialActualFlowRates(emptyActualFlowRates);
+    }
+    
+    protected void setEnvironment(SimEnvironment pSimEnvironment, int index) {
+    	mySimEnvironments[index] = pSimEnvironment;
     }
     
     public boolean connectsTo(SimEnvironment pSimEnvironment){
@@ -33,5 +39,10 @@ public abstract class EnvironmentFlowRateControllableImpl extends
     			return true;
     	}
     	return false;
+    }
+    
+    public void reset(){
+    	super.reset();
+    	System.arraycopy(myInitialSimEnvironments, 0, mySimEnvironments, 0, myInitialSimEnvironments.length);
     }
 }

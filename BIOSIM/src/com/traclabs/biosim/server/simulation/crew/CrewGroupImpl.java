@@ -306,6 +306,13 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
         super.reset();
     	for (CrewPerson currentPerson : crewPeople.values())
     		currentPerson.reset();
+        myFoodConsumerDefinitionImpl.reset();
+        myAirConsumerDefinitionImpl.reset();
+        myPotableWaterConsumerDefinitionImpl.reset();
+        myGreyWaterProducerDefinitionImpl.reset();
+        myDirtyWaterProducerDefinitionImpl.reset();
+        myAirProducerDefinitionImpl.reset();
+        myDryWasteProducerDefinitionImpl.reset();
     }
 
     /**

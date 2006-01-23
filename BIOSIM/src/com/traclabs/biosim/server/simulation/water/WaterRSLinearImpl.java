@@ -74,6 +74,10 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
      */
     public void reset() {
         super.reset();
+        myPowerConsumerDefinitionImpl.reset();
+        myGreyWaterConsumerDefinitionImpl.reset();
+        myDirtyWaterConsumerDefinitionImpl.reset();
+        myPotableWaterProducerDefinitionImpl.reset();
     }
 
     private void gatherPower() {

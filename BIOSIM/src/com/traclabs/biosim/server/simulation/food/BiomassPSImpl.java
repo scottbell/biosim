@@ -76,7 +76,6 @@ public class BiomassPSImpl extends SimBioModuleImpl implements
     public BiomassPSImpl(int pID, String pName) {
         super(pID, pName);
         myShelves = new Vector<ShelfImpl>();
-
         myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
         myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
         myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl();
@@ -188,6 +187,13 @@ public class BiomassPSImpl extends SimBioModuleImpl implements
             ShelfImpl currentShelf = (ShelfImpl) (iter.next());
             currentShelf.reset();
         }
+        myPowerConsumerDefinitionImpl.reset();
+        myAirConsumerDefinitionImpl.reset();
+        myPotableWaterConsumerDefinitionImpl.reset();
+        myGreyWaterConsumerDefinitionImpl.reset();
+        myDirtyWaterProducerDefinitionImpl.reset();
+        myAirProducerDefinitionImpl.reset();
+        myBiomassProducerDefinitionImpl.reset();
     }
 
     private void clearActualFlowRates() {
