@@ -54,7 +54,7 @@ public class SimulationToolBar extends JToolBar {
 		myStartSimButton.setToolTipText("Starts the simulation");
 		myStartSimButton.setText("");
 		myStartSimButton.setIcon(startIcon);
-		myStartSimButton.setEnabled(false);
+		myStartSimButton.setEnabled(true);
 		myPauseSimButton = add(myPauseAction);
 		myPauseSimButton.setToolTipText("Pauses the simulation");
 		myPauseSimButton.setIcon(pauseIcon);
@@ -66,7 +66,6 @@ public class SimulationToolBar extends JToolBar {
 		myAdvanceSimButton.setText("");
 		myAdvanceSimButton.setIcon(forwardIcon);
 		myAdvanceSimButton.setEnabled(false);
-
 		refresh();
 	}
 
@@ -85,19 +84,19 @@ public class SimulationToolBar extends JToolBar {
 	}
 
 	public void refresh() {
-		// Simulation has stopped
-		if (!myDriver.isStarted()) {
-			myStartSimButton.setToolTipText("Starts the simulation");
-			myStartSimButton.setIcon(startIcon);
-			myStartSimButton.setEnabled(true);
-			myAdvanceSimButton.setEnabled(false);
-		}
 		// Simulation has started
-		else {
+		if (myDriver.isStarted()) {
 			myStartSimButton.setToolTipText("Ends the simulation");
 			myStartSimButton.setIcon(stopIcon);
 			myStartSimButton.setEnabled(true);
 			myAdvanceSimButton.setEnabled(true);
+		}
+		// Simulation has stopped
+		else {
+			myStartSimButton.setToolTipText("Starts the simulation");
+			myStartSimButton.setIcon(startIcon);
+			myStartSimButton.setEnabled(true);
+			myAdvanceSimButton.setEnabled(false);
 		}
 		// Simulation has paused
 		if (myDriver.isPaused()) {
