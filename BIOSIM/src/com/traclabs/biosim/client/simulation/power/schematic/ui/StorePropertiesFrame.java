@@ -10,7 +10,6 @@ import java.text.NumberFormat;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,8 +30,6 @@ public class StorePropertiesFrame extends JFrame {
 
     private JFormattedTextField myLevelField;
     
-    private JCheckBox mySensorCheckBox;
-    
     private JButton myOKButton;
 
     private Store myStore;
@@ -48,16 +45,13 @@ public class StorePropertiesFrame extends JFrame {
         myCapacityField.setValue(new Float(myStore.getInitialCapacity()));
         myLevelField = new JFormattedTextField(NumberFormat.getNumberInstance());
         myLevelField.setValue(new Float(myStore.getInitialLevel()));
-        mySensorCheckBox = new JCheckBox();
         myOKButton = new JButton(new OKAction());
 
-        setLayout(new GridLayout(4, 2));
+        setLayout(new GridLayout(3, 2));
         add(new JLabel("Capacity"));
         add(myCapacityField);
         add(new JLabel("Level"));
         add(myLevelField);
-        add(new JLabel("Sensed"));
-        add(mySensorCheckBox);
         add(myOKButton);
         setTitle(pNode.getText() + " Properties");
     }
@@ -73,9 +67,8 @@ public class StorePropertiesFrame extends JFrame {
         public void actionPerformed(ActionEvent ae) {
             float capacity = ((Number)myCapacityField.getValue()).floatValue();
             float level = ((Number)myCapacityField.getValue()).floatValue();
-            myStore.setInitialCapacity(capacity);
-            myStore.setInitialLevel(level);
-            myFigStoreNode.setIsSensed(mySensorCheckBox.isSelected());
+            myStore.setCurrentCapacity(capacity);
+            myStore.setCurrentLevel(level);
             myFigStoreNode.damage();
             dispose();
         }
