@@ -12,7 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import com.traclabs.biosim.client.simulation.power.schematic.graph.FigActiveNode;
 import com.traclabs.biosim.client.simulation.power.schematic.graph.ModuleNode;
@@ -20,9 +19,6 @@ import com.traclabs.biosim.idl.simulation.framework.SimBioModule;
 
 
 public class ActivePropertiesFrame extends JFrame {
-    
-    private JTextField myNameField;
-    
     private JButton myOKButton;
 
     private SimBioModule mySimBioModule;
@@ -33,12 +29,10 @@ public class ActivePropertiesFrame extends JFrame {
         myFigActiveNode = pNode;
         ModuleNode owner = (ModuleNode) pNode.getOwner();
         mySimBioModule = owner.getSimBioModule();
-        myNameField = new JTextField(mySimBioModule.getModuleName());
         myOKButton = new JButton(new OKAction());
 
         setLayout(new GridLayout(2, 2));
-        add(new JLabel("Name"));
-        add(myNameField);
+        add(new JLabel("Name: "+mySimBioModule.getModuleName()));
         add(myOKButton);
         setTitle(pNode.getText() + " Properties");
     }
