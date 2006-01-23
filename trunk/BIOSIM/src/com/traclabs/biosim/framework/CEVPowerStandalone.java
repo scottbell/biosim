@@ -15,7 +15,7 @@ import com.traclabs.biosim.client.util.BioHolderInitializer;
 public class CEVPowerStandalone extends BiosimStandalone{
 
     public CEVPowerStandalone(ImageIcon splashIcon) {
-        super(splashIcon, "CEV Power Simulation ", "cev/CEVPowerInit.xml", 0);
+        super(splashIcon, "CEV Power Simulation ", "com/traclabs/biosim/server/framework/cev/CEVPowerInit.xml", 0);
     }
     
     public static void main(String args[]) {
