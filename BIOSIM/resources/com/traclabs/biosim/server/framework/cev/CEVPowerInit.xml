@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../BiosimInitSchema.xsd">
-	<Globals crewsToWatch="Crew" runTillCrewDeath="true" startPaused="false" runTillN="2000" driverStutterLength="100" isLooping="true">
+	<Globals crewsToWatch="Crew" runTillCrewDeath="true" startPaused="false" driverStutterLength="100" isLooping="true">
 		<comment>
 			This is the CEV power initialization.
 			It has the following modules:
