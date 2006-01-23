@@ -1,7 +1,7 @@
 package com.traclabs.biosim.client.simulation.power.schematic;
 
+import java.awt.BorderLayout;
 import java.awt.Cursor;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.net.URL;
@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 import org.apache.log4j.Logger;
@@ -23,12 +24,15 @@ import org.tigris.gef.util.ResourceLoader;
 
 import com.traclabs.biosim.client.framework.BioFrame;
 import com.traclabs.biosim.client.simulation.framework.SimDesktop;
+import com.traclabs.biosim.client.simulation.framework.SimulationToolBar;
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicDocument;
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicEditor;
 import com.traclabs.biosim.util.OrbUtils;
 
 public class PowerSchematicFrame extends BioFrame {
 	private PowerSchematicEditor myEditor;
+	
+	private SimulationToolBar myToolBar;
 	
     private JMenuBar myMenuBar = new JMenuBar();
 
@@ -71,10 +75,12 @@ public class PowerSchematicFrame extends BioFrame {
      */
     private void buildGui() {
     	myPowerSchematicPanel = new PowerSchematicPanel();
-        getContentPane().setLayout(new GridLayout(1,1));
-        getContentPane().add(myPowerSchematicPanel);
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(myPowerSchematicPanel, BorderLayout.CENTER);
         //do menu bar
         createMenuBar();
+        myToolBar = new SimulationToolBar();
+        getContentPane().add(myToolBar, BorderLayout.NORTH);
         setJMenuBar(myMenuBar);
         pack();
     }
@@ -128,9 +134,9 @@ public class PowerSchematicFrame extends BioFrame {
         help.setMnemonic('H');
         myMenuBar.add(help);
         
-        JMenuItem about = new JMenuItem("About Biosim Editor");
+        JMenuItem about = new JMenuItem(new AboutAction());
         about.setMnemonic('A');
-        about.setEnabled(false);
+        about.setEnabled(true);
         help.add(about);
     }
     
@@ -157,7 +163,7 @@ public class PowerSchematicFrame extends BioFrame {
     
     public static void main(String[] args){
     	OrbUtils.initializeLog();
-    	PowerSchematicFrame newPowerSchematicFrame = new PowerSchematicFrame("BioSim Power Schematic");
+    	PowerSchematicFrame newPowerSchematicFrame = new PowerSchematicFrame("CEV Power Schematic");
     	ImageIcon powerIcon = new ImageIcon(SimDesktop.class.getClassLoader()
                 .getResource(
                         "com/traclabs/biosim/client/power/power.png"));
@@ -166,4 +172,18 @@ public class PowerSchematicFrame extends BioFrame {
     	newPowerSchematicFrame.setLocationRelativeTo(null); 
     	newPowerSchematicFrame.setVisible(true);
     }
+    
+	/**
+	 * Action that brings up a dialog box about authors, company, etc.
+	 */
+	private class AboutAction extends AbstractAction {
+		public AboutAction(){
+			super("CEV Power Schematic");
+		}
+		public void actionPerformed(ActionEvent ae) {
+			JOptionPane.showMessageDialog(PowerSchematicFrame.this,
+					"CEV Power Schematic\nCopyright "
+							+ new Character('\u00A9') + " 2006, TRACLabs\n");
+		}
+	}
 }
