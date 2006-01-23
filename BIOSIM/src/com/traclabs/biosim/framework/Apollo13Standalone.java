@@ -19,7 +19,7 @@ public class Apollo13Standalone extends BiosimStandalone{
     }
     
     public static void main(String args[]) {
-        ImageIcon moonIcon = new ImageIcon(BiosimStandalone.class
+        ImageIcon moonIcon = new ImageIcon(Apollo13Standalone.class
                 .getClassLoader().getResource(
                         "com/traclabs/biosim/framework/moon.png"));
         Apollo13Standalone myApollo13Standalone = new Apollo13Standalone(moonIcon);
