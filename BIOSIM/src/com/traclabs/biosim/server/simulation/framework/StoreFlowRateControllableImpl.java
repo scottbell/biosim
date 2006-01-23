@@ -13,8 +13,8 @@ import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOpe
 public abstract class StoreFlowRateControllableImpl extends
         SingleFlowRateControllableImpl implements
         StoreFlowRateControllableOperations {
-    private Store[] myStores;
-    private Store[] myInitialStores;
+    private Store[] myStores = new Store[0];
+    private Store[] myInitialStores = new Store[0];
     
     public StoreFlowRateControllableImpl(){
         myStores = new Store[0];
