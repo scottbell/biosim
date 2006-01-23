@@ -582,8 +582,11 @@ module com{
                                                 interface GenericPowerConsumer : framework::SimBioModule, power::PowerConsumer{
                                                 };
                                                 interface RPCM : framework::SimBioModule, power::PowerConsumer, power::PowerProducer{
-                                                		boolean isOverTripped();
-                                                		boolean isUnderTripped();
+                                                		boolean isOvertripped();
+                                                		boolean isUndertripped();
+                                                		void overtrip();
+                                                		void undertrip();
+                                                		void clearTrips();
                                                 		BooleanList getSwitchStatuses();
                                                 		void setSwitches(in BooleanList switchStatuses);
                                                 };

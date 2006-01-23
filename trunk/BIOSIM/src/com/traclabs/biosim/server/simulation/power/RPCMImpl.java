@@ -17,8 +17,8 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
 		PowerConsumerOperations, PowerProducerOperations {
 	
-	private boolean myOverTripped = false;
-	private boolean myUnderTripped = false;
+	private boolean myOvertripped = false;
+	private boolean myUndertripped = false;
 	
 	private static final float TRIP_THRESHOLD = 5;
 	
@@ -33,12 +33,20 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
         myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
 	}
 
-	public boolean isOverTripped() {
-		return myOverTripped;
+	public boolean isOvertripped() {
+		return myOvertripped;
 	}
 
-	public boolean isUnderTripped() {
-		return myUnderTripped;
+	public boolean isUndertripped() {
+		return myUndertripped;
+	}
+	
+	public void overtrip(){
+		myOvertripped = true;
+	}
+	
+	public void undertrip(){
+		myUndertripped = true;
 	}
 
 	public boolean[] getSwitchStatuses() {
@@ -55,30 +63,30 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
 	
 	public void reset() {
         super.reset();
-        myOverTripped = false;
-        myUnderTripped = false;
+        myOvertripped = false;
+        myUndertripped = false;
         myPowerProducerDefinitionImpl.reset();
         myPowerConsumerDefinitionImpl.reset();
     }
 	
-	public void clear(){
-    	myUnderTripped = false;
-    	myOverTripped = false;
+	public void clearTrips(){
+    	myUndertripped = false;
+    	myOvertripped = false;
 	}
 	
 	public void tick() {
         super.tick();
-        if (myUnderTripped || myOverTripped)
+        if (myUndertripped || myOvertripped)
         	return;
         float powerGathered = myPowerConsumerDefinitionImpl.getMostResourceFromStores();
         //check to see if difference is greater than threshold
         if ((powerGathered - TRIP_THRESHOLD) > myPowerProducerDefinitionImpl.getTotalDesiredFlowRate()){
-        	myOverTripped = true;
+        	myOvertripped = true;
         	turnOff();
             myLogger.info("RPCM over tripped");
         }
         else if ((powerGathered + TRIP_THRESHOLD) < myPowerProducerDefinitionImpl.getTotalDesiredFlowRate()){
-        	myUnderTripped = true;
+        	myUndertripped = true;
         	turnOff();
             myLogger.info("RPCM under tripped");
         }

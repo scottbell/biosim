@@ -8,11 +8,6 @@ import com.traclabs.biosim.client.simulation.power.schematic.ui.ActiveProperties
 public abstract class FigActiveNode extends FigModuleLabelNode {
     private JFrame myEditFrame;
     
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.traclabs.biosim.client.simulation.power.schematic.graph.ModuleFigNode#getPropertyEditor()
-     */
     protected JFrame getPropertiesEditor() {
         if (myEditFrame != null)
             return myEditFrame;

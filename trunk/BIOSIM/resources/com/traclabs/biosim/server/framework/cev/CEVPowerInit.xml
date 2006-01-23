@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../BiosimInitSchema.xsd">
-	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="1" runTillN="1000">
+	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="1" runTillN="1000" driverStutterLength="10">
 		<comment>
 			This is the CEV power initialization.
 			It has the following modules:
@@ -27,22 +27,22 @@
             <PowerPS moduleName="FuelCell">
                 <powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="Main_Power_Store"/>
             </PowerPS>
-            <PowerStore capacity="100.0" level="100.0" moduleName="Main_Power_Store"/>
+            <PowerStore capacity="1000000" level="1000000" moduleName="Main_Power_Store"/>
 			<RPCM moduleName="RPCM_1">
-				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="Main_Power_Store"/>
-				<powerProducer desiredFlowRates="10" maxFlowRates="10" outputs="RPCMPowerStore1"/>
+				<powerConsumer desiredFlowRates="20" maxFlowRates="20" inputs="Main_Power_Store"/>
+				<powerProducer desiredFlowRates="20" maxFlowRates="20" outputs="RPCMPowerStore1"/>
 			</RPCM>
 			<RPCM moduleName="RPCM_2">
-				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="Main_Power_Store"/>
-				<powerProducer desiredFlowRates="10" maxFlowRates="10" outputs="RPCMPowerStore2"/>
+				<powerConsumer desiredFlowRates="20" maxFlowRates="20" inputs="Main_Power_Store"/>
+				<powerProducer desiredFlowRates="20" maxFlowRates="20" outputs="RPCMPowerStore2"/>
 			</RPCM>
 			<RPCM moduleName="RPCM_3">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="Main_Power_Store"/>
 				<powerProducer desiredFlowRates="10" maxFlowRates="10" outputs="RPCMPowerStore3"/>
 			</RPCM>
-            <PowerStore capacity="100.0" level="100.0" moduleName="RPCMPowerStore1"/>
-            <PowerStore capacity="100.0" level="100.0" moduleName="RPCMPowerStore2"/>
-            <PowerStore capacity="100.0" level="100.0" moduleName="RPCMPowerStore3"/>
+            <PowerStore capacity="20" level="20" moduleName="RPCMPowerStore1"/>
+            <PowerStore capacity="20" level="20" moduleName="RPCMPowerStore2"/>
+            <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore3"/>
 			<GenericPowerConsumer moduleName="Cabin_Lights">
 				<powerConsumer desiredFlowRates="10 10" maxFlowRates="10 10" inputs="RPCMPowerStore1 RPCMPowerStore2"/>
 			</GenericPowerConsumer>
@@ -104,7 +104,7 @@
 			</CrewGroup>
 		</crew>
 		<environment>
-			<SimEnvironment moduleName="CrewEnvironment" initialVolume="12.9725108"/>
+			<SimEnvironment moduleName="CrewEnvironment" initialVolume="10000000"/>
 			<Dehumidifier moduleName="Dehumidifier">
 				<airConsumer desiredFlowRates="10000" maxFlowRates="10000" inputs="CrewEnvironment"/>
 				<dirtyWaterProducer desiredFlowRates="10000" maxFlowRates="10000" outputs="DirtyWaterStore"/>
@@ -120,7 +120,7 @@
 			</Injector>
 		</framework>
 		<water>
-			<PotableWaterStore moduleName="PotableWaterStore" capacity="100" level="100"/>
+			<PotableWaterStore moduleName="PotableWaterStore" capacity="1000000" level="1000000"/>
 			<GreyWaterStore moduleName="GreyWaterStore" capacity="0" level="0"/>
 			<DirtyWaterStore moduleName="DirtyWaterStore" capacity="100" level="0"/>
 		</water>

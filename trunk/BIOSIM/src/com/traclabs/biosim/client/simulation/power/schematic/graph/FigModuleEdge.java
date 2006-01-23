@@ -46,21 +46,7 @@ public class FigModuleEdge extends FigEdgeLine implements MouseListener {
         calcBounds();
     } 
     
-    public void editProperties(int x, int y){
-        if (myFlowratePropertiesFrame == null){
-            ModuleEdge theModuleEdge = (ModuleEdge)getOwner();
-            myFlowratePropertiesFrame.pack();
-        }
-        myFlowratePropertiesFrame.setLocation(x, y);
-        myFlowratePropertiesFrame.setVisible(true);
-    }
-    
-
     public void mouseClicked(MouseEvent me) {
-        if (me.getClickCount() == 2){
-            me.consume();
-            editProperties(me.getX(), me.getY());
-        }
     }
 
     public void mousePressed(MouseEvent me) {
