@@ -206,56 +206,25 @@
 		</waste>
 	</SimBioModules>
 	<Sensors>
-		<environment>
-			<GasConcentrationSensor gasType="CO2" input="BaseCrewEnvironment" moduleName="BaseCrewEnvironmentCO2ConcentrationSensor"/>
-			<GasConcentrationSensor gasType="O2" input="BaseCrewEnvironment" moduleName="BaseCrewEnvironmentO2ConcentrationSensor"/>
-			<GasConcentrationSensor gasType="VAPOR" input="BaseCrewEnvironment" moduleName="BaseCrewEnvironmentVaporConcentrationSensor"/>
-			<GasPressureSensor gasType="VAPOR" input="BaseCrewEnvironment" moduleName="BaseCrewEnvironmentVaporPressureSensor"/>
-		</environment>
-		<food>
-			<BiomassInFlowRateSensor index="0" input="FoodProcessor" moduleName="FoodProcessorBiomassInFlowRateSensor"/>
-		</food>
 		<framework>
-			<StoreLevelSensor input="BaseCO2Store" moduleName="BaseCO2StoreLevelSensor"/>
-			<StoreLevelSensor input="BaseO2Store" moduleName="BaseO2StoreLevelSensor"/>
-			<StoreLevelSensor input="BaseH2Store" moduleName="BaseH2StoreLevelSensor"/>
-			<StoreLevelSensor input="BaseBiomassStore" moduleName="BaseBiomassStoreLevelSensor"/>
-			<StoreLevelSensor input="BaseFoodStore" moduleName="BaseFoodStoreLevelSensor"/>
-			<StoreLevelSensor input="BasePowerStore" moduleName="BasePowerStoreLevelSensor"/>
-			<StoreLevelSensor input="CrewBaseDirtyWaterStore" moduleName="CrewBaseDirtyWaterStoreLevelSensor"/>
-			<StoreLevelSensor input="CrewBaseGreyWaterStore" moduleName="CrewBaseGreyWaterStoreLevelSensor"/>
-			<StoreLevelSensor input="CrewBasePotableWaterStore" moduleName="CrewBasePotableWaterStoreLevelSensor"/>
-			<StoreOverflowSensor input="BaseO2Store" moduleName="BaseO2StoreOverflowSensor"/>
-			<StoreOverflowSensor input="BaseCO2Store" moduleName="BaseCO2StoreOverflowSensor"/>
+			<StoreLevelSensor input="Main_Power_Store" moduleName="Main_Power_Store_LevelSensor"/>
 		</framework>
 		<power>
-			<PowerInFlowRateSensor index="0" input="FoodProcessor" moduleName="FoodProcessorPowerInFlowRateSensor"/>
+			<PowerInFlowRateSensor index="0" input="RPCM_1" moduleName="RPCM_1_PowerInSensor"/>
+			<PowerInFlowRateSensor index="0" input="RPCM_2" moduleName="RPCM_2_PowerInSensor"/>
+			<PowerInFlowRateSensor index="0" input="RPCM_3" moduleName="RPCM_3_PowerInSensor"/>
+			<PowerInFlowRateSensor index="0" input="Cabin_Lights" moduleName="Cabin_Lights_PowerInSensor"/>
+			<PowerInFlowRateSensor index="0" input="Laboratory" moduleName="Laboratory_PowerInSensor"/>
+			<PowerInFlowRateSensor index="0" input="Life_Support" moduleName="Life_Support_PowerInSensor"/>
+			<PowerInFlowRateSensor index="0" input="Navigation" moduleName="Navigation_PowerInSensor"/>
 		</power>
 	</Sensors>
 	<Actuators>
-		<air>
-			<O2OutFlowRateActuator index="0" output="BaseOGS" moduleName="BaseOGSO2OutFlowRateActuator"/>
-			<H2OutFlowRateActuator index="0" output="BaseOGS" moduleName="BaseOGSH2OutFlowRateActuator"/>
-			<O2OutFlowRateActuator index="0" output="BaseInjector" moduleName="BaseInjectorO2OutFlowRateActuator"/>
-			<O2InFlowRateActuator index="0" output="BaseInjector" moduleName="BaseInjectorO2InFlowRateActuator"/>
-		</air>
-		<food>
-			<BiomassInFlowRateActuator index="0" output="FoodProcessor" moduleName="FoodProcessorBiomassInFlowRateActuator"/>
-			<HarvestingActuator output="BaseBiomassPS" moduleName="BaseBiomassPSHarvestingActuator" shelfIndex="0"/>
-			<PlantingActuator output="BaseBiomassPS" moduleName="BaseBiomassPSPlantingActuator" shelfIndex="0"/>
-		</food>
 		<power>
 			<PowerInFlowRateActuator index="0" output="FoodProcessor" moduleName="FoodProcessorPowerInFlowRateActuator"/>
 			<PowerInFlowRateActuator index="0" output="BaseOGS" moduleName="BaseOGSPowerInFlowRateActuator"/>
 			<PowerInFlowRateActuator index="0" output="CrewWaterRS" moduleName="CrewWaterRSPowerInFlowRateActuator"/>
 		</power>
-		<water>
-			<DirtyWaterInFlowRateActuator index="0" output="CrewWaterRS" moduleName="CrewWaterRSDirtyWaterInFlowRateActuator"/>
-			<GreyWaterInFlowRateActuator index="0" output="BaseBiomassPS" moduleName="BaseBiomassPSGreyWaterInFlowRateActuator"/>
-			<GreyWaterInFlowRateActuator index="0" output="CrewWaterRS" moduleName="CrewWaterRSGreyWaterInFlowRateActuator"/>
-			<PotableWaterInFlowRateActuator index="0" output="BaseOGS" moduleName="BaseOGSPotableWaterInFlowRateActuator"/>
-			<PotableWaterOutFlowRateActuator index="0" output="CrewWaterRS" moduleName="BaseOGSPotableWaterOutFlowRateActuator"/>
-		</water>
 	</Actuators>
 </biosim>
 
