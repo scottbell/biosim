@@ -16,7 +16,6 @@ import com.traclabs.biosim.idl.framework.MalfunctionHelper;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.framework.StochasticIntensity;
-import com.traclabs.biosim.idl.framework.TechSpecificInfo;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
@@ -56,8 +55,6 @@ public abstract class BioModuleImpl extends BioModulePOA {
     
     //in hours (can be a fraction of an hour)
     private float myTickInterval = 1f;
-
-    protected TechSpecificInfo myTechSpecificInfo;
 
     protected Logger myLogger;
     
@@ -110,10 +107,6 @@ public abstract class BioModuleImpl extends BioModulePOA {
 
     public int getMyTicks() {
         return myTicks;
-    }
-
-    public TechSpecificInfo getTechSpecificInfo() {
-        return myTechSpecificInfo;
     }
 
     private void checkBreakdownRisk() {
