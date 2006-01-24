@@ -17,7 +17,7 @@ public class FigGenericPowerConsumerNode extends FigActiveNode {
 	public void refresh() {
 		GenericPowerConsumerNode consumingNode = (GenericPowerConsumerNode)getOwner();
 		GenericPowerConsumer myConsumer = (GenericPowerConsumer)consumingNode.getSimBioModule();
-		float percentage = myConsumer.getPowerConsumerDefinition().getAveragePercentageFull();
+		float percentage = myConsumer.getPercentageOfPowerAskedDelivered();
 		myLogger.debug("percentage is " + percentage);
 		setFillColor(computeColorOnPercentage(percentage));
 	}

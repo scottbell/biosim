@@ -245,7 +245,7 @@ public class SimulationInitializer {
 
 		for (int i = 0; i < tokens.length; i++) {
 			try {
-				switchValues[i] = Boolean.parseBoolean(tokens[i]);
+				switchValues[i] = tokens[i].equals("1");
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
@@ -1549,7 +1549,7 @@ public class SimulationInitializer {
 			myLogger.debug("Creating RPCM with moduleName: " + moduleName);
 			RPCMImpl myRPCMImpl = null;
 			myRPCMImpl = new RPCMImpl(myID, moduleName);
-			myRPCMImpl.setSwitches(getSwitchValues(node));
+			myRPCMImpl.setInitalSwitches(getSwitchValues(node));
 			BiosimInitializer.setupBioModule(myRPCMImpl, node);
 			BiosimServer.registerServer(new RPCMPOATie(myRPCMImpl), myRPCMImpl
 					.getModuleName(), myRPCMImpl.getID());

@@ -23,7 +23,7 @@ public class GenericPowerConsumerImpl extends SimBioModuleImpl implements PowerC
 	}
 	
 	private void getPower() {
-		float powerGathered = myPowerConsumerDefinitionImpl.getResourceFromStores(myPowerRequired);
+		myPowerGathered= myPowerConsumerDefinitionImpl.getResourceFromStores(myPowerRequired);
 	}
 
 	public PowerConsumerDefinition getPowerConsumerDefinition() {
