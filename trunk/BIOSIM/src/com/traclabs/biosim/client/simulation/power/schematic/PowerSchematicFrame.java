@@ -27,7 +27,6 @@ import com.traclabs.biosim.client.simulation.framework.SimDesktop;
 import com.traclabs.biosim.client.simulation.framework.SimulationToolBar;
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicDocument;
 import com.traclabs.biosim.client.simulation.power.schematic.base.PowerSchematicEditor;
-import com.traclabs.biosim.util.OrbUtils;
 
 public class PowerSchematicFrame extends BioFrame {
 	private PowerSchematicEditor myEditor;
@@ -43,12 +42,16 @@ public class PowerSchematicFrame extends BioFrame {
 
     private QuitAction myQuitAction = new QuitAction("Quit");
 
-    public PowerSchematicFrame(String title) {
-        super(title);
+    public PowerSchematicFrame() {
+        super("CEV Power Schematic");
         loadResources();
         buildGui();
         myEditor = myPowerSchematicPanel.getEditor();
         myEditor.setFrame(this);
+        ImageIcon powerIcon = new ImageIcon(SimDesktop.class.getClassLoader()
+                .getResource(
+                "com/traclabs/biosim/client/power/power.png"));
+        setIconImage(powerIcon.getImage());
     }
     
     /**
@@ -159,18 +162,6 @@ public class PowerSchematicFrame extends BioFrame {
             frameClosing();
             setCursor(Cursor.getDefaultCursor());
         }
-    }
-    
-    public static void main(String[] args){
-    	OrbUtils.initializeLog();
-    	PowerSchematicFrame newPowerSchematicFrame = new PowerSchematicFrame("CEV Power Schematic");
-    	ImageIcon powerIcon = new ImageIcon(SimDesktop.class.getClassLoader()
-                .getResource(
-                        "com/traclabs/biosim/client/power/power.png"));
-    	newPowerSchematicFrame.setIconImage(powerIcon.getImage());
-    	newPowerSchematicFrame.setSize(1000, 500);
-    	newPowerSchematicFrame.setLocationRelativeTo(null); 
-    	newPowerSchematicFrame.setVisible(true);
     }
     
 	/**

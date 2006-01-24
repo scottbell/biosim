@@ -31,7 +31,10 @@ public class CEVPowerStandalone extends BiosimStandalone{
     	Logger.getLogger(CEVPowerStandalone.class).info("starting client");
         String[] emptyArgs = new String[0];
         BioHolderInitializer.setFile(getXmlFilename());
-        PowerSchematicFrame.main(emptyArgs);
+        PowerSchematicFrame newPowerSchematicFrame= new PowerSchematicFrame();
+        newPowerSchematicFrame.setSize(1000, 500);
+        newPowerSchematicFrame.setLocationRelativeTo(null); 
+        newPowerSchematicFrame.setVisible(true);
     }
     
 }
