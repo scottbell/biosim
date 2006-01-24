@@ -169,7 +169,6 @@ import com.traclabs.biosim.server.simulation.water.GreyWaterStoreImpl;
 import com.traclabs.biosim.server.simulation.water.PotableWaterStoreImpl;
 import com.traclabs.biosim.server.simulation.water.WaterRSImpl;
 import com.traclabs.biosim.server.simulation.water.WaterRSLinearImpl;
-import com.traclabs.biosim.server.simulation.water.WaterRSMatlabImpl;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
@@ -1593,14 +1592,7 @@ public class SimulationInitializer {
             myLogger.debug("Creating WaterRS with moduleName: " + moduleName);
             String implementationString = node.getAttributes().getNamedItem(
                     "implementation").getNodeValue();
-            if (implementationString.equals("MATLAB")) {
-                myLogger.debug("created Matlab WaterRS...");
-                WaterRSMatlabImpl myWaterRSImpl = new WaterRSMatlabImpl(myID,
-                        moduleName);
-                BiosimInitializer.setupBioModule(myWaterRSImpl, node);
-                BiosimServer.registerServer(new WaterRSPOATie(myWaterRSImpl),
-                        myWaterRSImpl.getModuleName(), myWaterRSImpl.getID());
-            } else if (implementationString.equals("LINEAR")) {
+            if (implementationString.equals("LINEAR")) {
                 myLogger.debug("created linear WaterRS...");
                 WaterRSLinearImpl myWaterRSImpl = new WaterRSLinearImpl(myID,
                         moduleName);

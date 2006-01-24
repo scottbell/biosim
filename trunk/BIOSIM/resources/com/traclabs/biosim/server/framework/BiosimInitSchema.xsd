@@ -861,7 +861,6 @@
 	<!-- Special WaterRS specific declarations -->
 	<xsd:simpleType name="WaterRSImplementationType">
 		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="MATLAB"/>
 			<xsd:enumeration value="NORMAL"/>
 			<xsd:enumeration value="LINEAR"/>
 		</xsd:restriction>

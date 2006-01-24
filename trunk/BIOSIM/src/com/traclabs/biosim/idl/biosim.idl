@@ -175,7 +175,6 @@ module com{
                                         enum MalfunctionLength {TEMPORARY_MALF, PERMANENT_MALF};
                                         enum LogLevel {OFF, INFO, DEBUG, WARN, ERROR, FATAL, ALL};
                                         interface Malfunction;
-                                        interface TechSpecificInfo;
                                         typedef sequence <Malfunction> MalfunctionList;
                                         interface BioModule;
                                         typedef sequence <BioModule> BioModuleList;
@@ -195,7 +194,6 @@ module com{
                                         interface TechSpecificInfo{
                                                 string print();
                                         };
-
                                         interface Malfunction{
                                                 MalfunctionIntensity getIntensity();
                                                 long long getID();
@@ -220,7 +218,6 @@ module com{
                                                 boolean isMalfunctioning();
                                                 StringList getMalfunctionNames();
                                                 MalfunctionList getMalfunctions();
-                                                TechSpecificInfo getTechSpecificInfo();
                                                 void maitenance();
                                                 void log();
                                                 void doSomeRepairWork(in long long id);
