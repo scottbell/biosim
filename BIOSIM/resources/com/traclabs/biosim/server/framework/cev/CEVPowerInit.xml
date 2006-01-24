@@ -40,10 +40,10 @@
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="Main_Power_Store"/>
 				<powerProducer desiredFlowRates="10" maxFlowRates="10" outputs="RPCMPowerStore3"/>
 			</RPCM>
-            <PowerStore capacity="20" level="20" moduleName="RPCMPowerStore1A"/>
-            <PowerStore capacity="20" level="20" moduleName="RPCMPowerStore1B"/>
-            <PowerStore capacity="20" level="20" moduleName="RPCMPowerStore2A"/>
-            <PowerStore capacity="20" level="20" moduleName="RPCMPowerStore2B"/>
+            <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore1A"/>
+            <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore1B"/>
+            <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore2A"/>
+            <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore2B"/>
             <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore3"/>
 			<GenericPowerConsumer moduleName="Navigation" powerRequired="10">
 				<powerConsumer desiredFlowRates="10 10" maxFlowRates="10 10" inputs="RPCMPowerStore1A RPCMPowerStore2A"/>

@@ -19,6 +19,7 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
 	
 	private boolean myOvertripped = false;
 	private boolean myUndertripped = false;
+	private boolean[] myInitalSwitches;
 	
 	private static final float TRIP_THRESHOLD = 5;
 	
@@ -67,6 +68,7 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
         myUndertripped = false;
         myPowerProducerDefinitionImpl.reset();
         myPowerConsumerDefinitionImpl.reset();
+		setSwitches(myInitalSwitches);
     }
 	
 	public void clearTrips(){
@@ -100,6 +102,11 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
         }
         myPowerProducerDefinitionImpl.pushResourceToStores(powerGathered);
     }
+	
+	public void setInitalSwitches(boolean[] switchValues) {
+		myInitalSwitches = switchValues;
+		setSwitches(myInitalSwitches);
+	}
 
 	public void setSwitches(boolean[] switchValues) {
 		if (switchValues.length != myPowerProducerDefinitionImpl.getFlowRateCardinality())

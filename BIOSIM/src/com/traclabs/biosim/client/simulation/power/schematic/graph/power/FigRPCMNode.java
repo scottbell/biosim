@@ -1,10 +1,12 @@
 package com.traclabs.biosim.client.simulation.power.schematic.graph.power;
 
 import java.awt.Color;
+import java.util.List;
 
 import javax.swing.JFrame;
 
 import com.traclabs.biosim.client.simulation.power.schematic.graph.FigActiveNode;
+import com.traclabs.biosim.client.simulation.power.schematic.graph.FigModuleEdge;
 import com.traclabs.biosim.client.simulation.power.schematic.ui.RPCMPropertiesFrame;
 import com.traclabs.biosim.idl.simulation.power.RPCM;
 
@@ -37,6 +39,15 @@ public class FigRPCMNode extends FigActiveNode {
 			float percentage = myRPCM.getPowerConsumerDefinition().getAveragePercentageFull();
 			myLogger.debug("percentage is "+percentage);
 			setFillColor(computeColorOnPercentage(percentage));
+		}
+		boolean[] switcheStatuses = myRPCM.getSwitchStatuses();
+		List edges = getOutBoundEdges();
+		for (int i = 0; i < edges.size(); i++){
+			FigModuleEdge currentEdge = (FigModuleEdge)edges.get(i);
+			if (switcheStatuses[i])
+				currentEdge.setFillColor(Color.BLACK);
+			else
+				currentEdge.setFillColor(Color.LIGHT_GRAY);
 		}
 	}
 
