@@ -15,7 +15,7 @@ import com.traclabs.biosim.idl.simulation.framework.Injector;
  * A simple, yet ineffective controller
  */
 
-public class IllinoisController {
+public class SimpleController {
 
 	private BioDriver myBioDriver;
 
@@ -27,13 +27,13 @@ public class IllinoisController {
 
 	private GenericActuator myO2InjectorAcutator;
 
-	public IllinoisController() {
+	public SimpleController() {
 		myLogger = Logger.getLogger(this.getClass());
 		collectReferences();
 	}
 
 	public static void main(String[] args) {
-		IllinoisController myController = new IllinoisController();
+		SimpleController myController = new SimpleController();
 		myController.runSim();
 	}
 
