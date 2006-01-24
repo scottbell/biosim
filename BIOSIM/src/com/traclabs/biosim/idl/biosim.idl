@@ -577,6 +577,8 @@ module com{
                                                         void setInitialUpperPowerGeneration(in float pUpperPowerGenerationInWatts);
                                                 };
                                                 interface GenericPowerConsumer : framework::SimBioModule, power::PowerConsumer{
+                                                		float getPercentageOfPowerAskedDelivered();
+                                                		void setPowerRequired(in float pWatts);
                                                 };
                                                 interface RPCM : framework::SimBioModule, power::PowerConsumer, power::PowerProducer{
                                                 		boolean isOvertripped();

@@ -1037,6 +1037,7 @@
 						<xsd:element name="powerConsumer" type="PowerConsumerType"/>
 					</xsd:choice>
 				</xsd:sequence>
+				<xsd:attribute name="powerRequired" type="nonNegativeFloat" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

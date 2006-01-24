@@ -233,7 +233,10 @@ public class BiosimMain {
      * Runs the sensor viewer
      */
     private void runPowerSchematic() {
-    	PowerSchematicFrame.main(new String[]{});
+        PowerSchematicFrame newPowerSchematicFrame= new PowerSchematicFrame();
+        newPowerSchematicFrame.setSize(1000, 500);
+        newPowerSchematicFrame.setLocationRelativeTo(null); 
+        newPowerSchematicFrame.setVisible(true);
     }
 }
 
