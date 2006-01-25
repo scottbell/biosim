@@ -88,6 +88,7 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
         super.tick();
         if (myUndertripped || myOvertripped)
         	return;
+        setSwitches(getSwitchStatuses());
         float powerGathered = myPowerConsumerDefinitionImpl.getMostResourceFromStores();
         //check to see if difference is greater than threshold
         if ((powerGathered - TRIP_THRESHOLD) > myPowerConsumerDefinitionImpl.getTotalDesiredFlowRate()){
@@ -100,6 +101,12 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
         	turnOff();
             myLogger.info("RPCM under tripped");
         }
+        //if we're pulling more than we can produce, overtrip
+        else if ((myPowerProducerDefinitionImpl.getTotalDesiredFlowRate() > (myPowerConsumerDefinitionImpl.getTotalDesiredFlowRate() + TRIP_THRESHOLD))){
+        	myOvertripped = true;
+        	turnOff();
+            myLogger.info("RPCM over tripped");
+        }
         myPowerProducerDefinitionImpl.pushResourceToStores(powerGathered);
     }
 	
@@ -111,18 +118,23 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
 		}
 		setSwitches(myInitalSwitches);
 	}
+	
+	public void setSwitch(int index, boolean switchValue){
+		if ((index < 0) || index > mySwitches.length)
+			return;
+		mySwitches[index] = switchValue;
+		//set to max
+		if (mySwitches[index])
+			myPowerProducerDefinitionImpl.setDesiredFlowRate(myPowerProducerDefinitionImpl.getMaxFlowRate(index), index);
+		//set to 0
+		else
+			myPowerProducerDefinitionImpl.setDesiredFlowRate(0, index);
+	}
 
 	public void setSwitches(boolean[] switchValues) {
 		mySwitches = switchValues;
-		if (mySwitches.length != myPowerProducerDefinitionImpl.getFlowRateCardinality())
-			return;
 		for (int i = 0; i < mySwitches.length; i++){
-			//set to max
-			if (mySwitches[i])
-				myPowerProducerDefinitionImpl.setDesiredFlowRate(myPowerProducerDefinitionImpl.getMaxFlowRate(i), i);
-			//set to 0
-			else
-				myPowerProducerDefinitionImpl.setDesiredFlowRate(0, i);
+			setSwitch(i, switchValues[i]);
 		}
 	}
 
