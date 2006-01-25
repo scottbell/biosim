@@ -1,5 +1,6 @@
 package com.traclabs.biosim.client.simulation.power.schematic;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.util.List;
@@ -36,6 +37,8 @@ import com.traclabs.biosim.idl.simulation.power.RPCM;
  */
 public class PowerSchematicPanel extends TimedPanel {
 	private static final int REFRESH_RATE = 250;
+	private static final Dimension DRAWING_SIZE = new Dimension(950, 350);
+	
 	private JGraph myGraph;
 
 	private PowerSchematicEditor myEditor;
@@ -54,7 +57,7 @@ public class PowerSchematicPanel extends TimedPanel {
 		myLogger = Logger.getLogger(PowerSchematicPanel.class);
 		myEditor = new PowerSchematicEditor();
 		myGraph = new JGraph(myEditor);
-		myGraph.setDrawingSize(900, 400);
+		myGraph.setDrawingSize(DRAWING_SIZE);
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myCmdTreeLayout = new CmdTreeLayout();
 		createPowerNodes();
@@ -62,6 +65,10 @@ public class PowerSchematicPanel extends TimedPanel {
 		setLayout(new GridLayout(1, 1));
 		add(myGraph);
 		setDelay(REFRESH_RATE);
+	}
+	
+	public Dimension getDrawingSize(){
+		return DRAWING_SIZE;
 	}
 
 	public void refresh() {

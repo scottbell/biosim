@@ -17,7 +17,7 @@ import com.traclabs.biosim.client.framework.UpdatablePanel;
  */
 
 public abstract class SimTabbedPanel extends UpdatablePanel {
-	private JTabbedPane myTabbedPane;
+	protected JTabbedPane myTabbedPane;
 
 	protected UpdatablePanel myTextPanel;
 
@@ -43,7 +43,7 @@ public abstract class SimTabbedPanel extends UpdatablePanel {
 		buildGui();
 	}
 
-	private SimDesktopFrame getSimFrame() {
+	protected SimDesktopFrame getSimFrame() {
 		Container theContainer = this.getParent();
 		while (theContainer != null) {
 			if (theContainer instanceof SimDesktopFrame)
@@ -97,7 +97,7 @@ public abstract class SimTabbedPanel extends UpdatablePanel {
 		return theDimension;
 	}
 
-	private void alterVisibility() {
+	protected void alterVisibility() {
 		// Notify panel that we lost focus
 		if (oldSelectedIndex == 0) {
 			myTextPanel.visibilityChange(false);

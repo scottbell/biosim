@@ -15,4 +15,12 @@ public class PowerPanel extends SimTabbedPanel {
         myChartPanel = new PowerChartPanel();
         mySchematicPanel = new PowerSchematicPanel();
     }
+    
+    protected void alterVisibility() {
+    	super.alterVisibility();
+		if (myTabbedPane.getSelectedIndex() == 2) {
+			PowerSchematicPanel powerSchematicPanel = (PowerSchematicPanel)mySchematicPanel;
+			getSimFrame().setSize(powerSchematicPanel.getDrawingSize());
+		}
+	}
 }
