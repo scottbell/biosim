@@ -24,28 +24,27 @@ public class RPCMPropertiesFrame extends JFrame {
     private FigRPCMNode myFigRPCMNode;
     
     private JPanel mySwitchPanel = new JPanel();
-    private JCheckBox[] mySwitches;
+    private EnumeratedCheckBox[] mySwitches;
     
     private JPanel myTripPanel = new JPanel();
     private JButton myOvertripButton;
     private JButton myUndertripButton;
     private JButton myClearButton;
-    private JButton myOKButton;
 
     public RPCMPropertiesFrame(FigRPCMNode pNode) {
     	myFigRPCMNode = pNode;
         ModuleNode owner = (ModuleNode) pNode.getOwner();
         myRPCM = (RPCM)owner.getSimBioModule();
-        myOKButton = new JButton(new OKAction());
         myOvertripButton = new JButton(new OvertripAction());
         myUndertripButton = new JButton(new UndertripAction());
         myClearButton = new JButton(new ClearTripsAction());
         
-        mySwitches = new JCheckBox[myRPCM.getPowerProducerDefinition().getStores().length];
+        mySwitches = new EnumeratedCheckBox[myRPCM.getPowerProducerDefinition().getStores().length];
         mySwitchPanel.setLayout(new GridLayout(1, mySwitches.length));
         boolean[] switchStatuses = myRPCM.getSwitchStatuses();
         for (int i = 0; i < mySwitches.length; i++){
-        	mySwitches[i] = new JCheckBox("Effluent "+(i + 1));
+        	String label = "Effluent "+(i + 1);
+        	mySwitches[i] = new EnumeratedCheckBox(new SwitchAction(label), i);
         	mySwitches[i].setSelected(switchStatuses[i]);
         	mySwitchPanel.add(mySwitches[i]);
 		}
@@ -58,24 +57,20 @@ public class RPCMPropertiesFrame extends JFrame {
         myTripPanel.setBorder(BorderFactory.createTitledBorder("Trips"));
         
         setTitle(myRPCM.getModuleName() + " Properties");
-        setLayout(new GridLayout(3, 1));
+        setLayout(new GridLayout(2, 1));
         add(mySwitchPanel);
         add(myTripPanel);
-        add(myOKButton);
     }
-    
-    private class OKAction extends AbstractAction {
-        public OKAction() {
-            super("OK");
-        }
+  
+    private class SwitchAction extends AbstractAction {
+    	public SwitchAction(String name){
+    		super(name);
+    	}
         public void actionPerformed(ActionEvent ae) {
-        	boolean[] switchValues = new boolean[mySwitches.length];
-        	for (int i = 0; i < switchValues.length; i++){
-        		switchValues[i] = mySwitches[i].isSelected();
-        	}
-        	myRPCM.setSwitches(switchValues);
+        	EnumeratedCheckBox checkbox = (EnumeratedCheckBox)ae.getSource();
+        	myRPCM.setSwitch(checkbox.getIndex(), checkbox.isSelected());
+        	boolean[] switchStatuses = myRPCM.getSwitchStatuses();
         	myFigRPCMNode.update();
-            dispose();
         }
     }
     
@@ -104,5 +99,16 @@ public class RPCMPropertiesFrame extends JFrame {
         public void actionPerformed(ActionEvent ae) {
         	myRPCM.clearTrips();
         }
+    }
+    
+    private class EnumeratedCheckBox extends JCheckBox{
+    	private int myIndex = 0;
+    	public EnumeratedCheckBox(AbstractAction action, int index){
+    		super(action);
+    		this.myIndex = index;
+    	}
+    	public int getIndex(){
+    		return myIndex;
+    	}
     }
 }

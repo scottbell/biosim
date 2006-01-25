@@ -587,8 +587,9 @@ module com{
                                                 		void undertrip();
                                                 		void clearTrips();
                                                 		BooleanList getSwitchStatuses();
-                                                		void setSwitches(in BooleanList switchStatuses);
-                                                		void setInitialSwitches(in BooleanList switchStatuses);
+                                                		void setSwitches(in BooleanList switchValues);
+                                                		void setSwitch(in long index, in boolean switchValue);
+                                                		void setInitialSwitches(in BooleanList switchValues);
                                                 };
                                                 interface PowerStore : framework::Store{
                                                 };
