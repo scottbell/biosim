@@ -11,6 +11,7 @@ public class FigPowerPSNode extends FigActiveNode {
         super();
         setFillColor(Color.LIGHT_GRAY);
         setLineColor(Color.RED);
+        setShadowColor(Color.GRAY);
     }
 
 	@Override

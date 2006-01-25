@@ -11,6 +11,7 @@ public class FigGenericPowerConsumerNode extends FigActiveNode {
         super();
         setLineColor(Color.WHITE);
         setFillColor(Color.LIGHT_GRAY);
+        setShadowColor(Color.GRAY);
     }
 
 	@Override

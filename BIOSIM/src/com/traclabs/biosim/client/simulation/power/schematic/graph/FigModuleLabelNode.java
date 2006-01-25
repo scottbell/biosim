@@ -20,10 +20,7 @@ import org.apache.log4j.Logger;
  */
 public abstract class FigModuleLabelNode extends FigModuleNode {
     protected FigLabel myNameLabel;
-    protected FigLabel myDescriptionLabel;
     
-    private static final int X_DESCRIPTION_OFFSET = 17;
-    private static final int Y_DESCRIPTION_OFFSET = 15;
     protected Logger myLogger;
     
     public FigModuleLabelNode() {
@@ -35,19 +32,12 @@ public abstract class FigModuleLabelNode extends FigModuleNode {
         // Add the label on top.
         myNameLabel = new FigLabel(38, 0, 0, 0);
         myNameLabel.setText("Unnamed");
-        myNameLabel.setFontSize(14);
+        myNameLabel.setFontSize(11);
         myNameLabel.setFont(myNameLabel.getFont().deriveFont(Font.BOLD));
         myNameLabel.addPropertyChangeListener(new LabelEditingListener());
 
         addFig(myNameLabel);
-        
-        myDescriptionLabel = new FigLabel(myNameLabel.getX() + X_DESCRIPTION_OFFSET, myNameLabel.getY() + Y_DESCRIPTION_OFFSET, 0, 0);
-        myDescriptionLabel.setText("");
-        myDescriptionLabel.setFontSize(8);
-        myDescriptionLabel.addPropertyChangeListener(new LabelEditingListener());
-
         addFig(myNameLabel);
-        addFig(myDescriptionLabel);
     }
 
     /**
@@ -56,16 +46,6 @@ public abstract class FigModuleLabelNode extends FigModuleNode {
     public String getNameText() {
         return myNameLabel.getText();
     }
-    
-    public void setDescriptionText(String text){
-        myDescriptionLabel.setText(text);
-        myDescriptionLabel.setX(myNameLabel.getX() + X_DESCRIPTION_OFFSET);
-        myDescriptionLabel.setY(myNameLabel.getY() + Y_DESCRIPTION_OFFSET);
-        damage();
-    }
-
-    
-
     /**
      * Resizes the node so that it is large enough to accomodate the size of the
      * label.
@@ -93,16 +73,14 @@ public abstract class FigModuleLabelNode extends FigModuleNode {
 
     public Dimension getMinimumSize() {
         Dimension dimName = myNameLabel.getSize();
-        Dimension dimDescription = myDescriptionLabel.getSize();
-        int w = (int) Math.max(dimName.getWidth() + dimDescription.getWidth() + 30, 30);
-        int h = (int) Math.max(dimName.getHeight() +  dimDescription.getHeight() + 30, 30);
+        int w = (int) Math.max(dimName.getWidth() + 30, 30);
+        int h = (int) Math.max(dimName.getHeight() + 30, 30);
         return new Dimension(w, h);
     }
 
     public void setLineColor(Color col) {
         super.setLineColor(col);
         setTextLineColor(myNameLabel, col);
-        setTextLineColor(myDescriptionLabel, col);
     }
 
     @SuppressWarnings("deprecation")
@@ -115,7 +93,6 @@ public abstract class FigModuleLabelNode extends FigModuleNode {
         // Translate the label to the center.
         Point textCenter = myNameLabel.center();
         myNameLabel.translate(center.x - textCenter.x, center.y - textCenter.y);
-        myDescriptionLabel.translate(center.x - textCenter.x, center.y - textCenter.y);
         super.setBounds(x, y, w, h);
     }
 
@@ -130,7 +107,7 @@ public abstract class FigModuleLabelNode extends FigModuleNode {
     
     private class LabelEditingListener implements PropertyChangeListener{
         public void propertyChange(PropertyChangeEvent evt) {
-            if ((evt.getSource() == myNameLabel) || (evt.getSource() == myDescriptionLabel))
+            if (evt.getSource() == myNameLabel)
                 if (evt.getPropertyName().equals("editing")) {
                 Boolean newValue = (Boolean) evt.getNewValue();
                 if (newValue.booleanValue() == false) {
