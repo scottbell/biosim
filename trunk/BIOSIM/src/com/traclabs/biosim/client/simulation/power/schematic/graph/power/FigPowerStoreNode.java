@@ -12,6 +12,7 @@ public class FigPowerStoreNode extends FigStoreNode {
         super();
         setFillColor(Color.LIGHT_GRAY);
         setLineColor(Color.BLUE);
+        setShadowColor(Color.GRAY);
     }
 
 	@Override

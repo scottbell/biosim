@@ -24,15 +24,6 @@ public abstract class FigStoreNode extends FigPassiveNode {
             return;
         myStoreSensed = pStoreSensed;
         StoreNode theStoreNode = (StoreNode)getOwner();
-        if (myStoreSensed){
-            theStoreNode.addSensor();
-            setDescriptionText("sensed");
-            
-        }
-        else{
-            theStoreNode.removeSensor();
-            setDescriptionText("");
-        }
         
     }
 } /* end class FigGoToNode */
