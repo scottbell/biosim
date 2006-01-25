@@ -153,7 +153,7 @@
             </PowerPS>
             <RPCM moduleName="RPCM_1">
 				<powerConsumer desiredFlowRates="20" maxFlowRates="20" inputs="Main_Power_Store"/>
-				<powerProducer desiredFlowRates="10 10" maxFlowRates="10 10" outputs="RPCMPowerStore1B RPCMPowerStore1A"/>
+				<powerProducer desiredFlowRates="10 10" maxFlowRates="10 10" outputs="RPCMPowerStore1A RPCMPowerStore1B"/>
 			</RPCM>
 			<RPCM moduleName="RPCM_2" switchValues="0 1">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="Main_Power_Store"/>

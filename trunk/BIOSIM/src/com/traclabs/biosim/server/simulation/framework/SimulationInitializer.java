@@ -1549,7 +1549,6 @@ public class SimulationInitializer {
 			myLogger.debug("Creating RPCM with moduleName: " + moduleName);
 			RPCMImpl myRPCMImpl = null;
 			myRPCMImpl = new RPCMImpl(myID, moduleName);
-			myRPCMImpl.setInitalSwitches(getSwitchValues(node));
 			BiosimInitializer.setupBioModule(myRPCMImpl, node);
 			BiosimServer.registerServer(new RPCMPOATie(myRPCMImpl), myRPCMImpl
 					.getModuleName(), myRPCMImpl.getID());
@@ -1561,6 +1560,7 @@ public class SimulationInitializer {
 		RPCM myRPCM = RPCMHelper.narrow(BiosimInitializer.grabModule(myID,
 				BiosimInitializer.getModuleName(node)));
 		configureSimBioModule(myRPCM, node);
+		myRPCM.setInitialSwitches(getSwitchValues(node));
 		myActiveSimModules.add(myRPCM);
 	}
 

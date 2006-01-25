@@ -3,6 +3,8 @@
  */
 package com.traclabs.biosim.server.simulation.power;
 
+import java.util.Arrays;
+
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerProducerDefinition;
@@ -20,6 +22,7 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
 	private boolean myOvertripped = false;
 	private boolean myUndertripped = false;
 	private boolean[] myInitalSwitches;
+	private boolean[] mySwitches;
 	
 	private static final float TRIP_THRESHOLD = 5;
 	
@@ -51,10 +54,7 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
 	}
 
 	public boolean[] getSwitchStatuses() {
-		boolean[] switchStatuses = new boolean[myPowerProducerDefinitionImpl.getFlowRateCardinality()];
-		for (int i = 0; i < switchStatuses.length; i++)
-			switchStatuses[i] = myPowerProducerDefinitionImpl.getDesiredFlowRate(i) > 0;
-	    return switchStatuses;
+		return mySwitches;
 	}
 	
 	public void turnOff(){
@@ -103,17 +103,22 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
         myPowerProducerDefinitionImpl.pushResourceToStores(powerGathered);
     }
 	
-	public void setInitalSwitches(boolean[] switchValues) {
+	public void setInitialSwitches(boolean[] switchValues) {
 		myInitalSwitches = switchValues;
+		if (myInitalSwitches.length != myPowerProducerDefinitionImpl.getFlowRateCardinality()){
+			myInitalSwitches = new boolean[myPowerProducerDefinitionImpl.getFlowRateCardinality()];
+			Arrays.fill(myInitalSwitches, true);
+		}
 		setSwitches(myInitalSwitches);
 	}
 
 	public void setSwitches(boolean[] switchValues) {
-		if (switchValues.length != myPowerProducerDefinitionImpl.getFlowRateCardinality())
+		mySwitches = switchValues;
+		if (mySwitches.length != myPowerProducerDefinitionImpl.getFlowRateCardinality())
 			return;
-		for (int i = 0; i < switchValues.length; i++){
+		for (int i = 0; i < mySwitches.length; i++){
 			//set to max
-			if (switchValues[i])
+			if (mySwitches[i])
 				myPowerProducerDefinitionImpl.setDesiredFlowRate(myPowerProducerDefinitionImpl.getMaxFlowRate(i), i);
 			//set to 0
 			else
