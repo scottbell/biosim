@@ -33,6 +33,17 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	
+	<xsd:simpleType name="switchList">
+		<xsd:list itemType="switchValue"/>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="switchValue">
+		<xsd:restriction base="xsd:integer">
+			<xsd:enumeration value="0"/>
+			<xsd:enumeration value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
 	<!-- Top level element declaration -->	
 	<xsd:element name="biosim" type="BioSimType">
 		<xsd:unique name="nameIsKey">
@@ -1051,7 +1062,7 @@
 						<xsd:element name="powerProducer" type="PowerProducerType"/>
 					</xsd:choice>
 				</xsd:sequence>
-				<xsd:attribute name="switchValues" type="booleanList" use="optional"/>
+				<xsd:attribute name="switchValues" type="switchList" use="optional"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

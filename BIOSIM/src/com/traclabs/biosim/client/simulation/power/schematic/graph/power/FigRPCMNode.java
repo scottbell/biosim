@@ -42,12 +42,20 @@ public class FigRPCMNode extends FigActiveNode {
 		}
 		boolean[] switcheStatuses = myRPCM.getSwitchStatuses();
 		List edges = getOutBoundEdges();
-		for (int i = 0; i < edges.size(); i++){
+		for (int i = 0; i < switcheStatuses.length; i++){
 			FigModuleEdge currentEdge = (FigModuleEdge)edges.get(i);
-			if (switcheStatuses[i])
+			if (switcheStatuses[i]){
 				currentEdge.setFillColor(Color.BLACK);
-			else
+				currentEdge.setLineColor(Color.BLACK);
+				currentEdge.getDestArrowHead().setFillColor(Color.BLACK);
+				currentEdge.setDashed(false);
+			}
+			else{
 				currentEdge.setFillColor(Color.LIGHT_GRAY);
+				currentEdge.setLineColor(Color.LIGHT_GRAY);
+				currentEdge.setDashed(true);
+				currentEdge.getDestArrowHead().setFillColor(Color.LIGHT_GRAY);
+			}
 		}
 	}
 

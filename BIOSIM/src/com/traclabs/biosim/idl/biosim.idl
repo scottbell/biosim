@@ -588,6 +588,7 @@ module com{
                                                 		void clearTrips();
                                                 		BooleanList getSwitchStatuses();
                                                 		void setSwitches(in BooleanList switchStatuses);
+                                                		void setInitialSwitches(in BooleanList switchStatuses);
                                                 };
                                                 interface PowerStore : framework::Store{
                                                 };
