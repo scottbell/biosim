@@ -24,17 +24,17 @@
 			</VCCR>
 		</air>
 		<power>
-            <PowerPS moduleName="FuelCell">
+            <PowerStore capacity="1000000" level="1000000" moduleName="Main_Power_Store"/>
+			<PowerPS moduleName="FuelCell">
                 <powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="Main_Power_Store"/>
             </PowerPS>
-			<PowerStore capacity="1000000" level="1000000" moduleName="Main_Power_Store"/>
             <RPCM moduleName="RPCM_1">
-				<powerConsumer desiredFlowRates="20" maxFlowRates="20" inputs="Main_Power_Store"/>
-				<powerProducer desiredFlowRates="10 10" maxFlowRates="10 10" outputs="RPCMPowerStore1B RPCMPowerStore1A"/>
+				<powerConsumer desiredFlowRates="30" maxFlowRates="30" inputs="Main_Power_Store"/>
+				<powerProducer desiredFlowRates="10 10 10" maxFlowRates="10 10 10" outputs="RPCMPowerStore1C RPCMPowerStore1B RPCMPowerStore1A"/>
 			</RPCM>
-			<RPCM moduleName="RPCM_2" switchValues="0 1">
-				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="Main_Power_Store"/>
-				<powerProducer desiredFlowRates="10 10" maxFlowRates="10 10" outputs="RPCMPowerStore2A RPCMPowerStore2B"/>
+			<RPCM moduleName="RPCM_2" switchValues="0 1 1">
+				<powerConsumer desiredFlowRates="20" maxFlowRates="20" inputs="Main_Power_Store"/>
+				<powerProducer desiredFlowRates="10 10 10" maxFlowRates="10 10 10" outputs="RPCMPowerStore2A RPCMPowerStore2B RPCMPowerStore2C"/>
 			</RPCM>
 			<RPCM moduleName="RPCM_3">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="Main_Power_Store"/>
@@ -42,19 +42,27 @@
 			</RPCM>
             <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore1A"/>
             <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore1B"/>
+            <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore1C"/>
             <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore2A"/>
             <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore2B"/>
+            <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore2C"/>
             <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore3"/>
+			<GenericPowerConsumer moduleName="Laboratory" powerRequired="10">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1C"/>
+			</GenericPowerConsumer>
+			<GenericPowerConsumer moduleName="Comm" powerRequired="10">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1B"/>
+			</GenericPowerConsumer>
 			<GenericPowerConsumer moduleName="Navigation" powerRequired="10">
 				<powerConsumer desiredFlowRates="10 10" maxFlowRates="10 10" inputs="RPCMPowerStore1A RPCMPowerStore2A"/>
-			</GenericPowerConsumer>
-			<GenericPowerConsumer moduleName="Laboratory" powerRequired="10">
-				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1B"/>
 			</GenericPowerConsumer>
 			<GenericPowerConsumer moduleName="Cabin_Lights" powerRequired="10">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore2B"/>
 			</GenericPowerConsumer>
-			<GenericPowerConsumer moduleName="Health_Monitoring" powerRequired="10">
+			<GenericPowerConsumer moduleName="Exercise" powerRequired="10">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore2C"/>
+			</GenericPowerConsumer>
+			<GenericPowerConsumer moduleName="Thermal" powerRequired="10">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore3"/>
 			</GenericPowerConsumer>
         </power>

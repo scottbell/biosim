@@ -152,32 +152,40 @@
                 <powerProducer desiredFlowRates="0.0" maxFlowRates="0.0" outputs="Main_Power_Store"/>
             </PowerPS>
             <RPCM moduleName="RPCM_1">
-				<powerConsumer desiredFlowRates="20" maxFlowRates="20" inputs="Main_Power_Store"/>
-				<powerProducer desiredFlowRates="10 10" maxFlowRates="10 10" outputs="RPCMPowerStore1A RPCMPowerStore1B"/>
+				<powerConsumer desiredFlowRates="30" maxFlowRates="30" inputs="Main_Power_Store"/>
+				<powerProducer desiredFlowRates="10 10 10" maxFlowRates="10 10 10" outputs="RPCMPowerStore1C RPCMPowerStore1B RPCMPowerStore1A"/>
 			</RPCM>
-			<RPCM moduleName="RPCM_2" switchValues="0 1">
-				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="Main_Power_Store"/>
-				<powerProducer desiredFlowRates="10 10" maxFlowRates="10 10" outputs="RPCMPowerStore2A RPCMPowerStore2B"/>
+			<RPCM moduleName="RPCM_2" switchValues="0 1 1">
+				<powerConsumer desiredFlowRates="20" maxFlowRates="20" inputs="Main_Power_Store"/>
+				<powerProducer desiredFlowRates="10 10 10" maxFlowRates="10 10 10" outputs="RPCMPowerStore2A RPCMPowerStore2B RPCMPowerStore2C"/>
 			</RPCM>
 			<RPCM moduleName="RPCM_3">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="Main_Power_Store"/>
 				<powerProducer desiredFlowRates="10" maxFlowRates="10" outputs="RPCMPowerStore3"/>
 			</RPCM>
-            <PowerStore capacity="20" level="20" moduleName="RPCMPowerStore1A"/>
-            <PowerStore capacity="20" level="20" moduleName="RPCMPowerStore1B"/>
-            <PowerStore capacity="20" level="20" moduleName="RPCMPowerStore2A"/>
-            <PowerStore capacity="20" level="20" moduleName="RPCMPowerStore2B"/>
+            <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore1A"/>
+            <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore1B"/>
+            <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore1C"/>
+            <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore2A"/>
+            <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore2B"/>
+            <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore2C"/>
             <PowerStore capacity="10" level="10" moduleName="RPCMPowerStore3"/>
+			<GenericPowerConsumer moduleName="Laboratory" powerRequired="10">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1C"/>
+			</GenericPowerConsumer>
+			<GenericPowerConsumer moduleName="Comm" powerRequired="10">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1B"/>
+			</GenericPowerConsumer>
 			<GenericPowerConsumer moduleName="Navigation" powerRequired="10">
 				<powerConsumer desiredFlowRates="10 10" maxFlowRates="10 10" inputs="RPCMPowerStore1A RPCMPowerStore2A"/>
-			</GenericPowerConsumer>
-			<GenericPowerConsumer moduleName="Laboratory" powerRequired="10">
-				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore1B"/>
 			</GenericPowerConsumer>
 			<GenericPowerConsumer moduleName="Cabin_Lights" powerRequired="10">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore2B"/>
 			</GenericPowerConsumer>
-			<GenericPowerConsumer moduleName="Health_Monitoring" powerRequired="10">
+			<GenericPowerConsumer moduleName="Exercise" powerRequired="10">
+				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore2C"/>
+			</GenericPowerConsumer>
+			<GenericPowerConsumer moduleName="Thermal" powerRequired="10">
 				<powerConsumer desiredFlowRates="10" maxFlowRates="10" inputs="RPCMPowerStore3"/>
 			</GenericPowerConsumer>
 		</power>
@@ -213,10 +221,12 @@
 			<PowerInFlowRateSensor index="0" input="RPCM_1" moduleName="RPCM_1_PowerInSensor"/>
 			<PowerInFlowRateSensor index="0" input="RPCM_2" moduleName="RPCM_2_PowerInSensor"/>
 			<PowerInFlowRateSensor index="0" input="RPCM_3" moduleName="RPCM_3_PowerInSensor"/>
-			<PowerInFlowRateSensor index="0" input="Navigation" moduleName="Navigation_PowerInSensor"/>
 			<PowerInFlowRateSensor index="0" input="Laboratory" moduleName="Laboratory_PowerInSensor"/>
+			<PowerInFlowRateSensor index="0" input="Comm" moduleName="Comm_PowerInSensor"/>
+			<PowerInFlowRateSensor index="0" input="Navigation" moduleName="Navigation_PowerInSensor"/>
 			<PowerInFlowRateSensor index="0" input="Cabin_Lights" moduleName="Cabin_Lights_PowerInSensor"/>
-			<PowerInFlowRateSensor index="0" input="Health_Monitoring" moduleName="Health_Monitoring_PowerInSensor"/>
+			<PowerInFlowRateSensor index="0" input="Exercise" moduleName="Exercise_PowerInSensor"/>
+			<PowerInFlowRateSensor index="0" input="Thermal" moduleName="Thermal_PowerInSensor"/>
 		</power>
 	</Sensors>
 	<Actuators>
