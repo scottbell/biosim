@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.client.control.HandController;
 import com.traclabs.biosim.client.control.SimCommandLine;
+import com.traclabs.biosim.client.control.SimpleController;
 import com.traclabs.biosim.client.framework.apollo13.Apollo13Viewer;
 import com.traclabs.biosim.client.sensor.framework.SensorViewer;
 import com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisPanel;
@@ -52,6 +53,7 @@ public class BiosimMain {
         boolean wantsToRunSensorViewer = false;
         boolean wantsToRunApollo13Viewer = false;
         boolean wantsToRunPowerSchematic = false;
+        boolean wantsToRunSimpleController = false;
         boolean unrealServerGiven = false;
         String unrealServer = "";
         for (int i = 0; i < myArgs.length; i++) {
@@ -61,6 +63,8 @@ public class BiosimMain {
                 wantsToRunCommandLine = true;
             } else if (myArgs[i].equals("controller")) {
                 wantsToRunController = true;
+            } else if (myArgs[i].equals("simple-controller")) {
+            	wantsToRunSimpleController = true;
             } else if (myArgs[i].equals("unreal")) {
                 wantsToRunUnreal = true;
             } else if (myArgs[i].equals("photosynthesis")) {
@@ -143,6 +147,8 @@ public class BiosimMain {
             runPhotosynthesis();
         else if (wantsToRunController)
             runHandController();
+        else if (wantsToRunSimpleController)
+            runSimpleController();
         else if (wantsToRunSensorViewer)
             runSensorViewer();
         else if (wantsToRunApollo13Viewer)
@@ -187,6 +193,11 @@ public class BiosimMain {
 
     private void runHandController() {
         HandController myController = new HandController();
+        myController.runSim();
+    }
+    
+    private void runSimpleController() {
+        SimpleController myController = new SimpleController();
         myController.runSim();
     }
 
