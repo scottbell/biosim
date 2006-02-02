@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<!-- JNLP File for BioSim -->
+
+<!-- If you're seeing this in your web browser, you probably need to
+     download and install the Sun JRE from http://java.sun.com/getjava -->
+
+<jnlp spec="1.0+" codebase="http://www.traclabs.com/biosim/jnlp" href="biosim.jnlp">
+  <information>
+    <title>BioSim</title>
+    <vendor>TRACLabs and NASA Johnson Space Center</vendor>
+    <homepage href="http://www.traclabs.com/biosim"/>
+    <description kind="short">A dynamic life support simulation.</description>
+    <description>A dynamic life support simulation.</description>
+	<icon href="biosim.gif"/>
+	<offline-allowed/>
+  </information>
+  <security>
+    <all-permissions/>
+  </security>
+	<resources>
+		<j2se version="1.5+" href="http://java.sun.com/products/autodl/j2se"/>
+		<jar href="biosim.jar"/>
+		<property name="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
+		<property name="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
+	</resources>
+  <application-desc main-class="com.traclabs.biosim.framework.BiosimStandalone"/>
+</jnlp>
