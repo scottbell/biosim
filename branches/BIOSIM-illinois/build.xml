@@ -1,6 +1,6 @@
 <project name="BioSim" default="build" basedir=".">
 	<description>
-        Build file for BioSim
+        Build file for BioSim illinois
 		by Scott Bell
 	</description>
 	<!-- set global properties for this build -->
