@@ -62,7 +62,7 @@
 			</Injector>
 		</framework>
 		<power>
-			<PowerStore moduleName="BasePowerStore" capacity="500000" level="500000"/>
+			<PowerStore moduleName="BasePowerStore" capacity="500000000" level="500000000"/>
 		</power>
 		<water>
 			<WaterRS moduleName="CrewWaterRS" implementation="LINEAR">
