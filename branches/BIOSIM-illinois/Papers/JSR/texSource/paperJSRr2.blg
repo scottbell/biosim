@@ -1,0 +1,65 @@
+This is BibTeX, Version 0.99c (Web2c 7.5.2)
+The top-level auxiliary file: paperJSRr2.aux
+The style file: aiaa.bst
+Database file #1: biosim.bib
+I was expecting a `,' or a `}'---line 699 of file biosim.bib
+ : number = 1
+ :           -2,
+I'm skipping whatever remains of this entry
+Unbalanced braces---line 869 of file biosim.bib
+ : page = "1811--1822
+ :                   }
+I'm skipping whatever remains of this entry
+Warning--empty pages in yeh_etal04
+Warning--empty pages in jones02
+Warning--empty pages in finn98
+Warning--empty pages in ordonez_etal04
+Warning--empty pages in klien_etal04
+Warning--empty pages in sasaki_etal01
+Warning--empty pages in keane_brown96
+Warning--empty pages in kortenkamp_bell03
+Warning--empty pages in goudarzi_ting99
+Warning--empty pages in barta_etal99
+Warning--empty pages in jones_cavazzoni00
+You've used 42 entries,
+            2292 wiz_defined-function locations,
+            777 strings with 11420 characters,
+and the built_in function-call counts, 6965 in all, are:
+= -- 420
+> -- 377
+< -- 26
++ -- 144
+- -- 102
+* -- 664
+:= -- 1092
+add.period$ -- 81
+call.type$ -- 42
+change.case$ -- 0
+chr.to.int$ -- 0
+cite$ -- 53
+duplicate$ -- 426
+empty$ -- 775
+format.name$ -- 102
+if$ -- 1487
+int.to.chr$ -- 0
+int.to.str$ -- 42
+missing$ -- 34
+newline$ -- 130
+num.names$ -- 43
+pop$ -- 141
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 115
+stack$ -- 0
+substring$ -- 39
+swap$ -- 142
+text.length$ -- 26
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 11
+while$ -- 43
+width$ -- 44
+write$ -- 363
+(There were 2 error messages)
