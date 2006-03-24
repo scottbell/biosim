@@ -1,0 +1,110 @@
+\begin{figure*}
+[htb]
+\includegraphics{Images/biosim_w_eva-flattened}
+\caption{A comprehensive listing of the modules modeled by BioSim
+  comprising an example life support system}
+\label{fig:biosim}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}
+[htb]
+\includegraphics{Images/utility_fig1}
+\caption{System evolution is depicted as the genetic algorithm
+  attempts more trials in configuration 1 run D.}
+\label{fig:utilityFig}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}
+[htb]
+\includegraphics{Images/UGLY_VCCR}
+\caption{The relationship between fitness and VCCR power consumption
+  in configuration 1 run B. No concrete conclusion can be made regarding VCCR
+  sizing from this output, as is the case with all replications of the
+  GA with configuration 1.}
+\label{fig:uglyVCCR}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}
+[htb]
+\includegraphics{Images/foodMin}
+\caption{Adequate food is critical for mission success as is shown
+  here in configuration 2 run A, where a minimum food masses are
+  related to mission  length, and thus fitness.}
+\label{fig:foodMin}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}
+[htb]
+\includegraphics{Images/waterPow}
+\caption{Excessive power consumption is shown to be a limiting
+  factor in enabling missions of extended duration. Diagram `a' shows
+  the relation of the crew water recovery system in configuration 3
+  run D. Diagram `b' shows the same relation for the crop
+water recovery system  in the same simulation.}
+\label{fig:waterRS}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}
+[htb]
+\includegraphics{Images/ogs}
+\caption{Although power issues are critical, it is possible to
+  identify minimum power expenditures to ensure a viable
+  system in configuration 5 run D. However, a maximum threshold for
+  power consumption also exists in this case.}
+\label{fig:ogsminmax}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}
+[htb]
+\includegraphics{Images/resRedPowSt}
+\caption{The fitness function is capable of identifying configurations
+which consume fewer resources. All configurations pictured complete
+the requisite 90-day mission. Evidently those systems with minimal
+power storage have higher fitness in configuration 2 run B.}
+\label{fig:resources}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}
+[htb]
+\includegraphics{Images/clean_vccr}
+\caption{In configuration 4 run C, it can be seen that the VCCR can be
+sized very precisely. This is true for configurations 2-5.}
+\label{fig:nicevccr}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}
+[htb]
+\includegraphics{Images/sizing}
+\caption{Sizing of various system components in each configuration is
+  shown with 95\% confidence intervals.}
+\label{fig:compsize}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}
+[htb]
+\includegraphics{Images/vccrSizing}
+\caption{Average sizing and error bounds of the VCCR component in each
+  configuration. The VCCR component was not precisely sized in
+  configuration 1, but was very precisely sized in configurations 2--5.}
+\label{fig:vccrsize}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}
+[htb]
+\includegraphics{Images/esmProxy}
+\caption{Fitness, being designed based upon ESM, can be utilized as a
+  proxy for ESM. Each configuration is contrasted based upon this proxy.}
+\label{fig:esm}
+\end{figure*}
+\efloatseparator
+ 

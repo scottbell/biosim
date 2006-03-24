@@ -1,0 +1,11 @@
+\contentsline {figure}{\numberline {1}{\ignorespaces BioSim modules in an example life support system configuration.}}{26}
+\contentsline {figure}{\numberline {2}{\ignorespaces Evolution of the fitness function in configuration 1 run D.}}{27}
+\contentsline {figure}{\numberline {3}{\ignorespaces VCCR power consumption versus utility in configuration 1 run B; demonstrating that VCCR sizing is not critical.}}{28}
+\contentsline {figure}{\numberline {4}{\ignorespaces Required food mass in configuration 2 run A; demonstrating a direct relationship for minimum food mass and mission length.}}{29}
+\contentsline {figure}{\numberline {5}{\ignorespaces Power consumption of the independent water recovery systems in configuration 3 run D for both the crew `a' and the crops `b'; demonstrating maxima identified by the genetic algorithm.}}{30}
+\contentsline {figure}{\numberline {6}{\ignorespaces Oxygen generation system power consumption in configuration 5 run D; demonstrating that both minima and maxima can be identified.}}{31}
+\contentsline {figure}{\numberline {7}{\ignorespaces Available power storage in configuration 2 run C in systems meeting the 90 day objective; demonstrating the minimization of resources.}}{32}
+\contentsline {figure}{\numberline {8}{\ignorespaces VCCR power consumption in configuration 4 run C; demonstrating precise sizing by the genetic algorithm.}}{33}
+\contentsline {figure}{\numberline {9}{\ignorespaces Average sizing with 95\% confidence intervals of various system components in each configuration.}}{34}
+\contentsline {figure}{\numberline {10}{\ignorespaces Average sizing and 95\% confidence intervals of the VCCR component in each configuration.}}{35}
+\contentsline {figure}{\numberline {11}{\ignorespaces Average values of the proxy for ESM in each configuration.}}{36}

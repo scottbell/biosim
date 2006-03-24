@@ -1,0 +1,73 @@
+\begin{table*}
+[htb]
+\centering
+\begin{tabular}{l c c c c c c}
+\hline
+& & \multicolumn{5}{c}{Scenarios} \\
+Attribute & Range & 1 & 2 & 3 & 4 & 5 \\
+\hline \hline
+${\rm O}_2$ Injector Flow Rate & 0--30 ${mol \over hr}$ & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\hline
+OGS Power Consumption & 0--2,500 $W$ & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\hline
+VCCR Power Consumption & 0--100,000 $W$ & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\hline
+Power Production & 0--700,000 $W$ & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\hline
+${\rm O}_2$ Store Capacity/Initial Level & 0--2,000 $mol$ & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\hline
+Power Storage Capacity/Initial Level & 0--500,000 $W$ & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\hline
+Food Storage Capacity/Initial Level & 0--2,000 $kg$ & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\hline
+Crew Environment Volume & 0--2,000,000 $L$ & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\hline
+Crop Environment Volume & 0--2,000,000 $L$ & & & & \checkmark & \checkmark \\
+\hline
+Tomato Shelf Size & 0--20 $m^2$ & & \checkmark & \checkmark & \checkmark & \checkmark \\ \hline
+Lettuce Shelf Size & 0--20 $m^2$ & & \checkmark & \checkmark & \checkmark & \checkmark \\ \hline
+Integrated Water RS Power Consumption & 0--3,000 $W$ & \checkmark & \checkmark & & \checkmark \\
+Crew Water RS Power Consumption & 0--3,000 $W$ & & & \checkmark & & \checkmark \\
+Crop Water RS Power Consumption & 0--3,000 $W$ & & & \checkmark & & \checkmark \\ \hline
+Integrated Potable Water Storage Capacity/Initial Level & 0--8,000 $L$ & \checkmark & \checkmark & & \checkmark \\
+Crew Potable Water Storage Capacity/Initial Level & 0--8,000 $L$ & & & \checkmark & & \checkmark \\
+Crop Potable Water Storage Capacity/Initial Level & 0--8,000 $L$ & & & \checkmark & & \checkmark \\ \hline
+Integrated Grey Water Storage Capacity/Initial Level & 0--4,000 $L$ & \checkmark & \checkmark & & \checkmark \\
+Crew Grey Water Storage Capacity/Initial Level & 0--4,000 $L$ & & & \checkmark & & \checkmark \\
+Crop Grey Water Storage Capacity/Initial Level & 0--4,000 $L$ & & & \checkmark & & \checkmark \\ \hline
+Integrated Dirty Water Storage Capacity/Initial Level & 0--5,000 $L$ & \checkmark & \checkmark & & \checkmark \\
+Crew Dirty Water Storage Capacity/Initial Level & 0--5,000 $L$ & & & \checkmark & & \checkmark \\
+Crop Dirty Water Storage Capacity/Initial Level & 0--5,000 $L$ & & & \checkmark & & \checkmark \\ \hline
+\end{tabular}
+\caption{A listing of the attributes considered by the genetic algorithm including units and categorized by scenario.}
+\label{tab:attributes}
+\end{table*}
+\efloatseparator
+ 
+\begin{table*}
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|}  \hline
+Attribute & Attribute Unit & Weight & Weight Unit\\ \hline\hline
+${\rm O}_2$ Injector & mol/hr & $2.1060 \times 10^{-4}$ & $kg-hr/mol$ \\ \hline
+VCCR power req & W & 0.0000E+00 & kg/W \\ \hline
+OGS power req & W & 0.0000E+00 & kg/W \\ \hline
+Power production & W & 6.2000E-02 & kg/W \\ \hline
+Crew/crop volume & L & 1.3310E-01 & kg/L \\ \hline
+${\rm O}_2$ storage & mol & 3.3088E-02 & kg/mol \\ \hline
+Power storage & W & 6.8700E-01 & kg/W \\ \hline
+Food storage & kg & 2.3600E+00 & kg/kg \\ \hline
+Tomato shelf size & $m^2$ & 3.7010E+01 & kg/$m^2$ \\ \hline
+Lettuce shelf size & $m^2$ & 3.7010E+01 & kg/$m^2$ \\ \hline
+WaterRS power req & W & 0.0000E+00 & kg/W \\ \hline
+Potable water storage & L & 1.0684E+00 & kg/L \\ \hline
+Grey water storage & L & 1.0684E+00 & kg/L \\ \hline
+Dirty water storage & L & 1.0684E+00 & kg/L \\ \hline
+\end{tabular}
+\end{center}
+\caption{The configurable attributes and their contribution to the
+  utility function}
+\label{tab:weights}
+\end{table*}
+\efloatseparator
+ 
