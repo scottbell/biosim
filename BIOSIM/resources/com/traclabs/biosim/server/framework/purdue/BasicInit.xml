@@ -9,7 +9,7 @@
 	</Globals>
 	<SimBioModules>
 		<crew>
-			<CrewGroup moduleName="BaseCrewGroup">
+			<CrewGroup moduleName="CrewGroup">
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
 				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="Environment"/>
 				<foodConsumer maxFlowRates="100" desiredFlowRates="100" inputs="FoodStore"/>
@@ -73,6 +73,17 @@
 		<food>
 			<BiomassStore moduleName="BiomassStore" capacity="10000" level="0"/>
 			<FoodStore moduleName="FoodStore" capacity="2000000" level="2000000"/>
+			<BiomassPS moduleName="BiomassPS">
+				<shelf cropArea="20" cropType="WHEAT"/>
+				<shelf cropArea="20" cropType="TOMATO"/>
+				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="PowerStore"/>
+				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
+				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="GreyWaterStore"/>
+				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="Environment"/>
+				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
+				<biomassProducer maxFlowRates="100" desiredFlowRates="100" outputs="BiomassStore"/>
+				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="Environment"/>
+			</BiomassPS>
 		</food>
 		<power>
 			<PowerStore moduleName="PowerStore" capacity="50000000" level="50000000"/>
@@ -86,5 +97,13 @@
 			<DryWasteStore moduleName="DryWasteStore" capacity="5000" level="0"/>
 		</waste>
 	</SimBioModules>
+	<Sensors>
+		<air>
+			<O2InFlowRateSensor index="0" input="CrewGroup" moduleName="CrewGroupO2Sensor"/>
+			<CO2OutFlowRateSensor index="0" input="CrewGroup" moduleName="CrewGroupCO2Sensor"/>
+			<O2OutFlowRateSensor index="0" input="BiomassPS" moduleName="BiomassO2Sensor"/>
+			<CO2InFlowRateSensor index="0" input="BiomassPS" moduleName="BiomassCO2Sensor"/>
+		</air>
+	</Sensors>
 </biosim>
 
