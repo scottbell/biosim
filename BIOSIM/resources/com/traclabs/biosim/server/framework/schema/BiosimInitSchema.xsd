@@ -93,24 +93,24 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	
+	<xsd:complexType name="AirSimBioModulesType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="OGS" type="OGSType"/>
+				<xsd:element name="CRS" type="CRSType"/>
+				<xsd:element name="VCCR" type="VCCRType"/>
+				<xsd:element name="O2Store" type="O2StoreType"/>
+				<xsd:element name="CO2Store" type="CO2StoreType"/>
+				<xsd:element name="H2Store" type="H2StoreType"/>
+				<xsd:element name="NitrogenStore" type="NitrogenStoreType"/>
+				<xsd:element name="MethaneStore" type="NitrogenStoreType"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	
 	<xsd:complexType name="SimBioModulesType">
 		<xsd:all>
-			<xsd:element name="air" minOccurs="0" maxOccurs="1">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:choice minOccurs="0" maxOccurs="unbounded">
-							<xsd:element name="OGS" type="OGSType" />
-							<xsd:element name="CRS" type="CRSType"/>
-							<xsd:element name="VCCR" type="VCCRType"/>
-							<xsd:element name="O2Store" type="O2StoreType"/>
-							<xsd:element name="CO2Store" type="CO2StoreType"/>
-							<xsd:element name="H2Store" type="H2StoreType"/>
-							<xsd:element name="NitrogenStore" type="NitrogenStoreType"/>
-							<xsd:element name="MethaneStore" type="NitrogenStoreType"/>
-						</xsd:choice>
-					</xsd:sequence>
-				</xsd:complexType>
-			</xsd:element>
+			<xsd:element name="air" type="AirSimBioModulesType" minOccurs="0" maxOccurs="1"/>
 			<xsd:element name="crew" minOccurs="0" maxOccurs="1">
 				<xsd:complexType>
 					<xsd:sequence>
