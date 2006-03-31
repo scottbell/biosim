@@ -143,8 +143,8 @@ public class EditorWriter {
         Element biosimElement = myXMLDocument.createElement("biosim");
         biosimElement.setAttribute("xmlns:xsi",
                 XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI);
-        biosimElement.setAttribute("xsi:noNamespaceSchemaLocation",
-                "BiosimInitSchema.xsd");
+        biosimElement.setAttribute("http://www.traclabs.com/biosim",
+                "../schema/BiosimInitSchema.xsd");
         myXMLDocument.appendChild(biosimElement);
         myBiosimNode = biosimElement;
         
