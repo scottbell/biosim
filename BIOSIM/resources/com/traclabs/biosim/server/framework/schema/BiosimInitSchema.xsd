@@ -12,14 +12,6 @@
 	<xsd:include schemaLocation="actuator/Actuator.xsd"/>
 	<xsd:include schemaLocation="sensor/Sensor.xsd"/>
 	
-	<!-- Top level element declaration -->	
-	<xsd:element name="biosim" type="BioSimType">
-		<xsd:unique name="nameIsKey">
-			<xsd:selector xpath=".//*"/>
-			<xsd:field xpath="@moduleName"/>
-		</xsd:unique>
-	</xsd:element>
-	
 	<xsd:complexType name="BioSimType">
 		<xsd:sequence>
 			<xsd:element name="Globals" type="GlobalsType"/>
@@ -28,6 +20,14 @@
 			<xsd:element name="Actuators" type="ActuatorsType" minOccurs="0" maxOccurs="1"/>
 		</xsd:sequence>     
 	</xsd:complexType>
+	
+	<!-- Top level element declaration -->	
+	<xsd:element name="biosim" type="BioSimType">
+		<xsd:unique name="nameIsKey">
+			<xsd:selector xpath=".//*"/>
+			<xsd:field xpath="@moduleName"/>
+		</xsd:unique>
+	</xsd:element>
 	
 </xsd:schema>
 
