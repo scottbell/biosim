@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../BiosimInitSchema.xsd">
+<biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
 	<Globals crewsToWatch="Crew" runTillCrewDeath="true" tickLength="2.77777777777e-04" runTillN="16200">
 		<comment>
 			This is the Apollo 13 initialization.

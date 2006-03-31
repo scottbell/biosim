@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../BiosimInitSchema.xsd">
+<biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
 	<Globals>
 		<comment>initialization for Matlab test</comment>
 		<author>Scott Bell</author>
