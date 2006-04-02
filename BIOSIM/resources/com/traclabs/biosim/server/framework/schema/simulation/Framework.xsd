@@ -3,6 +3,17 @@
 	targetNamespace="http://www.traclabs.com/biosim"
 	elementFormDefault="qualified">
 	
+	<xsd:complexType name="Store">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+					<xsd:attribute name="capacity" type="nonNegativeFloat" use="required"/>
+					<xsd:attribute name="level" type="nonNegativeFloat" use="required"/>
+					<xsd:attribute name="resupplyFrequency" type="xsd:nonNegativeInteger" default="0"/>
+					<xsd:attribute name="resupplyAmount" type="nonNegativeFloat" default="0"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<xsd:complexType name="AccumulatorType">  
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">

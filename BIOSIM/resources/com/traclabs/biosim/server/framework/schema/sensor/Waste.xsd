@@ -1,0 +1,31 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim"
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<!-- Waste sensor declarations -->
+	<xsd:complexType name="DryWasteInFlowRateSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DryWasteOutFlowRateSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="WasteSensorsType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="DryWasteInFlowRateSensor"
+					type="DryWasteInFlowRateSensorType"/>
+				<xsd:element name="DryWasteOutFlowRateSensor"
+					type="DryWasteOutFlowRateSensorType"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>
