@@ -1,0 +1,64 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim"
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<!-- Sensor declarations -->
+	<xsd:complexType name="SensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:attribute name="input" type="xsd:string" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+				<xsd:attribute name="index" type="xsd:nonNegativeInteger" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<!-- Framework sensor declarations -->
+	<xsd:complexType name="StoreLevelSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="StoreOverflowSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="InfluentValveStateSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="EffluentValveStateSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="FrameworkSensorsType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="StoreLevelSensor" type="StoreLevelSensorType"/>
+				<xsd:element name="StoreOverflowSensor"
+					type="StoreLevelSensorType"/>
+				<xsd:element name="InfluentValveStateSensor"
+					type="InfluentValveStateSensorType"/>
+				<xsd:element name="EffluentValveStateSensor"
+					type="EffluentValveStateSensorType"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>
