@@ -3,6 +3,7 @@
 	targetNamespace="http://www.traclabs.com/biosim"
 	elementFormDefault="qualified">
 	
+	<xsd:include schemaLocation="Framework.xsd"/>
 	<xsd:include schemaLocation="Air.xsd"/>
 	<xsd:include schemaLocation="Crew.xsd"/>
 	<xsd:include schemaLocation="Food.xsd"/>
@@ -10,7 +11,6 @@
 	<xsd:include schemaLocation="Environment.xsd"/>
 	<xsd:include schemaLocation="Water.xsd"/>
 	<xsd:include schemaLocation="Waste.xsd"/>
-	<xsd:include schemaLocation="Framework.xsd"/>
 	
 	<xsd:complexType name="SimBioModulesType">
 		<xsd:all>
