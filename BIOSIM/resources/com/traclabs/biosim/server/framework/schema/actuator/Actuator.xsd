@@ -3,6 +3,7 @@
 	targetNamespace="http://www.traclabs.com/biosim"
 	elementFormDefault="qualified">
 	
+	<xsd:include schemaLocation="../framework/Framework.xsd"/>
 	<xsd:include schemaLocation="Framework.xsd"/>
 	<xsd:include schemaLocation="Air.xsd"/>
 	<xsd:include schemaLocation="Environment.xsd"/>
