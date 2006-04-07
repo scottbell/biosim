@@ -62,7 +62,7 @@
 			</classpath>
 		</javac>
 		<echo message="Stubbing the IDL file" />
-		<java classname="ParserHack" failonerror="yes">
+		<java classname="org.jacorb.idl.parser" failonerror="yes">
 			<arg value="-d" />
 			<arg file="${stubsDir}" />
 			<arg file="${src}/com/traclabs/biosim/idl/biosim.idl" />
