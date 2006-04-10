@@ -111,7 +111,7 @@ public class OrbUtils {
         NamingContextExt idContext = null;
         try {
             idContext = NamingContextExtHelper.narrow(myBiosimNamingContext
-                    .resolve_str("" + pID));
+                    .resolve_str(Integer.toString(pID)));
         } catch (Exception e) {
             e.printStackTrace();
         }
