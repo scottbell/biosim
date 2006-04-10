@@ -22,15 +22,34 @@
             <H2Store capacity="100000.0" level="100000.0" moduleName="H2Store"/>
         </air>
         <crew>
-            <CrewGroup moduleName="CrewGroup">
-                <potableWaterConsumer desiredFlowRates="1000.0" inputs="PotableWaterStore" maxFlowRates="1000.0"/>
-                <foodConsumer desiredFlowRates="1000.0" inputs="FoodStore" maxFlowRates="1000.0"/>
-                <airConsumer desiredFlowRates="1000.0" inputs="SimEnvironment" maxFlowRates="1000.0"/>
-                <dirtyWaterProducer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="DirtyWaterStore"/>
-                <greyWaterProducer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="GreyWaterStore"/>
-                <dryWasteProducer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="DryWasteStore"/>
-                <airProducer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="SimEnvironment"/>
-            </CrewGroup>
+			<CrewGroup moduleName="CrewGroup">
+				<potableWaterConsumer desiredFlowRates="1000.0"
+					inputs="PotableWaterStore" maxFlowRates="1000.0"/>
+				<foodConsumer desiredFlowRates="1000.0" inputs="FoodStore"
+					maxFlowRates="1000.0"/>
+				<airConsumer desiredFlowRates="1000.0" inputs="SimEnvironment"
+					maxFlowRates="1000.0"/>
+				<dirtyWaterProducer desiredFlowRates="1000.0"
+					maxFlowRates="1000.0" outputs="DirtyWaterStore"/>
+				<greyWaterProducer desiredFlowRates="1000.0" maxFlowRates="1000.0"
+					outputs="GreyWaterStore"/>
+				<dryWasteProducer desiredFlowRates="1000.0" maxFlowRates="1000.0"
+					outputs="DryWasteStore"/>
+				<airProducer desiredFlowRates="1000.0" maxFlowRates="1000.0"
+					outputs="SimEnvironment"/>
+				<crewPerson name="Bob Roberts" age="35" weight="70" sex="MALE">
+					<schedule>
+						<activity name="sleep" length="8" intensity="1"/>
+						<activity name="hygiene" length="1" intensity="2"/>
+						<activity name="exercise" length="1" intensity="5"/>
+						<activity name="eating" length="1" intensity="2"/>
+						<activity name="mission" length="9" intensity="3"/>
+						<activity name="health" length="1" intensity="2"/>
+						<activity name="maintenance" length="1" intensity="2"/>
+						<activity name="leisure" length="2" intensity="2"/>
+					</schedule>
+				</crewPerson>
+			</CrewGroup>
         </crew>
         <environment>
             <SimEnvironment moduleName="SimEnvironment" initialVolume="100000000"/>
