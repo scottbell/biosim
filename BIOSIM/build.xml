@@ -15,7 +15,6 @@
 	<property name="nsDir" location="${tmpDir}/ns" />
 	<property name="resourceDir" location="resources" />
 	<property name="stubsDir" location="stubs" />
-	<property name="parserHackTmpDir" location="${tmpDir}/jacorb" />
 	<!-- set server properties for this build -->
 	<property name="log4jDir" location="${lib}/log4j" />
 	<property name="gefDir" location="${lib}/gef" />
@@ -55,12 +54,6 @@
 
 	<target name="stub-idl" depends="init-build,init-tmp" description="stub the IDL file">
 		<mkdir dir="${stubsDir}" />
-		<mkdir dir="${parserHackTmpDir}" />
-		<javac srcdir="${jacorbDir}" destdir="${parserHackTmpDir}" nowarn="yes">
-			<classpath>
-				<pathelement location="${jacorbDir}/idl.jar" />
-			</classpath>
-		</javac>
 		<echo message="Stubbing the IDL file" />
 		<java classname="org.jacorb.idl.parser" failonerror="yes">
 			<arg value="-d" />
