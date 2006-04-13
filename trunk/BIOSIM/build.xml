@@ -60,7 +60,6 @@
 			<arg file="${stubsDir}" />
 			<arg file="${src}/com/traclabs/biosim/idl/biosim.idl" />
 			<classpath>
-				<pathelement location="${parserHackTmpDir}" />
 				<pathelement location="${jacorbDir}/idl.jar" />
 				<pathelement location="${jacorbDir}/logkit.jar" />
 			</classpath>
