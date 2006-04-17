@@ -1,0 +1,82 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim"
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<xsd:complexType name="ShelfSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+				<xsd:attribute name="shelfIndex" type="xsd:nonNegativeInteger" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<!-- Food sensor declarations -->
+	<xsd:complexType name="BiomassInFlowRateSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="BiomassOutFlowRateSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FoodInFlowRateSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FoodOutFlowRateSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="HarvestSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="ShelfSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PlantDeathSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="ShelfSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="BiomassStoreWaterContentSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FoodSensorsType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="BiomassInFlowRateSensor"
+					type="BiomassInFlowRateSensorType"/>
+				<xsd:element name="BiomassOutFlowRateSensor"
+					type="BiomassOutFlowRateSensorType"/>
+				<xsd:element name="FoodInFlowRateSensor"
+					type="FoodInFlowRateSensorType"/>
+				<xsd:element name="FoodOutFlowRateSensor"
+					type="FoodOutFlowRateSensorType"/>
+				<xsd:element name="HarvestSensor" type="HarvestSensorType"/>
+				<xsd:element name="PlantDeathSensor" type="PlantDeathSensorType"/>
+				<xsd:element name="BiomassStoreWaterContentSensor"
+					type="BiomassStoreWaterContentSensorType"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

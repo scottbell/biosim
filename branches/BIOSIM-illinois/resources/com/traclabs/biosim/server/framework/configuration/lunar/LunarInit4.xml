@@ -1,0 +1,243 @@
+<?xml version="1.0"?>
+<biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
+	<Globals crewsToWatch="BaseCrewGroup EVACrewGroup" plantsToWatch="BaseBiomassPS" runTillN="2160" runTillCrewDeath="true" runTillPlantDeath="true">
+		<comment>
+			The lunar mission initialization for BioSim (scenario 4) 
+			Has the following properties:
+				- contains biomass
+				- biomass has same water as crew, but separate cabins
+				*other properties same as scenario 1*
+				- big H2 tank
+				- 1 daily EVA
+				- cabin leak (very small)
+				- small C02 tank
+				- roughly 11.82 MJ of energy expended by each crew member
+				- 2 malfunctions
+		</comment>
+		<author>Scott Bell</author>
+		<!-- <log4jProperty moduleName="log4j.logger.com.traclabs.biosim.server.sensor" value="DEBUG"/> !-->
+	</Globals>
+	<SimBioModules>
+		<air>
+			<OGS moduleName="BaseOGS">
+				<powerConsumer maxFlowRates="2500" desiredFlowRates="2500" inputs="BasePowerStore"/>
+				<potableWaterConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="CrewBasePotableWaterStore"/>
+				<O2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseO2Store"/>
+				<H2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseH2Store"/>
+			</OGS>
+			<VCCR moduleName="BaseVCCR">
+				<powerConsumer maxFlowRates="100000" desiredFlowRates="100000" inputs="BasePowerStore"/>
+				<airConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="BaseCrewEnvironment"/>
+				<airProducer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseCrewEnvironment"/>
+				<CO2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="BaseCO2Store"/>
+			</VCCR>
+			<O2Store moduleName="BaseO2Store" capacity="2000" level="2000">
+				<malfunction occursAtTick="200" length="PERMANENT_MALF" intensity="MEDIUM_MALF"/>
+			</O2Store>
+			<O2Store moduleName="EVAO2Store" capacity="800" level="800" resupplyAmount="800" resupplyFrequency="1"/>
+			<CO2Store moduleName="BaseCO2Store" capacity="2000" level="2000"/>
+			<CO2Store moduleName="EVACO2Store" capacity="10" level="10"/>
+			<H2Store moduleName="BaseH2Store" capacity="1000" level="1000"/>
+			<H2Store moduleName="EVAH2Store" capacity="10" level="10"/>
+			<NitrogenStore moduleName="BaseNitrogenStore" capacity="5000" level="5000"/>
+			<NitrogenStore moduleName="EVANitrogenStore" capacity="10" level="10"/>
+			<MethaneStore moduleName="EVAMethaneStore" capacity="10" level="10"/>
+		</air>
+		<crew>
+			<CrewGroup moduleName="BaseCrewGroup">
+				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="CrewBasePotableWaterStore"/>
+				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BaseCrewEnvironment"/>
+				<foodConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BaseFoodStore"/>
+				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="CrewBaseDirtyWaterStore"/>
+				<greyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="CrewBaseGreyWaterStore"/>
+				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="BaseCrewEnvironment"/>
+				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="BaseDryWasteStore"/>
+				<crewPerson name="Bob Roberts" age="35" weight="70" sex="MALE">
+					<schedule>
+						<activity name="sleep" length="8" intensity="1"/>
+						<activity xsi:type="EVAActivityType" name="eva" length="4" intensity="3" evaCrewGroup="EVACrewGroup"/>
+						<activity name="hygiene" length="1" intensity="2"/>
+						<activity name="exercise" length="1" intensity="5"/>
+						<activity name="eating" length="1" intensity="2"/>
+						<activity name="mission" length="9" intensity="3"/>
+						<activity name="health" length="1" intensity="2"/>
+						<activity name="maintenance" length="1" intensity="2"/>
+						<activity name="leisure" length="2" intensity="2"/>
+					</schedule>
+				</crewPerson>
+				<crewPerson name="Stephanie Stevens" age="32" weight="71" sex="FEMALE">
+					<schedule>
+						<activity name="sleep" length="8" intensity="1"/>
+						<activity name="hygiene" length="1" intensity="2"/>
+						<activity name="exercise" length="1" intensity="5"/>
+						<activity name="eating" length="1" intensity="2"/>
+						<activity name="mission" length="9" intensity="3"/>
+						<activity name="health" length="1" intensity="2"/>
+						<activity name="maintenance" length="1" intensity="2"/>
+						<activity name="leisure" length="2" intensity="2"/>
+					</schedule>
+				</crewPerson>
+				<crewPerson name="Bill Williams" age="30" weight="72" sex="MALE">
+					<schedule>
+						<activity name="sleep" length="8" intensity="1"/>
+						<activity name="hygiene" length="1" intensity="2"/>
+						<activity name="exercise" length="1" intensity="5"/>
+						<activity name="eating" length="1" intensity="2"/>
+						<activity name="mission" length="9" intensity="3"/>
+						<activity name="health" length="1" intensity="2"/>
+						<activity name="maintenance" length="1" intensity="2"/>
+						<activity name="leisure" length="2" intensity="2"/>
+					</schedule>
+				</crewPerson>
+				<crewPerson name="Janet Janey" age="34" weight="75" sex="FEMALE">
+					<schedule>
+						<activity name="sleep" length="8" intensity="1"/>
+						<activity name="hygiene" length="1" intensity="2"/>
+						<activity name="exercise" length="1" intensity="5"/>
+						<activity name="eating" length="1" intensity="2"/>
+						<activity name="mission" length="9" intensity="3"/>
+						<activity name="health" length="1" intensity="2"/>
+						<activity name="maintenance" length="1" intensity="2"/>
+						<activity name="leisure" length="2" intensity="2"/>
+					</schedule>
+				</crewPerson>
+			</CrewGroup>
+			<CrewGroup moduleName="EVACrewGroup">
+				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="EVAPotableWaterStore"/>
+				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="EVACrewEnvironment"/>
+				<foodConsumer maxFlowRates="100" desiredFlowRates="100" inputs="EVAFoodStore"/>
+				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="EVADirtyWaterStore"/>
+				<greyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="EVAGreyWaterStore"/>
+				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="EVACrewEnvironment"/>
+				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="EVADryWasteStore"/>
+			</CrewGroup>
+		</crew>
+		<environment>
+			<SimEnvironment moduleName="BaseCrewEnvironment" initialVolume="20000000" leakRate="0.00224" airlockVolume="3.7" dangerousOxygenThreshold="0.3"/>
+			<SimEnvironment moduleName="BasePlantEnvironment" initialVolume="20000000" leakRate="0.00224" airlockVolume="3.7" dangerousOxygenThreshold="0.3"/>
+			<SimEnvironment moduleName="EVACrewEnvironment" initialVolume="1000" leakRate="0.00500" airlockVolume="999"/>
+			<Dehumidifier moduleName="BasePlantDehumidifier">
+				<airConsumer maxFlowRates="200000" desiredFlowRates="200000" inputs="BasePlantEnvironment"/>
+				<dirtyWaterProducer maxFlowRates="200000" desiredFlowRates="200000" outputs="CrewBaseDirtyWaterStore"/>	
+			</Dehumidifier>
+			<Dehumidifier moduleName="BaseCrewDehumidifier">
+				<airConsumer maxFlowRates="200000" desiredFlowRates="200000" inputs="BaseCrewEnvironment"/>
+				<dirtyWaterProducer maxFlowRates="200000" desiredFlowRates="200000" outputs="CrewBaseDirtyWaterStore"/>	
+			</Dehumidifier>
+		</environment>        
+		<food>
+			<FoodProcessor moduleName="FoodProcessor">
+				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="BasePowerStore"/>
+				<biomassConsumer maxFlowRates="200" desiredFlowRates="200" inputs="BaseBiomassStore"/>
+				<foodProducer maxFlowRates="200" desiredFlowRates="200" outputs="BaseFoodStore"/>
+				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="BaseDryWasteStore"/>
+				<waterProducer maxFlowRates="100 100" desiredFlowRates="100 100" outputs="CrewBaseDirtyWaterStore CrewBaseGreyWaterStore"/>
+			</FoodProcessor>
+			<BiomassPS moduleName="BaseBiomassPS">
+				<shelf cropArea="20" cropType="LETTUCE"/>
+				<shelf cropArea="1.5" cropType="TOMATO"/>
+				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="BasePowerStore"/>
+				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="CrewBasePotableWaterStore"/>
+				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="CrewBaseGreyWaterStore"/>
+				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BasePlantEnvironment"/>
+				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="CrewBaseDirtyWaterStore"/>
+				<biomassProducer maxFlowRates="100" desiredFlowRates="100" outputs="BaseBiomassStore"/>
+				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="BasePlantEnvironment"/>
+			</BiomassPS>
+			<BiomassStore moduleName="BaseBiomassStore" capacity="1000" level="1000"/>
+			<FoodStore moduleName="BaseFoodStore" capacity="2000" level="2000"/>
+			<FoodStore moduleName="EVAFoodStore" capacity="0" level="0"/>
+		</food>
+		<framework>
+			<Accumulator moduleName="BasePlantAccumulator">
+				<O2Consumer desiredFlowRates="100000000" maxFlowRates="100000000" inputs="BasePlantEnvironment"/>
+				<O2Producer desiredFlowRates="100000000" maxFlowRates="100000000" outputs="BaseO2Store"/>
+			</Accumulator>
+			<Injector moduleName="EVAInjector">
+				<O2Consumer desiredFlowRates="30" maxFlowRates="30" inputs="EVAO2Store"/>
+				<O2Producer desiredFlowRates="30" maxFlowRates="30" outputs="EVACrewEnvironment"/>
+			</Injector>
+			<Injector moduleName="BaseO2Injector">
+				<O2Consumer desiredFlowRates="30" maxFlowRates="30" inputs="BaseO2Store"/>
+				<O2Producer desiredFlowRates="30" maxFlowRates="30" outputs="BaseCrewEnvironment"/>
+			</Injector>
+			<Injector moduleName="BaseCO2Injector">
+				<CO2Consumer desiredFlowRates="30" maxFlowRates="30" inputs="BaseCO2Store"/>
+				<CO2Producer desiredFlowRates="30" maxFlowRates="30" outputs="BasePlantEnvironment"/>
+			</Injector>
+		</framework>
+		<power>
+			<PowerPS moduleName="PowerPS" generationType="SOLAR" upperPowerGeneration="7000000">
+				<malfunction occursAtTick="502" length="TEMPORARY_MALF" intensity="SEVERE_MALF"/>
+				<lightConsumer maxFlowRates="0" desiredFlowRates="0" inputs="BaseCrewEnvironment"/>
+				<powerProducer maxFlowRates="7000000" desiredFlowRates="7000000" outputs="BasePowerStore"/>
+			</PowerPS>
+			<PowerStore moduleName="BasePowerStore" capacity="5000000" level="5000000"/>
+			<PowerStore moduleName="EVAPowerStore" capacity="1000" level="1000"/>
+		</power>
+		<water>
+			<WaterRS moduleName="CrewWaterRS" implementation="LINEAR">
+				<powerConsumer maxFlowRates="3000" desiredFlowRates="3000" inputs="BasePowerStore"/>
+				<dirtyWaterConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="CrewBaseDirtyWaterStore"/>
+				<greyWaterConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="CrewBaseGreyWaterStore"/>
+				<potableWaterProducer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="CrewBasePotableWaterStore"/>
+			</WaterRS>
+			<PotableWaterStore moduleName="CrewBasePotableWaterStore" capacity="8000" level="8000"/>
+			<PotableWaterStore moduleName="EVAPotableWaterStore" capacity="2" level="2"/>
+			<GreyWaterStore moduleName="CrewBaseGreyWaterStore" capacity="4000" level="4000"/>
+			<GreyWaterStore moduleName="EVAGreyWaterStore" capacity="1" level="1"/>
+			<DirtyWaterStore moduleName="CrewBaseDirtyWaterStore" capacity="5000" level="5000"/>
+			<DirtyWaterStore moduleName="EVADirtyWaterStore" capacity="1" level="1"/>
+		</water>
+		<waste>
+			<DryWasteStore moduleName="BaseDryWasteStore" capacity="500" level="500"/>
+			<DryWasteStore moduleName="EVADryWasteStore" capacity="2" level="2"/>
+		</waste>
+	</SimBioModules>
+	
+	<Sensors>
+		<environment>
+			<GasConcentrationSensor gasType="O2" input="BaseCrewEnvironment" moduleName="BaseCrewEnvironmentO2ConcentrationSensor"/>
+			<GasConcentrationSensor gasType="VAPOR" input="BaseCrewEnvironment" moduleName="BaseCrewEnvironmentVaporConcentrationSensor"/>
+			<GasConcentrationSensor gasType="CO2" input="BaseCrewEnvironment" moduleName="BaseCrewEnvironmentCO2AirConcentrationSensor"/>
+		</environment>
+		<framework>
+			<StoreLevelSensor input="BaseO2Store" moduleName="BaseO2StoreLevelSensor"/>
+			<StoreLevelSensor input="BaseH2Store" moduleName="BaseH2StoreLevelSensor"/>
+			<StoreLevelSensor input="BaseCO2Store" moduleName="BaseCO2StoreLevelSensor"/>
+			<StoreLevelSensor input="BaseFoodStore" moduleName="BaseFoodStoreLevelSensor"/>
+			<StoreLevelSensor input="BasePowerStore" moduleName="BasePowerStoreLevelSensor"/>
+			<StoreLevelSensor input="CrewBaseDirtyWaterStore" moduleName="CrewBaseDirtyWaterStoreLevelSensor"/>
+			<StoreLevelSensor input="CrewBaseGreyWaterStore" moduleName="CrewBaseGreyWaterStoreLevelSensor"/>
+			<StoreLevelSensor input="CrewBasePotableWaterStore" moduleName="CrewBasePotableWaterStoreLevelSensor"/>
+		</framework>
+	</Sensors>
+	<Actuators>
+		<air>
+			<O2OutFlowRateActuator index="0" output="BaseOGS" moduleName="BaseOGSO2OutFlowRateActuator"/>
+			<H2OutFlowRateActuator index="0" output="BaseOGS" moduleName="BaseOGSH2OutFlowRateActuator"/>
+			<O2OutFlowRateActuator index="0" output="BaseO2Injector" moduleName="BaseInjectorO2OutFlowRateActuator"/>
+			<O2InFlowRateActuator index="0" output="BaseO2Injector" moduleName="BaseInjectorO2InFlowRateActuator"/>
+			<CO2OutFlowRateActuator index="0" output="BaseCO2Injector" moduleName="BaseInjectorCO2OutFlowRateActuator"/>
+			<CO2InFlowRateActuator index="0" output="BaseCO2Injector" moduleName="BaseInjectorCO2InFlowRateActuator"/>
+		</air>
+		<food>
+			<BiomassInFlowRateActuator index="0" output="FoodProcessor" moduleName="FoodProcessorBiomassInFlowRateActuator"/>
+			<HarvestingActuator output="BaseBiomassPS" moduleName="BaseBiomassPSHarvestingActuator" shelfIndex="0"/>
+			<PlantingActuator output="BaseBiomassPS" moduleName="BaseBiomassPSPlantingActuator" shelfIndex="0"/>
+		</food>
+		<power>
+			<PowerInFlowRateActuator index="0" output="FoodProcessor" moduleName="FoodProcessorPowerInFlowRateActuator"/>
+			<PowerInFlowRateActuator index="0" output="BaseOGS" moduleName="BaseOGSPowerInFlowRateActuator"/>
+			<PowerInFlowRateActuator index="0" output="CrewWaterRS" moduleName="CrewWaterRSPowerInFlowRateActuator"/>
+		</power>
+		<water>
+			<DirtyWaterInFlowRateActuator index="0" output="CrewWaterRS" moduleName="CrewWaterRSDirtyWaterInFlowRateActuator"/>
+			<GreyWaterInFlowRateActuator index="0" output="BaseBiomassPS" moduleName="BaseBiomassPSGreyWaterInFlowRateActuator"/>
+			<GreyWaterInFlowRateActuator index="0" output="CrewWaterRS" moduleName="CrewWaterRSGreyWaterInFlowRateActuator"/>
+			<PotableWaterInFlowRateActuator index="0" output="BaseOGS" moduleName="BaseOGSPotableWaterInFlowRateActuator"/>
+			<PotableWaterOutFlowRateActuator index="0" output="CrewWaterRS" moduleName="BaseOGSPotableWaterOutFlowRateActuator"/>
+		</water>
+	</Actuators>
+</biosim>
+

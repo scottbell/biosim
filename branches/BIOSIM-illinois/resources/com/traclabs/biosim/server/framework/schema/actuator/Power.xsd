@@ -1,0 +1,31 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim"
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<!-- Power actuator declarations -->
+	<xsd:complexType name="PowerInFlowRateActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PowerOutFlowRateActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PowerActuatorsType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="PowerInFlowRateActuator"
+					type="PowerInFlowRateActuatorType"/>
+				<xsd:element name="PowerOutFlowRateActuator"
+					type="PowerOutFlowRateActuatorType"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

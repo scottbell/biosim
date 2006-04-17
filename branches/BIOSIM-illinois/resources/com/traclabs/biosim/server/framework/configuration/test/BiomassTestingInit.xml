@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
+	<Globals runTillCrewDeath="false" runTillPlantDeath="true" plantsToWatch="BiomassPS" runTillN="2064" startPaused="false">
+		<comment>The default initialization for BioSim</comment>
+		<author>Scott Bell</author>
+	</Globals>
+	<SimBioModules>
+		<environment>
+			<SimEnvironment moduleName="PlantEnvironment" initialVolume="100000000000000"/>
+		</environment>
+		<food>
+			<BiomassPS moduleName="BiomassPS" autoHarvestAndReplant="false">
+				<shelf cropArea="1" cropType="SOYBEAN"/>
+				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="PowerStore"/>
+				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
+				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="GreyWaterStore"/>
+				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="PlantEnvironment"/>
+				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
+				<biomassProducer maxFlowRates="100" desiredFlowRates="100" outputs="BiomassStore"/>
+				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="PlantEnvironment"/>
+			</BiomassPS>
+			<BiomassStore moduleName="BiomassStore" capacity="500" level="300"/>
+		</food>
+		<power>
+			<PowerStore moduleName="PowerStore" capacity="100000000000" level="100000000000"/>
+		</power>
+		<water>
+			<PotableWaterStore moduleName="PotableWaterStore" capacity="500000000000" level="500000000000"/>
+			<GreyWaterStore moduleName="GreyWaterStore" capacity="500000000000" level="0"/>
+			<DirtyWaterStore moduleName="DirtyWaterStore" capacity="500000000000" level="0"/>
+		</water>
+	</SimBioModules>
+	<Sensors>
+	</Sensors>
+	<Actuators>
+	</Actuators>
+</biosim>

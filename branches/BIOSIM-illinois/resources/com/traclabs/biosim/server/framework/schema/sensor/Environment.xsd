@@ -1,0 +1,51 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim"
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<!-- Environment sensor declarations -->
+	<xsd:complexType name="AirInFlowRateSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="AirOutFlowRateSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="GasConcentrationSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+				<xsd:attribute name="gasType" type="GasType" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="GasPressureSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+				<xsd:attribute name="gasType" type="GasType" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="EnvironmentSensorsType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="AirInFlowRateSensor"
+					type="AirInFlowRateSensorType"/>
+				<xsd:element name="AirOutFlowRateSensor"
+					type="AirOutFlowRateSensorType"/>
+				<xsd:element name="GasPressureSensor"
+					type="GasPressureSensorType"/>
+				<xsd:element name="GasConcentrationSensor"
+					type="GasConcentrationSensorType"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

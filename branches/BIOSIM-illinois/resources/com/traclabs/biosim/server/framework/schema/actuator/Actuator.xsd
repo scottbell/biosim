@@ -1,0 +1,26 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim" 
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<xsd:include schemaLocation="../framework/Framework.xsd"/>
+	<xsd:include schemaLocation="Framework.xsd"/>
+	<xsd:include schemaLocation="Air.xsd"/>
+	<xsd:include schemaLocation="Environment.xsd"/>
+	<xsd:include schemaLocation="Food.xsd"/>
+	<xsd:include schemaLocation="Power.xsd"/>
+	<xsd:include schemaLocation="Water.xsd"/>
+	<xsd:include schemaLocation="Waste.xsd"/>
+	
+	<xsd:complexType name="ActuatorsType">
+		<xsd:all>
+			<xsd:element name="air" type="AirActuatorsType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="environment" type="EnvironmentActuatorsType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="food" type="FoodActuatorsType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="power" type="PowerActuatorsType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="water" type="WaterActuatorsType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="waste" type="WasteActuatorsType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="framework" minOccurs="0" maxOccurs="1"/>
+		</xsd:all>     
+	</xsd:complexType>
+</xsd:schema>
