@@ -13,7 +13,7 @@
 				<powerConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="PowerStore"/>
             </VCCR>
             <O2Store capacity="100000.0" level="100000.0" moduleName="O2Store"/>
-            <OGS moduleName="OGS0">
+            <OGS moduleName="OGS">
                 <potableWaterConsumer desiredFlowRates="1000.0" inputs="PotableWaterStore" maxFlowRates="1000.0"/>
                 <O2Producer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="O2Store"/>
                 <H2Producer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="H2Store"/>
