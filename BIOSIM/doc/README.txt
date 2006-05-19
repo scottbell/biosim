@@ -5,12 +5,10 @@ BIOSIM - Advanced Life Support Simulation v2.0
 **********************************************
 
 I. SETUP
-	1) Make sure you have a JDK > 1.3 installed (IBM or Sun's).
+	1) Make sure you have a JDK >= 1.5 installed (IBM or Sun's).
 		If it's not installed, go here: http://java.sun.com
 	2) Make sure you have a Ant installed
 		If it's not installed, go here: http://ant.apache.org/
-	3) You also should probably install jikes:
-		http://www-124.ibm.com/developerworks/oss/jikes/
 	3) Set your JAVA_HOME environment variable to point to where the JSDK is installed.
 		Ex: JAVA_HOME=/usr/java/jsdk1.4 on unix systems
 		Ex: JAVA_HOME=c:\jsdk1.4 on windows systems
