@@ -9,7 +9,7 @@ import com.traclabs.biosim.util.OrbUtils;
  
  javac - the compiler
  jacorb.jar - the library that has the ORB and various CORBA utilities
- generated\client\classes - the generated client stubs
+ build - where the biosim classes are
  TestBiosim - this file
 
  
