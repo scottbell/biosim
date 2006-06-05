@@ -1,9 +1,6 @@
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
-import org.omg.CORBA.*;
-import com.traclabs.biosim.client.util.*;
-import com.traclabs.biosim.idl.framework.*;
-import com.traclabs.biosim.client.framework.*;
+import com.traclabs.biosim.idl.framework.BioDriver;
+import com.traclabs.biosim.idl.framework.BioDriverHelper;
+import com.traclabs.biosim.util.OrbUtils;
 
 /*
  To compile:
