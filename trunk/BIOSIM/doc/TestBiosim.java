@@ -26,31 +26,32 @@ import com.traclabs.biosim.util.OrbUtils;
  Good Luck!  If you have any questions, email me at:
  scott@traclabs.com
 
-*/
+ */
 
-
-public class TestBiosim{
-	public static void main(String[] args){
-		try{
+public class TestBiosim {
+	public static void main(String[] args) {
+		try {
 			System.out.println("TestBiosim begin");
-			//Let's get the BioDriver
+			// Let's get the BioDriver
 			System.out.println("Getting BioDriver");
-			//BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-			//BioDriver myBioDriver = myBioHolder.theBioDriver;
-			BioDriver myBioDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(0).resolve_str("BioDriver"));
-			//Now let's call a method on BioDriver
+			// BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
+			// BioDriver myBioDriver = myBioHolder.theBioDriver;
+			BioDriver myBioDriver = BioDriverHelper.narrow(OrbUtils
+					.getNamingContext(0).resolve_str("BioDriver"));
+			// Now let's call a method on BioDriver
 			System.out.println("Invoking method on BioDriver");
 			myBioDriver.startSimulation();
 			System.out.println("Invoking another method on BioDriver");
-			//Now let's call another method on BioDriver, this time with a result
+			// Now let's call another method on BioDriver, this time with a
+			// result
 			int numberOfTicks = myBioDriver.getTicks();
-			System.out.println("Result was: "+numberOfTicks);
-			//All done!
+			System.out.println("Result was: " + numberOfTicks);
+			// All done!
 			System.out.println("TestBiosim end");
 			myBioDriver.endSimulation();
-		}
-		catch (Exception e){
-			System.out.println("Something went wrong! (Did you start the nameserver and biosim server?)");
+		} catch (Exception e) {
+			System.out
+					.println("Something went wrong! (Did you start the nameserver and biosim server?)");
 			e.printStackTrace();
 		}
 	}
