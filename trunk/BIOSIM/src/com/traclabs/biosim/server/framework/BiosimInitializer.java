@@ -55,7 +55,7 @@ public class BiosimInitializer {
     private static final String SCHEMA_FULL_CHECKING_FEATURE_ID = "http://apache.org/xml/features/validation/schema-full-checking";
     
     private static final String SCHEMA_LOCATION_LABEL = "http://apache.org/xml/properties/schema/external-noNamespaceSchemaLocation";
-    private static final String SCHEMA_LOCATION_VALUE = "com/traclabs/biosim/server/framework/BiosimInitSchema.xsd";
+    private static final String SCHEMA_LOCATION_VALUE = "com/traclabs/biosim/server/framework/schema/BiosimInitSchema.xsd";
     
     // default settings
     /** Default moduleNamespaces support (true). */
