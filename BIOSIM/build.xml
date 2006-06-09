@@ -212,7 +212,7 @@
 		</jar>
 	</target>
 
-	<target name="build-ga-dist" depends="build-server,init-dist" description="creates ga dist">
+	<target name="build-ga-dist" depends="build-server,build-client,init-dist" description="creates ga dist">
 		<mkdir dir="${gaDistDir}" />
 		<mkdir dir="${gaDistTmpDir}" />
 		<echo message="Creating biosim jar for genetic algorithm engine" />
