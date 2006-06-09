@@ -16,6 +16,7 @@ import com.traclabs.biosim.idl.framework.MalfunctionHelper;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.framework.StochasticIntensity;
+import com.traclabs.biosim.server.util.failure.FailureDecider;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
@@ -46,7 +47,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
 
     protected List<MalfunctionImpl> myScheduledMalfunctions;
 
-    private boolean canBreakdown = false;
+    private boolean canFail = false;
 
     private float breakdownFactor = 0f;
 
@@ -55,6 +56,8 @@ public abstract class BioModuleImpl extends BioModulePOA {
     
     //in hours (can be a fraction of an hour)
     private float myTickInterval = 1f;
+    
+    private FailureDecider myFailureDecider;
 
     protected Logger myLogger;
     
@@ -96,8 +99,8 @@ public abstract class BioModuleImpl extends BioModulePOA {
      */
     public void tick() {
         checkForScheduledMalfunctions();
-        if (canBreakdown)
-            checkBreakdownRisk();
+        if (canFail)
+            checkForFailure();
         if (isMalfunctioning())
             performMalfunctions();
         if (myLogger.isDebugEnabled())
@@ -109,13 +112,9 @@ public abstract class BioModuleImpl extends BioModulePOA {
         return myTicks;
     }
 
-    private void checkBreakdownRisk() {
-        breakdownFactor += 0.01f * getTickLength();
-        float breakdownReturn = breakdownFunction(breakdownFactor);
-        float randomNumber = myRandomGen.nextFloat();
-        if (breakdownReturn <= randomNumber)
-            startMalfunction(MalfunctionIntensity.LOW_MALF,
-                    MalfunctionLength.TEMPORARY_MALF);
+    private void checkForFailure() {
+        if (myFailureDecider.hasFailed(myTicks))
+            startMalfunction(MalfunctionIntensity.SEVERE_MALF,MalfunctionLength.PERMANENT_MALF);
     }
 
     private void checkForScheduledMalfunctions() {
@@ -131,24 +130,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
     public void log() {
     }
 
-    private float abs(float a) {
-        return (new Double(Math.abs(a))).floatValue();
-    }
 
-    private float mathLogFunction(float a) {
-        return (new Double(Math.log(a))).floatValue();
-    }
-
-    private float breakdownFunction(float x) {
-        if (x >= 1f)
-            return 1f;
-        else if ((x < 1f) && (x > 0.3f))
-            return 2f * x * (1f - abs(x - 2f) / 2f);
-        else if ((x > 0) && (x < 0.3f))
-            return 0.3f * mathLogFunction(x + 1);
-        else
-            return 0f;
-    }
 
     /**
      * Fixes all malfunctions. Permanent malfunctions are unfixable.
@@ -353,8 +335,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
     /**
      * Maintains this module. Must be invoked from time to time to prevent this
      * risk of spoontaneous malfunctions. The longer into the sim (i.e., the
-     * more the module has been ticked), the greater this risk is. NOT
-     * IMPLEMENTED YET
+     * more the module has been ticked), the greater this risk is.
      */
     public void maitenance() {
         breakdownFactor -= 0.2f * getTickLength();
@@ -363,11 +344,11 @@ public abstract class BioModuleImpl extends BioModulePOA {
     }
 
     public void setEnableBreakdown(boolean pValue) {
-        canBreakdown = pValue;
+        canFail = pValue;
     }
 
     public boolean breakdownIsEnabled() {
-        return canBreakdown;
+        return canFail;
     }
     
     public void setLogLevel(LogLevel pLevel){
