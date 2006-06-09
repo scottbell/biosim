@@ -14,7 +14,7 @@
 				- 2 malfunctions
 		</comment>
 		<author>Scott Bell</author>
-		<log4jProperty name="log4j.logger.com.traclabs.biosim.server.util.failure.FailureDecider" value="DEBUG"/>
+		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.util.failure.FailureDecider" value="DEBUG"/>-->
 	</Globals>
 	<SimBioModules>
 		<air>
