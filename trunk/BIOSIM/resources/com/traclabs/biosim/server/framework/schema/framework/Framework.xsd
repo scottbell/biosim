@@ -6,14 +6,46 @@
 	<!-- Module declarations -->
 	<xsd:complexType name="BioModuleType">
 		<xsd:sequence>
-			<xsd:element name="malfunction" type="MalfunctionType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="malfunction" type="MalfunctionType"
+				minOccurs="0" maxOccurs="1" />
+			<xsd:choice minOccurs="0" maxOccurs="1">
+					<xsd:element name="weibullFailureDecider" type="WeibullFailureDeciderType" />
+					<xsd:element name="gaussianFailureDecider" type="GaussianFailureDeciderType" />
+			</xsd:choice>
 		</xsd:sequence>
-		<xsd:attribute name="moduleName" type="xsd:string" use="required"/>
-		<xsd:attribute name="isLoggingEnabled" type="xsd:boolean" default="false"/>
-		<xsd:attribute name="isBreakdownEnabled" type="xsd:boolean" default="false"/>
-		<xsd:attribute name="setStochasticIntensity" type="StochasticIntensityType" default="NONE_STOCH"/>
-		<xsd:attribute name="createLocally" type="xsd:boolean" default="true"/>
-		<xsd:attribute name="logLevel" type="LogLevelType" default="INFO"/>
+		<xsd:attribute name="moduleName" type="xsd:string"
+			use="required" />
+		<xsd:attribute name="isLoggingEnabled" type="xsd:boolean"
+			default="false" />
+		<xsd:attribute name="setStochasticIntensity"
+			type="StochasticIntensityType" default="NONE_STOCH" />
+		<xsd:attribute name="createLocally" type="xsd:boolean"
+			default="true" />
+		<xsd:attribute name="logLevel" type="LogLevelType"
+			default="INFO" />
+	</xsd:complexType>
+
+	<xsd:complexType name="FailureDeciderType">
+		<xsd:attribute name="isFailureEnabled" type="xsd:boolean" required="true"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="WeibullFailureDeciderType">  
+		<xsd:complexContent>
+			<xsd:extension base="FailureDeciderType">
+				<xsd:attribute name="scale" type="xsd:double"/>
+				<xsd:attribute name="shape" type="xsd:double"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="GaussianFailureDeciderType">  
+		<xsd:complexContent>
+			<xsd:extension base="FailureDeciderType">
+				<xsd:attribute name="mean" type="xsd:double"/>
+				<xsd:attribute name="standardDeviation" type="xsd:double"/>
+				<xsd:attribute name="weight" type="xsd:double"/>
+			</xsd:extension>
+		</xsd:complexContent>
 	</xsd:complexType>
 	
 	<xsd:complexType name="log4jPropertyType">
@@ -342,4 +374,5 @@
 			<xsd:enumeration value="ALL"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+
 </xsd:schema>

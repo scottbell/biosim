@@ -131,7 +131,6 @@ public abstract class BioModuleImpl extends BioModulePOA {
     }
 
 
-
     /**
      * Fixes all malfunctions. Permanent malfunctions are unfixable.
      */
