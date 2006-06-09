@@ -16,6 +16,7 @@ import com.traclabs.biosim.idl.framework.MalfunctionHelper;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.framework.StochasticIntensity;
+import com.traclabs.biosim.server.util.MathUtils;
 import com.traclabs.biosim.server.util.failure.FailureDecider;
 import com.traclabs.biosim.util.OrbUtils;
 
@@ -48,8 +49,8 @@ public abstract class BioModuleImpl extends BioModulePOA {
     protected List<MalfunctionImpl> myScheduledMalfunctions;
 
     private boolean canFail = false;
-
-    private float breakdownFactor = 0f;
+    
+    private boolean hasFailed = false;
 
     //What I think the current tick is.
     private int myTicks = 0;
@@ -99,7 +100,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
      */
     public void tick() {
         checkForScheduledMalfunctions();
-        if (canFail)
+        if (canFail && !hasFailed)
             checkForFailure();
         if (isMalfunctioning())
             performMalfunctions();
@@ -113,8 +114,11 @@ public abstract class BioModuleImpl extends BioModulePOA {
     }
 
     private void checkForFailure() {
-        if (myFailureDecider.hasFailed(myTicks))
+        if (myFailureDecider.hasFailed(myTicks)){
+        	myLogger.info(getModuleName() + " has failed!");
+        	hasFailed = true;
             startMalfunction(MalfunctionIntensity.SEVERE_MALF,MalfunctionLength.PERMANENT_MALF);
+        }
     }
 
     private void checkForScheduledMalfunctions() {
@@ -313,8 +317,8 @@ public abstract class BioModuleImpl extends BioModulePOA {
      * malfunctions)
      */
     public void reset() {
-        breakdownFactor = 0f;
         myTicks = 0;
+        hasFailed = false;
         myMalfunctions.clear();
     	for (MalfunctionImpl currentMalfunction : myScheduledMalfunctions)
     		currentMalfunction.reset();
@@ -331,23 +335,16 @@ public abstract class BioModuleImpl extends BioModulePOA {
         return myID;
     }
 
-    /**
-     * Maintains this module. Must be invoked from time to time to prevent this
-     * risk of spoontaneous malfunctions. The longer into the sim (i.e., the
-     * more the module has been ticked), the greater this risk is.
-     */
-    public void maitenance() {
-        breakdownFactor -= 0.2f * getTickLength();
-        if (breakdownFactor < 0f)
-            breakdownFactor = 0f;
-    }
-
-    public void setEnableBreakdown(boolean pValue) {
+    public void setEnableFailure(boolean pValue) {
         canFail = pValue;
     }
 
-    public boolean breakdownIsEnabled() {
+    public boolean isFailureEnabled() {
         return canFail;
+    }
+    
+    public void maintain() {
+        //does nothing right now
     }
     
     public void setLogLevel(LogLevel pLevel){
@@ -415,10 +412,10 @@ public abstract class BioModuleImpl extends BioModulePOA {
         if (randomCoefficient <= 0)
             return pValue;
         double deviation = randomCoefficient * pValue;
-        double result = gaussian(pValue, deviation);
+        double result = MathUtils.gaussian(pValue, deviation);
         if (result < 0)
             return 0;
-		return (float) result;
+		return (float)result;
     }
 
     /**
@@ -432,7 +429,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
         if (randomCoefficient <= 0)
             return pValue;
         double deviation = randomCoefficient * pValue;
-        double result = gaussian(pValue, deviation);
+        double result = MathUtils.gaussian(pValue, deviation);
         if (result < 0)
             return 0;
 		return result;
@@ -448,7 +445,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
     public boolean randomFilter(boolean pValue) {
         if (randomCoefficient <= 0)
             return pValue;
-        return (gaussian(1, randomCoefficient) > 1);
+        return (MathUtils.gaussian(1, randomCoefficient) > 1);
     }
 
     /**
@@ -462,39 +459,13 @@ public abstract class BioModuleImpl extends BioModulePOA {
         if (randomCoefficient <= 0)
             return pValue;
         double deviation = randomCoefficient * pValue;
-        double result = gaussian(pValue, deviation);
+        double result = MathUtils.gaussian(pValue, deviation);
         if (result < 0)
             return 0;
-		return (int) result;
+		return (int)result;
     }
 
-    /**
-     * A basic Gaussian function
-     * 
-     * @param mean
-     *            where the gaussian is "centered". e.g., a value of 3 would
-     *            yield numbers around 3
-     * @param deviation
-     *            how far the gaussian deviates from the mean
-     * @return the randomized value
-     */
-    private static double gaussian(double mean, double deviation) {
-        double t = 0.0;
-        double x, v1, v2, r;
-        if (t == 0) {
-            do {
-                v1 = 2.0 * Math.random() - 1.0;
-                v2 = 2.0 * Math.random() - 1.0;
-                r = v1 * v1 + v2 * v2;
-            } while (r >= 1.0);
-            r = Math.sqrt((-2.0 * Math.log(r)) / r);
-            t = v2 * r;
-            return (mean + v1 * r * deviation);
-        }
-		x = t;
-		t = 0.0;
-		return (mean + x * deviation);
-    }
+   
 
     /**
      * Returns the name of the module, "Unamed" if not overriden
@@ -521,4 +492,8 @@ public abstract class BioModuleImpl extends BioModulePOA {
     public void setTickLength(float pInterval){
     	myTickInterval = pInterval;
     }
+
+	public void setFailureDecider(FailureDecider decider) {
+		this.myFailureDecider = decider;
+	}
 }

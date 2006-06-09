@@ -28,6 +28,7 @@ import com.traclabs.biosim.idl.simulation.food.BiomassPSHelper;
 import com.traclabs.biosim.server.actuator.framework.ActuatorInitializer;
 import com.traclabs.biosim.server.sensor.framework.SensorInitializer;
 import com.traclabs.biosim.server.simulation.framework.SimulationInitializer;
+import com.traclabs.biosim.server.util.failure.WeibullDecider;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
@@ -354,11 +355,6 @@ public class BiosimInitializer {
                         + " should be created remotely (if not already done)");
     }
 
-    private static boolean getEnableBreakDown(Node pNode) {
-        return pNode.getAttributes().getNamedItem("isLoggingEnabled")
-                .getNodeValue().equals("true");
-    }
-
     private static StochasticIntensity getStochasticIntensity(Node pNode) {
         String intensityString = pNode.getAttributes().getNamedItem(
                 "setStochasticIntensity").getNodeValue();
@@ -427,7 +423,6 @@ public class BiosimInitializer {
     	LogLevel logLevel = getLogLevel(node);
         if (logLevel != null)
         	pModule.setLogLevel(logLevel);
-    	pModule.setEnableBreakdown(getEnableBreakDown(node));
         pModule.setStochasticIntensity(getStochasticIntensity(node));
         Node child = node.getFirstChild();
         while (child != null) {
@@ -435,7 +430,38 @@ public class BiosimInitializer {
                 pModule.scheduleMalfunction(getMalfunctionIntensity(child),
                         getMalfunctionLength(child), getMalfunctionTick(child));
             }
+            else if (child.getNodeName().equals("weibullFailureDecider")) {
+            	WeibullDecider decider = new WeibullDecider(getWeibullScale(child), getWeibullShape(child));
+                pModule.setFailureDecider(decider);
+            	pModule.setEnableFailure(getFailureEnabled(child));
+            }
             child = child.getNextSibling();
         }
+    }
+
+	private static double getWeibullShape(Node child) {
+		double shape = 0;
+		try {
+			shape = Double.parseDouble(child.getAttributes().getNamedItem(
+                    "shape").getNodeValue());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+		return shape;
+	}
+
+	private static double getWeibullScale(Node child) {
+		double scale = 0;
+		try {
+			scale = Double.parseDouble(child.getAttributes().getNamedItem(
+                    "scale").getNodeValue());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+		return scale;
+	}
+	
+    private static boolean getFailureEnabled(Node pNode) {
+        return pNode.getAttributes().getNamedItem("isFailureEnabled").getNodeValue().equals("true");
     }
 }

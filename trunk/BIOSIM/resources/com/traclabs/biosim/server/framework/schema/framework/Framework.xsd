@@ -26,7 +26,7 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="FailureDeciderType">
-		<xsd:attribute name="isFailureEnabled" type="xsd:boolean" required="true"/>
+		<xsd:attribute name="isFailureEnabled" type="xsd:boolean"/>
 	</xsd:complexType>
 	
 	<xsd:complexType name="WeibullFailureDeciderType">  

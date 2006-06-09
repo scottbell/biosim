@@ -218,12 +218,12 @@ module com{
                                                 boolean isMalfunctioning();
                                                 StringList getMalfunctionNames();
                                                 MalfunctionList getMalfunctions();
-                                                void maitenance();
                                                 void log();
+                                                void maintain();
                                                 void doSomeRepairWork(in long long id);
                                                 void clearMalfunction(in long long id);
-                                                void setEnableBreakdown(in boolean pValue);
-                                                boolean breakdownIsEnabled();
+                                                void setEnableFailure(in boolean pValue);
+                                                boolean isFailureEnabled();
                                                 long getMyTicks();
                                                 long getID();
                                                 void setTickLength(in float pInterval);

@@ -31,4 +31,32 @@ public class MathUtils {
 	public static float pow(float a, float b) {
 		return (float) (Math.pow(a, b));
 	}
+	
+	/**
+     * A basic Gaussian function
+     * 
+     * @param mean
+     *            where the gaussian is "centered". e.g., a value of 3 would
+     *            yield numbers around 3
+     * @param deviation
+     *            how far the gaussian deviates from the mean
+     * @return the randomized value
+     */
+    public static double gaussian(double mean, double deviation) {
+        double t = 0.0;
+        double x, v1, v2, r;
+        if (t == 0) {
+            do {
+                v1 = 2.0 * Math.random() - 1.0;
+                v2 = 2.0 * Math.random() - 1.0;
+                r = v1 * v1 + v2 * v2;
+            } while (r >= 1.0);
+            r = Math.sqrt((-2.0 * Math.log(r)) / r);
+            t = v2 * r;
+            return (mean + v1 * r * deviation);
+        }
+		x = t;
+		t = 0.0;
+		return (mean + x * deviation);
+    }
 }
