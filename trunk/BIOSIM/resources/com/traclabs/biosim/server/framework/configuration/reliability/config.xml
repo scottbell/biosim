@@ -52,7 +52,7 @@
 			</CrewGroup>
         </crew>
         <environment>
-            <SimEnvironment moduleName="Environment" initialVolume="100000000"/>
+            <SimEnvironment moduleName="SimEnvironment" initialVolume="100000000"/>
         </environment>
         <food>
             <FoodStore capacity="1000000.0" level="1000000.0" moduleName="FoodStore"/>
