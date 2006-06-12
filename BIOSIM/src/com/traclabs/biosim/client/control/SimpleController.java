@@ -9,6 +9,7 @@ import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.framework.Injector;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell
@@ -28,6 +29,7 @@ public class SimpleController {
 	private GenericActuator myO2InjectorAcutator;
 
 	public SimpleController() {
+		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
 		collectReferences();
 	}
