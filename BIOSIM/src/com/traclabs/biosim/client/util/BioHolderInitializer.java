@@ -245,6 +245,10 @@ public class BioHolderInitializer {
         myBioHolder.theBioDriver = BioDriverHelper
                 .narrow(grabModule("BioDriver"));
         String documentString = OrbUtils.resolveXMLLocation(xmlLocation);
+        if (documentString == null){
+        	Logger.getLogger(BioHolderInitializer.class).error("Couldn't find configuration file: "+xmlLocation);
+            return;
+        }
         if (documentString.length() > 0) {
             try {
                 Logger.getLogger(BioHolderInitializer.class).info(
@@ -267,8 +271,8 @@ public class BioHolderInitializer {
             myBioHolder.coallateLists();
         }
         else{
-        	Logger.getLogger(BioHolderInitializer.class).error("Exiting...");
-            System.exit(1);
+        	Logger.getLogger(BioHolderInitializer.class).error("Couldn't find configuration file: "+xmlLocation);
+        	return;
         }
     }
 
