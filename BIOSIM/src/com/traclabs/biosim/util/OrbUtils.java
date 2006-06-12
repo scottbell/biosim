@@ -40,11 +40,11 @@ public class OrbUtils {
 
     private static Properties myCustomORBProperties;
     
-    private static final int DEBUG_NAMESERVER_PORT = 16309;
+    private static final int STANDALONE_NAMESERVER_PORT = 16309;
     
-    private static final int DEBUG_SERVER_OA_PORT = 16310;
+    private static final int STANDALONE_SERVER_OA_PORT = 16310;
 
-    private static final int DEBUG_CLIENT_OA_PORT = 16311;
+    private static final int STANDALONE_CLIENT_OA_PORT = 16311;
 
     private static final String ORB_CLASS = "org.jacorb.orb.ORB";
     
@@ -303,23 +303,23 @@ public class OrbUtils {
         myCustomORBProperties = pORBProperties;
     }
     
-    public static void initializeServerForDebug(){
-        initializeForDebug(DEBUG_SERVER_OA_PORT);
+    public static void initializeServerForStandalone(){
+        initializeForStandalone(STANDALONE_SERVER_OA_PORT);
     }
     
-    public static void initializeClientForDebug(){
-        initializeForDebug(DEBUG_CLIENT_OA_PORT);
+    public static void initializeClientForStandalone(){
+        initializeForStandalone(STANDALONE_CLIENT_OA_PORT);
     }
     
-    public static void initializeForDebug(int OAPort){
+    public static void initializeForStandalone(int OAPort){
         Properties newORBProperties = new Properties();
         newORBProperties.setProperty("OAPort", Integer.toString(OAPort));
-        newORBProperties.setProperty("ORBInitRef.NameService", "corbaloc::localhost:" + DEBUG_NAMESERVER_PORT + "/NameService");
+        newORBProperties.setProperty("ORBInitRef.NameService", "corbaloc::localhost:" + STANDALONE_NAMESERVER_PORT + "/NameService");
         setMyORBProperties(newORBProperties);
         resetInit();
     }
     
-    public static void startDebugNameServer(){
+    public static void startStandaloneNameServer(){
     	if (myNamingServiceThread != null)
     		return;
         myNamingServiceThread = new Thread(new NamingServiceThread());
@@ -348,7 +348,7 @@ public class OrbUtils {
     
     private static class NamingServiceThread implements Runnable {
         public void run() {
-            String portArg = "-DOAPort=" + Integer.toString(DEBUG_NAMESERVER_PORT);
+            String portArg = "-DOAPort=" + Integer.toString(STANDALONE_NAMESERVER_PORT);
             String ORBArg = "-Dorg.omg.CORBA.ORBClass=" + ORB_CLASS;
             String[] nameServerArgs = {portArg, ORBArg};
             NameServer.main(nameServerArgs);

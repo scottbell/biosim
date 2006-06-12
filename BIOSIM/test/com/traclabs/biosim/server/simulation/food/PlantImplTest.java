@@ -43,8 +43,8 @@ public class PlantImplTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		OrbUtils.initializeLog();
-		OrbUtils.startDebugNameServer();
-		OrbUtils.initializeServerForDebug();
+		OrbUtils.startStandaloneNameServer();
+		OrbUtils.initializeServerForStandalone();
 		BiomassPSImpl biomassRSImpl = new BiomassPSImpl();
 		
 		myBiomassPS = (new BiomassPSPOATie(biomassRSImpl))._this(OrbUtils.getORB());

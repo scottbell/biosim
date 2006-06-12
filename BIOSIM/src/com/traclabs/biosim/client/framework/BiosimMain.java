@@ -75,8 +75,6 @@ public class BiosimMain {
             	wantsToRunApollo13Viewer = true;
             } else if (myArgs[i].equals("power")) {
             	wantsToRunPowerSchematic = true;
-            } else if (myArgs[i].equals("-debug")) {
-                OrbUtils.initializeClientForDebug();
             } else if (myArgs[i].startsWith("-xml=")) {
                 try {
                     xmlFile = myArgs[i].split("=")[1];
