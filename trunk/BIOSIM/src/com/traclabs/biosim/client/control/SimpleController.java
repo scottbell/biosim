@@ -17,6 +17,7 @@ import com.traclabs.biosim.util.OrbUtils;
  */
 
 public class SimpleController {
+	private static String CONFIGURATION_FILE = "test/SimpleControllerInit.xml";
 
 	private BioDriver myBioDriver;
 
@@ -47,10 +48,11 @@ public class SimpleController {
 	 *
 	 */
 	private void collectReferences() {
+		BioHolderInitializer.setFile(CONFIGURATION_FILE);
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;
 
-		Injector O2Injector = myBioHolder.theInjectors.get(1);
+		Injector O2Injector = myBioHolder.theInjectors.get(0);
 
 		myO2InjectorAcutator = (myBioHolder.getActuatorAttachedTo(
 				myBioHolder.theO2InFlowRateActuators, O2Injector));

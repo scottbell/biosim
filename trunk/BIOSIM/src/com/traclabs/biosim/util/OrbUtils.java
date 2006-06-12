@@ -367,7 +367,7 @@ public class OrbUtils {
         if (xmlFile.exists())
         	return xmlFile.toString();
         //maybe it's in the classpath, but user forgot default location
-    	fullFileLocation = findXmlInClasspath("com/traclabs/biosim/server/framework/configuration" + xmlLocation);
+    	fullFileLocation = findXmlInClasspath("com/traclabs/biosim/server/framework/configuration/" + xmlLocation);
     	if (fullFileLocation != null)
     		return fullFileLocation;
         //give up
