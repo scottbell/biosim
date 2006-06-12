@@ -44,8 +44,8 @@ public class CrewGroupImplTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		OrbUtils.initializeLog();
-		OrbUtils.startDebugNameServer();
-		OrbUtils.initializeServerForDebug();
+		OrbUtils.startStandaloneNameServer();
+		OrbUtils.initializeServerForStandalone();
 		CrewGroupImpl crewGroupImpl = new CrewGroupImpl();
 		for (int i = 0; i < 1; i++)
 			crewGroupImpl.createCrewPerson(createGenericSchedule(crewGroupImpl));

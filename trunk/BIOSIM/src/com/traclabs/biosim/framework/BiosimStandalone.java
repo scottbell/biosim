@@ -80,12 +80,12 @@ public class BiosimStandalone {
         myFrame.getContentPane().setCursor(
                 Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         myFrame.setVisible(true);
-        OrbUtils.startDebugNameServer();
+        OrbUtils.startStandaloneNameServer();
         OrbUtils.sleepAwhile(5000);
-        OrbUtils.initializeServerForDebug();
+        OrbUtils.initializeServerForStandalone();
         myServerThread.start();
         OrbUtils.sleepAwhile(10000);
-        OrbUtils.initializeClientForDebug();
+        OrbUtils.initializeClientForStandalone();
         myClientThread.start();
     }
     
