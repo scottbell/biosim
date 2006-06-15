@@ -439,5 +439,5 @@
 				</fileset>
 			</jar>
 		<signjar jar="${jnlpDistDir}/biosim.jar" alias="mykey" keystore="${jnlpDistLibDir}/biosimKeystore" storepass="traclabs"/>
-		</target>
+	</target>
 </project>
