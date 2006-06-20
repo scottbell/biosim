@@ -2,18 +2,19 @@ package com.traclabs.biosim.server.util.failure;
 
 public class WeibullDecider extends FailureDecider {
 	private double myLambda;
+
 	private double myBeta;
-	
-	public WeibullDecider(double lambda, double beta){
+
+	public WeibullDecider(double lambda, double beta) {
 		this.myLambda = lambda;
 		this.myBeta = beta;
 	}
-	
+
 	@Override
 	protected double getFailureRate(double timeElapsed) {
 		return weibullFailureRate(myLambda, myBeta, timeElapsed);
 	}
-	
+
 	/**
 	 * This method calculates the 2-parameter Weibull cumulative distribution
 	 * function.
@@ -28,7 +29,8 @@ public class WeibullDecider extends FailureDecider {
 	 *            x must be greater than 0.
 	 * 
 	 */
-	public static double weibullCumulativeDistribution(double lambda, double beta, double x) {
+	public static double weibullCumulativeDistribution(double lambda,
+			double beta, double x) {
 		double p;
 		p = 1.0 - Math.exp(-Math.pow(lambda * x, beta));
 		return p;
@@ -48,7 +50,8 @@ public class WeibullDecider extends FailureDecider {
 	 *            x must be greater than 0.
 	 * 
 	 */
-	public static double weibullReliabilityFunction(double lambda, double beta, double x) {
+	public static double weibullReliabilityFunction(double lambda, double beta,
+			double x) {
 		double R;
 		R = Math.exp(-Math.pow(lambda * x, beta));
 		return R;
@@ -66,7 +69,7 @@ public class WeibullDecider extends FailureDecider {
 	 * @param x
 	 *            x must be greater than 0.
 	 * 
-	 */ 
+	 */
 	public static double weibullFailureRate(double lambda, double beta, double x) {
 		double Z;
 		Z = (beta * lambda) * Math.pow(lambda * x, (beta - 1));
