@@ -1,20 +1,17 @@
-
-import java.util.Random;
-
 package com.traclabs.biosim.server.util.failure;
 
-public class ExpDecider extends FailureDecider {
+  public class ExpDecider extends FailureDecider{
 	private double myLambda;
 	
 	public ExpDecider(double lambda){
 		this.myLambda = lambda;
 	}
 	
-	@Override
+        @Override
 	protected double getFailureRate(double timeElapsed) {
 		return expFailureRate(myLambda, timeElapsed);
 	}
- 
+	
 	public static double expdensity(double lambda, double x) {
 
 	      double f;

@@ -5,7 +5,7 @@ public class Weibull3Decider extends FailureDecider {
 	private double myBeta;
 	private double myHold;
 	
-	public WeibullDecider(double lambda, double beta, double hold){
+	public Weibull3Decider(double lambda, double beta, double hold){
 		this.myLambda = lambda;
 		this.myBeta = beta;
 		this.myHold=hold;
@@ -15,9 +15,6 @@ public class Weibull3Decider extends FailureDecider {
 	protected double getFailureRate(double timeElapsed) {
 		return weibull3FailureRate(myLambda, myBeta, myHold, timeElapsed);
 	}
-
-
-public class weibull3{
 
 	/**
 	*This method calculates the 3-parameter Weibull failure rate.

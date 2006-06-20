@@ -1,8 +1,8 @@
 
+package com.traclabs.biosim.server.util.failure;
 import java.lang.Math;
 import java.lang.Double;
 
-package com.traclabs.biosim.server.util.failure;
 
 public class LognormalDecider extends FailureDecider {
 	private double myLogmean;
@@ -15,7 +15,7 @@ public class LognormalDecider extends FailureDecider {
 	
 	@Override
 	protected double getFailureRate(double timeElapsed) {
-		return LognormalFailureRate(myLogmean, myLogsd, timeElapsed);
+		return lognormalFailureRate(myLogmean, myLogsd, timeElapsed);
 	}
 	
 
@@ -71,7 +71,7 @@ public class LognormalDecider extends FailureDecider {
     	y = (java.lang.Math.log(x) - logmean) / logsd;
     	z=lognormaldensity(x, logmean, logsd)/NormalDecider.normp(y);
     	return z;
-    	
+    	}
     }
     
   
