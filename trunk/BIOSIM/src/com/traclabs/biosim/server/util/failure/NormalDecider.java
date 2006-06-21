@@ -21,9 +21,8 @@ public class NormalDecider extends FailureDecider {
 	 * based upon algorithm 5666 for the error function, from: Hart, J.F. et al,
 	 * 'Computer Approximations', Wiley 1968 accurate to 1.e-15
 	 * 
-	 * @param z
-	 *            The method returns the value of the normal cumulative
-	 *            distribution function at z.
+	 * @param x   The method returns the value of the normal cumulative
+	 *            distribution function at x.
 	 * 
 	 */
 
