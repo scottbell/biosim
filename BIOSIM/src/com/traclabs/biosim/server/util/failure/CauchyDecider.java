@@ -14,7 +14,7 @@ public class CauchyDecider extends FailureDecider{
 	
      @Override
 	 protected double getFailureRate(double timeElapsed) {
-		return UniformFailureRate(mymu, mysd, timeElapsed);
+		return CauchyFailureRate(mymu, mysd, timeElapsed);
 	}
 
 
