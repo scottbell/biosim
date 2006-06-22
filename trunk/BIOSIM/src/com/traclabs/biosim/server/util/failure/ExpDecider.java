@@ -16,7 +16,11 @@ public class ExpDecider extends FailureDecider {
 
 		double f;
 
+<<<<<<< .mine
+	      f = lambda * Math.exp(-lambda*x);
+=======
 		f = lambda * Math.exp(lambda * x);
+>>>>>>> .r1914
 
 		return f;
 
@@ -26,7 +30,11 @@ public class ExpDecider extends FailureDecider {
 
 		double R;
 
+<<<<<<< .mine
+		R=Math.exp(-lambda*x);
+=======
 		R = Math.exp(lambda * x);
+>>>>>>> .r1914
 
 		return R;
 
