@@ -15,14 +15,14 @@ public abstract class FailureDecider {
 	}
 
 	public boolean hasFailed(double timeElapsed) {
-		double failureRate = getFailureRate(timeElapsed);
+		double Reliability = getReliability(timeElapsed);
 		double randomNumber = myRandomGenerator.nextDouble();
-		boolean failed = randomNumber <= failureRate;
-		myLogger.debug("failureRate = " + failureRate);
+		boolean failed = randomNumber >= Reliability;
+		myLogger.debug("Reliability = " + Reliability);
 		myLogger.debug("randomNumber = " + randomNumber);
 		myLogger.debug("failed = " + failed);
 		return failed;
 	}
 
-	protected abstract double getFailureRate(double timeElapsed);
+	protected abstract double getReliability(double timeElapsed);
 }

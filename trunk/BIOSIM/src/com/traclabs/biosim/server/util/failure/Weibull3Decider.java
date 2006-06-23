@@ -12,8 +12,8 @@ public Weibull3Decider(double lambda, double beta, double hold) {
 	}
 
 	@Override
-	protected double getFailureRate(double timeElapsed) {
-		return weibull3FailureRate(myLambda, myBeta, myHold, timeElapsed);
+	protected double getReliability(double timeElapsed) {
+		return weibull3Reliability(myLambda, myBeta, myHold, timeElapsed);
 	}
 
 	/**
@@ -41,7 +41,7 @@ public static double weibull3CumulativeDistribution(double lambda, double beta, 
 	}
 
 
-public static double weibull3ReliabilityFunction(double lambda, double beta, double hold, double x) {
+public static double weibull3Reliability(double lambda, double beta, double hold, double x) {
 
 		double R;
 
