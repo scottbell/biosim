@@ -11,8 +11,8 @@ public class WeibullDecider extends FailureDecider {
 	}
 
 	@Override
-	protected double getFailureRate(double timeElapsed) {
-		return weibullFailureRate(myLambda, myBeta, timeElapsed);
+	protected double getReliability(double timeElapsed) {
+		return weibullReliability(myLambda, myBeta, timeElapsed);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class WeibullDecider extends FailureDecider {
 	 *            x must be greater than 0.
 	 * 
 	 */
-	public static double weibullReliabilityFunction(double lambda, double beta,
+	public static double weibullReliability(double lambda, double beta,
 			double x) {
 		double R;
 		R = Math.exp(-Math.pow(lambda * x, beta));

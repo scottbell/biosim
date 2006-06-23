@@ -13,8 +13,8 @@ public class CauchyDecider extends FailureDecider{
 	}
 	
      @Override
-	 protected double getFailureRate(double timeElapsed) {
-		return CauchyFailureRate(mymu, mysd, timeElapsed);
+	 protected double getReliability(double timeElapsed) {
+		return CauchyReliability(mymu, mysd, timeElapsed);
 	}
 
 
@@ -98,7 +98,7 @@ public class CauchyDecider extends FailureDecider{
 	 }
 
 	
-	public static double CauchyDensity(double mu, double sd, double x) {
+public static double CauchyDensity(double mu, double sd, double x) {
 
 		      double f;
 
@@ -108,7 +108,7 @@ public class CauchyDecider extends FailureDecider{
 
 		   }
 
- public static double CauchyReliability(double mu, double sd, double x) {
+public static double CauchyReliability(double mu, double sd, double x) {
 
 		      double R;
 
@@ -118,14 +118,5 @@ public class CauchyDecider extends FailureDecider{
 		   
 		   }
 
-	     public static double CauchyFailureRate(double mu, double sd, double x) {
-
-		      double Z;
-
-			  Z=CauchyDensity(mu,sd,x)/CauchyReliability(mu,sd,x);
-
-		      return Z;
-
-		  }
 
 }

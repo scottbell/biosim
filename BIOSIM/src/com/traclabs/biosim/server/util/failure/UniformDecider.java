@@ -10,15 +10,15 @@ public class UniformDecider extends FailureDecider{
 	}
 	
      @Override
-	 protected double getFailureRate(double timeElapsed) {
-		return UniformFailureRate(myAlpha, myBeta, timeElapsed);
+	 protected double getReliability(double timeElapsed) {
+		return UniformReliability(myAlpha, myBeta, timeElapsed);
 	}
 
 
 	/**
 	*This method calculates the uniform distribution function.
 	*@param   alpha     alpha<beta
-	*@param   beta  	beta>alpha
+	*@param   beta      beta>alpha
 	*@param   x         x must be greater than 0, but less than 1.  
 	*/
  
