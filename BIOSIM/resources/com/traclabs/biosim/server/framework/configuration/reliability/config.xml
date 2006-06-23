@@ -14,7 +14,7 @@
             </VCCR>
             <O2Store capacity="100000.0" level="100000.0" moduleName="O2Store"/>
             <OGS moduleName="OGS">
-            	<cauchyFailureDecider mu="2" sd="3" isFailureEnabled="true"/>
+            	<cauchyFailureDecider mu="2" sd="3"/>
                 <potableWaterConsumer desiredFlowRates="1000.0" inputs="PotableWaterStore" maxFlowRates="1000.0"/>
                 <O2Producer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="O2Store"/>
                 <H2Producer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="H2Store"/>
@@ -57,8 +57,7 @@
         </environment>
         <food>
             <FoodStore capacity="1000000.0" level="1000000.0" moduleName="FoodStore">
-            	<lognormalFailureDecider logmean="4"
-            		isFailureEnabled="true" logsd="5" />
+            	<lognormalFailureDecider logmean="4" logsd="5" />
             </FoodStore>
         </food>
         <framework>
