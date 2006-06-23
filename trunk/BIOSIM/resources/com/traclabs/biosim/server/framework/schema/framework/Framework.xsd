@@ -32,7 +32,7 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="FailureDeciderType">
-		<xsd:attribute name="isFailureEnabled" type="xsd:boolean" use="required"/>
+		<xsd:attribute name="isFailureEnabled" type="xsd:boolean" default="true"/>
 	</xsd:complexType>
 	
 	<xsd:complexType name="CauchyFailureDeciderType">  
