@@ -10,7 +10,7 @@ public NormalDecider(double logmean, double logsd) {
 	}
 
 @Override
-protected double getFailureRate(double timeElapsed) {
+protected double getReliability(double timeElapsed) {
 	return normalReliability(myLogmean, myLogsd, timeElapsed);
 	}
 
