@@ -1,11 +1,11 @@
 package com.traclabs.biosim.server.util.failure;
 
-public class WeibullDecider extends FailureDecider {
+public class Weibull2Decider extends FailureDecider {
 	private double myLambda;
 
 	private double myBeta;
 
-	public WeibullDecider(double lambda, double beta) {
+	public Weibull2Decider(double lambda, double beta) {
 		this.myLambda = lambda;
 		this.myBeta = beta;
 	}

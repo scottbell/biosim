@@ -28,7 +28,14 @@ import com.traclabs.biosim.idl.simulation.food.BiomassPSHelper;
 import com.traclabs.biosim.server.actuator.framework.ActuatorInitializer;
 import com.traclabs.biosim.server.sensor.framework.SensorInitializer;
 import com.traclabs.biosim.server.simulation.framework.SimulationInitializer;
-import com.traclabs.biosim.server.util.failure.WeibullDecider;
+import com.traclabs.biosim.server.util.failure.CauchyDecider;
+import com.traclabs.biosim.server.util.failure.ExpDecider;
+import com.traclabs.biosim.server.util.failure.LogisticDecider;
+import com.traclabs.biosim.server.util.failure.LognormalDecider;
+import com.traclabs.biosim.server.util.failure.NormalDecider;
+import com.traclabs.biosim.server.util.failure.UniformDecider;
+import com.traclabs.biosim.server.util.failure.Weibull2Decider;
+import com.traclabs.biosim.server.util.failure.Weibull3Decider;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
@@ -426,12 +433,64 @@ public class BiosimInitializer {
         pModule.setStochasticIntensity(getStochasticIntensity(node));
         Node child = node.getFirstChild();
         while (child != null) {
-            if (child.getNodeName().equals("malfunction")) {
+        	String childName = child.getNodeName();
+            if (childName.equals("malfunction")) {
                 pModule.scheduleMalfunction(getMalfunctionIntensity(child),
                         getMalfunctionLength(child), getMalfunctionTick(child));
             }
-            else if (child.getNodeName().equals("weibullFailureDecider")) {
-            	WeibullDecider decider = new WeibullDecider(getWeibullScale(child), getWeibullShape(child));
+            else if (childName.equals("cauchyFailureDecider")) {
+            	double mu = getDoubleFromAttribute(child, "mu");
+            	double sd = getDoubleFromAttribute(child, "sd");
+            	CauchyDecider decider = new CauchyDecider(mu, sd);
+                pModule.setFailureDecider(decider);
+            	pModule.setEnableFailure(getFailureEnabled(child));
+            }
+            else if (childName.equals("expFailureDecider")) {
+            	double lambda = getDoubleFromAttribute(child, "lambda");
+            	ExpDecider decider = new ExpDecider(lambda);
+                pModule.setFailureDecider(decider);
+            	pModule.setEnableFailure(getFailureEnabled(child));
+            }
+            else if (childName.equals("logisticFailureDecider")) {
+            	double mu = getDoubleFromAttribute(child, "mu");
+            	double sd = getDoubleFromAttribute(child, "sd");
+            	LogisticDecider decider = new LogisticDecider(mu, sd);
+                pModule.setFailureDecider(decider);
+            	pModule.setEnableFailure(getFailureEnabled(child));
+            }
+            else if (childName.equals("lognormalFailureDecider")) {
+            	double logmean = getDoubleFromAttribute(child, "logmean");
+            	double logsd = getDoubleFromAttribute(child, "logsd");
+            	LognormalDecider decider = new LognormalDecider(logmean, logsd);
+                pModule.setFailureDecider(decider);
+            	pModule.setEnableFailure(getFailureEnabled(child));
+            }
+            else if (childName.equals("normalFailureDecider")) {
+            	double logmean = getDoubleFromAttribute(child, "logmean");
+            	double logsd = getDoubleFromAttribute(child, "logsd");
+            	NormalDecider decider = new NormalDecider(logmean, logsd);
+                pModule.setFailureDecider(decider);
+            	pModule.setEnableFailure(getFailureEnabled(child));
+            }
+            else if (childName.equals("uniformFailureDecider")) {
+            	double alpha = getDoubleFromAttribute(child, "alpha");
+            	double beta = getDoubleFromAttribute(child, "beta");
+            	UniformDecider decider = new UniformDecider(alpha, beta);
+                pModule.setFailureDecider(decider);
+            	pModule.setEnableFailure(getFailureEnabled(child));
+            }
+            else if (childName.equals("weibull2FailureDecider")) {
+            	double lambda = getDoubleFromAttribute(child, "lambda");
+            	double beta = getDoubleFromAttribute(child, "beta");
+            	Weibull2Decider decider = new Weibull2Decider(lambda, beta);
+                pModule.setFailureDecider(decider);
+            	pModule.setEnableFailure(getFailureEnabled(child));
+            }
+            else if (childName.equals("weibull3FailureDecider")) {
+            	double lambda = getDoubleFromAttribute(child, "lambda");
+            	double beta = getDoubleFromAttribute(child, "beta");
+            	double hold = getDoubleFromAttribute(child, "hold");
+            	Weibull3Decider decider = new Weibull3Decider(lambda, beta, hold);
                 pModule.setFailureDecider(decider);
             	pModule.setEnableFailure(getFailureEnabled(child));
             }
@@ -439,26 +498,14 @@ public class BiosimInitializer {
         }
     }
 
-	private static double getWeibullShape(Node child) {
-		double shape = 0;
+	private static double getDoubleFromAttribute(Node child, String name) {
+		double value = 0;
 		try {
-			shape = Double.parseDouble(child.getAttributes().getNamedItem(
-                    "shape").getNodeValue());
+			value = Double.parseDouble(child.getAttributes().getNamedItem(name).getNodeValue());
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-		return shape;
-	}
-
-	private static double getWeibullScale(Node child) {
-		double scale = 0;
-		try {
-			scale = Double.parseDouble(child.getAttributes().getNamedItem(
-                    "scale").getNodeValue());
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-		return scale;
+		return value;
 	}
 	
     private static boolean getFailureEnabled(Node pNode) {
