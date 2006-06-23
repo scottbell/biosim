@@ -1,7 +1,6 @@
 
 package com.traclabs.biosim.server.util.failure;
 
-import java.math.*;
 
 public class CauchyDecider extends FailureDecider{
 	private double mymu;

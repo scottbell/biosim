@@ -25,7 +25,6 @@
 				<CO2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="CO2Store"/>
 			</VCCR>
 			<OGS moduleName="OGS">
-				<weibullFailureDecider isFailureEnabled="true" scale="0.01" shape="6.7"/>
 				<powerConsumer maxFlowRates="2500" desiredFlowRates="2500" inputs="PowerStore"/>
 				<potableWaterConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="CrewPotableWaterStore"/>
 				<O2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="O2Store"/>

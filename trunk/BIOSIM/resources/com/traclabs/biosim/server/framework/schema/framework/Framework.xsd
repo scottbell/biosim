@@ -9,8 +9,14 @@
 			<xsd:element name="malfunction" type="MalfunctionType"
 				minOccurs="0" maxOccurs="1" />
 			<xsd:choice minOccurs="0" maxOccurs="1">
-					<xsd:element name="weibullFailureDecider" type="WeibullFailureDeciderType" />
-					<xsd:element name="gaussianFailureDecider" type="GaussianFailureDeciderType" />
+					<xsd:element name="cauchyFailureDecider" type="CauchyFailureDeciderType" />
+					<xsd:element name="expFailureDecider" type="ExpFailureDeciderType" />
+					<xsd:element name="logisticFailureDecider" type="LogisticFailureDeciderType" />
+					<xsd:element name="lognormalFailureDecider" type="LognormalFailureDeciderType" />
+					<xsd:element name="normalFailureDecider" type="NormalFailureDeciderType" />
+					<xsd:element name="uniformFailureDecider" type="UniformFailureDeciderType" />
+					<xsd:element name="weibull2FailureDecider" type="Weibull2FailureDeciderType" />
+					<xsd:element name="weibull3FailureDecider" type="Weibull3FailureDeciderType" />
 			</xsd:choice>
 		</xsd:sequence>
 		<xsd:attribute name="moduleName" type="xsd:string"
@@ -26,24 +32,77 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="FailureDeciderType">
-		<xsd:attribute name="isFailureEnabled" type="xsd:boolean"/>
+		<xsd:attribute name="isFailureEnabled" type="xsd:boolean" use="required"/>
 	</xsd:complexType>
 	
-	<xsd:complexType name="WeibullFailureDeciderType">  
+	<xsd:complexType name="CauchyFailureDeciderType">  
 		<xsd:complexContent>
 			<xsd:extension base="FailureDeciderType">
-				<xsd:attribute name="scale" type="xsd:double"/>
-				<xsd:attribute name="shape" type="xsd:double"/>
+				<xsd:attribute name="mu" type="xsd:double" use="required"/>
+				<xsd:attribute name="sd" type="xsd:double" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
-	<xsd:complexType name="GaussianFailureDeciderType">  
+	<xsd:complexType name="ExpFailureDeciderType">  
 		<xsd:complexContent>
 			<xsd:extension base="FailureDeciderType">
-				<xsd:attribute name="mean" type="xsd:double"/>
-				<xsd:attribute name="standardDeviation" type="xsd:double"/>
-				<xsd:attribute name="weight" type="xsd:double"/>
+				<xsd:attribute name="lambda" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="LogisticFailureDeciderType">  
+		<xsd:complexContent>
+			<xsd:extension base="FailureDeciderType">
+				<xsd:attribute name="mu" type="xsd:double" use="required"/>
+				<xsd:attribute name="sd" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="LognormalFailureDeciderType">  
+		<xsd:complexContent>
+			<xsd:extension base="FailureDeciderType">
+				<xsd:attribute name="logmean" type="xsd:double" use="required"/>
+				<xsd:attribute name="logsd" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NormalFailureDeciderType">  
+		<xsd:complexContent>
+			<xsd:extension base="FailureDeciderType">
+				<xsd:attribute name="logmean" type="xsd:double" use="required"/>
+				<xsd:attribute name="logsd" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="UniformFailureDeciderType">  
+		<xsd:complexContent>
+			<xsd:extension base="FailureDeciderType">
+				<xsd:attribute name="alpha" type="xsd:double" use="required"/>
+				<xsd:attribute name="beta" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="Weibull2FailureDeciderType">  
+		<xsd:complexContent>
+			<xsd:extension base="FailureDeciderType">
+				<xsd:attribute name="lambda" type="xsd:double" use="required"/>
+				<xsd:attribute name="beta" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="Weibull3FailureDeciderType">  
+		<xsd:complexContent>
+			<xsd:extension base="FailureDeciderType">
+				<xsd:attribute name="lambda" type="xsd:double" use="required"/>
+				<xsd:attribute name="beta" type="xsd:double" use="required"/>
+				<xsd:attribute name="hold" type="xsd:double" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
