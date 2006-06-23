@@ -115,7 +115,7 @@ public static double normdensity( double logmean, double logsd, double x) {
 	public static double normalFailureRate(double logmean,double logsd, double x) {
 		double z;
 		z = normdensity(logmean, logsd, x)
-				/ (logsd * normReliability(logmean, logsd, x));
+				/ (logsd * normalReliability(logmean, logsd, x));
 		return z;
 	}
 
