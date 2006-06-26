@@ -1091,17 +1091,17 @@ public class CrewPersonImpl extends CrewPersonPOA {
         }
 
         if (calorieRiskReturn > randomNumber) {
-            hasDied = true;
+            kill();
             myLogger.info(getName() + " has died from starvation on tick "
                     + myCurrentCrewGroup.getMyTicks() + " (risk was "
                     + numFormat.format(calorieRiskReturn * 100) + "%)");
         } else if (waterRiskReturn > randomNumber) {
-            hasDied = true;
+            kill();
             myLogger.info(getName() + " has died from thirst on tick "
                     + myCurrentCrewGroup.getMyTicks() + " (risk was "
                     + numFormat.format(waterRiskReturn * 100) + "%)");
         } else if (oxygenLowRiskReturn > randomNumber) {
-            hasDied = true;
+            kill();
             SimEnvironment[] myAirInputs = myCurrentCrewGroup
                     .getAirConsumerDefinition().getEnvironments();
             myLogger.info(getName() + " has died from lack of oxygen on tick "
@@ -1109,7 +1109,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
                     + numFormat.format(oxygenLowRiskReturn * 100) + "%)");
             logEnvironmentConditions();
         } else if (oxygenHighRiskReturn > randomNumber) {
-            hasDied = true;
+            kill();
             SimEnvironment[] myAirInputs = myCurrentCrewGroup
                     .getAirConsumerDefinition().getEnvironments();
             myLogger.info(getName()
@@ -1118,7 +1118,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
                     + numFormat.format(oxygenHighRiskReturn * 100) + "%)");
             logEnvironmentConditions();
         } else if (CO2RiskReturn > randomNumber) {
-            hasDied = true;
+            kill();
             SimEnvironment[] myAirInputs = myCurrentCrewGroup
                     .getAirConsumerDefinition().getEnvironments();
             myLogger.info(getName() + " has died from CO2 poisoning on tick "
@@ -1126,18 +1126,19 @@ public class CrewPersonImpl extends CrewPersonPOA {
                     + numFormat.format(CO2RiskReturn * 100) + "%)");
             
         }
-        //if died, kill
-        if (hasDied) {
-            O2Consumed = 0f;
-            CO2Produced = 0f;
-            caloriesConsumed = 0f;
-            potableWaterConsumed = 0f;
-            dirtyWaterProduced = 0f;
-            greyWaterProduced = 0f;
-            caloriesConsumed = 0f;
-            myCurrentActivity = mySchedule.getActivityByName("dead");
-            timeActivityPerformed = 0;
-        }
+    }
+    
+    public void kill(){
+    	hasDied = true;
+        O2Consumed = 0f;
+        CO2Produced = 0f;
+        caloriesConsumed = 0f;
+        potableWaterConsumed = 0f;
+        dirtyWaterProduced = 0f;
+        greyWaterProduced = 0f;
+        caloriesConsumed = 0f;
+        myCurrentActivity = mySchedule.getActivityByName("dead");
+        timeActivityPerformed = 0;
     }
     
     private void logEnvironmentConditions(){

@@ -283,4 +283,9 @@ public class BiomassPSImpl extends SimBioModuleImpl implements
     protected PowerConsumerDefinitionImpl getPowerConsumerDefinitionImpl() {
         return myPowerConsumerDefinitionImpl;
     }
+
+	public void killPlants() {
+    	for (Shelf currentShelf : getShelves())
+    		currentShelf.kill();
+	}
 }

@@ -314,6 +314,11 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
         myAirProducerDefinitionImpl.reset();
         myDryWasteProducerDefinitionImpl.reset();
     }
+    
+    public void killCrew(){
+    	for (CrewPerson currentPerson : crewPeople.values())
+    		currentPerson.kill();
+    }
 
     /**
      * Gets the productivity of the crew

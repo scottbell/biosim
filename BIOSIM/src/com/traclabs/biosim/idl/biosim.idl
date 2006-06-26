@@ -392,6 +392,7 @@ module com{
                                                         void reset();
                                                         CrewGroup getCurrentCrewGroup();
                                                 		void setLogLevel(in framework::LogLevel pLogLevel);
+                                                		void kill();
                                                 };
                                                 interface CrewGroup : framework::SimBioModule, environment::AirConsumer, water::PotableWaterConsumer, food::FoodConsumer, environment::AirProducer, water::GreyWaterProducer, water::DirtyWaterProducer, waste::DryWasteProducer{
                                                         CrewPerson getCrewPerson(in string name);
@@ -410,6 +411,7 @@ module com{
                                                         boolean anyDead();
                                                         void detachCrewPerson(in string name);
                                                         void attachCrewPerson(in CrewPerson pCrewPerson);
+                                                        void killCrew();
                                                 };
                                         };
 
@@ -500,6 +502,7 @@ module com{
                                                         void setAutoHarvestAndReplantEnabled(in boolean pHarvestEnabled);
                                                         boolean autoHarvestAndReplantEnabled();
                                                         boolean isAnyPlantDead();
+                                                        void killPlants();
                                                 };
 
                                                 interface FoodProcessor : framework::SimBioModule, power::PowerConsumer, food::BiomassConsumer, food::FoodProducer, waste::DryWasteProducer, water::WaterProducer{
@@ -536,6 +539,7 @@ module com{
                                                         float getCropAreaUsed();
                                                         BiomassPS getBiomassPS();
                                                         void setStartTick(in long tick);
+                                                        void kill();
                                                 };
 
                                                 interface Plant{
