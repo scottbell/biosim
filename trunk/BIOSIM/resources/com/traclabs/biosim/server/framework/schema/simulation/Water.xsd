@@ -52,16 +52,14 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
-					<xsd:choice minOccurs="4" maxOccurs="4">
-						<xsd:element name="powerConsumer"
-							type="PowerConsumerType"/>
-						<xsd:element name="dirtyWaterConsumer"
-							type="DirtyWaterConsumerType"/>
-						<xsd:element name="greyWaterConsumer"
-							type="GreyWaterConsumerType"/>
-						<xsd:element name="potableWaterProducer"
-							type="PotableWaterProducerType"/>
-					</xsd:choice>
+					<xsd:element name="powerConsumer"
+							type="PowerConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="dirtyWaterConsumer"
+							type="DirtyWaterConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="greyWaterConsumer"
+							type="GreyWaterConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="potableWaterProducer"
+							type="PotableWaterProducerType" minOccurs="1" maxOccurs="1"/>
 				</xsd:sequence>
 				<xsd:attribute name="implementation"
 					type="WaterRSImplementationType" default="LINEAR"/>

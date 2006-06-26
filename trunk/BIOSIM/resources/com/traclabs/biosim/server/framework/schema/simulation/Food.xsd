@@ -56,17 +56,17 @@
 						<xsd:element name="shelf" type="ShelfType" minOccurs="0"
 							maxOccurs="unbounded"/>
 						<xsd:element name="powerConsumer"
-							type="PowerConsumerType"/>
+							type="PowerConsumerType" minOccurs="1" maxOccurs="1"/>
 						<xsd:element name="potableWaterConsumer"
-							type="PotableWaterConsumerType"/>
+							type="PotableWaterConsumerType" minOccurs="1" maxOccurs="1"/>
 						<xsd:element name="greyWaterConsumer"
-							type="GreyWaterConsumerType"/>
-						<xsd:element name="airConsumer" type="AirConsumerType"/>
+							type="GreyWaterConsumerType" minOccurs="1" maxOccurs="1"/>
+						<xsd:element name="airConsumer" type="AirConsumerType" minOccurs="1" maxOccurs="1"/>
 						<xsd:element name="dirtyWaterProducer"
-							type="DirtyWaterProducerType"/>
+							type="DirtyWaterProducerType" minOccurs="1" maxOccurs="1"/>
 						<xsd:element name="biomassProducer"
-							type="BiomassProducerType"/>
-						<xsd:element name="airProducer" type="AirProducerType"/>
+							type="BiomassProducerType" minOccurs="1" maxOccurs="1"/>
+						<xsd:element name="airProducer" type="AirProducerType" minOccurs="1" maxOccurs="1"/>
 					</xsd:choice>
 				</xsd:sequence>
 				<xsd:attribute name="autoHarvestAndReplant" type="xsd:boolean"
@@ -81,14 +81,14 @@
 				<xsd:sequence>
 					<xsd:choice minOccurs="5" maxOccurs="5">
 						<xsd:element name="powerConsumer"
-							type="PowerConsumerType"/>
+							type="PowerConsumerType" minOccurs="1" maxOccurs="1"/>
 						<xsd:element name="biomassConsumer"
-							type="BiomassConsumerType"/>
-						<xsd:element name="foodProducer" type="FoodProducerType"/>
+							type="BiomassConsumerType" minOccurs="1" maxOccurs="1"/>
+						<xsd:element name="foodProducer" type="FoodProducerType" minOccurs="1" maxOccurs="1"/>
 						<xsd:element name="dryWasteProducer"
-							type="DryWasteProducerType"/>
+							type="DryWasteProducerType" minOccurs="1" maxOccurs="1"/>
 						<xsd:element name="waterProducer"
-							type="WaterProducerType"/>
+							type="WaterProducerType" minOccurs="1" maxOccurs="1"/>
 					</xsd:choice>
 				</xsd:sequence>
 			</xsd:extension>

@@ -52,21 +52,19 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
-					<xsd:choice minOccurs="8" maxOccurs="8">
-						<xsd:element name="potableWaterConsumer"
-							type="PotableWaterConsumerType"/>
-						<xsd:element name="airConsumer" type="AirConsumerType"/>
-						<xsd:element name="foodConsumer" type="FoodConsumerType"/>
-						<xsd:element name="dirtyWaterProducer"
-							type="DirtyWaterProducerType"/>
-						<xsd:element name="greyWaterProducer"
-							type="GreyWaterProducerType"/>
-						<xsd:element name="airProducer" type="AirProducerType"/>
-						<xsd:element name="dryWasteProducer"
-							type="DryWasteProducerType"/>
-						<xsd:element name="crewPerson" type="CrewPersonType"
+					<xsd:element name="potableWaterConsumer"
+							type="PotableWaterConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="airConsumer" type="AirConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="foodConsumer" type="FoodConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="dirtyWaterProducer"
+							type="DirtyWaterProducerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="greyWaterProducer"
+							type="GreyWaterProducerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="airProducer" type="AirProducerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="dryWasteProducer"
+							type="DryWasteProducerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="crewPerson" type="CrewPersonType"
 							minOccurs="0" maxOccurs="unbounded"/>
-					</xsd:choice>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

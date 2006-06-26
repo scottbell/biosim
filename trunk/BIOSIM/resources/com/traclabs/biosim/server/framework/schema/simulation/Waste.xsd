@@ -14,12 +14,10 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
-					<xsd:choice minOccurs="4" maxOccurs="4">
-						<xsd:element name="powerConsumer" type="PowerConsumerType"/>
-						<xsd:element name="O2Consumer" type="O2ConsumerType"/>
-						<xsd:element name="dryWasteConsumer" type="DryWasteConsumerType"/>
-						<xsd:element name="CO2Producer" type="CO2ProducerType"/>
-					</xsd:choice>
+					<xsd:element name="powerConsumer" type="PowerConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="O2Consumer" type="O2ConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="dryWasteConsumer" type="DryWasteConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="CO2Producer" type="CO2ProducerType" minOccurs="1" maxOccurs="1"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

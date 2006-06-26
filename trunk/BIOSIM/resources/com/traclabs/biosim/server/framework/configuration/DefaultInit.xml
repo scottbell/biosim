@@ -143,8 +143,8 @@
 		<power>
 			<PowerPS moduleName="PowerPS" generationType="SOLAR" upperPowerGeneration="70000000">
 				<malfunction occursAtTick="502" length="TEMPORARY_MALF" intensity="SEVERE_MALF"/>
-				<lightConsumer maxFlowRates="0" desiredFlowRates="0" inputs="CrewEnvironment"/>
 				<powerProducer maxFlowRates="500000" desiredFlowRates="500000" outputs="PowerStore"/>
+				<lightConsumer maxFlowRates="0" desiredFlowRates="0" inputs="CrewEnvironment"/>
 			</PowerPS>
 			<PowerStore moduleName="PowerStore" capacity="500000" level="500000"/>
 		</power>
