@@ -229,5 +229,9 @@ public class ShelfImpl extends ShelfPOA {
             myCrop = new WhitePotato(this);
         waterNeeded = cropAreaUsed * waterNeededPerMeterSquared;
     }
-
+    
+    public void kill(){
+    	myCrop.kill();
+    }
+    
 }

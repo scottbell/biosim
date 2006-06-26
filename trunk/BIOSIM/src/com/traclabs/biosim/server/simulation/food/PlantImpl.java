@@ -359,39 +359,39 @@ public abstract class PlantImpl extends PlantPOA {
         myLogger.debug("consumedCO2LowBuffer.getCapacity() = "+consumedCO2LowBuffer.getCapacity());
         myLogger.debug("CO2RiskLowReturn = "+CO2RiskLowReturn);
         if (CO2RiskLowReturn > randomNumber) {
-            hasDied = true;
+        	kill();
             myLogger.info(getPlantTypeString()
                     + " crops have died from low CO2 at " + getDaysOfGrowth()
                     + " days (risk was " + (CO2RiskLowReturn * 100) + "%)");
         } else if (CO2RiskHighReturn > randomNumber) {
-            hasDied = true;
+        	kill();
             myLogger.info(getPlantTypeString()
                     + " crops have died from high CO2 at " + getDaysOfGrowth()
                     + " days (risk was " + (CO2RiskHighReturn * 100) + "%)");
         } else if (waterRiskReturn > randomNumber) {
-            hasDied = true;
+        	kill();
             myLogger.info(getPlantTypeString()
                     + " crops have died from lack of water at "
                     + getDaysOfGrowth() + " days (risk was "
                     + (waterRiskReturn * 100) + "%)");
         } else if (heatRiskReturn > randomNumber) {
-            hasDied = true;
+        	kill();
             myLogger.info(getPlantTypeString()
                     + " crops have died from lack of heat at "
                     + getDaysOfGrowth() + " days (risk was "
                     + (heatRiskReturn * 100) + "%)");
         } else if (lightRiskReturn > randomNumber) {
-            hasDied = true;
+        	kill();
             myLogger.info(getPlantTypeString()
                     + " crops have died from lack of light at "
                     + getDaysOfGrowth() + " days (risk was "
                     + (lightRiskReturn * 100) + "%)");
         }
-        //if died, kill
-        if (hasDied) {
-            reset();
-            hasDied = true;
-        }
+    }
+    
+    public void kill(){
+        reset();
+        hasDied = true;
     }
 
     private float calculateDailyCanopyTranspirationRate() {
