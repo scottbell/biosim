@@ -7,18 +7,18 @@
         <air>
             <CO2Store capacity="100000.0" level="100000.0" moduleName="CO2Store"/>
             <VCCR moduleName="VCCR">
+				<powerConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="PowerStore"/>
                 <airConsumer desiredFlowRates="1000.0" inputs="SimEnvironment" maxFlowRates="1000.0"/>
                 <airProducer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="SimEnvironment"/>
                 <CO2Producer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="CO2Store"/>
-				<powerConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="PowerStore"/>
             </VCCR>
             <O2Store capacity="100000.0" level="100000.0" moduleName="O2Store"/>
             <OGS moduleName="OGS">
             	<cauchyFailureDecider mu="2" sd="3"/>
+				<powerConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="PowerStore"/>
                 <potableWaterConsumer desiredFlowRates="1000.0" inputs="PotableWaterStore" maxFlowRates="1000.0"/>
                 <O2Producer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="O2Store"/>
                 <H2Producer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="H2Store"/>
-				<powerConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="PowerStore"/>
             </OGS>
             <H2Store capacity="100000.0" level="100000.0" moduleName="H2Store"/>
         </air>
@@ -26,18 +26,18 @@
 			<CrewGroup moduleName="CrewGroup">
 				<potableWaterConsumer desiredFlowRates="1000.0"
 					inputs="PotableWaterStore" maxFlowRates="1000.0"/>
-				<foodConsumer desiredFlowRates="1000.0" inputs="FoodStore"
-					maxFlowRates="1000.0"/>
 				<airConsumer desiredFlowRates="1000.0" inputs="SimEnvironment"
+					maxFlowRates="1000.0"/>
+				<foodConsumer desiredFlowRates="1000.0" inputs="FoodStore"
 					maxFlowRates="1000.0"/>
 				<dirtyWaterProducer desiredFlowRates="1000.0"
 					maxFlowRates="1000.0" outputs="DirtyWaterStore"/>
 				<greyWaterProducer desiredFlowRates="1000.0" maxFlowRates="1000.0"
 					outputs="GreyWaterStore"/>
-				<dryWasteProducer desiredFlowRates="1000.0" maxFlowRates="1000.0"
-					outputs="DryWasteStore"/>
 				<airProducer desiredFlowRates="1000.0" maxFlowRates="1000.0"
 					outputs="SimEnvironment"/>
+				<dryWasteProducer desiredFlowRates="1000.0" maxFlowRates="1000.0"
+					outputs="DryWasteStore"/>
 				<crewPerson name="Bob Roberts" age="35" weight="70" sex="MALE">
 					<schedule>
 						<activity name="sleep" length="8" intensity="1"/>
@@ -75,10 +75,10 @@
         <water>
             <PotableWaterStore capacity="1.0E7" level="1.0E7" moduleName="PotableWaterStore"/>
             <WaterRS moduleName="WaterRS">
+				<powerConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="PowerStore"/>
                 <dirtyWaterConsumer desiredFlowRates="1000.0" inputs="DirtyWaterStore" maxFlowRates="1000.0"/>
                 <greyWaterConsumer desiredFlowRates="1000.0" inputs="GreyWaterStore" maxFlowRates="1000.0"/>
                 <potableWaterProducer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="PotableWaterStore"/>
-				<powerConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="PowerStore"/>
 			</WaterRS>
             <DirtyWaterStore capacity="1000000.0" level="1000000.0" moduleName="DirtyWaterStore"/>
             <GreyWaterStore capacity="1000000.0" level="1000000.0" moduleName="GreyWaterStore"/>

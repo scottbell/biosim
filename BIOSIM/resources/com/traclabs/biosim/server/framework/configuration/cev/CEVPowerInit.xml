@@ -17,10 +17,10 @@
 			<O2Store moduleName="O2Store" capacity="2000" level="2000"/>
 			<CO2Store moduleName="DumpedCO2" capacity="20000" level="0"/>
 			<VCCR moduleName="VCCR" implementation="LINEAR">
+				<powerConsumer desiredFlowRates="70000" maxFlowRates="70000" inputs="RPCMPowerStore3"/>
 				<airConsumer desiredFlowRates="10000" maxFlowRates="10000" inputs="CrewEnvironment"/>	
 				<airProducer desiredFlowRates="100" maxFlowRates="100" outputs="CrewEnvironment"/>
 				<CO2Producer desiredFlowRates="100" maxFlowRates="100" outputs="DumpedCO2"/>
-				<powerConsumer desiredFlowRates="70000" maxFlowRates="70000" inputs="RPCMPowerStore3"/>
 			</VCCR>
 		</air>
 		<power>
@@ -68,12 +68,12 @@
         </power>
 		<crew>
 			<CrewGroup moduleName="Crew">
-				<airConsumer maxFlowRates="10000" desiredFlowRates="10000" inputs="CrewEnvironment"/>
-				<airProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="CrewEnvironment"/>
-				<foodConsumer maxFlowRates="100" desiredFlowRates="100" inputs="FoodStore"/>
 				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="PotableWaterStore"/>
+				<airConsumer maxFlowRates="10000" desiredFlowRates="10000" inputs="CrewEnvironment"/>
+				<foodConsumer maxFlowRates="100" desiredFlowRates="100" inputs="FoodStore"/>
 				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="DirtyWaterStore"/>
 				<greyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="GreyWaterStore"/>
+				<airProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="CrewEnvironment"/>
 				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="DryWasteStore"/>
 				<crewPerson name="Stephanie Stevens" age="42" weight="60" sex="FEMALE">
 					<schedule>

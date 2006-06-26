@@ -22,12 +22,8 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
-					<xsd:choice minOccurs="1" maxOccurs="2">
-						<xsd:element name="powerProducer" type="PowerProducerType"/>
-						<xsd:choice minOccurs="0" maxOccurs="1">
-							<xsd:element name="lightConsumer" type="LightConsumerType"/>
-						</xsd:choice>
-					</xsd:choice>
+					<xsd:element name="powerProducer" type="PowerProducerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="lightConsumer" type="LightConsumerType" minOccurs="0" maxOccurs="1"/>
 				</xsd:sequence>
 				<xsd:attribute name="generationType" type="GenerationType" default="NUCLEAR"/>
 				<xsd:attribute name="upperPowerGeneration" type="nonNegativeFloat" default="500"/>
@@ -39,9 +35,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
-					<xsd:choice minOccurs="1" maxOccurs="1">
-						<xsd:element name="powerConsumer" type="PowerConsumerType"/>
-					</xsd:choice>
+					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
 				</xsd:sequence>
 				<xsd:attribute name="powerRequired" type="nonNegativeFloat" use="required"/>
 			</xsd:extension>
@@ -52,10 +46,8 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
-					<xsd:choice minOccurs="2" maxOccurs="2">
-						<xsd:element name="powerConsumer" type="PowerConsumerType"/>
-						<xsd:element name="powerProducer" type="PowerProducerType"/>
-					</xsd:choice>
+					<xsd:element name="powerConsumer" type="PowerConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="powerProducer" type="PowerProducerType" minOccurs="1" maxOccurs="1"/>
 				</xsd:sequence>
 				<xsd:attribute name="switchValues" type="switchList" use="optional"/>
 			</xsd:extension>
@@ -68,7 +60,7 @@
 				<xsd:element name="PowerPS" type="PowerPSType"/>
 				<xsd:element name="PowerStore" type="PowerStoreType"/>
 				<xsd:element name="GenericPowerConsumer"
-					type="GenericPowerConsumerType"/>
+					type="GenericPowerConsumerType" minOccurs="1" maxOccurs="1"/>
 				<xsd:element name="RPCM" type="RPCMType"/>
 			</xsd:choice>
 		</xsd:sequence>
