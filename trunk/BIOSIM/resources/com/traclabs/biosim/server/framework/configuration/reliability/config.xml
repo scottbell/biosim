@@ -62,7 +62,7 @@
         </food>
         <framework>
             <Injector moduleName="Injector">
-                <O2Consumer desiredFlowRates="100.0" inputs="O2Store" maxFlowRates="100.0"/>
+                <O2Consumer desiredFlowRates="100.0" inputs="O2Store" maxFlowRates="100.0"></O2Consumer>
                 <O2Producer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="SimEnvironment"/>
             </Injector>
         </framework>
