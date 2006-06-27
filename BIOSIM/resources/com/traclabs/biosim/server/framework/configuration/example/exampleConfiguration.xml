@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:biosim xmlns:p="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
+  <p:Globals/><p:SimBioModules>
+	<p:crew>
+		<p:CrewGroup moduleName="TheCrewGroup">
+			<p:airConsumer/>
+		</p:CrewGroup></p:crew>
+</p:SimBioModules>
+</p:biosim>
