@@ -11,27 +11,10 @@ import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.framework.Injector;
 import com.traclabs.biosim.util.OrbUtils;
 
-/**
- * @author Scott Bell
- * A simple, yet ineffective controller
- */
 
-/*
-To compile:
-1) build biosim (type "ant" in BIOSIM_HOME directory)
-
-To run: (assuming BIOSIM_HOME/bin is in your path)
-1)type "run-nameserver"
-2)type "run-server -xml=test/SimpleControllerInit.xml"
-3)type "java -classpath $BIOSIM_HOME/lib/xerces/xercesImpl.jar:$BIOSIM_HOME/lib/log4j/log4j.jar:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb/logkit.jar:$BIOSIM_HOME/lib/jacorb/avalon-framework.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/build:$BIOSIM_HOME/resources -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton -DORBInitRef.NameService=file:$BIOSIM_HOME/tmp/ns/ior.txt com.traclabs.biosim.client.control.SimpleController"
-
-Good Luck!  If you have any questions, email me at:
-scott@traclabs.com
-
-*/
 
 public class MurderController {
-	private static String CONFIGURATION_FILE = "test/MurderControllerInit.xml";
+	private static String CONFIGURATION_FILE = "com/traclabs/biosim/server/framework/configuration/reliability/NigilConfig.xml";
 
 	private BioDriver myBioDriver;
 
@@ -119,7 +102,7 @@ public class MurderController {
 		float oxygenPercentage = myO2ConcentrationSensor.getValue();
 		float CO2Percentage = myCO2ConcentrationSensor.getValue();
 		if ((oxygenPercentage < 0.10)) || (oxygenPercentage > 0.30) || (CO2Percentage > .06))			{				
-			CrewPerson.kill();
+			myBioHolder.theCrewGroups.getCrewPerson("Nigil").kill();
 			return true;
 		}
 	}
