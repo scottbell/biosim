@@ -53,7 +53,7 @@ public class MurderController {
 		myBioDriver = myBioHolder.theBioDriver;
 		
 		Injector O2Injector = myBioHolder.theInjectors.get(0);
-		Injector CO2Injector = myBioHolder.theInjectors.get(0);
+		Injector CO2Injector = myBioHolder.theInjectors.get(1);
 
 		for (Injector currentInjector : myBioHolder.theInjectors)	{
 			if (currentInjector.getModuleName().equals("O2Injector"))
