@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <p:biosim xmlns:p="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
-  <p:Globals crewsToWatch="Nigil" runTillCrewDeath="true" runTillN="336" />
+  <p:Globals crewsToWatch="Nigil" runTillCrewDeath="true"/>
   <p:SimBioModules>
-  	<p:air>
-  		<p:CO2Store capacity="0.0" level="0.0" moduleName="CO2Store"></p:CO2Store>
-  		<p:O2Store capacity="0.0" level="0.0" moduleName="O2Store"></p:O2Store></p:air>
   	<p:crew>
   		<p:CrewGroup moduleName="Nigil">
-  			<p:potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates=""
-  				maxFlowRates="" />
-  			<p:airConsumer inputs="" desiredFlowRates=""
-  				maxFlowRates="" />
-  			<p:foodConsumer inputs="FoodStore" desiredFlowRates=""
-  				maxFlowRates="" />
-  			<p:dirtyWaterProducer desiredFlowRates="" outputs="DirtyWaterStore"
-  				maxFlowRates="" />
-  			<p:greyWaterProducer desiredFlowRates="" outputs="GreyWaterStore"
-  				maxFlowRates="" />
-  			<p:airProducer desiredFlowRates="" outputs=""
-  				maxFlowRates="" />
-  			<p:dryWasteProducer desiredFlowRates="" outputs="DryWasteStore"
-  				maxFlowRates="" /><p:crewPerson age="" name="Nigil"
-  				sex="MALE" weight="">
+  			<p:potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates="3"
+  				maxFlowRates="3" />
+  			<p:airConsumer inputs="SimEnvironment" desiredFlowRates="1000"
+  				maxFlowRates="1000" />
+  			<p:foodConsumer inputs="FoodStore" desiredFlowRates="100"
+  				maxFlowRates="100" />
+  			<p:dirtyWaterProducer desiredFlowRates="2" outputs="DirtyWaterStore"
+  				maxFlowRates="2" />
+  			<p:greyWaterProducer desiredFlowRates="100" outputs="GreyWaterStore"
+  				maxFlowRates="100" />
+  			<p:airProducer desiredFlowRates="100" outputs="SimEnvironment"
+  				maxFlowRates="100" />
+  			<p:dryWasteProducer desiredFlowRates="100" outputs="DryWasteStore"
+  				maxFlowRates="100" /><p:crewPerson age="35" name="Nigil"
+  				sex="MALE" weight="75">
   				<p:schedule>
   					<p:activity intensity="1" name="sleep" length="8" /><p:activity
   						intensity="2" name="hygiene" length="1" /><p:activity
@@ -39,16 +36,13 @@
   	<p:food>
   		<p:BiomassPS moduleName="BiomassPS">
   			<p:shelf cropType="WHEAT" cropArea="500" /><p:powerConsumer
-  				inputs="PowerStore" desiredFlowRates="" maxFlowRates="" ></p:powerConsumer><p:potableWaterConsumer
-  				inputs="PotableWaterStore" desiredFlowRates="" maxFlowRates="" ></p:potableWaterConsumer><p:greyWaterConsumer
-  				inputs="GreyWaterStore" desiredFlowRates="" maxFlowRates="" /><p:dirtyWaterProducer
-  				desiredFlowRates="" outputs="DirtyWaterStore" maxFlowRates="" ></p:dirtyWaterProducer><p:airConsumer
-  				inputs="" desiredFlowRates="" maxFlowRates="" /><p:airProducer
-  				desiredFlowRates="" outputs="" maxFlowRates="" /></p:BiomassPS>
+  				inputs="PowerStore" desiredFlowRates="1000" maxFlowRates="1000" ></p:powerConsumer><p:potableWaterConsumer
+  				inputs="PotableWaterStore" desiredFlowRates="3" maxFlowRates="3" ></p:potableWaterConsumer><p:greyWaterConsumer
+  				inputs="GreyWaterStore" desiredFlowRates="3" maxFlowRates="3" /><p:dirtyWaterProducer
+  				desiredFlowRates="2" outputs="DirtyWaterStore" maxFlowRates="2" ></p:dirtyWaterProducer><p:airConsumer
+  				inputs="SimEnvironment" desiredFlowRates="1000" maxFlowRates="1000" /><p:airProducer
+  				desiredFlowRates="1000" outputs="SimEnvironment" maxFlowRates="1000" /></p:BiomassPS>
   		<p:FoodStore capacity="10000000000" level="10000000000" moduleName="FoodStore"></p:FoodStore></p:food>
-  	<p:framework>
-  		<p:Accumulator moduleName=""></p:Accumulator>
-  		<p:Injector moduleName=""></p:Injector></p:framework>
   	<p:power>
   		<p:PowerStore capacity="10000000" level="10000000" moduleName="PowerStore"></p:PowerStore></p:power>
   	<p:waste>
