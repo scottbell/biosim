@@ -25,9 +25,9 @@ public class MurderController {
 
 	private GenericSensor myCO2ConcentrationSensor;
 
-	private GenericActuator myO2InjectorAcutator;
+	private GenericActuator myO2InjectorActuator;
 
-	private GenericActuator myCO2InjectorAcutator;
+	private GenericActuator myCO2InjectorActuator;
 
 	public MurderController() {
 		OrbUtils.initializeLog();
@@ -52,8 +52,8 @@ public class MurderController {
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;
 		
-		Injector O2Injector;
-		Injector CO2Injector;
+		Injector O2Injector = myBioHolder.theInjectors.get(0);
+		Injector CO2Injector = myBioHolder.theInjectors.get(0);
 
 		for (Injector currentInjector : myBioHolder.theInjectors)	{
 			if (currentInjector.getModuleName().equals("O2Injector"))
@@ -66,7 +66,7 @@ public class MurderController {
 				break;
 		}
 
-		myO2InjectorAcutator = (myBioHolder.getActuatorAttachedTo(
+		myO2InjectorActuator = (myBioHolder.getActuatorAttachedTo(
 				myBioHolder.theO2InFlowRateActuators, O2Injector));
 
 		myCO2InjectorActuator = (myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2InFlowRateActuators, CO2Injector));
@@ -100,9 +100,12 @@ public class MurderController {
 	private boolean endConditionMet() {
 		float oxygenPercentage = myO2ConcentrationSensor.getValue();
 		float CO2Percentage = myCO2ConcentrationSensor.getValue();
-		if ((oxygenPercentage < 0.10)) || (oxygenPercentage > 0.30) || (CO2Percentage > .06))	{				
-			myBioHolder.theCrewGroups.get(0).getCrewPerson().kill();
+		if ((oxygenPercentage < 0.10) || (oxygenPercentage > 0.30) || (CO2Percentage > .06))	{				
+			myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil").kill();
 			return true;
+		}
+		else	{
+			return false;
 		}
 	}
 
@@ -116,9 +119,9 @@ public class MurderController {
 		myLogger.info("sensor reading is " + sensorValue);
 		//set actuator
 		myLogger.info("incrementing actuator by 1");
-		float actuatorValue = myO2InjectorAcutator.getValue();
-		myLogger.info("actuator set at " + myO2InjectorAcutator.getValue());
-		myO2InjectorAcutator.setValue(actuatorValue + 1);
+		float actuatorValue = myO2InjectorActuator.getValue();
+		myLogger.info("actuator set at " + myO2InjectorActuator.getValue());
+		myO2InjectorActuator.setValue(actuatorValue + 1);
 		// advancing the sim 1 tick
 		myBioDriver.advanceOneTick();
 	}
