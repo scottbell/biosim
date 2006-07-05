@@ -11,6 +11,24 @@ import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.framework.Injector;
 import com.traclabs.biosim.util.OrbUtils;
 
+/**
+ * @author Scott Bell
+ * A simple, yet ineffective controller
+ */
+
+/*
+To compile:
+1) build biosim (type "ant" in BIOSIM_HOME directory)
+
+To run: (assuming BIOSIM_HOME/bin is in your path)
+1)type "run-nameserver"
+2)type "run-server -xml=test/SimpleControllerInit.xml"
+3)type "java -classpath $BIOSIM_HOME/lib/xerces/xercesImpl.jar:$BIOSIM_HOME/lib/log4j/log4j.jar:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb/logkit.jar:$BIOSIM_HOME/lib/jacorb/avalon-framework.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/build:$BIOSIM_HOME/resources -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton -DORBInitRef.NameService=file:$BIOSIM_HOME/tmp/ns/ior.txt com.traclabs.biosim.client.control.SimpleController"
+
+Good Luck!  If you have any questions, email me at:
+scott@traclabs.com
+
+*/
 
 public class MurderController {
 	private static String CONFIGURATION_FILE = "test/NigilConfigInit.xml";
@@ -32,6 +50,7 @@ public class MurderController {
 	public MurderController() {
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
+		myLogger.info("Collecting references");
 		collectReferences();
 	}
 
@@ -53,6 +72,7 @@ public class MurderController {
 		myBioDriver = myBioHolder.theBioDriver;
 		
 		Injector O2Injector = myBioHolder.theInjectors.get(0);
+		
 		Injector CO2Injector = myBioHolder.theInjectors.get(1);
 
 		for (Injector currentInjector : myBioHolder.theInjectors)	{
@@ -116,12 +136,17 @@ public class MurderController {
 	public void stepSim() {
 		//check sensor
 		float sensorValue = myO2ConcentrationSensor.getValue();
-		myLogger.info("sensor reading is " + sensorValue);
+		myLogger.info("O2 sensor reading is " + sensorValue);
 		//set actuator
 		myLogger.info("incrementing actuator by 1");
 		float actuatorValue = myO2InjectorActuator.getValue();
 		myLogger.info("actuator set at " + myO2InjectorActuator.getValue());
 		myO2InjectorActuator.setValue(actuatorValue + 1);
+		float CO2sensorValue = myCO2ConcentrationSensor.getValue();
+		myLogger.info("CO2 sensor reading is "+ CO2sensorValue);
+		myLogger.info("incrementing actuator by 1");
+		float CO2actuatorValue = myCO2InjectorActuator.getValue();
+		myLogger.info("actuator set at "+ myCO2InjectorActuator.getValue());
 		// advancing the sim 1 tick
 		myBioDriver.advanceOneTick();
 	}

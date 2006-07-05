@@ -53,6 +53,15 @@
   		</p:PotableWaterStore>
   		<p:GreyWaterStore capacity="10000000" level="10000000" moduleName="GreyWaterStore"></p:GreyWaterStore>
   		<p:DirtyWaterStore capacity="10000000" level="10000000" moduleName="DirtyWaterStore"></p:DirtyWaterStore></p:water>
+  	<p:framework>
+  		<p:Injector moduleName="O2Injector">
+  			<p:O2Consumer inputs="O2Store" desiredFlowRates="100"
+  				maxFlowRates="100" /><p:O2Producer desiredFlowRates="1000"
+  				outputs="SimEnvironment" maxFlowRates="1000" /></p:Injector>
+  		<p:Injector moduleName="CO2Injector">
+  			<p:CO2Consumer inputs="CO2Store" desiredFlowRates="100"
+  				maxFlowRates="100" /><p:CO2Producer desiredFlowRates="1000"
+  				outputs="SimEnvironment" maxFlowRates="1000" /></p:Injector></p:framework>
   </p:SimBioModules>
 	<p:Sensors>
 		<p:environment>
