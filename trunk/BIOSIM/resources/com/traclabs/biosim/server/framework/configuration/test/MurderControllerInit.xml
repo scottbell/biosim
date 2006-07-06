@@ -1,29 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
-	<Globals runTillN="336" runTillCrewDeath="true" crewsToWatch="CrewGroup">
-        <comment>A initialization file for the MurderController</comment>
-        <author>Scott Bell</author>
-    </Globals>
-    <SimBioModules>
+	<Globals runTillCrewDeath="true" crewsToWatch="Nigil">
+		<comment>
+			A initialization file for the MurderController
+		</comment>
+		<author>Kirsten Stark</author>
+	</Globals>
+	<SimBioModules>
         <air>
             <CO2Store capacity="100000.0" level="100000.0" moduleName="CO2Store"/>
-            <VCCR moduleName="VCCR">
-				<powerConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="PowerStore"/>
-                <airConsumer desiredFlowRates="1000.0" inputs="SimEnvironment" maxFlowRates="1000.0"/>
-                <airProducer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="SimEnvironment"/>
-                <CO2Producer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="CO2Store"/>
-            </VCCR>
             <O2Store capacity="100000.0" level="100000.0" moduleName="O2Store"/>
-            <OGS moduleName="OGS">
-				<powerConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="PowerStore"/>
-                <potableWaterConsumer desiredFlowRates="1000.0" inputs="PotableWaterStore" maxFlowRates="1000.0"/>
-                <O2Producer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="O2Store"/>
-                <H2Producer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="H2Store"/>
-            </OGS>
-            <H2Store capacity="100000.0" level="100000.0" moduleName="H2Store"/>
         </air>
         <crew>
-			<CrewGroup moduleName="CrewGroup">
+			<CrewGroup moduleName="Nigil">
 				<potableWaterConsumer desiredFlowRates="1000.0"
 					inputs="PotableWaterStore" maxFlowRates="1000.0"/>
 				<airConsumer desiredFlowRates="1000.0" inputs="SimEnvironment"
@@ -38,7 +27,7 @@
 					outputs="SimEnvironment"/>
 				<dryWasteProducer desiredFlowRates="1000.0" maxFlowRates="1000.0"
 					outputs="DryWasteStore"/>
-				<crewPerson name="Bob Roberts" age="35" weight="70" sex="MALE">
+				<crewPerson name="Nigil" age="35" weight="70" sex="MALE">
 					<schedule>
 						<activity name="sleep" length="8" intensity="1"/>
 						<activity name="hygiene" length="1" intensity="2"/>
@@ -56,7 +45,14 @@
             <SimEnvironment moduleName="SimEnvironment" initialVolume="2000000000"/>
         </environment>
         <food>
-            <FoodStore capacity="1000000.0" level="1000000.0" moduleName="FoodStore"/>
+            <FoodStore capacity="1000000.0" level="1000000.0" moduleName="FoodStore"/><BiomassPS
+            	moduleName="">
+	<airConsumer inputs="SimEnvironment" desiredFlowRates="1000" maxFlowRates="1000" /><airProducer
+		desiredFlowRates="1000" outputs="SimEnvironment" maxFlowRates="1000" /><dirtyWaterProducer
+		desiredFlowRates="1000" outputs="DirtyWaterStore" maxFlowRates="1000" /><greyWaterConsumer
+		inputs="GreyWaterStore" desiredFlowRates="1000" maxFlowRates="1000" /><potableWaterConsumer
+		inputs="PotableWaterStore" desiredFlowRates="1000" maxFlowRates="1000" />
+</BiomassPS>
         </food>
         <framework>
             <Injector moduleName="Injector">
@@ -76,12 +72,6 @@
         </waste>
         <water>
             <PotableWaterStore capacity="1.0E7" level="1.0E7" moduleName="PotableWaterStore"/>
-            <WaterRS moduleName="WaterRS">
-				<powerConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="PowerStore"/>
-                <dirtyWaterConsumer desiredFlowRates="1000.0" inputs="DirtyWaterStore" maxFlowRates="1000.0"/>
-                <greyWaterConsumer desiredFlowRates="1000.0" inputs="GreyWaterStore" maxFlowRates="1000.0"/>
-                <potableWaterProducer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="PotableWaterStore"/>
-			</WaterRS>
             <DirtyWaterStore capacity="1000000.0" level="1000000.0" moduleName="DirtyWaterStore"/>
             <GreyWaterStore capacity="1000000.0" level="1000000.0" moduleName="GreyWaterStore"/>
         </water>
