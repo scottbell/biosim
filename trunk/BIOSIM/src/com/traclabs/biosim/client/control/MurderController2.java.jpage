@@ -30,8 +30,8 @@ scott@traclabs.com
 
 */
 
-public class MurderController {
-	private static String CONFIGURATION_FILE = "test/NigilConfigInit.xml";
+public class SimpleController {
+	private static String CONFIGURATION_FILE = "test/SimpleControllerInit.xml";
 
 	private BioDriver myBioDriver;
 
@@ -41,20 +41,16 @@ public class MurderController {
 
 	private GenericSensor myO2ConcentrationSensor;
 
-	private GenericSensor myCO2ConcentrationSensor;
+	private GenericActuator myO2InjectorAcutator;
 
-	private GenericActuator InjectorO2InFlowRateActuator;
-
-	private GenericActuator InjectorCO2InFlowRateActuator;
-
-	public MurderController() {
+	public SimpleController() {
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
 		collectReferences();
 	}
 
 	public static void main(String[] args) {
-		MurderController myController = new MurderController();
+		SimpleController myController = new SimpleController();
 		myController.runSim();
 	}
 
@@ -69,33 +65,17 @@ public class MurderController {
 		BioHolderInitializer.setFile(CONFIGURATION_FILE);
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;
-				
+
 		Injector O2Injector = myBioHolder.theInjectors.get(0);
-		
-		Injector CO2Injector = myBioHolder.theInjectors.get(1);
 
-		for (Injector currentInjector : myBioHolder.theInjectors)	{
-			if (currentInjector.getModuleName().equals("O2Injector"))
-				O2Injector = currentInjector;
-				break;
-		}
-		for (Injector currentInjector : myBioHolder.theInjectors)	{
-			if (currentInjector.getModuleName().equals("CO2Injector"))
-				CO2Injector = currentInjector;
-				break;
-		}
-
-		InjectorO2InFlowRateActuator = (myBioHolder.getActuatorAttachedTo(
+		myO2InjectorAcutator = (myBioHolder.getActuatorAttachedTo(
 				myBioHolder.theO2InFlowRateActuators, O2Injector));
-
-		InjectorCO2InFlowRateActuator = (myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2InFlowRateActuators, CO2Injector));
 
 		SimEnvironment crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 
 		myO2ConcentrationSensor = (myBioHolder.getSensorAttachedTo(
 				myBioHolder.theGasConcentrationSensors, crewEnvironment
 						.getO2Store()));
-		myCO2ConcentrationSensor = (myBioHolder.getSensorAttachedTo(myBioHolder.theGasConcentrationSensors, crewEnvironment.getCO2Store()));	
 	}
 	
 	/**
@@ -118,14 +98,7 @@ public class MurderController {
 	 */
 	private boolean endConditionMet() {
 		float oxygenPercentage = myO2ConcentrationSensor.getValue();
-		float CO2Percentage = myCO2ConcentrationSensor.getValue();
-		if ((oxygenPercentage < 0.10) || (oxygenPercentage > 0.30) || (CO2Percentage > .06))	{				
-			myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil").kill();
-			return true;
-		}
-		else	{
-			return false;
-		}
+		return (oxygenPercentage < 0.10);
 	}
 
 	/**
@@ -133,21 +106,15 @@ public class MurderController {
 	 * then increments the actuator.
 	 */
 	public void stepSim() {
-	
-		float O2sensorValue = myO2ConcentrationSensor.getValue();
-		myLogger.info("O2 sensor reading is " + O2sensorValue);
+		//check sensor
+		float sensorValue = myO2ConcentrationSensor.getValue();
+		myLogger.info("sensor reading is " + sensorValue);
+		//set actuator
 		myLogger.info("incrementing actuator by 1");
-		float O2actuatorValue = InjectorO2InFlowRateActuator.getValue();
-		myLogger.info("actuator set at " + InjectorO2InFlowRateActuator.getValue());
-		InjectorO2InFlowRateActuator.setValue(O2actuatorValue + 1);
-		
-		float CO2sensorValue = myCO2ConcentrationSensor.getValue();
-		myLogger.info("CO2 sensor reading is "+ CO2sensorValue);
-		myLogger.info("incrementing actuator by 1");
-		float CO2actuatorValue = InjectorCO2InFlowRateActuator.getValue();
-		myLogger.info("actuator set at "+ InjectorCO2InFlowRateActuator.getValue());
-		InjectorCO2InFlowRateActuator.setValue(CO2actuatorValue + 1);
-		
+		float actuatorValue = myO2InjectorAcutator.getValue();
+		myLogger.info("actuator set at " + myO2InjectorAcutator.getValue());
+		myO2InjectorAcutator.setValue(actuatorValue + 1);
+		// advancing the sim 1 tick
 		myBioDriver.advanceOneTick();
 	}
 
