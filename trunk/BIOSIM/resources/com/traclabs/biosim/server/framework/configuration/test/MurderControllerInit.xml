@@ -63,6 +63,10 @@
                 <O2Consumer desiredFlowRates="100.0" inputs="O2Store" maxFlowRates="100.0"/>
                 <O2Producer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="SimEnvironment"/>
             </Injector>
+            <Injector moduleName="CO2Injector">
+            	<CO2Consumer inputs="CO2Store" desiredFlowRates="100"
+            		maxFlowRates="100" ></CO2Consumer><CO2Producer desiredFlowRates="1000"
+            		outputs="SimEnvironment" maxFlowRates="1000" ></CO2Producer></Injector>
         </framework>
 		<power>
 			<PowerStore level="1000000" capacity="1000000" moduleName="PowerStore"/>
@@ -95,7 +99,7 @@
     <Actuators>
     	<air>
     		<O2InFlowRateActuator output="Injector" moduleName="InjectorO2InFlowRateActuator" index="0"></O2InFlowRateActuator>
-    		<CO2InFlowRateActuator output="Injector" moduleName="InjectorCO2InFlowRateActuator" index="0"></CO2InFlowRateActuator>
+    		<CO2InFlowRateActuator output="CO2Injector" moduleName="InjectorCO2InFlowRateActuator" index="0"></CO2InFlowRateActuator>
     	</air>
     </Actuators>
 </biosim>
