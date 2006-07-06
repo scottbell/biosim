@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
 	<Globals runTillN="336" runTillCrewDeath="true" crewsToWatch="CrewGroup">
-        <comment>A initialization file for the Simple Controller</comment>
+        <comment>A initialization file for the MurderController</comment>
         <author>Scott Bell</author>
     </Globals>
     <SimBioModules>
@@ -87,11 +87,15 @@
     		<GasConcentrationSensor input="SimEnvironment" moduleName="O2ConcentrationSensor"
     			gasType="O2">
     		</GasConcentrationSensor>
+    		<GasConcentrationSensor input="SimEnvironment" moduleName="CO2ConcentrationSensor"
+    			gasType="CO2">
+    		</GasConcentrationSensor>
     	</environment>
     </Sensors>
     <Actuators>
     	<air>
     		<O2InFlowRateActuator output="Injector" moduleName="InjectorO2InFlowRateActuator" index="0"></O2InFlowRateActuator>
+    		<CO2InFlowRateActuator output="Injector" moduleName="InjectorCO2InFlowRateActuator" index="0"></CO2InFlowRateActuator>
     	</air>
     </Actuators>
 </biosim>
