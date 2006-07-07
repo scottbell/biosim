@@ -7,10 +7,6 @@
 		<author>Kirsten Stark</author>
 	</Globals>
 	<SimBioModules>
-        <air>
-            <CO2Store capacity="100000.0" level="100000.0" moduleName="CO2Store"/>
-            <O2Store capacity="100000.0" level="100000.0" moduleName="O2Store"/>
-        </air>
         <crew>
 			<CrewGroup moduleName="Nigil">
 				<potableWaterConsumer desiredFlowRates="1000.0"
@@ -42,11 +38,12 @@
 			</CrewGroup>
         </crew>
         <environment>
-            <SimEnvironment moduleName="SimEnvironment" initialVolume="2000000000"/>
+            <SimEnvironment moduleName="SimEnvironment"
+            	initialVolume="32000"/>
         </environment>
         <food>
             <FoodStore capacity="1000000.0" level="1000000.0" moduleName="FoodStore"/><BiomassPS
-            	moduleName="">
+            	moduleName="BiomassPS">
 	<airConsumer inputs="SimEnvironment" desiredFlowRates="1000" maxFlowRates="1000" /><airProducer
 		desiredFlowRates="1000" outputs="SimEnvironment" maxFlowRates="1000" /><dirtyWaterProducer
 		desiredFlowRates="1000" outputs="DirtyWaterStore" maxFlowRates="1000" /><greyWaterConsumer
@@ -75,7 +72,10 @@
             <DirtyWaterStore capacity="1000000.0" level="1000000.0" moduleName="DirtyWaterStore"/>
             <GreyWaterStore capacity="1000000.0" level="1000000.0" moduleName="GreyWaterStore"/>
         </water>
-    </SimBioModules>
+        <air>
+        	<CO2Store capacity="0.0" level="0.0" moduleName="CO2Store"></CO2Store>
+        	<O2Store capacity="0.0" level="0.0" moduleName="O2Store"></O2Store></air>
+	</SimBioModules>
     <Sensors>
     	<environment>
     		<GasConcentrationSensor input="SimEnvironment" moduleName="O2ConcentrationSensor"

@@ -122,7 +122,8 @@ public class MurderController {
 	private boolean endConditionMet() {
 		float oxygenPercentage = myO2ConcentrationSensor.getValue();
 		float CO2Percentage = myCO2ConcentrationSensor.getValue();
-		if ((oxygenPercentage < 0.10) || (oxygenPercentage > 0.30) || (CO2Percentage > .06))	{	
+		if ((oxygenPercentage < 0.10) || (oxygenPercentage > 0.30) || (CO2Percentage > .06))	{
+			myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil").kill();
 			return true;
 		}
 		else	{
