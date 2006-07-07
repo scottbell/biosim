@@ -86,6 +86,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
     //How much O2 this crew member needs to consume in one tick
     private float O2Needed = 0f;
+    
+    private float O2Ratio = 0f;
+    
+    private float CO2Ratio = 0f;
 
     //How much potable water this crew member needs to consume in one tick
     private float potableWaterNeeded = 0f;
@@ -259,6 +263,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
         fireRisked = false;
         O2Consumed = 0f;
         CO2Produced = 0f;
+        O2Ratio = 0f;
+        CO2Ratio = 0f;
         caloriesConsumed = 0f;
         foodMassConsumed = 0f;
         potableWaterConsumed = 0f;
@@ -920,16 +926,19 @@ public class CrewPersonImpl extends CrewPersonPOA {
      *            the breath inhaled by the crew memeber this tick
      * @return percentage of CO2 in air
      */
-    private float getCO2Ratio() {
+    public float getCO2Ratio() {
         SimEnvironment[] myAirInputs = myCurrentCrewGroup
                 .getAirConsumerDefinition().getEnvironments();
         if (myAirInputs.length < 1) {
-            return 0f;
+        	CO2Ratio = 0f;
+            return CO2Ratio;
         }
-		if (myAirInputs[0].getTotalMoles() <= 0)
-		    return 0f;
-		return (myAirInputs[0].getCO2Store().getCurrentLevel() / myAirInputs[0]
-		        .getTotalMoles());
+		if (myAirInputs[0].getTotalMoles() <= 0){
+			CO2Ratio = 0f;
+		    return CO2Ratio;
+		}
+		CO2Ratio = myAirInputs[0].getCO2Store().getCurrentLevel()/myAirInputs[0].getTotalMoles();
+		return (CO2Ratio);
     }
 
     /**
@@ -940,16 +949,19 @@ public class CrewPersonImpl extends CrewPersonPOA {
      *            the breath inhaled by the crew memeber this tick
      * @return percentage of O2 in air
      */
-    private float getO2Ratio() {
+    public float getO2Ratio() {
         SimEnvironment[] myAirInputs = myCurrentCrewGroup
                 .getAirConsumerDefinition().getEnvironments();
         if (myAirInputs.length < 1) {
-            return 0f;
+        	O2Ratio = 0f;
+            return O2Ratio;
         }
-		if (myAirInputs[0].getTotalMoles() <= 0)
-		    return 0f;
-		return (myAirInputs[0].getO2Store().getCurrentLevel() / myAirInputs[0]
-		        .getTotalMoles());
+		if (myAirInputs[0].getTotalMoles() <= 0){
+			O2Ratio = 0f;
+			return O2Ratio;
+		}
+		O2Ratio = myAirInputs[0].getO2Store().getCurrentLevel() / myAirInputs[0].getTotalMoles();
+		return O2Ratio;
     }
 
     private void recoverCrew() {
