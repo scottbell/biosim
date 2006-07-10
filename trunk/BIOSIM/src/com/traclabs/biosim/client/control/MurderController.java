@@ -1,17 +1,15 @@
 package com.traclabs.biosim.client.control;
 
 import org.apache.log4j.Logger;
-import org.omg.CORBA.*;
+
+import java.io.*;
 
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
-import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
 import com.traclabs.biosim.idl.framework.BioDriver;
-import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.idl.simulation.framework.Injector;
 import com.traclabs.biosim.util.OrbUtils;
-import com.traclabs.biosim.server.simulation.crew.*;
+import com.traclabs.biosim.idl.simulation.crew.*;
 
 /**
  * @author Scott Bell
@@ -40,6 +38,8 @@ public class MurderController {
 	private BioHolder myBioHolder;
 
 	private Logger myLogger;
+	
+	private CrewPerson myCrewPerson;
 
 	float O2Concentration = 0f;
 	
@@ -68,7 +68,7 @@ public class MurderController {
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;
 		SimEnvironment crewEnvironment = myBioHolder.theSimEnvironments.get(0);
-		
+		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
 	}
 	/**
 	 * Main loop of controller.  Pauses the simulation, then
@@ -81,6 +81,7 @@ public class MurderController {
 		while (!endConditionMet())
 			stepSim();
 		//if we get here, the end condition has been met
+		myLogger.info("O2Concentration= "+O2Concentration+ " CO2Concentration= "+CO2Concentration);
 		myBioDriver.endSimulation();
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 	}
@@ -89,8 +90,8 @@ public class MurderController {
 	 * If the oxygen in the cabin drifts below 10%, stop the sim.
 	 */
 	private boolean endConditionMet() {
-		CO2Concentration = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil").getCO2Ratio();
-		O2Concentration = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil").getO2Ratio();
+		CO2Concentration = myCrewPerson.getCO2Ratio();
+		O2Concentration = myCrewPerson.getO2Ratio();
 		
 		if ((O2Concentration < 0.10) || (O2Concentration > 0.30) || (CO2Concentration > .06))	{
 			myBioHolder.theCrewGroups.get(0).killCrew();
@@ -106,8 +107,25 @@ public class MurderController {
 	 * then increments the actuator.
 	 */
 	public void stepSim() {
+		printResults();
 		// advancing the sim 1 tick
 		myBioDriver.advanceOneTick();
 	}
+	public void printResults()	{
+		FileOutputStream out;
+		PrintStream p;
 
+		try {
+			out = new FileOutputStream("/home/kirsten/MurderControllerResults.txt", true);
+			p = new PrintStream( out );
+			p.print("Tick # "+ myBioDriver.getTicks()+ " O2Concentration - "+O2Concentration+" CO2Concentration - "+CO2Concentration);
+			p.println();
+			p.flush();
+			out.close();
+		}
+		catch (Exception e){
+			System.err.println("Error writing to file.");
+		}
+		return;
+	}
 }

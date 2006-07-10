@@ -13,13 +13,13 @@
 					inputs="PotableWaterStore" maxFlowRates="1000.0"/>
 				<airConsumer desiredFlowRates="1000.0" inputs="SimEnvironment"
 					maxFlowRates="1000.0"/>
-				<foodConsumer desiredFlowRates="1000.0" inputs="FoodStore"
-					maxFlowRates="1000.0"/>
+				<foodConsumer desiredFlowRates="1000" inputs="FoodStore"
+					maxFlowRates="1000"/>
 				<dirtyWaterProducer desiredFlowRates="1000.0"
 					maxFlowRates="1000.0" outputs="DirtyWaterStore"/>
 				<greyWaterProducer desiredFlowRates="1000.0" maxFlowRates="1000.0"
 					outputs="GreyWaterStore"/>
-				<airProducer desiredFlowRates="1000.0" maxFlowRates="1000.0"
+				<airProducer desiredFlowRates="1000" maxFlowRates="1000"
 					outputs="SimEnvironment"/>
 				<dryWasteProducer desiredFlowRates="1000.0" maxFlowRates="1000.0"
 					outputs="DryWasteStore"/>
@@ -42,28 +42,31 @@
             	initialVolume="32000"/>
         </environment>
         <food>
-            <FoodStore capacity="1000000.0" level="1000000.0" moduleName="FoodStore"/><BiomassPS
+            <FoodStore capacity="1.0E9" level="1.0E9" moduleName="FoodStore"/><BiomassPS
             	moduleName="BiomassPS">
-	<airConsumer inputs="SimEnvironment" desiredFlowRates="1000" maxFlowRates="1000" /><airProducer
-		desiredFlowRates="1000" outputs="SimEnvironment" maxFlowRates="1000" /><dirtyWaterProducer
-		desiredFlowRates="1000" outputs="DirtyWaterStore" maxFlowRates="1000" /><greyWaterConsumer
-		inputs="GreyWaterStore" desiredFlowRates="1000" maxFlowRates="1000" /><potableWaterConsumer
-		inputs="PotableWaterStore" desiredFlowRates="1000" maxFlowRates="1000" />
+            	<airConsumer inputs="SimEnvironment"
+            		desiredFlowRates="1000" maxFlowRates="1000" />
+            	<airProducer desiredFlowRates="1000"
+            		outputs="SimEnvironment" maxFlowRates="1000" />
+            	<dirtyWaterProducer desiredFlowRates="1000"
+            		outputs="DirtyWaterStore" maxFlowRates="1000" />
+            	<greyWaterConsumer inputs="GreyWaterStore"
+            		desiredFlowRates="1000" maxFlowRates="1000" />
+            	<potableWaterConsumer inputs="PotableWaterStore"
+            		desiredFlowRates="1000" maxFlowRates="1000" />
+            	<shelf cropType="WHEAT" cropArea="200" />
 </BiomassPS>
         </food>
 		<power>
-			<PowerStore level="1000000" capacity="1000000" moduleName="PowerStore"/>
+			<PowerStore level="1.0E9" capacity="1.0E9" moduleName="PowerStore"/>
 		</power>
         <waste>
-            <DryWasteStore capacity="10000.0" level="10000.0" moduleName="DryWasteStore"/>
+            <DryWasteStore capacity="1.0E9" level="1.0E9" moduleName="DryWasteStore"/>
         </waste>
         <water>
-            <PotableWaterStore capacity="1.0E7" level="1.0E7" moduleName="PotableWaterStore"/>
-            <DirtyWaterStore capacity="1000000.0" level="1000000.0" moduleName="DirtyWaterStore"/>
-            <GreyWaterStore capacity="1000000.0" level="1000000.0" moduleName="GreyWaterStore"/>
+            <PotableWaterStore capacity="1.0E9" level="1.0E9" moduleName="PotableWaterStore"/>
+            <DirtyWaterStore capacity="1.0E9" level="1.0E9" moduleName="DirtyWaterStore"/>
+            <GreyWaterStore capacity="1.0E9" level="1.0E9" moduleName="GreyWaterStore"/>
         </water>
-        <air>
-        	<CO2Store capacity="0.0" level="0.0" moduleName="CO2Store"></CO2Store>
-        	<O2Store capacity="0.0" level="0.0" moduleName="O2Store"></O2Store></air>
 	</SimBioModules>
 </biosim>
