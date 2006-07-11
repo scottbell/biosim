@@ -77,6 +77,7 @@ public class MurderController {
 	public void runSim() {
 		myBioDriver.setPauseSimulation(true);
 		myBioDriver.startSimulation();
+		myLogger.info("Crop area = " + myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
 		myLogger.info("Controller starting run");
 		while (!endConditionMet())
 			stepSim();
@@ -86,12 +87,10 @@ public class MurderController {
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 	}
 	
-	/**
-	 * If the oxygen in the cabin drifts below 10%, stop the sim.
-	 */
+	
 	private boolean endConditionMet() {
 		CO2Concentration = myCrewPerson.getCO2Ratio();
-		O2Concentration = myCrewPerson.getO2Ratio();
+		O2Concentration = myCrewPerson.getO2Ratio();	
 		
 		if ((O2Concentration < 0.10) || (O2Concentration > 0.30) || (CO2Concentration > .06))	{
 			myBioHolder.theCrewGroups.get(0).killCrew();
@@ -101,6 +100,7 @@ public class MurderController {
 			return false;
 		}
 	}
+	
 
 	/**
 	 * Executed every tick.  Looks at a sensor, looks at an actuator,
@@ -110,6 +110,7 @@ public class MurderController {
 		printResults();
 		// advancing the sim 1 tick
 		myBioDriver.advanceOneTick();
+		myBioHolder.theSimEnvironments.get(0);
 	}
 	public void printResults()	{
 		FileOutputStream out;
