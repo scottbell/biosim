@@ -575,7 +575,7 @@ public abstract class PlantImpl extends PlantPOA {
             molesOfCO2ToInhale = dailyCarbonGain
                     * myShelfImpl.getCropAreaUsed() / 24f;
         float molesOfCO2Inhaled = myShelfImpl.getBiomassPSImpl()
-                .getAirProducerDefinition().getEnvironments()[0]
+                .getAirConsumerDefinition().getEnvironments()[0]
                 .getCO2Store().take(molesOfCO2ToInhale);
         totalCO2GramsConsumed += molesOfCO2Inhaled * 44f;
         myLogger.debug("totalCO2GramsConsumed:" + totalCO2GramsConsumed);
