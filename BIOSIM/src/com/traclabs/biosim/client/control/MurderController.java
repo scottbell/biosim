@@ -12,8 +12,8 @@ import com.traclabs.biosim.util.OrbUtils;
 import com.traclabs.biosim.idl.simulation.crew.*;
 
 /**
- * @author Scott Bell
- * A simple, yet ineffective controller
+ * @author Kirsten Stark
+ * A controller to end change the simulation based on air make-up
  */
 
 /*
@@ -40,6 +40,8 @@ public class MurderController {
 	private Logger myLogger;
 	
 	private CrewPerson myCrewPerson;
+	
+	private SimEnvironment crewEnvironment;
 
 	float O2Concentration = 0f;
 	
@@ -67,7 +69,7 @@ public class MurderController {
 		BioHolderInitializer.setFile(CONFIGURATION_FILE);
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;
-		SimEnvironment crewEnvironment = myBioHolder.theSimEnvironments.get(0);
+		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
 	}
 	/**
@@ -79,22 +81,39 @@ public class MurderController {
 		myBioDriver.startSimulation();
 		myLogger.info("Crop area = " + myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
 		myLogger.info("Controller starting run");
-		while (!endConditionMet())
+		do {
 			stepSim();
+		}while (!endConditionMet());
+		
+		
 		//if we get here, the end condition has been met
 		myLogger.info("O2Concentration= "+O2Concentration+ " CO2Concentration= "+CO2Concentration);
 		myBioDriver.endSimulation();
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 	}
 	
-	
+	/**
+	 * In this section, I use the ratios, since they were easier to get to.  Here are the conversions:
+	 * .10 = 10.13 kPa
+	 * .30 = 30.39 kPa
+	 * .003948 = .4 kPa
+	 * .0003257 = .033 kPa
+	 * .001974 = .2 kPa
+	 * in general, ratio * 101.3 = kPa
+	 */
 	private boolean endConditionMet() {
 		CO2Concentration = myCrewPerson.getCO2Ratio();
-		O2Concentration = myCrewPerson.getO2Ratio();	
+		O2Concentration = myCrewPerson.getO2Ratio();
 		
-		if ((O2Concentration < 0.10) || (O2Concentration > 0.30) || (CO2Concentration > .06))	{
+		if((O2Concentration < 0.10) || (O2Concentration > 0.30) || (CO2Concentration > .003948))	{
 			myBioHolder.theCrewGroups.get(0).killCrew();
 			return true;
+		}
+		
+		if((CO2Concentration < .0003257) || (CO2Concentration > .001974))	{
+			myBioHolder.theBiomassPSModules.get(0).killPlants();
+			myLogger.info("The crops have died from too much/little CO2 on tick " + myBioDriver.getTicks());
+			return false;
 		}
 		else	{
 			return false;
@@ -110,7 +129,8 @@ public class MurderController {
 		printResults();
 		// advancing the sim 1 tick
 		myBioDriver.advanceOneTick();
-		myBioHolder.theSimEnvironments.get(0);
+		myBioHolder.theSimEnvironments.get(0).getO2Store().getPressure();
+	
 	}
 	public void printResults()	{
 		FileOutputStream out;
@@ -119,7 +139,10 @@ public class MurderController {
 		try {
 			out = new FileOutputStream("/home/kirsten/MurderControllerResults.txt", true);
 			p = new PrintStream( out );
-			p.print("Tick # "+ myBioDriver.getTicks()+ " O2Concentration - "+O2Concentration+" CO2Concentration - "+CO2Concentration);
+			p.print("Ticks = " + myBioDriver.getTicks() + " ");//Ticks
+			p.print("Total Pressure = " + crewEnvironment.getTotalPressure() + " ");//Total Pressure
+			p.print("PP of O2 = " + crewEnvironment.getO2Store().getPressure() + " ");//PP of O2
+			p.print("PP of CO2 = " + crewEnvironment.getCO2Store().getPressure() + " "); //PP of CO2
 			p.println();
 			p.flush();
 			out.close();
