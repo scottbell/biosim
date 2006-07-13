@@ -30,15 +30,13 @@ scott@traclabs.com
 
 */
 
-public class MurderController {
+public class PressureController {
 	private static String CONFIGURATION_FILE = "test/MurderControllerInit.xml";
 
 	private BioDriver myBioDriver;
 
 	private BioHolder myBioHolder;
-	
-	private PressureController myPressureController;
-	
+
 	private Logger myLogger;
 	
 	private CrewPerson myCrewPerson;
@@ -49,17 +47,15 @@ public class MurderController {
 	
 	float CO2Concentration = 0f;
 
-	public MurderController() {
+	public PressureController() {
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
 		collectReferences();
-	
 	}
 
 	public static void main(String[] args) {
-		MurderController myController = new MurderController();
+		PressureController myController = new PressureController();
 		myController.runSim();
-		
 	}
 
 	/**
@@ -74,7 +70,6 @@ public class MurderController {
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
-		//myPressureController = new PressureController();
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
 	}
 	/**
@@ -86,7 +81,6 @@ public class MurderController {
 		myBioDriver.startSimulation();
 		myLogger.info("Crop area = " + myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
 		myLogger.info("Controller starting run");
-		printResults();
 		do {
 			stepSim();
 		}while (!endConditionMet());
@@ -94,7 +88,6 @@ public class MurderController {
 		
 		//if we get here, the end condition has been met
 		myLogger.info("O2Concentration= "+O2Concentration+ " CO2Concentration= "+CO2Concentration);
-		printResults();
 		myBioDriver.endSimulation();
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 	}
@@ -133,10 +126,10 @@ public class MurderController {
 	 * then increments the actuator.
 	 */
 	public void stepSim() {
+		printResults();
 		// advancing the sim 1 tick
 		myBioDriver.advanceOneTick();
-		//myPressureController.checkPressure();
-		printResults();
+		myBioHolder.theSimEnvironments.get(0).getO2Store().getPressure();
 	
 	}
 	public void printResults()	{
@@ -148,8 +141,8 @@ public class MurderController {
 			p = new PrintStream( out );
 			p.print("Ticks = " + myBioDriver.getTicks() + " ");//Ticks
 			p.print("Total Pressure = " + crewEnvironment.getTotalPressure() + " ");//Total Pressure
-			//p.print("PP of O2 = " + crewEnvironment.getO2Store().getPressure() + " ");//PP of O2
-			//p.print("PP of CO2 = " + crewEnvironment.getCO2Store().getPressure() + " "); //PP of CO2
+			p.print("PP of O2 = " + crewEnvironment.getO2Store().getPressure() + " ");//PP of O2
+			p.print("PP of CO2 = " + crewEnvironment.getCO2Store().getPressure() + " "); //PP of CO2
 			p.println();
 			p.flush();
 			out.close();
