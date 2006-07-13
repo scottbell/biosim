@@ -201,13 +201,13 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
      *            the new currentVolume of the environment (in liters)
      */
     public void setInitialVolumeAtSeaLevel(float pInitialVolume) {
-    	float moleOfAirPerCubicMeter = 44.64f;
+    	float moleOfAirPerLiter = 0.04464f;
         currentVolume = initialVolume = pInitialVolume;
-        myO2StoreImpl.setInitialLevel(currentVolume *  moleOfAirPerCubicMeter * 0.20f);
-        myCO2StoreImpl.setInitialLevel(currentVolume *  moleOfAirPerCubicMeter * 0.00111f);
-        myOtherStoreImpl.setInitialLevel(currentVolume *  moleOfAirPerCubicMeter * 0.01f);
-        myVaporStoreImpl.setInitialLevel(currentVolume *  moleOfAirPerCubicMeter * 0.01f);
-        myNitrogenStoreImpl.setInitialLevel(currentVolume *  moleOfAirPerCubicMeter * 0.7896f);
+        myO2StoreImpl.setInitialLevel(currentVolume *  moleOfAirPerLiter * 0.20f);
+        myCO2StoreImpl.setInitialLevel(currentVolume *  moleOfAirPerLiter * 0.00111f);
+        myOtherStoreImpl.setInitialLevel(currentVolume *  moleOfAirPerLiter * 0.0f);
+        myVaporStoreImpl.setInitialLevel(currentVolume *  moleOfAirPerLiter * 0.01f);
+        myNitrogenStoreImpl.setInitialLevel(currentVolume *  moleOfAirPerLiter * 0.7896f);
     }
     
     public void setCurrentVolumeAtSeaLevel(float pVolume) {
@@ -215,7 +215,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
         currentVolume = pVolume;
         myO2StoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerCubicMeter * 0.20f);
         myCO2StoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerCubicMeter * 0.00111f);
-        myOtherStoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerCubicMeter * 0.01f);
+        myOtherStoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerCubicMeter * 0.0f);
         myVaporStoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerCubicMeter * 0.01f);
         myNitrogenStoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerCubicMeter * 0.7896f);
     }
