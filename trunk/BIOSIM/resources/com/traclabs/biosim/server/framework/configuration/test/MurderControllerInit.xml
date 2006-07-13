@@ -29,10 +29,10 @@
 						<activity name="hygiene" length="1" intensity="2"/>
 						<activity name="exercise" length="1" intensity="5"/>
 						<activity name="eating" length="1" intensity="2"/>
-						<activity name="mission" length="9" intensity="3"/>
-						<activity name="health" length="1" intensity="2"/>
-						<activity name="maintenance" length="1" intensity="2"/>
-						<activity name="leisure" length="2" intensity="2"/>
+						<activity name="mission" length="9" intensity="3"/><activity
+							intensity="2" name="health" length="1" /><activity
+							intensity="2" name="maintenance" length="1" /><activity
+							intensity="2" name="leisure" length="2" />
 					</schedule>
 				</crewPerson>
 			</CrewGroup>
@@ -54,8 +54,8 @@
             		desiredFlowRates="1000" maxFlowRates="1000" />
             	<potableWaterConsumer inputs="PotableWaterStore"
             		desiredFlowRates="1000" maxFlowRates="1000" />
-            	<shelf cropType="WHEAT" cropArea="500" /><powerConsumer
-            		inputs="PowerStore" desiredFlowRates="400" maxFlowRates="400" />
+            	<shelf cropType="WHEAT" cropArea="100" /><powerConsumer
+            		inputs="PowerStore" desiredFlowRates="400" maxFlowRates="400" ></powerConsumer>
 </BiomassPS>
         </food>
 		<power>
