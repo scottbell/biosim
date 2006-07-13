@@ -211,13 +211,13 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     }
     
     public void setCurrentVolumeAtSeaLevel(float pVolume) {
-    	float moleOfAirPerCubicMeter = 44.64f;
+    	float moleOfAirPerLiter = .04464f;
         currentVolume = pVolume;
-        myO2StoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerCubicMeter * 0.20f);
-        myCO2StoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerCubicMeter * 0.00111f);
-        myOtherStoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerCubicMeter * 0.0f);
-        myVaporStoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerCubicMeter * 0.01f);
-        myNitrogenStoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerCubicMeter * 0.7896f);
+        myO2StoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerLiter * 0.20f);
+        myCO2StoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerLiter * 0.00111f);
+        myOtherStoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerLiter * 0.0f);
+        myVaporStoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerLiter * 0.01f);
+        myNitrogenStoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerLiter * 0.7896f);
     }
 
     public float getInitialVolume() {
