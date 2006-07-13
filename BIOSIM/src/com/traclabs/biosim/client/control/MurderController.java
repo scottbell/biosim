@@ -39,15 +39,21 @@ public class MurderController {
 	
 	private PressureController myPressureController;
 	
+	private SimpleController mySimpleController;
+	
 	private Logger myLogger;
 	
 	private CrewPerson myCrewPerson;
 	
 	private SimEnvironment crewEnvironment;
 
-	float O2Concentration = 0f;
+	float O2PP = 0f;
 	
-	float CO2Concentration = 0f;
+	float CO2PP = 0f;
+	
+	FileOutputStream out;
+	
+	PrintStream p;
 
 	public MurderController() {
 		OrbUtils.initializeLog();
@@ -74,7 +80,7 @@ public class MurderController {
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
-		//myPressureController = new PressureController();
+		myPressureController = new PressureController();
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
 	}
 	/**
@@ -84,7 +90,18 @@ public class MurderController {
 	public void runSim() {
 		myBioDriver.setPauseSimulation(true);
 		myBioDriver.startSimulation();
-		myLogger.info("Crop area = " + myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
+		try {
+			out = new FileOutputStream("/home/kirsten/MurderControllerResults.txt", true);
+			p = new PrintStream( out );
+			p.println();
+			p.println();
+			p.print("Crop area = " + myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
+			p.println();
+			p.flush();
+			out.close();
+		}catch (Exception e){
+			System.err.println("Error writing to file.");
+		}
 		myLogger.info("Controller starting run");
 		printResults();
 		do {
@@ -93,31 +110,22 @@ public class MurderController {
 		
 		
 		//if we get here, the end condition has been met
-		myLogger.info("O2Concentration= "+O2Concentration+ " CO2Concentration= "+CO2Concentration);
-		printResults();
+		myLogger.info("Final O2PartialPressure= "+O2PP+ " Final CO2PartialPressure= "+CO2PP);
 		myBioDriver.endSimulation();
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 	}
 	
-	/**
-	 * In this section, I use the ratios, since they were easier to get to.  Here are the conversions:
-	 * .10 = 10.13 kPa
-	 * .30 = 30.39 kPa
-	 * .003948 = .4 kPa
-	 * .0003257 = .033 kPa
-	 * .001974 = .2 kPa
-	 * in general, ratio * 101.3 = kPa
-	 */
 	private boolean endConditionMet() {
-		CO2Concentration = myCrewPerson.getCO2Ratio();
-		O2Concentration = myCrewPerson.getO2Ratio();
 		
-		if((O2Concentration < 0.10) || (O2Concentration > 0.30) || (CO2Concentration > .003948))	{
+		O2PP = crewEnvironment.getO2Store().getPressure();
+		CO2PP = crewEnvironment.getCO2Store().getPressure();
+
+		if((O2PP < 10.13) || (O2PP > 30.39) || (CO2PP > 1))	{
 			myBioHolder.theCrewGroups.get(0).killCrew();
 			return true;
 		}
 		
-		if((CO2Concentration < .0003257) || (CO2Concentration > .001974))	{
+		if((CO2PP < .033) || (CO2PP > .2))	{
 			myBioHolder.theBiomassPSModules.get(0).killPlants();
 			myLogger.info("The crops have died from too much/little CO2 on tick " + myBioDriver.getTicks());
 			return false;
@@ -135,21 +143,22 @@ public class MurderController {
 	public void stepSim() {
 		// advancing the sim 1 tick
 		myBioDriver.advanceOneTick();
-		//myPressureController.checkPressure();
+		myPressureController.checkPressure(myBioHolder);
 		printResults();
 	
 	}
 	public void printResults()	{
-		FileOutputStream out;
-		PrintStream p;
+		
 
 		try {
 			out = new FileOutputStream("/home/kirsten/MurderControllerResults.txt", true);
 			p = new PrintStream( out );
 			p.print("Ticks = " + myBioDriver.getTicks() + " ");//Ticks
 			p.print("Total Pressure = " + crewEnvironment.getTotalPressure() + " ");//Total Pressure
-			//p.print("PP of O2 = " + crewEnvironment.getO2Store().getPressure() + " ");//PP of O2
-			//p.print("PP of CO2 = " + crewEnvironment.getCO2Store().getPressure() + " "); //PP of CO2
+			p.print("PP of O2 = " + crewEnvironment.getO2Store().getPressure() + " ");//PP of O2
+			p.print("PP of CO2 = " + crewEnvironment.getCO2Store().getPressure() + " "); //PP of CO2
+			p.print("Activity = " + myCrewPerson.getCurrentActivity().getName());
+			p.print("O2 consumed by the crew = " + myCrewPerson.getO2Consumed() + " CO2 produced by the crew =  " + myCrewPerson.getCO2Produced());
 			p.println();
 			p.flush();
 			out.close();

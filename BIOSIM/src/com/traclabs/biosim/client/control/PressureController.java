@@ -114,7 +114,7 @@ public class PressureController {
 	 * Executed every tick.  Looks at a sensor, looks at an actuator,
 	 * then increments the actuator.
 	 */
-	public void decreasePressure() {
+	public void decreasePressure(BioHolder myBioHolder) {
 		printResults();
 		// advancing the sim 1 tick
 		myBioDriver.advanceOneTick();
