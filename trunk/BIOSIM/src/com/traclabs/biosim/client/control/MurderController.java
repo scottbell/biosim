@@ -10,6 +10,9 @@ import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.util.OrbUtils;
 import com.traclabs.biosim.idl.simulation.crew.*;
+import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
+import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
+import com.traclabs.biosim.idl.simulation.framework.*;
 
 /**
  * @author Kirsten Stark
@@ -37,16 +40,24 @@ public class MurderController {
 
 	private BioHolder myBioHolder;
 	
-	private PressureController myPressureController;
-	
-	private SimpleController mySimpleController;
-	
 	private Logger myLogger;
 	
 	private CrewPerson myCrewPerson;
 	
 	private SimEnvironment crewEnvironment;
+	
+	private GenericSensor myO2PressureSensor;
+	
+	private GenericSensor myCO2PressureSensor;
+	
+	private GenericSensor myNitrogenPressureSensor;
+	
+	private GenericSensor myVaporPressureSensor;
+	
+	private GenericActuator myAirOutActuator;
 
+	private GenericActuator myNitrogenInActuator;
+	
 	float O2PP = 0f;
 	
 	float CO2PP = 0f;
@@ -80,8 +91,18 @@ public class MurderController {
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
-		myPressureController = new PressureController();
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
+		
+		Injector NitrogenInjector = myBioHolder.theInjectors.get(0);
+		Accumulator AirAccumulator = myBioHolder.theAccumulators.get(0);
+		
+		myNitrogenInActuator = myBioHolder.getActuatorAttachedTo(myBioHolder.theNitrogenInFlowRateActuators, NitrogenInjector);
+		myAirOutActuator = myBioHolder.getActuatorAttachedTo(myBioHolder.theAirOutFlowRateActuators, AirAccumulator);
+		
+		myO2PressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getO2Store());
+		myCO2PressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getCO2Store());
+		myNitrogenPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getNitrogenStore());
+		myVaporPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getVaporStore());
 	}
 	/**
 	 * Main loop of controller.  Pauses the simulation, then
@@ -90,6 +111,7 @@ public class MurderController {
 	public void runSim() {
 		myBioDriver.setPauseSimulation(true);
 		myBioDriver.startSimulation();
+		//prints the "name" of the simulation (how much area)
 		try {
 			out = new FileOutputStream("/home/kirsten/MurderControllerResults.txt", true);
 			p = new PrintStream( out );
@@ -103,7 +125,7 @@ public class MurderController {
 			System.err.println("Error writing to file.");
 		}
 		myLogger.info("Controller starting run");
-		printResults();
+		printResults(); //prints the initial conditions
 		do {
 			stepSim();
 		}while (!endConditionMet());
@@ -124,12 +146,6 @@ public class MurderController {
 			myBioHolder.theCrewGroups.get(0).killCrew();
 			return true;
 		}
-		
-		if((CO2PP < .033) || (CO2PP > .2))	{
-			myBioHolder.theBiomassPSModules.get(0).killPlants();
-			myLogger.info("The crops have died from too much/little CO2 on tick " + myBioDriver.getTicks());
-			return false;
-		}
 		else	{
 			return false;
 		}
@@ -141,9 +157,21 @@ public class MurderController {
 	 * then increments the actuator.
 	 */
 	public void stepSim() {
+		if((CO2PP < .033) || (CO2PP > .2))	{
+			myBioHolder.theBiomassPSModules.get(0).killPlants();
+			myLogger.info("The crops have died from too much/little CO2 on tick " + myBioDriver.getTicks());
+			return false;
+		}
+		while (crewEnvironment.getTotalPressure() > 115 ) {
+			
+			
+		}
+		while (crewEnvironment.getTotalPressure() < 105)	{
+			
+		
+		}
 		// advancing the sim 1 tick
 		myBioDriver.advanceOneTick();
-		myPressureController.checkPressure(myBioHolder);
 		printResults();
 	
 	}
