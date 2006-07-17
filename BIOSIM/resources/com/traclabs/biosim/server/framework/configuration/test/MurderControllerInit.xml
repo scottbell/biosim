@@ -39,7 +39,9 @@
         </crew>
         <environment>
             <SimEnvironment moduleName="SimEnvironment"
-            	initialVolume="32000"/>
+            	initialVolume="32000"/><SimEnvironment moduleName="AirStore"
+            	initialVolume="1.0E9S">
+</SimEnvironment>
         </environment>
         <food>
             <FoodStore capacity="1.0E9" level="1.0E9" moduleName="FoodStore"/><BiomassPS
@@ -69,5 +71,30 @@
             <DirtyWaterStore capacity="1.0E9" level="1.0E9" moduleName="DirtyWaterStore"/>
             <GreyWaterStore capacity="1.0E9" level="1.0E9" moduleName="GreyWaterStore"/>
         </water>
+        <framework>
+        	<Accumulator moduleName="AirOutAccumulator">
+        		<airConsumer inputs="SimEnvironment" desiredFlowRates="1000"
+        			maxFlowRates="1000" ></airConsumer><airProducer desiredFlowRates="1000"
+        			outputs="AirStore" maxFlowRates="1000" /></Accumulator>
+        	<Injector moduleName="NitrogenInInjector">
+        		<nitrogenConsumer inputs="NitrogenStore" desiredFlowRates="1000"
+        			maxFlowRates="1000" />
+        		<nitrogenProducer desiredFlowRates="1000" outputs="SimEnvironment"
+        			maxFlowRates="1000" /></Injector></framework>
+        <air>
+        	<NitrogenStore capacity="1.0E9" level="1.0E9" moduleName="NitrogenStore"></NitrogenStore></air>
 	</SimBioModules>
+	<Sensors>
+		<environment>
+			<GasPressureSensor input="SimEnvironment" moduleName="O2PressureSensor" gasType="O2"></GasPressureSensor>
+			<GasPressureSensor input="SimEnvironment" moduleName="CO2PressureSensor" gasType="CO2"></GasPressureSensor>
+			<GasPressureSensor input="SimEnvironment" moduleName="NitrogenPressureSensor" gasType="NITROGEN"></GasPressureSensor>
+			<GasPressureSensor input="SimEnvironment" moduleName="VaporPressureSensor" gasType="VAPOR"></GasPressureSensor></environment></Sensors>
+	<Actuators>
+		<environment>
+			<AirOutFlowRateActuator output="AirStore" moduleName="AirOutActuator" index="0"></AirOutFlowRateActuator></environment>
+		<air>
+			<NitrogenInFlowRateActuator output="SimEnvironment" moduleName="NitrogenInActuator"
+				index="0">
+			</NitrogenInFlowRateActuator></air></Actuators>
 </biosim>
