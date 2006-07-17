@@ -40,7 +40,7 @@
         <environment>
             <SimEnvironment moduleName="SimEnvironment"
             	initialVolume="32000"/><SimEnvironment moduleName="AirStore"
-            	initialVolume="1.0E9S">
+            	initialVolume="1.0E9">
 </SimEnvironment>
         </environment>
         <food>

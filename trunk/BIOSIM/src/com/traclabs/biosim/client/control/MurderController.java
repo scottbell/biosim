@@ -100,9 +100,9 @@ public class MurderController {
 		myAirOutActuator = myBioHolder.getActuatorAttachedTo(myBioHolder.theAirOutFlowRateActuators, AirAccumulator);
 		
 		myO2PressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getO2Store());
-		myCO2PressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getCO2Store());
-		myNitrogenPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getNitrogenStore());
-		myVaporPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getVaporStore());
+		//myCO2PressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getCO2Store());
+		//myNitrogenPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getNitrogenStore());
+		//myVaporPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getVaporStore());
 	}
 	/**
 	 * Main loop of controller.  Pauses the simulation, then
@@ -132,15 +132,15 @@ public class MurderController {
 		
 		
 		//if we get here, the end condition has been met
-		myLogger.info("Final O2PartialPressure= "+O2PP+ " Final CO2PartialPressure= "+CO2PP);
+		myLogger.info("Final O2PartialPressure= "+O2PP+ " Final CO2PartialPressure= "+ CO2PP);
 		myBioDriver.endSimulation();
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 	}
 	
 	private boolean endConditionMet() {
 		
-		O2PP = crewEnvironment.getO2Store().getPressure();
-		CO2PP = crewEnvironment.getCO2Store().getPressure();
+		O2PP = myO2PressureSensor.getValue();
+		CO2PP = myCO2PressureSensor.getValue();
 
 		if((O2PP < 10.13) || (O2PP > 30.39) || (CO2PP > 1))	{
 			myBioHolder.theCrewGroups.get(0).killCrew();
@@ -157,16 +157,20 @@ public class MurderController {
 	 * then increments the actuator.
 	 */
 	public void stepSim() {
+		myLogger.info("NitrogenInActuator value is " + myNitrogenInActuator.getValue());
+		
+		
 		if((CO2PP < .033) || (CO2PP > .2))	{
 			myBioHolder.theBiomassPSModules.get(0).killPlants();
 			myLogger.info("The crops have died from too much/little CO2 on tick " + myBioDriver.getTicks());
-			return false;
 		}
+		
 		while (crewEnvironment.getTotalPressure() > 115 ) {
 			
 			
 		}
 		while (crewEnvironment.getTotalPressure() < 105)	{
+			myNitrogenInActuator.setValue(100);
 			
 		
 		}
@@ -184,7 +188,7 @@ public class MurderController {
 			p.print("Ticks = " + myBioDriver.getTicks() + " ");//Ticks
 			p.print("Total Pressure = " + crewEnvironment.getTotalPressure() + " ");//Total Pressure
 			p.print("PP of O2 = " + crewEnvironment.getO2Store().getPressure() + " ");//PP of O2
-			p.print("PP of CO2 = " + crewEnvironment.getCO2Store().getPressure() + " "); //PP of CO2
+			//p.print("PP of CO2 = " + crewEnvironment.getCO2Store().getPressure() + " "); //PP of CO2
 			p.print("Activity = " + myCrewPerson.getCurrentActivity().getName());
 			p.print("O2 consumed by the crew = " + myCrewPerson.getO2Consumed() + " CO2 produced by the crew =  " + myCrewPerson.getCO2Produced());
 			p.println();
