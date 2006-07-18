@@ -180,7 +180,7 @@ public class ShelfImpl extends ShelfPOA {
             if (myCrop.readyForHarvest() || myCrop.isDead()) {
                 BioMatter biomassProduced = myCrop.harvest();
                 myLogger.info("ShelfImpl: Harvested " + biomassProduced.mass
-                        + "kg of " + myCrop.getPlantTypeString());
+                        + "kg of " + myCrop.getPlantTypeString() + " on tick " + myBiomassPSImpl.getMyTicks());
                 myBiomassPSImpl
                         .getBiomassProducerDefinitionImpl()
                         .pushFractionalResourceToBiomassStore(biomassProduced,
