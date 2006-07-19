@@ -37,12 +37,6 @@
 				</crewPerson>
 			</CrewGroup>
         </crew>
-        <environment>
-            <SimEnvironment moduleName="SimEnvironment"
-            	initialVolume="32000"/><SimEnvironment moduleName="AirStore"
-            	initialVolume="1.0E9">
-</SimEnvironment>
-        </environment>
         <food>
             <FoodStore capacity="1.0E9" level="1.0E9" moduleName="FoodStore"/><BiomassPS
             	moduleName="BiomassPS">
@@ -56,7 +50,7 @@
             		desiredFlowRates="1000" maxFlowRates="1000" />
             	<potableWaterConsumer inputs="PotableWaterStore"
             		desiredFlowRates="1000" maxFlowRates="1000" />
-            	<shelf cropType="WHEAT" cropArea="100" /><powerConsumer
+            	<shelf cropType="WHEAT" cropArea="45" /><powerConsumer
             		inputs="PowerStore" desiredFlowRates="400" maxFlowRates="400" ></powerConsumer>
 </BiomassPS>
         </food>
@@ -78,11 +72,20 @@
         			outputs="AirStore" maxFlowRates="1000" /></Accumulator>
         	<Injector moduleName="NitrogenInInjector">
         		<nitrogenConsumer inputs="NitrogenStore" desiredFlowRates="1000"
-        			maxFlowRates="1000" />
+        			maxFlowRates="1000" ></nitrogenConsumer>
         		<nitrogenProducer desiredFlowRates="1000" outputs="SimEnvironment"
-        			maxFlowRates="1000" /></Injector></framework>
+        			maxFlowRates="1000" ></nitrogenProducer></Injector></framework>
         <air>
         	<NitrogenStore capacity="1.0E9" level="1.0E9" moduleName="NitrogenStore"></NitrogenStore></air>
+        <environment>
+        	<SimEnvironment moduleName="SimEnvironment" initialVolume="32000"></SimEnvironment>
+        	<SimEnvironment moduleName="AirStore" initialVolume="1.0E9"></SimEnvironment>
+        	<Dehumidifier moduleName="Dehumidifier">
+        		<airConsumer inputs="SimEnvironment" desiredFlowRates="10"
+        			maxFlowRates="10" />
+        		<dirtyWaterProducer desiredFlowRates="10" outputs="DirtyWaterStore"
+        			maxFlowRates="10" />
+        	</Dehumidifier></environment>
 	</SimBioModules>
 	<Sensors>
 		<environment>
@@ -91,10 +94,10 @@
 			<GasPressureSensor input="SimEnvironment" moduleName="NitrogenPressureSensor" gasType="NITROGEN"></GasPressureSensor>
 			<GasPressureSensor input="SimEnvironment" moduleName="VaporPressureSensor" gasType="VAPOR"></GasPressureSensor></environment></Sensors>
 	<Actuators>
-		<environment>
-			<AirOutFlowRateActuator output="AirStore" moduleName="AirOutActuator" index="0"></AirOutFlowRateActuator></environment>
 		<air>
-			<NitrogenInFlowRateActuator output="SimEnvironment" moduleName="NitrogenInActuator"
+			<NitrogenInFlowRateActuator output="NitrogenInInjector" moduleName="SimEnvironmentNitrogenInFlowRateActuator"
 				index="0">
-			</NitrogenInFlowRateActuator></air></Actuators>
+			</NitrogenInFlowRateActuator></air>
+		<environment>
+			<AirOutFlowRateActuator output="AirOutAccumulator" moduleName="AirStoreAirOutFlowRateActuator" index="0"></AirOutFlowRateActuator></environment></Actuators>
 </biosim>
