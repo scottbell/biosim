@@ -166,8 +166,8 @@ public class MurderController {
 			myLogger.info("The crops have died from " + CO2PP + " CO2 on tick " + myBioDriver.getTicks());
 		}
 		
-		if (crewEnvironment.getTotalPressure() > 1105) {
-			myAirOutActuator.setValue(100);
+		if (crewEnvironment.getTotalPressure() > 110) {
+			myAirOutActuator.setValue(100000000);
 			myLogger.info("The Air Out Actuator value is "+ myAirOutActuator.getValue());
 			
 		}
@@ -175,7 +175,7 @@ public class MurderController {
 			myNitrogenInActuator.setValue(100);
 			
 		}
-		if (crewEnvironment.getTotalPressure() < 115 && crewEnvironment.getTotalPressure() > 105)	{
+		if ((crewEnvironment.getTotalPressure() < 110) && (crewEnvironment.getTotalPressure() > 105))	{
 			myAirOutActuator.setValue(0);
 			myNitrogenInActuator.setValue(0);
 		}
