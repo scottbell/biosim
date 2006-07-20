@@ -65,6 +65,7 @@ import com.traclabs.biosim.idl.sensor.food.FoodInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.FoodOutFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.HarvestSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.PlantDeathSensorHelper;
+import com.traclabs.biosim.idl.sensor.food.TimeTillCanopyClosureSensorHelper;
 import com.traclabs.biosim.idl.sensor.framework.EffluentValveStateSensorHelper;
 import com.traclabs.biosim.idl.sensor.framework.InfluentValveStateSensorHelper;
 import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensorHelper;
@@ -802,6 +803,11 @@ public class BioHolderInitializer {
 				.narrow(grabModule(getModuleName(node))));
 	}
 
+	private static void fetchTimeTillCanopyClosedSensor(Node node) {
+		myBioHolder.theTimeTillCanopyClosureSensors.add(TimeTillCanopyClosureSensorHelper
+				.narrow(grabModule(getModuleName(node))));
+	}
+
 	private static void crawlFoodSensors(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -820,6 +826,8 @@ public class BioHolderInitializer {
 				fetchHarvestSensor(child);
 			else if (childName.equals("PlantDeathSensor"))
 				fetchPlantDeathSensor(child);
+			else if (childName.equals("TimeTillCanopyClosedSensor"))
+				fetchTimeTillCanopyClosedSensor(child);
 			child = child.getNextSibling();
 		}
 	}

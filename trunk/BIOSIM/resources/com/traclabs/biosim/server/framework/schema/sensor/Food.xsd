@@ -54,6 +54,13 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:complexType name="TimeTillCanopyClosureSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="ShelfSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<xsd:complexType name="BiomassStoreWaterContentSensorType">
 		<xsd:complexContent>
 			<xsd:extension base="SensorType">
@@ -74,6 +81,7 @@
 					type="FoodOutFlowRateSensorType"/>
 				<xsd:element name="HarvestSensor" type="HarvestSensorType"/>
 				<xsd:element name="PlantDeathSensor" type="PlantDeathSensorType"/>
+				<xsd:element name="TimeTillCanopyClosureSensor" type="TimeTillCanopyClosureSensorType"/>
 				<xsd:element name="BiomassStoreWaterContentSensor"
 					type="BiomassStoreWaterContentSensorType"/>
 			</xsd:choice>

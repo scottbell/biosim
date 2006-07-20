@@ -71,7 +71,6 @@ module com{
                                                 interface BiomassStore;
                                                 interface FoodProcessor;
                                                 interface FoodStore;
-                                                interface Plant;
                                                 enum PlantType {WHEAT, DRY_BEAN, LETTUCE, PEANUT, RICE, SOYBEAN, SWEET_POTATO, TOMATO, WHITE_POTATO, UNKNOWN_PLANT};
                                                 struct BioMatter{
                                                         float mass;
@@ -540,15 +539,13 @@ module com{
                                                         boolean isDead();
                                                         PlantType getCropType();
                                                         string getCropTypeString();
+                                                        float getTimeTillCanopyClosure();
                                                         void replant(in PlantType pType, in float area);
                                                         float getCropAreaTotal();
                                                         float getCropAreaUsed();
                                                         BiomassPS getBiomassPS();
                                                         void setStartTick(in long tick);
                                                         void kill();
-                                                };
-
-                                                interface Plant{
                                                 };
                                                 
                                                 interface BiomassConsumer : framework::Consumer{
@@ -930,6 +927,8 @@ module com{
                                                 interface HarvestSensor : ShelfSensor{};
 
                                                 interface PlantDeathSensor : ShelfSensor{};
+                                                
+                                                interface TimeTillCanopyClosureSensor : ShelfSensor{};
                                         };
                                         module power{
                                                 interface PowerInFlowRateSensor : framework::GenericSensor{

@@ -78,6 +78,9 @@ import com.traclabs.biosim.idl.sensor.food.HarvestSensorPOATie;
 import com.traclabs.biosim.idl.sensor.food.PlantDeathSensor;
 import com.traclabs.biosim.idl.sensor.food.PlantDeathSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.PlantDeathSensorPOATie;
+import com.traclabs.biosim.idl.sensor.food.TimeTillCanopyClosureSensor;
+import com.traclabs.biosim.idl.sensor.food.TimeTillCanopyClosureSensorHelper;
+import com.traclabs.biosim.idl.sensor.food.TimeTillCanopyClosureSensorPOATie;
 import com.traclabs.biosim.idl.sensor.framework.EffluentValveStateSensor;
 import com.traclabs.biosim.idl.sensor.framework.EffluentValveStateSensorHelper;
 import com.traclabs.biosim.idl.sensor.framework.EffluentValveStateSensorPOATie;
@@ -190,6 +193,7 @@ import com.traclabs.biosim.server.sensor.food.FoodInFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.food.FoodOutFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.food.HarvestSensorImpl;
 import com.traclabs.biosim.server.sensor.food.PlantDeathSensorImpl;
+import com.traclabs.biosim.server.sensor.food.TimeTillCanopyClosureSensorImpl;
 import com.traclabs.biosim.server.sensor.power.PowerInFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.power.PowerOutFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.waste.DryWasteInFlowRateSensorImpl;
@@ -202,6 +206,7 @@ import com.traclabs.biosim.server.sensor.water.PotableWaterInFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.water.PotableWaterOutFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.water.WaterInFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.water.WaterOutFlowRateSensorImpl;
+import com.traclabs.biosim.util.XMLUtils;
 
 /**
  * Reads BioSim configuration from XML file.
@@ -989,8 +994,7 @@ public class SensorInitializer {
 
 	private void configureHarvestSensor(Node node) {
 		try {
-			int index = Integer.parseInt(node.getAttributes().getNamedItem(
-					"shelfIndex").getNodeValue());
+			int index = XMLUtils.getIntAttribute(node, "shelfIndex");
 			HarvestSensor myHarvestSensor = HarvestSensorHelper
 					.narrow(BiosimInitializer.grabModule(myID,
 							BiosimInitializer.getModuleName(node)));
@@ -1019,8 +1023,7 @@ public class SensorInitializer {
 
 	private void configurePlantDeathSensor(Node node) {
 		try {
-			int index = Integer.parseInt(node.getAttributes().getNamedItem(
-					"shelfIndex").getNodeValue());
+			int index = XMLUtils.getIntAttribute(node, "shelfIndex");
 			PlantDeathSensor myPlantDeathSensor = PlantDeathSensorHelper
 					.narrow(BiosimInitializer.grabModule(myID,
 							BiosimInitializer.getModuleName(node)));
@@ -1028,6 +1031,36 @@ public class SensorInitializer {
 					.narrow(BiosimInitializer.grabModule(myID,
 							getInputName(node))), index);
 			mySensors.add(myPlantDeathSensor);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void createTimeTillCanopyClosureSensor(Node node) {
+		String moduleName = BiosimInitializer.getModuleName(node);
+		if (BiosimInitializer.isCreatedLocally(node)) {
+			myLogger.debug("Creating TimeTillCanopyClosureSensor with moduleName: "
+					+ moduleName);
+			TimeTillCanopyClosureSensorImpl myTimeTillCanopyClosureSensorImpl = new TimeTillCanopyClosureSensorImpl(
+					myID, moduleName);
+			BiosimInitializer.setupBioModule(myTimeTillCanopyClosureSensorImpl, node);
+			BiosimServer.registerServer(new TimeTillCanopyClosureSensorPOATie(
+					myTimeTillCanopyClosureSensorImpl), myTimeTillCanopyClosureSensorImpl
+					.getModuleName(), myTimeTillCanopyClosureSensorImpl.getID());
+		} else
+			BiosimInitializer.printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureTimeTillCanopyClosureSensor(Node node) {
+		try {
+			int index = XMLUtils.getIntAttribute(node, "shelfIndex");
+			TimeTillCanopyClosureSensor myTimeTillCanopyClosureSensor = TimeTillCanopyClosureSensorHelper
+					.narrow(BiosimInitializer.grabModule(myID,
+							BiosimInitializer.getModuleName(node)));
+			myTimeTillCanopyClosureSensor.setInput(BiomassPSHelper
+					.narrow(BiosimInitializer.grabModule(myID,
+							getInputName(node))), index);
+			mySensors.add(myTimeTillCanopyClosureSensor);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
@@ -1072,6 +1105,11 @@ public class SensorInitializer {
 					createPlantDeathSensor(child);
 				else
 					configurePlantDeathSensor(child);
+			} else if (childName.equals("TimeTillCanopyClosureSensor")) {
+				if (firstPass)
+					createTimeTillCanopyClosureSensor(child);
+				else
+					configureTimeTillCanopyClosureSensor(child);
 			}
 			child = child.getNextSibling();
 		}

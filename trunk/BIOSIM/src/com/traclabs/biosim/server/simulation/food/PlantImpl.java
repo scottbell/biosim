@@ -723,6 +723,10 @@ public abstract class PlantImpl extends PlantPOA {
         myLogger.debug("myAverageCO2Concentration: "
                 + myAverageCO2Concentration);
     }
+    
+    public float getTimeTillCanopyClosure(){
+    	return myTimeTillCanopyClosure;
+    }
 
     //returns the age in days
     protected float getDaysOfGrowth() {
