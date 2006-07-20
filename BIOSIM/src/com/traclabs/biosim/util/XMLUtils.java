@@ -39,4 +39,8 @@ public class XMLUtils {
 	public static boolean getBooelanAttribute(Node node, String attributeName){
 		return node.getAttributes().getNamedItem(attributeName).getNodeValue().equals("true");
 	}
+	
+	public static int getIntAttribute(Node node, String attributeName){
+		return Integer.parseInt(node.getAttributes().getNamedItem(attributeName).getNodeValue());
+	}
 }

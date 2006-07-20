@@ -70,6 +70,10 @@ public class ShelfImpl extends ShelfPOA {
         powerLevel = 0f;
         myCrop.reset();
     }
+    
+    public float getTimeTillCanopyClosure(){
+    	return myCrop.getTimeTillCanopyClosure();
+    }
 
     public PlantType getCropType() {
         return myCrop.getPlantType();

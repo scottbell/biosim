@@ -65,6 +65,7 @@ import com.traclabs.biosim.idl.sensor.food.FoodOutFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.food.HarvestSensor;
 import com.traclabs.biosim.idl.sensor.food.PlantDeathSensor;
 import com.traclabs.biosim.idl.sensor.food.ShelfSensor;
+import com.traclabs.biosim.idl.sensor.food.TimeTillCanopyClosureSensor;
 import com.traclabs.biosim.idl.sensor.framework.EffluentValveStateSensor;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
 import com.traclabs.biosim.idl.sensor.framework.InfluentValveStateSensor;
@@ -248,6 +249,8 @@ public class BioHolder {
     public List<HarvestSensor> theHarvestSensors = new Vector<HarvestSensor>();
 
     public List<PlantDeathSensor> thePlantDeathSensors = new Vector<PlantDeathSensor>();
+    
+    public List<TimeTillCanopyClosureSensor> theTimeTillCanopyClosureSensors = new Vector<TimeTillCanopyClosureSensor>();
 
     public List<BiomassStoreWaterContentSensor> theBiomassStoreWaterContentSensors = new Vector<BiomassStoreWaterContentSensor>();
 
@@ -504,6 +507,7 @@ public class BioHolder {
         theSensors.addAll(theHarvestSensors);
         theSensors.addAll(thePlantDeathSensors);
         theSensors.addAll(theBiomassStoreWaterContentSensors);
+        theSensors.addAll(theTimeTillCanopyClosureSensors);
         //Framework
         theSensors.addAll(theStoreOverflowSensors);
         theSensors.addAll(theStoreLevelSensors);
@@ -652,6 +656,7 @@ public class BioHolder {
         theHarvestSensors.clear();
         thePlantDeathSensors.clear();
         theBiomassStoreWaterContentSensors.clear();
+        theTimeTillCanopyClosureSensors.clear();
         //Framework
         theStoreOverflowSensors.clear();
         theStoreLevelSensors.clear();
