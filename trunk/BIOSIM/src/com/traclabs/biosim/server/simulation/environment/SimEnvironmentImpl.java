@@ -201,23 +201,37 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
      *            the new currentVolume of the environment (in liters)
      */
     public void setInitialVolumeAtSeaLevel(float pInitialVolume) {
-    	float moleOfAirPerLiter = 0.04464f;
+  /*  	float moleOfAirPerLiter = 0.04464f;
         currentVolume = initialVolume = pInitialVolume;
         myO2StoreImpl.setInitialLevel(currentVolume *  moleOfAirPerLiter * 0.20f);
         myCO2StoreImpl.setInitialLevel(currentVolume *  moleOfAirPerLiter * 0.00111f);
         myOtherStoreImpl.setInitialLevel(currentVolume *  moleOfAirPerLiter * 0.0f);
         myVaporStoreImpl.setInitialLevel(currentVolume *  moleOfAirPerLiter * 0.01f);
-        myNitrogenStoreImpl.setInitialLevel(currentVolume *  moleOfAirPerLiter * 0.7896f);
+        myNitrogenStoreImpl.setInitialLevel(currentVolume *  moleOfAirPerLiter * 0.7896f);*/
+    	float moleOfHumidAirPerLiter = 0.04115f;	//	assuming air temperature of 23C
+    	currentVolume = initialVolume = pInitialVolume;
+        myO2StoreImpl.setInitialLevel(currentVolume *  moleOfHumidAirPerLiter * 0.196536f);
+        myCO2StoreImpl.setInitialLevel(currentVolume *  moleOfHumidAirPerLiter * 9.82681e-4f);
+        myOtherStoreImpl.setInitialLevel(currentVolume *  moleOfHumidAirPerLiter * 0.0f);
+        myVaporStoreImpl.setInitialLevel(currentVolume *  moleOfHumidAirPerLiter * 0.0173189f);
+        myNitrogenStoreImpl.setInitialLevel(currentVolume *  moleOfHumidAirPerLiter * 0.786135f);
     }
     
     public void setCurrentVolumeAtSeaLevel(float pVolume) {
-    	float moleOfAirPerLiter = .04464f;
+/*    	float moleOfAirPerLiter = .04464f;
         currentVolume = pVolume;
         myO2StoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerLiter * 0.20f);
         myCO2StoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerLiter * 0.00111f);
         myOtherStoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerLiter * 0.0f);
         myVaporStoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerLiter * 0.01f);
-        myNitrogenStoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerLiter * 0.7896f);
+        myNitrogenStoreImpl.setCurrentLevel(currentVolume *  moleOfAirPerLiter * 0.7896f);*/
+       	float moleOfHumidAirPerLiter = 0.04115f;	//	assuming air temperature of 23C
+       	currentVolume = pVolume;
+        myO2StoreImpl.setInitialLevel(currentVolume *  moleOfHumidAirPerLiter * 0.196536f);
+        myCO2StoreImpl.setInitialLevel(currentVolume *  moleOfHumidAirPerLiter * 9.82681e-4f);
+        myOtherStoreImpl.setInitialLevel(currentVolume *  moleOfHumidAirPerLiter * 0.0f);
+        myVaporStoreImpl.setInitialLevel(currentVolume *  moleOfHumidAirPerLiter * 0.0173189f);
+        myNitrogenStoreImpl.setInitialLevel(currentVolume *  moleOfHumidAirPerLiter * 0.786135f);
     }
 
     public float getInitialVolume() {
