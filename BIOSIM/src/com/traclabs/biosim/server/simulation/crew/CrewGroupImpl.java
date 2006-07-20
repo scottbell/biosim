@@ -80,6 +80,8 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     private float healthyPercentage = 1f;
 
     private Random myRandom;
+    
+    private boolean myDeathEnabled = true;
 
     private List<String> crewScheduledForRemoval;
 
@@ -453,4 +455,12 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     protected PotableWaterConsumerDefinitionImpl getPotableWaterConsumerDefinitionImpl() {
         return myPotableWaterConsumerDefinitionImpl;
     }
+
+	public boolean getDeathEnabled() {
+		return myDeathEnabled;
+	}
+
+	public void setDeathEnabled(boolean deathEnabled) {
+		this.myDeathEnabled = deathEnabled;
+	}
 }

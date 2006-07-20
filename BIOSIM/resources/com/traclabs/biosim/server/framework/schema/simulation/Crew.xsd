@@ -66,6 +66,7 @@
 					<xsd:element name="crewPerson" type="CrewPersonType"
 							minOccurs="0" maxOccurs="unbounded"/>
 				</xsd:sequence>
+				<xsd:attribute name="deathEnabled" type="xsd:boolean" default="true"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

@@ -250,7 +250,7 @@ public abstract class PlantImpl extends PlantPOA {
         myAge++;
         if (!hasDied) {
             growBiomass();
-            if (myAge > 1) {
+            if ((myAge > 1) && (myShelfImpl.getBiomassPSImpl().getDeathEnabled())) {
                 afflictPlants();
                 healthCheck();
                 recoverPlants();

@@ -39,8 +39,7 @@ frameworkName="com.traclabs.biosim.server.framework.BiosimServer"
 resourceDir="$devRootDir/resources"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar"
 logCLasspath="$devRootDir/lib/log4j/log4j.jar"
-xmlClasspath="$devRootDir/lib/xerces/xercesImpl.jar$separator$devRootDir/lib/xerces/xml-apis.jar$separator$devRootDir/lib/xerces/xmlParserAPIs.jar"
-jacoInvocation="$java_command -classpath $buildDir$separator$resourceDir$separator$logCLasspath$separator$jacoClasspath$separator$xmlClasspath $machineTypeEnv $biosimHome $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
+jacoInvocation="$java_command -classpath $buildDir$separator$resourceDir$separator$logCLasspath$separator$jacoClasspath $machineTypeEnv $biosimHome $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 nojitOption="-Djava.compiler=none"
 case $userSelect in
 	"-nojit") echo "		-starting with no JIT";jacoInvocation="$jacoInvocation $nojitOption";userSelect=$2;;

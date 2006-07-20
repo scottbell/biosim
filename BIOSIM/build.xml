@@ -10,7 +10,6 @@
 	<property name="buildDir" location="build" />
 	<property name="lib" location="lib" />
 	<property name="jacorbDir" location="${lib}/jacorb" />
-	<property name="xercesDir" location="${lib}/xerces" />
 	<property name="tmpDir" location="tmp" />
 	<property name="nsDir" location="${tmpDir}/ns" />
 	<property name="resourceDir" location="resources" />
@@ -88,9 +87,6 @@
 				<pathelement location="${log4jDir}/commons-logging.jar" />
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
-				<pathelement location="${xercesDir}/xercesImpl.jar" />
-				<pathelement location="${xercesDir}/xml-apis.jar" />
-				<pathelement location="${xercesDir}/xmlParserAPIs.jar" />
 				<pathelement location="${gefDir}/gef.jar" />
 			</classpath>
 		</javac>
@@ -106,9 +102,6 @@
 					<pathelement location="${log4jDir}/commons-logging.jar" />
 					<pathelement location="${jacorbDir}/jacorb.jar" />
 					<pathelement location="${jacorbDir}/avalon-framework.jar" />
-					<pathelement location="${xercesDir}/xercesImpl.jar" />
-					<pathelement location="${xercesDir}/xml-apis.jar" />
-					<pathelement location="${xercesDir}/xmlParserAPIs.jar" />
 					<pathelement location="${gefDir}/gef.jar" />
 				</classpath>
 			</javac>
@@ -124,9 +117,6 @@
 						<pathelement location="${log4jDir}/commons-logging.jar" />
 						<pathelement location="${jacorbDir}/jacorb.jar" />
 						<pathelement location="${jacorbDir}/avalon-framework.jar" />
-						<pathelement location="${xercesDir}/xercesImpl.jar" />
-						<pathelement location="${xercesDir}/xml-apis.jar" />
-						<pathelement location="${xercesDir}/xmlParserAPIs.jar" />
 						<pathelement location="${gefDir}/gef.jar" />
 					</classpath>
 				</javac>
@@ -141,9 +131,6 @@
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
 				<pathelement location="${log4jDir}/log4j.jar" />
-				<pathelement location="${xercesDir}/xercesImpl.jar" />
-				<pathelement location="${xercesDir}/xml-apis.jar" />
-				<pathelement location="${xercesDir}/xmlParserAPIs.jar" />
 				<pathelement location="${plotDir}/jcommon.jar" />
 				<pathelement location="${plotDir}/jfreechart.jar" />
 				<pathelement location="${gefDir}/gef.jar" />
@@ -160,8 +147,6 @@
 				<pathelement location="${buildDir}" />
 				<pathelement location="${log4jDir}/commons-logging.jar" />
 				<pathelement location="${log4jDir}/log4j.jar" />
-				<pathelement location="${xercesDir}/xercesImpl.jar" />
-				<pathelement location="${xercesDir}/xml-apis.jar" />
 				<pathelement location="${gefDir}/gef.jar" />
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
@@ -178,9 +163,6 @@
 			<fileset file="${jacorbDir}/jacorb.jar" />
 			<fileset file="${jacorbDir}/logkit.jar" />
 			<fileset file="${jacorbDir}/avalon-framework.jar" />
-			<fileset file="${xercesDir}/xercesImpl.jar" />
-			<fileset file="${xercesDir}/xml-apis.jar" />
-			<fileset file="${xercesDir}/xmlParserAPIs.jar" />
 			<fileset file="${plotDir}/jcommon.jar" />
 			<fileset file="${plotDir}/jfreechart.jar" />
 		</unzip>
@@ -241,9 +223,6 @@
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/logkit.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
-				<pathelement location="${xercesDir}/xercesImpl.jar" />
-				<pathelement location="${xercesDir}/xml-apis.jar" />
-				<pathelement location="${xercesDir}/xmlParserAPIs.jar" />
 				<pathelement location="${plotDir}/jcommon.jar" />
 				<pathelement location="${plotDir}/jfreechart.jar" />
 				<pathelement location="${gefDir}/gef.jar" />
@@ -316,9 +295,6 @@
 					<pathelement location="${jacorbDir}/jacorb.jar" />
 					<pathelement location="${jacorbDir}/logkit.jar" />
 					<pathelement location="${jacorbDir}/avalon-framework.jar" />
-					<pathelement location="${xercesDir}/xercesImpl.jar" />
-					<pathelement location="${xercesDir}/xml-apis.jar" />
-					<pathelement location="${xercesDir}/xmlParserAPIs.jar" />
 					<pathelement location="${gefDir}/gef.jar" />
 				</classpath>
 				<sysproperty key= "org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton"/>
@@ -354,9 +330,6 @@
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/logkit.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
-				<pathelement location="${xercesDir}/xercesImpl.jar" />
-				<pathelement location="${xercesDir}/xml-apis.jar" />
-				<pathelement location="${xercesDir}/xmlParserAPIs.jar" />
 			</classpath>
 		</java>
 	</target>
@@ -375,8 +348,6 @@
 				<pathelement location="${jacorbDir}/logkit.jar" />
 				<pathelement location="${xercesDir}/xercesImpl.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
-				<pathelement location="${xercesDir}/xml-apis.jar" />
-				<pathelement location="${xercesDir}/xmlParserAPIs.jar" />
 				<pathelement location="${plotDir}/jcommon.jar" />
 				<pathelement location="${plotDir}/jfreechart.jar" />
 			</classpath>
@@ -421,9 +392,6 @@
 				<fileset file="${jacorbDir}/jacorb.jar" />
 				<fileset file="${jacorbDir}/logkit.jar" />
 				<fileset file="${jacorbDir}/avalon-framework.jar" />
-				<fileset file="${xercesDir}/xercesImpl.jar" />
-				<fileset file="${xercesDir}/xml-apis.jar" />
-				<fileset file="${xercesDir}/xmlParserAPIs.jar" />
 				<fileset file="${plotDir}/jcommon.jar" />
 				<fileset file="${plotDir}/jfreechart.jar" />
 				<fileset file="${gefDir}/gef.jar" />

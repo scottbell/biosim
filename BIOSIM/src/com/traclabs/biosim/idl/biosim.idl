@@ -414,6 +414,8 @@ module com{
                                                         void detachCrewPerson(in string name);
                                                         void attachCrewPerson(in CrewPerson pCrewPerson);
                                                         void killCrew();
+                                                        void setDeathEnabled(in boolean deathEnabled);
+                                                        boolean getDeathEnabled();
                                                 };
                                         };
 
@@ -505,6 +507,8 @@ module com{
                                                         boolean autoHarvestAndReplantEnabled();
                                                         boolean isAnyPlantDead();
                                                         void killPlants();
+                                                        void setDeathEnabled(in boolean deathEnabled);
+                                                        boolean getDeathEnabled();
                                                 };
 
                                                 interface FoodProcessor : framework::SimBioModule, power::PowerConsumer, food::BiomassConsumer, food::FoodProducer, waste::DryWasteProducer, water::WaterProducer{
