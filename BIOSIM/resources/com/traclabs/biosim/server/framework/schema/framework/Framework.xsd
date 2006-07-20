@@ -21,8 +21,6 @@
 		</xsd:sequence>
 		<xsd:attribute name="moduleName" type="xsd:string"
 			use="required" />
-		<xsd:attribute name="isLoggingEnabled" type="xsd:boolean"
-			default="false" />
 		<xsd:attribute name="setStochasticIntensity"
 			type="StochasticIntensityType" default="NONE_STOCH" />
 		<xsd:attribute name="createLocally" type="xsd:boolean"
