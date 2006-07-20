@@ -39,9 +39,8 @@ editorName="com.traclabs.biosim.editor.BiosimEditorMain"
 resourceDir="$devRootDir/resources"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar"
 logCLasspath="$devRootDir/lib/log4j/log4j.jar$separator$devRootDir/lib/log4j/commons-logging.jar"
-xmlClasspath="$devRootDir/lib/xerces/xercesImpl.jar$separator$devRootDir/lib/xerces/xml-apis.jar$separator$devRootDir/lib/xerces/xmlParserAPIs.jar"
 gefClasspath="$devRootDir/lib/gef/gef.jar"
-jacoInvocation="$java_command -classpath $buildDir$separator$resourceDir$separator$logCLasspath$separator$jacoClasspath$separator$xmlClasspath$separator$gefClasspath $machineTypeEnv $biosimHome $jacoOrbClass $openGLEnabled $jacoSingletonOrbClass $jacoNameIOR"
+jacoInvocation="$java_command -classpath $buildDir$separator$resourceDir$separator$logCLasspath$separator$jacoClasspath$separator$gefClasspath $machineTypeEnv $biosimHome $jacoOrbClass $openGLEnabled $jacoSingletonOrbClass $jacoNameIOR"
 nojitOption="-Djava.compiler=none"
 case $userSelect in
 	"-nojit") echo "		-starting with no JIT";jacoInvocation="$jacoInvocation $nojitOption";userSelect=$2;;

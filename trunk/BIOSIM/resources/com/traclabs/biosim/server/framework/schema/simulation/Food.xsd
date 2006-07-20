@@ -71,6 +71,7 @@
 				</xsd:sequence>
 				<xsd:attribute name="autoHarvestAndReplant" type="xsd:boolean"
 					default="true"/>
+				<xsd:attribute name="deathEnabled" type="xsd:boolean" default="true"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

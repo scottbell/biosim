@@ -757,9 +757,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
             if (onBoard) {
                 advanceActivity();
                 consumeResources();
-                afflictCrew();
-                healthCheck();
-                recoverCrew();
+                if (getCurrentCrewGroup().getDeathEnabled()){
+                	afflictCrew();
+                	healthCheck();
+                	recoverCrew();
+                }
             }
         }
         if (myLogger.isDebugEnabled())

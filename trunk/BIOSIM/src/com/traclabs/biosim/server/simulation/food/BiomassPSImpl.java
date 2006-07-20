@@ -69,6 +69,8 @@ public class BiomassPSImpl extends SimBioModuleImpl implements
 
     private BiomassProducerDefinitionImpl myBiomassProducerDefinitionImpl;
     
+    private boolean myDeathEnabled = true;
+    
     public BiomassPSImpl(){
     	this(0, "Unnamed BiomassPSImpl");
     }
@@ -287,5 +289,13 @@ public class BiomassPSImpl extends SimBioModuleImpl implements
 	public void killPlants() {
     	for (Shelf currentShelf : getShelves())
     		currentShelf.kill();
+	}
+
+	public boolean getDeathEnabled() {
+		return myDeathEnabled;
+	}
+
+	public void setDeathEnabled(boolean deathEnabled) {
+		this.myDeathEnabled = deathEnabled;
 	}
 }
