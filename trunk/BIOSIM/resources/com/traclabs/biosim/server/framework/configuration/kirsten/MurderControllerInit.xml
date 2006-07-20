@@ -23,24 +23,16 @@
 					outputs="SimEnvironment"/>
 				<dryWasteProducer desiredFlowRates="1000.0" maxFlowRates="1000.0"
 					outputs="DryWasteStore"/>
-				<crewPerson name="Nigil" age="35" weight="70" sex="MALE"
-					arrivalDate="0">
+				<crewPerson name="Nigil" age="35" weight="70" sex="MALE">
 					<schedule>
-						<activity name="sleep" length="8" intensity="1" />
-						<activity name="hygiene" length="1"
-							intensity="2" />
-						<activity name="exercise" length="1"
-							intensity="5" />
-						<activity name="eating" length="1"
-							intensity="2" />
-						<activity name="mission" length="9"
-							intensity="3" />
-						<activity intensity="2" name="health"
-							length="1" />
-						<activity intensity="2" name="maintenance"
-							length="1" />
-						<activity intensity="2" name="leisure"
-							length="2" />
+						<activity name="sleep" length="8" intensity="1"/>
+						<activity name="hygiene" length="1" intensity="2"/>
+						<activity name="exercise" length="1" intensity="5"/>
+						<activity name="eating" length="1" intensity="2"/>
+						<activity name="mission" length="9" intensity="3"/><activity
+							intensity="2" name="health" length="1" /><activity
+							intensity="2" name="maintenance" length="1" /><activity
+							intensity="2" name="leisure" length="2" />
 					</schedule>
 				</crewPerson>
 			</CrewGroup>

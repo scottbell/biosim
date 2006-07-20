@@ -34,7 +34,7 @@ scott@traclabs.com
 */
 
 public class MurderController {
-	private static String CONFIGURATION_FILE = "test/MurderControllerInit.xml";
+	private static String CONFIGURATION_FILE = "kirsten/MurderControllerInit.xml";
 
 	private BioDriver myBioDriver;
 
