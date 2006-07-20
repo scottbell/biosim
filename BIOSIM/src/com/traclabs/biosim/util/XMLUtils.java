@@ -35,4 +35,8 @@ public class XMLUtils {
 		}
 		return listToReturn;
 	}
+	
+	public static boolean getBooelanAttribute(Node node, String attributeName){
+		return node.getAttributes().getNamedItem(attributeName).getNodeValue().equals("true");
+	}
 }

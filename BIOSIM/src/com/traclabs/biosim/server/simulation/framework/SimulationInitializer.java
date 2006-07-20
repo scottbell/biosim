@@ -170,6 +170,7 @@ import com.traclabs.biosim.server.simulation.water.PotableWaterStoreImpl;
 import com.traclabs.biosim.server.simulation.water.WaterRSImpl;
 import com.traclabs.biosim.server.simulation.water.WaterRSLinearImpl;
 import com.traclabs.biosim.util.OrbUtils;
+import com.traclabs.biosim.util.XMLUtils;
 
 /**
  * Reads BioSim configuration from XML file.
@@ -1019,9 +1020,9 @@ public class SimulationInitializer {
 			BiosimInitializer.setupBioModule(myCrewGroupImpl, node);
 			BiosimServer.registerServer(new CrewGroupPOATie(myCrewGroupImpl),
 					myCrewGroupImpl.getModuleName(), myCrewGroupImpl.getID());
-
+			boolean deathEnabled = XMLUtils.getBooelanAttribute(node, "isDeathEnabled");
+			myCrewGroupImpl.setDeathEnabled(deathEnabled);
 			// Create crew members
-
 			CrewGroup myCrewGroup = CrewGroupHelper.narrow(BiosimInitializer
 					.grabModule(myID, myCrewGroupImpl.getModuleName()));
 			Node child = node.getFirstChild();
@@ -1360,10 +1361,10 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating BiomassPS with moduleName: " + moduleName);
 			BiomassPSImpl myBiomassPSImpl = new BiomassPSImpl(myID, moduleName);
-			boolean autoHarvestAndReplant = node.getAttributes().getNamedItem(
-					"autoHarvestAndReplant").getNodeValue().equals("true");
-			myBiomassPSImpl
-					.setAutoHarvestAndReplantEnabled(autoHarvestAndReplant);
+			boolean autoHarvestAndReplant = XMLUtils.getBooelanAttribute(node, "autoHarvestAndReplant");
+			boolean deathEnabled = XMLUtils.getBooelanAttribute(node, "isDeathEnabled");
+			myBiomassPSImpl.setAutoHarvestAndReplantEnabled(autoHarvestAndReplant);
+			myBiomassPSImpl.setDeathEnabled(deathEnabled);
 			BiosimInitializer.setupBioModule(myBiomassPSImpl, node);
 			Node child = node.getFirstChild();
 			while (child != null) {
