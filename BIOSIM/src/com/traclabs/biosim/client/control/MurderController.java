@@ -54,6 +54,8 @@ public class MurderController {
 	
 	private GenericSensor myVaporPressureSensor;
 	
+	private GenericSensor myTimeTillCanopyClosureSensor;
+	
 	private GenericActuator myAirOutActuator;
 
 	private GenericActuator myNitrogenInActuator;
@@ -103,6 +105,7 @@ public class MurderController {
 		myCO2PressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getCO2Store());
 		myNitrogenPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getNitrogenStore());
 		myVaporPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getVaporStore());
+		myTimeTillCanopyClosureSensor = myBioHolder.getShelfSensorAttachedTo(myBioHolder.theTimeTillCanopyClosureSensors, myBioHolder.theBiomassPSModules.get(0), 0);
 	}
 	/**
 	 * Main loop of controller.  Pauses the simulation, then
@@ -126,11 +129,12 @@ public class MurderController {
 			System.err.println("Error writing to file.");
 		}
 		myLogger.info("Controller starting run");
+		myLogger.info("The time till canopy closure is " + myTimeTillCanopyClosureSensor.getValue());
 		printResults(); //prints the initial conditions
 		do {
 			stepSim();
 		}while (!endConditionMet());
-		
+
 		
 		//if we get here, the end condition has been met
 		myLogger.info("Final O2PartialPressure= "+O2PP+ " Final CO2PartialPressure= "+ CO2PP);
@@ -179,6 +183,7 @@ public class MurderController {
 			myAirOutActuator.setValue(0);
 			myNitrogenInActuator.setValue(0);
 		}
+		
 		
 		// advancing the sim 1 tick
 		myBioDriver.advanceOneTick();
