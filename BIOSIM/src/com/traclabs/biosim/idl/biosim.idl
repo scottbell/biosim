@@ -67,6 +67,7 @@ module com{
                                         };
                                         module food{
                                                 interface Shelf;
+                                                interface Plant;
                                                 interface BiomassPS;
                                                 interface BiomassStore;
                                                 interface FoodProcessor;
@@ -546,6 +547,9 @@ module com{
                                                         BiomassPS getBiomassPS();
                                                         void setStartTick(in long tick);
                                                         void kill();
+                                                };
+                                                
+                                                interface Plant{
                                                 };
                                                 
                                                 interface BiomassConsumer : framework::Consumer{
