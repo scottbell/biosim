@@ -22,7 +22,7 @@ import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
  * @author Scott Bell (modified original code)
  */
 
-public class HandController {
+public class HandController implements BiosimController{
     //feedback loop sttuff
     private float levelToKeepO2At = 0.20f;
 
