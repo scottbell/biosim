@@ -30,7 +30,7 @@ scott@traclabs.com
 
 */
 
-public class SimpleController {
+public class SimpleController implements BiosimController{
 	private static String CONFIGURATION_FILE = "test/SimpleControllerInit.xml";
 
 	private BioDriver myBioDriver;

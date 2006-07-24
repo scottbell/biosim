@@ -33,7 +33,7 @@ scott@traclabs.com
 
 */
 
-public class MurderController {
+public class MurderController implements BiosimController {
 	private static String CONFIGURATION_FILE = "kirsten/MurderControllerInit.xml";
 
 	private BioDriver myBioDriver;
