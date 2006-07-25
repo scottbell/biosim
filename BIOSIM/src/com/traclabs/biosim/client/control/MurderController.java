@@ -60,6 +60,8 @@ public class MurderController implements BiosimController {
 
 	private GenericActuator myNitrogenInActuator;
 	
+	private GenericActuator myCO2InActuator;
+	
 	float O2PP = 0f;
 	
 	float CO2PP = 0f;
@@ -96,16 +98,18 @@ public class MurderController implements BiosimController {
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
 		
 		Injector NitrogenInjector = myBioHolder.theInjectors.get(0);
+		Injector CO2Injector = myBioHolder.theInjectors.get(1);
 		Accumulator AirAccumulator = myBioHolder.theAccumulators.get(0);
 		
 		myNitrogenInActuator = myBioHolder.getActuatorAttachedTo(myBioHolder.theNitrogenInFlowRateActuators, NitrogenInjector);
 		myAirOutActuator = myBioHolder.getActuatorAttachedTo(myBioHolder.theAirOutFlowRateActuators, AirAccumulator);
+		myCO2InActuator = myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2InFlowRateActuators,CO2Injector);
 		
 		myO2PressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getO2Store());
 		myCO2PressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getCO2Store());
 		myNitrogenPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getNitrogenStore());
 		myVaporPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getVaporStore());
-		myTimeTillCanopyClosureSensor = myBioHolder.getShelfSensorAttachedTo(myBioHolder.theTimeTillCanopyClosureSensors, myBioHolder.theBiomassPSModules.get(0), 0);
+		//myTimeTillCanopyClosureSensor = myBioHolder.getShelfSensorAttachedTo(myBioHolder.theTimeTillCanopyClosureSensors, myBioHolder.theBiomassPSModules.get(0), 0);
 	}
 	/**
 	 * Main loop of controller.  Pauses the simulation, then
@@ -122,15 +126,16 @@ public class MurderController implements BiosimController {
 			p.println();
 			p.print("Crop area = " + myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
 			p.println();
-			p.println("Ticks TotalPressure O2PP      CO2PP       NitrogenPP  VaporPP    Activity   O2Consumed  CO2Produced");
+			p.println("Ticks TotalPressure O2PP CO2PP NitrogenPP VaporPP Activity O2Consumed CO2Produced");
 			p.flush();
 			out.close();
 		}catch (Exception e){
 			System.err.println("Error writing to file.");
 		}
 		myLogger.info("Controller starting run");
-		myLogger.info("The time till canopy closure is " + myTimeTillCanopyClosureSensor.getValue());
+		//myLogger.info("The time till canopy closure is " + myTimeTillCanopyClosureSensor.getValue());
 		printResults(); //prints the initial conditions
+		
 		do {
 			stepSim();
 		}while (!endConditionMet());
@@ -162,24 +167,32 @@ public class MurderController implements BiosimController {
 	 * then increments the actuator.
 	 */
 	public void stepSim() {
-		myLogger.info("NitrogenInActuator value is " + myNitrogenInActuator.getValue());
 		
 		
-		if((CO2PP < .033) || (CO2PP > .2))	{
+		//CO2 controls
+		
+		if((CO2PP < .1) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
+			myCO2InActuator.setValue(1);
+		}
+		if((!(CO2PP < .1) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick())) || (!(myBioDriver.getTicks() < myCrewPerson.getArrivalTick())))	{
+			myCO2InActuator.setValue(0);
+		}
+		
+		if((CO2PP < .03) || (CO2PP > .2))	{
 			myBioHolder.theBiomassPSModules.get(0).killPlants();
 			myLogger.info("The crops have died from " + CO2PP + " CO2 on tick " + myBioDriver.getTicks());
 		}
 		
-		if (crewEnvironment.getTotalPressure() > 110) {
-			myAirOutActuator.setValue(100000000);
-			myLogger.info("The Air Out Actuator value is "+ myAirOutActuator.getValue());
-			
+		//TotalPressure controls
+		if (crewEnvironment.getTotalPressure() > 106) {
+			myAirOutActuator.setValue(100);
 		}
-		if (crewEnvironment.getTotalPressure() < 105)	{
+		
+		if (crewEnvironment.getTotalPressure() < 96)	{
 			myNitrogenInActuator.setValue(100);
-			
 		}
-		if ((crewEnvironment.getTotalPressure() < 110) && (crewEnvironment.getTotalPressure() > 105))	{
+		
+		if ((crewEnvironment.getTotalPressure() > 96) && (crewEnvironment.getTotalPressure() < 106))	{
 			myAirOutActuator.setValue(0);
 			myNitrogenInActuator.setValue(0);
 		}
