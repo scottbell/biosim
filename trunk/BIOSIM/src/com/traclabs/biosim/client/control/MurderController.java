@@ -116,8 +116,7 @@ public class MurderController implements BiosimController {
 	 * ticks it one tick at a time until end condition is met.
 	 */
 	public void runSim() {
-		myBioDriver.setPauseSimulation(true);
-		myBioDriver.startSimulation();
+		
 		//prints the "name" of the simulation (how much area)
 		try {
 			out = new FileOutputStream("/home/kirsten/MurderControllerResults.txt", true);
@@ -132,17 +131,17 @@ public class MurderController implements BiosimController {
 		}catch (Exception e){
 			System.err.println("Error writing to file.");
 		}
+		
+		myBioDriver.setPauseSimulation(true);
+		myBioDriver.startSimulation();
 		myLogger.info("Controller starting run");
 		crewEnvironment.setInitialVolumeAtSeaLevel(32000);
 		myLogger.info("The time till canopy closure is " + myTimeTillCanopyClosureSensor.getValue());
 		//myCrewPerson.setArrivalTick(24*(int)myTimeTillCanopyClosureSensor.getValue());
 		printResults(); //prints the initial conditions
-		
 		do {
 			stepSim(); 
 		}while (!endConditionMet()); 
-
-		
 		//if we get here, the end condition has been met
 		myLogger.info("Final O2PartialPressure= "+O2PP+ " Final CO2PartialPressure= "+ CO2PP);
 		myBioDriver.endSimulation();
