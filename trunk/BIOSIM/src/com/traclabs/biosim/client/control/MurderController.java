@@ -154,8 +154,8 @@ public class MurderController implements BiosimController {
 	
 	private boolean endConditionMet() {
 		
-		O2PP = myO2PressureSensor.getValue();
-		CO2PP = myCO2PressureSensor.getValue();
+		O2PP = crewEnvironment.getO2Store().getPressure();
+		CO2PP = crewEnvironment.getCO2Store().getPressure();
 		
 		if((O2PP < 10.13) || (O2PP > 30.39) || (CO2PP > 1))	{
 			myBioHolder.theCrewGroups.get(0).killCrew();
@@ -172,7 +172,8 @@ public class MurderController implements BiosimController {
 	 * then increments the actuator.
 	 */
 	public void stepSim() {
-		TotalPressure = myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue();
+		//TotalPressure = myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue();
+		TotalPressure = crewEnvironment.getTotalPressure();
 		/*
 		if (myBioDriver.getTicks() == 0){
 			myBioDriver.advanceOneTick();
@@ -220,8 +221,9 @@ public class MurderController implements BiosimController {
 	
 	}
 	public void printResults()	{
-		TotalPressure = myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue();
-
+		//TotalPressure = myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue();
+		TotalPressure = crewEnvironment.getTotalPressure();
+		
 		try {
 			out = new FileOutputStream("/home/kirsten/MurderControllerResults.txt", true);
 			p = new PrintStream( out );
@@ -229,8 +231,8 @@ public class MurderController implements BiosimController {
 			p.print(TotalPressure + "     ");//Total Pressure
 			p.print(O2PP + "  ");//PP of O2
 			p.print(CO2PP + "  "); //PP of CO2
-			p.print(myNitrogenPressureSensor.getValue() + "    "); //PP of Nitrogen
-			p.print(myVaporPressureSensor.getValue() + "   "); //PP or Vapor
+			p.print(crewEnvironment.getNitrogenStore().getPressure() + "    "); //PP of Nitrogen
+			p.print(crewEnvironment.getVaporStore().getPressure() + "   "); //PP or Vapor
 			p.print(myCrewPerson.getCurrentActivity().getName() + "       ");
 			//p.print(myCrewPerson.getO2Consumed() + " " + myCrewPerson.getCO2Produced() + "         ");
 			p.println();
