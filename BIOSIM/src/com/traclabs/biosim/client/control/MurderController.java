@@ -109,7 +109,7 @@ public class MurderController implements BiosimController {
 		myCO2PressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getCO2Store());
 		myNitrogenPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getNitrogenStore());
 		myVaporPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getVaporStore());
-		//myTimeTillCanopyClosureSensor = myBioHolder.getShelfSensorAttachedTo(myBioHolder.theTimeTillCanopyClosureSensors, myBioHolder.theBiomassPSModules.get(0), 0);
+		myTimeTillCanopyClosureSensor = myBioHolder.getShelfSensorAttachedTo(myBioHolder.theTimeTillCanopyClosureSensors, myBioHolder.theBiomassPSModules.get(0), 0);
 	}
 	/**
 	 * Main loop of controller.  Pauses the simulation, then
@@ -137,8 +137,10 @@ public class MurderController implements BiosimController {
 		printResults(); //prints the initial conditions
 		
 		do {
-			stepSim();
-		}while (!endConditionMet());
+			if (myBioDriver.getTicks() > 0)
+				continue;
+			stepSim(); 
+		}while (!endConditionMet()); 
 
 		
 		//if we get here, the end condition has been met
@@ -171,9 +173,14 @@ public class MurderController implements BiosimController {
 		
 		//CO2 controls
 		
-		if((CO2PP < .1) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
+		if((CO2PP < .1) && (CO2PP > .05) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
 			myCO2InActuator.setValue(1);
 		}
+		
+		if((CO2PP < .05) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
+			myCO2InActuator.setValue(2);
+		}
+		
 		if((!(CO2PP < .1) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick())) || (!(myBioDriver.getTicks() < myCrewPerson.getArrivalTick())))	{
 			myCO2InActuator.setValue(0);
 		}
@@ -196,7 +203,6 @@ public class MurderController implements BiosimController {
 			myAirOutActuator.setValue(0);
 			myNitrogenInActuator.setValue(0);
 		}
-		
 		
 		// advancing the sim 1 tick
 		myBioDriver.advanceOneTick();
