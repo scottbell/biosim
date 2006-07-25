@@ -53,16 +53,14 @@
             	<airProducer desiredFlowRates="1000"
             		outputs="SimEnvironment" maxFlowRates="1000" />
             	<dirtyWaterProducer desiredFlowRates="1000"
-            		outputs="DirtyWaterStore" maxFlowRates="1000">
-            	</dirtyWaterProducer>
+            		outputs="DirtyWaterStore" maxFlowRates="1000"/>
             	<greyWaterConsumer inputs="GreyWaterStore"
             		desiredFlowRates="1000" maxFlowRates="1000" ></greyWaterConsumer>
             	<potableWaterConsumer inputs="PotableWaterStore"
             		desiredFlowRates="1000" maxFlowRates="1000" ></potableWaterConsumer>
             	<shelf cropType="WHEAT" cropArea="20" ></shelf>
             	<powerConsumer inputs="PowerStore"
-            		desiredFlowRates="400" maxFlowRates="400">
-            	</powerConsumer>
+            		desiredFlowRates="400" maxFlowRates="400"/>
 </BiomassPS>
         </food>
 		<power>

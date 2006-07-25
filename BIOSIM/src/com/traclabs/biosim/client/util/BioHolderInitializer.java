@@ -826,7 +826,7 @@ public class BioHolderInitializer {
 				fetchHarvestSensor(child);
 			else if (childName.equals("PlantDeathSensor"))
 				fetchPlantDeathSensor(child);
-			else if (childName.equals("TimeTillCanopyClosedSensor"))
+			else if (childName.equals("TimeTillCanopyClosureSensor"))
 				fetchTimeTillCanopyClosedSensor(child);
 			child = child.getNextSibling();
 		}
