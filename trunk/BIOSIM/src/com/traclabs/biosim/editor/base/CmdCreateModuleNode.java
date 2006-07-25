@@ -5,8 +5,7 @@ import java.util.Hashtable;
 
 import javax.swing.Action;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.tigris.gef.base.Cmd;
 import org.tigris.gef.base.CmdSave;
 import org.tigris.gef.base.Editor;
@@ -28,7 +27,7 @@ import org.tigris.gef.graph.MutableGraphModel;
 public class CmdCreateModuleNode extends Cmd implements GraphFactory {
     public static Class DEFAULT_NODE_CLASS = org.tigris.gef.graph.presentation.NetNode.class;
 
-    private static Log LOG = LogFactory.getLog(CmdCreateModuleNode.class);
+    private static Logger LOG = Logger.getLogger(CmdCreateModuleNode.class);
 
     /** Construct a new Cmd with the given arguments for node class. */
     public CmdCreateModuleNode(Hashtable args, String resource, String name) {

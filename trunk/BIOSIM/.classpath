@@ -10,7 +10,6 @@
 	<classpathentry kind="lib" path="lib/junit/junit.jar"/>
 	<classpathentry kind="lib" path="lib/gef/gef.jar"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="lib" path="lib/log4j/commons-logging.jar"/>
 	<classpathentry kind="lib" path="lib/jacorb/avalon-framework.jar"/>
 	<classpathentry kind="lib" path="lib/jacorb/logkit.jar"/>
 	<classpathentry kind="lib" path="lib/jacorb/idl.jar"/>
