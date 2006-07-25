@@ -58,7 +58,7 @@
             		desiredFlowRates="1000" maxFlowRates="1000" ></greyWaterConsumer>
             	<potableWaterConsumer inputs="PotableWaterStore"
             		desiredFlowRates="1000" maxFlowRates="1000" ></potableWaterConsumer>
-            	<shelf cropType="WHEAT" cropArea="50" ></shelf>
+            	<shelf cropType="WHEAT" cropArea="30" ></shelf>
             	<powerConsumer inputs="PowerStore"
             		desiredFlowRates="400" maxFlowRates="400"/>
 </BiomassPS>
