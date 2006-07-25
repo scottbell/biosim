@@ -133,12 +133,12 @@ public class MurderController implements BiosimController {
 			System.err.println("Error writing to file.");
 		}
 		myLogger.info("Controller starting run");
-		//myLogger.info("The time till canopy closure is " + myTimeTillCanopyClosureSensor.getValue());
+		crewEnvironment.setInitialVolumeAtSeaLevel(32000);
+		myLogger.info("The time till canopy closure is " + myTimeTillCanopyClosureSensor.getValue());
+		//myCrewPerson.setArrivalTick(24*(int)myTimeTillCanopyClosureSensor.getValue());
 		printResults(); //prints the initial conditions
 		
 		do {
-			if (myBioDriver.getTicks() > 0)
-				continue;
 			stepSim(); 
 		}while (!endConditionMet()); 
 
@@ -151,8 +151,8 @@ public class MurderController implements BiosimController {
 	
 	private boolean endConditionMet() {
 		
-		O2PP = myO2PressureSensor.getValue();
-		CO2PP = myCO2PressureSensor.getValue();
+		O2PP = crewEnvironment.getO2Store().getPressure();
+		CO2PP = crewEnvironment.getCO2Store().getPressure();
 
 		if((O2PP < 10.13) || (O2PP > 30.39) || (CO2PP > 1))	{
 			myBioHolder.theCrewGroups.get(0).killCrew();
@@ -169,8 +169,13 @@ public class MurderController implements BiosimController {
 	 * then increments the actuator.
 	 */
 	public void stepSim() {
-		
-		
+		/*
+		if (myBioDriver.getTicks() == 0){
+			myBioDriver.advanceOneTick();
+			printResults();
+			return;
+		}
+		*/
 		//CO2 controls
 		
 		if((CO2PP < .1) && (CO2PP > .05) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
@@ -178,7 +183,7 @@ public class MurderController implements BiosimController {
 		}
 		
 		if((CO2PP < .05) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
-			myCO2InActuator.setValue(2);
+			myCO2InActuator.setValue(1.5f);
 		}
 		
 		if((!(CO2PP < .1) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick())) || (!(myBioDriver.getTicks() < myCrewPerson.getArrivalTick())))	{
@@ -190,7 +195,7 @@ public class MurderController implements BiosimController {
 			myLogger.info("The crops have died from " + CO2PP + " CO2 on tick " + myBioDriver.getTicks());
 		}
 		
-		//TotalPressure controls
+		//TotalPressure controls 
 		if (crewEnvironment.getTotalPressure() > 106) {
 			myAirOutActuator.setValue(100);
 		}
@@ -207,6 +212,7 @@ public class MurderController implements BiosimController {
 		// advancing the sim 1 tick
 		myBioDriver.advanceOneTick();
 		printResults();
+		return;
 	
 	}
 	public void printResults()	{
