@@ -75,7 +75,7 @@ public class MurderController implements BiosimController {
 	public MurderController() {
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
-		collectReferences();
+		collectReferences(); 
 	
 	}
 
@@ -95,8 +95,8 @@ public class MurderController implements BiosimController {
 	private void collectReferences() {
 		BioHolderInitializer.setFile(CONFIGURATION_FILE);
 		myBioHolder = BioHolderInitializer.getBioHolder();
-		myBioDriver = myBioHolder.theBioDriver;
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
+		myBioDriver = myBioHolder.theBioDriver;
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
 		
 		Injector NitrogenInjector = myBioHolder.theInjectors.get(0);
@@ -139,7 +139,7 @@ public class MurderController implements BiosimController {
 		myBioDriver.setPauseSimulation(true);
 		myBioDriver.startSimulation();
 		myLogger.info("Controller starting run");
-		crewEnvironment.setInitialVolumeAtSeaLevel(32000);
+		crewEnvironment.setCurrentVolumeAtSeaLevel(32000);
 		myLogger.info("The time till canopy closure is " + myTimeTillCanopyClosureSensor.getValue());
 		//myCrewPerson.setArrivalTick(24*(int)myTimeTillCanopyClosureSensor.getValue());
 		printResults(); //prints the initial conditions
