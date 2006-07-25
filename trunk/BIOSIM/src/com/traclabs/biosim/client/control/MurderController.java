@@ -62,6 +62,8 @@ public class MurderController implements BiosimController {
 	
 	private GenericActuator myCO2InActuator;
 	
+	float TotalPressure;
+	
 	float O2PP = 0f;
 	
 	float CO2PP = 0f;
@@ -110,6 +112,8 @@ public class MurderController implements BiosimController {
 		myNitrogenPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getNitrogenStore());
 		myVaporPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getVaporStore());
 		myTimeTillCanopyClosureSensor = myBioHolder.getShelfSensorAttachedTo(myBioHolder.theTimeTillCanopyClosureSensors, myBioHolder.theBiomassPSModules.get(0), 0);
+		TotalPressure = myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue();
+		
 	}
 	/**
 	 * Main loop of controller.  Pauses the simulation, then
@@ -150,8 +154,8 @@ public class MurderController implements BiosimController {
 	
 	private boolean endConditionMet() {
 		
-		O2PP = crewEnvironment.getO2Store().getPressure();
-		CO2PP = crewEnvironment.getCO2Store().getPressure();
+		O2PP = myO2PressureSensor.getValue();
+		CO2PP = myCO2PressureSensor.getValue();
 
 		if((O2PP < 10.13) || (O2PP > 30.39) || (CO2PP > 1))	{
 			myBioHolder.theCrewGroups.get(0).killCrew();
@@ -195,15 +199,15 @@ public class MurderController implements BiosimController {
 		}
 		
 		//TotalPressure controls 
-		if (crewEnvironment.getTotalPressure() > 106) {
+		if (TotalPressure > 106) {
 			myAirOutActuator.setValue(100);
 		}
 		
-		if (crewEnvironment.getTotalPressure() < 96)	{
+		if (TotalPressure < 96)	{
 			myNitrogenInActuator.setValue(100);
 		}
 		
-		if ((crewEnvironment.getTotalPressure() > 96) && (crewEnvironment.getTotalPressure() < 106))	{
+		if ((TotalPressure > 96) && (TotalPressure < 106))	{
 			myAirOutActuator.setValue(0);
 			myNitrogenInActuator.setValue(0);
 		}
@@ -221,13 +225,13 @@ public class MurderController implements BiosimController {
 			out = new FileOutputStream("/home/kirsten/MurderControllerResults.txt", true);
 			p = new PrintStream( out );
 			p.print(myBioDriver.getTicks() + "     ");//Ticks
-			p.print(crewEnvironment.getTotalPressure() + "     ");//Total Pressure
-			p.print(crewEnvironment.getO2Store().getPressure() + "  ");//PP of O2
-			p.print(crewEnvironment.getCO2Store().getPressure() + "  "); //PP of CO2
-			p.print(crewEnvironment.getNitrogenStore().getPressure() + "    "); //PP of Nitrogen
-			p.print(crewEnvironment.getVaporStore().getPressure() + "   "); //PP or Vapor
+			p.print(TotalPressure + "     ");//Total Pressure
+			p.print(O2PP + "  ");//PP of O2
+			p.print(CO2PP + "  "); //PP of CO2
+			p.print(myNitrogenPressureSensor.getValue() + "    "); //PP of Nitrogen
+			p.print(myVaporPressureSensor.getValue() + "   "); //PP or Vapor
 			p.print(myCrewPerson.getCurrentActivity().getName() + "       ");
-			p.print(myCrewPerson.getO2Consumed() + " " + myCrewPerson.getCO2Produced() + "         ");
+			//p.print(myCrewPerson.getO2Consumed() + " " + myCrewPerson.getCO2Produced() + "         ");
 			p.println();
 			p.flush();
 			out.close();
