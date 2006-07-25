@@ -58,7 +58,7 @@
             		desiredFlowRates="1000" maxFlowRates="1000" ></greyWaterConsumer>
             	<potableWaterConsumer inputs="PotableWaterStore"
             		desiredFlowRates="1000" maxFlowRates="1000" ></potableWaterConsumer>
-            	<shelf cropType="WHEAT" cropArea="20" ></shelf>
+            	<shelf cropType="WHEAT" cropArea="50" ></shelf>
             	<powerConsumer inputs="PowerStore"
             		desiredFlowRates="400" maxFlowRates="400"/>
 </BiomassPS>
@@ -83,9 +83,14 @@
         		<nitrogenConsumer inputs="NitrogenStore" desiredFlowRates="1000"
         			maxFlowRates="1000" ></nitrogenConsumer>
         		<nitrogenProducer desiredFlowRates="1000" outputs="SimEnvironment"
-        			maxFlowRates="1000" ></nitrogenProducer></Injector></framework>
+        			maxFlowRates="1000" ></nitrogenProducer></Injector>
+        	<Injector moduleName="CO2InInjector">
+        		<CO2Consumer inputs="CO2Store" desiredFlowRates="1000"
+        			maxFlowRates="1000" /><CO2Producer desiredFlowRates="1000"
+        			outputs="SimEnvironment" maxFlowRates="1000" /></Injector></framework>
         <air>
-        	<NitrogenStore capacity="1.0E9" level="1.0E9" moduleName="NitrogenStore"></NitrogenStore></air>
+        	<NitrogenStore capacity="1.0E9" level="1.0E9" moduleName="NitrogenStore"></NitrogenStore>
+        	<CO2Store capacity="1.0E9" moduleName="CO2Store" level="1.0E9"></CO2Store></air>
         <environment>
         	<SimEnvironment moduleName="SimEnvironment" initialVolume="32000"></SimEnvironment>
         	<SimEnvironment moduleName="AirStore" initialVolume="1.0E9"></SimEnvironment>
@@ -110,7 +115,8 @@
 		<air>
 			<NitrogenInFlowRateActuator output="NitrogenInInjector" moduleName="SimEnvironmentNitrogenInFlowRateActuator"
 				index="0">
-			</NitrogenInFlowRateActuator></air>
+			</NitrogenInFlowRateActuator>
+			<CO2InFlowRateActuator output="CO2InInjector" moduleName="SimEnvironmentCO2InFlowRateActuator" index="0"></CO2InFlowRateActuator></air>
 		<environment>
 			<AirOutFlowRateActuator output="AirOutAccumulator" moduleName="AirStoreAirOutFlowRateActuator" index="0"></AirOutFlowRateActuator></environment></Actuators>
 </biosim>
