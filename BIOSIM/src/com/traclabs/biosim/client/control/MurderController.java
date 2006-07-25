@@ -112,7 +112,7 @@ public class MurderController implements BiosimController {
 		myNitrogenPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getNitrogenStore());
 		myVaporPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getVaporStore());
 		myTimeTillCanopyClosureSensor = myBioHolder.getShelfSensorAttachedTo(myBioHolder.theTimeTillCanopyClosureSensors, myBioHolder.theBiomassPSModules.get(0), 0);
-		TotalPressure = myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue();
+		
 		
 	}
 	/**
@@ -156,7 +156,7 @@ public class MurderController implements BiosimController {
 		
 		O2PP = myO2PressureSensor.getValue();
 		CO2PP = myCO2PressureSensor.getValue();
-
+		
 		if((O2PP < 10.13) || (O2PP > 30.39) || (CO2PP > 1))	{
 			myBioHolder.theCrewGroups.get(0).killCrew();
 			return true;
@@ -172,6 +172,7 @@ public class MurderController implements BiosimController {
 	 * then increments the actuator.
 	 */
 	public void stepSim() {
+		TotalPressure = myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue();
 		/*
 		if (myBioDriver.getTicks() == 0){
 			myBioDriver.advanceOneTick();
@@ -219,7 +220,7 @@ public class MurderController implements BiosimController {
 	
 	}
 	public void printResults()	{
-		
+		TotalPressure = myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue();
 
 		try {
 			out = new FileOutputStream("/home/kirsten/MurderControllerResults.txt", true);
