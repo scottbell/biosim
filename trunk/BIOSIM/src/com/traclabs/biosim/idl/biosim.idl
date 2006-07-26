@@ -428,6 +428,14 @@ module com{
                                                 
                                                 interface Dehumidifier : framework::SimBioModule, environment::AirConsumer, water::DirtyWaterProducer{
                                                 };
+                                                
+                                                struct Air{
+                                                	float o2Moles;
+                                                	float co2Moles;
+                                                	float otherMoles;
+                                                	float vaporMoles;
+                                                	float nitrogenMoles;
+                                                };
 
                                                 interface SimEnvironment : framework::PassiveModule{
                                                 		EnvironmentO2Store getO2Store();
