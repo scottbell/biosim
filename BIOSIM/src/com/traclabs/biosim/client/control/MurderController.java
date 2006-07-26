@@ -176,7 +176,7 @@ public class MurderController implements BiosimController {
 		}
 		
 		if((crewEnvironment.getCO2Store().getPressure() < .05) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
-			myCO2InActuator.setValue(1.7f);
+			myCO2InActuator.setValue(1.578f);
 		}
 		
 		if((!(crewEnvironment.getCO2Store().getPressure() < .1) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick())) || (!(myBioDriver.getTicks() < myCrewPerson.getArrivalTick())))	{
