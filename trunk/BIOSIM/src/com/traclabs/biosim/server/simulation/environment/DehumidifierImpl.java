@@ -25,8 +25,9 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
     private AirConsumerDefinitionImpl myAirConsumerDefinitionImpl;
 
     private DirtyWaterProducerDefinitionImpl myDirtyWaterProducerDefinitionImpl;
-
-    private static final float OPTIMAL_MOISTURE_CONCENTRATION = 0.01f; //in kPA
+    
+    private static final float OPTIMAL_MOISTURE_CONCENTRATION = 0.0218910f*101f;
+    //  in kPA assuming 101 kPa total pressure and air temperature of 23C and relative humidity of 80%
 
     public DehumidifierImpl(int pID, String pName) {
         super(pID, pName);
