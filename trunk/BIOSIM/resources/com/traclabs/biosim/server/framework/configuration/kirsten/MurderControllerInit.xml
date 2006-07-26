@@ -76,9 +76,9 @@
         </water>
         <framework>
         	<Accumulator moduleName="AirOutAccumulator">
-        		<airConsumer inputs="SimEnvironment" desiredFlowRates="1000"
-        			maxFlowRates="1000" ></airConsumer><airProducer desiredFlowRates="1000"
-        			outputs="AirStore" maxFlowRates="1000" /></Accumulator>
+        		<airConsumer inputs="SimEnvironment" desiredFlowRates="10"
+        			maxFlowRates="10" ></airConsumer><airProducer desiredFlowRates="10"
+        			outputs="AirStore" maxFlowRates="10" /></Accumulator>
         	<Injector moduleName="NitrogenInInjector">
         		<nitrogenConsumer inputs="NitrogenStore" desiredFlowRates="1000"
         			maxFlowRates="1000" ></nitrogenConsumer>
