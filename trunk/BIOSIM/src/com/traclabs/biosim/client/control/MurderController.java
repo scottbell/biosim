@@ -184,6 +184,9 @@ public class MurderController implements BiosimController {
 			myCO2InActuator.setValue(0);
 		}
 		
+		if (!(myBioDriver.getTicks() < myCrewPerson.getArrivalTick()));
+			myCO2InActuator.setValue(0);
+		
 		if((crewEnvironment.getCO2Store().getPressure() < .03) || (crewEnvironment.getCO2Store().getPressure() > .2))	{
 			myBioHolder.theBiomassPSModules.get(0).killPlants();
 			myLogger.info("The crops have died from " + crewEnvironment.getCO2Store().getPressure() + " CO2 on tick " + myBioDriver.getTicks());
@@ -191,11 +194,11 @@ public class MurderController implements BiosimController {
 		
 		//TotalPressure controls 
 		if (crewEnvironment.getTotalPressure() > 106) {
-			myAirOutActuator.setValue(10);
+			myAirOutActuator.setValue(5);
 		}
 		
 		if (crewEnvironment.getTotalPressure() < 96)	{
-			myNitrogenInActuator.setValue(10);
+			myNitrogenInActuator.setValue(5);
 		}
 		
 		if ((crewEnvironment.getTotalPressure() > 96) && (crewEnvironment.getTotalPressure() < 106))	{
