@@ -60,11 +60,11 @@ malfunction="malfunction"
 stochastic="stochastic"
 sensor="sensor"
 case $userSelect in
-	$malfunction) echo "			 -starting $userSelect";$jacoInvocation $malfunctionName $1 $2 $3 $4;;
-	$stochastic) echo "			 -starting $userSelect";$jacoInvocation $stochasticName $1 $2 $3 $4;;
-	$sensor) echo "			 -starting $userSelect";$jacoInvocation $sensorName;;
+	$malfunction) echo "			 -starting $userSelect";$jacoInvocation $malfunctionName $@;;
+	$stochastic) echo "			 -starting $userSelect";$jacoInvocation $stochasticName $@;;
+	$sensor) echo "			 -starting $userSelect";$jacoInvocation $sensorName $@;;
 	$help) echo "Usage: run-client.sh (-ga) (-debug) [console, gui, malfunction, stochastic, controller, unreal]";;
-	*) echo "			 -starting $userSelect";$jacoInvocation $mainName $1 $2 $3 $4;;
+	*) echo "			 -starting $userSelect";$jacoInvocation $mainName $@;;
 esac
 echo "*done invoking clients"
 

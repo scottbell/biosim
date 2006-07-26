@@ -47,9 +47,9 @@ case $userSelect in
 esac
 echo "	-starting editor"
 case $userSelect in
-	all) echo "			-starting $userSelect";$jacoInvocation $editorName $1 $2 $3;;
-	"-id"*) echo "			-assuming all (id user specified)";$jacoInvocation $editorName $1 $2 $3;;
-	"-xml"*) echo "			-assuming all (xml init user specified)";$jacoInvocation $editorName $1 $2 $3;;
+	all) echo "			-starting $userSelect";$jacoInvocation $editorName $@;;
+	"-id"*) echo "			-assuming all (id user specified)";$jacoInvocation $editorName $@;;
+	"-xml"*) echo "			-assuming all (xml init user specified)";$jacoInvocation $editorName $@;;
 	*) echo "			-assuming all";$jacoInvocation $editorName;;
 esac
 echo "*done invoking editor"
