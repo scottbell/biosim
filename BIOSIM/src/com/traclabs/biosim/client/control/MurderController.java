@@ -133,11 +133,12 @@ public class MurderController implements BiosimController {
 		myBioDriver.startSimulation();
 		myLogger.info("Controller starting run");
 		crewEnvironment.setCurrentVolumeAtSeaLevel(32000);
-		myLogger.info("The value of O2 is " + myO2PressureSensor.getValue());
+		myLogger.info("The value of O2 is " + crewEnvironment.getO2Store().getPressure());
 		myLogger.info("The time till canopy closure is " + myTimeTillCanopyClosureSensor.getValue());
 		//myCrewPerson.setArrivalTick(24*(int)myTimeTillCanopyClosureSensor.getValue());
 		printResults(); //prints the initial conditions
 		do {
+			 
 			stepSim();  
 		}while (!endConditionMet()); 
 		//if we get here, the end condition has been met
