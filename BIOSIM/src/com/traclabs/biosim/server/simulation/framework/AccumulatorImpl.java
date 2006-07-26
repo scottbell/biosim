@@ -12,6 +12,10 @@ import com.traclabs.biosim.idl.simulation.framework.AccumulatorOperations;
  */
 
 public class AccumulatorImpl extends ResourceMover implements AccumulatorOperations{
+	
+    public AccumulatorImpl() {
+    	this(0, "Unnamed Accumulator");
+    }
 
 	public AccumulatorImpl(int pID, String pName) {
 		super(pID, pName);

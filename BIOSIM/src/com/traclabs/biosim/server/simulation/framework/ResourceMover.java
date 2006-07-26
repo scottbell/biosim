@@ -18,6 +18,7 @@ import com.traclabs.biosim.idl.simulation.air.O2ConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.air.O2ConsumerOperations;
 import com.traclabs.biosim.idl.simulation.air.O2ProducerDefinition;
 import com.traclabs.biosim.idl.simulation.air.O2ProducerOperations;
+import com.traclabs.biosim.idl.simulation.environment.Air;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerOperations;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition;
@@ -240,6 +241,10 @@ public class ResourceMover extends SimBioModuleImpl implements PowerConsumerOper
 		float H2Gathered = myH2ConsumerDefinitionImpl
 				.getMostResourceFromStores();
 		myH2ProducerDefinitionImpl.pushResourceToStores(H2Gathered);
+		
+		Air airGathered = myAirConsumerDefinitionImpl.getMostAirFromEnvironments();
+		//TODO currently only pushes to one environment
+		myAirProducerDefinitionImpl.pushAirToEnvironment(airGathered, 0);
 	}
 
 	private static float waterLitersToMoles(float pLiters) {
