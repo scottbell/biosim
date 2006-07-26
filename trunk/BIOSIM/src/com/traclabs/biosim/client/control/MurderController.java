@@ -106,7 +106,6 @@ public class MurderController implements BiosimController {
 		myNitrogenPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getNitrogenStore());
 		myVaporPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getVaporStore());
 		myTimeTillCanopyClosureSensor = myBioHolder.getShelfSensorAttachedTo(myBioHolder.theTimeTillCanopyClosureSensors, myBioHolder.theBiomassPSModules.get(0), 0);
-	
 		
 	}
 	/**
@@ -134,6 +133,7 @@ public class MurderController implements BiosimController {
 		myBioDriver.startSimulation();
 		myLogger.info("Controller starting run");
 		crewEnvironment.setCurrentVolumeAtSeaLevel(32000);
+		myLogger.info("The value of O2 is " + myO2PressureSensor.getValue());
 		myLogger.info("The time till canopy closure is " + myTimeTillCanopyClosureSensor.getValue());
 		//myCrewPerson.setArrivalTick(24*(int)myTimeTillCanopyClosureSensor.getValue());
 		printResults(); //prints the initial conditions
