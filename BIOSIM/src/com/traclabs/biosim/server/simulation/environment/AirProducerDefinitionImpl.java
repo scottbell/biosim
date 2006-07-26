@@ -34,6 +34,8 @@ public class AirProducerDefinitionImpl extends
     }
 	
 	public void pushAirToEnvironment(Air airToPush, int indexOfEnvironment){
+		if (getEnvironments().length < indexOfEnvironment)
+			return;
 		float actualFlowrateToEnvironment = 0f;
 		SimEnvironment environment = getEnvironments()[indexOfEnvironment];
 		actualFlowrateToEnvironment += environment.getO2Store().add(airToPush.o2Moles);

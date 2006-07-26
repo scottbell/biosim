@@ -244,7 +244,8 @@ public class ResourceMover extends SimBioModuleImpl implements PowerConsumerOper
 		
 		Air airGathered = myAirConsumerDefinitionImpl.getMostAirFromEnvironments();
 		//TODO currently only pushes to one environment
-		myAirProducerDefinitionImpl.pushAirToEnvironment(airGathered, 0);
+		if (myAirProducerDefinitionImpl.getEnvironments().length > 0)
+			myAirProducerDefinitionImpl.pushAirToEnvironment(airGathered, 0);
 	}
 
 	private static float waterLitersToMoles(float pLiters) {
