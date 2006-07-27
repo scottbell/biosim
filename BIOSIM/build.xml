@@ -83,10 +83,8 @@
 				<pathelement location="${src}" />
 				<pathelement location="${buildDir}" />
 				<pathelement location="${log4jDir}/log4j.jar" />
-				<pathelement location="${log4jDir}/commons-logging.jar" />
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
-				<pathelement location="${gefDir}/gef.jar" />
 			</classpath>
 		</javac>
 	</target>
@@ -98,7 +96,6 @@
 					<pathelement location="${src}" />
 					<pathelement location="${buildDir}" />
 					<pathelement location="${log4jDir}/log4j.jar" />
-					<pathelement location="${log4jDir}/commons-logging.jar" />
 					<pathelement location="${jacorbDir}/jacorb.jar" />
 					<pathelement location="${jacorbDir}/avalon-framework.jar" />
 				</classpath>
@@ -112,10 +109,8 @@
 						<pathelement location="${src}" />
 						<pathelement location="${buildDir}" />
 						<pathelement location="${log4jDir}/log4j.jar" />
-						<pathelement location="${log4jDir}/commons-logging.jar" />
 						<pathelement location="${jacorbDir}/jacorb.jar" />
 						<pathelement location="${jacorbDir}/avalon-framework.jar" />
-						<pathelement location="${gefDir}/gef.jar" />
 					</classpath>
 				</javac>
 	</target>
@@ -131,8 +126,6 @@
 				<pathelement location="${log4jDir}/log4j.jar" />
 				<pathelement location="${plotDir}/jcommon.jar" />
 				<pathelement location="${plotDir}/jfreechart.jar" />
-				<pathelement location="${gefDir}/gef.jar" />
-				<pathelement location="${log4jDir}/commons-logging.jar" />
 			</classpath>
 		</javac>
 	</target>
@@ -208,8 +201,6 @@
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
 				<pathelement location="${plotDir}/jcommon.jar" />
 				<pathelement location="${plotDir}/jfreechart.jar" />
-				<pathelement location="${gefDir}/gef.jar" />
-				<pathelement location="${log4jDir}/commons-logging.jar" />
 			</classpath>
 		</javadoc>
 	</target>
@@ -358,8 +349,6 @@
 				<fileset file="${jacorbDir}/avalon-framework.jar" />
 				<fileset file="${plotDir}/jcommon.jar" />
 				<fileset file="${plotDir}/jfreechart.jar" />
-				<fileset file="${gefDir}/gef.jar" />
-				<fileset file="${log4jDir}/commons-logging.jar" />
 			</unzip>
 			<echo message="Create biosim jar" />
 			<jar destfile="${jnlpDistDir}/biosim.jar" manifest="${jnlpDistLibDir}/MANIFEST.MF">
