@@ -10,6 +10,10 @@ public class AirInFlowRateActuatorImpl extends GenericActuatorImpl implements
     private AirConsumer myConsumer;
 
     private int myIndex;
+    
+    public AirInFlowRateActuatorImpl(){
+    	super(0, "Unnamed AirInFlowRateActuator");
+    }
 
     public AirInFlowRateActuatorImpl(int pID, String pName) {
         super(pID, pName);

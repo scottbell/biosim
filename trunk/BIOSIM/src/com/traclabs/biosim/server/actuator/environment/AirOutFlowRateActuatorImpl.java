@@ -10,7 +10,11 @@ public class AirOutFlowRateActuatorImpl extends GenericActuatorImpl implements
     private AirProducer myProducer;
 
     private int myIndex;
-
+    
+    public AirOutFlowRateActuatorImpl(){
+    	super(0, "Unnamed AirOutFlowRateActuator");
+    }
+    
     public AirOutFlowRateActuatorImpl(int pID, String pName) {
         super(pID, pName);
     }
