@@ -11,7 +11,6 @@ import com.traclabs.biosim.client.framework.apollo13.Apollo13Viewer;
 import com.traclabs.biosim.client.sensor.framework.SensorViewer;
 import com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisPanel;
 import com.traclabs.biosim.client.simulation.framework.SimDesktop;
-import com.traclabs.biosim.client.simulation.power.schematic.PowerSchematicFrame;
 import com.traclabs.biosim.client.unrealCom.UnrealCom;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.util.OrbUtils;
@@ -52,7 +51,6 @@ public class BiosimMain {
         boolean wantsToPhotosynthesis = false;
         boolean wantsToRunSensorViewer = false;
         boolean wantsToRunApollo13Viewer = false;
-        boolean wantsToRunPowerSchematic = false;
         boolean wantsToRunSimpleController = false;
         boolean unrealServerGiven = false;
         String unrealServer = "";
@@ -73,8 +71,6 @@ public class BiosimMain {
             	wantsToRunSensorViewer = true;
             } else if (myArgs[i].equals("apollo")) {
             	wantsToRunApollo13Viewer = true;
-            } else if (myArgs[i].equals("power")) {
-            	wantsToRunPowerSchematic = true;
             } else if (myArgs[i].startsWith("-xml=")) {
                 try {
                     xmlFile = myArgs[i].split("=")[1];
@@ -151,8 +147,6 @@ public class BiosimMain {
             runSensorViewer();
         else if (wantsToRunApollo13Viewer)
             runApollo13Viewer();
-        else if (wantsToRunPowerSchematic)
-            runPowerSchematic();
         else if (wantsToRunUnreal) {
             if (unrealServerGiven) {
                 runUnreal2(unrealServer);
@@ -236,16 +230,6 @@ public class BiosimMain {
      */
     private void runApollo13Viewer() {
     	Apollo13Viewer.main(new String[]{}); 
-    }
-    
-    /**
-     * Runs the sensor viewer
-     */
-    private void runPowerSchematic() {
-        PowerSchematicFrame newPowerSchematicFrame= new PowerSchematicFrame();
-        newPowerSchematicFrame.setSize(1000, 500);
-        newPowerSchematicFrame.setLocationRelativeTo(null); 
-        newPowerSchematicFrame.setVisible(true);
     }
 }
 
