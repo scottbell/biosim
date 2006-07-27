@@ -163,15 +163,9 @@ public class MurderController implements BiosimController {
 	 * then increments the actuator.
 	 */
 	public void stepSim() {
-		/*
-		if (myBioDriver.getTicks() == 0){
-			myBioDriver.advanceOneTick();
-			printResults();
-			return;
-		}
-		*/
+	
 		
-		//CO2 controls
+		//CO2 controls		
 		if((crewEnvironment.getCO2Store().getPressure() < .1) && (crewEnvironment.getCO2Store().getPressure() > .05) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
 			myCO2InActuator.setValue(1);
 		}
@@ -180,31 +174,31 @@ public class MurderController implements BiosimController {
 			myCO2InActuator.setValue(1.578f);
 		}
 		
-		if((!(crewEnvironment.getCO2Store().getPressure() < .1) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick())) || (!(myBioDriver.getTicks() < myCrewPerson.getArrivalTick())))	{
+		if (!(crewEnvironment.getCO2Store().getPressure() < .1) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
 			myCO2InActuator.setValue(0);
 		}
 		
-		if (!(myBioDriver.getTicks() < myCrewPerson.getArrivalTick()));
+		if (myBioDriver.getTicks() > myCrewPerson.getArrivalTick()){
 			myCO2InActuator.setValue(0);
+		}
 		
-		if((crewEnvironment.getCO2Store().getPressure() < .03) || (crewEnvironment.getCO2Store().getPressure() > .2))	{
+		if((crewEnvironment.getCO2Store().getPressure() < 0.033) || (crewEnvironment.getCO2Store().getPressure() > .2))	{
 			myBioHolder.theBiomassPSModules.get(0).killPlants();
 			myLogger.info("The crops have died from " + crewEnvironment.getCO2Store().getPressure() + " CO2 on tick " + myBioDriver.getTicks());
 		}
 		
 		//TotalPressure controls 
 		if (crewEnvironment.getTotalPressure() > 106) {
-			myAirOutActuator.setValue(5);
+			myAirOutActuator.setValue(110);
 		}
 		
 		if (crewEnvironment.getTotalPressure() < 96)	{
-			myNitrogenInActuator.setValue(5);
+			myNitrogenInActuator.setValue(110);
 		}
 		
 		if ((crewEnvironment.getTotalPressure() > 96) && (crewEnvironment.getTotalPressure() < 106))	{
 			myAirOutActuator.setValue(0);
 			myNitrogenInActuator.setValue(0);
-		
 		}
 		
 		// advancing the sim 1 tick
