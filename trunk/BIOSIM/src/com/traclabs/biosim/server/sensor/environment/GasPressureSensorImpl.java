@@ -7,6 +7,10 @@ import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public class GasPressureSensorImpl extends GenericSensorImpl implements GasPressureSensorOperations {
     private EnvironmentStore myEnvironmentStore;
+    
+    public GasPressureSensorImpl() {
+        super(0, "Unnamed GasPressureSensor");
+    }
 
     public GasPressureSensorImpl(int pID, String pName) {
         super(pID, pName);
