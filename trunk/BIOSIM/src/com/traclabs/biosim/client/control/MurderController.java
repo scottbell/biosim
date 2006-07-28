@@ -189,11 +189,11 @@ public class MurderController implements BiosimController {
 		
 		//TotalPressure controls 
 		if ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 106) {
-			myAirOutActuator.setValue(0);
+			myAirOutActuator.setValue(10);
 		}
 		
 		if ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) < 96)	{
-			myNitrogenInActuator.setValue(0);
+			myNitrogenInActuator.setValue(10);
 		}
 		
 		if (((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 96) && ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) < 106))	{
