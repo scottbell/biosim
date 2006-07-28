@@ -1,4 +1,4 @@
-package com.traclabs.biosim.serve.actuator.environment;
+package com.traclabs.biosim.server.actuator.environment;
 
 import junit.framework.TestCase;
 
