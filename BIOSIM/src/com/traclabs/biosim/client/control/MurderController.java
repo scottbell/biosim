@@ -20,7 +20,7 @@ import com.traclabs.biosim.idl.simulation.framework.*;
  */
 
 /*
-To compile:
+To compile: 
 1) build biosim (type "ant" in BIOSIM_HOME directory)
 
 To run: (assuming BIOSIM_HOME/bin is in your path)
@@ -31,8 +31,8 @@ To run: (assuming BIOSIM_HOME/bin is in your path)
 Good Luck!  If you have any questions, email me at:
 scott@traclabs.com
 
-*/
-
+*/ 
+ 
 public class MurderController implements BiosimController {
 	private static String CONFIGURATION_FILE = "kirsten/MurderControllerInit.xml";
 
@@ -83,7 +83,7 @@ public class MurderController implements BiosimController {
 	 * Collects references to BioModules we'll need
 	 * to run/observer/poke the sim.  The BioHolder is 
 	 * a utility for clients to easily access different parts 
-	 * of BioSim.
+	 * of BioSim. 
 	 *
 	 */
 	private void collectReferences() {
@@ -107,7 +107,7 @@ public class MurderController implements BiosimController {
 		myVaporPressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getVaporStore());
 		myTimeTillCanopyClosureSensor = myBioHolder.getShelfSensorAttachedTo(myBioHolder.theTimeTillCanopyClosureSensors, myBioHolder.theBiomassPSModules.get(0), 0);
 		
-	}
+	} 
 	/**
 	 * Main loop of controller.  Pauses the simulation, then
 	 * ticks it one tick at a time until end condition is met.
@@ -122,7 +122,7 @@ public class MurderController implements BiosimController {
 			p.println();
 			p.print("Crop area = " + myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
 			p.println();
-			p.println("Ticks TotalPressure O2PP CO2PP NitrogenPP VaporPP Activity O2Consumed CO2Produced");
+			p.println("Ticks TotalPressure O2PP CO2PP NitrogenPP VaporPP Activity");
 			p.flush();
 			out.close();
 		}catch (Exception e){
@@ -153,6 +153,7 @@ public class MurderController implements BiosimController {
 			myBioHolder.theCrewGroups.get(0).killCrew();
 			return true;
 		}
+		
 		else	{
 			return false;
 		}
@@ -165,6 +166,8 @@ public class MurderController implements BiosimController {
 	public void stepSim() {
 	
 		
+		
+		if (myBioDriver.getTicks() > 2){
 		//CO2 controls		
 		if((myCO2PressureSensor.getValue() < .1) && (myCO2PressureSensor.getValue() > .05) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
 			myCO2InActuator.setValue(1);
@@ -186,8 +189,9 @@ public class MurderController implements BiosimController {
 			myBioHolder.theBiomassPSModules.get(0).killPlants();
 			myLogger.info("The crops have died from " + myCO2PressureSensor.getValue() + " CO2 on tick " + myBioDriver.getTicks());
 		}
-		
+		}
 		//TotalPressure controls 
+		/*
 		if ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 106) {
 			myAirOutActuator.setValue(65);
 		}
@@ -197,15 +201,18 @@ public class MurderController implements BiosimController {
 		}
 		
 		if (((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 96) && ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) < 106))	{
-			myAirOutActuator.setValue(0);
+			//myAirOutActuator.setValue(0);
 			myNitrogenInActuator.setValue(0);
-		}
 		
+		}
+		*/
 		// advancing the sim 1 tick
 		myBioDriver.advanceOneTick();
 		printResults();
 		return;
 	
+		
+		
 	}
 	public void printResults()	{
 		//TotalPressure = myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue();
