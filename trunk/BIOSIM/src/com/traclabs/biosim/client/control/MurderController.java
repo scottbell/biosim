@@ -136,11 +136,11 @@ public class MurderController implements BiosimController {
 		myLogger.info("The value of O2 is " + myO2PressureSensor.getValue());
 		myLogger.info("The time till canopy closure is " + myTimeTillCanopyClosureSensor.getValue());
 		//myCrewPerson.setArrivalTick(24*(int)myTimeTillCanopyClosureSensor.getValue());
-		printResults(); //prints the initial conditions
+		//printResults(); //prints the initial conditions
 		do {
-			 
 			stepSim();  
-		}while (!endConditionMet()); 
+		}while (!endConditionMet());
+		
 		//if we get here, the end condition has been met
 		myLogger.info("Final O2PartialPressure= "+myO2PressureSensor.getValue()+ " Final CO2PartialPressure= "+ myCO2PressureSensor.getValue());
 		myBioDriver.endSimulation();
@@ -189,11 +189,11 @@ public class MurderController implements BiosimController {
 		
 		//TotalPressure controls 
 		if ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 106) {
-			myAirOutActuator.setValue(10);
+			myAirOutActuator.setValue(65);
 		}
 		
 		if ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) < 96)	{
-			myNitrogenInActuator.setValue(10);
+			myNitrogenInActuator.setValue(65);
 		}
 		
 		if (((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 96) && ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) < 106))	{
