@@ -157,6 +157,7 @@ public class MurderController implements BiosimController {
 		else	{
 			return false;
 		}
+		
 	}
 
 	/**
@@ -168,13 +169,14 @@ public class MurderController implements BiosimController {
 		
 		
 		if (myBioDriver.getTicks() > 2){
+	
 		//CO2 controls		
 		if((myCO2PressureSensor.getValue() < .1) && (myCO2PressureSensor.getValue() > .05) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
-			myCO2InActuator.setValue(1);
+			myCO2InActuator.setValue(100);
 		}
 		
 		if((myCO2PressureSensor.getValue() < .05) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
-			myCO2InActuator.setValue(1.578f);
+			myCO2InActuator.setValue(100);
 		}
 		
 		if (!(myCO2PressureSensor.getValue() < .1) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
@@ -189,15 +191,17 @@ public class MurderController implements BiosimController {
 			myBioHolder.theBiomassPSModules.get(0).killPlants();
 			myLogger.info("The crops have died from " + myCO2PressureSensor.getValue() + " CO2 on tick " + myBioDriver.getTicks());
 		}
+		
 		}
+		
 		//TotalPressure controls 
-		/*
+		
 		if ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 106) {
-			myAirOutActuator.setValue(65);
+			myAirOutActuator.setValue(85);
 		}
 		
 		if ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) < 96)	{
-			myNitrogenInActuator.setValue(65);
+			myNitrogenInActuator.setValue(85);
 		}
 		
 		if (((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 96) && ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) < 106))	{
@@ -205,7 +209,7 @@ public class MurderController implements BiosimController {
 			myNitrogenInActuator.setValue(0);
 		
 		}
-		*/
+		
 		// advancing the sim 1 tick
 		myBioDriver.advanceOneTick();
 		printResults();
