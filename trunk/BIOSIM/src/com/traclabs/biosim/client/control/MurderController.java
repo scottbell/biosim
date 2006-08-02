@@ -145,7 +145,7 @@ public class MurderController implements BiosimController {
 		myLogger.info("Final O2PartialPressure= "+myO2PressureSensor.getValue()+ " Final CO2PartialPressure= "+ myCO2PressureSensor.getValue());
 		myBioDriver.endSimulation();
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
-	}
+	} 
 	
 	private boolean endConditionMet() {
 		
@@ -166,17 +166,14 @@ public class MurderController implements BiosimController {
 	 */
 	public void stepSim() {
 	
-		
-		
-		if (myBioDriver.getTicks() > 2){
-	
+		myBioDriver.advanceOneTick();
 		//CO2 controls		
 		if((myCO2PressureSensor.getValue() < .1) && (myCO2PressureSensor.getValue() > .05) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
-			myCO2InActuator.setValue(100);
-		}
+			myCO2InActuator.setValue(20);
+			}
 		
 		if((myCO2PressureSensor.getValue() < .05) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
-			myCO2InActuator.setValue(100);
+			myCO2InActuator.setValue(40);
 		}
 		
 		if (!(myCO2PressureSensor.getValue() < .1) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
@@ -192,26 +189,26 @@ public class MurderController implements BiosimController {
 			myLogger.info("The crops have died from " + myCO2PressureSensor.getValue() + " CO2 on tick " + myBioDriver.getTicks());
 		}
 		
-		}
+		
 		
 		//TotalPressure controls 
 		
 		if ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 106) {
-			myAirOutActuator.setValue(85);
+			myAirOutActuator.setValue(60);
 		}
 		
 		if ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) < 96)	{
-			myNitrogenInActuator.setValue(85);
+			myNitrogenInActuator.setValue(60);
 		}
 		
 		if (((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 96) && ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) < 106))	{
-			//myAirOutActuator.setValue(0);
+			myAirOutActuator.setValue(0);
 			myNitrogenInActuator.setValue(0);
 		
 		}
 		
 		// advancing the sim 1 tick
-		myBioDriver.advanceOneTick();
+		
 		printResults();
 		return;
 	
