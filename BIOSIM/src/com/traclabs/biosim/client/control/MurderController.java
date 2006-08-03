@@ -98,7 +98,7 @@ public class MurderController implements BiosimController {
 		Accumulator AirAccumulator = myBioHolder.theAccumulators.get(0);
 		
 		myNitrogenInActuator = myBioHolder.getActuatorAttachedTo(myBioHolder.theNitrogenInFlowRateActuators, NitrogenInjector);
-		myAirOutActuator = myBioHolder.getActuatorAttachedTo(myBioHolder.theAirOutFlowRateActuators, AirAccumulator);
+		myAirOutActuator = myBioHolder.getActuatorAttachedTo(myBioHolder.theAirInFlowRateActuators, AirAccumulator);
 		myCO2InActuator = myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2InFlowRateActuators,CO2Injector);
 		
 		myO2PressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getO2Store());
@@ -166,7 +166,7 @@ public class MurderController implements BiosimController {
 	 */
 	public void stepSim() {
 	
-		myBioDriver.advanceOneTick();
+		
 		//CO2 controls		
 		if((myCO2PressureSensor.getValue() < .1) && (myCO2PressureSensor.getValue() > .05) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
 			myCO2InActuator.setValue(20);
@@ -205,10 +205,10 @@ public class MurderController implements BiosimController {
 			myAirOutActuator.setValue(0);
 			myNitrogenInActuator.setValue(0);
 		
-		}
+		}  
 		
 		// advancing the sim 1 tick
-		
+		myBioDriver.advanceOneTick();
 		printResults();
 		return;
 	
