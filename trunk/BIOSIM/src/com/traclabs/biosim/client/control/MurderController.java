@@ -62,6 +62,8 @@ public class MurderController implements BiosimController {
 	
 	private GenericActuator myCO2InActuator;
 	
+	private GenericActuator myO2OutActuator;
+	
 	FileOutputStream out;
 	
 	PrintStream p;
@@ -96,10 +98,12 @@ public class MurderController implements BiosimController {
 		Injector NitrogenInjector = myBioHolder.theInjectors.get(0);
 		Injector CO2Injector = myBioHolder.theInjectors.get(1);
 		Accumulator AirAccumulator = myBioHolder.theAccumulators.get(0);
+		Accumulator O2Accumulator = myBioHolder.theAccumulators.get(1);
 		
 		myNitrogenInActuator = myBioHolder.getActuatorAttachedTo(myBioHolder.theNitrogenInFlowRateActuators, NitrogenInjector);
 		myAirOutActuator = myBioHolder.getActuatorAttachedTo(myBioHolder.theAirInFlowRateActuators, AirAccumulator);
 		myCO2InActuator = myBioHolder.getActuatorAttachedTo(myBioHolder.theCO2InFlowRateActuators,CO2Injector);
+		myO2OutActuator = myBioHolder.getActuatorAttachedTo(myBioHolder.theO2InFlowRateActuators, O2Accumulator);
 		
 		myO2PressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getO2Store());
 		myCO2PressureSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theGasPressureSensors, crewEnvironment.getCO2Store());
@@ -173,7 +177,7 @@ public class MurderController implements BiosimController {
 			}
 		
 		if((myCO2PressureSensor.getValue() < .05) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
-			myCO2InActuator.setValue(40);
+			myCO2InActuator.setValue(60);
 		}
 		
 		if (!(myCO2PressureSensor.getValue() < .1) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
@@ -189,16 +193,28 @@ public class MurderController implements BiosimController {
 			myLogger.info("The crops have died from " + myCO2PressureSensor.getValue() + " CO2 on tick " + myBioDriver.getTicks());
 		}
 		
+		//O2Pressure controls
+		
+		if ((myO2PressureSensor.getValue() > 26) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick())){
+			myO2OutActuator.setValue(60);
+		}
+		if ((myO2PressureSensor.getValue() < 26) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick())){
+			myO2OutActuator.setValue(0);
+		}
+		if (myBioDriver.getTicks() > myCrewPerson.getArrivalTick()){
+			myO2OutActuator.setValue(0);
+		}
+		
 		
 		
 		//TotalPressure controls 
 		
 		if ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 106) {
-			myAirOutActuator.setValue(60);
+			myAirOutActuator.setValue(65);
 		}
 		
 		if ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) < 96)	{
-			myNitrogenInActuator.setValue(60);
+			myNitrogenInActuator.setValue(65);
 		}
 		
 		if (((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 96) && ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) < 106))	{
