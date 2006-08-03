@@ -61,7 +61,7 @@
             	<potableWaterConsumer inputs="PotableWaterStore"
             		desiredFlowRates="1000" maxFlowRates="1000">
             	</potableWaterConsumer>
-            	<shelf cropType="WHEAT" cropArea="50"></shelf>
+            	<shelf cropType="WHEAT" cropArea="11"></shelf>
             	<powerConsumer inputs="PowerStore"
             		desiredFlowRates="400" maxFlowRates="400" />
 </BiomassPS>
@@ -90,7 +90,11 @@
         	<Injector moduleName="CO2InInjector">
         		<CO2Consumer inputs="CO2Store" desiredFlowRates=".5"
         			maxFlowRates=".5" /><CO2Producer desiredFlowRates=".5"
-        			outputs="SimEnvironment" maxFlowRates=".5" /></Injector></framework>
+        			outputs="SimEnvironment" maxFlowRates=".5" /></Injector>
+        	<Accumulator moduleName="O2Accumulator">
+        		<O2Consumer inputs="SimEnvironment" desiredFlowRates="100"
+        			maxFlowRates="100" /><O2Producer desiredFlowRates="100"
+        			outputs="AirStore" maxFlowRates="100" /></Accumulator></framework>
         <air>
         	<NitrogenStore capacity="1.0E9" level="1.0E9" moduleName="NitrogenStore"></NitrogenStore>
         	<CO2Store capacity="1.0E9" moduleName="CO2Store" level="1.0E9"></CO2Store></air>
@@ -113,7 +117,8 @@
 			<NitrogenInFlowRateActuator output="NitrogenInInjector" moduleName="SimEnvironmentNitrogenInFlowRateActuator"
 				index="0">
 			</NitrogenInFlowRateActuator>
-			<CO2InFlowRateActuator output="CO2InInjector" moduleName="SimEnvironmentCO2InFlowRateActuator" index="0"></CO2InFlowRateActuator></air>
+			<CO2InFlowRateActuator output="CO2InInjector" moduleName="SimEnvironmentCO2InFlowRateActuator" index="0"></CO2InFlowRateActuator>
+			<O2InFlowRateActuator output="O2Accumulator" moduleName="SimEnvironmentO2OutFlowRateActuator" index="0"></O2InFlowRateActuator></air>
 		<environment>
 			<AirInFlowRateActuator output="AirOutAccumulator" moduleName="AirInFlowRateActuator" index="0"></AirInFlowRateActuator></environment></Actuators>
 </biosim>
