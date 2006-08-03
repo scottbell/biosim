@@ -26,27 +26,40 @@ public abstract class SingleFlowRateControllableImpl extends
     	myLogger = Logger.getLogger(this.getClass());
     }
 
+	private void checkArguments(int index, float[] flowRateArray) {
+		if (index >= flowRateArray.length){
+			myLogger.error("Index ("+index+") greater than flow rate array length ("+flowRateArray.length+")");
+			throw new IllegalArgumentException();
+		}
+	}
+
     public void setMaxFlowRate(float value, int index) {
+    	checkArguments(index, myMaxFlowRates);
         myMaxFlowRates[index] = value;
     }
 
-    public float getMaxFlowRate(int index) {
+	public float getMaxFlowRate(int index) {
+    	checkArguments(index, myMaxFlowRates);
         return myMaxFlowRates[index];
     }
 
     public void setDesiredFlowRate(float value, int index) {
+    	checkArguments(index, myDesiredFlowRates);
         myDesiredFlowRates[index] = value;
     }
 
     public float getDesiredFlowRate(int index) {
+    	checkArguments(index, myDesiredFlowRates);
         return myDesiredFlowRates[index];
     }
 
     public float getActualFlowRate(int index) {
+    	checkArguments(index, myActualFlowRates);
         return myActualFlowRates[index];
     }
     
     public void setActualFlowRate(float value, int index) {
+    	checkArguments(index, myActualFlowRates);
         myActualFlowRates[index] = value;
     }
 
@@ -117,6 +130,7 @@ public abstract class SingleFlowRateControllableImpl extends
     }
     
     public float getPercentageFull(int index){
+    	checkArguments(index, myDesiredFlowRates);
     	if (myDesiredFlowRates[index] <= 0)
     		return 1f;
     	return myActualFlowRates[index] / myDesiredFlowRates[index];
