@@ -115,5 +115,5 @@
 			</NitrogenInFlowRateActuator>
 			<CO2InFlowRateActuator output="CO2InInjector" moduleName="SimEnvironmentCO2InFlowRateActuator" index="0"></CO2InFlowRateActuator></air>
 		<environment>
-			<AirInFlowRateActuator output="AirOutAccumulator" moduleName="AirInFlowRateActuator" index="100"></AirInFlowRateActuator></environment></Actuators>
+			<AirInFlowRateActuator output="AirOutAccumulator" moduleName="AirInFlowRateActuator" index="0"></AirInFlowRateActuator></environment></Actuators>
 </biosim>
