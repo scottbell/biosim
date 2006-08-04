@@ -143,6 +143,9 @@ public class MurderController implements BiosimController {
 		//printResults(); //prints the initial conditions
 		do {
 			stepSim();  
+			if (myBioDriver.getTicks() == 480){
+				myLogger.info("The Crew has arrived.");
+			}
 		}while (!endConditionMet());
 		
 		//if we get here, the end condition has been met
@@ -167,11 +170,11 @@ public class MurderController implements BiosimController {
 	/**
 	 * Executed every tick.  Looks at a sensor, looks at an actuator,
 	 * then increments the actuator.
-	 */
+	 */ 
 	public void stepSim() {
 	
 		
-		//CO2 controls		
+		//CO2Pressure controls		
 		if((myCO2PressureSensor.getValue() < .1) && (myCO2PressureSensor.getValue() > .05) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
 			myCO2InActuator.setValue(20);
 			}
@@ -195,10 +198,10 @@ public class MurderController implements BiosimController {
 		
 		//O2Pressure controls
 		
-		if ((myO2PressureSensor.getValue() > 26) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick())){
-			myO2OutActuator.setValue(60);
+		if ((myO2PressureSensor.getValue() > 26)){
+			myO2OutActuator.setValue(100);
 		}
-		if ((myO2PressureSensor.getValue() < 26) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick())){
+		if ((myO2PressureSensor.getValue() < 26)){
 			myO2OutActuator.setValue(0);
 		}
 		if (myBioDriver.getTicks() > myCrewPerson.getArrivalTick()){
