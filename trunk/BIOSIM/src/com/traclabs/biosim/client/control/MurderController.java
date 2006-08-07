@@ -37,7 +37,7 @@ public class MurderController implements BiosimController {
 	private static String CONFIGURATION_FILE = "kirsten/MurderControllerInit.xml";
 
 	private BioDriver myBioDriver;
-
+ 
 	private BioHolder myBioHolder;
 	
 	private Logger myLogger;
@@ -141,13 +141,17 @@ public class MurderController implements BiosimController {
 		myLogger.info("The time till canopy closure is " + myTimeTillCanopyClosureSensor.getValue());
 		//myCrewPerson.setArrivalTick(24*(int)myTimeTillCanopyClosureSensor.getValue());
 		//printResults(); //prints the initial conditions
-		do {
+		do { 
 			stepSim();  
-			if (myBioDriver.getTicks() == 480){
-				myLogger.info("The Crew has arrived.");
+			/*
+			if (myBioDriver.getTicks() == 450){
+				myLogger.info("Pausing sim."); 
 			}
+			
+			myLogger.info(myBioDriver.getTicks());
+			*/
 		}while (!endConditionMet());
-		
+		 
 		//if we get here, the end condition has been met
 		myLogger.info("Final O2PartialPressure= "+myO2PressureSensor.getValue()+ " Final CO2PartialPressure= "+ myCO2PressureSensor.getValue());
 		myBioDriver.endSimulation();
@@ -156,7 +160,7 @@ public class MurderController implements BiosimController {
 	
 	private boolean endConditionMet() {
 		
-		if((myO2PressureSensor.getValue() < 10.13) || (myO2PressureSensor.getValue() > 30.39) || (myCO2PressureSensor.getValue() > 1))	{
+		if(((myO2PressureSensor.getValue() < 10.13) || (myO2PressureSensor.getValue() > 30.39) || (myCO2PressureSensor.getValue() > 1)))	{
 			myBioHolder.theCrewGroups.get(0).killCrew();
 			return true;
 		}
@@ -176,11 +180,11 @@ public class MurderController implements BiosimController {
 		
 		//CO2Pressure controls		
 		if((myCO2PressureSensor.getValue() < .1) && (myCO2PressureSensor.getValue() > .05) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
-			myCO2InActuator.setValue(20);
+			myCO2InActuator.setValue(1);
 			}
 		
 		if((myCO2PressureSensor.getValue() < .05) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
-			myCO2InActuator.setValue(60);
+			myCO2InActuator.setValue(1.5f);
 		}
 		
 		if (!(myCO2PressureSensor.getValue() < .1) && (myBioDriver.getTicks() < myCrewPerson.getArrivalTick()))	{
@@ -225,6 +229,13 @@ public class MurderController implements BiosimController {
 			myNitrogenInActuator.setValue(0);
 		
 		}  
+		
+		if(myBioDriver.getTicks() < 2){
+			myAirOutActuator.setValue(0);
+			myNitrogenInActuator.setValue(0);
+			myO2OutActuator.setValue(0);
+			myCO2InActuator.setValue(0);
+		}
 		
 		// advancing the sim 1 tick
 		myBioDriver.advanceOneTick();

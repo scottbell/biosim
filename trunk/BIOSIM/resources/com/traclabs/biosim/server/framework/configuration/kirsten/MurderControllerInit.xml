@@ -61,7 +61,7 @@
             	<potableWaterConsumer inputs="PotableWaterStore"
             		desiredFlowRates="1000" maxFlowRates="1000">
             	</potableWaterConsumer>
-            	<shelf cropType="WHEAT" cropArea="2000"></shelf>
+            	<shelf cropType="WHEAT" cropArea="100"></shelf>
             	<powerConsumer inputs="PowerStore"
             		desiredFlowRates="400" maxFlowRates="400" />
 </BiomassPS>
@@ -79,22 +79,22 @@
         </water>
         <framework>
         	<Accumulator moduleName="AirOutAccumulator">
-        		<airConsumer inputs="SimEnvironment" desiredFlowRates="100"
-        			maxFlowRates="100" ></airConsumer><airProducer desiredFlowRates="100"
-        			outputs="AirStore" maxFlowRates="100" /></Accumulator>
+        		<airConsumer inputs="SimEnvironment" desiredFlowRates="0"
+        			maxFlowRates="1000" ></airConsumer><airProducer desiredFlowRates="1000"
+        			outputs="AirStore" maxFlowRates="1000" ></airProducer></Accumulator>
         	<Injector moduleName="NitrogenInInjector">
-        		<nitrogenConsumer inputs="NitrogenStore" desiredFlowRates="100"
-        			maxFlowRates="100" ></nitrogenConsumer>
-        		<nitrogenProducer desiredFlowRates="100" outputs="SimEnvironment"
-        			maxFlowRates="100" ></nitrogenProducer></Injector>
+        		<nitrogenConsumer inputs="NitrogenStore" desiredFlowRates="0"
+        			maxFlowRates="1000" ></nitrogenConsumer>
+        		<nitrogenProducer desiredFlowRates="1000" outputs="SimEnvironment"
+        			maxFlowRates="1000" ></nitrogenProducer></Injector>
         	<Injector moduleName="CO2InInjector">
-        		<CO2Consumer inputs="CO2Store" desiredFlowRates=".5"
-        			maxFlowRates=".5" /><CO2Producer desiredFlowRates=".5"
-        			outputs="SimEnvironment" maxFlowRates=".5" /></Injector>
+        		<CO2Consumer inputs="CO2Store" desiredFlowRates="0"
+        			maxFlowRates="1000" /><CO2Producer desiredFlowRates="1000"
+        			outputs="SimEnvironment" maxFlowRates="1000" /></Injector>
         	<Accumulator moduleName="O2Accumulator">
-        		<O2Consumer inputs="SimEnvironment" desiredFlowRates="100"
-        			maxFlowRates="100" /><O2Producer desiredFlowRates="100"
-        			outputs="AirStore" maxFlowRates="100" /></Accumulator></framework>
+        		<O2Consumer inputs="SimEnvironment" desiredFlowRates="0"
+        			maxFlowRates="1000" /><O2Producer desiredFlowRates="1000"
+        			outputs="AirStore" maxFlowRates="1000" /></Accumulator></framework>
         <air>
         	<NitrogenStore capacity="1.0E9" level="1.0E9" moduleName="NitrogenStore"></NitrogenStore>
         	<CO2Store capacity="1.0E9" moduleName="CO2Store" level="1.0E9"></CO2Store></air>
