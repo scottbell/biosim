@@ -149,7 +149,6 @@ public class MurderController implements BiosimController {
 		output
 				.println("Ticks TotalPressure O2PP CO2PP NitrogenPP VaporPP Activity");
 		output.flush();
-		output.close();
 
 		myBioDriver.setPauseSimulation(true);
 		myBioDriver.startSimulation();
@@ -176,6 +175,7 @@ public class MurderController implements BiosimController {
 				+ myCO2PressureSensor.getValue());
 		myBioDriver.endSimulation();
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
+		output.close();
 	}
 
 	private boolean endConditionMet() {
@@ -298,6 +298,5 @@ public class MurderController implements BiosimController {
 		// myCrewPerson.getCO2Produced() + " ");
 		output.println();
 		output.flush();
-		output.close();
 	}
 }
