@@ -1,5 +1,7 @@
 package com.traclabs.biosim.server.framework;
 
+import com.traclabs.biosim.util.CommandLineUtils;
+
 /**
  * The Driver Server.
  * 
@@ -16,7 +18,7 @@ public class BioDriverServer extends GenericServer {
      */
     public static void main(String args[]) {
         BioDriverServer myServer = new BioDriverServer();
-        BioDriverImpl myBioDriver = new BioDriverImpl(GenericServer
+        BioDriverImpl myBioDriver = new BioDriverImpl(CommandLineUtils
                 .getIDfromArgs(args));
         myServer.registerServerAndRun(myBioDriver, myBioDriver.getName(),
                 myBioDriver.getID());

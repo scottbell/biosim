@@ -1,18 +1,22 @@
 package com.traclabs.biosim.client.control;
 
-import org.apache.log4j.Logger;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
-import java.io.*;
+import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
-import com.traclabs.biosim.idl.framework.BioDriver;
-import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.util.OrbUtils;
-import com.traclabs.biosim.idl.simulation.crew.*;
 import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
+import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
-import com.traclabs.biosim.idl.simulation.framework.*;
+import com.traclabs.biosim.idl.simulation.crew.CrewPerson;
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.framework.Accumulator;
+import com.traclabs.biosim.idl.simulation.framework.Injector;
+import com.traclabs.biosim.util.CommandLineUtils;
+import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Kirsten Stark A controller to end change the simulation based on air
@@ -70,20 +74,25 @@ public class MurderController implements BiosimController {
 
 	PrintStream output;
 
-	public MurderController() {
+	public MurderController(boolean logToFile) {
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
 		collectReferences();
+		if (logToFile){
 		try {
 			output = new PrintStream(new FileOutputStream(LOG_FILE, true));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		}
+		else
+			output = System.out;
 
 	}
 
 	public static void main(String[] args) {
-		MurderController myController = new MurderController();
+		boolean logToFile = Boolean.parseBoolean(CommandLineUtils.getOptionValueFromArgs(args, "log"));
+		MurderController myController = new MurderController(logToFile);
 		myController.runSim();
 
 	}

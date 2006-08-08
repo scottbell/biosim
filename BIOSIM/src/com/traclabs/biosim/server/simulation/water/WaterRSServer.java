@@ -2,6 +2,7 @@ package com.traclabs.biosim.server.simulation.water;
 
 import com.traclabs.biosim.idl.simulation.water.WaterRSPOATie;
 import com.traclabs.biosim.server.framework.GenericServer;
+import com.traclabs.biosim.util.CommandLineUtils;
 
 /**
  * The Water Recovery System Server. Creates an instance of the Water Recovery
@@ -20,8 +21,8 @@ public class WaterRSServer extends GenericServer {
      */
     public static void main(String args[]) {
         WaterRSServer myServer = new WaterRSServer();
-        WaterRSImpl myWaterRS = new WaterRSImpl(GenericServer
-                .getIDfromArgs(args), GenericServer.getNamefromArgs(args));
+        WaterRSImpl myWaterRS = new WaterRSImpl(CommandLineUtils
+                .getIDfromArgs(args), CommandLineUtils.getNamefromArgs(args));
         myServer.registerServerAndRun(new WaterRSPOATie(myWaterRS), myWaterRS
                 .getModuleName(), myWaterRS.getID());
     }

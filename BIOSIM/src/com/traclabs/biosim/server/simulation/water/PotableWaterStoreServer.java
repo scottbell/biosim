@@ -2,6 +2,7 @@ package com.traclabs.biosim.server.simulation.water;
 
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStorePOATie;
 import com.traclabs.biosim.server.framework.GenericServer;
+import com.traclabs.biosim.util.CommandLineUtils;
 
 /**
  * The Potable Water Store Server. Creates an instance of the Potable Water
@@ -21,7 +22,7 @@ public class PotableWaterStoreServer extends GenericServer {
     public static void main(String args[]) {
         PotableWaterStoreServer myServer = new PotableWaterStoreServer();
         PotableWaterStoreImpl myPotableWaterStore = new PotableWaterStoreImpl(
-                GenericServer.getIDfromArgs(args), GenericServer
+        		CommandLineUtils.getIDfromArgs(args), CommandLineUtils
                         .getNamefromArgs(args));
         myServer.registerServerAndRun(new PotableWaterStorePOATie(
                 myPotableWaterStore), myPotableWaterStore.getModuleName(),
