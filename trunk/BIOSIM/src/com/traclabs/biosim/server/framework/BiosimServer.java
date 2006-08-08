@@ -2,6 +2,7 @@ package com.traclabs.biosim.server.framework;
 
 import org.apache.log4j.Logger;
 
+import com.traclabs.biosim.util.CommandLineUtils;
 import com.traclabs.biosim.util.OrbUtils;
 
 
@@ -39,8 +40,8 @@ public class BiosimServer extends GenericServer {
      */
     public static void main(String[] args) {
     	OrbUtils.initializeLog(false);
-        int id = GenericServer.getIDfromArgs(args);
-        String xmlLocation = GenericServer.getXMLfromArgs(args);
+        int id = CommandLineUtils.getIDfromArgs(args);
+        String xmlLocation = CommandLineUtils.getXMLfromArgs(args);
         if (xmlLocation == null){
         	Logger.getLogger(BiosimServer.class).info("using default XML");
         	xmlLocation = DEFAULT_XML_LOCATION;

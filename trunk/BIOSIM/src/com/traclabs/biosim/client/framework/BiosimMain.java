@@ -5,6 +5,7 @@ import javax.swing.ImageIcon;
 import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.client.control.HandController;
+import com.traclabs.biosim.client.control.MurderController;
 import com.traclabs.biosim.client.control.SimCommandLine;
 import com.traclabs.biosim.client.control.SimpleController;
 import com.traclabs.biosim.client.framework.apollo13.Apollo13Viewer;
@@ -52,6 +53,7 @@ public class BiosimMain {
         boolean wantsToRunSensorViewer = false;
         boolean wantsToRunApollo13Viewer = false;
         boolean wantsToRunSimpleController = false;
+        boolean wantsToRunMurderController = false;
         boolean unrealServerGiven = false;
         String unrealServer = "";
         for (int i = 0; i < myArgs.length; i++) {
@@ -71,6 +73,8 @@ public class BiosimMain {
             	wantsToRunSensorViewer = true;
             } else if (myArgs[i].equals("apollo")) {
             	wantsToRunApollo13Viewer = true;
+            } else if (myArgs[i].equals("murder")) {
+            	wantsToRunMurderController = true;
             } else if (myArgs[i].startsWith("-xml=")) {
                 try {
                     xmlFile = myArgs[i].split("=")[1];
@@ -147,6 +151,8 @@ public class BiosimMain {
             runSensorViewer();
         else if (wantsToRunApollo13Viewer)
             runApollo13Viewer();
+        else if (wantsToRunMurderController)
+        	runMurderController();
         else if (wantsToRunUnreal) {
             if (unrealServerGiven) {
                 runUnreal2(unrealServer);
@@ -225,11 +231,12 @@ public class BiosimMain {
         myFrame.setVisible(true);
     }
     
-    /**
-     * Runs the sensor viewer
-     */
     private void runApollo13Viewer() {
     	Apollo13Viewer.main(new String[]{}); 
+    }
+    
+    private void runMurderController() {
+    	MurderController.main(new String[]{}); 
     }
 }
 

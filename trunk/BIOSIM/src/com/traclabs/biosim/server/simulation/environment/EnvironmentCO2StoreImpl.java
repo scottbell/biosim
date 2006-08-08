@@ -7,5 +7,9 @@ public class EnvironmentCO2StoreImpl extends EnvironmentStoreImpl implements Env
 	public EnvironmentCO2StoreImpl(SimEnvironmentImpl pSimEnvironmentImpl) {
 		super(pSimEnvironmentImpl, "CO2");
 	}
+	
+	public void tick(){
+		super.tick();
+	}
 
 }
