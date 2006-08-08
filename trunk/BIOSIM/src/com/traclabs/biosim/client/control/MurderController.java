@@ -161,18 +161,12 @@ public class MurderController implements BiosimController {
 		// printResults(); //prints the initial conditions
 		do {
 			stepSim();
-			/*
-			 * if (myBioDriver.getTicks() == 450){ myLogger.info("Pausing
-			 * sim."); }
-			 * 
-			 * myLogger.info(myBioDriver.getTicks());
-			 */
-		} while (!endConditionMet());
-
-		// if we get here, the end condition has been met
-		myLogger.info("Final O2PartialPressure= "
-				+ myO2PressureSensor.getValue() + " Final CO2PartialPressure= "
-				+ myCO2PressureSensor.getValue());
+			myLogger.info(myBioDriver.getTicks());
+			
+		}while (!endConditionMet());
+		 
+		//if we get here, the end condition has been met
+		myLogger.info("Final O2PartialPressure= "+myO2PressureSensor.getValue()+ " Final CO2PartialPressure= "+ myCO2PressureSensor.getValue());
 		myBioDriver.endSimulation();
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 		output.close();
@@ -219,9 +213,9 @@ public class MurderController implements BiosimController {
 		if (myBioDriver.getTicks() > myCrewPerson.getArrivalTick()) {
 			myCO2InActuator.setValue(0);
 		}
+		
+		if((myBioDriver.getTicks() > 2)&&((myCO2PressureSensor.getValue() < 0.033) || (myCO2PressureSensor.getValue() > .2)))	{
 
-		if ((myCO2PressureSensor.getValue() < 0.033)
-				|| (myCO2PressureSensor.getValue() > .2)) {
 			myBioHolder.theBiomassPSModules.get(0).killPlants();
 			myLogger.info("The crops have died from "
 					+ myCO2PressureSensor.getValue() + " CO2 on tick "
