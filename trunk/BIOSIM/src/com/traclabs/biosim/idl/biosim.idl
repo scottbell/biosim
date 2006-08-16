@@ -555,6 +555,7 @@ module com{
                                                         BiomassPS getBiomassPS();
                                                         void setStartTick(in long tick);
                                                         void kill();
+                                                        Plant getPlant();
                                                 };
                                                 
                                                 interface Plant{
