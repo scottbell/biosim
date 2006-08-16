@@ -131,7 +131,9 @@ public abstract class PlantImpl extends PlantPOA {
     private static final float LIGHT_RECOVERY_RATE = 0.005f;
 
     private float myProductionRate = 1f;
-
+    
+    private float myMolesOfCO2Inhaled = 0f;
+    
     public PlantImpl(ShelfImpl pShelfImpl) {
         myLogger = Logger.getLogger(this.getClass());
         myAge = 0;
@@ -234,6 +236,7 @@ public abstract class PlantImpl extends PlantPOA {
         totalWaterLitersTranspired = 0f;
         myPPFFractionAbsorbed = 0f;
         myTimeTillCanopyClosure = 0f;
+        myMolesOfCO2Inhaled = 0f;
         myProductionRate = 1f;
         hasDied = false;
         canopyClosed = false;
@@ -574,13 +577,13 @@ public abstract class PlantImpl extends PlantPOA {
         else
             molesOfCO2ToInhale = dailyCarbonGain
                     * myShelfImpl.getCropAreaUsed() / 24f;
-        float molesOfCO2Inhaled = myShelfImpl.getBiomassPSImpl()
+        myMolesOfCO2Inhaled = myShelfImpl.getBiomassPSImpl()
                 .getAirConsumerDefinition().getEnvironments()[0]
                 .getCO2Store().take(molesOfCO2ToInhale);
-        totalCO2GramsConsumed += molesOfCO2Inhaled * 44f;
+        totalCO2GramsConsumed += myMolesOfCO2Inhaled * 44f;
         myLogger.debug("totalCO2GramsConsumed:" + totalCO2GramsConsumed);
         myShelfImpl.getBiomassPSImpl().addAirInputActualFlowRates(0,
-                molesOfCO2Inhaled);
+        		myMolesOfCO2Inhaled);
         myLogger.debug("molesOfCO2ToInhale:" + molesOfCO2ToInhale);
 
         //Exhale Air
@@ -922,5 +925,9 @@ public abstract class PlantImpl extends PlantPOA {
     protected void setProductionRate(float myProductionRate) {
         this.myProductionRate = myProductionRate;
     }
+
+	public float getMolesOfCO2Inhaled() {
+		return myMolesOfCO2Inhaled;
+	}
 }
 

@@ -558,6 +558,7 @@ module com{
                                                 };
                                                 
                                                 interface Plant{
+                                                		float getMolesOfCO2Inhaled();
                                                 };
                                                 
                                                 interface BiomassConsumer : framework::Consumer{
