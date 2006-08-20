@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
-	<Globals runTillCrewDeath="true" crewsToWatch="Nigil">
+	<Globals runTillCrewDeath="true" crewsToWatch="Nigil"
+		runTillPlantDeath="false">
 		<comment>
 			A initialization file for the MurderController
 		</comment>
@@ -23,8 +24,7 @@
 					outputs="SimEnvironment" />
 				<dryWasteProducer desiredFlowRates="1000.0"
 					maxFlowRates="1000.0" outputs="DryWasteStore" />
-				<crewPerson name="Nigil" age="35" weight="70" sex="MALE"
-					arrivalDate="480">
+				<crewPerson name="Nigil" age="35" weight="50" sex="MALE">
 					<schedule>
 						<activity name="sleep" length="8" intensity="1" />
 						<activity name="hygiene" length="1"
@@ -100,7 +100,13 @@
         	<CO2Store capacity="1.0E9" moduleName="CO2Store" level="1.0E9"></CO2Store></air>
         <environment>
         	<SimEnvironment moduleName="SimEnvironment" initialVolume="32000"></SimEnvironment>
-        	<SimEnvironment moduleName="AirStore" initialVolume="1.0E9"></SimEnvironment></environment>
+        	<SimEnvironment moduleName="AirStore" initialVolume="1.0E9"></SimEnvironment>
+        	<Dehumidifier moduleName="Dehumidifier">
+        		<airConsumer inputs="SimEnvironment" desiredFlowRates="1000"
+        			maxFlowRates="1000" />
+        		<dirtyWaterProducer desiredFlowRates="1000" outputs="DirtyWaterStore"
+        			maxFlowRates="1000" />
+        	</Dehumidifier></environment>
 	</SimBioModules>
 	<Sensors>
 		<environment>
