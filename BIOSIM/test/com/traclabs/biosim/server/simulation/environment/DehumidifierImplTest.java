@@ -98,8 +98,8 @@ public class DehumidifierImplTest extends TestCase {
 		environmentVaporMolesAfter = mySimEnvironment.getVaporStore().getCurrentLevel();
 		dirtyWaterLevelAfter = myDirtyWaterStore.getCurrentLevel();
 		tick();
-		assertTrue(environmentVaporMolesBefore != environmentVaporMolesAfter);
-		assertTrue(dirtyWaterLevelBefore != dirtyWaterLevelAfter);
+		assertTrue(environmentVaporMolesBefore > environmentVaporMolesAfter);
+		assertTrue(dirtyWaterLevelBefore < dirtyWaterLevelAfter);
 		for (int i = 0; i < 10000; i++)
 			tick();
 		vaporConcentration = mySimEnvironment.getVaporStore().getCurrentLevel() / mySimEnvironment.getTotalMoles();
