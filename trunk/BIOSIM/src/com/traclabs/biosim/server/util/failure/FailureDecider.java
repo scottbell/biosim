@@ -4,15 +4,12 @@ import java.util.Random;
 
 import org.apache.log4j.Logger;
 
+import com.traclabs.biosim.util.MersenneTwister;
+
 public abstract class FailureDecider {
-	private Random myRandomGenerator;
+	private Random myRandomGenerator = new MersenneTwister();;
 
-	private Logger myLogger;
-
-	public FailureDecider() {
-		myRandomGenerator = new Random();
-		myLogger = Logger.getLogger(FailureDecider.class);
-	}
+	private Logger myLogger = Logger.getLogger(FailureDecider.class);;
 
 	public boolean hasFailed(double timeElapsed) {
 		double Reliability = getReliability(timeElapsed);

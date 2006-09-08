@@ -18,6 +18,7 @@ import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.framework.StochasticIntensity;
 import com.traclabs.biosim.server.util.MathUtils;
 import com.traclabs.biosim.server.util.failure.FailureDecider;
+import com.traclabs.biosim.util.MersenneTwister;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
@@ -29,7 +30,7 @@ import com.traclabs.biosim.util.OrbUtils;
 
 public abstract class BioModuleImpl extends BioModulePOA {
     //The random number generator used for gaussian function (stochastic stuff)
-    private Random myRandomGen;
+    private Random myRandomGen = new MersenneTwister();
 
     //The numerical value for the stochastic intensity
     private float randomCoefficient = 0f;
@@ -88,7 +89,6 @@ public abstract class BioModuleImpl extends BioModulePOA {
      */
     protected BioModuleImpl(int pID, String pName) {
         myLogger = Logger.getLogger(this.getClass()+"."+pName);
-        myRandomGen = new Random();
         myMalfunctions = new Hashtable<Long, Malfunction>();
         myScheduledMalfunctions = new Vector<MalfunctionImpl>();
         myName = pName;

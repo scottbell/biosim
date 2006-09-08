@@ -14,6 +14,7 @@ import com.traclabs.biosim.idl.simulation.food.PlantPOA;
 import com.traclabs.biosim.idl.simulation.food.PlantType;
 import com.traclabs.biosim.server.simulation.framework.SimpleBuffer;
 import com.traclabs.biosim.server.util.MathUtils;
+import com.traclabs.biosim.util.MersenneTwister;
 
 /**
  * Plant
@@ -24,7 +25,7 @@ import com.traclabs.biosim.server.util.MathUtils;
 public abstract class PlantImpl extends PlantPOA {
     protected Logger myLogger;
 
-    private Random myRandomGen;
+    private Random myRandomGen = new MersenneTwister();
 
     protected int myAge = 0;
 
@@ -156,7 +157,6 @@ public abstract class PlantImpl extends PlantPOA {
                 * CO2_RATIO_HIGH, CO2_HIGH_TILL_DEAD * CO2_RATIO_HIGH);
         consumedHeatBuffer = new SimpleBuffer(HEAT_TILL_DEAD
                 * DANGEROUS_HEAT_LEVEL, HEAT_TILL_DEAD * DANGEROUS_HEAT_LEVEL);
-        myRandomGen = new Random();
 
         myCanopyClosurePPFValues = new Vector<Float>(getTAInitialValue());
         myCanopyClosureCO2Values = new Vector<Float>(getTAInitialValue());

@@ -25,6 +25,7 @@ import com.traclabs.biosim.server.simulation.food.FoodStoreImpl;
 import com.traclabs.biosim.server.simulation.framework.SimpleBuffer;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
 import com.traclabs.biosim.server.util.MathUtils;
+import com.traclabs.biosim.util.MersenneTwister;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
@@ -135,7 +136,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
     //Used to format floats
     private DecimalFormat numFormat;
 
-    private Random myRandomGen;
+    private Random myRandomGen = new MersenneTwister();
 
     private SimpleBuffer consumedWaterBuffer;
 
@@ -231,7 +232,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
                 AWAKE_TILL_EXHAUSTION);
         leisureBuffer = new SimpleBuffer(LEISURE_TILL_BURNOUT,
                 LEISURE_TILL_BURNOUT);
-        myRandomGen = new Random();
         numFormat = new DecimalFormat("#,##0.0;(#)");
         myCurrentActivity = mySchedule
                 .getScheduledActivityByOrder(currentOrder);
