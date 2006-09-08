@@ -7,6 +7,7 @@ package com.traclabs.biosim.server.simulation.food.photosynthesis;
 import java.util.Random;
 
 import com.traclabs.biosim.server.util.MathUtils;
+import com.traclabs.biosim.util.MersenneTwister;
 
 /**
  * @author scott
@@ -19,12 +20,11 @@ public class ATPSynthase extends ActiveEnzyme {
     private final static float PHOSPHATE_NEEDED_BASE = 1f;
     private Lumen myLumen;
     private Stroma myStroma;
-    private Random myRandomGen;
+    private Random myRandomGen = new MersenneTwister();
     
     public ATPSynthase(Lumen pLumen, Stroma pStroma){
         myLumen = pLumen;
         myStroma = pStroma;
-        myRandomGen = new Random();
     }
 
     /* (non-Javadoc)

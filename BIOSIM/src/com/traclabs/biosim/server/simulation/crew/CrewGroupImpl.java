@@ -43,6 +43,7 @@ import com.traclabs.biosim.server.simulation.waste.DryWasteProducerDefinitionImp
 import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinitionImpl;
+import com.traclabs.biosim.util.MersenneTwister;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
@@ -79,13 +80,13 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
 
     private float healthyPercentage = 1f;
 
-    private Random myRandom;
+    private Random myRandom = new MersenneTwister();
     
     private boolean myDeathEnabled = true;
 
-    private List<String> crewScheduledForRemoval;
+    private List<String> crewScheduledForRemoval = new Vector<String>();
 
-    private List<CrewPerson> crewScheduledForAddition;
+    private List<CrewPerson> crewScheduledForAddition = new Vector<CrewPerson>();
     
     /**
      * Default constructor. Uses a default schedule.
@@ -96,10 +97,7 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
 
     public CrewGroupImpl(int pID, String pName) {
         super(pID, pName);
-        crewScheduledForRemoval = new Vector<String>();
-        crewScheduledForAddition = new Vector<CrewPerson>();
         crewPeople = new Hashtable<String, CrewPerson>();
-        myRandom = new Random();
 
         myFoodConsumerDefinitionImpl = new FoodConsumerDefinitionImpl();
         myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();

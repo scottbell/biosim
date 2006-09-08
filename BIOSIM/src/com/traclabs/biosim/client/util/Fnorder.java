@@ -5,6 +5,8 @@ import java.util.Random;
 
 import org.apache.log4j.Logger;
 
+import com.traclabs.biosim.util.MersenneTwister;
+
 /**
  * Title: Fnorder
  */
@@ -250,7 +252,7 @@ public class Fnorder {
     public Fnorder() {
         Date currentDate = new Date(); //used for seed in generating random
         // numbers
-        myRandom = new Random(currentDate.getTime());
+        myRandom = new MersenneTwister(currentDate.getTime());
     }
 
     public static void main(String[] args) {

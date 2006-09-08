@@ -4,10 +4,15 @@
  */
 package com.traclabs.biosim.server.util;
 
+import java.util.Random;
+
+import com.traclabs.biosim.util.MersenneTwister;
+
 /**
  * 
  */
 public class MathUtils {
+	private static Random myRandom = new MersenneTwister();
 
 	public static float calculateSCurve(float x, float inflectionPoint) {
 		double exponent = (6 * Math.log(10) / inflectionPoint)
@@ -47,8 +52,8 @@ public class MathUtils {
         double x, v1, v2, r;
         if (t == 0) {
             do {
-                v1 = 2.0 * Math.random() - 1.0;
-                v2 = 2.0 * Math.random() - 1.0;
+                v1 = 2.0 * myRandom.nextDouble() - 1.0;
+                v2 = 2.0 * myRandom.nextDouble() - 1.0;
                 r = v1 * v1 + v2 * v2;
             } while (r >= 1.0);
             r = Math.sqrt((-2.0 * Math.log(r)) / r);
