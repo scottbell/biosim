@@ -172,6 +172,9 @@ public class MurderController implements BiosimController {
 		do {
 			stepSim(); 
 			myLogger.info(myBioDriver.getTicks());
+			if (myBioDriver.getTicks() > 490){
+				myLogger.info("Over 490 ticks.");
+			}
 			//myLogger.info(crewEnvironment.getCO2Store().getCurrentLevel());
 			
 		}while (!endConditionMet());
@@ -184,14 +187,14 @@ public class MurderController implements BiosimController {
 	}
 
 	private boolean endConditionMet() {
-/*
+
 		if (((myO2PressureSensor.getValue() < 10.13)
 				|| (myO2PressureSensor.getValue() > 30.39) || (myCO2PressureSensor
 				.getValue() >  1))) {
 			myBioHolder.theCrewGroups.get(0).killCrew();
 			return true;
 		}
-*/
+
 		
 	return false;
 	}
@@ -226,12 +229,11 @@ public class MurderController implements BiosimController {
 		if ((!(myCO2PressureSensor.getValue() < .153809)) && (myBioDriver.getTicks() < 120)) {
 			myCO2InActuator.setValue(0);
 		}
-		
 
 		if (myBioDriver.getTicks() > (myCrewPerson.getArrivalTick() + 7)) {
 			myCO2InActuator.setValue(0);
 		}
-		/*
+		
 		if((myBioDriver.getTicks() > 2)&&((myCO2PressureSensor.getValue() < 0.033) || (myCO2PressureSensor.getValue() > .2)))	{
 
 			myBioHolder.theBiomassPSModules.get(0).killPlants();
@@ -239,7 +241,7 @@ public class MurderController implements BiosimController {
 					+ myCO2PressureSensor.getValue() + " CO2 on tick "
 					+ myBioDriver.getTicks());
 		}
-*/
+
 		// O2Pressure controls
 
 		if ((myO2PressureSensor.getValue() > 26)) {
@@ -292,13 +294,17 @@ public class MurderController implements BiosimController {
 																// Pressure
 		output.print(myO2PressureSensor.getValue() + "  ");// PP of O2
 		output.print(myCO2PressureSensor.getValue() + "  "); // PP of CO2
-	//	output.print(myBioHolder.theBiomassPSModules.get(0).getShelf(0).
+		//output.print(myBioHolder.theBiomassPSModules.get(0).getShelf(0).
 		output.print(myNitrogenPressureSensor.getValue() + "    "); // PP of
 																	// Nitrogen
 		output.print(myVaporPressureSensor.getValue() + "   "); // PP of Vapor
 		output.print(myCrewPerson.getCurrentActivity().getName() + "       ");
 		// output.print(myCrewPerson.getO2Consumed() + " " +
 		// myCrewPerson.getCO2Produced() + " ");
+		output.println();
+		if (myBioDriver.getTicks() > 480){
+			output.print(myCrewPerson.getCO2Produced());
+		}
 		output.println();
 		output.flush();
 	}
