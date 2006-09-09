@@ -24,7 +24,8 @@
 					outputs="SimEnvironment" />
 				<dryWasteProducer desiredFlowRates="1000.0"
 					maxFlowRates="1000.0" outputs="DryWasteStore" />
-				<crewPerson name="Nigil" age="35" weight="50" sex="MALE">
+				<crewPerson name="Nigil" age="35" weight="50" sex="MALE"
+					arrivalDate="480">
 					<schedule>
 						<activity name="sleep" length="8" intensity="1" />
 						<activity name="hygiene" length="1"
@@ -61,7 +62,7 @@
             	<potableWaterConsumer inputs="PotableWaterStore"
             		desiredFlowRates="1000" maxFlowRates="1000">
             	</potableWaterConsumer>
-            	<shelf cropType="WHEAT" cropArea="11"></shelf>
+            	<shelf cropType="WHEAT" cropArea="100000"></shelf>
             	<powerConsumer inputs="PowerStore"
             		desiredFlowRates="400" maxFlowRates="400" />
 </BiomassPS>
@@ -102,10 +103,10 @@
         	<SimEnvironment moduleName="SimEnvironment" initialVolume="32000"></SimEnvironment>
         	<SimEnvironment moduleName="AirStore" initialVolume="1.0E9"></SimEnvironment>
         	<Dehumidifier moduleName="Dehumidifier">
-        		<airConsumer inputs="SimEnvironment" desiredFlowRates="1000"
-        			maxFlowRates="1000" />
-        		<dirtyWaterProducer desiredFlowRates="1000" outputs="DirtyWaterStore"
-        			maxFlowRates="1000" />
+        		<airConsumer inputs="SimEnvironment" desiredFlowRates="500000"
+        			maxFlowRates="500000" />
+        		<dirtyWaterProducer desiredFlowRates="500000" outputs="DirtyWaterStore"
+        			maxFlowRates="500000" />
         	</Dehumidifier></environment>
 	</SimBioModules>
 	<Sensors>
