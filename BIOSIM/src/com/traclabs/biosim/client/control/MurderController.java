@@ -109,6 +109,7 @@ public class MurderController implements BiosimController {
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 		myBioDriver = myBioHolder.theBioDriver;
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
+		
 
 		Injector NitrogenInjector = myBioHolder.theInjectors.get(0);
 		Injector CO2Injector = myBioHolder.theInjectors.get(1);
@@ -173,7 +174,7 @@ public class MurderController implements BiosimController {
 			stepSim(); 
 			myLogger.info(myBioDriver.getTicks());
 			if (myBioDriver.getTicks() > 490){
-				myLogger.info("Over 490 ticks.");
+				myLogger.info("Over 490 ticks."); 
 			}
 			//myLogger.info(crewEnvironment.getCO2Store().getCurrentLevel());
 			
@@ -222,15 +223,14 @@ public class MurderController implements BiosimController {
 			myCO2InActuator.setValue(0);
 		}
 		*/
-		if((myCO2PressureSensor.getValue() < .153809) && (myBioDriver.getTicks() < (myCrewPerson.getArrivalTick() + 7))){
-			myCO2InActuator.setValue(2- crewEnvironment.getCO2Store().getCurrentLevel());
+		if((myCO2PressureSensor.getValue() < .153809)){
+			myCO2InActuator.setValue((myBioHolder.theBiomassPSModules.get(0).getShelf(0).getPlant().getMolesOfCO2Inhaled()));
+		}
+		if((myCO2PressureSensor.getValue() < .153809) && (myBioDriver.getTicks() > 480)){
+			myCO2InActuator.setValue(myBioHolder.theBiomassPSModules.get(0).getShelf(0).getPlant().getMolesOfCO2Inhaled() - crewEnvironment.getCO2Store().getCurrentLevel());
 		}
 		
 		if ((!(myCO2PressureSensor.getValue() < .153809)) && (myBioDriver.getTicks() < 120)) {
-			myCO2InActuator.setValue(0);
-		}
-
-		if (myBioDriver.getTicks() > (myCrewPerson.getArrivalTick() + 7)) {
 			myCO2InActuator.setValue(0);
 		}
 		
@@ -250,10 +250,11 @@ public class MurderController implements BiosimController {
 		if ((myO2PressureSensor.getValue() < 26)) {
 			myO2OutActuator.setValue(0);
 		}
+		/*
 		if (myBioDriver.getTicks() > (myCrewPerson.getArrivalTick() +7)) {
 			myO2OutActuator.setValue(0);
 		}
-
+		 */
 		// TotalPressure controls
 
 		if ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 106) {
@@ -267,7 +268,6 @@ public class MurderController implements BiosimController {
 		if (((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 96) && ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) < 106)) {
 			myAirOutActuator.setValue(0);
 			myNitrogenInActuator.setValue(0);
-
 		}
 
 		if (myBioDriver.getTicks() < 2) {
@@ -301,9 +301,9 @@ public class MurderController implements BiosimController {
 		output.print(myCrewPerson.getCurrentActivity().getName() + "       ");
 		// output.print(myCrewPerson.getO2Consumed() + " " +
 		// myCrewPerson.getCO2Produced() + " ");
-		output.println();
+		output.print(myBioHolder.theBiomassPSModules.get(0).getShelf(0).getPlant().getMolesOfCO2Inhaled());
 		if (myBioDriver.getTicks() > 480){
-			output.print(myCrewPerson.getCO2Produced());
+			output.print("      " + myCrewPerson.getCO2Produced());
 		}
 		output.println();
 		output.flush();
