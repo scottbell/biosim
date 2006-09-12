@@ -25,7 +25,7 @@
 				<dryWasteProducer desiredFlowRates="1000.0"
 					maxFlowRates="1000.0" outputs="DryWasteStore" />
 				<crewPerson name="Nigil" age="35" weight="50" sex="MALE"
-					arrivalDate="480">
+					arrivalDate="500">
 					<schedule>
 						<activity name="sleep" length="8" intensity="1" />
 						<activity name="hygiene" length="1"
@@ -62,7 +62,7 @@
             	<potableWaterConsumer inputs="PotableWaterStore"
             		desiredFlowRates="1000" maxFlowRates="1000">
             	</potableWaterConsumer>
-            	<shelf cropType="WHEAT" cropArea="100000"></shelf>
+            	<shelf cropType="WHEAT" cropArea="11"></shelf>
             	<powerConsumer inputs="PowerStore"
             		desiredFlowRates="400" maxFlowRates="400" />
 </BiomassPS>
