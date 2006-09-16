@@ -2,8 +2,6 @@ package com.traclabs.biosim.util;
 
 import org.apache.log4j.Logger;
 
-import com.traclabs.biosim.server.framework.GenericServer;
-
 public class CommandLineUtils {
 	/**
 	 * Grabs ID parameter from an array of string
@@ -59,7 +57,7 @@ public class CommandLineUtils {
 					optionValue = args[i + 1];
 			} catch (ArrayIndexOutOfBoundsException e) {
 				Logger
-						.getLogger(GenericServer.class)
+						.getLogger(OrbUtils.class)
 						.error(
 								"Bad command line arguments while trying to parse configuration file. Should be of form: "+commandLineOptionName+"foo where foo is the value of "+optionName);
 			}
