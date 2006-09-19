@@ -19,7 +19,7 @@ import com.traclabs.biosim.util.CommandLineUtils;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
- * @author Kirsten Stark A controller to end change the simulation based on air
+ * @author Kirsten Stark A controller to end and change the simulation based on air
  *         make-up
  */
 
@@ -173,9 +173,9 @@ public class MurderController implements BiosimController {
 		do {
 			stepSim(); 
 			myLogger.info(myBioDriver.getTicks());
-			if (myBioDriver.getTicks() > 490){
-				myLogger.info("Over 490 ticks."); 
-			}
+			//if (myBioDriver.getTicks() > 490){
+			//myLogger.info("Over 490 ticks."); 
+			//}
 			//myLogger.info(crewEnvironment.getCO2Store().getCurrentLevel());
 			
 		}while (!endConditionMet());
@@ -208,32 +208,20 @@ public class MurderController implements BiosimController {
 
 		// CO2Pressure controls
 		/*
-		if ((myCO2PressureSensor.getValue() < .1)
-				&& (myCO2PressureSensor.getValue() > .05)
-				&& (myBioDriver.getTicks() < (myCrewPerson.getArrivalTick() + 7))) {
-			myCO2InActuator.setValue(1);
-		}
-
-		if ((myCO2PressureSensor.getValue() < .05)
-				&& (myBioDriver.getTicks() < (myCrewPerson.getArrivalTick() + 7))) {
-			myCO2InActuator.setValue(1.5f);
-		}
-		
-		if ((myCO2PressureSensor.getValue() > .1)){
-			myCO2InActuator.setValue(0);
-		}
-		*/
 		if((myCO2PressureSensor.getValue() < .153809)){
 			myCO2InActuator.setValue((myBioHolder.theBiomassPSModules.get(0).getShelf(0).getPlant().getMolesOfCO2Inhaled()));
 		}
-		if((myCO2PressureSensor.getValue() < .153809) && (myBioDriver.getTicks() > 480)){
+		if((myCO2PressureSensor.getValue() < .153809) && (myBioDriver.getTicks() > myCrewPerson.getArrivalTick())){
 			myCO2InActuator.setValue(myBioHolder.theBiomassPSModules.get(0).getShelf(0).getPlant().getMolesOfCO2Inhaled() - crewEnvironment.getCO2Store().getCurrentLevel());
 		}
-		
+		//if the pressure is fine, and the sim is before tick 120, set the actuator equal to zero, since not having the
+		//actuator on won't kill the crops.
 		if ((!(myCO2PressureSensor.getValue() < .153809)) && (myBioDriver.getTicks() < 120)) {
 			myCO2InActuator.setValue(0);
 		}
-		
+		if((myCO2PressureSensor.getValue() > .153809) && (myBioDriver.getTicks() > myCrewPerson.getArrivalTick())){
+			myCO2InActuator.setValue(0);
+		}
 		if((myBioDriver.getTicks() > 2)&&((myCO2PressureSensor.getValue() < 0.033) || (myCO2PressureSensor.getValue() > .2)))	{
 
 			myBioHolder.theBiomassPSModules.get(0).killPlants();
@@ -241,7 +229,32 @@ public class MurderController implements BiosimController {
 					+ myCO2PressureSensor.getValue() + " CO2 on tick "
 					+ myBioDriver.getTicks());
 		}
+	*/
+		if((myCO2PressureSensor.getValue() < .15) && (myBioDriver.getTicks() < 120)){
+			myCO2InActuator.setValue(1.5f);
+		}
+		if((myCO2PressureSensor.getValue() > .15) && (myBioDriver.getTicks() < 120)){
+			myCO2InActuator.setValue(0);
+		}
+		if ((myCO2PressureSensor.getValue() < .15) && (myBioDriver.getTicks() > 300)){
+			myCO2InActuator.setValue(1.5f);
+		}
+		if((myCO2PressureSensor.getValue() > .15) && (myBioDriver.getTicks() > 300)){
+			myCO2InActuator.setValue(0);
+		}
+		if ((myCO2PressureSensor.getValue() < .15) && (myBioDriver.getTicks() > 475)){
+			myCO2InActuator.setValue(1.5f);
+		}
+		if((myCO2PressureSensor.getValue() > .15) && (myBioDriver.getTicks() > 475)){
+			myCO2InActuator.setValue(0);
+		}
+		if((myBioDriver.getTicks() > 2)&&((myCO2PressureSensor.getValue() < 0.033) || (myCO2PressureSensor.getValue() > .2)))	{
 
+			myBioHolder.theBiomassPSModules.get(0).killPlants();
+			myLogger.info("The crops have died from "
+					+ myCO2PressureSensor.getValue() + " CO2 on tick "
+					+ myBioDriver.getTicks());
+		}
 		// O2Pressure controls
 
 		if ((myO2PressureSensor.getValue() > 26)) {
