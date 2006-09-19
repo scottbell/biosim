@@ -25,7 +25,7 @@
 				<dryWasteProducer desiredFlowRates="1000.0"
 					maxFlowRates="1000.0" outputs="DryWasteStore" />
 				<crewPerson name="Nigil" age="35" weight="50" sex="MALE"
-					arrivalDate="500">
+					arrivalDate="480">
 					<schedule>
 						<activity name="sleep" length="8" intensity="1" />
 						<activity name="hygiene" length="1"
