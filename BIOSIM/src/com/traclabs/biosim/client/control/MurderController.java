@@ -71,6 +71,10 @@ public class MurderController implements BiosimController {
 	private GenericActuator myCO2InActuator;
 
 	private GenericActuator myO2OutActuator;
+	
+	private int myCO2LevelTime1 = 120;
+	private int myCO2LevelTime2 = 300;
+	private int myCO2LevelTime3 = 475;
 
 	PrintStream output;
 
@@ -188,15 +192,12 @@ public class MurderController implements BiosimController {
 	}
 
 	private boolean endConditionMet() {
-
 		if (((myO2PressureSensor.getValue() < 10.13)
 				|| (myO2PressureSensor.getValue() > 30.39) || (myCO2PressureSensor
 				.getValue() >  1))) {
 			myBioHolder.theCrewGroups.get(0).killCrew();
 			return true;
 		}
-
-		
 	return false;
 	}
 
@@ -205,47 +206,34 @@ public class MurderController implements BiosimController {
 	 * increments the actuator.
 	 */
 	public void stepSim() {
-
-		// CO2Pressure controls
-		/*
-		if((myCO2PressureSensor.getValue() < .153809)){
-			myCO2InActuator.setValue((myBioHolder.theBiomassPSModules.get(0).getShelf(0).getPlant().getMolesOfCO2Inhaled()));
+		//CO2 level 3 time
+		if (myBioDriver.getTicks() > myCO2LevelTime3){
+			if (myCO2PressureSensor.getValue() > .15)
+				myCO2InActuator.setValue(0);
+			else
+				myCO2InActuator.setValue(1.5f);
 		}
-		if((myCO2PressureSensor.getValue() < .153809) && (myBioDriver.getTicks() > myCrewPerson.getArrivalTick())){
-			myCO2InActuator.setValue(myBioHolder.theBiomassPSModules.get(0).getShelf(0).getPlant().getMolesOfCO2Inhaled() - crewEnvironment.getCO2Store().getCurrentLevel());
-		}
-		//if the pressure is fine, and the sim is before tick 120, set the actuator equal to zero, since not having the
-		//actuator on won't kill the crops.
-		if ((!(myCO2PressureSensor.getValue() < .153809)) && (myBioDriver.getTicks() < 120)) {
-			myCO2InActuator.setValue(0);
-		}
-		if((myCO2PressureSensor.getValue() > .153809) && (myBioDriver.getTicks() > myCrewPerson.getArrivalTick())){
-			myCO2InActuator.setValue(0);
-		}
-		if((myBioDriver.getTicks() > 2)&&((myCO2PressureSensor.getValue() < 0.033) || (myCO2PressureSensor.getValue() > .2)))	{
-
-			myBioHolder.theBiomassPSModules.get(0).killPlants();
-			myLogger.info("The crops have died from "
-					+ myCO2PressureSensor.getValue() + " CO2 on tick "
-					+ myBioDriver.getTicks());
-		}
-	*/
-		if((myCO2PressureSensor.getValue() < .15) && (myBioDriver.getTicks() < 120)){
+		
+		//CO2 level 1 time = 120; this needs to be the same for the next two if statements
+		//CO2 level 1 actuator rate = the .15 
+		//CO2 level 1 sensor too low = 1.5f
+		if((myCO2PressureSensor.getValue() < .15) && (myBioDriver.getTicks() < myCO2LevelTime1)){
 			myCO2InActuator.setValue(1.5f);
 		}
-		if((myCO2PressureSensor.getValue() > .15) && (myBioDriver.getTicks() < 120)){
+		
+		//CO2 level 1 time
+		//CO2 level 1 sensor too high =0
+		if((myCO2PressureSensor.getValue() > .15) && (myBioDriver.getTicks() < myCO2LevelTime1)){
 			myCO2InActuator.setValue(0);
 		}
-		if ((myCO2PressureSensor.getValue() < .15) && (myBioDriver.getTicks() > 300)){
+		
+		//CO2 level 2 time
+		if ((myCO2PressureSensor.getValue() < .15) && (myBioDriver.getTicks() > myCO2LevelTime2)){
 			myCO2InActuator.setValue(1.5f);
 		}
-		if((myCO2PressureSensor.getValue() > .15) && (myBioDriver.getTicks() > 300)){
-			myCO2InActuator.setValue(0);
-		}
-		if ((myCO2PressureSensor.getValue() < .15) && (myBioDriver.getTicks() > 475)){
-			myCO2InActuator.setValue(1.5f);
-		}
-		if((myCO2PressureSensor.getValue() > .15) && (myBioDriver.getTicks() > 475)){
+		
+		//CO2 level 2 time
+		if((myCO2PressureSensor.getValue() > .15) && (myBioDriver.getTicks() > myCO2LevelTime2)){
 			myCO2InActuator.setValue(0);
 		}
 		if((myBioDriver.getTicks() > 2)&&((myCO2PressureSensor.getValue() < 0.033) || (myCO2PressureSensor.getValue() > .2)))	{
@@ -263,17 +251,14 @@ public class MurderController implements BiosimController {
 		if ((myO2PressureSensor.getValue() < 26)) {
 			myO2OutActuator.setValue(0);
 		}
-		/*
-		if (myBioDriver.getTicks() > (myCrewPerson.getArrivalTick() +7)) {
-			myO2OutActuator.setValue(0);
-		}
-		 */
 		// TotalPressure controls
-
+		//total pressure is too high, so we're going to out some air; the actuator rate is gene[13]
 		if ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 106) {
 			myAirOutActuator.setValue(65);
 		}
-
+		//total pressure is too low
+		//the actuator rate 65 is gene[14]
+		
 		if ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) < 96) {
 			myNitrogenInActuator.setValue(65);
 		}
