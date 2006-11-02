@@ -8,6 +8,9 @@ import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.framework.BioDriver;
+import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.util.CommandLineUtils;
 import com.traclabs.biosim.util.OrbUtils;
 
@@ -86,7 +89,7 @@ public class RepairController implements BiosimController {
 	 * 
 	 */
 	
-	private void collectReferences() {
+	public void collectReferences() {
 		BioHolderInitializer.setFile(CONFIGURATION_FILE);
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;
@@ -158,16 +161,7 @@ public class RepairController implements BiosimController {
 	 */
 	
 	public void stepSim() {
-		//check sensor
-		float sensorValue = myO2ConcentrationSensor.getValue();
-		myLogger.info("sensor reading is " + sensorValue);
-		//set actuator
-		myLogger.info("incrementing actuator by 1");
-		float actuatorValue = myO2InjectorAcutator.getValue();
-		myLogger.info("actuator set at " + myO2InjectorAcutator.getValue());
-		myO2InjectorAcutator.setValue(actuatorValue + 1);
-		// advancing the sim 1 tick
-		myBioDriver.advanceOneTick();
+		
 	}
 
 	

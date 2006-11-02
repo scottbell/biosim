@@ -9,12 +9,12 @@ import org.apache.log4j.Logger;
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
-import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
 import com.traclabs.biosim.idl.simulation.crew.CrewPerson;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.framework.Accumulator;
 import com.traclabs.biosim.idl.simulation.framework.Injector;
+import com.traclabs.biosim.server.framework.BioDriverImpl;
 import com.traclabs.biosim.util.CommandLineUtils;
 import com.traclabs.biosim.util.OrbUtils;
 
@@ -27,7 +27,7 @@ public class MurderController implements BiosimController {
 
 	private static final String LOG_FILE = "~/MurderControllerResults.txt";
 
-	private BioDriver myBioDriver;
+	private BioDriverImpl myBioDriver;
 
 	private BioHolder myBioHolder;
 
@@ -94,8 +94,11 @@ public class MurderController implements BiosimController {
 	private int myCrewArrivalDate = 300;
 
 	private PrintStream myOutput;
+	
+	private boolean logToFile = false;
 
-	public MurderController(boolean logToFile) {
+	public MurderController(boolean log) {
+		logToFile = log;
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
 		if (logToFile) {
@@ -117,6 +120,7 @@ public class MurderController implements BiosimController {
 		myController.runSim();
 
 	}
+	
 
 	/**
 	 * Collects references to BioModules we'll need to run/observer/poke the
@@ -128,7 +132,6 @@ public class MurderController implements BiosimController {
 		BioHolderInitializer.setFile(CONFIGURATION_FILE);
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
-		myBioDriver = myBioHolder.theBioDriver;
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
 
 		Injector NitrogenInjector = myBioHolder.theInjectors.get(0);
@@ -184,6 +187,7 @@ public class MurderController implements BiosimController {
 		printHeader();
 		myBioDriver.setPauseSimulation(true);
 		myBioDriver.startSimulation();
+		
 		myLogger.info("Controller starting run");
 		do {
 			checkCropDeath();
@@ -198,7 +202,8 @@ public class MurderController implements BiosimController {
 				+ myCO2PressureSensor.getValue());
 		myBioDriver.endSimulation();
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
-		myOutput.close();
+		myOutput.flush();
+		
 	}
 
 	private boolean checkCrewDeath() {
@@ -379,5 +384,9 @@ public class MurderController implements BiosimController {
 
 	public void setTotalPressureSetPoint(float myTotalPressureSetPoint) {
 		this.myTotalPressureSetPoint = myTotalPressureSetPoint;
+	}
+
+	public void setBioDriverImpl(BioDriverImpl bioDriverImpl) {
+		myBioDriver = bioDriverImpl;
 	}
 }
