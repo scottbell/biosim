@@ -27,7 +27,7 @@ public class MurderController implements BiosimController {
 
 	private static final String LOG_FILE = "~/MurderControllerResults.txt";
 
-	private BioDriverImpl myBioDriver;
+	private BioDriver myBioDriver;
 
 	private BioHolder myBioHolder;
 
@@ -131,6 +131,7 @@ public class MurderController implements BiosimController {
 	public void collectReferences() {
 		BioHolderInitializer.setFile(CONFIGURATION_FILE);
 		myBioHolder = BioHolderInitializer.getBioHolder();
+		myBioDriver = myBioHolder.theBioDriver;
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
 
