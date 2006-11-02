@@ -15,7 +15,8 @@ import com.traclabs.biosim.util.OrbUtils;
 
 public class BiosimServer extends GenericServer {
 	private static final String DEFAULT_XML_LOCATION = "com/traclabs/biosim/server/framework/configuration/DefaultInit.xml";
-
+	private BioDriverImpl myBioDriverImpl;
+	
     public BiosimServer(int id, int stutterLength, String xmlLocation) {
         String rawFileLocation = OrbUtils.resolveXMLLocation(xmlLocation);
         if (rawFileLocation == null) {
@@ -23,13 +24,17 @@ public class BiosimServer extends GenericServer {
             myLogger.warn("Using default: "+DEFAULT_XML_LOCATION);
             rawFileLocation = OrbUtils.resolveXMLLocation(DEFAULT_XML_LOCATION);
         }
-        BioDriverImpl newBioDriverImpl = new BioDriverImpl(id);
-        newBioDriverImpl.setDriverStutterLength(stutterLength);
-        registerServer(newBioDriverImpl, newBioDriverImpl.getName(),
-        		newBioDriverImpl.getID());
+        myBioDriverImpl = new BioDriverImpl(id);
+        myBioDriverImpl.setDriverStutterLength(stutterLength);
+        registerServer(myBioDriverImpl, myBioDriverImpl.getName(),
+        		myBioDriverImpl.getID());
         myLogger.info("Loading init file: " + rawFileLocation);
         BiosimInitializer myInitializer = new BiosimInitializer(id);
         myInitializer.parseFile(rawFileLocation);
+    }
+    
+    public BioDriverImpl getBioDriverImpl(){
+    	return myBioDriverImpl;
     }
 
 	/**
