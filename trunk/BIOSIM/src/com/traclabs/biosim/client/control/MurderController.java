@@ -15,7 +15,6 @@ import com.traclabs.biosim.idl.simulation.crew.CrewPerson;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.framework.Accumulator;
 import com.traclabs.biosim.idl.simulation.framework.Injector;
-import com.traclabs.biosim.server.framework.BioDriverImpl;
 import com.traclabs.biosim.util.CommandLineUtils;
 import com.traclabs.biosim.util.OrbUtils;
 
@@ -386,9 +385,5 @@ public class MurderController implements BiosimController {
 
 	public void setTotalPressureSetPoint(float myTotalPressureSetPoint) {
 		this.myTotalPressureSetPoint = myTotalPressureSetPoint;
-	}
-
-	public void setBioDriverImpl(BioDriverImpl bioDriverImpl) {
-		myBioDriver = bioDriverImpl;
 	}
 }
