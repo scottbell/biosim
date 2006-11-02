@@ -19,30 +19,13 @@ import com.traclabs.biosim.util.CommandLineUtils;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
- * @author Kirsten Stark A controller to end and change the simulation based on air
- *         make-up
+ * A controller to end and change the simulation based on gas composition.
+ * @author Kirsten Stark 
  */
-
-/*
- * To compile: 1) build biosim (type "ant" in BIOSIM_HOME directory)
- * 
- * To run: (assuming BIOSIM_HOME/bin is in your path) 1)type "run-nameserver"
- * 2)type "run-server -xml=test/SimpleControllerInit.xml" 3)type "java
- * -classpath
- * $BIOSIM_HOME/lib/xerces/xercesImpl.jar:$BIOSIM_HOME/lib/log4j/log4j.jar:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb/logkit.jar:$BIOSIM_HOME/lib/jacorb/avalon-framework.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/build:$BIOSIM_HOME/resources
- * -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB
- * -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton
- * -DORBInitRef.NameService=file:$BIOSIM_HOME/tmp/ns/ior.txt
- * com.traclabs.biosim.client.control.SimpleController"
- * 
- * Good Luck! If you have any questions, email me at: scott@traclabs.com
- * 
- */
-
 public class MurderController implements BiosimController {
-	private static final String CONFIGURATION_FILE = "kirsten/MurderControllerInit.xml";
+	public static final String CONFIGURATION_FILE = "kirsten/MurderControllerInit.xml";
 
-	private static final String LOG_FILE = "/home/kirsten/MurderControllerResults.txt";
+	private static final String LOG_FILE = "~/MurderControllerResults.txt";
 
 	private BioDriver myBioDriver;
 
@@ -71,32 +54,66 @@ public class MurderController implements BiosimController {
 	private GenericActuator myCO2InActuator;
 
 	private GenericActuator myO2OutActuator;
-	
-	private int myCO2LevelTime1 = 120;
-	private int myCO2LevelTime2 = 300;
-	private int myCO2LevelTime3 = 475;
 
-	PrintStream output;
+	private int myCO2Segment1Time = 120;
+
+	private int myCO2Segment2Time = 300;
+
+	private int myCO2Segment3Time = 475;
+
+	private float myCO2Segment1SetPoint = 300;
+
+	private float myCO2Segment2SetPoint = 120;
+
+	private float myCO2Segment3SetPoint = 120;
+
+	private float myCO2Segment1LowRate = 1.5f;
+
+	private float myCO2Segment1HighRate = 0;
+
+	private float myCO2Segment2LowRate = 1.5f;
+
+	private float myCO2Segment2HighRate = 0;
+
+	private float myCO2Segment3LowRate = 1.5f;
+
+	private float myCO2Segment3HighRate = 0;
+
+	private float myO2SetPoint = 26;
+
+	private float myO2LowRate = 100;
+
+	private float myO2HighRate = 0;
+
+	private float myTotalPressureSetPoint = 101;
+
+	private float myTotalPressureLowRate = 65;
+
+	private float myTotalPressureHighRate = 65;
+
+	private int myCrewArrivalDate = 300;
+
+	private PrintStream myOutput;
 
 	public MurderController(boolean logToFile) {
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
-		collectReferences();
-		if (logToFile){
-		try {
-			output = new PrintStream(new FileOutputStream(LOG_FILE, true));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		}
-		else
-			output = System.out;
+		if (logToFile) {
+			try {
+				myOutput = new PrintStream(new FileOutputStream(LOG_FILE, true));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		} else
+			myOutput = System.out;
 
 	}
 
 	public static void main(String[] args) {
-		boolean logToFile = Boolean.parseBoolean(CommandLineUtils.getOptionValueFromArgs(args, "log"));
+		boolean logToFile = Boolean.parseBoolean(CommandLineUtils
+				.getOptionValueFromArgs(args, "log"));
 		MurderController myController = new MurderController(logToFile);
+		myController.collectReferences();
 		myController.runSim();
 
 	}
@@ -107,13 +124,12 @@ public class MurderController implements BiosimController {
 	 * parts of BioSim.
 	 * 
 	 */
-	private void collectReferences() {
+	public void collectReferences() {
 		BioHolderInitializer.setFile(CONFIGURATION_FILE);
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 		myBioDriver = myBioHolder.theBioDriver;
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
-		
 
 		Injector NitrogenInjector = myBioHolder.theInjectors.get(0);
 		Injector CO2Injector = myBioHolder.theInjectors.get(1);
@@ -144,8 +160,20 @@ public class MurderController implements BiosimController {
 		myTimeTillCanopyClosureSensor = myBioHolder.getShelfSensorAttachedTo(
 				myBioHolder.theTimeTillCanopyClosureSensors,
 				myBioHolder.theBiomassPSModules.get(0), 0);
-		
+
+	}
 	
+	private void printHeader(){
+		// prints the "name" of the simulation (how much area)
+		myOutput.println();
+		myOutput.println();
+		myOutput.print("Crop area = "
+				+ myBioHolder.theBiomassPSModules.get(0).getShelf(0)
+						.getCropAreaUsed());
+		myOutput.println();
+		myOutput
+				.println("Ticks TotalPressure O2PP CO2PP NitrogenPP VaporPP Activity");
+		myOutput.flush();
 	}
 
 	/**
@@ -153,157 +181,203 @@ public class MurderController implements BiosimController {
 	 * a time until end condition is met.
 	 */
 	public void runSim() {
-
-		// prints the "name" of the simulation (how much area)
-		output.println();
-		output.println();
-		output.print("Crop area = "
-				+ myBioHolder.theBiomassPSModules.get(0).getShelf(0)
-						.getCropAreaUsed());
-		output.println();
-		output
-				.println("Ticks TotalPressure O2PP CO2PP NitrogenPP VaporPP Activity");
-		output.flush();
-
+		printHeader();
 		myBioDriver.setPauseSimulation(true);
 		myBioDriver.startSimulation();
 		myLogger.info("Controller starting run");
-		crewEnvironment.setCurrentVolumeAtSeaLevel(32000);
-		myLogger.info("The value of O2 is " + myO2PressureSensor.getValue());
-		myLogger.info("The time till canopy closure is "
-				+ myTimeTillCanopyClosureSensor.getValue());
-		// myCrewPerson.setArrivalTick(24*(int)myTimeTillCanopyClosureSensor.getValue());
-		// printResults(); //prints the initial conditions
 		do {
-			stepSim(); 
-			myLogger.info(myBioDriver.getTicks());
-			//if (myBioDriver.getTicks() > 490){
-			//myLogger.info("Over 490 ticks."); 
-			//}
-			//myLogger.info(crewEnvironment.getCO2Store().getCurrentLevel());
-			
-		}while (!endConditionMet());
-		 
-		//if we get here, the end condition has been met
-		myLogger.info("Final O2PartialPressure= "+myO2PressureSensor.getValue()+ " Final CO2PartialPressure= "+ myCO2PressureSensor.getValue());
+			checkCropDeath();
+			manipulateSim();
+			myBioDriver.advanceOneTick();
+			printResults();
+		} while (!checkCrewDeath());
+
+		// if we get here, the end condition has been met
+		myLogger.info("Final O2PartialPressure= "
+				+ myO2PressureSensor.getValue() + " Final CO2PartialPressure= "
+				+ myCO2PressureSensor.getValue());
 		myBioDriver.endSimulation();
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
-		output.close();
+		myOutput.close();
 	}
 
-	private boolean endConditionMet() {
+	private boolean checkCrewDeath() {
 		if (((myO2PressureSensor.getValue() < 10.13)
 				|| (myO2PressureSensor.getValue() > 30.39) || (myCO2PressureSensor
-				.getValue() >  1))) {
+				.getValue() > 1))) {
 			myBioHolder.theCrewGroups.get(0).killCrew();
 			return true;
 		}
-	return false;
+		return false;
+	}
+
+	private boolean checkCropDeath() {
+		if ((myBioDriver.getTicks() > 2)
+				&& ((myCO2PressureSensor.getValue() < 0.033) || (myCO2PressureSensor
+						.getValue() > .2))) {
+			myBioHolder.theBiomassPSModules.get(0).killPlants();
+			myLogger.info("The crops have died from "
+					+ myCO2PressureSensor.getValue() + " CO2 on tick "
+					+ myBioDriver.getTicks());
+			return true;
+		}
+		return false;
 	}
 
 	/**
 	 * Executed every tick. Looks at a sensor, looks at an actuator, then
 	 * increments the actuator.
 	 */
-	public void stepSim() {
-		//CO2 level 3 time
-		if (myBioDriver.getTicks() > myCO2LevelTime3){
-			if (myCO2PressureSensor.getValue() > .15)
-				myCO2InActuator.setValue(0);
-			else
-				myCO2InActuator.setValue(1.5f);
-		}
-		
-		//CO2 level 1 time = 120; this needs to be the same for the next two if statements
-		//CO2 level 1 actuator rate = the .15 
-		//CO2 level 1 sensor too low = 1.5f
-		if((myCO2PressureSensor.getValue() < .15) && (myBioDriver.getTicks() < myCO2LevelTime1)){
-			myCO2InActuator.setValue(1.5f);
-		}
-		
-		//CO2 level 1 time
-		//CO2 level 1 sensor too high =0
-		if((myCO2PressureSensor.getValue() > .15) && (myBioDriver.getTicks() < myCO2LevelTime1)){
-			myCO2InActuator.setValue(0);
-		}
-		
-		//CO2 level 2 time
-		if ((myCO2PressureSensor.getValue() < .15) && (myBioDriver.getTicks() > myCO2LevelTime2)){
-			myCO2InActuator.setValue(1.5f);
-		}
-		
-		//CO2 level 2 time
-		if((myCO2PressureSensor.getValue() > .15) && (myBioDriver.getTicks() > myCO2LevelTime2)){
-			myCO2InActuator.setValue(0);
-		}
-		if((myBioDriver.getTicks() > 2)&&((myCO2PressureSensor.getValue() < 0.033) || (myCO2PressureSensor.getValue() > .2)))	{
-
-			myBioHolder.theBiomassPSModules.get(0).killPlants();
-			myLogger.info("The crops have died from "
-					+ myCO2PressureSensor.getValue() + " CO2 on tick "
-					+ myBioDriver.getTicks());
-		}
-		// O2Pressure controls
-
-		if ((myO2PressureSensor.getValue() > 26)) {
-			myO2OutActuator.setValue(100);
-		}
-		if ((myO2PressureSensor.getValue() < 26)) {
-			myO2OutActuator.setValue(0);
-		}
-		// TotalPressure controls
-		//total pressure is too high, so we're going to out some air; the actuator rate is gene[13]
-		if ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 106) {
-			myAirOutActuator.setValue(65);
-		}
-		//total pressure is too low
-		//the actuator rate 65 is gene[14]
-		
-		if ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) < 96) {
-			myNitrogenInActuator.setValue(65);
-		}
-
-		if (((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) > 96) && ((myO2PressureSensor.getValue() + myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue() + myVaporPressureSensor.getValue()) < 106)) {
-			myAirOutActuator.setValue(0);
-			myNitrogenInActuator.setValue(0);
-		}
-
+	public void manipulateSim() {
+		//do nothing before tick 2
 		if (myBioDriver.getTicks() < 2) {
 			myAirOutActuator.setValue(0);
 			myNitrogenInActuator.setValue(0);
 			myO2OutActuator.setValue(0);
 			myCO2InActuator.setValue(0);
+			return;
 		}
+		
+		processSegment(myCO2PressureSensor, myCO2InActuator, myCO2Segment1Time,
+				myCO2Segment1SetPoint, myCO2Segment1LowRate, myCO2Segment1HighRate);
+		processSegment(myCO2PressureSensor, myCO2InActuator, myCO2Segment2Time,
+				myCO2Segment2SetPoint, myCO2Segment2LowRate, myCO2Segment2HighRate);
+		processSegment(myCO2PressureSensor, myCO2InActuator, myCO2Segment3Time,
+				myCO2Segment3SetPoint, myCO2Segment3LowRate, myCO2Segment3HighRate);
+		
+		processSegment(myO2PressureSensor, myO2OutActuator, -1, myO2SetPoint, myO2LowRate, myO2HighRate);
+		
+		if (getTotalPressure() > myTotalPressureSetPoint){
+			myAirOutActuator.setValue(myTotalPressureHighRate);
+			myNitrogenInActuator.setValue(0);
+		}
+		else {
+			myNitrogenInActuator.setValue(myTotalPressureLowRate);
+			myAirOutActuator.setValue(0);
+		}
+		
+	}
 
-		// advancing the sim 1 tick
-		myBioDriver.advanceOneTick();
-		printResults();
+	private float getTotalPressure() {
+		return myO2PressureSensor.getValue() + myCO2PressureSensor.getValue()
+		+ myNitrogenPressureSensor.getValue() + myVaporPressureSensor
+		.getValue();
+	}
+
+	private void processSegment(GenericSensor sensorToProcess,
+			GenericActuator actuatorToProcess, int timeForSegment, float segmentBand,
+			float lowRate, float highRate) {
+		if (myBioDriver.getTicks() > timeForSegment) {
+			if (sensorToProcess.getValue() < segmentBand)
+				actuatorToProcess.setValue(lowRate);
+			else
+				actuatorToProcess.setValue(highRate);
+		}
 	}
 
 	public void printResults() {
-		// TotalPressure = myO2PressureSensor.getValue() +
-		// myCO2PressureSensor.getValue() + myNitrogenPressureSensor.getValue()
-		// + myVaporPressureSensor.getValue();
-		output.print(myBioDriver.getTicks() + "     ");// Ticks
-		output.print(myO2PressureSensor.getValue()
+		myOutput.print(myBioDriver.getTicks() + "     ");// Ticks
+		myOutput.print(myO2PressureSensor.getValue()
 				+ myCO2PressureSensor.getValue()
 				+ myNitrogenPressureSensor.getValue()
 				+ myVaporPressureSensor.getValue() + "     ");// Total
-																// Pressure
-		output.print(myO2PressureSensor.getValue() + "  ");// PP of O2
-		output.print(myCO2PressureSensor.getValue() + "  "); // PP of CO2
-		//output.print(myBioHolder.theBiomassPSModules.get(0).getShelf(0).
-		output.print(myNitrogenPressureSensor.getValue() + "    "); // PP of
-																	// Nitrogen
-		output.print(myVaporPressureSensor.getValue() + "   "); // PP of Vapor
-		output.print(myCrewPerson.getCurrentActivity().getName() + "       ");
-		// output.print(myCrewPerson.getO2Consumed() + " " +
-		// myCrewPerson.getCO2Produced() + " ");
-		output.print(myBioHolder.theBiomassPSModules.get(0).getShelf(0).getPlant().getMolesOfCO2Inhaled());
-		if (myBioDriver.getTicks() > 480){
-			output.print("      " + myCrewPerson.getCO2Produced());
+		// Pressure
+		myOutput.print(myO2PressureSensor.getValue() + "  ");// PP of O2
+		myOutput.print(myCO2PressureSensor.getValue() + "  "); // PP of CO2
+		myOutput.print(myNitrogenPressureSensor.getValue() + "    "); // PP of
+		// Nitrogen
+		myOutput.print(myVaporPressureSensor.getValue() + "   "); // PP of Vapor
+		myOutput.print(myCrewPerson.getCurrentActivity().getName() + "       ");
+		myOutput.print(myBioHolder.theBiomassPSModules.get(0).getShelf(0)
+				.getPlant().getMolesOfCO2Inhaled());
+		if (myBioDriver.getTicks() > 480) {
+			myOutput.print("      " + myCrewPerson.getCO2Produced());
 		}
-		output.println();
-		output.flush();
+		myOutput.println();
+		myOutput.flush();
+	}
+
+	public void setCO2InActuator(GenericActuator myCO2InActuator) {
+		this.myCO2InActuator = myCO2InActuator;
+	}
+
+	public void setCO2PressureSensor(GenericSensor myCO2PressureSensor) {
+		this.myCO2PressureSensor = myCO2PressureSensor;
+	}
+
+	public void setCO2Segment1HighRate(float myCO2Segment1HighRate) {
+		this.myCO2Segment1HighRate = myCO2Segment1HighRate;
+	}
+
+	public void setCO2Segment1LowRate(float myCO2Segment1LowRate) {
+		this.myCO2Segment1LowRate = myCO2Segment1LowRate;
+	}
+
+	public void setCO2Segment1SetPoint(float myCO2Segment1SetPoint) {
+		this.myCO2Segment1SetPoint = myCO2Segment1SetPoint;
+	}
+
+	public void setCO2Segment1Time(int myCO2Segment1Time) {
+		this.myCO2Segment1Time = myCO2Segment1Time;
+	}
+
+	public void setCO2Segment2HighRate(float myCO2Segment2HighRate) {
+		this.myCO2Segment2HighRate = myCO2Segment2HighRate;
+	}
+
+	public void setCO2Segment2LowRate(float myCO2Segment2LowRate) {
+		this.myCO2Segment2LowRate = myCO2Segment2LowRate;
+	}
+
+	public void setCO2Segment2SetPoint(float myCO2Segment2SetPoint) {
+		this.myCO2Segment2SetPoint = myCO2Segment2SetPoint;
+	}
+
+	public void setCO2Segment2Time(int myCO2Segment2Time) {
+		this.myCO2Segment2Time = myCO2Segment2Time;
+	}
+
+	public void setCO2Segment3HighRate(float myCO2Segment3HighRate) {
+		this.myCO2Segment3HighRate = myCO2Segment3HighRate;
+	}
+
+	public void setCO2Segment3LowRate(float myCO2Segment3LowRate) {
+		this.myCO2Segment3LowRate = myCO2Segment3LowRate;
+	}
+
+	public void setCO2Segment3SetPoint(float myCO2Segment3SetPoint) {
+		this.myCO2Segment3SetPoint = myCO2Segment3SetPoint;
+	}
+
+	public void setCO2Segment3Time(int myCO2Segment3Time) {
+		this.myCO2Segment3Time = myCO2Segment3Time;
+	}
+
+	public void setCrewArrivalDate(int myCrewArrivalDate) {
+		this.myCrewArrivalDate = myCrewArrivalDate;
+	}
+
+	public void setO2HighRate(float myO2HighRate) {
+		this.myO2HighRate = myO2HighRate;
+	}
+
+	public void setO2LowRate(float myO2LowRate) {
+		this.myO2LowRate = myO2LowRate;
+	}
+
+	public void setO2SetPoint(float myO2SetPoint) {
+		this.myO2SetPoint = myO2SetPoint;
+	}
+
+	public void setTotalPressureHighRate(float myTotalPressureHighRate) {
+		this.myTotalPressureHighRate = myTotalPressureHighRate;
+	}
+
+	public void setTotalPressureLowRate(float myTotalPressureLowRate) {
+		this.myTotalPressureLowRate = myTotalPressureLowRate;
+	}
+
+	public void setTotalPressureSetPoint(float myTotalPressureSetPoint) {
+		this.myTotalPressureSetPoint = myTotalPressureSetPoint;
 	}
 }

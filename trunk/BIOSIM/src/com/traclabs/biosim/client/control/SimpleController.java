@@ -46,11 +46,11 @@ public class SimpleController implements BiosimController{
 	public SimpleController() {
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
-		collectReferences();
 	}
 
 	public static void main(String[] args) {
 		SimpleController myController = new SimpleController();
+		myController.collectReferences();
 		myController.runSim();
 	}
 
@@ -61,7 +61,7 @@ public class SimpleController implements BiosimController{
 	 * of BioSim.
 	 *
 	 */
-	private void collectReferences() {
+	public void collectReferences() {
 		BioHolderInitializer.setFile(CONFIGURATION_FILE);
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;

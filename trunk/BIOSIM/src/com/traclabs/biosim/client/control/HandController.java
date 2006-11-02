@@ -98,7 +98,6 @@ public class HandController implements BiosimController{
 
     public HandController() {
         myLogger = Logger.getLogger(this.getClass());
-        collectReferences();
         setThresholds();
         continuousState = new StateMap();
         myActionMap = new ActionMap();
@@ -113,10 +112,11 @@ public class HandController implements BiosimController{
 
     public static void main(String[] args) {
         HandController myController = new HandController();
+        myController.collectReferences();
         myController.runSim();
     }
 
-    private void collectReferences() {
+    public void collectReferences() {
         myBioHolder = BioHolderInitializer.getBioHolder();
         myBioDriver = myBioHolder.theBioDriver;
 
