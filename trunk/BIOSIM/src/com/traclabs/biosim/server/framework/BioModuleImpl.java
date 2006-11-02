@@ -56,6 +56,8 @@ public abstract class BioModuleImpl extends BioModulePOA {
     //What I think the current tick is.
     private int myTicks = 0;
     
+    private int myFailureTime = 0;
+    
     //in hours (can be a fraction of an hour)
     private float myTickInterval = 1f;
     
@@ -108,6 +110,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
         if (myLogger.isDebugEnabled())
             log();
         myTicks++;
+        myFailureTime++;
     }
 
     public int getMyTicks() {
@@ -115,7 +118,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
     }
 
     private void checkForFailure() {
-        if (myFailureDecider.hasFailed(myTicks)){
+        if (myFailureDecider.hasFailed(myFailureTime)){
         	myLogger.info(getModuleName() + " has failed!");
         	hasFailed = true;
             startMalfunction(MalfunctionIntensity.SEVERE_MALF,MalfunctionLength.PERMANENT_MALF);
@@ -153,6 +156,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
     public void clearAllMalfunctions() {
     	for (Malfunction currentMalfunction : myMalfunctions.values())
             myMalfunctions.remove(new Long(currentMalfunction.getID()));
+    	myFailureTime = 0;
     }
 
     /**
