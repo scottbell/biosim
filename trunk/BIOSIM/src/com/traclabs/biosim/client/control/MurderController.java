@@ -268,18 +268,6 @@ public class MurderController implements BiosimController {
 		
 		processSegment(myO2PressureSensor, myO2OutActuator, -1, myO2SetPoint, myO2LowRate, myO2HighRate);
 		
-		
-		if (getTotalPressure() > myTotalPressureSetPoint){
-			myLogger.info(myAirOutActuator.getModuleName()+" actuating for high ("+getTotalPressure()+" > "+myTotalPressureSetPoint+"), setting to "+myTotalPressureHighRate);
-			myAirOutActuator.setValue(myTotalPressureHighRate);
-			myNitrogenInActuator.setValue(0);
-		}
-		else {
-			myLogger.info(myNitrogenInActuator.getModuleName()+" actuating for low ("+getTotalPressure()+" < "+myTotalPressureSetPoint+"), setting to "+myTotalPressureLowRate);
-			myNitrogenInActuator.setValue(myTotalPressureLowRate);
-			myAirOutActuator.setValue(0);
-		}
-		
 	}
 
 	private float getTotalPressure() {
