@@ -55,43 +55,41 @@ public class MurderController implements BiosimController {
 
 	private GenericActuator myO2OutActuator;
 
-	private int myCO2Segment1Time = 120;
+	private int myCO2Segment1Time = 0;
 
 	private int myCO2Segment2Time = 300;
 
-	private int myCO2Segment3Time = 475;
+	private int myCO2Segment3Time = 400;
 
-	private float myCO2Segment1SetPoint = 300;
+	private float myCO2Segment1SetPoint = 0.08f;
 
-	private float myCO2Segment2SetPoint = 120;
+	private float myCO2Segment2SetPoint = 0.08f;
 
-	private float myCO2Segment3SetPoint = 120;
+	private float myCO2Segment3SetPoint = 0.08f;
 
-	private float myCO2Segment1LowRate = 1.5f;
+	private float myCO2Segment1LowRate = 0.8f;
 
 	private float myCO2Segment1HighRate = 0;
 
-	private float myCO2Segment2LowRate = 1.5f;
+	private float myCO2Segment2LowRate = 0.8f;
 
 	private float myCO2Segment2HighRate = 0;
 
-	private float myCO2Segment3LowRate = 1.5f;
+	private float myCO2Segment3LowRate = 0.8f;
 
 	private float myCO2Segment3HighRate = 0;
 
 	private float myO2SetPoint = 26;
 
-	private float myO2LowRate = 100;
+	private float myO2LowRate = 0;
 
-	private float myO2HighRate = 0;
+	private float myO2HighRate = 100;
 
 	private float myTotalPressureSetPoint = 101;
 
-	private float myTotalPressureLowRate = 65;
+	private float myTotalPressureLowRate = 1;
 
-	private float myTotalPressureHighRate = 65;
-
-	private int myCrewArrivalDate = 300;
+	private float myTotalPressureHighRate = 1;
 
 	private PrintStream myOutput;
 	
@@ -191,41 +189,48 @@ public class MurderController implements BiosimController {
 		
 		myLogger.info("Controller starting run");
 		do {
-			checkCropDeath();
+			if(cropsShouldDie())
+				myBioHolder.theBiomassPSModules.get(0).killPlants();
 			manipulateSim();
 			myBioDriver.advanceOneTick();
 			printResults();
-		} while (!checkCrewDeath());
-
-		// if we get here, the end condition has been met
-		myLogger.info("Final O2PartialPressure= "
-				+ myO2PressureSensor.getValue() + " Final CO2PartialPressure= "
-				+ myCO2PressureSensor.getValue());
+		} while (!crewShouldDie());
+		
+		myBioHolder.theCrewGroups.get(0).killCrew();
 		myBioDriver.endSimulation();
+		
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 		myOutput.flush();
 		
 	}
 
-	private boolean checkCrewDeath() {
-		if (((myO2PressureSensor.getValue() < 10.13)
-				|| (myO2PressureSensor.getValue() > 30.39) || (myCO2PressureSensor
-				.getValue() > 1))) {
-			myBioHolder.theCrewGroups.get(0).killCrew();
+	private boolean crewShouldDie() {
+		if (myO2PressureSensor.getValue() < 10.13){
+			myLogger.info("killing crew for low oxygen: "+myO2PressureSensor.getValue());
 			return true;
 		}
-		return false;
+		else if(myO2PressureSensor.getValue() > 30.39){
+			myLogger.info("killing crew for high oxygen: "+myO2PressureSensor.getValue());
+			return true;
+		}
+		else if(myCO2PressureSensor.getValue() > 1) {
+				myLogger.info("killing crew for high CO2: "+myO2PressureSensor.getValue());
+			return true;
+		}
+		else
+			return false;
 	}
 
-	private boolean checkCropDeath() {
-		if ((myBioDriver.getTicks() > 2)
-				&& ((myCO2PressureSensor.getValue() < 0.033) || (myCO2PressureSensor
-						.getValue() > .2))) {
-			myBioHolder.theBiomassPSModules.get(0).killPlants();
-			myLogger.info("The crops have died from "
-					+ myCO2PressureSensor.getValue() + " CO2 on tick "
-					+ myBioDriver.getTicks());
-			return true;
+	private boolean cropsShouldDie() {
+		if (myBioDriver.getTicks() > 2){
+			if (myCO2PressureSensor.getValue() < 0.033){
+				myLogger.info("killing crops for low CO2: "+myCO2PressureSensor.getValue());
+				return true;
+			}
+			else if(myCO2PressureSensor.getValue() > .2){
+				myLogger.info("killing crops for high CO2: "+myCO2PressureSensor.getValue());
+				return true;
+			}
 		}
 		return false;
 	}
@@ -243,6 +248,16 @@ public class MurderController implements BiosimController {
 			myCO2InActuator.setValue(0);
 			return;
 		}
+		if (getTotalPressure() > myTotalPressureSetPoint){
+			myLogger.info(myAirOutActuator.getModuleName()+" actuating for high ("+getTotalPressure()+" > "+myTotalPressureSetPoint+"), setting to "+myTotalPressureHighRate);
+			myAirOutActuator.setValue(myTotalPressureHighRate);
+			myNitrogenInActuator.setValue(0);
+		}
+		else {
+			myLogger.info(myNitrogenInActuator.getModuleName()+" actuating for low ("+getTotalPressure()+" < "+myTotalPressureSetPoint+"), setting to "+myTotalPressureLowRate);
+			myNitrogenInActuator.setValue(myTotalPressureLowRate);
+			myAirOutActuator.setValue(0);
+		}
 		
 		processSegment(myCO2PressureSensor, myCO2InActuator, myCO2Segment1Time,
 				myCO2Segment1SetPoint, myCO2Segment1LowRate, myCO2Segment1HighRate);
@@ -253,11 +268,14 @@ public class MurderController implements BiosimController {
 		
 		processSegment(myO2PressureSensor, myO2OutActuator, -1, myO2SetPoint, myO2LowRate, myO2HighRate);
 		
+		
 		if (getTotalPressure() > myTotalPressureSetPoint){
+			myLogger.info(myAirOutActuator.getModuleName()+" actuating for high ("+getTotalPressure()+" > "+myTotalPressureSetPoint+"), setting to "+myTotalPressureHighRate);
 			myAirOutActuator.setValue(myTotalPressureHighRate);
 			myNitrogenInActuator.setValue(0);
 		}
 		else {
+			myLogger.info(myNitrogenInActuator.getModuleName()+" actuating for low ("+getTotalPressure()+" < "+myTotalPressureSetPoint+"), setting to "+myTotalPressureLowRate);
 			myNitrogenInActuator.setValue(myTotalPressureLowRate);
 			myAirOutActuator.setValue(0);
 		}
@@ -274,10 +292,14 @@ public class MurderController implements BiosimController {
 			GenericActuator actuatorToProcess, int timeForSegment, float segmentBand,
 			float lowRate, float highRate) {
 		if (myBioDriver.getTicks() > timeForSegment) {
-			if (sensorToProcess.getValue() < segmentBand)
+			if (sensorToProcess.getValue() < segmentBand){
+				myLogger.info(actuatorToProcess.getModuleName()+" actuating for low ("+sensorToProcess.getValue()+" < "+segmentBand+"), setting to "+lowRate);
 				actuatorToProcess.setValue(lowRate);
-			else
+			}
+			else{
+				myLogger.info(actuatorToProcess.getModuleName()+" actuating for high ("+sensorToProcess.getValue()+" > "+segmentBand+"), setting to "+highRate);
 				actuatorToProcess.setValue(highRate);
+			}
 		}
 	}
 
@@ -357,10 +379,6 @@ public class MurderController implements BiosimController {
 
 	public void setCO2Segment3Time(int myCO2Segment3Time) {
 		this.myCO2Segment3Time = myCO2Segment3Time;
-	}
-
-	public void setCrewArrivalDate(int myCrewArrivalDate) {
-		this.myCrewArrivalDate = myCrewArrivalDate;
 	}
 
 	public void setO2HighRate(float myO2HighRate) {

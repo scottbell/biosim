@@ -7,4 +7,9 @@ public class EnvironmentO2StoreImpl extends EnvironmentStoreImpl implements Envi
 	public EnvironmentO2StoreImpl(SimEnvironmentImpl pSimEnvironmentImpl) {
 		super(pSimEnvironmentImpl, "O2");
 	}
+	
+	public float take(float pAmount){
+    	return super.take(pAmount);
+    }
+	
 }
