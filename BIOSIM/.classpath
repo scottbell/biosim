@@ -5,7 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jfreechart/jcommon.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart/jfreechart.jar"/>
-	<classpathentry sourcepath="/home/scott/workspace/JacORB/src" kind="lib" path="lib/jacorb/jacorb.jar"/>
+	<classpathentry kind="lib" path="lib/jacorb/jacorb.jar"/>
 	<classpathentry kind="lib" path="lib/log4j/log4j.jar"/>
 	<classpathentry kind="lib" path="lib/junit/junit.jar"/>
 	<classpathentry kind="src" path="test"/>
