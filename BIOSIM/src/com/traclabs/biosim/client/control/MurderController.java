@@ -1,3 +1,4 @@
+
 package com.traclabs.biosim.client.control;
 
 import java.io.FileNotFoundException;
@@ -57,9 +58,9 @@ public class MurderController implements BiosimController {
 
 	private int myCO2Segment1Time = 0;
 
-	private int myCO2Segment2Time = 300;
+	private int myCO2Segment2Time = 192; //8 days
 
-	private int myCO2Segment3Time = 400;
+	private int myCO2Segment3Time = 360; //15 days
 
 	private float myCO2Segment1SetPoint = 0.08f;
 
@@ -132,6 +133,7 @@ public class MurderController implements BiosimController {
 		myBioDriver = myBioHolder.theBioDriver;
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
+	
 
 		Injector NitrogenInjector = myBioHolder.theInjectors.get(0);
 		Injector CO2Injector = myBioHolder.theInjectors.get(1);
@@ -152,7 +154,7 @@ public class MurderController implements BiosimController {
 						crewEnvironment.getO2Store());
 		myCO2PressureSensor = myBioHolder.getSensorAttachedTo(
 				myBioHolder.theGasPressureSensors, crewEnvironment
-						.getCO2Store());
+				.getCO2Store());
 		myNitrogenPressureSensor = myBioHolder.getSensorAttachedTo(
 				myBioHolder.theGasPressureSensors, crewEnvironment
 						.getNitrogenStore());
