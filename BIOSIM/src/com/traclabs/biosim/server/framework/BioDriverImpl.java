@@ -506,11 +506,6 @@ public class BioDriverImpl extends BioDriverPOA {
 	 * this has happened.
 	 */
 	private void tick() {
-		if (!isStarted()) {
-			myLogger.debug("BioDriverImpl" + myID
-					+ ": Tick called when simulation wasn't started!");
-			return;
-		}
 		myLogger.debug("BioDriveImpl: begin Tick");
 		// Iterate through the actuators and tick them
 		for (BioModule currentBioModule : actuators)
