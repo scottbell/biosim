@@ -8,6 +8,7 @@ import com.traclabs.biosim.client.control.HandController;
 import com.traclabs.biosim.client.control.MurderController;
 import com.traclabs.biosim.client.control.SimCommandLine;
 import com.traclabs.biosim.client.control.SimpleController;
+import com.traclabs.biosim.client.control.TestController;
 import com.traclabs.biosim.client.framework.apollo13.Apollo13Viewer;
 import com.traclabs.biosim.client.sensor.framework.SensorViewer;
 import com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisPanel;
@@ -54,6 +55,7 @@ public class BiosimMain {
         boolean wantsToRunApollo13Viewer = false;
         boolean wantsToRunSimpleController = false;
         boolean wantsToRunMurderController = false;
+        boolean wantsToRunTestController = false;
         boolean unrealServerGiven = false;
         String unrealServer = "";
         for (int i = 0; i < myArgs.length; i++) {
@@ -75,6 +77,8 @@ public class BiosimMain {
             	wantsToRunApollo13Viewer = true;
             } else if (myArgs[i].equals("murder")) {
             	wantsToRunMurderController = true;
+            } else if (myArgs[i].equals("test")) {
+            	wantsToRunTestController = true;
             } else if (myArgs[i].startsWith("-xml=")) {
                 try {
                     xmlFile = myArgs[i].split("=")[1];
@@ -153,6 +157,8 @@ public class BiosimMain {
             runApollo13Viewer();
         else if (wantsToRunMurderController)
         	runMurderController();
+        else if (wantsToRunTestController)
+        	runTestController();
         else if (wantsToRunUnreal) {
             if (unrealServerGiven) {
                 runUnreal2(unrealServer);
@@ -237,6 +243,10 @@ public class BiosimMain {
     
     private void runMurderController() {
     	MurderController.main(new String[]{}); 
+    }
+    
+    private void runTestController() {
+    	TestController.main(new String[]{}); 
     }
 }
 
