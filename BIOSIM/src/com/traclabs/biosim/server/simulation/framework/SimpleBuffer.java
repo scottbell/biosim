@@ -56,7 +56,7 @@ public class SimpleBuffer {
     public void setCapacity(float newCapacity) {
         if (newCapacity <= 0) {
             myLogger.debug("told to change capacity to <= 0");
-            newCapacity = Float.MIN_VALUE;
+            setCapacity(Float.MIN_VALUE);
         }
         float percentage = level / capacity;
         myLogger.debug("SimpleBuffer: level = " + level + ", capacity ="
