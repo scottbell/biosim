@@ -294,11 +294,8 @@ public class MurderController implements BiosimController {
 		try {
 			out = new FileOutputStream("Worker_result.txt", true);
 			myOutput = new PrintStream(out);
-			//myOutput = System.out;
-			myOutput.println();
 			myOutput.println();
 			myOutput.println("Crop area = "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
-			myOutput.println();
 			myOutput.println("Ticks TotalPressure O2PP CO2PP NitrogenPP VaporPP Activity");
 			myOutput.print(myBioDriver.getTicks() + "     ");// Ticks
 			myOutput.print(myO2PressureSensor.getValue()
