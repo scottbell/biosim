@@ -289,26 +289,41 @@ public class MurderController implements BiosimController {
 	}
 
 	public void printResults() {
-		myOutput.print(myBioDriver.getTicks() + "     ");// Ticks
-		myOutput.print(myO2PressureSensor.getValue()
-				+ myCO2PressureSensor.getValue()
-				+ myNitrogenPressureSensor.getValue()
-				+ myVaporPressureSensor.getValue() + "     ");// Total
-		// Pressure
-		myOutput.print(myO2PressureSensor.getValue() + "  ");// PP of O2
-		myOutput.print(myCO2PressureSensor.getValue() + "  "); // PP of CO2
-		myOutput.print(myNitrogenPressureSensor.getValue() + "    "); // PP of
-		// Nitrogen
-		myOutput.print(myVaporPressureSensor.getValue() + "   "); // PP of Vapor
-		myOutput.print(myCrewPerson.getCurrentActivity().getName() + "       ");
-		myOutput.print(myBioHolder.theBiomassPSModules.get(0).getShelf(0)
-				.getPlant().getMolesOfCO2Inhaled());
-		if (myBioDriver.getTicks() > 480) {
-			myOutput.print("      " + myCrewPerson.getCO2Produced());
+		FileOutputStream out; 
+		PrintStream myOutput; 
+		try {
+			out = new FileOutputStream("Worker_result.txt", true);
+			myOutput = new PrintStream(out);
+			//myOutput = System.out;
+			myOutput.println();
+			myOutput.println();
+			myOutput.println("Crop area = "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
+			myOutput.println();
+			myOutput.println("Ticks TotalPressure O2PP CO2PP NitrogenPP VaporPP Activity");
+			myOutput.print(myBioDriver.getTicks() + "     ");// Ticks
+			myOutput.print(myO2PressureSensor.getValue()
+					+ myCO2PressureSensor.getValue()
+					+ myNitrogenPressureSensor.getValue()
+					+ myVaporPressureSensor.getValue() + "     ");// Total
+			// Pressure
+			myOutput.print(myO2PressureSensor.getValue() + "  ");// PP of O2
+			myOutput.print(myCO2PressureSensor.getValue() + "  "); // PP of CO2
+			myOutput.print(myNitrogenPressureSensor.getValue() + "    "); // PP of
+			// Nitrogen
+			myOutput.print(myVaporPressureSensor.getValue() + "   "); // PP of Vapor
+			myOutput.print(myCrewPerson.getCurrentActivity().getName() + "       ");
+			myOutput.print(myBioHolder.theBiomassPSModules.get(0).getShelf(0)
+					.getPlant().getMolesOfCO2Inhaled());
+			if (myBioDriver.getTicks() > 480) {
+				myOutput.print("      " + myCrewPerson.getCO2Produced());
+			}
+			myOutput.println();
+			myOutput.flush();
+		} 
+		catch (FileNotFoundException e) {
+					e.printStackTrace();
 		}
-		myOutput.println();
-		myOutput.flush();
-	}
+	} 
 
 	public void setCO2InActuator(GenericActuator myCO2InActuator) {
 		this.myCO2InActuator = myCO2InActuator;
