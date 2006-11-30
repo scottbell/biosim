@@ -50,8 +50,7 @@ public class Weibull2Decider extends FailureDecider {
 	 *            x must be greater than 0.
 	 * 
 	 */
-	public static double weibullReliability(double lambda, double beta,
-			double x) {
+	public static double weibullReliability(double lambda, double beta, double x) {
 		double R;
 		R = Math.exp(-Math.pow(lambda * x, beta));
 		return R;
