@@ -2,13 +2,15 @@ package com.traclabs.biosim.server.util.failure;
 
 public class Weibull3Decider extends FailureDecider {
 	private double myLambda;
+
 	private double myBeta;
+
 	private double myHold;
 
-public Weibull3Decider(double lambda, double beta, double hold) {
-	this.myLambda = lambda;
-	this.myBeta = beta;
-	this.myHold = hold;
+	public Weibull3Decider(double lambda, double beta, double hold) {
+		this.myLambda = lambda;
+		this.myBeta = beta;
+		this.myHold = hold;
 	}
 
 	@Override
@@ -19,18 +21,22 @@ public Weibull3Decider(double lambda, double beta, double hold) {
 	/**
 	 * This method calculates the 3-parameter Weibull failure rate.
 	 * 
-	 * @param lambda   The 3-parameter Weibull scale parameter.
+	 * @param lambda
+	 *            The 3-parameter Weibull scale parameter.
 	 * 
-	 * @param beta     The 3-parameter Weibull shape parameter.
+	 * @param beta
+	 *            The 3-parameter Weibull shape parameter.
 	 * 
-	 * @param hold     The 3-parameter Weibull Threshold parameter.
+	 * @param hold
+	 *            The 3-parameter Weibull Threshold parameter.
 	 * 
-	 * @param x        x must be greater than 0.
+	 * @param x
+	 *            x must be greater than 0.
 	 * 
 	 */
 	//	 
-	
-public static double weibull3CumulativeDistribution(double lambda, double beta, double hold, double x) {
+	public static double weibull3CumulativeDistribution(double lambda,
+			double beta, double hold, double x) {
 
 		double p;
 
@@ -40,8 +46,8 @@ public static double weibull3CumulativeDistribution(double lambda, double beta, 
 
 	}
 
-
-public static double weibull3Reliability(double lambda, double beta, double hold, double x) {
+	public static double weibull3Reliability(double lambda, double beta,
+			double hold, double x) {
 
 		double R;
 
@@ -51,7 +57,8 @@ public static double weibull3Reliability(double lambda, double beta, double hold
 
 	}
 
-public static double weibull3FailureRate(double lambda, double beta, double hold, double x) {
+	public static double weibull3FailureRate(double lambda, double beta,
+			double hold, double x) {
 
 		double Z;
 
