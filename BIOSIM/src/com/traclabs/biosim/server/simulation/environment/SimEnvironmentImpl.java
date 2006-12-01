@@ -155,7 +155,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
 
     public float getRelativeHumidity() {
         float exponent = (17.4f * getTemperature()) / getTemperatureInKelvin();
-        float saturatedVaporPressure = .611f * exp(exponent);
+        float saturatedVaporPressure = .611f * (float)(Math.exp(exponent));
         return myVaporStoreImpl.getPressure() / saturatedVaporPressure;
     }
 
@@ -171,10 +171,6 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
             return 0f;
         else
         	return kelvinTemperature;
-    }
-
-    private float exp(float a) {
-        return (new Double(Math.exp(a))).floatValue();
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,

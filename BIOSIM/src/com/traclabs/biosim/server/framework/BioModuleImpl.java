@@ -30,7 +30,7 @@ import com.traclabs.biosim.util.OrbUtils;
 
 public abstract class BioModuleImpl extends BioModulePOA {
     //The random number generator used for gaussian function (stochastic stuff)
-    private Random myRandomGen = new MersenneTwister();
+    private static Random myRandomGen = new MersenneTwister();
 
     //The numerical value for the stochastic intensity
     private float randomCoefficient = 0f;

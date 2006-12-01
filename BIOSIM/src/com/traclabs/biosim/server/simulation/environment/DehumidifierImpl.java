@@ -50,7 +50,7 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
     public void tick() {
         super.tick();
         dehumidifyEnvironments();
-        myLogger.debug(getModuleName() + " ticked");
+        //myLogger.debug(getModuleName() + " ticked");
     }
 
     private void dehumidifyEnvironments() {
@@ -60,8 +60,8 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
             float totalMolesInEnvironment = myAirConsumerDefinitionImpl
                     .getEnvironments()[0].getTotalMoles();
             //myAirInputs[0].printCachedEnvironment();
-            myLogger.debug("Before: Water concentration"
-                    + currentWaterMolesInEnvironment / totalMolesInEnvironment);
+            //myLogger.debug("Before: Water concentration"
+             //       + currentWaterMolesInEnvironment / totalMolesInEnvironment);
         }
         float molesOfWaterGathered = 0f;
         for (int i = 0; i < myAirConsumerDefinitionImpl.getEnvironments().length; i++) {
@@ -76,8 +76,8 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
                         myAirConsumerDefinitionImpl.getDesiredFlowRate(i));
                 myAirConsumerDefinitionImpl.getActualFlowRates()[i] = myAirConsumerDefinitionImpl
                         .getEnvironments()[i].getVaporStore().take(resourceToGatherFinal);
-                myLogger.debug("Going to remove " + resourceToGatherFinal
-                        + " moles of water");
+               // myLogger.debug("Going to remove " + resourceToGatherFinal
+                //        + " moles of water");
                 molesOfWaterGathered += myAirConsumerDefinitionImpl
                         .getActualFlowRate(i);
             }

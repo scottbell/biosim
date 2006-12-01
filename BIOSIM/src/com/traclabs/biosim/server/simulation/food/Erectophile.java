@@ -55,10 +55,10 @@ public abstract class Erectophile extends PlantImpl {
                 .getRelativeHumidity();
         float netCanopyPhotosynthesis = calculateNetCanopyPhotosynthesis();
         float CO2Concentration = getAverageCO2Concentration();
-        myLogger.debug("Erectophile: relativeHumdity: " + relativeHumdity);
-        myLogger.debug("Erectophile: netCanopyPhotosynthesis: "
-                + netCanopyPhotosynthesis);
-        myLogger.debug("Erectophile: CO2Concentration: " + CO2Concentration);
+//        myLogger.debug("Erectophile: relativeHumdity: " + relativeHumdity);
+//        myLogger.debug("Erectophile: netCanopyPhotosynthesis: "
+//                + netCanopyPhotosynthesis);
+//        myLogger.debug("Erectophile: CO2Concentration: " + CO2Concentration);
         return 0.1389f + 15.32f * relativeHumdity
                 * (netCanopyPhotosynthesis / CO2Concentration);
     }

@@ -53,8 +53,8 @@ public class EnvironmentStoreImpl extends StoreImpl implements EnvironmentStoreO
     }
     
     public void tick(){
-    	myLogger.debug(getModuleName() + " totalTaken = "+totalTaken);
-    	myLogger.debug(getModuleName() + " totalAdded = "+totalAdded);
+    	//myLogger.debug(getModuleName() + " totalTaken = "+totalTaken);
+    	//myLogger.debug(getModuleName() + " totalAdded = "+totalAdded);
     	super.tick();
     }
 

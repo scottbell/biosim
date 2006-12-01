@@ -138,9 +138,9 @@ public class ShelfImpl extends ShelfPOA {
     }
 
     private void lightPlants() {
-        myLogger.debug("ShelfImpl: powerLevel: " + powerLevel);
-        myLogger.debug("ShelfImpl: getLampEfficiency:" + getLampEfficiency());
-        myLogger.debug("ShelfImpl: getPSEfficiency: " + getPSEfficiency());
+        //myLogger.debug("ShelfImpl: powerLevel: " + powerLevel);
+        //myLogger.debug("ShelfImpl: getLampEfficiency:" + getLampEfficiency());
+        //myLogger.debug("ShelfImpl: getPSEfficiency: " + getPSEfficiency());
         float powerToDeliver = Math
                 .min(powerLevel, myCrop.getPPFNeeded() * getCropAreaUsed()
                         / (getLampEfficiency() * getPSEfficiency()));
@@ -148,7 +148,7 @@ public class ShelfImpl extends ShelfPOA {
             powerToDeliver = Float.MIN_VALUE;
         float thePPF = powerToDeliver * getLampEfficiency() * getPSEfficiency()
                 / getCropAreaUsed();
-        myLogger.debug("ShelfImpl: thePPF: " + thePPF);
+        //myLogger.debug("ShelfImpl: thePPF: " + thePPF);
         myCrop.shine(thePPF);
     }
 
@@ -213,7 +213,10 @@ public class ShelfImpl extends ShelfPOA {
             cropAreaUsed = cropAreaTotal;
         else
             cropAreaUsed = pArea;
-        if (pType == PlantType.DRY_BEAN)
+        
+    	if ((myCrop != null) && (pType == myCrop.getPlantType()))
+        	myCrop.reset();
+    	else if (pType == PlantType.DRY_BEAN)
             myCrop = new DryBean(this);
         else if (pType == PlantType.LETTUCE)
             myCrop = new Lettuce(this);
