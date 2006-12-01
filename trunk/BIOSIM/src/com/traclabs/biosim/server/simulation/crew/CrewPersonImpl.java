@@ -747,11 +747,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * any) are fatal.
      */
     public void tick() {
-        myLogger.debug(getName() + " ticked");
+        //myLogger.debug(getName() + " ticked");
         timeActivityPerformed++;
-        myLogger.debug(getName() + " performed activity "
-                + myCurrentActivity.getName() + " for " + timeActivityPerformed
-                + " of " + myCurrentActivity.getTimeLength() + " ticks");
+//        myLogger.debug(getName() + " performed activity "
+//                + myCurrentActivity.getName() + " for " + timeActivityPerformed
+//                + " of " + myCurrentActivity.getTimeLength() + " ticks");
         if (!hasDied) {
             checkIfOnBoard();
             if (onBoard) {

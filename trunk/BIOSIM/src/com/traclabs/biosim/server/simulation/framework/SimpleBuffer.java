@@ -20,15 +20,13 @@ public class SimpleBuffer {
 
     protected float initialCapacity = 0f;
 
-    private Logger myLogger;
+    private static Logger myLogger = Logger.getLogger(SimpleBuffer.class);
 
     /**
      * Creates a Store with an initial level and capacity of 0
      */
     public SimpleBuffer() {
-        myLogger = Logger.getLogger(this.getClass());
-        level = initialLevel = 0f;
-        capacity = initialCapacity = 10f;
+        setInitialLevelAndCapacity(0, 10);
     }
 
     /**
@@ -40,7 +38,10 @@ public class SimpleBuffer {
      *            the initial capacity of the store
      */
     public SimpleBuffer(float pInitialLevel, float pInitialCapacity) {
-        myLogger = Logger.getLogger(this.getClass());
+        setInitialLevelAndCapacity(pInitialLevel, pInitialCapacity);
+    }
+    
+    public void setInitialLevelAndCapacity(float pInitialLevel, float pInitialCapacity){
         setCapacity(pInitialCapacity);
         setLevel(pInitialLevel);
         initialCapacity = getCapacity();
@@ -55,16 +56,16 @@ public class SimpleBuffer {
      */
     public void setCapacity(float newCapacity) {
         if (newCapacity <= 0) {
-            myLogger.debug("told to change capacity to <= 0");
+            //myLogger.debug("told to change capacity to <= 0");
             setCapacity(Float.MIN_VALUE);
         }
         float percentage = level / capacity;
-        myLogger.debug("SimpleBuffer: level = " + level + ", capacity ="
-                + capacity + " percentage = " + percentage);
+        //myLogger.debug("SimpleBuffer: level = " + level + ", capacity ="
+        ///        + capacity + " percentage = " + percentage);
         capacity = newCapacity;
         level = percentage * newCapacity;
-        myLogger.debug(", newCapacity = " + newCapacity + ", newLevel = "
-                + level);
+       // myLogger.debug(", newCapacity = " + newCapacity + ", newLevel = "
+         //       + level);
     }
 
     /**

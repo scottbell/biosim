@@ -17,9 +17,9 @@ import com.traclabs.biosim.server.simulation.framework.StoreImpl;
  */
 
 public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
-    List<FoodMatter> currentFoodItems;
+    private List<FoodMatter> currentFoodItems;
 
-    FoodMatter myOriginalMatter;
+    private FoodMatter myOriginalMatter;
 
     public FoodStoreImpl(int pID, String pName) {
         super(pID, pName);
