@@ -188,13 +188,12 @@ public class MurderController implements BiosimController {
 		do {
 			if(cropsShouldDie())
 				myBioHolder.theBiomassPSModules.get(0).killPlants();
+			if(crewShouldDie())
+				myBioHolder.theCrewGroups.get(0).killCrew();
 			manipulateSim();
 			myBioDriver.advanceOneTick();
 			printResults();
-		} while (!crewShouldDie());
-		
-		myBioHolder.theCrewGroups.get(0).killCrew();
-		myBioDriver.endSimulation();
+		} while (!myBioDriver.isDone());
 		
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 		myOutput.flush();
