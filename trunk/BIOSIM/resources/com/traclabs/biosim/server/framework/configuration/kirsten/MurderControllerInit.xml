@@ -2,8 +2,7 @@
 <biosim xmlns="http://www.traclabs.com/biosim"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
-	<Globals runTillCrewDeath="true" runTillN="25000" crewsToWatch="Nigil"
-		runTillPlantDeath="false">
+	<Globals runTillCrewDeath="false" runTillPlantDeath="false" runTillN="25000">
 		<comment>
 			A initialization file for the MurderController
 		</comment>
