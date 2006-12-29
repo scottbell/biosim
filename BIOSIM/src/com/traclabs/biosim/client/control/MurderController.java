@@ -245,12 +245,12 @@ public class MurderController implements BiosimController {
 			return;
 		}
 		if (getTotalPressure() > myTotalPressureSetPoint){
-			myLogger.info(myAirOutActuator.getModuleName()+" actuating for high ("+getTotalPressure()+" > "+myTotalPressureSetPoint+"), setting to "+myTotalPressureHighRate);
+			myLogger.debug(myAirOutActuator.getModuleName()+" actuating for high ("+getTotalPressure()+" > "+myTotalPressureSetPoint+"), setting to "+myTotalPressureHighRate);
 			myAirOutActuator.setValue(myTotalPressureHighRate);
 			myNitrogenInActuator.setValue(0);
 		}
 		else {
-			myLogger.info(myNitrogenInActuator.getModuleName()+" actuating for low ("+getTotalPressure()+" < "+myTotalPressureSetPoint+"), setting to "+myTotalPressureLowRate);
+			myLogger.debug(myNitrogenInActuator.getModuleName()+" actuating for low ("+getTotalPressure()+" < "+myTotalPressureSetPoint+"), setting to "+myTotalPressureLowRate);
 			myNitrogenInActuator.setValue(myTotalPressureLowRate);
 			myAirOutActuator.setValue(0);
 		}
@@ -277,11 +277,11 @@ public class MurderController implements BiosimController {
 			float lowRate, float highRate) {
 		if (myBioDriver.getTicks() > timeForSegment) {
 			if (sensorToProcess.getValue() < segmentBand){
-				myLogger.info(actuatorToProcess.getModuleName()+" actuating for low ("+sensorToProcess.getValue()+" < "+segmentBand+"), setting to "+lowRate);
+				myLogger.debug(actuatorToProcess.getModuleName()+" actuating for low ("+sensorToProcess.getValue()+" < "+segmentBand+"), setting to "+lowRate);
 				actuatorToProcess.setValue(lowRate);
 			}
 			else{
-				myLogger.info(actuatorToProcess.getModuleName()+" actuating for high ("+sensorToProcess.getValue()+" > "+segmentBand+"), setting to "+highRate);
+				myLogger.debug(actuatorToProcess.getModuleName()+" actuating for high ("+sensorToProcess.getValue()+" > "+segmentBand+"), setting to "+highRate);
 				actuatorToProcess.setValue(highRate);
 			}
 		}
