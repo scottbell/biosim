@@ -25,7 +25,7 @@ import com.traclabs.biosim.util.OrbUtils;
 public class MurderController implements BiosimController {
 	public static final String CONFIGURATION_FILE = "kirsten/MurderControllerInit.xml";
 
-	private static final String LOG_FILE = "~/MurderControllerResults.txt";
+	private static final String LOG_FILE = "MurderControllerResults.txt";
 
 	private BioDriver myBioDriver;
 
