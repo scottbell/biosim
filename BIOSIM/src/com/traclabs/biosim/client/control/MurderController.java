@@ -192,6 +192,7 @@ public class MurderController implements BiosimController {
 		myBioDriver.startSimulation();
 		
 		myLogger.info("Controller starting run");
+		printConfigurations();		
 		do {
 			if(cropsShouldDie())
 				myBioHolder.theBiomassPSModules.get(0).killPlants();
@@ -200,7 +201,7 @@ public class MurderController implements BiosimController {
 			manipulateSim();
 			myBioDriver.advanceOneTick();
 			printResults();
-			printConfigurations();
+
 		} while (!myBioDriver.isDone());
 		
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
