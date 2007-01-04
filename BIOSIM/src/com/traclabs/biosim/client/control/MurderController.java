@@ -192,7 +192,7 @@ public class MurderController implements BiosimController {
 		myBioDriver.startSimulation();
 		
 		myLogger.info("Controller starting run");
-		printConfigurations();		
+		
 		do {
 			if(cropsShouldDie())
 				myBioHolder.theBiomassPSModules.get(0).killPlants();
@@ -203,7 +203,7 @@ public class MurderController implements BiosimController {
 			printResults();
 
 		} while (!myBioDriver.isDone());
-		
+		printConfigurations();		
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 		myOutput.flush();
 		
@@ -307,6 +307,8 @@ public class MurderController implements BiosimController {
 			myOutput.println("Crop area = "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
 			myOutput.println("CO2Segment1Time =" + myCO2Segment1Time +"CO2Segment2Time =" + myCO2Segment2Time + "CO2Segment3Time =" + myCO2Segment3Time + "myCO2Segment1SetPoint =" + myCO2Segment1SetPoint + "myCO2Segment2SetPoint =" + myCO2Segment2SetPoint + "myCO2Segment3SetPoint =" + myCO2Segment3SetPoint + "myO2SetPoint =" + myO2SetPoint + "myO2LowRate =" + myO2LowRate + "myO2HighRate =" + myO2HighRate + "myTotalPressureHighRate =" + myTotalPressureHighRate +  "myTotalPressureLowRate =" + myTotalPressureLowRate);
 			myOutput.println("myCO2Segment1LowRate =" + myCO2Segment1LowRate + "myCO2Segment2LowRate =" + myCO2Segment2LowRate + "myCO2Segment3LowRate =" + myCO2Segment3LowRate + "myCO2Segment3LowRate =" + myCO2Segment3LowRate + "myCO2Segment1HighRate =" + myCO2Segment1HighRate + "myCO2Segment2HighRate =" + myCO2Segment2HighRate + "myCO2Segment3HighRate =" + myCO2Segment3HighRate + "ArrivalTime =" + ArrivalTime);
+			myOutput.println();
+			myOutput.println("Controller ended on tick " + myBioDriver.getTicks());
 
 			} 
 				catch (FileNotFoundException e) {
