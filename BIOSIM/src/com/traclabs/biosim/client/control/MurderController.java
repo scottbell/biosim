@@ -294,6 +294,25 @@ public class MurderController implements BiosimController {
 		}
 	}
 
+	public void printConfigurations() {
+		FileOutputStream out; 
+		PrintStream myOutput; 
+		try {
+			out = new FileOutputStream("Configuration.txt", true);
+			myOutput = new PrintStream(out);
+			myOutput.println();
+		
+			myOutput.println("Crop area = "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
+			myOutput.println("CO2Segment1Time =" + myCO2Segment1Time +"CO2Segment2Time =" + myCO2Segment2Time + "CO2Segment3Time =" + myCO2Segment3Time + "myCO2Segment1SetPoint =" + myCO2Segment1SetPoint + "myCO2Segment2SetPoint =" + myCO2Segment2SetPoint + "myCO2Segment3SetPoint =" + myCO2Segment3SetPoint + "myO2SetPoint =" + myO2SetPoint + "myO2LowRate =" + myO2LowRate + "myO2HighRate =" + myO2HighRate + "myTotalPressureHighRate =" + myTotalPressureHighRate +  "myTotalPressureLowRate =" + myTotalPressureLowRate);
+			myOutput.println("myCO2Segment1LowRate =" + myCO2Segment1LowRate + "myCO2Segment2LowRate =" + myCO2Segment2LowRate + "myCO2Segment3LowRate =" + myCO2Segment3LowRate + "myCO2Segment3LowRate =" + myCO2Segment3LowRate + "myCO2Segment1HighRate =" + myCO2Segment1HighRate + "myCO2Segment2HighRate =" + myCO2Segment2HighRate + "myCO2Segment3HighRate =" + myCO2Segment3HighRate + "ArrivalTime =" + ArrivalTime);
+
+			} 
+				catch (FileNotFoundException e) {
+						e.printStackTrace();
+				}
+	
+		}
+	
 	public void printResults() {
 		FileOutputStream out; 
 		PrintStream myOutput; 
@@ -301,28 +320,6 @@ public class MurderController implements BiosimController {
 			out = new FileOutputStream("MurderController_result.txt", true);
 			myOutput = new PrintStream(out);
 			myOutput.println();
-			
-			myOutput.println("Crop area = "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
-			myOutput.println("CO2Segment1Time =" + myCO2Segment1Time);
-			myOutput.println("CO2Segment2Time =" + myCO2Segment2Time);
-			myOutput.println("CO2Segment3Time =" + myCO2Segment3Time);
-			myOutput.println("myCO2Segment1SetPoint =" + myCO2Segment1SetPoint);
-			myOutput.println("myCO2Segment2SetPoint =" + myCO2Segment2SetPoint);
-			myOutput.println("myCO2Segment3SetPoint =" + myCO2Segment3SetPoint);
-			myOutput.println("myCO2Segment1LowRate =" + myCO2Segment1LowRate);
-			myOutput.println("myCO2Segment2LowRate =" + myCO2Segment2LowRate);
-			myOutput.println("myCO2Segment3LowRate =" + myCO2Segment3LowRate);
-			myOutput.println("myCO2Segment1HighRate =" + myCO2Segment1HighRate);
-			myOutput.println("myCO2Segment2HighRate =" + myCO2Segment2HighRate);
-			myOutput.println("myCO2Segment3HighRate =" + myCO2Segment3HighRate);
-			myOutput.println("myO2SetPoint =" + myO2SetPoint);
-			myOutput.println("myO2LowRate =" + myO2LowRate);
-			myOutput.println("myO2HighRate =" + myO2HighRate);
-			myOutput.println("myTotalPressureLowRate =" + myTotalPressureLowRate);
-			myOutput.println("myTotalPressureHighRate =" + myTotalPressureHighRate);
-			myOutput.println("ArrivalTime =" + ArrivalTime);
-			
-		
 			myOutput.println("Ticks TotalPressure O2PP CO2PP NitrogenPP VaporPP Activity");
 			myOutput.print(myBioDriver.getTicks() + "     ");// Ticks
 			myOutput.print(myO2PressureSensor.getValue()
