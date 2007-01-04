@@ -1,5 +1,5 @@
 package com.traclabs.biosim.client.control;
-
+import java.util.Random;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -55,13 +55,14 @@ public class MurderController implements BiosimController {
 
 	private GenericActuator myO2OutActuator;
 
+	Random rGenerator = new Random(System.currentTimeMillis()%1000);
 	private int myCO2Segment1Time = 0;
 
-	private int myCO2Segment2Time = 300;
+	private int myCO2Segment2Time = (int)(100+200*rGenerator.nextDouble());
 
-	private int myCO2Segment3Time = 400;
+	private int myCO2Segment3Time = (int)(300+100*rGenerator.nextDouble());
 
-	private float myCO2Segment1SetPoint = 0.08f;
+	private float myCO2Segment1SetPoint = (float)(0.08 * rGenerator.nextDouble());
 
 	private float myCO2Segment2SetPoint = 0.08f;
 
@@ -79,7 +80,7 @@ public class MurderController implements BiosimController {
 
 	private float myCO2Segment3HighRate = 0;
 
-	private float myO2SetPoint = 26;
+	private float myO2SetPoint = 15;
 
 	private float myO2LowRate = 0;
 
@@ -96,6 +97,7 @@ public class MurderController implements BiosimController {
 	private boolean logToFile = false;
 
 	public MurderController(boolean log) {
+		System.out.println("seg1 = " + myCO2Segment2Time + "seg2 = " + myCO2Segment3Time);
 		logToFile = log;
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
@@ -108,15 +110,18 @@ public class MurderController implements BiosimController {
 			}
 		} else
 			myOutput = System.out;
-
+		
 	}
 
 	public static void main(String[] args) {
 		boolean logToFile = Boolean.parseBoolean(CommandLineUtils
 				.getOptionValueFromArgs(args, "log"));
-		MurderController myController = new MurderController(logToFile);
-		myController.collectReferences();
-		myController.runSim();
+		int max = 10;
+		for (int i = 0; i < max; i ++){
+			MurderController myController = new MurderController(logToFile);
+			myController.collectReferences();
+			myController.runSim();
+		}
 	}
 	
 
@@ -291,7 +296,7 @@ public class MurderController implements BiosimController {
 		FileOutputStream out; 
 		PrintStream myOutput; 
 		try {
-			out = new FileOutputStream("Worker_result.txt", true);
+			out = new FileOutputStream("MurderController_result.txt", true);
 			myOutput = new PrintStream(out);
 			myOutput.println();
 			myOutput.println("Crop area = "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
