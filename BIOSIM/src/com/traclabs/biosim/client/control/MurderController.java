@@ -56,48 +56,50 @@ public class MurderController implements BiosimController {
 	private GenericActuator myO2OutActuator;
 
 	Random rGenerator = new Random(System.currentTimeMillis()%1000);
-	private int myCO2Segment1Time = 0;
+	
+	private int myCO2Segment1Time = (int)(100*rGenerator.nextDouble());
 
 	private int myCO2Segment2Time = (int)(100+200*rGenerator.nextDouble());
 
 	private int myCO2Segment3Time = (int)(300+100*rGenerator.nextDouble());
+	
+	private int ArrivalTime = (int)(480*rGenerator.nextDouble());
 
-	private float myCO2Segment1SetPoint = (float)(0.08 * rGenerator.nextDouble());
+	private float myCO2Segment1SetPoint = (float)(0.01+0.09 * rGenerator.nextDouble());
 
-	private float myCO2Segment2SetPoint = 0.08f;
+	private float myCO2Segment2SetPoint = (float)(0.01+0.09 * rGenerator.nextDouble());
 
-	private float myCO2Segment3SetPoint = 0.08f;
+	private float myCO2Segment3SetPoint = (float)(0.01+0.09 * rGenerator.nextDouble());
 
-	private float myCO2Segment1LowRate = 0.8f;
+	private float myCO2Segment1LowRate = (float)(2 * rGenerator.nextDouble());
 
-	private float myCO2Segment1HighRate = 0;
+	private float myCO2Segment1HighRate = (float)(1 * rGenerator.nextDouble());
 
-	private float myCO2Segment2LowRate = 0.8f;
+	private float myCO2Segment2LowRate = (float)(2 * rGenerator.nextDouble());
 
-	private float myCO2Segment2HighRate = 0;
+	private float myCO2Segment2HighRate = (float)(1 * rGenerator.nextDouble());
 
-	private float myCO2Segment3LowRate = 0.8f;
+	private float myCO2Segment3LowRate = (float)(2 * rGenerator.nextDouble());
 
-	private float myCO2Segment3HighRate = 0;
+	private float myCO2Segment3HighRate = (float)(1 * rGenerator.nextDouble());
 
-	private float myO2SetPoint = 15;
+	private float myO2SetPoint = (float)(20 + 10 * rGenerator.nextDouble());
 
-	private float myO2LowRate = 0;
+	private float myO2LowRate = (float)(10 * rGenerator.nextDouble());
 
-	private float myO2HighRate = 100;
+	private float myO2HighRate = (float)(90 + 10 * rGenerator.nextDouble());
 
 	private float myTotalPressureSetPoint = 101;
 
-	private float myTotalPressureLowRate = 1;
+	private float myTotalPressureLowRate = (float)(2 * rGenerator.nextDouble());
 
-	private float myTotalPressureHighRate = 1;
+	private float myTotalPressureHighRate = (float)(2 * rGenerator.nextDouble());
 
 	private PrintStream myOutput;
 	
 	private boolean logToFile = false;
 
 	public MurderController(boolean log) {
-		System.out.println("seg1 = " + myCO2Segment2Time + "seg2 = " + myCO2Segment3Time);
 		logToFile = log;
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
@@ -299,7 +301,28 @@ public class MurderController implements BiosimController {
 			out = new FileOutputStream("MurderController_result.txt", true);
 			myOutput = new PrintStream(out);
 			myOutput.println();
+			
 			myOutput.println("Crop area = "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
+			myOutput.println("CO2Segment1Time =" + myCO2Segment1Time);
+			myOutput.println("CO2Segment2Time =" + myCO2Segment2Time);
+			myOutput.println("CO2Segment3Time =" + myCO2Segment3Time);
+			myOutput.println("myCO2Segment1SetPoint =" + myCO2Segment1SetPoint);
+			myOutput.println("myCO2Segment2SetPoint =" + myCO2Segment2SetPoint);
+			myOutput.println("myCO2Segment3SetPoint =" + myCO2Segment3SetPoint);
+			myOutput.println("myCO2Segment1LowRate =" + myCO2Segment1LowRate);
+			myOutput.println("myCO2Segment2LowRate =" + myCO2Segment2LowRate);
+			myOutput.println("myCO2Segment3LowRate =" + myCO2Segment3LowRate);
+			myOutput.println("myCO2Segment1HighRate =" + myCO2Segment1HighRate);
+			myOutput.println("myCO2Segment2HighRate =" + myCO2Segment2HighRate);
+			myOutput.println("myCO2Segment3HighRate =" + myCO2Segment3HighRate);
+			myOutput.println("myO2SetPoint =" + myO2SetPoint);
+			myOutput.println("myO2LowRate =" + myO2LowRate);
+			myOutput.println("myO2HighRate =" + myO2HighRate);
+			myOutput.println("myTotalPressureLowRate =" + myTotalPressureLowRate);
+			myOutput.println("myTotalPressureHighRate =" + myTotalPressureHighRate);
+			myOutput.println("ArrivalTime =" + ArrivalTime);
+			
+		
 			myOutput.println("Ticks TotalPressure O2PP CO2PP NitrogenPP VaporPP Activity");
 			myOutput.print(myBioDriver.getTicks() + "     ");// Ticks
 			myOutput.print(myO2PressureSensor.getValue()
@@ -315,7 +338,7 @@ public class MurderController implements BiosimController {
 			myOutput.print(myCrewPerson.getCurrentActivity().getName() + "       ");
 			myOutput.print(myBioHolder.theBiomassPSModules.get(0).getShelf(0)
 					.getPlant().getMolesOfCO2Inhaled());
-			if (myBioDriver.getTicks() > 480) {
+			if (myBioDriver.getTicks() > ArrivalTime ) {
 				myOutput.print("      " + myCrewPerson.getCO2Produced());
 			}
 			myOutput.println();
