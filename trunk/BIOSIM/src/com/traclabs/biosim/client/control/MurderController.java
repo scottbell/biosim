@@ -98,11 +98,18 @@ public class MurderController implements BiosimController {
 	private PrintStream myOutput;
 	
 	private boolean logToFile = false;
-
+	FileOutputStream out; 
+	
 	public MurderController(boolean log) {
 		logToFile = log;
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
+		try{
+			out = new FileOutputStream("Configuration.txt", true);		
+		}catch (Exception e){
+			System.out.println("Can't open Configuration.txt.");
+		}
+
 		if (logToFile) {
 			try {
 				myOutput = new PrintStream(new FileOutputStream(LOG_FILE, true));
@@ -297,24 +304,16 @@ public class MurderController implements BiosimController {
 	}
 
 	public void printConfigurations() {
-		FileOutputStream out; 
-		PrintStream myOutput; 
-		try {
-			out = new FileOutputStream("Configuration.txt", true);
-			myOutput = new PrintStream(out);
-			myOutput.println();
-		
-			myOutput.println("Crop area = "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
-			myOutput.println("CO2Segment1Time =" + myCO2Segment1Time +"CO2Segment2Time =" + myCO2Segment2Time + "CO2Segment3Time =" + myCO2Segment3Time + "myCO2Segment1SetPoint =" + myCO2Segment1SetPoint + "myCO2Segment2SetPoint =" + myCO2Segment2SetPoint + "myCO2Segment3SetPoint =" + myCO2Segment3SetPoint + "myO2SetPoint =" + myO2SetPoint + "myO2LowRate =" + myO2LowRate + "myO2HighRate =" + myO2HighRate + "myTotalPressureHighRate =" + myTotalPressureHighRate +  "myTotalPressureLowRate =" + myTotalPressureLowRate);
-			myOutput.println("myCO2Segment1LowRate =" + myCO2Segment1LowRate + "myCO2Segment2LowRate =" + myCO2Segment2LowRate + "myCO2Segment3LowRate =" + myCO2Segment3LowRate + "myCO2Segment3LowRate =" + myCO2Segment3LowRate + "myCO2Segment1HighRate =" + myCO2Segment1HighRate + "myCO2Segment2HighRate =" + myCO2Segment2HighRate + "myCO2Segment3HighRate =" + myCO2Segment3HighRate + "ArrivalTime =" + ArrivalTime);
-			myOutput.println();
-			myOutput.println("Controller ended on tick " + myBioDriver.getTicks());
 
-			} 
-				catch (FileNotFoundException e) {
-						e.printStackTrace();
-				}
+		PrintStream myOutput; 
+		myOutput = new PrintStream(out);
+		myOutput.println();
 	
+		myOutput.println("Crop area = "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
+		myOutput.println("CO2Segment1Time =" + myCO2Segment1Time +"CO2Segment2Time =" + myCO2Segment2Time + "CO2Segment3Time =" + myCO2Segment3Time + "myCO2Segment1SetPoint =" + myCO2Segment1SetPoint + "myCO2Segment2SetPoint =" + myCO2Segment2SetPoint + "myCO2Segment3SetPoint =" + myCO2Segment3SetPoint + "myO2SetPoint =" + myO2SetPoint + "myO2LowRate =" + myO2LowRate + "myO2HighRate =" + myO2HighRate + "myTotalPressureHighRate =" + myTotalPressureHighRate +  "myTotalPressureLowRate =" + myTotalPressureLowRate);
+		myOutput.println("myCO2Segment1LowRate =" + myCO2Segment1LowRate + "myCO2Segment2LowRate =" + myCO2Segment2LowRate + "myCO2Segment3LowRate =" + myCO2Segment3LowRate + "myCO2Segment3LowRate =" + myCO2Segment3LowRate + "myCO2Segment1HighRate =" + myCO2Segment1HighRate + "myCO2Segment2HighRate =" + myCO2Segment2HighRate + "myCO2Segment3HighRate =" + myCO2Segment3HighRate + "ArrivalTime =" + ArrivalTime);
+		myOutput.println();
+		myOutput.println("Controller ended on tick " + myBioDriver.getTicks());
 		}
 	
 	public void printResults() {
