@@ -17,6 +17,7 @@ import com.traclabs.biosim.idl.simulation.framework.Accumulator;
 import com.traclabs.biosim.idl.simulation.framework.Injector;
 import com.traclabs.biosim.util.CommandLineUtils;
 import com.traclabs.biosim.util.OrbUtils;
+import com.traclabs.biosim.server.simulation.food.*;
 
 /**
  * A controller to end and change the simulation based on gas composition.
@@ -95,6 +96,8 @@ public class MurderController implements BiosimController {
 
 	private float myTotalPressureHighRate = (float)(2 * rGenerator.nextDouble());
 
+	private float myCropArea = (float)(300 * rGenerator.nextDouble());
+	
 	private PrintStream myOutput;
 	
 	private boolean logToFile = false;
@@ -125,7 +128,7 @@ public class MurderController implements BiosimController {
 	public static void main(String[] args) {
 		boolean logToFile = Boolean.parseBoolean(CommandLineUtils
 				.getOptionValueFromArgs(args, "log"));
-		int max = 10;
+		int max = 1500;
 		for (int i = 0; i < max; i ++){
 			MurderController myController = new MurderController(logToFile);
 			myController.collectReferences();
@@ -146,7 +149,10 @@ public class MurderController implements BiosimController {
 		myBioDriver = myBioHolder.theBioDriver;
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
-
+		
+		//this changes the crop area ONLY, before the first ticks
+		myBioHolder.theBiomassPSModules.get(0).getShelf(0).replant((myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropType()),myCropArea);
+		
 		Injector NitrogenInjector = myBioHolder.theInjectors.get(0);
 		Injector CO2Injector = myBioHolder.theInjectors.get(1);
 		Accumulator AirAccumulator = myBioHolder.theAccumulators.get(0);
@@ -207,7 +213,7 @@ public class MurderController implements BiosimController {
 				myBioHolder.theCrewGroups.get(0).killCrew();
 			manipulateSim();
 			myBioDriver.advanceOneTick();
-			printResults();
+			//printResults();
 
 		} while (!myBioDriver.isDone());
 		printConfigurations();		
@@ -309,11 +315,9 @@ public class MurderController implements BiosimController {
 		myOutput = new PrintStream(out);
 		myOutput.println();
 	
-		myOutput.println("Crop area = "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
-		myOutput.println("CO2Segment1Time =" + myCO2Segment1Time +"CO2Segment2Time =" + myCO2Segment2Time + "CO2Segment3Time =" + myCO2Segment3Time + "myCO2Segment1SetPoint =" + myCO2Segment1SetPoint + "myCO2Segment2SetPoint =" + myCO2Segment2SetPoint + "myCO2Segment3SetPoint =" + myCO2Segment3SetPoint + "myO2SetPoint =" + myO2SetPoint + "myO2LowRate =" + myO2LowRate + "myO2HighRate =" + myO2HighRate + "myTotalPressureHighRate =" + myTotalPressureHighRate +  "myTotalPressureLowRate =" + myTotalPressureLowRate);
-		myOutput.println("myCO2Segment1LowRate =" + myCO2Segment1LowRate + "myCO2Segment2LowRate =" + myCO2Segment2LowRate + "myCO2Segment3LowRate =" + myCO2Segment3LowRate + "myCO2Segment3LowRate =" + myCO2Segment3LowRate + "myCO2Segment1HighRate =" + myCO2Segment1HighRate + "myCO2Segment2HighRate =" + myCO2Segment2HighRate + "myCO2Segment3HighRate =" + myCO2Segment3HighRate + "ArrivalTime =" + ArrivalTime);
-		myOutput.println();
+		myOutput.println("Crop area = "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed() +" "+ "CO2Segment1Time =" + myCO2Segment1Time +" "+"CO2Segment2Time =" + myCO2Segment2Time +" "+ "CO2Segment3Time =" + myCO2Segment3Time + " "+ "myCO2Segment1SetPoint =" + myCO2Segment1SetPoint +" "+ "myCO2Segment2SetPoint =" + myCO2Segment2SetPoint +" "+ "myCO2Segment3SetPoint =" + myCO2Segment3SetPoint +" "+ "myO2SetPoint =" + myO2SetPoint +" "+ "myO2LowRate =" + myO2LowRate +" "+ "myO2HighRate =" + myO2HighRate+" " + "myTotalPressureHighRate =" + myTotalPressureHighRate +" "+  "myTotalPressureLowRate =" + myTotalPressureLowRate+" "+ "myCO2Segment1LowRate =" + myCO2Segment1LowRate +" "+ "myCO2Segment2LowRate =" + myCO2Segment2LowRate +" "+ "myCO2Segment3LowRate =" + myCO2Segment3LowRate +" "+ "myCO2Segment3LowRate =" + myCO2Segment3LowRate+" " + "myCO2Segment1HighRate =" + myCO2Segment1HighRate +" "+ "myCO2Segment2HighRate =" + myCO2Segment2HighRate +" "+ "myCO2Segment3HighRate =" + myCO2Segment3HighRate +" "+ "ArrivalTime =" + ArrivalTime);
 		myOutput.println("Controller ended on tick " + myBioDriver.getTicks());
+		myOutput.println();
 		}
 	
 	public void printResults() {
