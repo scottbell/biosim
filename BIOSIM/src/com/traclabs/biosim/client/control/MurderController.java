@@ -196,7 +196,7 @@ public class MurderController implements BiosimController {
 	}
 
 	/**
-	 * Main loop of controller. Pauses the simulation, then ticks it one tick at
+	 * Main loop of controller. Pauses the simulation, then ticks it one tick CO2InInjectorat
 	 * a time until end condition is met.
 	 */
 	public void runSim() {
@@ -207,12 +207,13 @@ public class MurderController implements BiosimController {
 		myLogger.info("Controller starting run");
 		
 		do {
+			myBioDriver.advanceOneTick();
 			if(cropsShouldDie())
 				myBioHolder.theBiomassPSModules.get(0).killPlants();
 			if(crewShouldDie())
 				myBioHolder.theCrewGroups.get(0).killCrew();
 			manipulateSim();
-			myBioDriver.advanceOneTick();
+			
 			//printResults();
 
 		} while (!myBioDriver.isDone());
@@ -223,17 +224,21 @@ public class MurderController implements BiosimController {
 	}
 
 	private boolean crewShouldDie() {
-		if (myO2PressureSensor.getValue() < 10.13){
-			myLogger.info("killing crew for low oxygen: "+myO2PressureSensor.getValue());
-			return true;
-		}
-		else if(myO2PressureSensor.getValue() > 30.39){
-			myLogger.info("killing crew for high oxygen: "+myO2PressureSensor.getValue());
-			return true;
-		}
-		else if(myCO2PressureSensor.getValue() > 1) {
+		if(myBioDriver.getTicks() > myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil").getArrivalTick()){
+			if (myO2PressureSensor.getValue() < 10.13){
+				myLogger.info("killing crew for low oxygen: "+myO2PressureSensor.getValue());
+				return true;
+			}
+			else if(myO2PressureSensor.getValue() > 30.39){
+				myLogger.info("killing crew for high oxygen: "+myO2PressureSensor.getValue());
+				return true;
+			}
+			else if(myCO2PressureSensor.getValue() > 1) {
 				myLogger.info("killing crew for high CO2: "+myO2PressureSensor.getValue());
-			return true;
+				return true;
+			}
+			else
+				return false;
 		}
 		else
 			return false;
@@ -290,7 +295,7 @@ public class MurderController implements BiosimController {
 
 	private float getTotalPressure() {
 		return myO2PressureSensor.getValue() + myCO2PressureSensor.getValue()
-		+ myNitrogenPressureSensor.getValue() + myVaporPressureSensor
+		+ myNitrogenPressureSensor.getValue() + myVaporPressureSensorCO2InInjector
 		.getValue();
 	}
 
