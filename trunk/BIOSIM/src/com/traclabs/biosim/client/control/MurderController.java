@@ -224,7 +224,6 @@ public class MurderController implements BiosimController {
 	}
 
 	private boolean crewShouldDie() {
-		if(myBioDriver.getTicks() > myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil").getArrivalTick()){
 			if (myO2PressureSensor.getValue() < 10.13){
 				myLogger.info("killing crew for low oxygen: "+myO2PressureSensor.getValue());
 				return true;
@@ -239,9 +238,7 @@ public class MurderController implements BiosimController {
 			}
 			else
 				return false;
-		}
-		else
-			return false;
+		
 	}
 
 	private boolean cropsShouldDie() {
