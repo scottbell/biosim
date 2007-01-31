@@ -292,7 +292,7 @@ public class MurderController implements BiosimController {
 
 	private float getTotalPressure() {
 		return myO2PressureSensor.getValue() + myCO2PressureSensor.getValue()
-		+ myNitrogenPressureSensor.getValue() + myVaporPressureSensorCO2InInjector
+		+ myNitrogenPressureSensor.getValue() + myVaporPressureSensor
 		.getValue();
 	}
 
