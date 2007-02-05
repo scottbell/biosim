@@ -13,11 +13,12 @@ import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
 import com.traclabs.biosim.idl.simulation.crew.CrewPerson;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.food.PlantType;
 import com.traclabs.biosim.idl.simulation.framework.Accumulator;
 import com.traclabs.biosim.idl.simulation.framework.Injector;
 import com.traclabs.biosim.util.CommandLineUtils;
 import com.traclabs.biosim.util.OrbUtils;
-import com.traclabs.biosim.server.simulation.food.*;
+
 
 /**
  * A controller to end and change the simulation based on gas composition.
@@ -98,6 +99,10 @@ public class MurderController implements BiosimController {
 
 	private float myCropArea = (float)(300 * rGenerator.nextDouble());
 	
+	private int numberFromMonteCarlo = (int)(Math.random() * 9);
+	
+	private PlantType plantType = PlantType.from_int(numberFromMonteCarlo);
+
 	private PrintStream myOutput;
 	
 	private boolean logToFile = false;
@@ -151,7 +156,7 @@ public class MurderController implements BiosimController {
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
 		
 		//this changes the crop area ONLY, before the first ticks
-		myBioHolder.theBiomassPSModules.get(0).getShelf(0).replant((myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropType()),myCropArea);
+		myBioHolder.theBiomassPSModules.get(0).getShelf(0).replant(plantType, myCropArea);
 		
 		Injector NitrogenInjector = myBioHolder.theInjectors.get(0);
 		Injector CO2Injector = myBioHolder.theInjectors.get(1);
@@ -354,7 +359,8 @@ public class MurderController implements BiosimController {
 					e.printStackTrace();
 		}
 	} 
-
+		
+	
 	public void setCO2InActuator(GenericActuator myCO2InActuator) {
 		this.myCO2InActuator = myCO2InActuator;
 	}
