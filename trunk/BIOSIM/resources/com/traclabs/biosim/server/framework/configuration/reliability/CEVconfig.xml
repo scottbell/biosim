@@ -23,7 +23,7 @@
                 <H2Producer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="H2Store"/>
             </OGS>
             <H2Store capacity="100000.0" level="100000.0" moduleName="H2Store">
-            	<expFailureDecider lambda="0.0714" ></expFailureDecider></H2Store>
+            	<expFailureDecider lambda="0.0033" ></expFailureDecider></H2Store>
         </air>
         <crew>
 			<CrewGroup moduleName="CrewGroup">
@@ -31,7 +31,7 @@
 				<potableWaterConsumer desiredFlowRates="1000.0"
 					inputs="PotableWaterStore" maxFlowRates="1000.0"/>
 				<airConsumer desiredFlowRates="1000.0" inputs="SimEnvironment"
-					maxFlowRates="1000.0"/>
+					maxFlowRates="1000.0"></airConsumer>
 				<foodConsumer desiredFlowRates="1000.0" inputs="FoodStore"
 					maxFlowRates="1000.0"></foodConsumer>
 				<dirtyWaterProducer desiredFlowRates="1000.0"
@@ -83,6 +83,7 @@
             <PotableWaterStore capacity="1.0E7" level="1.0E7" moduleName="PotableWaterStore">
             	<expFailureDecider lambda="0.0033" /></PotableWaterStore>
             <WaterRS moduleName="WaterRS">
+				<normalFailureDecider logmean="450" logsd="5" />
 				<powerConsumer desiredFlowRates="1000" maxFlowRates="1000" inputs="PowerStore"/>
                 <dirtyWaterConsumer desiredFlowRates="1000.0" inputs="DirtyWaterStore" maxFlowRates="1000.0"/>
                 <greyWaterConsumer desiredFlowRates="1000.0" inputs="GreyWaterStore" maxFlowRates="1000.0"/>
