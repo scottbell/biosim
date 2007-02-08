@@ -95,10 +95,10 @@ public abstract class PlantImpl extends PlantPOA {
 
     private SimpleBuffer consumedLightBuffer;
 
-    protected float[] canopyClosureConstants = new float[25];;
+    protected float[] canopyClosureConstants = new float[25];
 
-    protected float[] canopyQYConstants = new float[25];;
-
+    protected float[] canopyQYConstants = new float[25];
+    
     private float myPPFFractionAbsorbed = 0f;
 
     private List<Float> myCanopyClosurePPFValues;
