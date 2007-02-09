@@ -1,8 +1,8 @@
 package com.traclabs.biosim.client.control;
-import java.util.Random;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.Random;
 
 import org.apache.log4j.Logger;
 
@@ -13,7 +13,6 @@ import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
 import com.traclabs.biosim.idl.simulation.crew.CrewPerson;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.idl.simulation.food.PlantType;
 import com.traclabs.biosim.idl.simulation.framework.Accumulator;
 import com.traclabs.biosim.idl.simulation.framework.Injector;
 import com.traclabs.biosim.util.CommandLineUtils;
