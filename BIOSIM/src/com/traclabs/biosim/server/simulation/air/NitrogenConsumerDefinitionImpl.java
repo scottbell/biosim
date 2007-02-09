@@ -4,6 +4,7 @@ import com.traclabs.biosim.idl.simulation.air.NitrogenConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.air.NitrogenConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.air.NitrogenConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStore;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
 import com.traclabs.biosim.util.OrbUtils;
 
@@ -16,7 +17,8 @@ public class NitrogenConsumerDefinitionImpl extends
         NitrogenConsumerDefinitionOperations {
     private NitrogenConsumerDefinition myNitrogenConsumerDefinition;
 
-    public NitrogenConsumerDefinitionImpl() {
+    public NitrogenConsumerDefinitionImpl(BioModuleImpl pModule) {
+super(pModule);
 
     	NitrogenConsumerDefinitionPOATie tie = new NitrogenConsumerDefinitionPOATie(this);
     	myNitrogenConsumerDefinition = tie._this(OrbUtils.getORB());

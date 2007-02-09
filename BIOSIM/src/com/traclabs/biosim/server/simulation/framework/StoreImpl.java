@@ -256,12 +256,12 @@ public class StoreImpl extends PassiveModuleImpl implements
         float acutallyAdded = 0f;
         if ((amountRequested + currentLevel) > currentCapacity) {
             //adding more than currentCapacity
-            acutallyAdded = randomFilter(currentCapacity - currentLevel);
+            acutallyAdded = currentCapacity - currentLevel;
             currentLevel += acutallyAdded;
             overflow += (amountRequested - acutallyAdded);
             return acutallyAdded;
         }
-		acutallyAdded = randomFilter(amountRequested);
+		acutallyAdded = amountRequested;
 		currentLevel += acutallyAdded;
 		return acutallyAdded;
     }

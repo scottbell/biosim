@@ -10,6 +10,7 @@ import com.traclabs.biosim.idl.simulation.food.FoodConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.food.FoodMatter;
 import com.traclabs.biosim.idl.simulation.food.FoodStore;
 import com.traclabs.biosim.idl.simulation.food.FoodStoreHelper;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
 import com.traclabs.biosim.util.OrbUtils;
 
@@ -21,7 +22,8 @@ public class FoodConsumerDefinitionImpl extends StoreFlowRateControllableImpl
         implements FoodConsumerDefinitionOperations {
     private FoodConsumerDefinition myFoodConsumerDefinition;
 
-    public FoodConsumerDefinitionImpl() {
+    public FoodConsumerDefinitionImpl(BioModuleImpl pModule) {
+super(pModule);
     	FoodConsumerDefinitionPOATie tie = new FoodConsumerDefinitionPOATie(this);
     	myFoodConsumerDefinition = tie._this(OrbUtils.getORB());
     	

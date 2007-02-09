@@ -14,7 +14,7 @@ public class GenericPowerConsumerImpl extends SimBioModuleImpl implements PowerC
 
 	public GenericPowerConsumerImpl(int pID, String pName) {
 		super(pID, pName);
-        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
+        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
 	}
 	
 	public void tick() {

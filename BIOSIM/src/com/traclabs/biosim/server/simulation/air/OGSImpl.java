@@ -46,10 +46,10 @@ public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
 
     public OGSImpl(int pID, String pName) {
         super(pID, pName);
-        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
-        myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl();
-        myO2ProducerDefinitionImpl = new O2ProducerDefinitionImpl();
-        myH2ProducerDefinitionImpl = new H2ProducerDefinitionImpl();
+        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
+        myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl(this);
+        myO2ProducerDefinitionImpl = new O2ProducerDefinitionImpl(this);
+        myH2ProducerDefinitionImpl = new H2ProducerDefinitionImpl(this);
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
@@ -108,11 +108,11 @@ public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
         float molesOfWater = (currentH2OConsumed * 1000f) / 18.01524f; //1000g/liter,
         // 18.01524g/mole
         float molesOfReactant = molesOfWater / 2f;
-        currentO2Produced = randomFilter(molesOfReactant) * myProductionRate;
-        currentH2Produced = randomFilter(molesOfReactant * 2f)
+        currentO2Produced = molesOfReactant * myProductionRate;
+        currentH2Produced = molesOfReactant * 2f
                 * myProductionRate;
-        float O2ToDistrubute = randomFilter(currentO2Produced);
-        float H2ToDistrubute = randomFilter(currentH2Produced);
+        float O2ToDistrubute = currentO2Produced;
+        float H2ToDistrubute = currentH2Produced;
         myO2ProducerDefinitionImpl
                 .pushResourceToStores(O2ToDistrubute);
         myLogger.debug("O2ToDistrubute = " + O2ToDistrubute);

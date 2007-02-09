@@ -5,6 +5,7 @@ import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
@@ -16,8 +17,8 @@ public class AirProducerDefinitionImpl extends
         AirProducerDefinitionOperations {
     private AirProducerDefinition myAirProducerDefinition;
 
-    public AirProducerDefinitionImpl() {
-
+    public AirProducerDefinitionImpl(BioModuleImpl pModule) {
+    	super(pModule);
     	AirProducerDefinitionPOATie tie = new AirProducerDefinitionPOATie(this);
     	myAirProducerDefinition = tie._this(OrbUtils.getORB());
     }
@@ -38,11 +39,11 @@ public class AirProducerDefinitionImpl extends
 			return;
 		float actualFlowrateToEnvironment = 0f;
 		SimEnvironment environment = getEnvironments()[indexOfEnvironment];
-		actualFlowrateToEnvironment += environment.getO2Store().add(airToPush.o2Moles);
-		actualFlowrateToEnvironment += environment.getCO2Store().add(airToPush.co2Moles);
-		actualFlowrateToEnvironment += environment.getOtherStore().add(airToPush.otherMoles);
-		actualFlowrateToEnvironment += environment.getVaporStore().add(airToPush.vaporMoles);
-		actualFlowrateToEnvironment += environment.getNitrogenStore().add(airToPush.nitrogenMoles);
+		actualFlowrateToEnvironment += environment.getO2Store().add(randomFilter(airToPush.o2Moles));
+		actualFlowrateToEnvironment += environment.getCO2Store().add(randomFilter(airToPush.co2Moles));
+		actualFlowrateToEnvironment += environment.getOtherStore().add(randomFilter(airToPush.otherMoles));
+		actualFlowrateToEnvironment += environment.getVaporStore().add(randomFilter(airToPush.vaporMoles));
+		actualFlowrateToEnvironment += environment.getNitrogenStore().add(randomFilter(airToPush.nitrogenMoles));
 		setActualFlowRate(actualFlowrateToEnvironment, indexOfEnvironment);
 	}
 	

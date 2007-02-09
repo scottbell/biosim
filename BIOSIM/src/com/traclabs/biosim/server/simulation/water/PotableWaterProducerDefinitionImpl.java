@@ -4,6 +4,7 @@ import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerDefinition;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
 import com.traclabs.biosim.util.OrbUtils;
 
@@ -16,9 +17,8 @@ public class PotableWaterProducerDefinitionImpl extends
         PotableWaterProducerDefinitionOperations {
     private PotableWaterProducerDefinition myPotableWaterProducerDefinition;
 
-    public PotableWaterProducerDefinitionImpl() {
-
-    	PotableWaterProducerDefinitionPOATie tie = new PotableWaterProducerDefinitionPOATie(this);
+    public PotableWaterProducerDefinitionImpl(BioModuleImpl pModule) {
+     super(pModule);    	PotableWaterProducerDefinitionPOATie tie = new PotableWaterProducerDefinitionPOATie(this);
     	myPotableWaterProducerDefinition = tie._this(OrbUtils.getORB());
     }
 

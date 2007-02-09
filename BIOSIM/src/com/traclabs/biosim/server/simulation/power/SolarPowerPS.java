@@ -22,10 +22,10 @@ public class SolarPowerPS extends PowerPSImpl {
             float powerGenerated = getTickLength() * getCurrentUpperPowerGeneration()
                     * (lightInput.getLightIntensity() / lightInput
                             .getMaxLumens());
-            return randomFilter(powerGenerated);
+            return powerGenerated;
         }
 		myLogger.error("SolarPowerPS: no light input!");
-		return randomFilter(0);
+		return 0;
     }
 
 }

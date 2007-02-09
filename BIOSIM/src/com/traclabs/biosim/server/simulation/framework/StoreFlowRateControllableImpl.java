@@ -5,6 +5,7 @@ import java.util.Arrays;
 import com.traclabs.biosim.idl.simulation.framework.Store;
 import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllable;
 import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOperations;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
 
 /**
  * @author Scott Bell
@@ -16,7 +17,8 @@ public abstract class StoreFlowRateControllableImpl extends
     private Store[] myStores = new Store[0];
     private Store[] myInitialStores = new Store[0];
     
-    public StoreFlowRateControllableImpl(){
+    public StoreFlowRateControllableImpl(BioModuleImpl pModule){
+    	super(pModule);
         myStores = new Store[0];
     }
     
@@ -65,6 +67,7 @@ public abstract class StoreFlowRateControllableImpl extends
         for (int i = 0; i < getStores().length; i++) {
             float amountToTake = Math.min(getMaxFlowRate(i),
                     getDesiredFlowRate(i));
+            amountToTake = randomFilter(amountToTake);
             getActualFlowRates()[i] = getStores()[i].take(amountToTake);
             gatheredResource += getActualFlowRate(i);
         }
@@ -85,6 +88,7 @@ public abstract class StoreFlowRateControllableImpl extends
         	return 0f;
         float gatheredResource = 0f;
         float amountToTake = Math.min(getMaxFlowRate(indexOfStore), getDesiredFlowRate(indexOfStore));
+        amountToTake = randomFilter(amountToTake);
         getActualFlowRates()[indexOfStore] = getStores()[indexOfStore].take(amountToTake);
         gatheredResource += getActualFlowRate(indexOfStore);
         return gatheredResource;
@@ -112,6 +116,7 @@ public abstract class StoreFlowRateControllableImpl extends
                     getMaxFlowRate(i));
             float resourceToGatherFinal = Math.min(resourceToGatherFirst,
                     getDesiredFlowRate(i));
+            resourceToGatherFinal = randomFilter(resourceToGatherFinal);
             getActualFlowRates()[i] = getStores()[i]
                     .take(resourceToGatherFinal);
             gatheredResource += getActualFlowRate(i);
@@ -144,6 +149,7 @@ public abstract class StoreFlowRateControllableImpl extends
                     getMaxFlowRate(i) * fraction);
             float resourceToGatherFinal = Math.min(resourceToGatherFirst,
                     getDesiredFlowRate(i) * fraction);
+            resourceToGatherFinal = randomFilter(resourceToGatherFinal);
             float grabbed = getStores()[i].take(resourceToGatherFinal);
             getActualFlowRates()[i] += grabbed;
             gatheredResource += grabbed;
@@ -153,6 +159,7 @@ public abstract class StoreFlowRateControllableImpl extends
 
     /**
      * Attempts to grab a specified amount from a collection of stores
+     * @param myBioModuleImpl 
      * 
      * @param pDefinition
      *            The defintion to grab the resources from
@@ -164,7 +171,7 @@ public abstract class StoreFlowRateControllableImpl extends
      *         the amount needed if sucessful)
      */
     public static float getFractionalResourceFromStores(
-            StoreFlowRateControllable pDefinition, float amountNeeded,
+            BioModuleImpl myBioModuleImpl, StoreFlowRateControllable pDefinition, float amountNeeded,
             float fraction) {
         if (pDefinition.getStores() == null)
             return 0f;
@@ -180,6 +187,7 @@ public abstract class StoreFlowRateControllableImpl extends
                     * fraction);
             float resourceToGatherFinal = Math.min(resourceToGatherFirst,
                     pDefinition.getDesiredFlowRate(i) * fraction);
+            resourceToGatherFinal = myBioModuleImpl.randomFilter(resourceToGatherFinal);
             float grabbed = pDefinition.getStores()[i]
                     .take(resourceToGatherFinal);
             pDefinition.getActualFlowRates()[i] += grabbed;
@@ -200,7 +208,7 @@ public abstract class StoreFlowRateControllableImpl extends
      * @return The total amount of resource pushed to the stores (equal to the
      *         amount to push if sucessful)
      */
-    public static float pushFractionalResourceToStores(
+    public float pushFractionalResourceToStores(
             StoreFlowRateControllable pDefinition, float amountToPush,
             float fraction) {
         if (pDefinition.getStores() == null)

@@ -160,7 +160,7 @@ public class BiomassStoreImpl extends StoreImpl implements
                     + " with currentLevel @ " + currentLevel);
             return acutallyAdded;
         }
-		acutallyAdded = randomFilter(pMatter.mass);
+		acutallyAdded = pMatter.mass;
 		currentLevel += acutallyAdded;
 		currentBiomassItems.add(pMatter);
 		myLogger.debug("added = " + pMatter.mass + "with currentLevel @ "

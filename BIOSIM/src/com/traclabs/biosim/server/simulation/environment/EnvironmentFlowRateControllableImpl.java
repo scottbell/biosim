@@ -2,6 +2,7 @@ package com.traclabs.biosim.server.simulation.environment;
 
 import com.traclabs.biosim.idl.simulation.environment.EnvironmentFlowRateControllableOperations;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.SingleFlowRateControllableImpl;
 
 /**
@@ -14,7 +15,8 @@ public abstract class EnvironmentFlowRateControllableImpl extends
     private SimEnvironment[] mySimEnvironments = new SimEnvironment[0];
     private SimEnvironment[] myInitialSimEnvironments = new SimEnvironment[0];
     
-    public EnvironmentFlowRateControllableImpl(){
+    public EnvironmentFlowRateControllableImpl(BioModuleImpl pModule){
+    	super(pModule);
     }
 
     public SimEnvironment[] getEnvironments() {

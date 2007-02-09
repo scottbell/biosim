@@ -4,6 +4,7 @@ import com.traclabs.biosim.idl.simulation.air.NitrogenProducerDefinition;
 import com.traclabs.biosim.idl.simulation.air.NitrogenProducerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.air.NitrogenProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStore;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
 import com.traclabs.biosim.util.OrbUtils;
 
@@ -16,9 +17,8 @@ public class NitrogenProducerDefinitionImpl extends
         NitrogenProducerDefinitionOperations {
     private NitrogenProducerDefinition myNitrogenProducerDefinition;
 
-    public NitrogenProducerDefinitionImpl() {
-
-    	NitrogenProducerDefinitionPOATie tie = new NitrogenProducerDefinitionPOATie(this);
+    public NitrogenProducerDefinitionImpl(BioModuleImpl pModule) {
+     super(pModule);    	NitrogenProducerDefinitionPOATie tie = new NitrogenProducerDefinitionPOATie(this);
     	myNitrogenProducerDefinition = tie._this(OrbUtils.getORB());
     }
 
