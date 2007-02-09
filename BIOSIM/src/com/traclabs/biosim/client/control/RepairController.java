@@ -8,9 +8,13 @@ import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
 import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
+import com.traclabs.biosim.idl.simulation.crew.CrewPerson;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.framework.Accumulator;
+import com.traclabs.biosim.idl.simulation.framework.Injector;
 import com.traclabs.biosim.util.CommandLineUtils;
 import com.traclabs.biosim.util.OrbUtils;
 
@@ -25,15 +29,15 @@ To compile:
 
 To run: (assuming BIOSIM_HOME/bin is in your path)
 1)type "run-nameserver"
-2)type "run-server -xml=test/SimpleControllerInit.xml"
-3)type "java -classpath $BIOSIM_HOME/lib/xerces/xercesImpl.jar:$BIOSIM_HOME/lib/log4j/log4j.jar:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb/logkit.jar:$BIOSIM_HOME/lib/jacorb/avalon-framework.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/build:$BIOSIM_HOME/resources -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton -DORBInitRef.NameService=file:$BIOSIM_HOME/tmp/ns/ior.txt com.traclabs.biosim.client.control.SimpleController"
+2)type "run-server -xml=test/CEVConfig.xml"
+3)type "java -classpath $BIOSIM_HOME/lib/xerces/xercesImpl.jar:$BIOSIM_HOME/lib/log4j/log4j.jar:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb/logkit.jar:$BIOSIM_HOME/lib/jacorb/avalon-framework.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/build:$BIOSIM_HOME/resources -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton -DORBInitRef.NameService=file:$BIOSIM_HOME/tmp/ns/ior.txt com.traclabs.biosim.client.control.RepairController"
 
 */
 
 
 public class RepairController implements BiosimController {
 	
-	private static String CONFIGURATION_FILE = "/BIOSIM/resources/com/traclabs/biosim/server/framework/configuration/reliability/config.xml";
+	private static String CONFIGURATION_FILE = "/BIOSIM/resources/com/traclabs/biosim/server/framework/configuration/reliability/CEVconfig.xml";
 
 	private static final String LOG_FILE = "/home/RepairController/RepairControllerResults.txt";
 	
@@ -42,6 +46,8 @@ public class RepairController implements BiosimController {
 	private BioHolder myBioHolder;
 
 	private Logger myLogger;
+	
+	private CrewPerson myCrewPerson;
 	
 	private SimEnvironment crewEnvironment;
 
@@ -57,29 +63,37 @@ public class RepairController implements BiosimController {
 
 	private GenericSensor myTimeTillCanopyClosureSensor;
 	
-	PrintStream output;
+	private boolean logToFile = false;
+	FileOutputStream out;
+	private PrintStream myOutput;
 	
-	public RepairController(boolean logToFile) {
+	
+	public RepairController(boolean log) {
+		logToFile = log;
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
 		collectReferences();
-		if (logToFile){
-		try {
-			output = new PrintStream(new FileOutputStream(LOG_FILE, true));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		try{
+			out = new FileOutputStream("Configuration.txt", true);		
+		}catch (Exception e){
+			System.out.println("Can't open Configuration.txt.");
 		}
-		}
-		else
-			output = System.out;
 
+		if (logToFile) {
+			try {
+				myOutput = new PrintStream(new FileOutputStream(LOG_FILE, true));
+			} 
+			catch (FileNotFoundException e) {
+						e.printStackTrace();
+			}
+		} else
+			myOutput = System.out;
 	}
 
 	public static void main(String[] args) {
 		boolean logToFile = Boolean.parseBoolean(CommandLineUtils.getOptionValueFromArgs(args, "log"));
 		RepairController myController = new RepairController(logToFile);
 		myController.runSim();
-
 	}
 	
 	/**
@@ -94,8 +108,23 @@ public class RepairController implements BiosimController {
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
-	
 		SimEnvironment crewEnvironment = myBioHolder.theSimEnvironments.get(0);
+		
+		//Crew Failure Enabled
+		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Bob Roberts");
+		myBioHolder.theCrewGroups.get(0).isFailureEnabled();
+		
+		//Air Modules Failure Enabled
+		myBioHolder.theCO2Stores.get(0).isFailureEnabled();
+		myBioHolder.theVCCRModules.get(0).isFailureEnabled();
+		myBioHolder.theO2Stores.get(0).isFailureEnabled();
+		myBioHolder.theH2Stores.get(0).isFailureEnabled();
+		myBioHolder.theOGSModules.get(0).isFailureEnabled();
+		
+		//Food Store Failure
+		myBioHolder.theFoodStores.get(0).isFailureEnabled();
+		
+		
 		
 		myO2ConcentrationSensor = myBioHolder.getSensorAttachedTo(
 				myBioHolder.theGasConcentrationSensors, crewEnvironment.getO2Store());
@@ -112,9 +141,6 @@ public class RepairController implements BiosimController {
 		myVaporPressureSensor = myBioHolder.getSensorAttachedTo(
 				myBioHolder.theGasPressureSensors, crewEnvironment.getVaporStore());
 		
-		myTimeTillCanopyClosureSensor = myBioHolder.getShelfSensorAttachedTo(
-				myBioHolder.theTimeTillCanopyClosureSensors,
-				myBioHolder.theBiomassPSModules.get(0), 0);
 		
 	}
 	
