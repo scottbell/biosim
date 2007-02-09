@@ -37,8 +37,8 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
 
     public PowerPSImpl(int pID, String pName) {
         super(pID, pName);
-        myPowerProducerDefinitionImpl = new PowerProducerDefinitionImpl();
-        myLightConsumerDefinitionImpl = new LightConsumerDefinitionImpl();
+        myPowerProducerDefinitionImpl = new PowerProducerDefinitionImpl(this);
+        myLightConsumerDefinitionImpl = new LightConsumerDefinitionImpl(this);
     }
 
     public PowerProducerDefinition getPowerProducerDefinition() {

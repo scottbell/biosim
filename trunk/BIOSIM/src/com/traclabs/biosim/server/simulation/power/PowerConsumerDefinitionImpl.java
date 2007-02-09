@@ -4,6 +4,7 @@ import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.power.PowerStore;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
 import com.traclabs.biosim.util.OrbUtils;
 
@@ -15,7 +16,8 @@ public class PowerConsumerDefinitionImpl extends StoreFlowRateControllableImpl
         implements PowerConsumerDefinitionOperations {
     private PowerConsumerDefinition myPowerConsumerDefinition;
 
-    public PowerConsumerDefinitionImpl() {
+    public PowerConsumerDefinitionImpl(BioModuleImpl pModule) {
+super(pModule);
 
     	PowerConsumerDefinitionPOATie tie = new PowerConsumerDefinitionPOATie(this);
     	myPowerConsumerDefinition = tie._this(OrbUtils.getORB());

@@ -165,33 +165,33 @@ public class InfluentValveImpl extends SimBioModuleImpl implements
 
 	public InfluentValveImpl(int pID, String pName) {
 		super(pID, pName);
-		myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
-		myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl();
-		myGreyWaterConsumerDefinitionImpl = new GreyWaterConsumerDefinitionImpl();
-		myDirtyWaterConsumerDefinitionImpl = new DirtyWaterConsumerDefinitionImpl();
-		myO2ConsumerDefinitionImpl = new O2ConsumerDefinitionImpl();
-		myCO2ConsumerDefinitionImpl = new CO2ConsumerDefinitionImpl();
-		myH2ConsumerDefinitionImpl = new H2ConsumerDefinitionImpl();
-		myNitrogenConsumerDefinitionImpl = new NitrogenConsumerDefinitionImpl();
-		myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
-		myBiomassConsumerDefinitionImpl = new BiomassConsumerDefinitionImpl();
-		myFoodConsumerDefinitionImpl = new FoodConsumerDefinitionImpl();
-		myDryWasteConsumerDefinitionImpl = new DryWasteConsumerDefinitionImpl();
-		myWaterConsumerDefinitionImpl = new WaterConsumerDefinitionImpl();
+		myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
+		myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl(this);
+		myGreyWaterConsumerDefinitionImpl = new GreyWaterConsumerDefinitionImpl(this);
+		myDirtyWaterConsumerDefinitionImpl = new DirtyWaterConsumerDefinitionImpl(this);
+		myO2ConsumerDefinitionImpl = new O2ConsumerDefinitionImpl(this);
+		myCO2ConsumerDefinitionImpl = new CO2ConsumerDefinitionImpl(this);
+		myH2ConsumerDefinitionImpl = new H2ConsumerDefinitionImpl(this);
+		myNitrogenConsumerDefinitionImpl = new NitrogenConsumerDefinitionImpl(this);
+		myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl(this);
+		myBiomassConsumerDefinitionImpl = new BiomassConsumerDefinitionImpl(this);
+		myFoodConsumerDefinitionImpl = new FoodConsumerDefinitionImpl(this);
+		myDryWasteConsumerDefinitionImpl = new DryWasteConsumerDefinitionImpl(this);
+		myWaterConsumerDefinitionImpl = new WaterConsumerDefinitionImpl(this);
 
-		myPowerProducerDefinitionImpl = new PowerProducerDefinitionImpl();
-		myPotableWaterProducerDefinitionImpl = new PotableWaterProducerDefinitionImpl();
-		myGreyWaterProducerDefinitionImpl = new GreyWaterProducerDefinitionImpl();
-		myDirtyWaterProducerDefinitionImpl = new DirtyWaterProducerDefinitionImpl();
-		myO2ProducerDefinitionImpl = new O2ProducerDefinitionImpl();
-		myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl();
-		myH2ProducerDefinitionImpl = new H2ProducerDefinitionImpl();
-		myNitrogenProducerDefinitionImpl = new NitrogenProducerDefinitionImpl();
-		myAirProducerDefinitionImpl = new AirProducerDefinitionImpl();
-		myBiomassProducerDefinitionImpl = new BiomassProducerDefinitionImpl();
-		myFoodProducerDefinitionImpl = new FoodProducerDefinitionImpl();
-		myDryWasteProducerDefinitionImpl = new DryWasteProducerDefinitionImpl();
-		myWaterProducerDefinitionImpl = new WaterProducerDefinitionImpl();
+		myPowerProducerDefinitionImpl = new PowerProducerDefinitionImpl(this);
+		myPotableWaterProducerDefinitionImpl = new PotableWaterProducerDefinitionImpl(this);
+		myGreyWaterProducerDefinitionImpl = new GreyWaterProducerDefinitionImpl(this);
+		myDirtyWaterProducerDefinitionImpl = new DirtyWaterProducerDefinitionImpl(this);
+		myO2ProducerDefinitionImpl = new O2ProducerDefinitionImpl(this);
+		myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl(this);
+		myH2ProducerDefinitionImpl = new H2ProducerDefinitionImpl(this);
+		myNitrogenProducerDefinitionImpl = new NitrogenProducerDefinitionImpl(this);
+		myAirProducerDefinitionImpl = new AirProducerDefinitionImpl(this);
+		myBiomassProducerDefinitionImpl = new BiomassProducerDefinitionImpl(this);
+		myFoodProducerDefinitionImpl = new FoodProducerDefinitionImpl(this);
+		myDryWasteProducerDefinitionImpl = new DryWasteProducerDefinitionImpl(this);
+		myWaterProducerDefinitionImpl = new WaterProducerDefinitionImpl(this);
 	}
 
 	public void tick() {

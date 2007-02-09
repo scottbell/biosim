@@ -78,13 +78,13 @@ public class BiomassPSImpl extends SimBioModuleImpl implements
     public BiomassPSImpl(int pID, String pName) {
         super(pID, pName);
         myShelves = new Vector<ShelfImpl>();
-        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
-        myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
-        myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl();
-        myGreyWaterConsumerDefinitionImpl = new GreyWaterConsumerDefinitionImpl();
-        myDirtyWaterProducerDefinitionImpl = new DirtyWaterProducerDefinitionImpl();
-        myAirProducerDefinitionImpl = new AirProducerDefinitionImpl();
-        myBiomassProducerDefinitionImpl = new BiomassProducerDefinitionImpl();
+        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
+        myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl(this);
+        myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl(this);
+        myGreyWaterConsumerDefinitionImpl = new GreyWaterConsumerDefinitionImpl(this);
+        myDirtyWaterProducerDefinitionImpl = new DirtyWaterProducerDefinitionImpl(this);
+        myAirProducerDefinitionImpl = new AirProducerDefinitionImpl(this);
+        myBiomassProducerDefinitionImpl = new BiomassProducerDefinitionImpl(this);
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {

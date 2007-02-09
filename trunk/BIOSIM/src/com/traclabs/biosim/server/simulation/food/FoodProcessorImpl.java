@@ -80,11 +80,11 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
     public FoodProcessorImpl(int pID, String pName) {
         super(pID, pName);
         biomatterConsumed = new BioMatter[0];
-        myBiomassConsumerDefinitionImpl = new BiomassConsumerDefinitionImpl();
-        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
-        myWaterProducerDefinitionImpl = new WaterProducerDefinitionImpl();
-        myFoodProducerDefinitionImpl = new FoodProducerDefinitionImpl();
-        myDryWasteProducerDefinitionImpl = new DryWasteProducerDefinitionImpl();
+        myBiomassConsumerDefinitionImpl = new BiomassConsumerDefinitionImpl(this);
+        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
+        myWaterProducerDefinitionImpl = new WaterProducerDefinitionImpl(this);
+        myFoodProducerDefinitionImpl = new FoodProducerDefinitionImpl(this);
+        myDryWasteProducerDefinitionImpl = new DryWasteProducerDefinitionImpl(this);
     }
 
     public BiomassConsumerDefinition getBiomassConsumerDefinition() {
@@ -224,7 +224,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
 
     private float calculateInedibleWaterContent(BioMatter inMatter) {
         float totalWaterWithinInedibleBioMatter = inMatter.inedibleWaterContent;
-        return randomFilter(totalWaterWithinInedibleBioMatter)
+        return totalWaterWithinInedibleBioMatter
                 * myProductionRate;
     }
 
@@ -238,7 +238,7 @@ public class FoodProcessorImpl extends SimBioModuleImpl implements
                 + " kg of food");
         FoodMatter newFoodMatter = new FoodMatter(foodMass,
                 inMatter.edibleWaterContent, inMatter.type);
-        newFoodMatter.mass = randomFilter(newFoodMatter.mass)
+        newFoodMatter.mass = newFoodMatter.mass
                 * myProductionRate;
         return newFoodMatter;
     }

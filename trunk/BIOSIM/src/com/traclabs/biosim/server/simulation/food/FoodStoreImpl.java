@@ -105,7 +105,7 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
             currentFoodItems.add(newFoodMatter);
             return acutallyAdded;
         }
-		acutallyAdded = randomFilter(pMatter.mass);
+		acutallyAdded = pMatter.mass;
 		currentLevel += acutallyAdded;
 		currentFoodItems.add(pMatter);
 		return acutallyAdded;

@@ -91,10 +91,10 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
 	public VCCRImpl(int pID, String pName) {
 		super(pID, pName);
 		// initialize consumers/producers
-		myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
-		myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
-		myAirProducerDefinitionImpl = new AirProducerDefinitionImpl();
-		myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl();
+		myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
+		myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl(this);
+		myAirProducerDefinitionImpl = new AirProducerDefinitionImpl(this);
+		myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl(this);
 
 		// Hook up various pieces of VCCR
 		myValve1.attach(myAirProducerDefinitionImpl);

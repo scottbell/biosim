@@ -3,6 +3,7 @@ package com.traclabs.biosim.server.simulation.framework;
 import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.idl.simulation.framework.SingleFlowRateControllablePOA;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
 
 /**
  * @author Scott Bell
@@ -20,10 +21,13 @@ public abstract class SingleFlowRateControllableImpl extends
     private float[] myInitialActualFlowRates = new float[0];
     private float[] myInitialDesiredFlowRates = new float[0];
     
+    private BioModuleImpl myModuleImpl = null;
+    
     protected Logger myLogger;
 
-    public SingleFlowRateControllableImpl() {
+    public SingleFlowRateControllableImpl(BioModuleImpl pModule) {
     	myLogger = Logger.getLogger(this.getClass());
+    	myModuleImpl = pModule;
     }
 
 	private void checkArguments(int index, float[] flowRateArray) {
@@ -31,6 +35,10 @@ public abstract class SingleFlowRateControllableImpl extends
 			myLogger.error("Index ("+index+") greater than flow rate array length ("+flowRateArray.length+")");
 			throw new IllegalArgumentException();
 		}
+	}
+	
+	protected float randomFilter(float value){
+		return myModuleImpl.randomFilter(value);
 	}
 
     public void setMaxFlowRate(float value, int index) {

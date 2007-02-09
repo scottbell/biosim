@@ -99,13 +99,13 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
         super(pID, pName);
         crewPeople = new Hashtable<String, CrewPerson>();
 
-        myFoodConsumerDefinitionImpl = new FoodConsumerDefinitionImpl();
-        myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
-        myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl();
-        myGreyWaterProducerDefinitionImpl = new GreyWaterProducerDefinitionImpl();
-        myDirtyWaterProducerDefinitionImpl = new DirtyWaterProducerDefinitionImpl();
-        myAirProducerDefinitionImpl = new AirProducerDefinitionImpl();
-        myDryWasteProducerDefinitionImpl = new DryWasteProducerDefinitionImpl();
+        myFoodConsumerDefinitionImpl = new FoodConsumerDefinitionImpl(this);
+        myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl(this);
+        myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl(this);
+        myGreyWaterProducerDefinitionImpl = new GreyWaterProducerDefinitionImpl(this);
+        myDirtyWaterProducerDefinitionImpl = new DirtyWaterProducerDefinitionImpl(this);
+        myAirProducerDefinitionImpl = new AirProducerDefinitionImpl(this);
+        myDryWasteProducerDefinitionImpl = new DryWasteProducerDefinitionImpl(this);
     }
 
     public FoodConsumerDefinition getFoodConsumerDefinition() {

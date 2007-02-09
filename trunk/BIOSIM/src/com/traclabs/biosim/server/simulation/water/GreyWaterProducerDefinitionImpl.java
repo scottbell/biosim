@@ -4,6 +4,7 @@ import com.traclabs.biosim.idl.simulation.water.GreyWaterProducerDefinition;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterProducerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
 import com.traclabs.biosim.util.OrbUtils;
 
@@ -16,9 +17,8 @@ public class GreyWaterProducerDefinitionImpl extends
         GreyWaterProducerDefinitionOperations {
     private GreyWaterProducerDefinition myGreyWaterProducerDefinition;
 
-    public GreyWaterProducerDefinitionImpl() {
-
-    	GreyWaterProducerDefinitionPOATie tie = new GreyWaterProducerDefinitionPOATie(this);
+    public GreyWaterProducerDefinitionImpl(BioModuleImpl pModule) {
+     super(pModule);    	GreyWaterProducerDefinitionPOATie tie = new GreyWaterProducerDefinitionPOATie(this);
     	myGreyWaterProducerDefinition = tie._this(OrbUtils.getORB());
     }
 

@@ -677,8 +677,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
         float averagePercentFull = (caloriePercentFull + waterPercentFull
                 + oxygenPercentFull + CO2PercentFull + sleepPercentFull + leisurePercentFull) / 6f;
-        myMissionProductivity += myBaseCrewGroupImpl
-                .randomFilter(averagePercentFull * getCurrentCrewGroup().getTickLength());
+        myMissionProductivity += averagePercentFull * getCurrentCrewGroup().getTickLength();
     }
 
     /**
@@ -792,7 +791,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         myLogger.debug("resultInMoles "+resultInMoles);
         myLogger.debug("adjustForTickLength "+adjustForTickLength);
         myLogger.debug("adjustForTickLength "+adjustForTickLength);
-        return myBaseCrewGroupImpl.randomFilter(adjustForTickLength); 
+        return adjustForTickLength; 
     }
 
     private float pow(float a, float b) {
@@ -855,7 +854,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         //make it for the tick interval
         joulesNeeded *= getCurrentCrewGroup().getTickLength();
         caloriesNeeded = joulesNeeded / 4.2f;
-        return myBaseCrewGroupImpl.randomFilter(caloriesNeeded);
+        return caloriesNeeded;
     }
 
     /**
@@ -867,7 +866,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * @return dirty water produced in liters
      */
     private float calculateDirtyWaterProduced(float pPotableWaterConsumed) {
-        return myBaseCrewGroupImpl.randomFilter(pPotableWaterConsumed * 0.3625f);
+        return pPotableWaterConsumed * 0.3625f;
     }
 
     /**
@@ -879,7 +878,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * @return dry waste produced in kg
      */
     private float calculateDryWasteProduced(float foodConsumed) {
-        return myBaseCrewGroupImpl.randomFilter(foodConsumed * 0.022f);
+        return foodConsumed * 0.022f;
     }
 
     /**
@@ -891,7 +890,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * @return grey water produced in liters
      */
     private float calculateGreyWaterProduced(float pPotableWaterConsumed) {
-        return myBaseCrewGroupImpl.randomFilter(pPotableWaterConsumed * 0.5375f);
+        return pPotableWaterConsumed * 0.5375f;
     }
 
     /**
@@ -916,8 +915,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
      */
     private float calculateCleanWaterNeeded(int currentActivityIntensity) {
         if (currentActivityIntensity > 0)
-            return myBaseCrewGroupImpl.randomFilter(0.1667f * getCurrentCrewGroup().getTickLength());
-		return myBaseCrewGroupImpl.randomFilter(0f);
+            return 0.1667f * getCurrentCrewGroup().getTickLength();
+		return 0f;
     }
 
     /**
@@ -1212,20 +1211,20 @@ public class CrewPersonImpl extends CrewPersonPOA {
         //adjust tanks
         eatFood();
         potableWaterConsumed = StoreFlowRateControllableImpl
-                .getFractionalResourceFromStores(myCurrentCrewGroup
+                .getFractionalResourceFromStores(myBaseCrewGroupImpl, myCurrentCrewGroup
                         .getPotableWaterConsumerDefinition(),
                         potableWaterNeeded, 1f / myCurrentCrewGroup
                                 .getCrewSize());
         StoreFlowRateControllableImpl
-                .getFractionalResourceFromStores(myCurrentCrewGroup
+                .getFractionalResourceFromStores(myBaseCrewGroupImpl, myCurrentCrewGroup
                         .getDirtyWaterProducerDefinition(), dirtyWaterProduced,
                         1f / myCurrentCrewGroup.getCrewSize());
         StoreFlowRateControllableImpl
-                .getFractionalResourceFromStores(myCurrentCrewGroup
+                .getFractionalResourceFromStores(myBaseCrewGroupImpl, myCurrentCrewGroup
                         .getGreyWaterProducerDefinition(), greyWaterProduced,
                         1f / myCurrentCrewGroup.getCrewSize());
         StoreFlowRateControllableImpl
-                .getFractionalResourceFromStores(myCurrentCrewGroup
+                .getFractionalResourceFromStores(myBaseCrewGroupImpl, myCurrentCrewGroup
                         .getDryWasteProducerDefinition(), dryWasteProduced,
                         1f / myCurrentCrewGroup.getCrewSize());
 

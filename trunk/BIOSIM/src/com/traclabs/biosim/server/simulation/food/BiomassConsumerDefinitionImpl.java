@@ -10,6 +10,7 @@ import com.traclabs.biosim.idl.simulation.food.BiomassConsumerDefinitionOperatio
 import com.traclabs.biosim.idl.simulation.food.BiomassConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.food.BiomassStore;
 import com.traclabs.biosim.idl.simulation.food.BiomassStoreHelper;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
 import com.traclabs.biosim.util.OrbUtils;
 
@@ -22,7 +23,8 @@ public class BiomassConsumerDefinitionImpl extends
         BiomassConsumerDefinitionOperations {
     private BiomassConsumerDefinition myBiomassConsumerDefinition;
 
-    public BiomassConsumerDefinitionImpl() {
+    public BiomassConsumerDefinitionImpl(BioModuleImpl pModule) {
+super(pModule);
 
     	BiomassConsumerDefinitionPOATie tie = new BiomassConsumerDefinitionPOATie(this);
     	myBiomassConsumerDefinition = tie._this(OrbUtils.getORB());

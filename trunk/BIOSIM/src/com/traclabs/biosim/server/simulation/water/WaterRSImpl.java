@@ -65,10 +65,10 @@ public class WaterRSImpl extends SimBioModuleImpl implements WaterRSOperations,
      */
     public WaterRSImpl(int pID, String pName) {
         super(pID, pName);
-        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
-        myGreyWaterConsumerDefinitionImpl = new GreyWaterConsumerDefinitionImpl();
-        myDirtyWaterConsumerDefinitionImpl = new DirtyWaterConsumerDefinitionImpl();
-        myPotableWaterProducerDefinitionImpl = new PotableWaterProducerDefinitionImpl();
+        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
+        myGreyWaterConsumerDefinitionImpl = new GreyWaterConsumerDefinitionImpl(this);
+        myDirtyWaterConsumerDefinitionImpl = new DirtyWaterConsumerDefinitionImpl(this);
+        myPotableWaterProducerDefinitionImpl = new PotableWaterProducerDefinitionImpl(this);
 
         myBWP = new BWP(this);
         myRO = new RO(this);

@@ -80,10 +80,10 @@ public class IncineratorImpl extends SimBioModuleImpl implements
 
     public IncineratorImpl(int pID, String pName) {
         super(pID, pName);
-        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
-        myO2ConsumerDefinitionImpl = new O2ConsumerDefinitionImpl();
-        myDryWasteConsumerDefinitionImpl = new DryWasteConsumerDefinitionImpl();
-        myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl();
+        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
+        myO2ConsumerDefinitionImpl = new O2ConsumerDefinitionImpl(this);
+        myDryWasteConsumerDefinitionImpl = new DryWasteConsumerDefinitionImpl(this);
+        myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl(this);
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {

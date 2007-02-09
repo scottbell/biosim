@@ -31,8 +31,8 @@ public class DehumidifierImpl extends SimBioModuleImpl implements
 
     public DehumidifierImpl(int pID, String pName) {
         super(pID, pName);
-        myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl();
-        myDirtyWaterProducerDefinitionImpl = new DirtyWaterProducerDefinitionImpl();
+        myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl(this);
+        myDirtyWaterProducerDefinitionImpl = new DirtyWaterProducerDefinitionImpl(this);
     }
     
     public DehumidifierImpl() {

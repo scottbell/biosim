@@ -4,6 +4,7 @@ import com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.water.WaterStore;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
 import com.traclabs.biosim.util.OrbUtils;
 
@@ -15,7 +16,8 @@ public class WaterConsumerDefinitionImpl extends StoreFlowRateControllableImpl
         implements WaterConsumerDefinitionOperations {
     private WaterConsumerDefinition myWaterConsumerDefinition;
 
-    public WaterConsumerDefinitionImpl() {
+    public WaterConsumerDefinitionImpl(BioModuleImpl pModule) {
+super(pModule);
 
     	WaterConsumerDefinitionPOATie tie = new WaterConsumerDefinitionPOATie(this);
     	myWaterConsumerDefinition = tie._this(OrbUtils.getORB());

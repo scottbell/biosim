@@ -58,12 +58,12 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
 
     public CRSImpl(int pID, String pName) {
         super(pID, pName);
-        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
-        myPotableWaterProducerDefinitionImpl = new PotableWaterProducerDefinitionImpl();
-        myO2ProducerDefinitionImpl = new O2ProducerDefinitionImpl();
-        myCO2ConsumerDefinitionImpl = new CO2ConsumerDefinitionImpl();
-        myH2ConsumerDefinitionImpl = new H2ConsumerDefinitionImpl();
-        myMethaneProducerDefinitionImpl = new MethaneProducerDefinitionImpl();
+        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
+        myPotableWaterProducerDefinitionImpl = new PotableWaterProducerDefinitionImpl(this);
+        myO2ProducerDefinitionImpl = new O2ProducerDefinitionImpl(this);
+        myCO2ConsumerDefinitionImpl = new CO2ConsumerDefinitionImpl(this);
+        myH2ConsumerDefinitionImpl = new H2ConsumerDefinitionImpl(this);
+        myMethaneProducerDefinitionImpl = new MethaneProducerDefinitionImpl(this);
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
@@ -109,12 +109,10 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
     private void gatherH2andCO2() {
         float CO2Needed = currentPowerConsumed * LINEAR_MULTIPLICATIVE_FACTOR * getTickLength();
         float H2Needed = CO2Needed * 4f;
-        float filteredCO2Needed = randomFilter(CO2Needed);
-        float filteredH2Needed = randomFilter(H2Needed);
         currentCO2Consumed = myCO2ConsumerDefinitionImpl
-                .getResourceFromStores(filteredCO2Needed);
+                .getResourceFromStores(CO2Needed);
         currentH2Consumed = myH2ConsumerDefinitionImpl
-                .getResourceFromStores(filteredH2Needed);
+                .getResourceFromStores(H2Needed);
     }
 
     private void pushWaterAndMethane() {
@@ -139,8 +137,8 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
             float waterLitersProduced = (waterMolesProduced * 18.01524f) / 1000f; //1000g/liter,
             // 18.01524g/mole
             float methaneMolesProduced = limitingReactant;
-            currentH2OProduced = randomFilter(waterLitersProduced);
-            currentCH4Produced = randomFilter(methaneMolesProduced);
+            currentH2OProduced = waterLitersProduced;
+            currentCH4Produced = methaneMolesProduced;
         }
         myPotableWaterProducerDefinitionImpl
                 .pushResourceToStores(currentH2OProduced);

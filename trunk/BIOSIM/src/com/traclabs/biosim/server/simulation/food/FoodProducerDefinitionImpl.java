@@ -6,6 +6,7 @@ import com.traclabs.biosim.idl.simulation.food.FoodProducerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.food.FoodProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.food.FoodStore;
 import com.traclabs.biosim.idl.simulation.food.FoodStoreHelper;
+import com.traclabs.biosim.server.framework.BioModuleImpl;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
 import com.traclabs.biosim.util.OrbUtils;
 
@@ -17,7 +18,8 @@ public class FoodProducerDefinitionImpl extends StoreFlowRateControllableImpl
         implements FoodProducerDefinitionOperations {
     private FoodProducerDefinition myFoodProducerDefinition;
 
-    public FoodProducerDefinitionImpl() {
+    public FoodProducerDefinitionImpl(BioModuleImpl pModule) {
+    	super(pModule);
     	FoodProducerDefinitionPOATie tie = new FoodProducerDefinitionPOATie(this);
     	myFoodProducerDefinition = tie._this(OrbUtils.getORB());
     }

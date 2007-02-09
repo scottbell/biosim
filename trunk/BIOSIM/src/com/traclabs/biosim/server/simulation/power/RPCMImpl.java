@@ -33,8 +33,8 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations,
 	
 	public RPCMImpl(int pID, String pName) {
 		super(pID, pName);
-        myPowerProducerDefinitionImpl = new PowerProducerDefinitionImpl();
-        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl();
+        myPowerProducerDefinitionImpl = new PowerProducerDefinitionImpl(this);
+        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
 	}
 
 	public boolean isOvertripped() {
