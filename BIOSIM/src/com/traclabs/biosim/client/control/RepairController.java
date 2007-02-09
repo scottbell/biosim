@@ -57,8 +57,6 @@ public class RepairController implements BiosimController {
 	private GenericSensor myNitrogenPressureSensor;
 
 	private GenericSensor myVaporPressureSensor;
-
-	private GenericSensor myTimeTillCanopyClosureSensor;
 	
 	private boolean logToFile = false;
 	FileOutputStream out;
@@ -69,7 +67,7 @@ public class RepairController implements BiosimController {
 		logToFile = log;
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
-		collectReferences();
+
 		try{
 			out = new FileOutputStream("Configuration.txt", true);		
 		}catch (Exception e){
@@ -90,6 +88,7 @@ public class RepairController implements BiosimController {
 	public static void main(String[] args) {
 		boolean logToFile = Boolean.parseBoolean(CommandLineUtils.getOptionValueFromArgs(args, "log"));
 		RepairController myController = new RepairController(logToFile);
+		myController.collectReferences();
 		myController.runSim();
 	}
 	
@@ -121,8 +120,7 @@ public class RepairController implements BiosimController {
 		//Food Store Failure
 		myBioHolder.theFoodStores.get(0).isFailureEnabled();
 		
-		
-		
+		//Crew Suvival Condition Sensors
 		myO2ConcentrationSensor = myBioHolder.getSensorAttachedTo(
 				myBioHolder.theGasConcentrationSensors, crewEnvironment.getO2Store());
 		
@@ -137,8 +135,7 @@ public class RepairController implements BiosimController {
 		
 		myVaporPressureSensor = myBioHolder.getSensorAttachedTo(
 				myBioHolder.theGasPressureSensors, crewEnvironment.getVaporStore());
-		
-		
+			
 	}
 	
 	/**
@@ -146,45 +143,82 @@ public class RepairController implements BiosimController {
 	 * a time until end condition is met.
 	 */
 	public void runSim() {
-		
-		/**		
-		 *prints the "name" of the simulation (# of Designed Configuration)
-		 *output.println();
-		 *output.println();
-		 *output.print("Utility = "	+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed());
-		 *
-		 *output.println();
-		 *output.println("Ticks TotalPressure O2PP CO2PP NitrogenPP VaporPP Activity");
-		 *output.flush();
-		*/
-		
 		myBioDriver.setPauseSimulation(true);
 		myBioDriver.startSimulation();
 		myLogger.info("Controller starting run");
-		while (!RepairConditionMet())
-			
+		do {
+			myBioDriver.advanceOneTick();
+			if(crewShouldDie())
+				myBioHolder.theCrewGroups.get(0).killCrew();
 			stepSim();
-		
-		//if we get here, the end condition has been met
+		} while (!myBioDriver.isDone());		
 		myBioDriver.endSimulation();
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 	}
-	
+
 	/**
-	 * If one component has the status "failed", pause the sim and initial a repair.
-	 */
-	private boolean RepairConditionMet() {
-		float oxygenPercentage = myO2ConcentrationSensor.getValue();
-		return (oxygenPercentage < 0.10);
+	 * If the crew is dead, end the simulation.
+	 */	
+	private boolean crewShouldDie() {
+		if (myO2PressureSensor.getValue() < 10.13){
+			myLogger.info("killing crew for low oxygen: "+myO2PressureSensor.getValue());
+			return true;
+		}
+		else if(myO2PressureSensor.getValue() > 30.39){
+			myLogger.info("killing crew for high oxygen: "+myO2PressureSensor.getValue());
+			return true;
+		}
+		else if(myCO2PressureSensor.getValue() > 1) {
+			myLogger.info("killing crew for high CO2: "+myO2PressureSensor.getValue());
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	/**
 	 * Executed every tick.  Looks at a sensor, looks at an actuator,
 	 * then increments the actuator.
-	 */
-	
+	 */	
 	public void stepSim() {
+//		Check sensor to monitor stochastic performance	
+//		Only monitor OGS, VCCR, Injector, WaterRS	
 		
+		//OGS
+		myBioHolder.theOGSModules.get(0).getH2ProducerDefinition();
+		myBioHolder.theOGSModules.get(0).getO2ProducerDefinition();
+		myBioHolder.theOGSModules.get(0).getPotableWaterConsumerDefinition();
+		myBioHolder.theOGSModules.get(0).getPowerConsumerDefinition();
+		
+		//VCCR
+		myBioHolder.theVCCRModules.get(0).getPowerConsumerDefinition();
+		myBioHolder.theVCCRModules.get(0).getAirConsumerDefinition();
+		myBioHolder.theVCCRModules.get(0).getAirProducerDefinition();
+		myBioHolder.theVCCRModules.get(0).getCO2ProducerDefinition();
+		
+		//Injector
+		myBioHolder.theInjectors.get(0).getO2ConsumerDefinition();
+		myBioHolder.theInjectors.get(0).getO2ProducerDefinition();
+		
+		//WaterRS
+		myBioHolder.theWaterRSModules.get(0).getDirtyWaterConsumerDefinition();
+		myBioHolder.theWaterRSModules.get(0).getGreyWaterConsumerDefinition();
+		myBioHolder.theWaterRSModules.get(0).getPotableWaterProducerDefinition();
+		myBioHolder.theWaterRSModules.get(0).getPowerConsumerDefinition();
+		
+//		Check failure to monitor component malfunction
+		//Air
+			//O2Store
+		myBioHolder.theWaterRSModules.get(0).;
+		
+		
+		
+//      Report Failure and fix the failed component		
+		
+		
+		
+//		advanceing the sim 1 tick
+
 	}
 
 	
