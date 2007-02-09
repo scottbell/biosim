@@ -130,4 +130,20 @@
             	<expFailureDecider lambda="0.0033" /></GreyWaterStore>
         </water>
     </SimBioModules>
+    <Sensors>
+		<environment>
+			<GasPressureSensor input="SimEnvironment"
+				moduleName="O2PressureSensor" gasType="O2">
+			</GasPressureSensor>
+			<GasPressureSensor input="SimEnvironment"
+				moduleName="CO2PressureSensor" gasType="CO2">
+			</GasPressureSensor>
+			<GasPressureSensor input="SimEnvironment"
+				moduleName="NitrogenPressureSensor" gasType="NITROGEN">
+			</GasPressureSensor>
+			<GasPressureSensor input="SimEnvironment"
+				moduleName="VaporPressureSensor" gasType="VAPOR">
+			</GasPressureSensor>
+		</environment>
+	</Sensors>
 </biosim>
