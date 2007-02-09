@@ -22,9 +22,4 @@ public abstract class FailureDecider {
 	}
 
 	protected abstract double getReliability(double timeElapsed);
-
-	public void reset() {
-		// TODO Auto-generated method stub
-		
-	}
 }

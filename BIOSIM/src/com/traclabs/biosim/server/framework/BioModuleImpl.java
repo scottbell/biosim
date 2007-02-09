@@ -323,9 +323,9 @@ public abstract class BioModuleImpl extends BioModulePOA {
      */
     public void reset() {
         myTicks = 0;
+        myFailureTime = 0;
         hasFailed = false;
         myMalfunctions.clear();
-        myFailureDecider.reset();
     	for (MalfunctionImpl currentMalfunction : myScheduledMalfunctions)
     		currentMalfunction.reset();
     }
