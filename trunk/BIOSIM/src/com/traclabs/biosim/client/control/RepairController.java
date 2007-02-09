@@ -209,7 +209,7 @@ public class RepairController implements BiosimController {
 //		Check failure to monitor component malfunction
 		//Air
 			//O2Store
-		myBioHolder.theWaterRSModules.get(0).;
+		myBioHolder.theWaterRSModules.get(0).reset();
 		
 		
 		
