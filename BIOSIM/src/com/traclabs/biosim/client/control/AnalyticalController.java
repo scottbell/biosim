@@ -21,8 +21,8 @@ import com.traclabs.biosim.util.OrbUtils;
 
 
 /**
- * A controller to end and change the simulation based on gas composition.
- * @author Kirsten Stark 
+ * A controller for analytical approach.
+ * @author Haibei
  */
 public class AnalyticalController implements BiosimController {
 	public static final String CONFIGURATION_FILE = "kirsten/MurderControllerInit.xml";
