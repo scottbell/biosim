@@ -285,59 +285,59 @@ public class RepairController implements BiosimController {
 	public void ComponentRepair(){
 		if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()){
 				myBioHolder.theCO2Stores.get(0).reset();
-				myLogger.info("Component CO2Store is repaired" + " " + " at Tick " + myBioDriver.getTicks());		
+				myLogger.info("CO2Store is repaired" + " " + " at Tick " + myBioDriver.getTicks());		
 		}
 		if (myBioHolder.theVCCRModules.get(0).isMalfunctioning()){
 				myBioHolder.theVCCRModules.get(0).reset();
-				myLogger.info("Component VCCR is repaired " + " " + " at Tick " + myBioDriver.getTicks());
+				myLogger.info("VCCR is repaired " + " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theO2Stores.get(0).isMalfunctioning()){
 				myBioHolder.theO2Stores.get(0).reset();
-				myLogger.info("Component O2Store is repaired" + " " + " at Tick " + myBioDriver.getTicks());
+				myLogger.info("O2Store is repaired" + " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theOGSModules.get(0).isMalfunctioning()){
 				myBioHolder.theOGSModules.get(0).reset();
-				myLogger.info("Component OGS is repaired " + " " + " at Tick " + myBioDriver.getTicks());
+				myLogger.info("OGS is repaired " + " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theH2Stores.get(0).isMalfunctioning()){
 				myBioHolder.theH2Stores.get(0).reset();
-				myLogger.info("Component H2Store is repaired" + " " + " at Tick " + myBioDriver.getTicks());
+				myLogger.info("H2Store is repaired" + " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theCrewGroups.get(0).isMalfunctioning()){
 				myBioHolder.theCrewGroups.get(0).reset();
-				myLogger.info("Component Crew has recovered" + " " + " at Tick " + myBioDriver.getTicks());
+				myLogger.info("Crew has recovered" + " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theFoodStores.get(0).isMalfunctioning()){
 				myBioHolder.theFoodStores.get(0).reset();
-				myLogger.info("Component FoodStore is repaired " + " " + " at Tick " + myBioDriver.getTicks());
+				myLogger.info("FoodStore is repaired " + " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theInjectors.get(0).isMalfunctioning()){
 				myBioHolder.theInjectors.get(0).reset();
-				myLogger.info("Component Injector is repaired" + " " + " at Tick " + myBioDriver.getTicks());
+				myLogger.info("Injector is repaired" + " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.thePowerStores.get(0).isMalfunctioning()){
 				myBioHolder.thePowerStores.get(0).reset();
-				myLogger.info("Component PowerStore is repaired " + " " + " at Tick " + myBioDriver.getTicks());
+				myLogger.info("PowerStore is repaired " + " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theDryWasteStores.get(0).isMalfunctioning()){
 				myBioHolder.theDryWasteStores.get(0).reset();
-				myLogger.info("Component DryWasteStore is repaired" + " " + " at Tick " + myBioDriver.getTicks());
+				myLogger.info("DryWasteStore is repaired" + " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.thePotableWaterStores.get(0).isMalfunctioning()){
 				myBioHolder.thePotableWaterStores.get(0).reset();
-				myLogger.info("Component PortableWaterStore is repaired" + " " + " at Tick " + myBioDriver.getTicks());
+				myLogger.info("PortableWaterStore is repaired" + " " + " at Tick " + myBioDriver.getTicks());
 	    }
 		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()){
 				myBioHolder.theDirtyWaterStores.get(0).reset();
-				myLogger.info("Component DirtyWaterStore is repaired" + " " + " at Tick " + myBioDriver.getTicks());
+				myLogger.info("DirtyWaterStore is repaired" + " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theWaterRSModules.get(0).isMalfunctioning()){
 				myBioHolder.theWaterRSModules.get(0).reset();
-				myLogger.info("Component WaterRS is repaired " + " " + " at Tick " + myBioDriver.getTicks());
+				myLogger.info("WaterRS is repaired " + " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()){
 				myBioHolder.theDirtyWaterStores.get(0).reset();
-				myLogger.info("Component failure caused by DirtyWaterStore " + " " + " at Tick " + myBioDriver.getTicks());
+				myLogger.info("DirtyWaterStore is repaired" + " " + " at Tick " + myBioDriver.getTicks());
 		}		
 	}
 
@@ -349,15 +349,19 @@ public class RepairController implements BiosimController {
 //	Check failure to monitor component malfunction using a Boolean "CheckFailure"
 //	Report Failure and fix the failed component	using a function "ComponentRepair"
 		if(CheckFailure()){
-			if (RepairDelay!=0){   // Repair Delay is the time needed for repair activities 
+			if (RepairDelay>=1){   // Repair Delay is the time needed for repair activities 
 				ComponentRepair();
 				RepairDelay=0;
 				}
-			else {
+			else{
 				RepairDelay=1;	
 				}
-				}
-		}
+			}
+		else{
+			RepairDelay=0;
+		}	
+	}
+		
 }
 
 	
