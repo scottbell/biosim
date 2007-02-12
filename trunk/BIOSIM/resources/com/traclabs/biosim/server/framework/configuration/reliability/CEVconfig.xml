@@ -146,6 +146,48 @@
 				moduleName="VaporPressureSensor" gasType="VAPOR">
 			</GasPressureSensor>
 		</environment>
-		<air></air>
+		<air>
+			<H2OutFlowRateSensor input="OGS" moduleName="OGS_H2OutFlowRateSensor" index="0"
+				logLevel="DEBUG">
+			</H2OutFlowRateSensor>
+			<CO2OutFlowRateSensor input="VCCR"
+				moduleName="VCCR_CO2ProducerFlowRateSensor" index="0"
+				logLevel="DEBUG">
+			</CO2OutFlowRateSensor>
+			<O2InFlowRateSensor input="Injector"
+				moduleName="Injector_O2ConsumerRateSensor" index="0"
+				logLevel="DEBUG">
+			</O2InFlowRateSensor>
+			<O2OutFlowRateSensor input="Injector" moduleName="Injector_O2ProducerRateSensor" index="1"
+				logLevel="INFO">
+			</O2OutFlowRateSensor>
+			<O2OutFlowRateSensor input="OGS" moduleName="OGS_O2OutFlowRateSensor" index="0"
+				logLevel="DEBUG">
+			</O2OutFlowRateSensor></air>
+		<power>
+			<PowerInFlowRateSensor input="OGS" moduleName="OGS_PowerConsumerRateSensor" index="0"
+				logLevel="DEBUG">
+			</PowerInFlowRateSensor>
+			<PowerInFlowRateSensor input="VCCR"
+				moduleName="VCCR_PowerConsumerRateSensor" index="1"
+				logLevel="DEBUG">
+			</PowerInFlowRateSensor>
+			<PowerInFlowRateSensor input="WaterRS"
+				moduleName="WaterRS_PowerConsumerRateSensor" index="2"
+				logLevel="DEBUG">
+			</PowerInFlowRateSensor></power>
+		<water>
+			<PotableWaterInFlowRateSensor input="OGS" moduleName="OGS_PortableWaterInFlowRateSensor"
+				index="0" logLevel="DEBUG">
+			</PotableWaterInFlowRateSensor>
+			<DirtyWaterInFlowRateSensor input="WaterRS" moduleName="WaterRS_DirtyWaterConsumerRateSensor" index="0"
+				logLevel="DEBUG">
+			</DirtyWaterInFlowRateSensor>
+			<GreyWaterInFlowRateSensor input="WaterRS" moduleName="WaterRS_GreyWaterConsumerRateSensor" index="0"
+				logLevel="DEBUG">
+			</GreyWaterInFlowRateSensor>
+			<PotableWaterOutFlowRateSensor input="WaterRS" moduleName="WaterRS_PortableWaterProducerRateSensor"
+				index="0" logLevel="DEBUG">
+			</PotableWaterOutFlowRateSensor></water>
     </Sensors>
 </biosim>
