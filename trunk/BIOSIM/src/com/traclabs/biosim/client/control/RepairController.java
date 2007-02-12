@@ -41,19 +41,29 @@ public class RepairController implements BiosimController {
 
 	private Logger myLogger;
 	
-	private CrewPerson myCrewPerson;
-	
+	private CrewPerson myCrewPerson;	
 	private SimEnvironment crewEnvironment;
 
-	private GenericSensor myO2PressureSensor;
-
-	private GenericSensor myO2ConcentrationSensor;
-	
+	private GenericSensor myO2PressureSensor;	
 	private GenericSensor myCO2PressureSensor;
-
 	private GenericSensor myNitrogenPressureSensor;
-
 	private GenericSensor myVaporPressureSensor;
+	
+	private GenericSensor myOGS_O2OutFlowRateSensor;
+	private GenericSensor myOGS_H2OutFlowRateSensor; 
+	private GenericSensor myOGS_PortableWaterInFlowRateSensor;
+	private GenericSensor myOGS_PowerConsumerRateSensor;
+	
+	private GenericSensor myVCCR_PowerConsumerRateSensor;
+	private GenericSensor myVCCR_CO2ProducerFlowRateSensor;
+
+	private GenericSensor myInjector_O2ConsumerRateSensor;
+	private GenericSensor myInjector_O2ProducerRateSensor;
+	
+	private GenericSensor myWaterRS_DirtyWaterConsumerRateSensor;
+	private GenericSensor myWaterRS_GreyWaterConsumerRateSensor;
+	private GenericSensor myWaterRS_PortableWaterProducerRateSensor;	
+	private GenericSensor myWaterRS_PowerConsumerRateSensor;
 	
 	private int RepairDelay=0;
 	
@@ -105,24 +115,25 @@ public class RepairController implements BiosimController {
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 		SimEnvironment crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 		
-		//Crew Failure Enabled
-		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Bob Roberts");
-		myBioHolder.theCrewGroups.get(0).isFailureEnabled();
+		//Air Sensors
+		GenericSensor myOGS_O2OutFlowRateSensor=myBioHolder.theO2OutFlowRateSensors.get(0);
+		GenericSensor myOGS_H2OutFlowRateSensor=myBioHolder.theH2OutFlowRateSensors.get(0);
+		GenericSensor myVCCR_CO2ProducerFlowRateSensor=myBioHolder.theCO2OutFlowRateSensors.get(0);
+		GenericSensor myInjector_O2ConsumerRateSensor=myBioHolder.theO2InFlowRateSensors.get(0);
+		GenericSensor myInjector_O2ProducerRateSensor=myBioHolder.theO2OutFlowRateSensors.get(1);
+
+		//Power Sensors
+		GenericSensor myOGS_PowerConsumerRateSensor=myBioHolder.thePowerInFlowRateSensors.get(0);
+		GenericSensor myVCCR_PowerConsumerRateSensor=myBioHolder.thePowerInFlowRateSensors.get(1);
+		GenericSensor myWaterRS_PowerConsumerRateSensor=myBioHolder.thePowerInFlowRateSensors.get(2);
 		
-		//Air Modules Failure Enabled
-		myBioHolder.theCO2Stores.get(0).isFailureEnabled();
-		myBioHolder.theVCCRModules.get(0).isFailureEnabled();
-		myBioHolder.theO2Stores.get(0).isFailureEnabled();
-		myBioHolder.theH2Stores.get(0).isFailureEnabled();
-		myBioHolder.theOGSModules.get(0).isFailureEnabled();
-		
-		//Food Store Failure
-		myBioHolder.theFoodStores.get(0).isFailureEnabled();
+		//Water Sensors
+		GenericSensor myOGS_PortableWaterInFlowRateSensor=myBioHolder.thePotableWaterInFlowRateSensors.get(0);
+		GenericSensor myWaterRS_DirtyWaterConsumerRateSensor=myBioHolder.theDirtyWaterInFlowRateSensors.get(0);
+		GenericSensor myWaterRS_GreyWaterConsumerRateSensor=myBioHolder.theGreyWaterInFlowRateSensors.get(0);
+		GenericSensor myWaterRS_PortableWaterProducerRateSensor=myBioHolder.thePotableWaterOutFlowRateSensors.get(0);
 		
 		//Crew Suvival Condition Sensors
-		myO2ConcentrationSensor = myBioHolder.getSensorAttachedTo(
-				myBioHolder.theGasConcentrationSensors, crewEnvironment.getO2Store());
-		
 		myO2PressureSensor = myBioHolder.getSensorAttachedTo(
 				myBioHolder.theGasPressureSensors,crewEnvironment.getO2Store());
 		
@@ -181,31 +192,27 @@ public class RepairController implements BiosimController {
 		FileOutputStream out; 
 		PrintStream myOutput; 
 		try {
-			out = new FileOutputStream("ComponentPerformance.txt", true);
+			out = new FileOutputStream("StochasticPerformance.txt", true);
 			myOutput = new PrintStream(out);
 			myOutput.println();
-			myOutput.println("Ticks H2ProducerOGS O2ProducerOGS PotableWaterConsumeOGS PowerConsumerOGS PowerConsumerVCCR AirConsumerVCCR AirProducerVCCR CO2ProducerVCCR O2ConsumerInjector O2ProdurerInjector DirtyWaterConsumer GreyWaterConsumer PotableWaterProducer PowerConsumerWaterRS");
-			//Ticks
-			myOutput.print(myBioDriver.getTicks() + "     ");// Ticks
-			//OGS			
-			myOutput.print(myBioHolder.theOGSModules.get(0).getH2ProducerDefinition() + "     ");// H2ProducerOGS
-			myOutput.print(myBioHolder.theOGSModules.get(0).getPotableWaterConsumerDefinition() + "     ");// O2ProducerOGS
-			myOutput.print(	myBioHolder.theOGSModules.get(0).getPotableWaterConsumerDefinition() + "  ");// PotableWaterConsumeOGS
-			myOutput.print(myBioHolder.theOGSModules.get(0).getPowerConsumerDefinition() + "  "); // PowerConsumerOGS
-			//VCCR
-			myOutput.print(myBioHolder.theVCCRModules.get(0).getPowerConsumerDefinition() + "   "); //PowerConsumerVCCR
-			myOutput.print(myBioHolder.theVCCRModules.get(0).getAirConsumerDefinition()+ "   ");//AirConsumerVCCR
-			myOutput.print(myBioHolder.theVCCRModules.get(0).getAirProducerDefinition()+ "   ");//AirProducerVCCR
-			myOutput.print(myBioHolder.theVCCRModules.get(0).getCO2ProducerDefinition()+ "   ");//CO2ProducerVCCR
-			// Injector
-			myOutput.print(myBioHolder.theInjectors.get(0).getO2ConsumerDefinition() + "   "); // O2ConsumerInjector
-			myOutput.print(myBioHolder.theInjectors.get(0).getO2ProducerDefinition() + "   ");//O2ProducerINjector
-			//WaterRS
-			myOutput.print(myBioHolder.theWaterRSModules.get(0).getDirtyWaterConsumerDefinition() + "   "); //DirtyWaterConsumer
-			myOutput.print(myBioHolder.theWaterRSModules.get(0).getGreyWaterConsumerDefinition() + "   "); //GreyWaterConsumer
-			myOutput.print(myBioHolder.theWaterRSModules.get(0).getPotableWaterProducerDefinition() + "   "); //PortableWaterProducer
-			myOutput.print(myBioHolder.theWaterRSModules.get(0).getPowerConsumerDefinition() + "   "); //PowerConsumer
+			myOutput.println("Ticks H2ProducerOGS O2ProducerOGS PotableWaterConsumeOGS PowerConsumerOGS PowerConsumerVCCR CO2ProducerVCCR O2ConsumerInjector O2ProdurerInjector DirtyWaterConsumer GreyWaterConsumer PotableWaterProducer PowerConsumerWaterRS");
+			myOutput.print(myBioDriver.getTicks() + "     ");// Ticks		
 			
+			myOutput.print(myOGS_H2OutFlowRateSensor.getValue() + "     ");// H2ProducerOGS
+			myOutput.print(myOGS_O2OutFlowRateSensor.getValue() + "     ");// O2ProducerOGS
+			myOutput.print(myOGS_PortableWaterInFlowRateSensor.getValue() + "  ");// PotableWaterConsumeOGS
+			myOutput.print(myOGS_PowerConsumerRateSensor.getValue() + "  "); // PowerConsumerOGS
+			
+			myOutput.print(myVCCR_PowerConsumerRateSensor.getValue() + "   "); //PowerConsumerVCCR
+			myOutput.print(myVCCR_CO2ProducerFlowRateSensor.getValue()+ "   ");//CO2ProducerVCCR
+
+			myOutput.print(myInjector_O2ConsumerRateSensor.getValue() + "   "); //O2ConsumerInjector
+			myOutput.print(myInjector_O2ProducerRateSensor.getValue() + "   ");//O2ProducerINjector
+
+			myOutput.print(myWaterRS_DirtyWaterConsumerRateSensor.getValue() + "   "); //DirtyWaterConsumer
+			myOutput.print(myWaterRS_GreyWaterConsumerRateSensor.getValue() + "   "); //GreyWaterConsumer
+			myOutput.print(myWaterRS_PortableWaterProducerRateSensor.getValue() + "   "); //PortableWaterProducer
+			myOutput.print(myWaterRS_PowerConsumerRateSensor.getValue() + "   "); //PowerConsumer
 			myOutput.flush();
 		} 
 		catch (FileNotFoundException e) {
@@ -213,197 +220,145 @@ public class RepairController implements BiosimController {
 		}
 	} 
 	
-		public boolean CheckFailure(){
-			if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()){
+	public boolean CheckFailure(){
+		if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()){
 				myLogger.info("Component failure caused by CO2Store " + " " + " at Tick " + myBioDriver.getTicks());
 				return true;
-			}
-			if (myBioHolder.theVCCRModules.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theVCCRModules.get(0).isMalfunctioning()){
 				myLogger.info("Component failure caused by VCCR " + " " + " at Tick " + myBioDriver.getTicks());
 				return true;
-			}
-			if (myBioHolder.theO2Stores.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theO2Stores.get(0).isMalfunctioning()){
 				myLogger.info("Component failure caused by O2Store " + " " + " at Tick " + myBioDriver.getTicks());
 				return true;
-			}
-			if (myBioHolder.theOGSModules.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theOGSModules.get(0).isMalfunctioning()){
 				myLogger.info("Component failure caused by OGS " + " " + " at Tick " + myBioDriver.getTicks());
 				return true;
-			}
-			if (myBioHolder.theH2Stores.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theH2Stores.get(0).isMalfunctioning()){
 				myLogger.info("Component failure caused by H2Store " + " " + " at Tick " + myBioDriver.getTicks());
 				return true;
-			}
-			if (myBioHolder.theCrewGroups.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theCrewGroups.get(0).isMalfunctioning()){
 				myLogger.info("Component failure caused by Crew " + " " + " at Tick " + myBioDriver.getTicks());
 				return true;
-			}
-			if (myBioHolder.theFoodStores.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theFoodStores.get(0).isMalfunctioning()){
 				myLogger.info("Component failure caused by FoodStore " + " " + " at Tick " + myBioDriver.getTicks());
 				return true;
-			}
-			if (myBioHolder.theInjectors.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theInjectors.get(0).isMalfunctioning()){
 				myLogger.info("Component failure caused by Injector " + " " + " at Tick " + myBioDriver.getTicks());
 				return true;
-			}
-			if (myBioHolder.thePowerStores.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.thePowerStores.get(0).isMalfunctioning()){
 				myLogger.info("Component failure caused by PowerStore " + " " + " at Tick " + myBioDriver.getTicks());
 				return true;
-			}
-			if (myBioHolder.theDryWasteStores.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theDryWasteStores.get(0).isMalfunctioning()){
 				myLogger.info("Component failure caused by DryWasteStore " + " " + " at Tick " + myBioDriver.getTicks());
 				return true;
-			}
-			if (myBioHolder.thePotableWaterStores.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.thePotableWaterStores.get(0).isMalfunctioning()){
 				myLogger.info("Component failure caused by PortableWaterStore " + " " + " at Tick " + myBioDriver.getTicks());
 				return true;
-			}
-			if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()){
 				myLogger.info("Component failure caused by DirtyWaterStore " + " " + " at Tick " + myBioDriver.getTicks());
 				return true;
-			}
-			if (myBioHolder.theWaterRSModules.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theWaterRSModules.get(0).isMalfunctioning()){
 				myLogger.info("Component failure caused by WaterRS " + " " + " at Tick " + myBioDriver.getTicks());
 				return true;
-			}
-			if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()){
 				myLogger.info("Component failure caused by DirtyWaterStore " + " " + " at Tick " + myBioDriver.getTicks());
 				return true;
-			}
-			else
-				return false;
+		}
+		else
+			return false;
 		}
 			
-		public void componentRepair(){
-			if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()){
+	public void ComponentRepair(){
+		if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()){
 				myBioHolder.theCO2Stores.get(0).reset();
 				myLogger.info("Component CO2Store is repaired" + " " + " at Tick " + myBioDriver.getTicks());		
-			}
-			if (myBioHolder.theVCCRModules.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theVCCRModules.get(0).isMalfunctioning()){
 				myBioHolder.theVCCRModules.get(0).reset();
 				myLogger.info("Component VCCR is repaired " + " " + " at Tick " + myBioDriver.getTicks());
-			}
-			if (myBioHolder.theO2Stores.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theO2Stores.get(0).isMalfunctioning()){
 				myBioHolder.theO2Stores.get(0).reset();
 				myLogger.info("Component O2Store is repaired" + " " + " at Tick " + myBioDriver.getTicks());
-			}
-			if (myBioHolder.theOGSModules.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theOGSModules.get(0).isMalfunctioning()){
 				myBioHolder.theOGSModules.get(0).reset();
 				myLogger.info("Component OGS is repaired " + " " + " at Tick " + myBioDriver.getTicks());
-			}
-			if (myBioHolder.theH2Stores.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theH2Stores.get(0).isMalfunctioning()){
 				myBioHolder.theH2Stores.get(0).reset();
 				myLogger.info("Component H2Store is repaired" + " " + " at Tick " + myBioDriver.getTicks());
-			}
-			if (myBioHolder.theCrewGroups.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theCrewGroups.get(0).isMalfunctioning()){
 				myBioHolder.theCrewGroups.get(0).reset();
 				myLogger.info("Component Crew has recovered" + " " + " at Tick " + myBioDriver.getTicks());
-			}
-			if (myBioHolder.theFoodStores.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theFoodStores.get(0).isMalfunctioning()){
 				myBioHolder.theFoodStores.get(0).reset();
 				myLogger.info("Component FoodStore is repaired " + " " + " at Tick " + myBioDriver.getTicks());
-			}
-			if (myBioHolder.theInjectors.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theInjectors.get(0).isMalfunctioning()){
 				myBioHolder.theInjectors.get(0).reset();
 				myLogger.info("Component Injector is repaired" + " " + " at Tick " + myBioDriver.getTicks());
-			}
-			if (myBioHolder.thePowerStores.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.thePowerStores.get(0).isMalfunctioning()){
 				myBioHolder.thePowerStores.get(0).reset();
 				myLogger.info("Component PowerStore is repaired " + " " + " at Tick " + myBioDriver.getTicks());
-			}
-			if (myBioHolder.theDryWasteStores.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theDryWasteStores.get(0).isMalfunctioning()){
 				myBioHolder.theDryWasteStores.get(0).reset();
 				myLogger.info("Component DryWasteStore is repaired" + " " + " at Tick " + myBioDriver.getTicks());
-			}
-			if (myBioHolder.thePotableWaterStores.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.thePotableWaterStores.get(0).isMalfunctioning()){
 				myBioHolder.thePotableWaterStores.get(0).reset();
 				myLogger.info("Component PortableWaterStore is repaired" + " " + " at Tick " + myBioDriver.getTicks());
-			}
-			if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()){
+	    }
+		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()){
 				myBioHolder.theDirtyWaterStores.get(0).reset();
 				myLogger.info("Component DirtyWaterStore is repaired" + " " + " at Tick " + myBioDriver.getTicks());
-			}
-			if (myBioHolder.theWaterRSModules.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theWaterRSModules.get(0).isMalfunctioning()){
 				myBioHolder.theWaterRSModules.get(0).reset();
 				myLogger.info("Component WaterRS is repaired " + " " + " at Tick " + myBioDriver.getTicks());
-			}
-			if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()){
+		}
+		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()){
 				myBioHolder.theDirtyWaterStores.get(0).reset();
 				myLogger.info("Component failure caused by DirtyWaterStore " + " " + " at Tick " + myBioDriver.getTicks());
-			}		
-		}
-		
-		public void RecordSensor(){ //is necessary? or just output directly
-			
-//			OGS
-			myBioHolder.theOGSModules.get(0).getH2ProducerDefinition();
-			myBioHolder.theOGSModules.get(0).getO2ProducerDefinition();
-			myBioHolder.theOGSModules.get(0).getPotableWaterConsumerDefinition();
-			myBioHolder.theOGSModules.get(0).getPowerConsumerDefinition();
+		}		
+	}
 
-//			VCCR
-			myBioHolder.theVCCRModules.get(0).getPowerConsumerDefinition();
-			myBioHolder.theVCCRModules.get(0).getAirConsumerDefinition();
-			myBioHolder.theVCCRModules.get(0).getAirProducerDefinition();
-			myBioHolder.theVCCRModules.get(0).getCO2ProducerDefinition();
-
-//			Injector
-			myBioHolder.theInjectors.get(0).getO2ConsumerDefinition();
-			myBioHolder.theInjectors.get(0).getO2ProducerDefinition();
-
-//			WaterRS
-			myBioHolder.theWaterRSModules.get(0).getDirtyWaterConsumerDefinition();
-			myBioHolder.theWaterRSModules.get(0).getGreyWaterConsumerDefinition();
-			myBioHolder.theWaterRSModules.get(0).getPotableWaterProducerDefinition();
-			myBioHolder.theWaterRSModules.get(0).getPowerConsumerDefinition();	
-		}
-		
-		/**
-		 * Executed every tick.  Looks at a sensor, looks at an actuator,
-		 * then increments the actuator.
-		 */	
-
-		public void stepSim() {
-//			Check sensor to monitor stochastic performance	
-//			Only monitor OGS, VCCR, Injector, WaterRS	
-				RecordSensor();
-//			Check failure to monitor component malfunction using a Boolean "CheckFailure"
-//	        Report Failure and fix the failed component	using a function "componentRepair"
-				if(CheckFailure()){
-					if (RepairDelay!=0){   // Repair Delay is the time needed for repair activities 
-						componentRepair();
-						RepairDelay=0;
-					}
-					else {
-					RepairDelay=1;	
-					}
+/**
+ * Executed every tick.  Looks at a sensor, looks at an actuator,
+ * then increments the actuator.
+ */	
+	public void stepSim() {
+//	Check failure to monitor component malfunction using a Boolean "CheckFailure"
+//	Report Failure and fix the failed component	using a function "ComponentRepair"
+		if(CheckFailure()){
+			if (RepairDelay!=0){   // Repair Delay is the time needed for repair activities 
+				ComponentRepair();
+				RepairDelay=0;
 				}
-			}
+			else {
+				RepairDelay=1;	
+				}
+				}
+		}
 }
 
 	
 
 
-/*
-//OGS 
-	myBioHolder.theOGSModules.get(0).getH2ProducerDefinition();
-	myBioHolder.theOGSModules.get(0).getO2ProducerDefinition();
-	myBioHolder.theOGSModules.get(0).getPotableWaterConsumerDefinition();
-	myBioHolder.theOGSModules.get(0).getPowerConsumerDefinition();
-
-//VCCR
-	myBioHolder.theVCCRModules.get(0).getPowerConsumerDefinition();
-	myBioHolder.theVCCRModules.get(0).getAirConsumerDefinition();
-	myBioHolder.theVCCRModules.get(0).getAirProducerDefinition();
-	myBioHolder.theVCCRModules.get(0).getCO2ProducerDefinition();
-	
-// Injector
-	myBioHolder.theInjectors.get(0).getO2ConsumerDefinition();
-	myOutput.print(myBioHolder.theInjectors.get(0).getO2ProducerDefinition();
-
-//WaterRS
-	myBioHolder.theWaterRSModules.get(0).getDirtyWaterConsumerDefinition();
-	myBioHolder.theWaterRSModules.get(0).getGreyWaterConsumerDefinition();
-	myBioHolder.theWaterRSModules.get(0).getPotableWaterProducerDefinition();
-	myBioHolder.theWaterRSModules.get(0).getPowerConsumerDefinition();
-*/
