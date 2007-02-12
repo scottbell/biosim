@@ -41,7 +41,6 @@
         </air>
         <crew>
 			<CrewGroup moduleName="CrewGroup" isDeathEnabled="false">
-				<normalFailureDecider logmean="300" logsd="5" />
 				<potableWaterConsumer desiredFlowRates="1000.0"
 					inputs="PotableWaterStore" maxFlowRates="1000.0" ></potableWaterConsumer>
 				<airConsumer desiredFlowRates="1000.0"
