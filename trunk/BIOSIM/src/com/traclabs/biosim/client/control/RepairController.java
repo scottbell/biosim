@@ -31,9 +31,10 @@ To run: (assuming BIOSIM_HOME/bin is in your path)
 
 public class RepairController implements BiosimController {
 	
-	private static String CONFIGURATION_FILE = "/BIOSIM/resources/com/traclabs/biosim/server/framework/configuration/reliability/CEVconfig.xml";
+	//remember to change path for xml file 
+	private static String CONFIGURATION_FILE = "/home/haibei/Eclipse/workspace/BIOSIM/resources/com/traclabs/biosim/server/framework/configuration/reliability/CEVconfig.xml";
 
-	private static final String LOG_FILE = "/home/RepairController/RepairControllerResults.txt";
+	private static final String LOG_FILE = "RepairControllerResults.txt";
 	
 	private BioDriver myBioDriver;
 
