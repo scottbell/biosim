@@ -97,7 +97,23 @@ public class AnalyticalController implements BiosimController {
 
 	private float myTotalPressureHighRate = (float)(2 * rGenerator.nextDouble());
 
-	private float myCropArea = (float)(300 * rGenerator.nextDouble());
+	private float myCropAreaTotal = (float)(200 * rGenerator.nextDouble());
+	
+	private float myCropAreaOne = (float)(myCropAreaTotal * rGenerator.nextDouble()); 
+	
+	private float myCropAreaTwo = (float)((myCropAreaTotal-myCropAreaOne) * rGenerator.nextDouble());
+	
+	private float myCropAreaThree = (float)((myCropAreaTotal-myCropAreaOne-myCropAreaTwo) * rGenerator.nextDouble());
+	
+	private float myCropAreaFour = (float)((myCropAreaTotal-myCropAreaOne-myCropAreaTwo-myCropAreaThree) * rGenerator.nextDouble());
+	
+	private float myCropAreaFive = (float)((myCropAreaTotal-myCropAreaOne-myCropAreaTwo-myCropAreaThree-myCropAreaFour) * rGenerator.nextDouble());
+	
+	private float myCropAreaSix = (float)((myCropAreaTotal-myCropAreaOne-myCropAreaTwo-myCropAreaThree-myCropAreaFour-myCropAreaFive) * rGenerator.nextDouble());
+	
+	private float myCropAreaSeven = (float)((myCropAreaTotal-myCropAreaOne-myCropAreaTwo-myCropAreaThree-myCropAreaFour-myCropAreaFive-myCropAreaSix) * rGenerator.nextDouble());
+	
+	private float myCropAreaEight = (float)(myCropAreaTotal-myCropAreaOne-myCropAreaTwo-myCropAreaThree-myCropAreaFour-myCropAreaFive-myCropAreaSix- myCropAreaSeven);
 	
 	private int numberFromMonteCarlo = (int)(Math.random() * 9);
 	
@@ -156,7 +172,7 @@ public class AnalyticalController implements BiosimController {
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
 		
 		//this changes the crop area ONLY, before the first ticks
-		myBioHolder.theBiomassPSModules.get(0).getShelf(0).replant(plantType, myCropArea);
+		myBioHolder.theBiomassPSModules.get(0).getShelf(0).replant(plantType, myCropAreaTotal);
 		
 		Injector NitrogenInjector = myBioHolder.theInjectors.get(0);
 		Injector CO2Injector = myBioHolder.theInjectors.get(1);
