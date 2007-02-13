@@ -158,7 +158,7 @@ public class AnalyticalController2 implements BiosimController {
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
 		
-		//this changes the crop area ONLY, before the first ticks
+		//this changes the crop area and the crop type, before the first tick
 		myBioHolder.theBiomassPSModules.get(0).getShelf(0).replant(plantType, myCropArea);
 		
 		Injector NitrogenInjector = myBioHolder.theInjectors.get(0);
