@@ -21,9 +21,8 @@ import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * A controller to end and change the simulation based on gas composition.
- * Configuration 1 for analytical approach
+ * For GA use ONLY
  * @author Kirsten Stark 
- * Configuration2 for Analytical Approach
  */
 public class MurderController implements BiosimController {
 	public static final String CONFIGURATION_FILE = "kirsten/MurderControllerInit.xml";
@@ -130,12 +129,9 @@ public class MurderController implements BiosimController {
 	public static void main(String[] args) {
 		boolean logToFile = Boolean.parseBoolean(CommandLineUtils
 				.getOptionValueFromArgs(args, "log"));
-		int max = 1500;
-		for (int i = 0; i < max; i ++){
 			MurderController myController = new MurderController(logToFile);
 			myController.collectReferences();
 			myController.runSim();
-		}
 	}
 	
 
@@ -151,9 +147,6 @@ public class MurderController implements BiosimController {
 		myBioDriver = myBioHolder.theBioDriver;
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
-		
-		//this changes the crop area ONLY, before the first ticks
-		myBioHolder.theBiomassPSModules.get(0).getShelf(0).replant((myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropType()), myCropArea);
 		
 		Injector NitrogenInjector = myBioHolder.theInjectors.get(0);
 		Injector CO2Injector = myBioHolder.theInjectors.get(1);
@@ -187,7 +180,7 @@ public class MurderController implements BiosimController {
 
 	}
 	
-	private void printHeader(){
+/*	private void printHeader(){
 		// prints the "name" of the simulation (how much area)
 		myOutput.println();
 		myOutput.println();
@@ -196,18 +189,16 @@ public class MurderController implements BiosimController {
 		myOutput.println("Ticks TotalPressure O2PP CO2PP NitrogenPP VaporPP Activity");
 		myOutput.flush();
 	}
-
+*/
+	
 	/**
 	 * Main loop of controller. Pauses the simulation, then ticks it one tick CO2InInjectorat
 	 * a time until end condition is met.
 	 */
 	public void runSim() {
-		printHeader();
 		myBioDriver.setPauseSimulation(true);
-		myBioDriver.startSimulation();
-		
-		myLogger.info("Controller starting run");
-		
+		myBioDriver.startSimulation();		
+		myLogger.info("Controller starting run");		
 		do {
 			myBioDriver.advanceOneTick();
 			if(cropsShouldDie())
@@ -215,11 +206,9 @@ public class MurderController implements BiosimController {
 			if(crewShouldDie())
 				myBioHolder.theCrewGroups.get(0).killCrew();
 			manipulateSim();
-			
-			//printResults();
 
 		} while (!myBioDriver.isDone());
-		printConfigurations();		
+//		printConfigurations();		
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 		myOutput.flush();
 		
@@ -239,8 +228,7 @@ public class MurderController implements BiosimController {
 				return true;
 			}
 			else
-				return false;
-		
+				return false;		
 	}
 
 	private boolean cropsShouldDie() {
@@ -314,7 +302,6 @@ public class MurderController implements BiosimController {
 	}
 
 	public void printConfigurations() {
-
 		PrintStream myOutput; 
 		myOutput = new PrintStream(out);
 		myOutput.println();
@@ -324,7 +311,7 @@ public class MurderController implements BiosimController {
 		myOutput.println();
 		}
 	
-	public void printResults() {
+/*	public void printResults() {
 		FileOutputStream out; 
 		PrintStream myOutput; 
 		try {
@@ -356,7 +343,7 @@ public class MurderController implements BiosimController {
 					e.printStackTrace();
 		}
 	} 
-		
+*/		
 	
 	public void setCO2InActuator(GenericActuator myCO2InActuator) {
 		this.myCO2InActuator = myCO2InActuator;
