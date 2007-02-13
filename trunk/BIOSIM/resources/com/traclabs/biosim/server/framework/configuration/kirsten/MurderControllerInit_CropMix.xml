@@ -55,24 +55,22 @@
 				<airConsumer inputs="SimEnvironment"
 					desiredFlowRates="1000" maxFlowRates="1000" />
 				<airProducer desiredFlowRates="1000"
-					outputs="SimEnvironment" maxFlowRates="1000" ></airProducer>
+					outputs="SimEnvironment" maxFlowRates="1000" />
 				<dirtyWaterProducer desiredFlowRates="1000"
 					outputs="DirtyWaterStore" maxFlowRates="1000" />
-				<greyWaterConsumer inputs="GreyWaterStore"
-					desiredFlowRates="1000" maxFlowRates="1000">
-				</greyWaterConsumer>
+				<greyWaterConsumer desiredFlowRates="1000"
+					inputs="GreyWaterStore" maxFlowRates="1000" />
 				<potableWaterConsumer inputs="PotableWaterStore"
-					desiredFlowRates="1000" maxFlowRates="1000">
-				</potableWaterConsumer>
-				<shelf cropType="WHEAT" cropArea="200" index="0"></shelf>
-				<shelf cropType="WHEAT" cropArea="200" index="1"></shelf>
-				<shelf cropType="WHEAT" cropArea="200" index="2"></shelf>
-				<shelf cropType="WHEAT" cropArea="200" index="3"></shelf>
-				<shelf cropType="WHEAT" cropArea="200" index="4"></shelf>
-				<shelf cropType="WHEAT" cropArea="200" index="5"></shelf>
-				<shelf cropType="WHEAT" cropArea="200" index="6"></shelf>
-				<shelf cropType="WHEAT" cropArea="200" index="7"></shelf>				
-				<shelf cropType="WHEAT" cropArea="200" index="8"></shelf>
+					desiredFlowRates="1000" maxFlowRates="1000" />
+				<shelf cropType="WHEAT" cropArea="200"></shelf>
+				<shelf cropType="WHEAT" cropArea="200"></shelf>
+				<shelf cropType="WHEAT" cropArea="200"></shelf>
+				<shelf cropType="WHEAT" cropArea="200"></shelf>
+				<shelf cropType="WHEAT" cropArea="200"></shelf>
+				<shelf cropType="WHEAT" cropArea="200"></shelf>
+				<shelf cropType="WHEAT" cropArea="200"></shelf>
+				<shelf cropType="WHEAT" cropArea="200"></shelf>				
+				<shelf cropType="WHEAT" cropArea="200"></shelf>
 				
 				<powerConsumer inputs="PowerStore"
 					desiredFlowRates="400" maxFlowRates="400" ></powerConsumer>
@@ -97,19 +95,16 @@
 		<framework>
 			<Accumulator moduleName="AirOutAccumulator">
 				<airConsumer inputs="SimEnvironment"
-					desiredFlowRates="0" maxFlowRates="1000">
-				</airConsumer>
+					desiredFlowRates="0" maxFlowRates="1000" />
 				<airProducer desiredFlowRates="1000" outputs="AirStore"
-					maxFlowRates="1000">
-				</airProducer>
+					maxFlowRates="1000" />
 			</Accumulator>
 			<Injector moduleName="NitrogenInInjector">
 				<nitrogenConsumer inputs="NitrogenStore"
-					desiredFlowRates="0" maxFlowRates="1000">
-				</nitrogenConsumer>
+					desiredFlowRates="0" maxFlowRates="1000" />
 				<nitrogenProducer desiredFlowRates="1000"
-					outputs="SimEnvironment" maxFlowRates="1000">
-				</nitrogenProducer>
+					outputs="SimEnvironment" maxFlowRates="1000" />
+					
 			</Injector>
 			<Injector moduleName="CO2InInjector">
 				<CO2Consumer inputs="CO2Store" desiredFlowRates="0"
