@@ -23,9 +23,10 @@ import com.traclabs.biosim.util.OrbUtils;
 /**
  * A controller for analytical approach.
  * @author Haibei
+ * Configuration 3, fixed Total Crop Area and varying Crop Mix
  */
 public class AnalyticalController3 implements BiosimController {
-	public static final String CONFIGURATION_FILE = "kirsten/MurderControllerInit.xml";
+	public static final String CONFIGURATION_FILE = "kirsten/MurderControllerInit_CropMix.xml";
 
 	private static final String LOG_FILE = "MurderControllerResults.txt";
 
