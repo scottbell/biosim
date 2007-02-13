@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<biosim xmlns="http://www.traclabs.com/biosim"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
+	<Globals runTillCrewDeath="true" crewsToWatch="Nigil" runTillPlantDeath="false" runTillN="25000">
+		<comment>
+			A initialization file for the MurderController
+		</comment>
+		<author>Haibei Jiang</author>
+	</Globals>
+	<SimBioModules>
+		<crew>
+			<CrewGroup moduleName="Nigil" isDeathEnabled="false">
+				<potableWaterConsumer desiredFlowRates="1000.0"
+					inputs="PotableWaterStore" maxFlowRates="1000.0" />
+				<airConsumer desiredFlowRates="1000.0"
+					inputs="SimEnvironment" maxFlowRates="1000.0" />
+				<foodConsumer desiredFlowRates="1000" inputs="FoodStore"
+					maxFlowRates="1000" />
+				<dirtyWaterProducer desiredFlowRates="1000.0"
+					maxFlowRates="1000.0" outputs="DirtyWaterStore" />
+				<greyWaterProducer desiredFlowRates="1000.0"
+					maxFlowRates="1000.0" outputs="GreyWaterStore" />
+				<airProducer desiredFlowRates="1000" maxFlowRates="1000"
+					outputs="SimEnvironment" />
+				<dryWasteProducer desiredFlowRates="1000.0"
+					maxFlowRates="1000.0" outputs="DryWasteStore" />
+				<crewPerson name="Nigil" age="35" weight="50" sex="MALE"
+					arrivalDate="480">
+					<schedule>
+						<activity name="sleep" length="8" intensity="1" />
+						<activity name="hygiene" length="1"
+							intensity="2" />
+						<activity name="exercise" length="1"
+							intensity="5" />
+						<activity name="eating" length="1"
+							intensity="2" />
+						<activity name="mission" length="9"
+							intensity="3" />
+						<activity intensity="2" name="health"
+							length="1" />
+						<activity intensity="2" name="maintenance"
+							length="1" />
+						<activity intensity="2" name="leisure"
+							length="2" />
+					</schedule>
+				</crewPerson>
+			</CrewGroup>
+		</crew>
+		<food>
+			<FoodStore capacity="1.0E9" level="1.0E9"
+				moduleName="FoodStore" />
+			<BiomassPS moduleName="BiomassPS" isDeathEnabled="false"
+				autoHarvestAndReplant="true">
+				<airConsumer inputs="SimEnvironment"
+					desiredFlowRates="1000" maxFlowRates="1000" />
+				<airProducer desiredFlowRates="1000"
+					outputs="SimEnvironment" maxFlowRates="1000" />
+				<dirtyWaterProducer desiredFlowRates="1000"
+					outputs="DirtyWaterStore" maxFlowRates="1000" />
+				<greyWaterConsumer desiredFlowRates="1000"
+					inputs="GreyWaterStore" maxFlowRates="1000" />
+				<potableWaterConsumer inputs="PotableWaterStore"
+					desiredFlowRates="1000" maxFlowRates="1000" />
+				<shelf cropType="WHEAT" cropArea="200"></shelf>
+				<shelf cropType="WHEAT" cropArea="200"></shelf>
+				<shelf cropType="WHEAT" cropArea="200"></shelf>
+				<shelf cropType="WHEAT" cropArea="200"></shelf>
+				<shelf cropType="WHEAT" cropArea="200"></shelf>
+				<shelf cropType="WHEAT" cropArea="200"></shelf>
+				<shelf cropType="WHEAT" cropArea="200"></shelf>
+				<shelf cropType="WHEAT" cropArea="200"></shelf>				
+				<shelf cropType="WHEAT" cropArea="200"></shelf>
+				
+				<powerConsumer inputs="PowerStore"
+					desiredFlowRates="400" maxFlowRates="400" ></powerConsumer>
+			</BiomassPS>
+		</food>
+		<power>
+			<PowerStore level="1.0E9" capacity="1.0E9"
+				moduleName="PowerStore" />
+		</power>
+		<waste>
+			<DryWasteStore capacity="1.0E9" level="0"
+				moduleName="DryWasteStore" />
+		</waste>
+		<water>
+			<PotableWaterStore capacity="1.0E9" level="1.0E9"
+				moduleName="PotableWaterStore" />
+			<DirtyWaterStore capacity="1.0E9" level="0"
+				moduleName="DirtyWaterStore" />
+			<GreyWaterStore capacity="1.0E9" level="0"
+				moduleName="GreyWaterStore" />
+		</water>
+		<framework>
+			<Accumulator moduleName="AirOutAccumulator">
+				<airConsumer inputs="SimEnvironment"
+					desiredFlowRates="0" maxFlowRates="1000" />
+				<airProducer desiredFlowRates="1000" outputs="AirStore"
+					maxFlowRates="1000" />
+			</Accumulator>
+			<Injector moduleName="NitrogenInInjector">
+				<nitrogenConsumer inputs="NitrogenStore"
+					desiredFlowRates="0" maxFlowRates="1000" />
+				<nitrogenProducer desiredFlowRates="1000"
+					outputs="SimEnvironment" maxFlowRates="1000" />
+					
+			</Injector>
+			<Injector moduleName="CO2InInjector">
+				<CO2Consumer inputs="CO2Store" desiredFlowRates="0"
+					maxFlowRates="1000" />
+				<CO2Producer desiredFlowRates="1000"
+					outputs="SimEnvironment" maxFlowRates="1000" />
+			</Injector>
+			<Accumulator moduleName="O2Accumulator">
+				<O2Consumer inputs="SimEnvironment" desiredFlowRates="0"
+					maxFlowRates="1000" />
+				<O2Producer desiredFlowRates="1000" outputs="AirStore"
+					maxFlowRates="1000" />
+			</Accumulator>
+		</framework>
+		<air>
+			<NitrogenStore capacity="1.0E9" level="1.0E9"
+				moduleName="NitrogenStore">
+			</NitrogenStore>
+			<CO2Store capacity="1.0E9" moduleName="CO2Store"
+				level="1.0E9">
+			</CO2Store>
+		</air>
+		<environment>
+			<SimEnvironment moduleName="SimEnvironment"
+				initialVolume="32000">
+			</SimEnvironment>
+			<SimEnvironment moduleName="AirStore"
+				initialVolume="1.0E9">
+			</SimEnvironment>
+			<Dehumidifier moduleName="Dehumidifier">
+				<airConsumer inputs="SimEnvironment"
+					desiredFlowRates="500000" maxFlowRates="500000" />
+				<dirtyWaterProducer desiredFlowRates="500000"
+					outputs="DirtyWaterStore" maxFlowRates="500000" />
+			</Dehumidifier>
+		</environment>
+	</SimBioModules>
+	<Sensors>
+		<environment>
+			<GasPressureSensor input="SimEnvironment"
+				moduleName="O2PressureSensor" gasType="O2">
+			</GasPressureSensor>
+			<GasPressureSensor input="SimEnvironment"
+				moduleName="CO2PressureSensor" gasType="CO2">
+			</GasPressureSensor>
+			<GasPressureSensor input="SimEnvironment"
+				moduleName="NitrogenPressureSensor" gasType="NITROGEN">
+			</GasPressureSensor>
+			<GasPressureSensor input="SimEnvironment"
+				moduleName="VaporPressureSensor" gasType="VAPOR">
+			</GasPressureSensor>
+		</environment>
+		<food>
+			<TimeTillCanopyClosureSensor shelfIndex="0"
+				input="BiomassPS" moduleName="CanopyClosureTimeSensor">
+			</TimeTillCanopyClosureSensor>
+		</food>
+	</Sensors>
+	<Actuators>
+		<air>
+			<NitrogenInFlowRateActuator output="NitrogenInInjector"
+				moduleName="SimEnvironmentNitrogenInFlowRateActuator" index="0">
+			</NitrogenInFlowRateActuator>
+			<CO2InFlowRateActuator output="CO2InInjector"
+				moduleName="SimEnvironmentCO2InFlowRateActuator" index="0">
+			</CO2InFlowRateActuator>
+			<O2InFlowRateActuator output="O2Accumulator"
+				moduleName="SimEnvironmentO2OutFlowRateActuator" index="0">
+			</O2InFlowRateActuator>
+		</air>
+		<environment>
+			<AirInFlowRateActuator output="AirOutAccumulator"
+				moduleName="AirInFlowRateActuator" index="0">
+			</AirInFlowRateActuator>
+		</environment>
+	</Actuators>
+</biosim>
