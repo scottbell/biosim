@@ -205,7 +205,7 @@ public class AnalyticalController3 implements BiosimController {
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
 		
-		//this changes the crop area ONLY, before the first ticks
+		//this implements the crop mix, before the first tick. In is configuration, total crop area is fixed
 		myBioHolder.theBiomassPSModules.get(0).getShelf(0).replant(plantType1, myCropAreaOne);
 		myBioHolder.theBiomassPSModules.get(0).getShelf(1).replant(plantType2, myCropAreaTwo);
 		myBioHolder.theBiomassPSModules.get(0).getShelf(2).replant(plantType3, myCropAreaThree);

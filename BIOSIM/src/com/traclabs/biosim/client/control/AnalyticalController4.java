@@ -117,39 +117,39 @@ public class AnalyticalController4 implements BiosimController {
 	
 	private float myCropAreaNine = (float)(myCropAreaTotal-myCropAreaOne-myCropAreaTwo-myCropAreaThree-myCropAreaFour-myCropAreaFive-myCropAreaSix- myCropAreaSeven-myCropAreaEight);
 	
-	private int numberFromMonteCarlo1 = (int)(Math.random() * 9);
+	private int numberFromMonteCarlo1 = (int)(Math.random() * 8);
 	
 	private PlantType plantType1 = PlantType.from_int(numberFromMonteCarlo1);
 	
-	private int numberFromMonteCarlo2 = (int)(Math.random() * 9);
+	private int numberFromMonteCarlo2 = (int)(Math.random() * 8);
 	
 	private PlantType plantType2 = PlantType.from_int(numberFromMonteCarlo2);
 	
-	private int numberFromMonteCarlo3 = (int)(Math.random() * 9);
+	private int numberFromMonteCarlo3 = (int)(Math.random() * 8);
 	
 	private PlantType plantType3= PlantType.from_int(numberFromMonteCarlo3);
 	
-	private int numberFromMonteCarlo4= (int)(Math.random() * 9);
+	private int numberFromMonteCarlo4 = (int)(Math.random() * 8);
 	
 	private PlantType plantType4 = PlantType.from_int(numberFromMonteCarlo4);
 	
-	private int numberFromMonteCarlo5 = (int)(Math.random() * 9);
+	private int numberFromMonteCarlo5 = (int)(Math.random() * 8);
 	
 	private PlantType plantType5 = PlantType.from_int(numberFromMonteCarlo5);
 	
-	private int numberFromMonteCarlo6 = (int)(Math.random() * 9);
+	private int numberFromMonteCarlo6 = (int)(Math.random() * 8);
 	
 	private PlantType plantType6 = PlantType.from_int(numberFromMonteCarlo6);
 	
-	private int numberFromMonteCarlo7 = (int)(Math.random() * 9);
+	private int numberFromMonteCarlo7 = (int)(Math.random() * 8);
 	
 	private PlantType plantType7 = PlantType.from_int(numberFromMonteCarlo7);
 	
-	private int numberFromMonteCarlo8 = (int)(Math.random() * 9);
+	private int numberFromMonteCarlo8 = (int)(Math.random() * 8);
 	
 	private PlantType plantType8 = PlantType.from_int(numberFromMonteCarlo8);
 	
-	private int numberFromMonteCarlo9 = (int)(Math.random() * 9);
+	private int numberFromMonteCarlo9 = (int)(Math.random() * 8);
 	
 	private PlantType plantType9 = PlantType.from_int(numberFromMonteCarlo9);
 	
@@ -163,9 +163,9 @@ public class AnalyticalController4 implements BiosimController {
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
 		try{
-			out = new FileOutputStream("Configuration.txt", true);		
+			out = new FileOutputStream("Configuration4Result.txt", true);		
 		}catch (Exception e){
-			System.out.println("Can't open Configuration.txt.");
+			System.out.println("Can't open Configuration4Result.txt.");
 		}
 
 		if (logToFile) {
@@ -183,7 +183,7 @@ public class AnalyticalController4 implements BiosimController {
 	public static void main(String[] args) {
 		boolean logToFile = Boolean.parseBoolean(CommandLineUtils
 				.getOptionValueFromArgs(args, "log"));
-		int max = 1500;
+		int max = 5000;
 		for (int i = 0; i < max; i ++){
 			MurderController myController = new MurderController(logToFile);
 			myController.collectReferences();
@@ -205,7 +205,7 @@ public class AnalyticalController4 implements BiosimController {
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
 		
-		//this changes the crop area ONLY, before the first ticks
+		//this implements the crop mix, before the first tick. 
 		myBioHolder.theBiomassPSModules.get(0).getShelf(0).replant(plantType1, myCropAreaOne);
 		myBioHolder.theBiomassPSModules.get(0).getShelf(1).replant(plantType2, myCropAreaTwo);
 		myBioHolder.theBiomassPSModules.get(0).getShelf(2).replant(plantType3, myCropAreaThree);
