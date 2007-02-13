@@ -23,9 +23,10 @@ import com.traclabs.biosim.util.OrbUtils;
 /**
  * A controller for analytical approach.
  * @author Haibei
+ * Configuration 4, change total area and Crop Mix
  */
 public class AnalyticalController4 implements BiosimController {
-	public static final String CONFIGURATION_FILE = "kirsten/MurderControllerInit.xml";
+	public static final String CONFIGURATION_FILE = "kirsten/MurderControllerInit_CropMix.xml";
 
 	private static final String LOG_FILE = "MurderControllerResults.txt";
 
@@ -248,7 +249,7 @@ public class AnalyticalController4 implements BiosimController {
 
 	}
 	
-	private void printHeader(){
+/*	private void printHeader(){
 		// prints the "name" of the simulation (how much area)
 		myOutput.println();
 		myOutput.println();
@@ -265,28 +266,23 @@ public class AnalyticalController4 implements BiosimController {
 		myOutput.println("Ticks TotalPressure O2PP CO2PP NitrogenPP VaporPP Activity");
 		myOutput.flush();
 	}
-
+*/
 	/**
 	 * Main loop of controller. Pauses the simulation, then ticks it one tick CO2InInjectorat
 	 * a time until end condition is met.
 	 */
 	public void runSim() {
-		printHeader();
 		myBioDriver.setPauseSimulation(true);
-		myBioDriver.startSimulation();
-		
-		myLogger.info("Controller starting run");
-		
+		myBioDriver.startSimulation();	
+		myLogger.info("Controller starting run");		
 		do {
 			myBioDriver.advanceOneTick();
 			if(cropsShouldDie())
 				myBioHolder.theBiomassPSModules.get(0).killPlants();
 			if(crewShouldDie())
 				myBioHolder.theCrewGroups.get(0).killCrew();
-			manipulateSim();
-			
-			//printResults();
-
+			manipulateSim();		
+			//printResults()
 		} while (!myBioDriver.isDone());
 		printConfigurations();		
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
@@ -383,19 +379,19 @@ public class AnalyticalController4 implements BiosimController {
 	}
 
 	public void printConfigurations() {
-
 		PrintStream myOutput; 
 		myOutput = new PrintStream(out);
 		myOutput.println();
-		myOutput.println("Crop area 1= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo1 );
-		myOutput.println("Crop area 2= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(1).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo2);
-		myOutput.println("Crop area 3= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(2).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo3);
-		myOutput.println("Crop area 4= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(3).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo4);
-		myOutput.println("Crop area 5= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(4).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo5);
-		myOutput.println("Crop area 6= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(5).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo6);
-		myOutput.println("Crop area 7= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(6).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo7);
-		myOutput.println("Crop area 8= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(7).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo8);
-		myOutput.println("Crop area 9= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(8).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo9);
+		myOutput.println("Crop Area Total is" + myCropAreaTotal);
+		myOutput.println("Crop area 1= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed()+ " " + "Crop Type 1 is" + numberFromMonteCarlo1 );
+		myOutput.println("Crop area 2= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(1).getCropAreaUsed()+ " " + "Crop Type 2 is" + numberFromMonteCarlo2);
+		myOutput.println("Crop area 3= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(2).getCropAreaUsed()+ " " + "Crop Type 3 is" + numberFromMonteCarlo3);
+		myOutput.println("Crop area 4= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(3).getCropAreaUsed()+ " " + "Crop Type 4 is" + numberFromMonteCarlo4);
+		myOutput.println("Crop area 5= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(4).getCropAreaUsed()+ " " + "Crop Type 5 is" + numberFromMonteCarlo5);
+		myOutput.println("Crop area 6= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(5).getCropAreaUsed()+ " " + "Crop Type 6 is" + numberFromMonteCarlo6);
+		myOutput.println("Crop area 7= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(6).getCropAreaUsed()+ " " + "Crop Type 7 is" + numberFromMonteCarlo7);
+		myOutput.println("Crop area 8= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(7).getCropAreaUsed()+ " " + "Crop Type 8 is" + numberFromMonteCarlo8);
+		myOutput.println("Crop area 9= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(8).getCropAreaUsed()+ " " + "Crop Type 9 is" + numberFromMonteCarlo9);
 		myOutput.println("CO2Segment1Time =" + myCO2Segment1Time +" "+"CO2Segment2Time =" + myCO2Segment2Time +" "+ "CO2Segment3Time =" + myCO2Segment3Time + " "+ "myCO2Segment1SetPoint =" + myCO2Segment1SetPoint +" "+ "myCO2Segment2SetPoint =" + myCO2Segment2SetPoint +" "+ "myCO2Segment3SetPoint =" + myCO2Segment3SetPoint +" "+ "myO2SetPoint =" + myO2SetPoint +" "+ "myO2LowRate =" + myO2LowRate +" "+ "myO2HighRate =" + myO2HighRate+" " + "myTotalPressureHighRate =" + myTotalPressureHighRate +" "+  "myTotalPressureLowRate =" + myTotalPressureLowRate+" "+ "myCO2Segment1LowRate =" + myCO2Segment1LowRate +" "+ "myCO2Segment2LowRate =" + myCO2Segment2LowRate +" "+ "myCO2Segment3LowRate =" + myCO2Segment3LowRate +" "+ "myCO2Segment3LowRate =" + myCO2Segment3LowRate+" " + "myCO2Segment1HighRate =" + myCO2Segment1HighRate +" "+ "myCO2Segment2HighRate =" + myCO2Segment2HighRate +" "+ "myCO2Segment3HighRate =" + myCO2Segment3HighRate +" "+ "ArrivalTime =" + ArrivalTime);
 		myOutput.println("Controller ended on tick " + myBioDriver.getTicks());
 		myOutput.println();
