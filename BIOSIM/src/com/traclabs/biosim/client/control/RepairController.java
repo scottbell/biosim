@@ -357,8 +357,6 @@ public class RepairController implements BiosimController {
 				RepairDelay=1;	
 				}
 			}
-		else{
-			RepairDelay=0;
 		}	
 	}
 		
