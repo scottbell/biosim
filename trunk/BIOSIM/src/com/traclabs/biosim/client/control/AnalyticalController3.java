@@ -58,7 +58,7 @@ public class AnalyticalController3 implements BiosimController {
 
 	private GenericActuator myO2OutActuator;
 
-	Random rGenerator = new Random(System.currentTimeMillis()%1000);
+	private Random rGenerator = new Random(System.currentTimeMillis()%1000);
 	
 	private int myCO2Segment1Time = (int)(100*rGenerator.nextDouble());
 
@@ -156,7 +156,7 @@ public class AnalyticalController3 implements BiosimController {
 	
 	private PrintStream myOutput;
 	
-	private boolean logToFile = false;
+	private boolean logToFile = true;
 	FileOutputStream out; 
 	
 	public AnalyticalController3(boolean log) {
@@ -192,7 +192,6 @@ public class AnalyticalController3 implements BiosimController {
 		}
 	}
 	
-
 	/**
 	 * Collects references to BioModules we'll need to run/observer/poke the
 	 * sim. The BioHolder is a utility for clients to easily access different
@@ -250,8 +249,6 @@ public class AnalyticalController3 implements BiosimController {
 	}
 	
 /*	private void printHeader(){
-		// prints the "name" of the simulation (how much area)
-		myOutput.println();
 		myOutput.println();
 		myOutput.println("Crop area 1= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo1 );
 		myOutput.println("Crop area 2= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(1).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo2);
@@ -378,7 +375,6 @@ public class AnalyticalController3 implements BiosimController {
 	}
 
 	public void printConfigurations() {
-
 		PrintStream myOutput; 
 		myOutput = new PrintStream(out);
 		myOutput.println();
@@ -396,7 +392,7 @@ public class AnalyticalController3 implements BiosimController {
 		myOutput.println();
 		}
 	
-/*	public void printResults() {
+public void printResults() {
 		FileOutputStream out; 
 		PrintStream myOutput; 
 		try {
@@ -428,8 +424,7 @@ public class AnalyticalController3 implements BiosimController {
 					e.printStackTrace();
 		}
 	} 
-	*/
-		
+
 	
 	public void setCO2InActuator(GenericActuator myCO2InActuator) {
 		this.myCO2InActuator = myCO2InActuator;
