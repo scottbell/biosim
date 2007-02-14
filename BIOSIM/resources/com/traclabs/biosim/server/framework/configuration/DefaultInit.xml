@@ -1,22 +1,19 @@
 <?xml version="1.0"?>
 <biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../schema/BiosimInitSchema.xsd">
-		<Globals crewsToWatch="CrewGroup" runTillCrewDeath="true" startPaused="false">
-		<comment>
-			A lunar mission initialization for BioSim
-			Has the following properties:
-				- contains biomass
-				- biomass has separate air and water from crew
-				*other properties same as scenario 1*
-				- big H2 tank
-				- cabin leak (very small)
-				- small C02 tank
-				- roughly 11.82 MJ of energy expended by each crew member
-				- 2 malfunctions
-		</comment>
-		<author>Scott Bell</author>
-		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.util.failure.FailureDecider" value="DEBUG"/>-->
-	</Globals>
-	<SimBioModules>
+		<Globals crewsToWatch="CrewGroup" runTillCrewDeath="true"
+			startPaused="false" driverStutterLength="10">
+			<comment>
+				A lunar mission initialization for BioSim Has the
+				following properties: - contains biomass - biomass has
+				separate air and water from crew *other properties same
+				as scenario 1* - big H2 tank - cabin leak (very small) -
+				small C02 tank - roughly 11.82 MJ of energy expended by
+				each crew member - 2 malfunctions
+			</comment>
+			<author>Scott Bell</author>
+			<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.util.failure.FailureDecider" value="DEBUG"/>-->
+		</Globals>
+		<SimBioModules>
 		<air>
 			<VCCR moduleName="VCCR" implementation="LINEAR">
 				<powerConsumer maxFlowRates="100000" desiredFlowRates="100000" inputs="PowerStore"/>
