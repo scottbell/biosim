@@ -39,6 +39,8 @@ public class AnalyticalController5 implements BiosimController {
 	private CrewPerson myCrewPerson;
 
 	private SimEnvironment crewEnvironment;
+	
+	private SimEnvironment plantEnvironment;
 
 	private GenericSensor myO2PressureSensor;
 
@@ -117,6 +119,10 @@ public class AnalyticalController5 implements BiosimController {
 	private float myCropAreaEight = (float)((myCropAreaTotal-myCropAreaOne-myCropAreaTwo-myCropAreaThree-myCropAreaFour-myCropAreaFive-myCropAreaSix-myCropAreaSeven) * rGenerator.nextDouble());
 	
 	private float myCropAreaNine = (float)(myCropAreaTotal-myCropAreaOne-myCropAreaTwo-myCropAreaThree-myCropAreaFour-myCropAreaFive-myCropAreaSix- myCropAreaSeven-myCropAreaEight);
+	
+	private double myPlantHeight = 0.8 + 2.4 * rGenerator.nextDouble();
+	
+	private double myVolume = myCropAreaTotal * myPlantHeight + 20; 
 	
 	private int numberFromMonteCarlo1 = (int)(Math.random() * 8);
 	
@@ -204,6 +210,7 @@ public class AnalyticalController5 implements BiosimController {
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
+		plantEnvironment = myBioHolder.theSimEnvironments.get(1);
 		myCrewPerson = myBioHolder.theCrewGroups.get(0).getCrewPerson("Nigil");
 		
 		//this implements the crop mix, before the first tick. 
@@ -249,24 +256,6 @@ public class AnalyticalController5 implements BiosimController {
 
 	}
 	
-/*	private void printHeader(){
-		// prints the "name" of the simulation (how much area)
-		myOutput.println();
-		myOutput.println();
-		myOutput.println("Crop area 1= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo1 );
-		myOutput.println("Crop area 2= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(1).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo2);
-		myOutput.println("Crop area 3= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(2).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo3);
-		myOutput.println("Crop area 4= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(3).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo4);
-		myOutput.println("Crop area 5= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(4).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo5);
-		myOutput.println("Crop area 6= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(5).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo6);
-		myOutput.println("Crop area 7= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(6).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo7);
-		myOutput.println("Crop area 8= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(7).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo8);
-		myOutput.println("Crop area 9= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(8).getCropAreaUsed()+ " " + "Crop Type is" + numberFromMonteCarlo9);
-		myOutput.println();
-		myOutput.println("Ticks TotalPressure O2PP CO2PP NitrogenPP VaporPP Activity");
-		myOutput.flush();
-	}
-*/
 	/**
 	 * Main loop of controller. Pauses the simulation, then ticks it one tick CO2InInjectorat
 	 * a time until end condition is met.
@@ -382,7 +371,7 @@ public class AnalyticalController5 implements BiosimController {
 		PrintStream myOutput; 
 		myOutput = new PrintStream(out);
 		myOutput.println();
-		myOutput.println("Crop Area Total is" + myCropAreaTotal);
+		myOutput.println("Crop Area Total is" + myCropAreaTotal + "Total Volume is " + myVolume);
 		myOutput.println("Crop area 1= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed()+ " " + "Crop Type 1 is" + numberFromMonteCarlo1 );
 		myOutput.println("Crop area 2= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(1).getCropAreaUsed()+ " " + "Crop Type 2 is" + numberFromMonteCarlo2);
 		myOutput.println("Crop area 3= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(2).getCropAreaUsed()+ " " + "Crop Type 3 is" + numberFromMonteCarlo3);
@@ -405,7 +394,7 @@ public class AnalyticalController5 implements BiosimController {
 			myOutput = new PrintStream(out);
 			myOutput.println();
 			myOutput.println("Ticks TotalPressure O2PP CO2PP NitrogenPP VaporPP Activity");
-			myOutput.print(myBioDriver.getTicks() + "     ");// Ticks
+			myOutput.print(myBioDriver.getTicks() + "   ");// Ticks
 			myOutput.print(myO2PressureSensor.getValue()
 					+ myCO2PressureSensor.getValue()
 					+ myNitrogenPressureSensor.getValue()

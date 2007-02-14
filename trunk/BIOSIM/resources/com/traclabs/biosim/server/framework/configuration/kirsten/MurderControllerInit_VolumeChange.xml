@@ -128,9 +128,10 @@
 			</CO2Store>
 		</air>
 		<environment>
-			<SimEnvironment moduleName="SimEnvironment"
-				initialVolume="32000">
-			</SimEnvironment>
+			<SimEnvironment moduleName="CrewEnvironment"
+				initialVolume="32000" />
+			<SimEnvironment moduleName="PlantEnvironment"
+				initialVolume="32000" />
 			<SimEnvironment moduleName="AirStore"
 				initialVolume="1.0E9">
 			</SimEnvironment>
