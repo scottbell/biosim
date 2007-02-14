@@ -158,12 +158,12 @@
 				<greyWaterConsumer maxFlowRates="10000000" desiredFlowRates="10000000" inputs="PlantGreyWaterStore"/>
 				<potableWaterProducer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="PlantPotableWaterStore"/>
 			</WaterRS>
-			<PotableWaterStore moduleName="CrewPotableWaterStore" capacity="800000" level="500000"/>
+			<PotableWaterStore moduleName="CrewPotableWaterStore" capacity="800000" level="700000"/>
 			<PotableWaterStore moduleName="PlantPotableWaterStore" capacity="800000" level="500000"/>
-			<GreyWaterStore moduleName="CrewGreyWaterStore" capacity="800000" level="500000"/>
-			<GreyWaterStore moduleName="PlantGreyWaterStore" capacity="800000" level="500000"/>
-			<DirtyWaterStore moduleName="CrewDirtyWaterStore" capacity="800000" level="500000"/>
-			<DirtyWaterStore moduleName="PlantDirtyWaterStore" capacity="800000" level="500000"/>
+			<GreyWaterStore moduleName="CrewGreyWaterStore" capacity="800000" level="300000"/>
+			<GreyWaterStore moduleName="PlantGreyWaterStore" capacity="800000" level="300000"/>
+			<DirtyWaterStore moduleName="CrewDirtyWaterStore" capacity="800000" level="100000"/>
+			<DirtyWaterStore moduleName="PlantDirtyWaterStore" capacity="800000" level="100000"/>
 		</water>
 		<waste>
 			<DryWasteStore moduleName="DryWasteStore" capacity="500" level="0"/>
