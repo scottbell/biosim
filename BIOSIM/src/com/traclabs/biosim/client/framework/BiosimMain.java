@@ -118,6 +118,7 @@ public class BiosimMain {
             else if (myArgs[i].startsWith("-utServer=")) {
                 try {
                     unrealServerGiven = true;
+                    wantsToRunUnreal = true;
                     unrealServer = myArgs[i].split("=")[1];
                 } catch (Exception e) {
                     myLogger.warn("Problem parsing arguments on arg "
@@ -128,6 +129,7 @@ public class BiosimMain {
             else if ((myArgs[i].startsWith("-utServer")) && (myArgs.length >= i)){
                 try {
                     unrealServerGiven = true;
+                    wantsToRunUnreal = true;
                     unrealServer = myArgs[i + 1];
                 } catch (Exception e) {
                     myLogger.error("Problem parsing arguments on arg "
@@ -161,7 +163,7 @@ public class BiosimMain {
         	runTestController();
         else if (wantsToRunUnreal) {
             if (unrealServerGiven) {
-                runUnreal2(unrealServer);
+                runUnreal(unrealServer);
             } else {
                 runUnreal();
             }
@@ -219,7 +221,7 @@ public class BiosimMain {
      * @param unServer
      *            The name of the unreal Server to connect to.
      */
-    private void runUnreal2(String unServer) {
+    private void runUnreal(String unServer) {
         UnrealCom myUnrealCom = new UnrealCom(unServer);
         myUnrealCom.initUnrealComm();
     }

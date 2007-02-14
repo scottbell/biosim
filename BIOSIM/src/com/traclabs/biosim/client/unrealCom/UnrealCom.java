@@ -127,7 +127,7 @@ public class UnrealCom {
         myCrewEnvWatch.start();
         myPlantEnvWatch.start();
         myARSwatch.start();
-
+        myLogger.info("Connected and watching UT Server");
     }
 
 }
