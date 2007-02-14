@@ -27,11 +27,11 @@
 				<O2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="O2Store"/>
 				<H2Producer maxFlowRates="10000000" desiredFlowRates="10000000" outputs="H2Store"/>
 			</OGS>
-			<O2Store moduleName="O2Store" capacity="2000" level="2000">
+			<O2Store moduleName="O2Store" capacity="2000" level="1800">
 				<malfunction occursAtTick="200" length="PERMANENT_MALF" intensity="MEDIUM_MALF"/>
 			</O2Store>
-			<CO2Store moduleName="CO2Store" capacity="0" level="0"/>
-			<H2Store moduleName="H2Store" capacity="1000" level="1000"/>
+			<CO2Store moduleName="CO2Store" capacity="1000" level="500"/>
+			<H2Store moduleName="H2Store" capacity="1000" level="700"/>
 			<NitrogenStore moduleName="NitrogenStore" capacity="5000" level="4000"/>
 		</air>
 		<crew>
@@ -160,10 +160,10 @@
 			</WaterRS>
 			<PotableWaterStore moduleName="CrewPotableWaterStore" capacity="800000" level="500000"/>
 			<PotableWaterStore moduleName="PlantPotableWaterStore" capacity="800000" level="500000"/>
-			<GreyWaterStore moduleName="CrewGreyWaterStore" capacity="4000" level="0"/>
-			<GreyWaterStore moduleName="PlantGreyWaterStore" capacity="4000" level="0"/>
-			<DirtyWaterStore moduleName="CrewDirtyWaterStore" capacity="5000" level="0"/>
-			<DirtyWaterStore moduleName="PlantDirtyWaterStore" capacity="5000" level="0"/>
+			<GreyWaterStore moduleName="CrewGreyWaterStore" capacity="800000" level="500000"/>
+			<GreyWaterStore moduleName="PlantGreyWaterStore" capacity="800000" level="500000"/>
+			<DirtyWaterStore moduleName="CrewDirtyWaterStore" capacity="800000" level="500000"/>
+			<DirtyWaterStore moduleName="PlantDirtyWaterStore" capacity="800000" level="500000"/>
 		</water>
 		<waste>
 			<DryWasteStore moduleName="DryWasteStore" capacity="500" level="0"/>
