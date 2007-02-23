@@ -182,12 +182,6 @@ public class AnalyticalController3 implements BiosimController {
 		logToFile = log;
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
-		try {
-			out = new FileOutputStream("Configuration3Result.txt", true);
-		} catch (Exception e) {
-			System.out.println("Can't open Configuration3Result.txt.");
-		}
-
 		if (logToFile) {
 			try {
 				myOutput = new PrintStream(new FileOutputStream(LOG_FILE, true));
@@ -275,51 +269,7 @@ public class AnalyticalController3 implements BiosimController {
 				myBioHolder.theBiomassPSModules.get(0), 0);
 
 	}
-
-	private void printHeader() {
-		myOutput.println();
-		myOutput.println("Crop area 1= "
-				+ myBioHolder.theBiomassPSModules.get(0).getShelf(0)
-						.getCropAreaUsed() + " " + "Crop Type is"
-				+ numberFromMonteCarlo1);
-		myOutput.println("Crop area 2= "
-				+ myBioHolder.theBiomassPSModules.get(0).getShelf(1)
-						.getCropAreaUsed() + " " + "Crop Type is"
-				+ numberFromMonteCarlo2);
-		myOutput.println("Crop area 3= "
-				+ myBioHolder.theBiomassPSModules.get(0).getShelf(2)
-						.getCropAreaUsed() + " " + "Crop Type is"
-				+ numberFromMonteCarlo3);
-		myOutput.println("Crop area 4= "
-				+ myBioHolder.theBiomassPSModules.get(0).getShelf(3)
-						.getCropAreaUsed() + " " + "Crop Type is"
-				+ numberFromMonteCarlo4);
-		myOutput.println("Crop area 5= "
-				+ myBioHolder.theBiomassPSModules.get(0).getShelf(4)
-						.getCropAreaUsed() + " " + "Crop Type is"
-				+ numberFromMonteCarlo5);
-		myOutput.println("Crop area 6= "
-				+ myBioHolder.theBiomassPSModules.get(0).getShelf(5)
-						.getCropAreaUsed() + " " + "Crop Type is"
-				+ numberFromMonteCarlo6);
-		myOutput.println("Crop area 7= "
-				+ myBioHolder.theBiomassPSModules.get(0).getShelf(6)
-						.getCropAreaUsed() + " " + "Crop Type is"
-				+ numberFromMonteCarlo7);
-		myOutput.println("Crop area 8= "
-				+ myBioHolder.theBiomassPSModules.get(0).getShelf(7)
-						.getCropAreaUsed() + " " + "Crop Type is"
-				+ numberFromMonteCarlo8);
-		myOutput.println("Crop area 9= "
-				+ myBioHolder.theBiomassPSModules.get(0).getShelf(8)
-						.getCropAreaUsed() + " " + "Crop Type is"
-				+ numberFromMonteCarlo9);
-		myOutput.println();
-		myOutput
-				.println("Ticks TotalPressure O2PP CO2PP NitrogenPP VaporPP Activity");
-		myOutput.flush();
-	}
-
+	
 	/**
 	 * Main loop of controller. Pauses the simulation, then ticks it one tick
 	 * CO2InInjectorat a time until end condition is met.
