@@ -102,7 +102,7 @@ public class AnalyticalController3 implements BiosimController {
 	private float myTotalPressureHighRate = (float) (2 * rGenerator
 			.nextDouble());
 
-	private float myCropAreaTotal = 200;
+	private float myCropAreaTotal = 14;
 
 	private float myCropAreaOne = (float) (myCropAreaTotal * rGenerator
 			.nextDouble());
