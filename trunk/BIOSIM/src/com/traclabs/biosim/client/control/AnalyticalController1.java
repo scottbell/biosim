@@ -134,7 +134,7 @@ public class AnalyticalController1 implements BiosimController {
 				.getOptionValueFromArgs(args, "log"));
 		int max = 5000;
 		for (int i = 0; i < max; i ++){
-			MurderController myController = new MurderController(logToFile);
+			AnalyticalController1 myController = new AnalyticalController1(logToFile);
 			myController.collectReferences();
 			myController.runSim();
 		}
