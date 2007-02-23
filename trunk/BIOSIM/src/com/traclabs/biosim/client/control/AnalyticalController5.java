@@ -371,7 +371,7 @@ public class AnalyticalController5 implements BiosimController {
 		PrintStream myOutput; 
 		myOutput = new PrintStream(out);
 		myOutput.println();
-		myOutput.print("Crop Area Total is " + myCropAreaTotal + " Total Volume is " + myVolume);
+		myOutput.print("Crop Area Total is " + myCropAreaTotal + " Total Volume is " + myVolume + " myPlantHeight "+ myPlantHeight);
 		myOutput.print(" Crop area 1= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropAreaUsed()+ " " + "Crop Type 1 is" + numberFromMonteCarlo1 );
 		myOutput.print(" Crop area 2= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(1).getCropAreaUsed()+ " " + "Crop Type 2 is" + numberFromMonteCarlo2);
 		myOutput.print(" Crop area 3= "+ myBioHolder.theBiomassPSModules.get(0).getShelf(2).getCropAreaUsed()+ " " + "Crop Type 3 is" + numberFromMonteCarlo3);
