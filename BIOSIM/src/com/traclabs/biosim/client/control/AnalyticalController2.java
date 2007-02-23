@@ -1,4 +1,5 @@
 package com.traclabs.biosim.client.control;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -109,7 +110,7 @@ public class AnalyticalController2 implements BiosimController {
 
 	private PrintStream myOutput;
 	
-	private boolean logToFile = false;
+	private boolean logToFile = true;
 	FileOutputStream out; 
 	
 	public AnalyticalController2(boolean log) {

@@ -156,7 +156,7 @@ public class AnalyticalController4 implements BiosimController {
 	
 	private PrintStream myOutput;
 	
-	private boolean logToFile = false;
+	private boolean logToFile = true;
 	FileOutputStream out; 
 	
 	public AnalyticalController4(boolean log) {
