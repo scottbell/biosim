@@ -418,11 +418,11 @@ public class AnalyticalController3 implements BiosimController {
 				+ myBioHolder.theBiomassPSModules.get(0).getShelf(5)
 						.getCropAreaUsed() + " " + "Crop Type 6 is "
 				+ numberFromMonteCarlo6);
-		myOutput.print("Crop area 7= "
+		myOutput.print(" Crop area 7= "
 				+ myBioHolder.theBiomassPSModules.get(0).getShelf(6)
 						.getCropAreaUsed() + " " + "Crop Type 7 is "
 				+ numberFromMonteCarlo7);
-		myOutput.print("Crop area 8= "
+		myOutput.print(" Crop area 8= "
 				+ myBioHolder.theBiomassPSModules.get(0).getShelf(7)
 						.getCropAreaUsed() + " " + "Crop Type 8 is"
 				+ numberFromMonteCarlo8);
