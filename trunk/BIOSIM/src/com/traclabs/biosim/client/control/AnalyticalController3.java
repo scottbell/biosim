@@ -467,7 +467,7 @@ public class AnalyticalController3 implements BiosimController {
 				+ "myCO2Segment2HighRate =" + myCO2Segment2HighRate + " "
 				+ "myCO2Segment3HighRate =" + myCO2Segment3HighRate + " "
 				+ "ArrivalTime =" + ArrivalTime);
-		myOutput.println(" Controller ended on tick " + myBioDriver.getTicks());
+		myOutput.print(" Controller ended on tick " + myBioDriver.getTicks());
 		myOutput.println();
 		myOutput.flush();
 	}
