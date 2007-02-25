@@ -35,9 +35,8 @@ public class RepairController implements BiosimController {
 
 	// remember to change path for xml file
 	private static String CONFIGURATION_FILE = "/reliability/CEVconfig.xml";
-
 	private static final String LOG_FILE = "RepairControllerResults.log";
-
+	
 	private BioDriver myBioDriver;
 
 	private BioHolder myBioHolder;
@@ -82,32 +81,44 @@ public class RepairController implements BiosimController {
 
 	private int myRepairDelay = 0;
 
-	private boolean logToFile = false;
-
+	private boolean logToFile = true;
+	FileOutputStream out; 
+	
 	private PrintStream myOutput;
 
 	public RepairController(boolean log) {
 		logToFile = log;
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
+		try{
+			out = new FileOutputStream("RepairControllerResult.txt", true);		
+		}catch (Exception e){
+			System.out.println("Can't open RepairControllerResult.txt.");
+		}
+
 		if (logToFile) {
 			try {
 				myOutput = new PrintStream(new FileOutputStream(LOG_FILE, true));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+			} 
+			catch (FileNotFoundException e) {
+						e.printStackTrace();
 			}
 		} else
 			myOutput = System.out;
+		
 	}
 
 	public static void main(String[] args) {
 		boolean logToFile = Boolean.parseBoolean(CommandLineUtils
 				.getOptionValueFromArgs(args, "log"));
+		int max = 10;
+		for (int i = 0; i < max; i ++){
 		RepairController myController = new RepairController(logToFile);
 		myController.collectReferences();
 		myController.runSim();
+		}
 	}
-
+	
 	/**
 	 * Collects references to BioModules we'll need to run/observer/poke the
 	 * sim. The BioHolder is a utility for clients to easily access different
@@ -211,30 +222,37 @@ public class RepairController implements BiosimController {
 	}
 
 	public void printResults() {
-		myOutput.println();
-		myOutput
-				.println("Ticks H2ProducerOGS O2ProducerOGS PotableWaterConsumeOGS PowerConsumerOGS PowerConsumerVCCR CO2ProducerVCCR O2ConsumerInjector O2ProdurerInjector DirtyWaterConsumer GreyWaterConsumer PotableWaterProducer PowerConsumerWaterRS");
-		myOutput.print(myBioDriver.getTicks() + "     ");// Ticks
+		FileOutputStream out; 
+		PrintStream myOutput; 
+		try {
+			out = new FileOutputStream("RepairController_result.txt", true);
+			myOutput = new PrintStream(out);
+			myOutput.println();
+			myOutput.println("Ticks H2ProducerOGS O2ProducerOGS PotableWaterConsumeOGS PowerConsumerOGS PowerConsumerVCCR CO2ProducerVCCR O2ConsumerInjector O2ProdurerInjector DirtyWaterConsumer GreyWaterConsumer PotableWaterProducer PowerConsumerWaterRS");
+			myOutput.print(myBioDriver.getTicks() + "  ");// Ticks
+			myOutput.print(myOGS_H2OutFlowRateSensor.getValue() + "  ");// H2ProducerOGS
+			myOutput.print(myOGS_O2OutFlowRateSensor.getValue() + "  ");// O2ProducerOGS
+			myOutput.print(myOGS_PortableWaterInFlowRateSensor.getValue() + "  ");// PotableWaterConsumeOGS
+			myOutput.print(myOGS_PowerConsumerRateSensor.getValue() + "  "); // PowerConsumerOGS
 
-		myOutput.print(myOGS_H2OutFlowRateSensor.getValue() + "     ");// H2ProducerOGS
-		myOutput.print(myOGS_O2OutFlowRateSensor.getValue() + "     ");// O2ProducerOGS
-		myOutput.print(myOGS_PortableWaterInFlowRateSensor.getValue() + "  ");// PotableWaterConsumeOGS
-		myOutput.print(myOGS_PowerConsumerRateSensor.getValue() + "  "); // PowerConsumerOGS
+			myOutput.print(myVCCR_PowerConsumerRateSensor.getValue() + "  "); // PowerConsumerVCCR
+			myOutput.print(myVCCR_CO2ProducerFlowRateSensor.getValue() + "  ");// CO2ProducerVCCR
 
-		myOutput.print(myVCCR_PowerConsumerRateSensor.getValue() + "   "); // PowerConsumerVCCR
-		myOutput.print(myVCCR_CO2ProducerFlowRateSensor.getValue() + "   ");// CO2ProducerVCCR
+			myOutput.print(myInjector_O2ConsumerRateSensor.getValue() + "  "); // O2ConsumerInjector
+			myOutput.print(myInjector_O2ProducerRateSensor.getValue() + "  ");// O2ProducerINjector
 
-		myOutput.print(myInjector_O2ConsumerRateSensor.getValue() + "   "); // O2ConsumerInjector
-		myOutput.print(myInjector_O2ProducerRateSensor.getValue() + "   ");// O2ProducerINjector
-
-		myOutput.print(myWaterRS_DirtyWaterConsumerRateSensor.getValue()
-				+ "   "); // DirtyWaterConsumer
-		myOutput
+			myOutput.print(myWaterRS_DirtyWaterConsumerRateSensor.getValue()
+				+ "  "); // DirtyWaterConsumer
+			myOutput
 				.print(myWaterRS_GreyWaterConsumerRateSensor.getValue() + "   "); // GreyWaterConsumer
-		myOutput.print(myWaterRS_PortableWaterProducerRateSensor.getValue()
-				+ "   "); // PortableWaterProducer
-		myOutput.print(myWaterRS_PowerConsumerRateSensor.getValue() + "   "); // PowerConsumer
-		myOutput.flush();
+			myOutput.print(myWaterRS_PortableWaterProducerRateSensor.getValue()
+				+ "  "); // PortableWaterProducer
+			myOutput.print(myWaterRS_PowerConsumerRateSensor.getValue() + "  "); // PowerConsumer
+			myOutput.flush();
+		} 
+		catch (FileNotFoundException e) {
+					e.printStackTrace();
+		}
 	}
 
 	public boolean checkFailure() {
