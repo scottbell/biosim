@@ -222,38 +222,29 @@ public class RepairController implements BiosimController {
 	}
 
 	public void printResults() {
-		FileOutputStream out; 
-		PrintStream myOutput; 
-		try {
-			out = new FileOutputStream("RepairController_result.txt", true);
-			myOutput = new PrintStream(out);
 			myOutput.println();
 			myOutput.println("Ticks H2ProducerOGS O2ProducerOGS PotableWaterConsumeOGS PowerConsumerOGS PowerConsumerVCCR CO2ProducerVCCR O2ConsumerInjector O2ProdurerInjector DirtyWaterConsumer GreyWaterConsumer PotableWaterProducer PowerConsumerWaterRS");
 			myOutput.print(myBioDriver.getTicks() + "  ");// Ticks
-			myOutput.print(myOGS_H2OutFlowRateSensor.getValue() + "  ");// H2ProducerOGS
-			myOutput.print(myOGS_O2OutFlowRateSensor.getValue() + "  ");// O2ProducerOGS
-			myOutput.print(myOGS_PortableWaterInFlowRateSensor.getValue() + "  ");// PotableWaterConsumeOGS
-			myOutput.print(myOGS_PowerConsumerRateSensor.getValue() + "  "); // PowerConsumerOGS
+//			myOutput.print(myOGS_H2OutFlowRateSensor.getValue() + "  ");// H2ProducerOGS
+//			myOutput.print(myOGS_O2OutFlowRateSensor.getValue() + "  ");// O2ProducerOGS
+//			myOutput.print(myOGS_PortableWaterInFlowRateSensor.getValue() + "  ");// PotableWaterConsumeOGS
+//			myOutput.print(myOGS_PowerConsumerRateSensor.getValue() + "  "); // PowerConsumerOGS
 
-			myOutput.print(myVCCR_PowerConsumerRateSensor.getValue() + "  "); // PowerConsumerVCCR
-			myOutput.print(myVCCR_CO2ProducerFlowRateSensor.getValue() + "  ");// CO2ProducerVCCR
+//			myOutput.print(myVCCR_PowerConsumerRateSensor.getValue() + "  "); // PowerConsumerVCCR
+//			myOutput.print(myVCCR_CO2ProducerFlowRateSensor.getValue() + "  ");// CO2ProducerVCCR
 
-			myOutput.print(myInjector_O2ConsumerRateSensor.getValue() + "  "); // O2ConsumerInjector
-			myOutput.print(myInjector_O2ProducerRateSensor.getValue() + "  ");// O2ProducerINjector
+//			myOutput.print(myInjector_O2ConsumerRateSensor.getValue() + "  "); // O2ConsumerInjector
+//			myOutput.print(myInjector_O2ProducerRateSensor.getValue() + "  ");// O2ProducerINjector
 
-			myOutput.print(myWaterRS_DirtyWaterConsumerRateSensor.getValue()
-				+ "  "); // DirtyWaterConsumer
-			myOutput
-				.print(myWaterRS_GreyWaterConsumerRateSensor.getValue() + "   "); // GreyWaterConsumer
-			myOutput.print(myWaterRS_PortableWaterProducerRateSensor.getValue()
-				+ "  "); // PortableWaterProducer
-			myOutput.print(myWaterRS_PowerConsumerRateSensor.getValue() + "  "); // PowerConsumer
+//			myOutput.print(myWaterRS_DirtyWaterConsumerRateSensor.getValue()
+//				+ "  "); // DirtyWaterConsumer
+//			myOutput
+//				.print(myWaterRS_GreyWaterConsumerRateSensor.getValue() + "   "); // GreyWaterConsumer
+//			myOutput.print(myWaterRS_PortableWaterProducerRateSensor.getValue()
+//				+ "  "); // PortableWaterProducer
+//			myOutput.print(myWaterRS_PowerConsumerRateSensor.getValue() + "  "); // PowerConsumer
 			myOutput.flush();
 		} 
-		catch (FileNotFoundException e) {
-					e.printStackTrace();
-		}
-	}
 
 	public boolean checkFailure() {
 		if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()) {
@@ -420,5 +411,6 @@ public class RepairController implements BiosimController {
 				myRepairDelay = 1;
 			}
 		}
+		printResults();
 	}
 }
