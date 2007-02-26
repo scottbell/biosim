@@ -2,6 +2,7 @@ package com.traclabs.biosim.client.control;
 
 import java.util.Random;
 
+import com.traclabs.biosim.idl.simulation.food.PlantType;
 import com.traclabs.biosim.util.MersenneTwister;
 
 
@@ -19,9 +20,9 @@ public class AnalyticalController1 extends EnvironmentController implements Bios
 
 	private static final String DEFAULT_LOG_FILE = "AnalyticalController1.log";
 	
-	private Random randomNumberGenerator = new MersenneTwister();
+	protected static Random myRandomNumberGenerator = new MersenneTwister();
 
-	private float myCropArea = 200 * randomNumberGenerator.nextFloat();
+	protected float myCropArea = 200 * myRandomNumberGenerator.nextFloat();
 	
 	public AnalyticalController1() {
 		super(DEFAULT_CONFIGURATION_FILE, DEFAULT_LOG_FILE);
@@ -40,10 +41,14 @@ public class AnalyticalController1 extends EnvironmentController implements Bios
 		}
 	}
 	
+	protected PlantType getPlantType(){
+		return myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropType();
+	}
+	
 	public void collectReferences(){
 		super.collectReferences();
 		//this changes the crop area and the crop type, before the first tick
-		myBioHolder.theBiomassPSModules.get(0).getShelf(0).replant(myBioHolder.theBiomassPSModules.get(0).getShelf(0).getCropType(), myCropArea);
+		myBioHolder.theBiomassPSModules.get(0).getShelf(0).replant(getPlantType(), myCropArea);
 	}
 }
 

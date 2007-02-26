@@ -15,80 +15,84 @@ public class AnalyticalController3 extends EnvironmentController implements Bios
 
 	private static final String DEFAULT_LOG_FILE = "AnalyticalController3.log";
 
-	private Random myRandomGenerator = new MersenneTwister();
+	protected static Random myRandomNumberGenerator = new MersenneTwister();
 
-	private float myCropAreaTotal = 14;
+	private float myCropAreaTotal = getCropTotal();
 
-	private float myCropAreaOne = (float) (myCropAreaTotal * myRandomGenerator
-			.nextDouble());
+	private float myCropAreaOne = myCropAreaTotal * myRandomNumberGenerator
+			.nextFloat();
 
-	private float myCropAreaTwo = (float) ((myCropAreaTotal - myCropAreaOne) * myRandomGenerator
-			.nextDouble());
+	private float myCropAreaTwo = (myCropAreaTotal - myCropAreaOne) * myRandomNumberGenerator
+			.nextFloat();
 
-	private float myCropAreaThree = (float) ((myCropAreaTotal - myCropAreaOne - myCropAreaTwo) * myRandomGenerator
-			.nextDouble());
+	private float myCropAreaThree = (myCropAreaTotal - myCropAreaOne - myCropAreaTwo) * myRandomNumberGenerator
+			.nextFloat();
 
-	private float myCropAreaFour = (float) ((myCropAreaTotal - myCropAreaOne
-			- myCropAreaTwo - myCropAreaThree) * myRandomGenerator.nextDouble());
+	private float myCropAreaFour = (myCropAreaTotal - myCropAreaOne
+			- myCropAreaTwo - myCropAreaThree) * myRandomNumberGenerator.nextFloat();
 
-	private float myCropAreaFive = (float) ((myCropAreaTotal - myCropAreaOne
-			- myCropAreaTwo - myCropAreaThree - myCropAreaFour) * myRandomGenerator
-			.nextDouble());
+	private float myCropAreaFive = (myCropAreaTotal - myCropAreaOne
+			- myCropAreaTwo - myCropAreaThree - myCropAreaFour) * myRandomNumberGenerator
+			.nextFloat();
 
-	private float myCropAreaSix = (float) ((myCropAreaTotal - myCropAreaOne
-			- myCropAreaTwo - myCropAreaThree - myCropAreaFour - myCropAreaFive) * myRandomGenerator
-			.nextDouble());
+	private float myCropAreaSix = (myCropAreaTotal - myCropAreaOne
+			- myCropAreaTwo - myCropAreaThree - myCropAreaFour - myCropAreaFive) * myRandomNumberGenerator
+			.nextFloat();
 
-	private float myCropAreaSeven = (float) ((myCropAreaTotal - myCropAreaOne
-			- myCropAreaTwo - myCropAreaThree - myCropAreaFour - myCropAreaFive - myCropAreaSix) * myRandomGenerator
-			.nextDouble());
+	private float myCropAreaSeven = (myCropAreaTotal - myCropAreaOne
+			- myCropAreaTwo - myCropAreaThree - myCropAreaFour - myCropAreaFive - myCropAreaSix) * myRandomNumberGenerator
+			.nextFloat();
 
-	private float myCropAreaEight = (float) ((myCropAreaTotal - myCropAreaOne
+	private float myCropAreaEight = (myCropAreaTotal - myCropAreaOne
 			- myCropAreaTwo - myCropAreaThree - myCropAreaFour - myCropAreaFive
-			- myCropAreaSix - myCropAreaSeven) * myRandomGenerator.nextDouble());
+			- myCropAreaSix - myCropAreaSeven) * myRandomNumberGenerator.nextFloat();
 
-	private float myCropAreaNine = (float) (myCropAreaTotal - myCropAreaOne
+	private float myCropAreaNine = myCropAreaTotal - myCropAreaOne
 			- myCropAreaTwo - myCropAreaThree - myCropAreaFour - myCropAreaFive
-			- myCropAreaSix - myCropAreaSeven - myCropAreaEight);
+			- myCropAreaSix - myCropAreaSeven - myCropAreaEight;
 
-	private int numberFromMonteCarlo1 = (int) (Math.random() * 8);
+	private int numberFromMonteCarlo1 = myRandomNumberGenerator.nextInt(9);
 
 	private PlantType plantType1 = PlantType.from_int(numberFromMonteCarlo1);
 
-	private int numberFromMonteCarlo2 = (int) (Math.random() * 8);
+	private int numberFromMonteCarlo2 = myRandomNumberGenerator.nextInt(9);
 
 	private PlantType plantType2 = PlantType.from_int(numberFromMonteCarlo2);
 
-	private int numberFromMonteCarlo3 = (int) (Math.random() * 8);
+	private int numberFromMonteCarlo3 = myRandomNumberGenerator.nextInt(9);
 
 	private PlantType plantType3 = PlantType.from_int(numberFromMonteCarlo3);
 
-	private int numberFromMonteCarlo4 = (int) (Math.random() * 8);
+	private int numberFromMonteCarlo4 = myRandomNumberGenerator.nextInt(9);
 
 	private PlantType plantType4 = PlantType.from_int(numberFromMonteCarlo4);
 
-	private int numberFromMonteCarlo5 = (int) (Math.random() * 8);
+	private int numberFromMonteCarlo5 = myRandomNumberGenerator.nextInt(9);
 
 	private PlantType plantType5 = PlantType.from_int(numberFromMonteCarlo5);
 
-	private int numberFromMonteCarlo6 = (int) (Math.random() * 8);
+	private int numberFromMonteCarlo6 = myRandomNumberGenerator.nextInt(9);
 
 	private PlantType plantType6 = PlantType.from_int(numberFromMonteCarlo6);
 
-	private int numberFromMonteCarlo7 = (int) (Math.random() * 8);
+	private int numberFromMonteCarlo7 = myRandomNumberGenerator.nextInt(9);
 
 	private PlantType plantType7 = PlantType.from_int(numberFromMonteCarlo7);
 
-	private int numberFromMonteCarlo8 = (int) (Math.random() * 8);
+	private int numberFromMonteCarlo8 = myRandomNumberGenerator.nextInt(9);
 
 	private PlantType plantType8 = PlantType.from_int(numberFromMonteCarlo8);
 
-	private int numberFromMonteCarlo9 = (int) (Math.random() * 8);
+	private int numberFromMonteCarlo9 = myRandomNumberGenerator.nextInt(9);
 
 	private PlantType plantType9 = PlantType.from_int(numberFromMonteCarlo9);
 	
 	public AnalyticalController3() {
 		super(DEFAULT_CONFIGURATION_FILE, DEFAULT_LOG_FILE);
+	}
+	
+	protected static float getCropTotal(){
+		return 14;
 	}
 	
 	public AnalyticalController3(String configurationFileName, String logFileName) {
