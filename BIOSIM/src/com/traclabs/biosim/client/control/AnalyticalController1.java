@@ -21,8 +21,6 @@ public class AnalyticalController1 extends EnvironmentController implements Bios
 	private static final String DEFAULT_LOG_FILE = "AnalyticalController1.log";
 	
 	protected static Random myRandomNumberGenerator = new MersenneTwister();
-
-	protected float myCropArea = 200 * myRandomNumberGenerator.nextFloat();
 	
 	public AnalyticalController1() {
 		super(DEFAULT_CONFIGURATION_FILE, DEFAULT_LOG_FILE);
@@ -30,6 +28,10 @@ public class AnalyticalController1 extends EnvironmentController implements Bios
 	
 	public AnalyticalController1(String configurationFileName, String logFileName) {
 		super(configurationFileName, logFileName);
+	}
+	
+	protected static float getCropTotal(){
+		return 200 * myRandomNumberGenerator.nextFloat();
 	}
 
 	public static void main(String[] args) {
@@ -48,7 +50,7 @@ public class AnalyticalController1 extends EnvironmentController implements Bios
 	public void collectReferences(){
 		super.collectReferences();
 		//this changes the crop area and the crop type, before the first tick
-		myBioHolder.theBiomassPSModules.get(0).getShelf(0).replant(getPlantType(), myCropArea);
+		myBioHolder.theBiomassPSModules.get(0).getShelf(0).replant(getPlantType(), getCropTotal());
 	}
 }
 
