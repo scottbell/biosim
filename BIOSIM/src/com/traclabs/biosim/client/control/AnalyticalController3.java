@@ -86,7 +86,11 @@ public class AnalyticalController3 extends EnvironmentController implements Bios
 	private int numberFromMonteCarlo9 = (int) (Math.random() * 8);
 
 	private PlantType plantType9 = PlantType.from_int(numberFromMonteCarlo9);
-
+	
+	public AnalyticalController3() {
+		super(DEFAULT_CONFIGURATION_FILE, DEFAULT_LOG_FILE);
+	}
+	
 	public AnalyticalController3(String configurationFileName, String logFileName) {
 		super(configurationFileName, logFileName);
 	}
