@@ -915,5 +915,28 @@ public abstract class PlantImpl extends PlantPOA {
 	public float getMolesOfCO2Inhaled() {
 		return myMolesOfCO2Inhaled;
 	}
+	
+	public static String getPlantTypeString(PlantType pType){
+		if (pType == PlantType.DRY_BEAN)
+            return "Dry Bean";
+        else if (pType == PlantType.LETTUCE)
+        	return "Lettuce";
+        else if (pType == PlantType.PEANUT)
+        	return "Peanut";
+        else if (pType == PlantType.SOYBEAN)
+        	return "Soybean";
+        else if (pType == PlantType.RICE)
+        	return "Rice";
+        else if (pType == PlantType.SWEET_POTATO)
+        	return "Sweet Potato";
+        else if (pType == PlantType.TOMATO)
+        	return "Tomato";
+        else if (pType == PlantType.WHEAT)
+        	return "Wheat";
+        else if (pType == PlantType.WHITE_POTATO)
+        	return "White Potato";
+        else
+        	return "Unknown";
+	}
 }
 

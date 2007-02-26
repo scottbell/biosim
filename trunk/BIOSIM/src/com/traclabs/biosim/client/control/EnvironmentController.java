@@ -22,7 +22,7 @@ public class EnvironmentController extends MurderController implements
 
 	protected BioHolder myBioHolder;
 
-	private Logger myLogger;
+	private Logger myLogger = Logger.getLogger(EnvironmentController.class);
 
 	private CrewPerson myCrewPerson;
 

@@ -3,6 +3,7 @@ package com.traclabs.biosim.client.control;
 import java.util.Random;
 
 import com.traclabs.biosim.idl.simulation.food.PlantType;
+import com.traclabs.biosim.server.simulation.food.PlantImpl;
 import com.traclabs.biosim.util.MersenneTwister;
 
 /**
@@ -138,44 +139,44 @@ public class AnalyticalController3 extends EnvironmentController implements Bios
 				myCropAreaNine);
 	}
 
-	public void printConfigurations() {
+	public void logResults() {
 		myOutput.println();
 		myOutput.print(" Crop area 1= "
 				+ myBioHolder.theBiomassPSModules.get(0).getShelf(0)
 						.getCropAreaUsed() + " " + "Crop Type 1 is"
-				+ numberFromMonteCarlo1);
+				+ PlantImpl.getPlantTypeString(plantType1));
 		myOutput.print(" Crop area 2= "
 				+ myBioHolder.theBiomassPSModules.get(0).getShelf(1)
 						.getCropAreaUsed() + " " + "Crop Type 2 is"
-				+ numberFromMonteCarlo2);
+				+ PlantImpl.getPlantTypeString(plantType2));
 		myOutput.print(" Crop area 3= "
 				+ myBioHolder.theBiomassPSModules.get(0).getShelf(2)
 						.getCropAreaUsed() + " " + "Crop Type 3 is"
-				+ numberFromMonteCarlo3);
+				+ PlantImpl.getPlantTypeString(plantType3));
 		myOutput.print("Crop area 4= "
 				+ myBioHolder.theBiomassPSModules.get(0).getShelf(3)
 						.getCropAreaUsed() + " " + "Crop Type 4 is"
-				+ numberFromMonteCarlo4);
+				+ PlantImpl.getPlantTypeString(plantType4));
 		myOutput.println("Crop area 5= "
 				+ myBioHolder.theBiomassPSModules.get(0).getShelf(4)
 						.getCropAreaUsed() + " " + "Crop Type 5 is"
-				+ numberFromMonteCarlo5);
+				+ PlantImpl.getPlantTypeString(plantType5));
 		myOutput.println("Crop area 6= "
 				+ myBioHolder.theBiomassPSModules.get(0).getShelf(5)
 						.getCropAreaUsed() + " " + "Crop Type 6 is"
-				+ numberFromMonteCarlo6);
+				+ PlantImpl.getPlantTypeString(plantType6));
 		myOutput.println("Crop area 7= "
 				+ myBioHolder.theBiomassPSModules.get(0).getShelf(6)
 						.getCropAreaUsed() + " " + "Crop Type 7 is"
-				+ numberFromMonteCarlo7);
+				+ PlantImpl.getPlantTypeString(plantType7));
 		myOutput.println("Crop area 8= "
 				+ myBioHolder.theBiomassPSModules.get(0).getShelf(7)
 						.getCropAreaUsed() + " " + "Crop Type 8 is"
-				+ numberFromMonteCarlo8);
+				+ PlantImpl.getPlantTypeString(plantType8));
 		myOutput.println("Crop area 9= "
 				+ myBioHolder.theBiomassPSModules.get(0).getShelf(8)
 						.getCropAreaUsed() + " " + "Crop Type 9 is"
-				+ numberFromMonteCarlo9);
+				+ PlantImpl.getPlantTypeString(plantType9));
 		myOutput.println("Controller ended on tick " + myBioHolder.theBioDriver.getTicks());
 		myOutput.println();
 		myOutput.flush();
