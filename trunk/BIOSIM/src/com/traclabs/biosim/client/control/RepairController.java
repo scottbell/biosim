@@ -3,7 +3,8 @@ package com.traclabs.biosim.client.control;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-
+import java.util.logging.*;
+import java.io.*;
 import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.client.util.BioHolder;
@@ -35,6 +36,7 @@ public class RepairController implements BiosimController {
 
 	// remember to change path for xml file
 	private static String CONFIGURATION_FILE = "/reliability/CEVconfig.xml";
+	
 	private static final String LOG_FILE = "RepairControllerResults.log";
 	
 	private BioDriver myBioDriver;
@@ -91,9 +93,9 @@ public class RepairController implements BiosimController {
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
 		try{
-			out = new FileOutputStream("RepairControllerResult.txt", true);		
+			out = new FileOutputStream("RepairControllerResult.log", true);		
 		}catch (Exception e){
-			System.out.println("Can't open RepairControllerResult.txt.");
+			System.out.println("Can't open RepairControllerResult.log.");
 		}
 
 		if (logToFile) {
@@ -108,16 +110,18 @@ public class RepairController implements BiosimController {
 		
 	}
 
+	
+	
 	public static void main(String[] args) {
 		boolean logToFile = Boolean.parseBoolean(CommandLineUtils
 				.getOptionValueFromArgs(args, "log"));
-		int max = 10;
-		for (int i = 0; i < max; i ++){
+		//int max = 1;
+		//for (int i = 0; i < max; i ++){
 		RepairController myController = new RepairController(logToFile);
 		myController.collectReferences();
 		myController.runSim();
 		}
-	}
+
 	
 	/**
 	 * Collects references to BioModules we'll need to run/observer/poke the
