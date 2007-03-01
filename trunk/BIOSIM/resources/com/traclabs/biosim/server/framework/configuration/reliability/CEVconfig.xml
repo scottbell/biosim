@@ -85,7 +85,7 @@
         </environment>
         <food>
             <FoodStore capacity="1000000.0" level="1000000.0" moduleName="FoodStore">
-            	<normalFailureDecider logmean="300" logsd="5" />
+            	<normalFailureDecider logmean="1000" logsd="50" />
             </FoodStore>
         </food>
         <framework>
@@ -114,7 +114,7 @@
             </PotableWaterStore>
             <WaterRS moduleName="WaterRS"
             	setStochasticIntensity="MEDIUM_STOCH" logLevel="DEBUG">
-            	<normalFailureDecider logmean="450" logsd="5" />
+            	<normalFailureDecider logmean="1000" logsd="50" />
             	<powerConsumer desiredFlowRates="1000"
             		maxFlowRates="1000" inputs="PowerStore" />
             	<dirtyWaterConsumer desiredFlowRates="1000.0"
