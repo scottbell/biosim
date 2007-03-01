@@ -157,7 +157,7 @@
 				moduleName="Injector_O2ConsumerRateSensor" index="0"
 				logLevel="DEBUG">
 			</O2InFlowRateSensor>
-			<O2OutFlowRateSensor input="Injector" moduleName="Injector_O2ProducerRateSensor" index="1"
+			<O2OutFlowRateSensor input="Injector" moduleName="Injector_O2ProducerRateSensor" index="0"
 				logLevel="DEBUG">
 			</O2OutFlowRateSensor>
 			<O2OutFlowRateSensor input="OGS" moduleName="OGS_O2OutFlowRateSensor" index="0"
@@ -168,11 +168,11 @@
 				logLevel="DEBUG">
 			</PowerInFlowRateSensor>
 			<PowerInFlowRateSensor input="VCCR"
-				moduleName="VCCR_PowerConsumerRateSensor" index="1"
+				moduleName="VCCR_PowerConsumerRateSensor" index="0"
 				logLevel="DEBUG">
 			</PowerInFlowRateSensor>
 			<PowerInFlowRateSensor input="WaterRS"
-				moduleName="WaterRS_PowerConsumerRateSensor" index="2"
+				moduleName="WaterRS_PowerConsumerRateSensor" index="0"
 				logLevel="DEBUG">
 			</PowerInFlowRateSensor></power>
 		<water>
