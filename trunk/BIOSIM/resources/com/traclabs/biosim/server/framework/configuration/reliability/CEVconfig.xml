@@ -7,7 +7,7 @@
             <CO2Store capacity="2000" level="2000" moduleName="CO2Store">
             	<expFailureDecider lambda="0.0033" /></CO2Store>
             <VCCR moduleName="VCCR"
-            	setStochasticIntensity="MEDIUM_STOCH" logLevel="DEBUG">
+            	setStochasticIntensity="LOW_STOCH" logLevel="DEBUG">
             	<expFailureDecider lambda="0.001" />
             	<powerConsumer desiredFlowRates="1000"
             		maxFlowRates="1000" inputs="PowerStore">
@@ -22,7 +22,7 @@
             </VCCR>
             <O2Store capacity="100000.0" level="100000.0" moduleName="O2Store">
             	<expFailureDecider lambda="0.0033" ></expFailureDecider></O2Store>
-            <OGS moduleName="OGS" setStochasticIntensity="MEDIUM_STOCH"
+            <OGS moduleName="OGS" setStochasticIntensity="LOW_STOCH"
             	logLevel="DEBUG">
             	<expFailureDecider lambda="0.0027" />
             	<powerConsumer desiredFlowRates="1000"
@@ -40,7 +40,7 @@
             	<expFailureDecider lambda="0.0033" ></expFailureDecider></H2Store>
         </air>
         <crew>
-			<CrewGroup moduleName="CrewGroup" isDeathEnabled="false">
+			<CrewGroup moduleName="CrewGroup" isDeathEnabled="false" setStochasticIntensity="LOW_STOCH"> 
 				<potableWaterConsumer desiredFlowRates="1000.0"
 					inputs="PotableWaterStore" maxFlowRates="1000.0" ></potableWaterConsumer>
 				<airConsumer desiredFlowRates="1000.0"
@@ -90,7 +90,7 @@
         </food>
         <framework>
             <Injector moduleName="Injector"
-            	setStochasticIntensity="MEDIUM_STOCH" logLevel="DEBUG">
+            	setStochasticIntensity="LOW_STOCH" logLevel="DEBUG">
             	<expFailureDecider lambda="0.001"></expFailureDecider>
             	<O2Consumer desiredFlowRates="100.0" inputs="O2Store"
             		maxFlowRates="100.0">
@@ -113,7 +113,7 @@
             	<expFailureDecider lambda="0.0033" />
             </PotableWaterStore>
             <WaterRS moduleName="WaterRS"
-            	setStochasticIntensity="MEDIUM_STOCH" logLevel="DEBUG">
+            	setStochasticIntensity="LOW_STOCH" logLevel="DEBUG">
             	<normalFailureDecider logmean="1000" logsd="50" />
             	<powerConsumer desiredFlowRates="1000"
             		maxFlowRates="1000" inputs="PowerStore" />
