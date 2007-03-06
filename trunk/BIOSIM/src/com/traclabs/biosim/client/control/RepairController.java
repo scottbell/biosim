@@ -227,8 +227,7 @@ public class RepairController implements BiosimController {
 
 	public void printResults() {
 			myOutput.println();
-			myOutput.println("Ticks H2ProducerOGS O2ProducerOGS PotableWaterConsumeOGS PowerConsumerOGS PowerConsumerVCCR CO2ProducerVCCR O2ConsumerInjector O2ProdurerInjector DirtyWaterConsumer GreyWaterConsumer PotableWaterProducer PowerConsumerWaterRS");
-			myOutput.print(myBioDriver.getTicks() + "  ");// Ticks
+			myOutput.print(myBioDriver.getTicks() + ","+ myO2PressureSensor.getValue()+","+ myCO2PressureSensor.getValue() );			
 //			myOutput.print(myOGS_H2OutFlowRateSensor.getValue() + "  ");// H2ProducerOGS
 //			myOutput.print(myOGS_O2OutFlowRateSensor.getValue() + "  ");// O2ProducerOGS
 //			myOutput.print(myOGS_PortableWaterInFlowRateSensor.getValue() + "  ");// PotableWaterConsumeOGS
