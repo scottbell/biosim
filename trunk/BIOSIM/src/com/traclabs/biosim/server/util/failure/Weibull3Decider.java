@@ -15,7 +15,7 @@ public class Weibull3Decider extends FailureDecider {
 
 	@Override
 	protected double getReliability(double timeElapsed) {
-		return weibull3Reliability(myLambda, myBeta, myHold, timeElapsed);
+		return weibull3FailureRate(myLambda, myBeta, myHold, timeElapsed);
 	}
 
 	/**

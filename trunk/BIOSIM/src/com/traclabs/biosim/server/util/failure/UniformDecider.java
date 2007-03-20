@@ -12,7 +12,7 @@ public class UniformDecider extends FailureDecider {
 
 	@Override
 	protected double getReliability(double timeElapsed) {
-		return UniformReliability(myAlpha, myBeta, timeElapsed);
+		return UniformFailureRate(myAlpha, myBeta, timeElapsed);
 	}
 
 	/**
