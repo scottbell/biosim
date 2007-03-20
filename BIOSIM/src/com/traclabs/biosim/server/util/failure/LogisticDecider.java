@@ -12,7 +12,7 @@ public class LogisticDecider extends FailureDecider {
 
 	@Override
 	protected double getReliability(double timeElapsed) {
-		return LogisticReliability(mymu, mysd, timeElapsed);
+		return LogisticFailureRate(mymu, mysd, timeElapsed);
 	}
 
 	/**
