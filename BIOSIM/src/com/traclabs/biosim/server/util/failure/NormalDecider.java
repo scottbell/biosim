@@ -12,7 +12,7 @@ public class NormalDecider extends FailureDecider {
 
 	@Override
 	protected double getReliability(double timeElapsed) {
-		return normalReliability(myLogmean, myLogsd, timeElapsed);
+		return normalFailureRate(myLogmean, myLogsd, timeElapsed);
 	}
 
 	/**

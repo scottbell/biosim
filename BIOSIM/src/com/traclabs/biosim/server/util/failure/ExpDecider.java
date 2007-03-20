@@ -9,7 +9,7 @@ public class ExpDecider extends FailureDecider {
 
 	@Override
 	protected double getReliability(double timeElapsed) {
-		return expReliability(myLambda, timeElapsed);
+		return expFailureRate(myLambda, timeElapsed);
 	}
 
 	public static double expdensity(double lambda, double x) {
@@ -34,11 +34,11 @@ public class ExpDecider extends FailureDecider {
 
 	public static double expFailureRate(double lambda, double x) {
 
-		double Z;
+		double z;
 
-		Z = lambda;
+		z = lambda;
 
-		return Z;
+		return z;
 
 	}
 
