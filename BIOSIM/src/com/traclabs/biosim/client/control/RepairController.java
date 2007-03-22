@@ -3,8 +3,7 @@ package com.traclabs.biosim.client.control;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-import java.util.logging.*;
-import java.io.*;
+
 import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.client.util.BioHolder;

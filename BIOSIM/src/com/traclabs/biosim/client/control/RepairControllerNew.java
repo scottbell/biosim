@@ -31,7 +31,7 @@ import com.traclabs.biosim.util.OrbUtils;
  * com.traclabs.biosim.client.control.RepairController"
  */
 
-public class RepairController implements BiosimController {
+public class RepairControllerNew implements BiosimController {
 
 	// remember to change path for xml file
 	private static String CONFIGURATION_FILE = "/reliability/CEVconfig.xml";
@@ -86,7 +86,7 @@ public class RepairController implements BiosimController {
 	
 	private PrintStream myOutput;
 
-	public RepairController(boolean log) {
+	public RepairControllerNew(boolean log) {
 		logToFile = log;
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
@@ -113,7 +113,7 @@ public class RepairController implements BiosimController {
 				.getOptionValueFromArgs(args, "log"));
 		int max = 10;
 		for (int i = 0; i < max; i ++){
-		RepairController myController = new RepairController(logToFile);
+		RepairControllerNew myController = new RepairControllerNew(logToFile);
 		myController.collectReferences();
 		myController.runSim();
 		}
