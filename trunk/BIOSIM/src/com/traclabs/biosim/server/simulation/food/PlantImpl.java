@@ -12,7 +12,6 @@ import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.food.BioMatter;
 import com.traclabs.biosim.idl.simulation.food.PlantPOA;
 import com.traclabs.biosim.idl.simulation.food.PlantType;
-import com.traclabs.biosim.server.simulation.framework.SimpleBuffer;
 import com.traclabs.biosim.server.util.MathUtils;
 import com.traclabs.biosim.util.MersenneTwister;
 
@@ -85,16 +84,6 @@ public abstract class PlantImpl extends PlantPOA {
 
     private float myTimeTillCanopyClosure = 0f;
 
-    private SimpleBuffer consumedWaterBuffer;
-
-    private SimpleBuffer consumedCO2LowBuffer;
-
-    private SimpleBuffer consumedCO2HighBuffer;
-
-    private SimpleBuffer consumedHeatBuffer;
-
-    private SimpleBuffer consumedLightBuffer;
-
     protected float[] canopyClosureConstants = new float[25];
 
     protected float[] canopyQYConstants = new float[25];
@@ -141,19 +130,6 @@ public abstract class PlantImpl extends PlantPOA {
         Arrays.fill(canopyQYConstants, 0f);
         myAveragePPF = getInitialPPFValue();
         myAverageCO2Concentration = getInitialCO2Value();
-        consumedWaterBuffer = new SimpleBuffer(WATER_TILL_DEAD
-                * myShelfImpl.getCropAreaUsed(), WATER_TILL_DEAD
-                * myShelfImpl.getCropAreaUsed());
-        consumedLightBuffer = new SimpleBuffer(LIGHT_TILL_DEAD
-                * myShelfImpl.getCropAreaUsed(), LIGHT_TILL_DEAD
-                * myShelfImpl.getCropAreaUsed());
-        consumedCO2LowBuffer = new SimpleBuffer(CO2_LOW_TILL_DEAD
-                * CO2_RATIO_LOW, CO2_LOW_TILL_DEAD * CO2_RATIO_LOW);
-        consumedCO2HighBuffer = new SimpleBuffer(CO2_HIGH_TILL_DEAD
-                * CO2_RATIO_HIGH, CO2_HIGH_TILL_DEAD * CO2_RATIO_HIGH);
-        consumedHeatBuffer = new SimpleBuffer(HEAT_TILL_DEAD
-                * DANGEROUS_HEAT_LEVEL, HEAT_TILL_DEAD * DANGEROUS_HEAT_LEVEL);
-
         myCanopyClosurePPFValues = new Vector<Float>(getTAInitialValue());
         myCanopyClosureCO2Values = new Vector<Float>(getTAInitialValue());
     }
@@ -233,21 +209,6 @@ public abstract class PlantImpl extends PlantPOA {
         totalCO2MolesConsumed = 0f;
         totalWaterLitersTranspired = 0f;
         myTimeTillCanopyClosure = 0f;
-        
-        //in case crop area has changed
-        consumedWaterBuffer.setInitialLevelAndCapacity(WATER_TILL_DEAD
-                * myShelfImpl.getCropAreaUsed(), WATER_TILL_DEAD
-                * myShelfImpl.getCropAreaUsed());
-        consumedWaterBuffer.reset();
-
-        consumedLightBuffer.setInitialLevelAndCapacity(LIGHT_TILL_DEAD
-                * myShelfImpl.getCropAreaUsed(), LIGHT_TILL_DEAD
-                * myShelfImpl.getCropAreaUsed());
-        consumedLightBuffer.reset();
-        
-        consumedCO2LowBuffer.reset();
-        consumedCO2HighBuffer.reset();
-        consumedHeatBuffer.reset();
         myPPFFractionAbsorbed = 0f;
         myProductionRate = 1f;
         myMolesOfCO2Inhaled = 0f;
@@ -257,11 +218,6 @@ public abstract class PlantImpl extends PlantPOA {
         myAge++;
         if (!hasDied) {
             growBiomass();
-            if ((myAge > 1) && (myShelfImpl.getBiomassPSImpl().getDeathEnabled())) {
-                afflictPlants();
-                healthCheck();
-                recoverPlants();
-            }
             myTotalWaterNeeded += myWaterNeeded;
             myAverageWaterNeeded = myTotalWaterNeeded / myAge;
         }
@@ -294,106 +250,6 @@ public abstract class PlantImpl extends PlantPOA {
         //myLogger.debug("pPPF: " + pPPF);
     }
 
-    private void recoverPlants() {
-        consumedWaterBuffer.add(WATER_RECOVERY_RATE
-                * consumedWaterBuffer.getCapacity());
-        //myLogger.debug("recovery low CO2 by: "+ (CO2_LOW_RECOVERY_RATE * consumedCO2LowBuffer.getCapacity()));
-        consumedCO2LowBuffer.add(CO2_LOW_RECOVERY_RATE
-                * consumedCO2LowBuffer.getCapacity());
-        consumedCO2HighBuffer.add(CO2_HIGH_RECOVERY_RATE
-                * consumedCO2HighBuffer.getCapacity());
-        consumedHeatBuffer.add(HEAT_RECOVERY_RATE
-                * consumedHeatBuffer.getCapacity());
-        consumedLightBuffer.add(LIGHT_RECOVERY_RATE
-                * consumedLightBuffer.getCapacity());
-    }
-
-    /**
-     * If not all the resources required were consumed, we damage the plant
-     */
-    private void afflictPlants() {
-//        myLogger.debug("before: water buffer at " + consumedWaterBuffer.getLevel() + " of "
-//                + consumedWaterBuffer.getCapacity());
-//        myLogger.debug("before: light buffer at "
-//                + consumedLightBuffer.getLevel() + " of "
-//                + consumedLightBuffer.getCapacity());
-
-        consumedWaterBuffer.setCapacity(myAverageWaterNeeded * WATER_TILL_DEAD);
-        consumedLightBuffer.setCapacity(getPPFNeeded() * LIGHT_TILL_DEAD);
-
-//        myLogger.debug("after asked for " + myWaterNeeded + " and got "
-//                + myWaterLevel + ", water buffer at "
-//                + consumedWaterBuffer.getLevel() + " of "
-//                + consumedWaterBuffer.getCapacity() + " and going to take "
-//                + (myWaterNeeded - myWaterLevel) + " from death buffer");
-//        myLogger.debug("after asked for " + getPPFNeeded() + " and got "
-//                + myAveragePPF + ", light buffer at "
-//                + consumedLightBuffer.getLevel() + " of "
-//                + consumedLightBuffer.getCapacity() + " and going to take "
-//                + (getPPFNeeded() - myAveragePPF));
-
-        consumedWaterBuffer.take(myWaterNeeded - myWaterLevel);
-        consumedLightBuffer.take(getPPFNeeded() - myAveragePPF);
-        if (myAveragePPF > DANGEROUS_HEAT_LEVEL)
-            consumedHeatBuffer.take(myAveragePPF - DANGEROUS_HEAT_LEVEL);
-        if (myAverageCO2Concentration < CO2_RATIO_LOW){
-            consumedCO2LowBuffer
-                    .take(CO2_RATIO_LOW - myAverageCO2Concentration);
-            //myLogger.debug("myAverageCO2Concentration = "+myAverageCO2Concentration);
-            //myLogger.debug("taken from low CO2 store = " + (CO2_RATIO_LOW - myAverageCO2Concentration));
-            //myLogger.debug("consumedCO2LowBuffer.getLevel() = " + consumedCO2LowBuffer.getLevel());
-        }
-        if (myAverageCO2Concentration > CO2_RATIO_HIGH)
-            consumedCO2HighBuffer.take(myAverageCO2Concentration
-                    - CO2_RATIO_HIGH);
-    }
-
-    /**
-     * Checks to see if crew memeber has been lethally damaged (i.e., hasn't
-     * received a resource for too many ticks)
-     */
-    private void healthCheck() {
-        //check for death
-        float randomNumber = myRandomGen.nextFloat();
-        float CO2RiskLowReturn = MathUtils.calculateSCurve(consumedCO2LowBuffer.getAmountMissing(), consumedCO2LowBuffer.getCapacity());
-        float CO2RiskHighReturn = MathUtils.calculateSCurve(consumedCO2HighBuffer.getAmountMissing(), consumedCO2HighBuffer.getCapacity());
-        float waterRiskReturn = MathUtils.calculateSCurve(consumedWaterBuffer.getAmountMissing(), consumedWaterBuffer.getCapacity());
-        float heatRiskReturn = MathUtils.calculateSCurve(consumedHeatBuffer.getAmountMissing(), consumedHeatBuffer.getCapacity());
-        float lightRiskReturn = MathUtils.calculateSCurve(consumedLightBuffer.getAmountMissing(), consumedLightBuffer.getCapacity());
-        //myLogger.debug("consumedCO2LowBuffer.getAmountMissing() = "+consumedCO2LowBuffer.getAmountMissing());
-        //myLogger.debug("consumedCO2LowBuffer.getCapacity() = "+consumedCO2LowBuffer.getCapacity());
-        //myLogger.debug("CO2RiskLowReturn = "+CO2RiskLowReturn);
-        if (CO2RiskLowReturn > randomNumber) {
-        	kill();
-            myLogger.info(getPlantTypeString()
-                    + " crops have died from low CO2 at " + getDaysOfGrowth()
-                    + " days (risk was " + (CO2RiskLowReturn * 100) + "%)");
-        } else if (CO2RiskHighReturn > randomNumber) {
-        	kill();
-            myLogger.info(getPlantTypeString()
-                    + " crops have died from high CO2 at " + getDaysOfGrowth()
-                    + " days (risk was " + (CO2RiskHighReturn * 100) + "%)");
-        } else if (waterRiskReturn > randomNumber) {
-        	kill();
-            myLogger.info(getPlantTypeString()
-                    + " crops have died from lack of water at "
-                    + getDaysOfGrowth() + " days (risk was "
-                    + (waterRiskReturn * 100) + "%)");
-        } else if (heatRiskReturn > randomNumber) {
-        	kill();
-            myLogger.info(getPlantTypeString()
-                    + " crops have died from lack of heat at "
-                    + getDaysOfGrowth() + " days (risk was "
-                    + (heatRiskReturn * 100) + "%)");
-        } else if (lightRiskReturn > randomNumber) {
-        	kill();
-            myLogger.info(getPlantTypeString()
-                    + " crops have died from lack of light at "
-                    + getDaysOfGrowth() + " days (risk was "
-                    + (lightRiskReturn * 100) + "%)");
-        }
-    }
-    
     public void kill(){
         reset();
         hasDied = true;
@@ -531,7 +387,6 @@ public abstract class PlantImpl extends PlantPOA {
         //Water In
         myWaterNeeded = calculateWaterUptake();
         myWaterLevel = myShelfImpl.takeWater(myWaterNeeded);
-        consumedWaterBuffer.add(myWaterLevel);
         //myLogger.debug("myWaterNeeded: " + myWaterNeeded);
         //myLogger.debug("myWaterLevel: " + myWaterLevel);
         if (myWaterNeeded == 0)
