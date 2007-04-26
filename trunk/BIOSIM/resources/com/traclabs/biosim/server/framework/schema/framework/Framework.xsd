@@ -18,15 +18,28 @@
 					<xsd:element name="weibull2FailureDecider" type="Weibull2FailureDeciderType" />
 					<xsd:element name="weibull3FailureDecider" type="Weibull3FailureDeciderType" />
 			</xsd:choice>
+			<xsd:choice minOccurs="0" maxOccurs="1">
+					<xsd:element name="normalStochasticFilter" type="NormalStochasticFilterType" />
+			</xsd:choice>
 		</xsd:sequence>
 		<xsd:attribute name="moduleName" type="xsd:string"
 			use="required" />
-		<xsd:attribute name="setStochasticIntensity"
-			type="StochasticIntensityType" default="NONE_STOCH" />
 		<xsd:attribute name="createLocally" type="xsd:boolean"
 			default="true" />
 		<xsd:attribute name="logLevel" type="LogLevelType"
 			default="INFO" />
+	</xsd:complexType>
+
+	<xsd:complexType name="StochasticFilterType">
+		<xsd:attribute name="isFilterEnabled" type="xsd:boolean" default="true"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NormalStochasticFilterType">  
+		<xsd:complexContent>
+			<xsd:extension base="StochasticFilterType">
+				<xsd:attribute name="deviation" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
 	</xsd:complexType>
 
 	<xsd:complexType name="FailureDeciderType">
@@ -114,7 +127,7 @@
 		<xsd:sequence>
 			<xsd:element name="comment" type="xsd:string" minOccurs="0" maxOccurs="1"/>	
 			<xsd:element name="author" type="xsd:string" minOccurs="0" maxOccurs="1"/>	
-			<xsd:element name="log4jProperty" type="log4jPropertyType" minOccurs="0" maxOccurs="unbounded"/>	
+			<xsd:element name="log4jProperty" type="log4jPropertyType" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 		<xsd:attribute name="startPaused" type="xsd:boolean" default="true"/>
 		<xsd:attribute name="runTillN" type="xsd:nonNegativeInteger" default="0"/>
