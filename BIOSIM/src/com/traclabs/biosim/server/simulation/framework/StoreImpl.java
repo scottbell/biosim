@@ -289,12 +289,12 @@ public class StoreImpl extends PassiveModuleImpl implements
         float takenAmount;
         //asking for more stuff than exists
         if (amountRequested > currentLevel) {
-            takenAmount = randomFilter(currentLevel);
+            takenAmount = getStochasticFilter().randomFilter(currentLevel);
             currentLevel = 0f;
         }
         //stuff exists for request
         else {
-            takenAmount = randomFilter(amountRequested);
+            takenAmount = getStochasticFilter().randomFilter(amountRequested);
             currentLevel -= takenAmount;
         }
         return takenAmount;

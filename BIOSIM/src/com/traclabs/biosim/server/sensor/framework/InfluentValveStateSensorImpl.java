@@ -11,7 +11,7 @@ public class InfluentValveStateSensorImpl extends InfluentValveSensorImpl implem
 
     protected void gatherData() {
         int preFilteredValue = getInput().getIndexOfInfluentStore();
-        myValue = randomFilter(preFilteredValue);
+        myValue = getStochasticFilter().randomFilter(preFilteredValue);
     }
 
     public float getMax() {

@@ -10,7 +10,7 @@ public class BiomassStoreWaterContentSensorImpl extends BiomassStoreSensorImpl
 
     protected void gatherData() {
         float preFilteredValue = getInput().calculateWaterContentInStore();
-        myValue = randomFilter(preFilteredValue);
+        myValue = getStochasticFilter().randomFilter(preFilteredValue);
     }
 
     public float getMax() {

@@ -233,21 +233,6 @@ public class BiosimInitializer {
 				myDriver.setLooping(node.getAttributes().getNamedItem(
 						"isLooping").getNodeValue().equals("true"));
 
-				String stochasticString = node.getAttributes().getNamedItem(
-						"stochasticIntensity").getNodeValue();
-				if (stochasticString.equals("HIGH_STOCH"))
-					myDriver
-							.setStochasticIntensity(StochasticIntensity.HIGH_STOCH);
-				else if (stochasticString.equals("MEDIUM_STOCH"))
-					myDriver
-							.setStochasticIntensity(StochasticIntensity.MEDIUM_STOCH);
-				else if (stochasticString.equals("LOW_STOCH"))
-					myDriver
-							.setStochasticIntensity(StochasticIntensity.LOW_STOCH);
-				else
-					myDriver
-							.setStochasticIntensity(StochasticIntensity.NONE_STOCH);
-
 				Properties logProperties = new Properties();
 				Node child = node.getFirstChild();
 				while (child != null) {
@@ -427,7 +412,6 @@ public class BiosimInitializer {
 		LogLevel logLevel = getLogLevel(node);
 		if (logLevel != null)
 			pModule.setLogLevel(logLevel);
-		pModule.setStochasticIntensity(getStochasticIntensity(node));
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getNodeName();

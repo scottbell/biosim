@@ -15,9 +15,9 @@ import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionHelper;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.framework.StochasticIntensity;
-import com.traclabs.biosim.server.util.MathUtils;
 import com.traclabs.biosim.server.util.failure.FailureDecider;
+import com.traclabs.biosim.server.util.stochastic.NoFilter;
+import com.traclabs.biosim.server.util.stochastic.StochasticFilter;
 import com.traclabs.biosim.util.MersenneTwister;
 import com.traclabs.biosim.util.OrbUtils;
 
@@ -32,11 +32,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
     //The random number generator used for gaussian function (stochastic stuff)
     private static Random myRandomGen = new MersenneTwister();
 
-    //The numerical value for the stochastic intensity
-    private float randomCoefficient = 0f;
-
-    //The stochastic intensity of this module
-    protected StochasticIntensity myStochasticIntensity = StochasticIntensity.NONE_STOCH;
+    private StochasticFilter myStochasticFilter = new NoFilter();
 
     //The unique ID for this module (all the modules this module communicates
     // with should have the same ID)
@@ -370,108 +366,9 @@ public abstract class BioModuleImpl extends BioModulePOA {
     		myLogger.setLevel(Level.ALL);
     }
 
-    /**
-     * Tells the Stochastic intentsity of this module (i.e., the indeterminism)
-     * 
-     * @return The Stochastic intentsity of this module (i.e., the
-     *         indeterminism)
-     */
-    public StochasticIntensity getStochasticIntensity() {
-        return myStochasticIntensity;
+    public StochasticFilter getStochasticFilter() {
+        return myStochasticFilter;
     }
-
-    /**
-     * Sets how stochastically intense this module should be.
-     * 
-     * @param pValue
-     *            The intensity for this module. Options are: <br>
-     *            &nbsp;&nbsp;&nbsp; <code>StochasticIntensity.HIGH_STOCH</code>
-     *            for high intensity <br>
-     *            &nbsp;&nbsp;&nbsp;
-     *            <code>StochasticIntensity.MEDIUM_STOCH</code> for medium
-     *            intensity <br>
-     *            &nbsp;&nbsp;&nbsp; <code>StochasticIntensity.LOW_STOCH</code>
-     *            for low intensity <br>
-     *            &nbsp;&nbsp;&nbsp; <code>StochasticIntensity.NONE_STOCH</code>
-     *            for no intensity (deterministic, default)
-     */
-    public void setStochasticIntensity(StochasticIntensity pValue) {
-        myStochasticIntensity = pValue;
-        if (pValue == StochasticIntensity.NONE_STOCH)
-            randomCoefficient = 0f;
-        else if (pValue == StochasticIntensity.LOW_STOCH)
-            randomCoefficient = .02f;
-        else if (pValue == StochasticIntensity.MEDIUM_STOCH)
-            randomCoefficient = .04f;
-        else if (pValue == StochasticIntensity.HIGH_STOCH)
-            randomCoefficient = .08f;
-    }
-
-    /**
-     * Randomizes a number passed through it.
-     * 
-     * @param pValue
-     *            Filters using a gaussian function.
-     * @return the randomized result
-     */
-    public float randomFilter(float pValue) {
-        if (randomCoefficient <= 0)
-            return pValue;
-        double deviation = randomCoefficient * pValue;
-        double result = MathUtils.gaussian(pValue, deviation);
-        if (result < 0)
-            return 0;
-		return (float)result;
-    }
-
-    /**
-     * Randomizes a number passed through it.
-     * 
-     * @param pValue
-     *            Filters using a gaussian function.
-     * @return the randomized result
-     */
-    public double randomFilter(double pValue) {
-        if (randomCoefficient <= 0)
-            return pValue;
-        double deviation = randomCoefficient * pValue;
-        double result = MathUtils.gaussian(pValue, deviation);
-        if (result < 0)
-            return 0;
-		return result;
-    }
-
-    /**
-     * Randomizes a number passed through it.
-     * 
-     * @param pValue
-     *            Filters using a gaussian function.
-     * @return the randomized result
-     */
-    public boolean randomFilter(boolean pValue) {
-        if (randomCoefficient <= 0)
-            return pValue;
-        return (MathUtils.gaussian(1, randomCoefficient) > 1);
-    }
-
-    /**
-     * Randomizes a number passed through it.
-     * 
-     * @param pValue
-     *            Filters using a gaussian function.
-     * @return the randomized result
-     */
-    public int randomFilter(int pValue) {
-        if (randomCoefficient <= 0)
-            return pValue;
-        double deviation = randomCoefficient * pValue;
-        double result = MathUtils.gaussian(pValue, deviation);
-        if (result < 0)
-            return 0;
-		return (int)result;
-    }
-
-   
 
     /**
      * Returns the name of the module, "Unamed" if not overriden
@@ -501,5 +398,9 @@ public abstract class BioModuleImpl extends BioModulePOA {
 
 	public void setFailureDecider(FailureDecider decider) {
 		this.myFailureDecider = decider;
+	}
+	
+	public void setStochasticFilter(StochasticFilter filter){
+		this.myStochasticFilter = filter;
 	}
 }

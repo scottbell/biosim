@@ -16,7 +16,7 @@ public class BiomassOutFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     protected void processData() {
-        float myFilteredValue = randomFilter(myValue);
+        float myFilteredValue = getStochasticFilter().randomFilter(myValue);
         getOutput().getBiomassProducerDefinition().setDesiredFlowRate(
                 myFilteredValue, myIndex);
     }

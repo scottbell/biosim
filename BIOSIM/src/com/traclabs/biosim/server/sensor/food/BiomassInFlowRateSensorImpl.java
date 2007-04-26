@@ -18,7 +18,7 @@ public class BiomassInFlowRateSensorImpl extends GenericSensorImpl implements
     protected void gatherData() {
         float preFilteredValue = getInput().getBiomassConsumerDefinition()
                 .getActualFlowRate(myIndex);
-        myValue = randomFilter(preFilteredValue);
+        myValue = getStochasticFilter().randomFilter(preFilteredValue);
     }
 
 

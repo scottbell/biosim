@@ -10,7 +10,7 @@ public class TimeTillCanopyClosureSensorImpl extends ShelfSensorImpl implements 
 
     protected void gatherData() {
         float preFilteredBooleanValue = getInput().getTimeTillCanopyClosure();
-        myValue = randomFilter(preFilteredBooleanValue);
+        myValue = getStochasticFilter().randomFilter(preFilteredBooleanValue);
     }
 
     public float getMax() {

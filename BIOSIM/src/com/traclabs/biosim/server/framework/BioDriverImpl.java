@@ -6,7 +6,6 @@ import com.traclabs.biosim.idl.framework.BioDriverPOA;
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.framework.StochasticIntensity;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.food.BiomassPS;
 
@@ -407,23 +406,6 @@ public class BioDriverImpl extends BioDriverPOA {
 		if (!simulationIsPaused)
 			setPauseSimulation(true);
 		tick();
-	}
-
-	/**
-	 * Tells the amount of stochastic intensity the modules will undergo.
-	 * 
-	 * @param pValue
-	 *            The amount of stochastic intensity the modules will undergo.
-	 *            Options are: <code>StochasticIntensity.HIGH_STOCH</code>
-	 * <code>StochasticIntensity.MEDIUM_STOCH</code>
-	 * <code>StochasticIntensity.LOW_STOCH</code>
-	 * <code>StochasticIntensity.NONE_STOCH</code>
-	 */
-	public void setStochasticIntensity(StochasticIntensity pValue) {
-		for (int i = 0; i < modules.length; i++) {
-			BioModule currentBioModule = (modules[i]);
-			currentBioModule.setStochasticIntensity(pValue);
-		}
 	}
 
 	/**

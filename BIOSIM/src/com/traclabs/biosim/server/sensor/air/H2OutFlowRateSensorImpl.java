@@ -18,7 +18,7 @@ public class H2OutFlowRateSensorImpl extends GenericSensorImpl implements
     protected void gatherData() {
         float preFilteredValue = getInput().getH2ProducerDefinition()
                 .getActualFlowRate(myIndex);
-        myValue = randomFilter(preFilteredValue);
+        myValue = getStochasticFilter().randomFilter(preFilteredValue);
     }
 
 

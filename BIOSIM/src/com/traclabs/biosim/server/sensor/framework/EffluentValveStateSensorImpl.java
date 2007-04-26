@@ -11,7 +11,7 @@ public class EffluentValveStateSensorImpl extends EffluentValveSensorImpl implem
 
     protected void gatherData() {
         float preFilteredValue = getInput().getIndexOfEffluentStore();
-        myValue = randomFilter(preFilteredValue);
+        myValue = getStochasticFilter().randomFilter(preFilteredValue);
     }
 
     public float getMax() {

@@ -18,7 +18,7 @@ public class DryWasteInFlowRateSensorImpl extends GenericSensorImpl implements
     protected void gatherData() {
         float preFilteredValue = getInput().getDryWasteConsumerDefinition()
                 .getActualFlowRate(myIndex);
-        myValue = randomFilter(preFilteredValue);
+        myValue = getStochasticFilter().randomFilter(preFilteredValue);
     }
 
 

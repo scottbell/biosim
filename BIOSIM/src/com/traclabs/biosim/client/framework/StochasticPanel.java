@@ -17,7 +17,6 @@ import javax.swing.event.ChangeListener;
 import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.idl.framework.BioModule;
-import com.traclabs.biosim.idl.framework.StochasticIntensity;
 
 /**
  * @author Scott Bell
@@ -47,14 +46,6 @@ public class StochasticPanel extends TimedPanel {
 		BioModule myModule = myModulePanel.getSelectedModule();
 		if ((myModule == null) || (mySlider == null))
 			return;
-		if (myModule.getStochasticIntensity() == StochasticIntensity.NONE_STOCH)
-			mySlider.setValue(0);
-		else if (myModule.getStochasticIntensity() == StochasticIntensity.LOW_STOCH)
-			mySlider.setValue(1);
-		else if (myModule.getStochasticIntensity() == StochasticIntensity.MEDIUM_STOCH)
-			mySlider.setValue(2);
-		else if (myModule.getStochasticIntensity() == StochasticIntensity.HIGH_STOCH)
-			mySlider.setValue(3);
 	}
 
 	protected void buildGui() {
@@ -146,18 +137,6 @@ public class StochasticPanel extends TimedPanel {
 	private class SliderListener implements ChangeListener {
 		public void stateChanged(ChangeEvent e) {
 			int stochasticChoice = mySlider.getValue();
-			if (stochasticChoice == 0)
-				myModulePanel.getSelectedModule().setStochasticIntensity(
-						StochasticIntensity.NONE_STOCH);
-			else if (stochasticChoice == 1)
-				myModulePanel.getSelectedModule().setStochasticIntensity(
-						StochasticIntensity.LOW_STOCH);
-			else if (stochasticChoice == 2)
-				myModulePanel.getSelectedModule().setStochasticIntensity(
-						StochasticIntensity.MEDIUM_STOCH);
-			else if (stochasticChoice == 3)
-				myModulePanel.getSelectedModule().setStochasticIntensity(
-						StochasticIntensity.HIGH_STOCH);
 		}
 	}
 

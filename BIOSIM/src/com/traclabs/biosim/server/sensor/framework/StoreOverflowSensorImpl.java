@@ -10,7 +10,7 @@ public class StoreOverflowSensorImpl extends StoreSensorImpl implements
 
     protected void gatherData() {
         float preFilteredValue = getInput().getOverflow();
-        myValue = randomFilter(preFilteredValue);
+        myValue = getStochasticFilter().randomFilter(preFilteredValue);
     }
 
     protected void notifyListeners() {

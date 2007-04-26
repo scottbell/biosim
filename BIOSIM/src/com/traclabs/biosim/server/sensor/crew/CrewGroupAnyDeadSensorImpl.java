@@ -12,9 +12,9 @@ public class CrewGroupAnyDeadSensorImpl extends CrewGroupSensorImpl implements
     protected void gatherData() {
         boolean preFilteredBooleanValue = getInput().anyDead();
         if (preFilteredBooleanValue)
-            myValue = randomFilter(1);
+            myValue = getStochasticFilter().randomFilter(1);
         else
-            myValue = randomFilter(0);
+            myValue = getStochasticFilter().randomFilter(0);
     }
 
     public float getMax() {

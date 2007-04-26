@@ -18,10 +18,10 @@ public class GasConcentrationSensorImpl extends GenericSensorImpl implements Gas
         float molesOfGas = getGas().getCurrentLevel();
         float totalMoles = myEnvironment.getTotalMoles();
         if (totalMoles <= 0)
-        	myValue = randomFilter(0);
+        	myValue = getStochasticFilter().randomFilter(0);
         else{
         	float preFilteredValue = molesOfGas / totalMoles;
-        	myValue = randomFilter(preFilteredValue);
+        	myValue = getStochasticFilter().randomFilter(preFilteredValue);
         }
     }
     

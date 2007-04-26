@@ -16,7 +16,7 @@ public class DryWasteInFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     protected void processData() {
-        float myFilteredValue = randomFilter(myValue);
+        float myFilteredValue = getStochasticFilter().randomFilter(myValue);
         getOutput().getDryWasteConsumerDefinition().setDesiredFlowRate(
                 myFilteredValue, myIndex);
     }
