@@ -38,7 +38,7 @@ public abstract class SingleFlowRateControllableImpl extends
 	}
 	
 	protected float randomFilter(float value){
-		return myModuleImpl.randomFilter(value);
+		return myModuleImpl.getStochasticFilter().randomFilter(value);
 	}
 
     public void setMaxFlowRate(float value, int index) {

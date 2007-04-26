@@ -12,7 +12,7 @@ public class PlantingActuatorImpl extends ShelfActuatorImpl implements
     }
 
     protected void processData() {
-        float myFilteredValue = randomFilter(myValue);
+        float myFilteredValue = getStochasticFilter().randomFilter(myValue);
         //replant crops
         myShelf.replant(myType, myFilteredValue);
     }

@@ -16,7 +16,7 @@ public class H2InFlowRateActuatorImpl extends GenericActuatorImpl implements
     }
 
     protected void processData() {
-        float myFilteredValue = randomFilter(myValue);
+        float myFilteredValue = getStochasticFilter().randomFilter(myValue);
         getOutput().getH2ConsumerDefinition().setDesiredFlowRate(
                 myFilteredValue, myIndex);
     }

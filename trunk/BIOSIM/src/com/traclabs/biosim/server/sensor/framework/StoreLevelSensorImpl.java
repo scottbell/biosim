@@ -10,7 +10,7 @@ public class StoreLevelSensorImpl extends StoreSensorImpl implements
 
     protected void gatherData() {
         float preFilteredValue = getInput().getCurrentLevel();
-        myValue = randomFilter(preFilteredValue);
+        myValue = getStochasticFilter().randomFilter(preFilteredValue);
     }
 
     protected void notifyListeners() {

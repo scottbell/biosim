@@ -16,7 +16,7 @@ public class MethaneOutFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     protected void processData() {
-        float myFilteredValue = randomFilter(myValue);
+        float myFilteredValue = getStochasticFilter().randomFilter(myValue);
         getOutput().getMethaneProducerDefinition().setDesiredFlowRate(
                 myFilteredValue, myIndex);
     }

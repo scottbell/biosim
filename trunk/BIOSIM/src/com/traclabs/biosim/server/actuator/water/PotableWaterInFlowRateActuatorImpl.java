@@ -16,7 +16,7 @@ public class PotableWaterInFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     protected void processData() {
-        float myFilteredValue = randomFilter(myValue);
+        float myFilteredValue = getStochasticFilter().randomFilter(myValue);
         getOutput().getPotableWaterConsumerDefinition().setDesiredFlowRate(
                 myFilteredValue, myIndex);
     }

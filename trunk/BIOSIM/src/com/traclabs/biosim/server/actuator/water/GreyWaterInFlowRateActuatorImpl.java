@@ -16,7 +16,7 @@ public class GreyWaterInFlowRateActuatorImpl extends GenericActuatorImpl
     }
 
     protected void processData() {
-        float myFilteredValue = randomFilter(myValue);
+        float myFilteredValue = getStochasticFilter().randomFilter(myValue);
         getOutput().getGreyWaterConsumerDefinition().setDesiredFlowRate(
                 myFilteredValue, myIndex);
     }

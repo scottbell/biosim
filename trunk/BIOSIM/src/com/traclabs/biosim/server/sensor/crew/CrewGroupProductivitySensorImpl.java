@@ -11,7 +11,7 @@ public class CrewGroupProductivitySensorImpl extends CrewGroupSensorImpl
 
     protected void gatherData() {
         float preFilteredValue = getInput().getProductivity();
-        myValue = randomFilter(preFilteredValue);
+        myValue = getStochasticFilter().randomFilter(preFilteredValue);
     }
 
     public float getMax() {

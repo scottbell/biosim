@@ -170,7 +170,6 @@ module com{
                                         };
                                 };
                                 module framework{
-                                        enum StochasticIntensity {HIGH_STOCH, MEDIUM_STOCH, LOW_STOCH, NONE_STOCH};
                                         enum MalfunctionIntensity {SEVERE_MALF, MEDIUM_MALF, LOW_MALF};
                                         enum MalfunctionLength {TEMPORARY_MALF, PERMANENT_MALF};
                                         enum LogLevel {OFF, INFO, DEBUG, WARN, ERROR, FATAL, ALL};
@@ -208,8 +207,6 @@ module com{
                                                 void tick();
                                                 string getModuleName();
                                                 void reset();
-                                                void setStochasticIntensity(in StochasticIntensity pIntensity);
-                                                StochasticIntensity getStochasticIntensity();
                                                 Malfunction startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
                                                 void scheduleMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength, in long pTickToMalfunction);
                                                 void fixMalfunction(in long long id);
@@ -272,7 +269,6 @@ module com{
                                                 void reset();
                                                 boolean isLooping();
                                                 void setLooping(in boolean pLoop);
-                                                void setStochasticIntensity(in StochasticIntensity pIntensity);
                                                 void startMalfunction(in MalfunctionIntensity pIntensity, in MalfunctionLength pLength);
                                         		void setTickLength(in float tickLength);
                                         		float getTickLength();

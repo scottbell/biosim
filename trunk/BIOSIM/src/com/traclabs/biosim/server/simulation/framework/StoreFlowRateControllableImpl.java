@@ -187,7 +187,7 @@ public abstract class StoreFlowRateControllableImpl extends
                     * fraction);
             float resourceToGatherFinal = Math.min(resourceToGatherFirst,
                     pDefinition.getDesiredFlowRate(i) * fraction);
-            resourceToGatherFinal = myBioModuleImpl.randomFilter(resourceToGatherFinal);
+            resourceToGatherFinal = myBioModuleImpl.getStochasticFilter().randomFilter(resourceToGatherFinal);
             float grabbed = pDefinition.getStores()[i]
                     .take(resourceToGatherFinal);
             pDefinition.getActualFlowRates()[i] += grabbed;

@@ -18,7 +18,7 @@ public class PotableWaterOutFlowRateSensorImpl extends GenericSensorImpl
     protected void gatherData() {
         float preFilteredValue = getInput().getPotableWaterProducerDefinition()
                 .getActualFlowRate(myIndex);
-        myValue = randomFilter(preFilteredValue);
+        myValue = getStochasticFilter().randomFilter(preFilteredValue);
     }
 
 

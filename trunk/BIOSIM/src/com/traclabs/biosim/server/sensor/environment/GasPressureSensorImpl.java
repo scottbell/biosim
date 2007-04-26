@@ -18,7 +18,7 @@ public class GasPressureSensorImpl extends GenericSensorImpl implements GasPress
 
     protected void gatherData(){
         float preFilteredValue = getInput().getPressure();
-        myValue = randomFilter(preFilteredValue);
+        myValue = getStochasticFilter().randomFilter(preFilteredValue);
     }
 
     public BioModule getInputModule() {
