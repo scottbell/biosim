@@ -24,7 +24,6 @@ import com.traclabs.biosim.idl.framework.BioModuleHelper;
 import com.traclabs.biosim.idl.framework.LogLevel;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.framework.StochasticIntensity;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupHelper;
 import com.traclabs.biosim.idl.simulation.food.BiomassPS;
@@ -357,20 +356,7 @@ public class BiosimInitializer {
 				"\nInstance of the module named " + pName
 						+ " should be created remotely (if not already done)");
 	}
-
-	private static StochasticIntensity getStochasticIntensity(Node pNode) {
-		String intensityString = pNode.getAttributes().getNamedItem(
-				"setStochasticIntensity").getNodeValue();
-		if (intensityString.equals("HIGH_STOCH"))
-			return StochasticIntensity.HIGH_STOCH;
-		else if (intensityString.equals("MEDIUM_STOCH"))
-			return StochasticIntensity.MEDIUM_STOCH;
-		else if (intensityString.equals("LOW_STOCH"))
-			return StochasticIntensity.LOW_STOCH;
-		else
-			return StochasticIntensity.NONE_STOCH;
-	}
-
+	
 	private static MalfunctionLength getMalfunctionLength(Node pNode) {
 		String lengthString = pNode.getAttributes().getNamedItem("length")
 				.getNodeValue();
