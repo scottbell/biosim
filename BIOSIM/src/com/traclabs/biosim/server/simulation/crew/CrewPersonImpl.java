@@ -1216,15 +1216,15 @@ public class CrewPersonImpl extends CrewPersonPOA {
                         potableWaterNeeded, 1f / myCurrentCrewGroup
                                 .getCrewSize());
         StoreFlowRateControllableImpl
-                .getFractionalResourceFromStores(myBaseCrewGroupImpl, myCurrentCrewGroup
+                .pushFractionalResourceToStores(myBaseCrewGroupImpl, myCurrentCrewGroup
                         .getDirtyWaterProducerDefinition(), dirtyWaterProduced,
                         1f / myCurrentCrewGroup.getCrewSize());
         StoreFlowRateControllableImpl
-                .getFractionalResourceFromStores(myBaseCrewGroupImpl, myCurrentCrewGroup
+                .pushFractionalResourceToStores(myBaseCrewGroupImpl, myCurrentCrewGroup
                         .getGreyWaterProducerDefinition(), greyWaterProduced,
                         1f / myCurrentCrewGroup.getCrewSize());
         StoreFlowRateControllableImpl
-                .getFractionalResourceFromStores(myBaseCrewGroupImpl, myCurrentCrewGroup
+                .pushFractionalResourceToStores(myBaseCrewGroupImpl, myCurrentCrewGroup
                         .getDryWasteProducerDefinition(), dryWasteProduced,
                         1f / myCurrentCrewGroup.getCrewSize());
 
