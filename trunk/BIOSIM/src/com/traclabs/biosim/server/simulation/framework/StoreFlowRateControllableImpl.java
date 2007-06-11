@@ -208,7 +208,8 @@ public abstract class StoreFlowRateControllableImpl extends
      * @return The total amount of resource pushed to the stores (equal to the
      *         amount to push if sucessful)
      */
-    public float pushFractionalResourceToStores(
+    public static float pushFractionalResourceToStores(
+            BioModuleImpl myBioModuleImpl,
             StoreFlowRateControllable pDefinition, float amountToPush,
             float fraction) {
         if (pDefinition.getStores() == null)
@@ -226,6 +227,7 @@ public abstract class StoreFlowRateControllableImpl extends
                     resourceToDistributeFirst, pDefinition
                             .getDesiredFlowRate(i)
                             * fraction);
+            resourceToDistributeFinal = myBioModuleImpl.getStochasticFilter().randomFilter(resourceToDistributeFinal);
             float given = pDefinition.getStores()[i]
                     .add(resourceToDistributeFinal);
             pDefinition.getActualFlowRates()[i] += given;
