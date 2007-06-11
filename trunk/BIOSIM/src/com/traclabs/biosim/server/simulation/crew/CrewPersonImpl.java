@@ -914,7 +914,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * @return potable water needed in liters
      */
     private float calculateCleanWaterNeeded(int currentActivityIntensity) {
-        if (currentActivityIntensity > 0)
+        if (currentActivityIntensity >= 0)
             return 0.1667f * getCurrentCrewGroup().getTickLength();
 		return 0f;
     }
