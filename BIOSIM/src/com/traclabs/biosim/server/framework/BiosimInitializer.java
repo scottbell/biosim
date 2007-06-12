@@ -140,12 +140,11 @@ public class BiosimInitializer {
 				myActuatorInitializer.crawlActuators(node, firstPass);
 				return;
 			}
-		} else {
-			Node child = node.getFirstChild();
-			while (child != null) {
-				crawlBiosim(child, firstPass);
-				child = child.getNextSibling();
-			}
+		}
+		Node child = node.getFirstChild();
+		while (child != null) {
+			crawlBiosim(child, firstPass);
+			child = child.getNextSibling();
 		}
 
 	}
@@ -240,12 +239,15 @@ public class BiosimInitializer {
 				Node child = node.getFirstChild();
 				while (child != null) {
 					String childName = child.getLocalName();
-					if (childName.equals("log4jProperty")) {
-						String nameProperty = child.getAttributes()
-								.getNamedItem("name").getNodeValue();
-						String valueProperty = child.getAttributes()
-								.getNamedItem("value").getNodeValue();
-						logProperties.setProperty(nameProperty, valueProperty);
+					if (childName != null) {
+						if (childName.equals("log4jProperty")) {
+							String nameProperty = child.getAttributes()
+									.getNamedItem("name").getNodeValue();
+							String valueProperty = child.getAttributes()
+									.getNamedItem("value").getNodeValue();
+							logProperties.setProperty(nameProperty,
+									valueProperty);
+						}
 					}
 					child = child.getNextSibling();
 				}
@@ -301,11 +303,14 @@ public class BiosimInitializer {
 			Node child = node.getFirstChild();
 			while (child != null) {
 				String childName = child.getLocalName();
-				StochasticFilter filter = getStochasticFilter(childName, child);
-				if (filter != null) {
-					// myDriver.setStochasticFilter(filter);
-					// Logger.getLogger(BiosimInitializer.class).debug("created
-					// stochastic filter for all modules");
+				if (childName != null) {
+					StochasticFilter filter = getStochasticFilter(childName,
+							child);
+					if (filter != null) {
+						// myDriver.setStochasticFilter(filter);
+						// Logger.getLogger(BiosimInitializer.class).debug("created
+						// stochastic filter for all modules");
+					}
 				}
 				child = child.getNextSibling();
 			}
@@ -417,20 +422,22 @@ public class BiosimInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			StochasticFilter filter = getStochasticFilter(childName, child);
-			if (filter != null) {
-				pModule.setStochasticFilter(filter);
-				Logger.getLogger(BiosimInitializer.class).debug(
-						"created stochastic filter for"
-								+ pModule.getModuleName());
-			} else if (checkForFailureDecider(childName, pModule, child)) {
-				Logger.getLogger(BiosimInitializer.class)
-						.debug(
-								"created failure decider for"
-										+ pModule.getModuleName());
-			} else if (childName.equals("malfunction")) {
-				pModule.scheduleMalfunction(getMalfunctionIntensity(child),
-						getMalfunctionLength(child), getMalfunctionTick(child));
+			if (childName != null) {
+				StochasticFilter filter = getStochasticFilter(childName, child);
+				if (filter != null) {
+					pModule.setStochasticFilter(filter);
+					Logger.getLogger(BiosimInitializer.class).debug(
+							"created stochastic filter for"
+									+ pModule.getModuleName());
+				} else if (checkForFailureDecider(childName, pModule, child)) {
+					Logger.getLogger(BiosimInitializer.class).debug(
+							"created failure decider for"
+									+ pModule.getModuleName());
+				} else if (childName.equals("malfunction")) {
+					pModule.scheduleMalfunction(getMalfunctionIntensity(child),
+							getMalfunctionLength(child),
+							getMalfunctionTick(child));
+				}
 			}
 			child = child.getNextSibling();
 		}
