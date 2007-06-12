@@ -223,7 +223,7 @@ public class BioHolderInitializer {
 		// is there anything to do?
 		if (node == null)
 			return;
-		String nodeName = node.getNodeName();
+		String nodeName = node.getLocalName();
 		if (nodeName.equals("SimBioModules")) {
 			crawlModules(node);
 			return;
@@ -310,7 +310,7 @@ public class BioHolderInitializer {
 	private static void crawlModules(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("air"))
 				crawlAirModules(child);
 			else if (childName.equals("crew"))
@@ -376,7 +376,7 @@ public class BioHolderInitializer {
 	private static void crawlAirModules(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			Logger.getLogger(BioHolderInitializer.class).debug(
 					"parsing " + childName);
 			if (childName.equals("AirRS"))
@@ -407,7 +407,7 @@ public class BioHolderInitializer {
 	private static void crawlCrewModules(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("CrewGroup"))
 				fetchCrewGroup(child);
 			child = child.getNextSibling();
@@ -427,7 +427,7 @@ public class BioHolderInitializer {
 	private static void crawlEnvironmentModules(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("SimEnvironment"))
 				fetchSimEnvironment(child);
 			else if (childName.equals("Dehumidifier"))
@@ -459,7 +459,7 @@ public class BioHolderInitializer {
 	private static void crawlFrameworkModules(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("Accumulator"))
 				fetchAccumulator(child);
 			else if (childName.equals("Injector"))
@@ -495,7 +495,7 @@ public class BioHolderInitializer {
 	private static void crawlFoodModules(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("BiomassPS"))
 				fetchBiomassPS(child);
 			else if (childName.equals("FoodProcessor"))
@@ -531,7 +531,7 @@ public class BioHolderInitializer {
 	private static void crawlPowerModules(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("PowerPS"))
 				fetchPowerPS(child);
 			else if (childName.equals("PowerStore"))
@@ -567,7 +567,7 @@ public class BioHolderInitializer {
 	private static void crawlWaterModules(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("WaterRS"))
 				fetchWaterRS(child);
 			else if (childName.equals("PotableWaterStore"))
@@ -593,7 +593,7 @@ public class BioHolderInitializer {
 	private static void crawlWasteModules(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("Incinerator"))
 				fetchIncinerator(child);
 			else if (childName.equals("DryWasteStore"))
@@ -606,7 +606,7 @@ public class BioHolderInitializer {
 	private static void crawlSensors(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("air"))
 				crawlAirSensors(child);
 			else if (childName.equals("crew"))
@@ -673,7 +673,7 @@ public class BioHolderInitializer {
 	private static void crawlAirSensors(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("CO2InFlowRateSensor"))
 				fetchCO2InFlowRateSensor(child);
 			else if (childName.equals("CO2OutFlowRateSensor"))
@@ -714,7 +714,7 @@ public class BioHolderInitializer {
 	private static void crawlCrewSensors(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("CrewGroupDeathSensor"))
 				fetchCrewGroupDeathSensor(child);
 			else if (childName.equals("CrewGroupAnyDeadSensor"))
@@ -751,7 +751,7 @@ public class BioHolderInitializer {
 	private static void crawlEnvironmentSensors(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("AirInFlowRateSensor"))
 				fetchAirInFlowRateSensor(child);
 			else if (childName.equals("AirOutFlowRateSensor"))
@@ -811,7 +811,7 @@ public class BioHolderInitializer {
 	private static void crawlFoodSensors(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("BiomassInFlowRateSensor"))
 				fetchBiomassInFlowRateSensor(child);
 			if (childName.equals("BiomassOutFlowRateSensor"))
@@ -858,7 +858,7 @@ public class BioHolderInitializer {
 	private static void crawlFrameworkSensors(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("StoreLevelSensor"))
 				fetchStoreLevelSensor(child);
 			else if (childName.equals("StoreOverflowSensor"))
@@ -885,7 +885,7 @@ public class BioHolderInitializer {
 	private static void crawlPowerSensors(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("PowerInFlowRateSensor"))
 				fetchPowerInFlowRateSensor(child);
 			else if (childName.equals("PowerOutFlowRateSensor"))
@@ -944,7 +944,7 @@ public class BioHolderInitializer {
 	private static void crawlWaterSensors(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("PotableWaterInFlowRateSensor"))
 				fetchPotableWaterInFlowRateSensor(child);
 			else if (childName.equals("PotableWaterOutFlowRateSensor"))
@@ -981,7 +981,7 @@ public class BioHolderInitializer {
 	private static void crawlWasteSensors(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("DryWasteInFlowRateSensor"))
 				fetchDryWasteInFlowRateSensor(child);
 			else if (childName.equals("DryWasteOutFlowRateSensor"))
@@ -994,7 +994,7 @@ public class BioHolderInitializer {
 	private static void crawlActuators(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("air")) {
 				crawlAirActuators(child);
 			} else if (childName.equals("environment")) {
@@ -1060,7 +1060,7 @@ public class BioHolderInitializer {
 	private static void crawlAirActuators(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("CO2InFlowRateActuator"))
 				fetchCO2InFlowRateActuator(child);
 			else if (childName.equals("CO2OutFlowRateActuator"))
@@ -1095,7 +1095,7 @@ public class BioHolderInitializer {
 	private static void crawlEnvironmentActuators(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("AirInFlowRateActuator"))
 				fetchAirInFlowRateActuator(child);
 			else if (childName.equals("AirOutFlowRateActuator"))
@@ -1118,7 +1118,7 @@ public class BioHolderInitializer {
 	private static void crawlFrameworkActuators(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("InfluentValveActuator"))
 				fetchInfluentValveActuator(child);
 			else if (childName.equals("EffluentValveActuator"))
@@ -1164,7 +1164,7 @@ public class BioHolderInitializer {
 	private static void crawlFoodActuators(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("BiomassInFlowRateActuator"))
 				fetchBiomassInFlowRateActuator(child);
 			if (childName.equals("BiomassOutFlowRateActuator"))
@@ -1197,7 +1197,7 @@ public class BioHolderInitializer {
 	private static void crawlPowerActuators(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("PowerInFlowRateActuator"))
 				fetchPowerInFlowRateActuator(child);
 			else if (childName.equals("PowerOutFlowRateActuator"))
@@ -1258,7 +1258,7 @@ public class BioHolderInitializer {
 	private static void crawlWaterActuators(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("PotableWaterInFlowRateActuator"))
 				fetchPotableWaterInFlowRateActuator(child);
 			else if (childName.equals("PotableWaterOutFlowRateActuator"))
@@ -1295,7 +1295,7 @@ public class BioHolderInitializer {
 	private static void crawlWasteActuators(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("DryWasteInFlowRateActuator"))
 				fetchDryWasteInFlowRateActuator(child);
 			else if (childName.equals("DryWasteOutFlowRateActuator"))

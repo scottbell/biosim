@@ -200,7 +200,7 @@ public class SimulationInitializer {
 	public void crawlSimModules(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("air")) {
 				crawlAirModules(child, firstPass);
 			} else if (childName.equals("crew")) {
@@ -343,7 +343,7 @@ public class SimulationInitializer {
 	private void configureSimBioModule(SimBioModule pModule, Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("powerConsumer")) {
 				PowerConsumer myPowerConsumer = (PowerConsumer) (pModule);
 				BioModule[] modules = getInputs(child);
@@ -641,7 +641,7 @@ public class SimulationInitializer {
 	private static Node getEnvironmentNode(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			if (child.getNodeName().startsWith("environment"))
+			if (child.getLocalName().startsWith("environment"))
 				return child;
 			child = child.getNextSibling();
 		}
@@ -651,7 +651,7 @@ public class SimulationInitializer {
 	private static Node getStoreNode(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			if (child.getNodeName().startsWith("store"))
+			if (child.getLocalName().startsWith("store"))
 				return child;
 			child = child.getNextSibling();
 		}
@@ -863,7 +863,7 @@ public class SimulationInitializer {
 	private void crawlAirModules(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("OGS")) {
 				if (firstPass)
 					createOGS(child);
@@ -961,7 +961,7 @@ public class SimulationInitializer {
 		Schedule newSchedule = new Schedule(crew);
 		Node child = node.getFirstChild();
 		while (child != null) {
-			if (child.getNodeName().equals("activity")) {
+			if (child.getLocalName().equals("activity")) {
 				Activity newActivity = createActivity(child, crew);
 				newSchedule.insertActivityInSchedule(newActivity);
 			}
@@ -975,7 +975,7 @@ public class SimulationInitializer {
 		Node child = node.getFirstChild();
 		Schedule schedule = null;
 		while (child != null) {
-			if (child.getNodeName().equals("schedule"))
+			if (child.getLocalName().equals("schedule"))
 				schedule = createSchedule(
 						node.getFirstChild().getNextSibling(), pCrewGroupImpl);
 			child = child.getNextSibling();
@@ -1027,7 +1027,7 @@ public class SimulationInitializer {
 					.grabModule(myID, myCrewGroupImpl.getModuleName()));
 			Node child = node.getFirstChild();
 			while (child != null) {
-				if (child.getNodeName().equals("crewPerson"))
+				if (child.getLocalName().equals("crewPerson"))
 					createCrewPerson(child, myCrewGroupImpl, myCrewGroup);
 				child = child.getNextSibling();
 			}
@@ -1045,7 +1045,7 @@ public class SimulationInitializer {
 	private void crawlCrewModules(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("CrewGroup")) {
 				if (firstPass)
 					createCrewGroup(child);
@@ -1174,7 +1174,7 @@ public class SimulationInitializer {
 	private void crawlEnvironmentModules(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("SimEnvironment")) {
 				if (firstPass)
 					createSimEnvironment(child);
@@ -1283,7 +1283,7 @@ public class SimulationInitializer {
 	private void crawlFrameworkModules(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("Accumulator")) {
 				if (firstPass)
 					createAccumulator(child);
@@ -1368,7 +1368,7 @@ public class SimulationInitializer {
 			BiosimInitializer.setupBioModule(myBiomassPSImpl, node);
 			Node child = node.getFirstChild();
 			while (child != null) {
-				if (child.getNodeName().equals("shelf"))
+				if (child.getLocalName().equals("shelf"))
 					myBiomassPSImpl.createNewShelf(getCropType(child),
 							getCropArea(child), getCropStartDay(child));
 				child = child.getNextSibling();
@@ -1462,7 +1462,7 @@ public class SimulationInitializer {
 	private void crawlFoodModules(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("BiomassPS")) {
 				if (firstPass)
 					createBiomassPS(child);
@@ -1582,7 +1582,7 @@ public class SimulationInitializer {
 	private void crawlPowerModules(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("PowerPS")) {
 				if (firstPass)
 					createPowerPS(child);
@@ -1702,7 +1702,7 @@ public class SimulationInitializer {
 	private void crawlWaterModules(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("WaterRS")) {
 				if (firstPass)
 					createWaterRS(child);
@@ -1774,7 +1774,7 @@ public class SimulationInitializer {
 	private void crawlWasteModules(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("Incinerator")) {
 				if (firstPass)
 					createIncinerator(child);

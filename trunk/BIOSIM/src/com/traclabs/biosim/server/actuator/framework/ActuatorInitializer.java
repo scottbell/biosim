@@ -467,7 +467,7 @@ public class ActuatorInitializer {
 	private void crawlAirActuators(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("CO2InFlowRateActuator")) {
 				if (firstPass)
 					createCO2InFlowRateActuator(child);
@@ -578,7 +578,7 @@ public class ActuatorInitializer {
 	private void crawlEnvironmentActuators(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("AirInFlowRateActuator")) {
 				if (firstPass)
 					createAirInFlowRateActuator(child);
@@ -755,7 +755,7 @@ public class ActuatorInitializer {
 	private void crawlFoodActuators(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("BiomassInFlowRateActuator")) {
 				if (firstPass)
 					createBiomassInFlowRateActuator(child);
@@ -840,7 +840,7 @@ public class ActuatorInitializer {
 	private void crawlFrameworkActuators(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("InfluentValveActuator")) {
 				if (firstPass)
 					createInfluentValveActuator(child);
@@ -915,7 +915,7 @@ public class ActuatorInitializer {
 	private void crawlPowerActuators(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("PowerInFlowRateActuator")) {
 				if (firstPass)
 					createPowerInFlowRateActuator(child);
@@ -1161,7 +1161,7 @@ public class ActuatorInitializer {
 	private void crawlWaterActuators(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("PotableWaterInFlowRateActuator")) {
 				if (firstPass)
 					createPotableWaterInFlowRateActuator(child);
@@ -1267,7 +1267,7 @@ public class ActuatorInitializer {
 	private void crawlWasteActuators(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("DryWasteInFlowRateActuator")) {
 				if (firstPass)
 					createDryWasteInFlowRateActuator(child);
@@ -1286,7 +1286,7 @@ public class ActuatorInitializer {
 	public void crawlActuators(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("air"))
 				crawlAirActuators(child, firstPass);
 			else if (childName.equals("environment"))

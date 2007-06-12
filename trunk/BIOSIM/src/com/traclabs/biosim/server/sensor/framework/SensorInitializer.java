@@ -231,7 +231,7 @@ public class SensorInitializer {
 	public void crawlSensors(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("air")) {
 				crawlAirSensors(child, firstPass);
 
@@ -533,7 +533,7 @@ public class SensorInitializer {
 	private void crawlAirSensors(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("CO2InFlowRateSensor")) {
 				if (firstPass)
 					createCO2InFlowRateSensor(child);
@@ -672,7 +672,7 @@ public class SensorInitializer {
 	private void crawlCrewSensors(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("CrewGroupDeathSensor")) {
 				if (firstPass)
 					createCrewGroupDeathSensor(child);
@@ -816,7 +816,7 @@ public class SensorInitializer {
 	private void crawlEnvironmentSensors(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("AirInFlowRateSensor")) {
 				if (firstPass)
 					createAirInFlowRateSensor(child);
@@ -1069,7 +1069,7 @@ public class SensorInitializer {
 	private void crawlFoodSensors(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("BiomassInFlowRateSensor")) {
 				if (firstPass)
 					createBiomassInFlowRateSensor(child);
@@ -1215,7 +1215,7 @@ public class SensorInitializer {
 	private void crawlFrameworkSensors(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("StoreLevelSensor")) {
 				if (firstPass)
 					createStoreLevelSensor(child);
@@ -1296,7 +1296,7 @@ public class SensorInitializer {
 	private void crawlPowerSensors(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("PowerInFlowRateSensor")) {
 				if (firstPass)
 					createPowerInFlowRateSensor(child);
@@ -1536,7 +1536,7 @@ public class SensorInitializer {
 	private void crawlWaterSensors(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("PotableWaterInFlowRateSensor")) {
 				if (firstPass)
 					createPotableWaterInFlowRateSensor(child);
@@ -1642,7 +1642,7 @@ public class SensorInitializer {
 	private void crawlWasteSensors(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			if (childName.equals("DryWasteInFlowRateSensor")) {
 				if (firstPass)
 					createDryWasteInFlowRateSensor(child);
