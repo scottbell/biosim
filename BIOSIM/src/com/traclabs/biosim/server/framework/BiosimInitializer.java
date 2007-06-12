@@ -125,7 +125,7 @@ public class BiosimInitializer {
 		// is there anything to do?
 		if (node == null)
 			return;
-		String nodeName = node.getNodeName();
+		String nodeName = node.getLocalName();
 		if (nodeName.equals("Globals")) {
 			crawlGlobals(node, firstPass);
 			return;
@@ -237,7 +237,7 @@ public class BiosimInitializer {
 				Properties logProperties = new Properties();
 				Node child = node.getFirstChild();
 				while (child != null) {
-					String childName = child.getNodeName();
+					String childName = child.getLocalName();
 					if (childName.equals("log4jProperty")) {
 						String nameProperty = child.getAttributes()
 								.getNamedItem("name").getNodeValue();
@@ -299,7 +299,7 @@ public class BiosimInitializer {
 
 			Node child = node.getFirstChild();
 			while (child != null) {
-				String childName = child.getNodeName();
+				String childName = child.getLocalName();
 				StochasticFilter filter = getStochasticFilter(childName, child);
 				if (filter != null){
 					//myDriver.setStochasticFilter(filter);
@@ -414,7 +414,7 @@ public class BiosimInitializer {
 			pModule.setLogLevel(logLevel);
 		Node child = node.getFirstChild();
 		while (child != null) {
-			String childName = child.getNodeName();
+			String childName = child.getLocalName();
 			StochasticFilter filter = getStochasticFilter(childName, child);
 			if (filter != null){
 				pModule.setStochasticFilter(filter);
