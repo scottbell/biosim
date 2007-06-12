@@ -163,11 +163,12 @@ public class BioHolderInitializer {
 			initialized = true;
 		} catch (IllegalArgumentException e) {
 			// This can happen if the parser does not support JAXP 1.2
-			Logger.getLogger(BioHolderInitializer.class)
-					.warn("Had trouble configuring parser for schema validation: "
+			Logger.getLogger(BioHolderInitializer.class).warn(
+					"Had trouble configuring parser for schema validation: "
 							+ e);
 		} catch (ParserConfigurationException e) {
-			Logger.getLogger(BioHolderInitializer.class).warn("Had trouble configuring parser: " + e);
+			Logger.getLogger(BioHolderInitializer.class).warn(
+					"Had trouble configuring parser: " + e);
 			e.printStackTrace();
 		}
 	}
@@ -224,15 +225,17 @@ public class BioHolderInitializer {
 		if (node == null)
 			return;
 		String nodeName = node.getLocalName();
-		if (nodeName.equals("SimBioModules")) {
-			crawlModules(node);
-			return;
-		} else if (nodeName.equals("Sensors")) {
-			crawlSensors(node);
-			return;
-		} else if (nodeName.equals("Actuators")) {
-			crawlActuators(node);
-			return;
+		if (nodeName != null) {
+			if (nodeName.equals("SimBioModules")) {
+				crawlModules(node);
+				return;
+			} else if (nodeName.equals("Sensors")) {
+				crawlSensors(node);
+				return;
+			} else if (nodeName.equals("Actuators")) {
+				crawlActuators(node);
+				return;
+			}
 		} else {
 			Node child = node.getFirstChild();
 			while (child != null) {
@@ -804,8 +807,9 @@ public class BioHolderInitializer {
 	}
 
 	private static void fetchTimeTillCanopyClosedSensor(Node node) {
-		myBioHolder.theTimeTillCanopyClosureSensors.add(TimeTillCanopyClosureSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+		myBioHolder.theTimeTillCanopyClosureSensors
+				.add(TimeTillCanopyClosureSensorHelper
+						.narrow(grabModule(getModuleName(node))));
 	}
 
 	private static void crawlFoodSensors(Node node) {
