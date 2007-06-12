@@ -52,7 +52,6 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
-					<xsd:choice minOccurs="8" maxOccurs="8">
 						<xsd:element name="shelf" type="ShelfType" minOccurs="0"
 							maxOccurs="unbounded"/>
 						<xsd:element name="powerConsumer"
@@ -67,7 +66,6 @@
 						<xsd:element name="biomassProducer"
 							type="BiomassProducerType" minOccurs="1" maxOccurs="1"/>
 						<xsd:element name="airProducer" type="AirProducerType" minOccurs="1" maxOccurs="1"/>
-					</xsd:choice>
 				</xsd:sequence>
 				<xsd:attribute name="autoHarvestAndReplant" type="xsd:boolean"
 					default="true"/>
@@ -80,7 +78,6 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:sequence>
-					<xsd:choice minOccurs="5" maxOccurs="5">
 						<xsd:element name="powerConsumer"
 							type="PowerConsumerType" minOccurs="1" maxOccurs="1"/>
 						<xsd:element name="biomassConsumer"
@@ -90,7 +87,6 @@
 							type="DryWasteProducerType" minOccurs="1" maxOccurs="1"/>
 						<xsd:element name="waterProducer"
 							type="WaterProducerType" minOccurs="1" maxOccurs="1"/>
-					</xsd:choice>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
