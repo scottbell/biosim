@@ -19,8 +19,10 @@ public class XMLUtils {
 		NodeList childNodes = parentNode.getChildNodes();
 		for (int i = 0; i < childNodes.getLength(); i++){
 			Node currentChildNode = childNodes.item(i);
-			if (currentChildNode.getLocalName().equals(nameOfChildToFind))
-				return currentChildNode;
+			String childName = currentChildNode.getLocalName();
+			if (childName != null)
+				if (childName.equals(nameOfChildToFind))
+					return currentChildNode;
 		}
 		return null;
 	}

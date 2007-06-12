@@ -357,7 +357,7 @@ public class ActuatorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger
 					.debug("Creating NitrogenInFlowRateActuator with moduleName: "
-					+ moduleName);
+							+ moduleName);
 			NitrogenInFlowRateActuatorImpl myNitrogenInFlowRateActuatorImpl = new NitrogenInFlowRateActuatorImpl(
 					myID, moduleName);
 			BiosimInitializer.setupBioModule(myNitrogenInFlowRateActuatorImpl,
@@ -468,56 +468,58 @@ public class ActuatorInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("CO2InFlowRateActuator")) {
-				if (firstPass)
-					createCO2InFlowRateActuator(child);
-				else
-					configureCO2InFlowRateActuator(child);
-			} else if (childName.equals("CO2OutFlowRateActuator")) {
-				if (firstPass)
-					createCO2OutFlowRateActuator(child);
-				else
-					configureCO2OutFlowRateActuator(child);
-			} else if (childName.equals("O2InFlowRateActuator")) {
-				if (firstPass)
-					createO2InFlowRateActuator(child);
-				else
-					configureO2InFlowRateActuator(child);
-			} else if (childName.equals("O2OutFlowRateActuator")) {
-				if (firstPass)
-					createO2OutFlowRateActuator(child);
-				else
-					configureO2OutFlowRateActuator(child);
-			} else if (childName.equals("H2InFlowRateActuator")) {
-				if (firstPass)
-					createH2InFlowRateActuator(child);
-				else
-					configureH2InFlowRateActuator(child);
-			} else if (childName.equals("H2OutFlowRateActuator")) {
-				if (firstPass)
-					createH2OutFlowRateActuator(child);
-				else
-					configureH2OutFlowRateActuator(child);
-			} else if (childName.equals("NitrogenInFlowRateActuator")) {
-				if (firstPass)
-					createNitrogenInFlowRateActuator(child);
-				else
-					configureNitrogenInFlowRateActuator(child);
-			} else if (childName.equals("NitrogenOutFlowRateActuator")) {
-				if (firstPass)
-					createNitrogenOutFlowRateActuator(child);
-				else
-					configureNitrogenOutFlowRateActuator(child);
-			} else if (childName.equals("MethaneInFlowRateActuator")) {
-				if (firstPass)
-					createMethaneInFlowRateActuator(child);
-				else
-					configureMethaneInFlowRateActuator(child);
-			} else if (childName.equals("MethaneOutFlowRateActuator")) {
-				if (firstPass)
-					createMethaneOutFlowRateActuator(child);
-				else
-					configureMethaneOutFlowRateActuator(child);
+			if (childName != null) {
+				if (childName.equals("CO2InFlowRateActuator")) {
+					if (firstPass)
+						createCO2InFlowRateActuator(child);
+					else
+						configureCO2InFlowRateActuator(child);
+				} else if (childName.equals("CO2OutFlowRateActuator")) {
+					if (firstPass)
+						createCO2OutFlowRateActuator(child);
+					else
+						configureCO2OutFlowRateActuator(child);
+				} else if (childName.equals("O2InFlowRateActuator")) {
+					if (firstPass)
+						createO2InFlowRateActuator(child);
+					else
+						configureO2InFlowRateActuator(child);
+				} else if (childName.equals("O2OutFlowRateActuator")) {
+					if (firstPass)
+						createO2OutFlowRateActuator(child);
+					else
+						configureO2OutFlowRateActuator(child);
+				} else if (childName.equals("H2InFlowRateActuator")) {
+					if (firstPass)
+						createH2InFlowRateActuator(child);
+					else
+						configureH2InFlowRateActuator(child);
+				} else if (childName.equals("H2OutFlowRateActuator")) {
+					if (firstPass)
+						createH2OutFlowRateActuator(child);
+					else
+						configureH2OutFlowRateActuator(child);
+				} else if (childName.equals("NitrogenInFlowRateActuator")) {
+					if (firstPass)
+						createNitrogenInFlowRateActuator(child);
+					else
+						configureNitrogenInFlowRateActuator(child);
+				} else if (childName.equals("NitrogenOutFlowRateActuator")) {
+					if (firstPass)
+						createNitrogenOutFlowRateActuator(child);
+					else
+						configureNitrogenOutFlowRateActuator(child);
+				} else if (childName.equals("MethaneInFlowRateActuator")) {
+					if (firstPass)
+						createMethaneInFlowRateActuator(child);
+					else
+						configureMethaneInFlowRateActuator(child);
+				} else if (childName.equals("MethaneOutFlowRateActuator")) {
+					if (firstPass)
+						createMethaneOutFlowRateActuator(child);
+					else
+						configureMethaneOutFlowRateActuator(child);
+				}
 			}
 			child = child.getNextSibling();
 		}
@@ -579,16 +581,18 @@ public class ActuatorInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("AirInFlowRateActuator")) {
-				if (firstPass)
-					createAirInFlowRateActuator(child);
-				else
-					configureAirInFlowRateActuator(child);
-			} else if (childName.equals("AirOutFlowRateActuator")) {
-				if (firstPass)
-					createAirOutFlowRateActuator(child);
-				else
-					configureAirOutFlowRateActuator(child);
+			if (childName != null) {
+				if (childName.equals("AirInFlowRateActuator")) {
+					if (firstPass)
+						createAirInFlowRateActuator(child);
+					else
+						configureAirInFlowRateActuator(child);
+				} else if (childName.equals("AirOutFlowRateActuator")) {
+					if (firstPass)
+						createAirOutFlowRateActuator(child);
+					else
+						configureAirOutFlowRateActuator(child);
+				}
 			}
 			child = child.getNextSibling();
 		}
@@ -756,41 +760,43 @@ public class ActuatorInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("BiomassInFlowRateActuator")) {
-				if (firstPass)
-					createBiomassInFlowRateActuator(child);
-				else
-					configureBiomassInFlowRateActuator(child);
-			} else if (childName.equals("BiomassOutFlowRateActuator")) {
-				if (firstPass)
-					createBiomassOutFlowRateActuator(child);
-				else
-					configureBiomassOutFlowRateActuator(child);
-			} else if (childName.equals("FoodInFlowRateActuator")) {
-				if (firstPass)
-					createFoodInFlowRateActuator(child);
-				else
-					configureFoodInFlowRateActuator(child);
-			} else if (childName.equals("FoodOutFlowRateActuator")) {
-				if (firstPass)
-					createFoodOutFlowRateActuator(child);
-				else
-					configureFoodOutFlowRateActuator(child);
-			} else if (childName.equals("HarvestingActuator")) {
-				if (firstPass)
-					createHarvestingActuator(child);
-				else
-					configureHarvestingActuator(child);
-			} else if (childName.equals("PlantingActuator")) {
-				if (firstPass)
-					createPlantingActuator(child);
-				else
-					configurePlantingActuator(child);
+			if (childName != null) {
+				if (childName.equals("BiomassInFlowRateActuator")) {
+					if (firstPass)
+						createBiomassInFlowRateActuator(child);
+					else
+						configureBiomassInFlowRateActuator(child);
+				} else if (childName.equals("BiomassOutFlowRateActuator")) {
+					if (firstPass)
+						createBiomassOutFlowRateActuator(child);
+					else
+						configureBiomassOutFlowRateActuator(child);
+				} else if (childName.equals("FoodInFlowRateActuator")) {
+					if (firstPass)
+						createFoodInFlowRateActuator(child);
+					else
+						configureFoodInFlowRateActuator(child);
+				} else if (childName.equals("FoodOutFlowRateActuator")) {
+					if (firstPass)
+						createFoodOutFlowRateActuator(child);
+					else
+						configureFoodOutFlowRateActuator(child);
+				} else if (childName.equals("HarvestingActuator")) {
+					if (firstPass)
+						createHarvestingActuator(child);
+					else
+						configureHarvestingActuator(child);
+				} else if (childName.equals("PlantingActuator")) {
+					if (firstPass)
+						createPlantingActuator(child);
+					else
+						configurePlantingActuator(child);
+				}
 			}
 			child = child.getNextSibling();
 		}
 	}
-	
+
 	private void createInfluentValveActuator(Node node) {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
@@ -810,10 +816,12 @@ public class ActuatorInitializer {
 		InfluentValveActuator myInfluentValveActuator = InfluentValveActuatorHelper
 				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
 						.getModuleName(node)));
-		myInfluentValveActuator.setOutput(InfluentValveHelper.narrow(BiosimInitializer.grabModule(myID, getOutputName(node))));
+		myInfluentValveActuator
+				.setOutput(InfluentValveHelper.narrow(BiosimInitializer
+						.grabModule(myID, getOutputName(node))));
 		myActuators.add(myInfluentValveActuator);
 	}
-	
+
 	private void createEffluentValveActuator(Node node) {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
@@ -833,24 +841,28 @@ public class ActuatorInitializer {
 		EffluentValveActuator myEffluentValveActuator = EffluentValveActuatorHelper
 				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
 						.getModuleName(node)));
-		myEffluentValveActuator.setOutput(EffluentValveHelper.narrow(BiosimInitializer.grabModule(myID, getOutputName(node))));
+		myEffluentValveActuator
+				.setOutput(EffluentValveHelper.narrow(BiosimInitializer
+						.grabModule(myID, getOutputName(node))));
 		myActuators.add(myEffluentValveActuator);
 	}
-	
+
 	private void crawlFrameworkActuators(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("InfluentValveActuator")) {
-				if (firstPass)
-					createInfluentValveActuator(child);
-				else
-					configureInfluentValveActuator(child);
-			} else if (childName.equals("EffluentValveActuator")) {
-				if (firstPass)
-					createEffluentValveActuator(child);
-				else
-					configureEffluentValveActuator(child);
+			if (childName != null) {
+				if (childName.equals("InfluentValveActuator")) {
+					if (firstPass)
+						createInfluentValveActuator(child);
+					else
+						configureInfluentValveActuator(child);
+				} else if (childName.equals("EffluentValveActuator")) {
+					if (firstPass)
+						createEffluentValveActuator(child);
+					else
+						configureEffluentValveActuator(child);
+				}
 			}
 			child = child.getNextSibling();
 		}
@@ -916,16 +928,18 @@ public class ActuatorInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("PowerInFlowRateActuator")) {
-				if (firstPass)
-					createPowerInFlowRateActuator(child);
-				else
-					configurePowerInFlowRateActuator(child);
-			} else if (childName.equals("PowerOutFlowRateActuator")) {
-				if (firstPass)
-					createPowerOutFlowRateActuator(child);
-				else
-					configurePowerOutFlowRateActuator(child);
+			if (childName != null) {
+				if (childName.equals("PowerInFlowRateActuator")) {
+					if (firstPass)
+						createPowerInFlowRateActuator(child);
+					else
+						configurePowerInFlowRateActuator(child);
+				} else if (childName.equals("PowerOutFlowRateActuator")) {
+					if (firstPass)
+						createPowerOutFlowRateActuator(child);
+					else
+						configurePowerOutFlowRateActuator(child);
+				}
 			}
 			child = child.getNextSibling();
 		}
@@ -1162,46 +1176,48 @@ public class ActuatorInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("PotableWaterInFlowRateActuator")) {
-				if (firstPass)
-					createPotableWaterInFlowRateActuator(child);
-				else
-					configurePotableWaterInFlowRateActuator(child);
-			} else if (childName.equals("PotableWaterOutFlowRateActuator")) {
-				if (firstPass)
-					createPotableWaterOutFlowRateActuator(child);
-				else
-					configurePotableWaterOutFlowRateActuator(child);
-			} else if (childName.equals("GreyWaterInFlowRateActuator")) {
-				if (firstPass)
-					createGreyWaterInFlowRateActuator(child);
-				else
-					configureGreyWaterInFlowRateActuator(child);
-			} else if (childName.equals("GreyWaterOutFlowRateActuator")) {
-				if (firstPass)
-					createGreyWaterOutFlowRateActuator(child);
-				else
-					configureGreyWaterOutFlowRateActuator(child);
-			} else if (childName.equals("DirtyWaterInFlowRateActuator")) {
-				if (firstPass)
-					createDirtyWaterInFlowRateActuator(child);
-				else
-					configureDirtyWaterInFlowRateActuator(child);
-			} else if (childName.equals("DirtyWaterOutFlowRateActuator")) {
-				if (firstPass)
-					createDirtyWaterOutFlowRateActuator(child);
-				else
-					configureDirtyWaterOutFlowRateActuator(child);
-			} else if (childName.equals("WaterInFlowRateActuator")) {
-				if (firstPass)
-					createWaterInFlowRateActuator(child);
-				else
-					configureWaterInFlowRateActuator(child);
-			} else if (childName.equals("WaterOutFlowRateActuator")) {
-				if (firstPass)
-					createWaterOutFlowRateActuator(child);
-				else
-					configureWaterOutFlowRateActuator(child);
+			if (childName != null) {
+				if (childName.equals("PotableWaterInFlowRateActuator")) {
+					if (firstPass)
+						createPotableWaterInFlowRateActuator(child);
+					else
+						configurePotableWaterInFlowRateActuator(child);
+				} else if (childName.equals("PotableWaterOutFlowRateActuator")) {
+					if (firstPass)
+						createPotableWaterOutFlowRateActuator(child);
+					else
+						configurePotableWaterOutFlowRateActuator(child);
+				} else if (childName.equals("GreyWaterInFlowRateActuator")) {
+					if (firstPass)
+						createGreyWaterInFlowRateActuator(child);
+					else
+						configureGreyWaterInFlowRateActuator(child);
+				} else if (childName.equals("GreyWaterOutFlowRateActuator")) {
+					if (firstPass)
+						createGreyWaterOutFlowRateActuator(child);
+					else
+						configureGreyWaterOutFlowRateActuator(child);
+				} else if (childName.equals("DirtyWaterInFlowRateActuator")) {
+					if (firstPass)
+						createDirtyWaterInFlowRateActuator(child);
+					else
+						configureDirtyWaterInFlowRateActuator(child);
+				} else if (childName.equals("DirtyWaterOutFlowRateActuator")) {
+					if (firstPass)
+						createDirtyWaterOutFlowRateActuator(child);
+					else
+						configureDirtyWaterOutFlowRateActuator(child);
+				} else if (childName.equals("WaterInFlowRateActuator")) {
+					if (firstPass)
+						createWaterInFlowRateActuator(child);
+					else
+						configureWaterInFlowRateActuator(child);
+				} else if (childName.equals("WaterOutFlowRateActuator")) {
+					if (firstPass)
+						createWaterOutFlowRateActuator(child);
+					else
+						configureWaterOutFlowRateActuator(child);
+				}
 			}
 			child = child.getNextSibling();
 		}
@@ -1268,16 +1284,18 @@ public class ActuatorInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("DryWasteInFlowRateActuator")) {
-				if (firstPass)
-					createDryWasteInFlowRateActuator(child);
-				else
-					configureDryWasteInFlowRateActuator(child);
-			} else if (childName.equals("DryWasteOutFlowRateActuator")) {
-				if (firstPass)
-					createDryWasteOutFlowRateActuator(child);
-				else
-					configureDryWasteOutFlowRateActuator(child);
+			if (childName != null) {
+				if (childName.equals("DryWasteInFlowRateActuator")) {
+					if (firstPass)
+						createDryWasteInFlowRateActuator(child);
+					else
+						configureDryWasteInFlowRateActuator(child);
+				} else if (childName.equals("DryWasteOutFlowRateActuator")) {
+					if (firstPass)
+						createDryWasteOutFlowRateActuator(child);
+					else
+						configureDryWasteOutFlowRateActuator(child);
+				}
 			}
 			child = child.getNextSibling();
 		}
@@ -1287,20 +1305,22 @@ public class ActuatorInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("air"))
-				crawlAirActuators(child, firstPass);
-			else if (childName.equals("environment"))
-				crawlEnvironmentActuators(child, firstPass);
-			else if (childName.equals("food"))
-				crawlFoodActuators(child, firstPass);
-			else if (childName.equals("framework"))
-				crawlFrameworkActuators(child, firstPass);
-			else if (childName.equals("power"))
-				crawlPowerActuators(child, firstPass);
-			else if (childName.equals("water"))
-				crawlWaterActuators(child, firstPass);
-			else if (childName.equals("waste"))
-				crawlWasteActuators(child, firstPass);
+			if (childName != null) {
+				if (childName.equals("air"))
+					crawlAirActuators(child, firstPass);
+				else if (childName.equals("environment"))
+					crawlEnvironmentActuators(child, firstPass);
+				else if (childName.equals("food"))
+					crawlFoodActuators(child, firstPass);
+				else if (childName.equals("framework"))
+					crawlFrameworkActuators(child, firstPass);
+				else if (childName.equals("power"))
+					crawlPowerActuators(child, firstPass);
+				else if (childName.equals("water"))
+					crawlWaterActuators(child, firstPass);
+				else if (childName.equals("waste"))
+					crawlWasteActuators(child, firstPass);
+			}
 			child = child.getNextSibling();
 		}
 	}

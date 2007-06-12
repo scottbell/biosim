@@ -236,12 +236,11 @@ public class BioHolderInitializer {
 				crawlActuators(node);
 				return;
 			}
-		} else {
-			Node child = node.getFirstChild();
-			while (child != null) {
-				crawlBiosim(child);
-				child = child.getNextSibling();
-			}
+		}
+		Node child = node.getFirstChild();
+		while (child != null) {
+			crawlBiosim(child);
+			child = child.getNextSibling();
 		}
 
 	}
@@ -314,22 +313,24 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("air"))
-				crawlAirModules(child);
-			else if (childName.equals("crew"))
-				crawlCrewModules(child);
-			else if (childName.equals("environment"))
-				crawlEnvironmentModules(child);
-			else if (childName.equals("food"))
-				crawlFoodModules(child);
-			else if (childName.equals("framework"))
-				crawlFrameworkModules(child);
-			else if (childName.equals("power"))
-				crawlPowerModules(child);
-			else if (childName.equals("water"))
-				crawlWaterModules(child);
-			else if (childName.equals("waste"))
-				crawlWasteModules(child);
+			if (childName != null) {
+				if (childName.equals("air"))
+					crawlAirModules(child);
+				else if (childName.equals("crew"))
+					crawlCrewModules(child);
+				else if (childName.equals("environment"))
+					crawlEnvironmentModules(child);
+				else if (childName.equals("food"))
+					crawlFoodModules(child);
+				else if (childName.equals("framework"))
+					crawlFrameworkModules(child);
+				else if (childName.equals("power"))
+					crawlPowerModules(child);
+				else if (childName.equals("water"))
+					crawlWaterModules(child);
+				else if (childName.equals("waste"))
+					crawlWasteModules(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -380,24 +381,26 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			Logger.getLogger(BioHolderInitializer.class).debug(
-					"parsing " + childName);
-			if (childName.equals("AirRS"))
-				fetchAirRS(child);
-			else if (childName.equals("OGS"))
-				fetchOGS(child);
-			else if (childName.equals("VCCR"))
-				fetchVCCR(child);
-			else if (childName.equals("CRS"))
-				fetchCRS(child);
-			else if (childName.equals("O2Store"))
-				fetchO2Store(child);
-			else if (childName.equals("CO2Store"))
-				fetchCO2Store(child);
-			else if (childName.equals("H2Store"))
-				fetchH2Store(child);
-			else if (childName.equals("NitrogenStore"))
-				fetchNitrogenStore(child);
+			if (childName != null) {
+				Logger.getLogger(BioHolderInitializer.class).debug(
+						"parsing " + childName);
+				if (childName.equals("AirRS"))
+					fetchAirRS(child);
+				else if (childName.equals("OGS"))
+					fetchOGS(child);
+				else if (childName.equals("VCCR"))
+					fetchVCCR(child);
+				else if (childName.equals("CRS"))
+					fetchCRS(child);
+				else if (childName.equals("O2Store"))
+					fetchO2Store(child);
+				else if (childName.equals("CO2Store"))
+					fetchCO2Store(child);
+				else if (childName.equals("H2Store"))
+					fetchH2Store(child);
+				else if (childName.equals("NitrogenStore"))
+					fetchNitrogenStore(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -411,8 +414,11 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("CrewGroup"))
-				fetchCrewGroup(child);
+
+			if (childName != null) {
+				if (childName.equals("CrewGroup"))
+					fetchCrewGroup(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -431,10 +437,13 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("SimEnvironment"))
-				fetchSimEnvironment(child);
-			else if (childName.equals("Dehumidifier"))
-				fetchDehumidifier(child);
+
+			if (childName != null) {
+				if (childName.equals("SimEnvironment"))
+					fetchSimEnvironment(child);
+				else if (childName.equals("Dehumidifier"))
+					fetchDehumidifier(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -463,14 +472,17 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("Accumulator"))
-				fetchAccumulator(child);
-			else if (childName.equals("Injector"))
-				fetchInjector(child);
-			else if (childName.equals("InfluentValve"))
-				fetchInfluentValve(child);
-			else if (childName.equals("EffluentValve"))
-				fetchEffluentValve(child);
+
+			if (childName != null) {
+				if (childName.equals("Accumulator"))
+					fetchAccumulator(child);
+				else if (childName.equals("Injector"))
+					fetchInjector(child);
+				else if (childName.equals("InfluentValve"))
+					fetchInfluentValve(child);
+				else if (childName.equals("EffluentValve"))
+					fetchEffluentValve(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -499,14 +511,17 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("BiomassPS"))
-				fetchBiomassPS(child);
-			else if (childName.equals("FoodProcessor"))
-				fetchFoodProcessor(child);
-			else if (childName.equals("BiomassStore"))
-				fetchBiomassStore(child);
-			else if (childName.equals("FoodStore"))
-				fetchFoodStore(child);
+
+			if (childName != null) {
+				if (childName.equals("BiomassPS"))
+					fetchBiomassPS(child);
+				else if (childName.equals("FoodProcessor"))
+					fetchFoodProcessor(child);
+				else if (childName.equals("BiomassStore"))
+					fetchBiomassStore(child);
+				else if (childName.equals("FoodStore"))
+					fetchFoodStore(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -535,14 +550,16 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("PowerPS"))
-				fetchPowerPS(child);
-			else if (childName.equals("PowerStore"))
-				fetchPowerStore(child);
-			else if (childName.equals("RPCM"))
-				fetchRPCM(child);
-			else if (childName.equals("GenericPowerConsumer"))
-				fetchGenericPowerConsumer(child);
+			if (childName != null) {
+				if (childName.equals("PowerPS"))
+					fetchPowerPS(child);
+				else if (childName.equals("PowerStore"))
+					fetchPowerStore(child);
+				else if (childName.equals("RPCM"))
+					fetchRPCM(child);
+				else if (childName.equals("GenericPowerConsumer"))
+					fetchGenericPowerConsumer(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -571,14 +588,16 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("WaterRS"))
-				fetchWaterRS(child);
-			else if (childName.equals("PotableWaterStore"))
-				fetchPotableWaterStore(child);
-			else if (childName.equals("GreyWaterStore"))
-				fetchGreyWaterStore(child);
-			else if (childName.equals("DirtyWaterStore"))
-				fetchDirtyWaterStore(child);
+			if (childName != null) {
+				if (childName.equals("WaterRS"))
+					fetchWaterRS(child);
+				else if (childName.equals("PotableWaterStore"))
+					fetchPotableWaterStore(child);
+				else if (childName.equals("GreyWaterStore"))
+					fetchGreyWaterStore(child);
+				else if (childName.equals("DirtyWaterStore"))
+					fetchDirtyWaterStore(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -597,10 +616,12 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("Incinerator"))
-				fetchIncinerator(child);
-			else if (childName.equals("DryWasteStore"))
-				fetchDryWasteStore(child);
+			if (childName != null) {
+				if (childName.equals("Incinerator"))
+					fetchIncinerator(child);
+				else if (childName.equals("DryWasteStore"))
+					fetchDryWasteStore(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -610,22 +631,24 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("air"))
-				crawlAirSensors(child);
-			else if (childName.equals("crew"))
-				crawlCrewSensors(child);
-			else if (childName.equals("environment"))
-				crawlEnvironmentSensors(child);
-			else if (childName.equals("food"))
-				crawlFoodSensors(child);
-			else if (childName.equals("framework"))
-				crawlFrameworkSensors(child);
-			else if (childName.equals("power"))
-				crawlPowerSensors(child);
-			else if (childName.equals("water"))
-				crawlWaterSensors(child);
-			else if (childName.equals("waste"))
-				crawlWasteSensors(child);
+			if (childName != null) {
+				if (childName.equals("air"))
+					crawlAirSensors(child);
+				else if (childName.equals("crew"))
+					crawlCrewSensors(child);
+				else if (childName.equals("environment"))
+					crawlEnvironmentSensors(child);
+				else if (childName.equals("food"))
+					crawlFoodSensors(child);
+				else if (childName.equals("framework"))
+					crawlFrameworkSensors(child);
+				else if (childName.equals("power"))
+					crawlPowerSensors(child);
+				else if (childName.equals("water"))
+					crawlWaterSensors(child);
+				else if (childName.equals("waste"))
+					crawlWasteSensors(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -677,22 +700,24 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("CO2InFlowRateSensor"))
-				fetchCO2InFlowRateSensor(child);
-			else if (childName.equals("CO2OutFlowRateSensor"))
-				fetchCO2OutFlowRateSensor(child);
-			else if (childName.equals("O2InFlowRateSensor"))
-				fetchO2InFlowRateSensor(child);
-			else if (childName.equals("O2OutFlowRateSensor"))
-				fetchO2OutFlowRateSensor(child);
-			else if (childName.equals("H2InFlowRateSensor"))
-				fetchH2InFlowRateSensor(child);
-			else if (childName.equals("H2OutFlowRateSensor"))
-				fetchH2OutFlowRateSensor(child);
-			else if (childName.equals("NitrogenInFlowRateSensor"))
-				fetchNitrogenInFlowRateSensor(child);
-			else if (childName.equals("NitrogenOutFlowRateSensor"))
-				fetchNitrogenOutFlowRateSensor(child);
+			if (childName != null) {
+				if (childName.equals("CO2InFlowRateSensor"))
+					fetchCO2InFlowRateSensor(child);
+				else if (childName.equals("CO2OutFlowRateSensor"))
+					fetchCO2OutFlowRateSensor(child);
+				else if (childName.equals("O2InFlowRateSensor"))
+					fetchO2InFlowRateSensor(child);
+				else if (childName.equals("O2OutFlowRateSensor"))
+					fetchO2OutFlowRateSensor(child);
+				else if (childName.equals("H2InFlowRateSensor"))
+					fetchH2InFlowRateSensor(child);
+				else if (childName.equals("H2OutFlowRateSensor"))
+					fetchH2OutFlowRateSensor(child);
+				else if (childName.equals("NitrogenInFlowRateSensor"))
+					fetchNitrogenInFlowRateSensor(child);
+				else if (childName.equals("NitrogenOutFlowRateSensor"))
+					fetchNitrogenOutFlowRateSensor(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -718,12 +743,14 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("CrewGroupDeathSensor"))
-				fetchCrewGroupDeathSensor(child);
-			else if (childName.equals("CrewGroupAnyDeadSensor"))
-				fetchCrewGroupAnyDeadSensor(child);
-			else if (childName.equals("CrewGroupProductivitySensor"))
-				fetchCrewGroupProductivitySensor(child);
+			if (childName != null) {
+				if (childName.equals("CrewGroupDeathSensor"))
+					fetchCrewGroupDeathSensor(child);
+				else if (childName.equals("CrewGroupAnyDeadSensor"))
+					fetchCrewGroupAnyDeadSensor(child);
+				else if (childName.equals("CrewGroupProductivitySensor"))
+					fetchCrewGroupProductivitySensor(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -755,14 +782,16 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("AirInFlowRateSensor"))
-				fetchAirInFlowRateSensor(child);
-			else if (childName.equals("AirOutFlowRateSensor"))
-				fetchAirOutFlowRateSensor(child);
-			else if (childName.equals("GasConcentrationSensor"))
-				fetchGasConcentrationSensor(child);
-			else if (childName.equals("GasPressureSensor"))
-				fetchGasPressureSensor(child);
+			if (childName != null) {
+				if (childName.equals("AirInFlowRateSensor"))
+					fetchAirInFlowRateSensor(child);
+				else if (childName.equals("AirOutFlowRateSensor"))
+					fetchAirOutFlowRateSensor(child);
+				else if (childName.equals("GasConcentrationSensor"))
+					fetchGasConcentrationSensor(child);
+				else if (childName.equals("GasPressureSensor"))
+					fetchGasPressureSensor(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -816,22 +845,24 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("BiomassInFlowRateSensor"))
-				fetchBiomassInFlowRateSensor(child);
-			if (childName.equals("BiomassOutFlowRateSensor"))
-				fetchBiomassOutFlowRateSensor(child);
-			else if (childName.equals("BiomassStoreWaterContentSensor"))
-				fetchBiomassStoreWaterContentSensor(child);
-			else if (childName.equals("FoodInFlowRateSensor"))
-				fetchFoodInFlowRateSensor(child);
-			else if (childName.equals("FoodOutFlowRateSensor"))
-				fetchFoodOutFlowRateSensor(child);
-			else if (childName.equals("HarvestSensor"))
-				fetchHarvestSensor(child);
-			else if (childName.equals("PlantDeathSensor"))
-				fetchPlantDeathSensor(child);
-			else if (childName.equals("TimeTillCanopyClosureSensor"))
-				fetchTimeTillCanopyClosedSensor(child);
+			if (childName != null) {
+				if (childName.equals("BiomassInFlowRateSensor"))
+					fetchBiomassInFlowRateSensor(child);
+				if (childName.equals("BiomassOutFlowRateSensor"))
+					fetchBiomassOutFlowRateSensor(child);
+				else if (childName.equals("BiomassStoreWaterContentSensor"))
+					fetchBiomassStoreWaterContentSensor(child);
+				else if (childName.equals("FoodInFlowRateSensor"))
+					fetchFoodInFlowRateSensor(child);
+				else if (childName.equals("FoodOutFlowRateSensor"))
+					fetchFoodOutFlowRateSensor(child);
+				else if (childName.equals("HarvestSensor"))
+					fetchHarvestSensor(child);
+				else if (childName.equals("PlantDeathSensor"))
+					fetchPlantDeathSensor(child);
+				else if (childName.equals("TimeTillCanopyClosureSensor"))
+					fetchTimeTillCanopyClosedSensor(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -863,14 +894,16 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("StoreLevelSensor"))
-				fetchStoreLevelSensor(child);
-			else if (childName.equals("StoreOverflowSensor"))
-				fetchStoreOverflowSensor(child);
-			else if (childName.equals("InfluentValveStateSensor"))
-				fetchInfluentValveStateSensor(child);
-			else if (childName.equals("EfffluentValveStateSensor"))
-				fetchEffluentValveStateSensor(child);
+			if (childName != null) {
+				if (childName.equals("StoreLevelSensor"))
+					fetchStoreLevelSensor(child);
+				else if (childName.equals("StoreOverflowSensor"))
+					fetchStoreOverflowSensor(child);
+				else if (childName.equals("InfluentValveStateSensor"))
+					fetchInfluentValveStateSensor(child);
+				else if (childName.equals("EfffluentValveStateSensor"))
+					fetchEffluentValveStateSensor(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -890,10 +923,12 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("PowerInFlowRateSensor"))
-				fetchPowerInFlowRateSensor(child);
-			else if (childName.equals("PowerOutFlowRateSensor"))
-				fetchPowerOutFlowRateSensor(child);
+			if (childName != null) {
+				if (childName.equals("PowerInFlowRateSensor"))
+					fetchPowerInFlowRateSensor(child);
+				else if (childName.equals("PowerOutFlowRateSensor"))
+					fetchPowerOutFlowRateSensor(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -949,22 +984,24 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("PotableWaterInFlowRateSensor"))
-				fetchPotableWaterInFlowRateSensor(child);
-			else if (childName.equals("PotableWaterOutFlowRateSensor"))
-				fetchPotableWaterOutFlowRateSensor(child);
-			else if (childName.equals("GreyWaterInFlowRateSensor"))
-				fetchGreyWaterInFlowRateSensor(child);
-			else if (childName.equals("GreyWaterOutFlowRateSensor"))
-				fetchGreyWaterOutFlowRateSensor(child);
-			else if (childName.equals("DirtyWaterInFlowRateSensor"))
-				fetchDirtyWaterInFlowRateSensor(child);
-			else if (childName.equals("DirtyWaterOutFlowRateSensor"))
-				fetchDirtyWaterOutFlowRateSensor(child);
-			else if (childName.equals("WaterInFlowRateSensor"))
-				fetchWaterInFlowRateSensor(child);
-			else if (childName.equals("WaterOutFlowRateSensor"))
-				fetchWaterOutFlowRateSensor(child);
+			if (childName != null) {
+				if (childName.equals("PotableWaterInFlowRateSensor"))
+					fetchPotableWaterInFlowRateSensor(child);
+				else if (childName.equals("PotableWaterOutFlowRateSensor"))
+					fetchPotableWaterOutFlowRateSensor(child);
+				else if (childName.equals("GreyWaterInFlowRateSensor"))
+					fetchGreyWaterInFlowRateSensor(child);
+				else if (childName.equals("GreyWaterOutFlowRateSensor"))
+					fetchGreyWaterOutFlowRateSensor(child);
+				else if (childName.equals("DirtyWaterInFlowRateSensor"))
+					fetchDirtyWaterInFlowRateSensor(child);
+				else if (childName.equals("DirtyWaterOutFlowRateSensor"))
+					fetchDirtyWaterOutFlowRateSensor(child);
+				else if (childName.equals("WaterInFlowRateSensor"))
+					fetchWaterInFlowRateSensor(child);
+				else if (childName.equals("WaterOutFlowRateSensor"))
+					fetchWaterOutFlowRateSensor(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -986,10 +1023,12 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("DryWasteInFlowRateSensor"))
-				fetchDryWasteInFlowRateSensor(child);
-			else if (childName.equals("DryWasteOutFlowRateSensor"))
-				fetchDryWasteOutFlowRateSensor(child);
+			if (childName != null) {
+				if (childName.equals("DryWasteInFlowRateSensor"))
+					fetchDryWasteInFlowRateSensor(child);
+				else if (childName.equals("DryWasteOutFlowRateSensor"))
+					fetchDryWasteOutFlowRateSensor(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -999,20 +1038,22 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("air")) {
-				crawlAirActuators(child);
-			} else if (childName.equals("environment")) {
-				crawlEnvironmentActuators(child);
-			} else if (childName.equals("food")) {
-				crawlFoodActuators(child);
-			} else if (childName.equals("framework")) {
-				crawlFrameworkActuators(child);
-			} else if (childName.equals("power")) {
-				crawlPowerActuators(child);
-			} else if (childName.equals("water")) {
-				crawlWaterActuators(child);
-			} else if (childName.equals("waste")) {
-				crawlWasteActuators(child);
+			if (childName != null) {
+				if (childName.equals("air")) {
+					crawlAirActuators(child);
+				} else if (childName.equals("environment")) {
+					crawlEnvironmentActuators(child);
+				} else if (childName.equals("food")) {
+					crawlFoodActuators(child);
+				} else if (childName.equals("framework")) {
+					crawlFrameworkActuators(child);
+				} else if (childName.equals("power")) {
+					crawlPowerActuators(child);
+				} else if (childName.equals("water")) {
+					crawlWaterActuators(child);
+				} else if (childName.equals("waste")) {
+					crawlWasteActuators(child);
+				}
 			}
 			child = child.getNextSibling();
 		}
@@ -1065,22 +1106,24 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("CO2InFlowRateActuator"))
-				fetchCO2InFlowRateActuator(child);
-			else if (childName.equals("CO2OutFlowRateActuator"))
-				fetchCO2OutFlowRateActuator(child);
-			else if (childName.equals("O2InFlowRateActuator"))
-				fetchO2InFlowRateActuator(child);
-			else if (childName.equals("O2OutFlowRateActuator"))
-				fetchO2OutFlowRateActuator(child);
-			else if (childName.equals("H2InFlowRateActuator"))
-				fetchH2InFlowRateActuator(child);
-			else if (childName.equals("H2OutFlowRateActuator"))
-				fetchH2OutFlowRateActuator(child);
-			else if (childName.equals("NitrogenInFlowRateActuator"))
-				fetchNitrogenInFlowRateActuator(child);
-			else if (childName.equals("NitrogenOutFlowRateActuator"))
-				fetchNitrogenOutFlowRateActuator(child);
+			if (childName != null) {
+				if (childName.equals("CO2InFlowRateActuator"))
+					fetchCO2InFlowRateActuator(child);
+				else if (childName.equals("CO2OutFlowRateActuator"))
+					fetchCO2OutFlowRateActuator(child);
+				else if (childName.equals("O2InFlowRateActuator"))
+					fetchO2InFlowRateActuator(child);
+				else if (childName.equals("O2OutFlowRateActuator"))
+					fetchO2OutFlowRateActuator(child);
+				else if (childName.equals("H2InFlowRateActuator"))
+					fetchH2InFlowRateActuator(child);
+				else if (childName.equals("H2OutFlowRateActuator"))
+					fetchH2OutFlowRateActuator(child);
+				else if (childName.equals("NitrogenInFlowRateActuator"))
+					fetchNitrogenInFlowRateActuator(child);
+				else if (childName.equals("NitrogenOutFlowRateActuator"))
+					fetchNitrogenOutFlowRateActuator(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -1100,10 +1143,12 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("AirInFlowRateActuator"))
-				fetchAirInFlowRateActuator(child);
-			else if (childName.equals("AirOutFlowRateActuator"))
-				fetchAirOutFlowRateActuator(child);
+			if (childName != null) {
+				if (childName.equals("AirInFlowRateActuator"))
+					fetchAirInFlowRateActuator(child);
+				else if (childName.equals("AirOutFlowRateActuator"))
+					fetchAirOutFlowRateActuator(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -1123,10 +1168,12 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("InfluentValveActuator"))
-				fetchInfluentValveActuator(child);
-			else if (childName.equals("EffluentValveActuator"))
-				fetchEffluentValveActuator(child);
+			if (childName != null) {
+				if (childName.equals("InfluentValveActuator"))
+					fetchInfluentValveActuator(child);
+				else if (childName.equals("EffluentValveActuator"))
+					fetchEffluentValveActuator(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -1169,18 +1216,20 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("BiomassInFlowRateActuator"))
-				fetchBiomassInFlowRateActuator(child);
-			if (childName.equals("BiomassOutFlowRateActuator"))
-				fetchBiomassOutFlowRateActuator(child);
-			else if (childName.equals("FoodInFlowRateActuator"))
-				fetchFoodInFlowRateActuator(child);
-			else if (childName.equals("FoodOutFlowRateActuator"))
-				fetchFoodOutFlowRateActuator(child);
-			else if (childName.equals("PlantingActuator"))
-				fetchPlantingActuator(child);
-			else if (childName.equals("HarvestingActuator"))
-				fetchHarvestingActuator(child);
+			if (childName != null) {
+				if (childName.equals("BiomassInFlowRateActuator"))
+					fetchBiomassInFlowRateActuator(child);
+				if (childName.equals("BiomassOutFlowRateActuator"))
+					fetchBiomassOutFlowRateActuator(child);
+				else if (childName.equals("FoodInFlowRateActuator"))
+					fetchFoodInFlowRateActuator(child);
+				else if (childName.equals("FoodOutFlowRateActuator"))
+					fetchFoodOutFlowRateActuator(child);
+				else if (childName.equals("PlantingActuator"))
+					fetchPlantingActuator(child);
+				else if (childName.equals("HarvestingActuator"))
+					fetchHarvestingActuator(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -1202,10 +1251,12 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("PowerInFlowRateActuator"))
-				fetchPowerInFlowRateActuator(child);
-			else if (childName.equals("PowerOutFlowRateActuator"))
-				fetchPowerOutFlowRateActuator(child);
+			if (childName != null) {
+				if (childName.equals("PowerInFlowRateActuator"))
+					fetchPowerInFlowRateActuator(child);
+				else if (childName.equals("PowerOutFlowRateActuator"))
+					fetchPowerOutFlowRateActuator(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -1263,22 +1314,24 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("PotableWaterInFlowRateActuator"))
-				fetchPotableWaterInFlowRateActuator(child);
-			else if (childName.equals("PotableWaterOutFlowRateActuator"))
-				fetchPotableWaterOutFlowRateActuator(child);
-			else if (childName.equals("GreyWaterInFlowRateActuator"))
-				fetchGreyWaterInFlowRateActuator(child);
-			else if (childName.equals("GreyWaterOutFlowRateActuator"))
-				fetchGreyWaterOutFlowRateActuator(child);
-			else if (childName.equals("DirtyWaterInFlowRateActuator"))
-				fetchDirtyWaterInFlowRateActuator(child);
-			else if (childName.equals("DirtyWaterOutFlowRateActuator"))
-				fetchDirtyWaterOutFlowRateActuator(child);
-			else if (childName.equals("WaterInFlowRateActuator"))
-				fetchWaterInFlowRateActuator(child);
-			else if (childName.equals("WaterOutFlowRateActuator"))
-				fetchWaterOutFlowRateActuator(child);
+			if (childName != null) {
+				if (childName.equals("PotableWaterInFlowRateActuator"))
+					fetchPotableWaterInFlowRateActuator(child);
+				else if (childName.equals("PotableWaterOutFlowRateActuator"))
+					fetchPotableWaterOutFlowRateActuator(child);
+				else if (childName.equals("GreyWaterInFlowRateActuator"))
+					fetchGreyWaterInFlowRateActuator(child);
+				else if (childName.equals("GreyWaterOutFlowRateActuator"))
+					fetchGreyWaterOutFlowRateActuator(child);
+				else if (childName.equals("DirtyWaterInFlowRateActuator"))
+					fetchDirtyWaterInFlowRateActuator(child);
+				else if (childName.equals("DirtyWaterOutFlowRateActuator"))
+					fetchDirtyWaterOutFlowRateActuator(child);
+				else if (childName.equals("WaterInFlowRateActuator"))
+					fetchWaterInFlowRateActuator(child);
+				else if (childName.equals("WaterOutFlowRateActuator"))
+					fetchWaterOutFlowRateActuator(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
@@ -1300,10 +1353,12 @@ public class BioHolderInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName.equals("DryWasteInFlowRateActuator"))
-				fetchDryWasteInFlowRateActuator(child);
-			else if (childName.equals("DryWasteOutFlowRateActuator"))
-				fetchDryWasteOutFlowRateActuator(child);
+			if (childName != null) {
+				if (childName.equals("DryWasteInFlowRateActuator"))
+					fetchDryWasteInFlowRateActuator(child);
+				else if (childName.equals("DryWasteOutFlowRateActuator"))
+					fetchDryWasteOutFlowRateActuator(child);
+			}
 			child = child.getNextSibling();
 		}
 	}
