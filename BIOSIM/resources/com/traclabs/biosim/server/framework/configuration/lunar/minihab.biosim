@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
+  <Globals/><SimBioModules>
+	<environment>
+		<SimEnvironment moduleName="TestCabin" initialVolume="28000">
+			<moleInitialization initialWaterMoles="20"
+				initialO2Moles="100" initialNitrogenMoles="800"
+				initialCO2Moles="10" initialOtherMoles="10" />
+		</SimEnvironment></environment></SimBioModules>
+</biosim>

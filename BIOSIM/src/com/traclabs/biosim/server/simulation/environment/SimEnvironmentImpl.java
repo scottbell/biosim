@@ -83,6 +83,17 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     public SimEnvironmentImpl(int pID, String pName) {
         this(pID, 100000, pName);
     }
+    
+    public SimEnvironmentImpl(int pID, String pName, float pVolume, float pTotalPressure, float o2Percentage, float co2Percentage, float otherPercentage, float waterPercentage, float nitrogenPercentage){
+    	super(pID, pName);
+        float o2Moles = calculateMoles(o2Percentage, pTotalPressure, pVolume);
+        float co2Moles = calculateMoles(co2Percentage, pTotalPressure, pVolume);
+        float otherMoles = calculateMoles(otherPercentage, pTotalPressure, pVolume);
+        float waterMoles = calculateMoles(waterPercentage, pTotalPressure, pVolume);
+        float nitrogenMoles = calculateMoles(nitrogenPercentage, pTotalPressure, pVolume);
+        createPOAObjects();
+    	setInitialVolume(o2Moles, co2Moles, otherMoles, waterMoles, nitrogenMoles, pVolume);
+    }
 
     /**
      * Creates a SimEnvironment with a set initial currentVolume and resets the
@@ -99,6 +110,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
         super(pID, pName);
         createPOAObjects();
         setInitialVolumeAtSeaLevel(pInitialVolume);
+        currentVolume = initialVolume = pInitialVolume;
     }
 
 	public SimEnvironmentImpl(float O2Moles, float CO2Moles, float otherMoles, float waterMoles, float nitrogenMoles, float pVolume, String pName, int pID) {
@@ -110,6 +122,11 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     public SimEnvironmentImpl() {
     	this(0, 100000, "Unnamed Environment");
 	}
+    
+    private float calculateMoles(float percentage, float totalPressure, float volume) {
+    	float moles = (percentage * totalPressure * volume) / (idealGasConstant * getTemperatureInKelvin());
+		return moles;
+    }
 
 	private void createPOAObjects() {
     	EnvironmentO2StorePOATie O2Tie = new EnvironmentO2StorePOATie(myO2StoreImpl);
