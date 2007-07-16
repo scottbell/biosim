@@ -1104,7 +1104,7 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating SimEnvironment with moduleName: "
 					+ moduleName);
-			SimEnvironmentImpl mySimEnvironmentImpl = null;
+			SimEnvironmentImpl newSimEnvironmentImpl = null;
 			float CO2Moles = 0f;
 			float O2Moles = 0f;
 			float waterMoles = 0f;
@@ -1125,29 +1125,9 @@ public class SimulationInitializer {
 			try {
 				volume = Float.parseFloat(node.getAttributes().getNamedItem(
 						"initialVolume").getNodeValue());
-				CO2MolesNode = node.getAttributes().getNamedItem(
-						"initialCO2Moles");
-				O2MolesNode = node.getAttributes().getNamedItem(
-						"initialO2Moles");
-				waterMolesNode = node.getAttributes().getNamedItem(
-						"initialWaterMoles");
-				otherMolesNode = node.getAttributes().getNamedItem(
-						"initialOtherMoles");
-				otherMolesNode = node.getAttributes().getNamedItem(
-						"initialNitrogenMoles");
-				if (CO2MolesNode != null)
-					CO2Moles = Float.parseFloat(CO2MolesNode.getNodeValue());
-				if (O2MolesNode != null)
-					O2Moles = Float.parseFloat(O2MolesNode.getNodeValue());
-				if (waterMolesNode != null)
-					waterMoles = Float
-							.parseFloat(waterMolesNode.getNodeValue());
-				if (otherMolesNode != null)
-					otherMoles = Float
-							.parseFloat(otherMolesNode.getNodeValue());
-				if (nitrogenMolesNode != null)
-					nitrogenMoles = Float.parseFloat(nitrogenMolesNode
-							.getNodeValue());
+				/*
+				
+						*/
 				leakRate = Float.parseFloat(node.getAttributes().getNamedItem(
 						"leakRate").getNodeValue());
 				dayLength = Float.parseFloat(node.getAttributes().getNamedItem(
@@ -1165,29 +1145,102 @@ public class SimulationInitializer {
 
 				e.printStackTrace();
 			}
-			if ((CO2MolesNode != null) || (O2MolesNode != null)
-					|| (waterMolesNode != null) || (otherMolesNode != null)
-					|| (nitrogenMolesNode != null))
-				mySimEnvironmentImpl = new SimEnvironmentImpl(CO2Moles,
-						O2Moles, otherMoles, waterMoles, nitrogenMoles, volume,
-						moduleName, myID);
-			else
-				mySimEnvironmentImpl = new SimEnvironmentImpl(myID, volume,
+			if (creatingEnvironmentWithMoles(node)){
+				myLogger.debug("Creating environment with moles");
+				newSimEnvironmentImpl = createEnvironmentWithMoles(node, myID, volume, moduleName);
+			}
+			else if (creatingEnvironmentWithPercentages(node)){
+				myLogger.debug("Creating environment with percentages");
+				newSimEnvironmentImpl = createEnvironmentWithPercentages(node, myID, volume, moduleName);
+			}
+			else{
+				myLogger.debug("Creating environment with defaults");
+				newSimEnvironmentImpl = new SimEnvironmentImpl(myID, volume,
 						moduleName);
-			mySimEnvironmentImpl.setLeakRate(leakRate);
-			mySimEnvironmentImpl.setDayLength(dayLength);
-			mySimEnvironmentImpl.setHourOfDayStart(hourOfDayStart);
-			mySimEnvironmentImpl.setMaxLumens(maxLumens);
-			mySimEnvironmentImpl.setAirlockVolume(airlockVolume);
-			mySimEnvironmentImpl
+			}
+			newSimEnvironmentImpl.setLeakRate(leakRate);
+			newSimEnvironmentImpl.setDayLength(dayLength);
+			newSimEnvironmentImpl.setHourOfDayStart(hourOfDayStart);
+			newSimEnvironmentImpl.setMaxLumens(maxLumens);
+			newSimEnvironmentImpl.setAirlockVolume(airlockVolume);
+			newSimEnvironmentImpl
 					.setDangerousOxygenThreshold(dangerousOxygenThreshold);
-			BiosimInitializer.setupBioModule(mySimEnvironmentImpl, node);
+			BiosimInitializer.setupBioModule(newSimEnvironmentImpl, node);
 			BiosimServer.registerServer(new SimEnvironmentPOATie(
-					mySimEnvironmentImpl),
-					mySimEnvironmentImpl.getModuleName(), mySimEnvironmentImpl
+					newSimEnvironmentImpl),
+					newSimEnvironmentImpl.getModuleName(), newSimEnvironmentImpl
 							.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
+	}
+
+	private boolean creatingEnvironmentWithPercentages(Node node) {
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getLocalName();
+			if (childName != null) {
+				if (childName.equals("percentageInitialization")) {
+					return true;
+				}
+			}
+			child = child.getNextSibling();
+		}
+		return false;
+	}
+
+	private boolean creatingEnvironmentWithMoles(Node node) {
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getLocalName();
+			if (childName != null) {
+				if (childName.equals("moleInitialization")) {
+					return true;
+				}
+			}
+			child = child.getNextSibling();
+		}
+		return false;
+	}
+
+	private SimEnvironmentImpl createEnvironmentWithPercentages(Node node, int pID, float pVolume, String pName) {
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getLocalName();
+			if (childName != null) {
+				if (childName.equals("percentageInitialization")) {
+					float co2Percentage = Float.parseFloat(child.getAttributes().getNamedItem("co2Percentage").getNodeValue());
+					float o2Percentage = Float.parseFloat(child.getAttributes().getNamedItem("o2Percentage").getNodeValue());
+					float waterPercentage = Float.parseFloat(child.getAttributes().getNamedItem("waterPercentage").getNodeValue());
+					float otherPercentage = Float.parseFloat(child.getAttributes().getNamedItem("otherPercentage").getNodeValue());
+					float nitrogenPercentage = Float.parseFloat(child.getAttributes().getNamedItem("nitrogenPercentage").getNodeValue());
+					float totalPressure = Float.parseFloat(child.getAttributes().getNamedItem("totalPressure").getNodeValue());
+					SimEnvironmentImpl newSimEnvironmentImpl = new SimEnvironmentImpl(pID, pName, pVolume, totalPressure, o2Percentage, co2Percentage, otherPercentage, waterPercentage, nitrogenPercentage);
+					return newSimEnvironmentImpl;
+				}
+			}
+			child = child.getNextSibling();
+		}
+		return null;
+	}
+
+	private SimEnvironmentImpl createEnvironmentWithMoles(Node node, int pID, float pVolume, String pName) {
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getLocalName();
+			if (childName != null) {
+				if (childName.equals("moleInitialization")) {
+					float CO2Moles = Float.parseFloat(child.getAttributes().getNamedItem("initialCO2Moles").getNodeValue());
+					float O2Moles = Float.parseFloat(child.getAttributes().getNamedItem("initialO2Moles").getNodeValue());
+					float waterMoles = Float.parseFloat(child.getAttributes().getNamedItem("initialWaterMoles").getNodeValue());
+					float otherMoles = Float.parseFloat(child.getAttributes().getNamedItem("initialOtherMoles").getNodeValue());
+					float nitrogenMoles = Float.parseFloat(child.getAttributes().getNamedItem("initialNitrogenMoles").getNodeValue());
+					SimEnvironmentImpl newSimEnvironmentImpl = new SimEnvironmentImpl(O2Moles, CO2Moles, otherMoles, waterMoles, nitrogenMoles, pVolume, pName, pID);
+					return newSimEnvironmentImpl;
+				}
+			}
+			child = child.getNextSibling();
+		}
+		return null;
 	}
 
 	private void createDehumidifier(Node node) {
