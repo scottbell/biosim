@@ -1,27 +1,295 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
-  <Globals/><SimBioModules>
-	<environment>
-		<SimEnvironment moduleName="Crew_Quarters" initialVolume="27000">
-			<percentageInitialization waterPercentage="0.01"
-				nitrogenPercentage="0.659" otherPercentage="0.001" o2Percentage="0.33"
-				totalPressure="55" co2Percentage="0.0" />
-		</SimEnvironment>
-		<SimEnvironment moduleName="Galley" initialVolume="27000">
-			<percentageInitialization waterPercentage="0.01"
-				nitrogenPercentage="0.659" otherPercentage="0.001" o2Percentage="0.33"
-				totalPressure="55" co2Percentage="0.0" />
-		</SimEnvironment>
-		<SimEnvironment moduleName="Labs" initialVolume="19000"
-			airlockVolume="80000">
-			<percentageInitialization waterPercentage="0.01"
-				nitrogenPercentage="0.659" otherPercentage="0.001" o2Percentage="0.33"
-				totalPressure="55" co2Percentage="0.0" />
-		</SimEnvironment>
-		<SimEnvironment moduleName="Suit_Maintenance"
-			initialVolume="19000" airlockVolume="8000">
-			<percentageInitialization waterPercentage="0.01"
-				nitrogenPercentage="0.659" otherPercentage="0.001" o2Percentage="0.33"
-				totalPressure="55" co2Percentage="0.0" />
-		</SimEnvironment></environment></SimBioModules>
+<biosim xmlns="http://www.traclabs.com/biosim"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
+	<Globals />
+	<SimBioModules>
+		<environment>
+			<SimEnvironment moduleName="Crew_Quarters"
+				initialVolume="27000">
+				<percentageInitialization waterPercentage="0.01"
+					nitrogenPercentage="0.659" otherPercentage="0.001"
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0.0" />
+			</SimEnvironment>
+			<SimEnvironment moduleName="Galley" initialVolume="27000">
+				<percentageInitialization waterPercentage="0.01"
+					nitrogenPercentage="0.659" otherPercentage="0.001"
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0.0" />
+			</SimEnvironment>
+			<SimEnvironment moduleName="Labs" initialVolume="19000"
+				airlockVolume="80000">
+				<percentageInitialization waterPercentage="0.01"
+					nitrogenPercentage="0.659" otherPercentage="0.001"
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0.0" />
+			</SimEnvironment>
+			<SimEnvironment moduleName="Suit_Maintenance"
+				initialVolume="19000" airlockVolume="8000">
+				<percentageInitialization waterPercentage="0.01"
+					nitrogenPercentage="0.659" otherPercentage="0.001"
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0.0" />
+			</SimEnvironment>
+			<SimEnvironment moduleName="EVA" initialVolume="3000"/>
+		</environment>
+		<air>
+			<NitrogenStore capacity="1000000"
+				moduleName="Crew_Quarter_Nitrogen_Store" level="1000000">
+			</NitrogenStore>
+			<NitrogenStore capacity="1000000"
+				moduleName="Galley_Nitrogen_Store" level="1000000">
+			</NitrogenStore>
+			<NitrogenStore capacity="1000000"
+				moduleName="Labs_Nitrogen_Store" level="1000000">
+			</NitrogenStore>
+			<NitrogenStore capacity="1000000"
+				moduleName="Suit_Maintenance_Nitrogen_Store" level="1000000">
+			</NitrogenStore>
+			<VCCR moduleName="VCCR">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="1000"
+					maxFlowRates="1000" />
+				<airConsumer inputs="Suit_Maintenance" desiredFlowRates="100"
+					maxFlowRates="100" />
+				<airProducer desiredFlowRates="Suit_Maintenance" outputs="100"
+					maxFlowRates="100" />
+				<CO2Producer desiredFlowRates="" outputs=""
+					maxFlowRates="" />
+			</VCCR>
+			<OGS moduleName="OGS">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="1000"
+					maxFlowRates="1000" />
+				<potableWaterConsumer inputs="Potable_Water_Store" desiredFlowRates="10"
+					maxFlowRates="10" />
+				<O2Producer desiredFlowRates="1000" outputs="O2_Store"
+					maxFlowRates="1000" ></O2Producer>
+				<H2Producer desiredFlowRates="1000" outputs="H2_Store"
+					maxFlowRates="1000" />
+			</OGS>
+			<O2Store capacity="10000" moduleName="O2_Store" level="0.0"></O2Store>
+			<H2Store capacity="10000" moduleName="H2_Store" level="0"></H2Store>
+		</air>
+		<framework>
+			<Injector moduleName="Crew_Quarters_Nitrogen_Injector">
+				<nitrogenConsumer inputs="Crew_Quarter_Nitrogen_Store"
+					desiredFlowRates="0" maxFlowRates="100">
+				</nitrogenConsumer>
+				<nitrogenProducer desiredFlowRates="0"
+					outputs="Crew_Quarters" maxFlowRates="100">
+				</nitrogenProducer>
+			</Injector>
+			<Injector moduleName="Galley_Nitrogen_Injector">
+				<nitrogenConsumer inputs="Galley_Nitrogen_Store"
+					desiredFlowRates="0" maxFlowRates="100">
+				</nitrogenConsumer>
+				<nitrogenProducer desiredFlowRates="0" outputs="Galley"
+					maxFlowRates="100">
+				</nitrogenProducer>
+			</Injector>
+			<Injector moduleName="Labs_Nitrogen_Injector">
+				<nitrogenConsumer inputs="Labs_Nitrogen_Store"
+					desiredFlowRates="0" maxFlowRates="100">
+				</nitrogenConsumer>
+				<nitrogenProducer desiredFlowRates="0" outputs="Labs"
+					maxFlowRates="100">
+				</nitrogenProducer>
+			</Injector>
+			<Injector moduleName="Suit_Maintenance_Nitrogen_Injector">
+				<nitrogenConsumer
+					inputs="Suit_Maintenance_Nitrogen_Store" desiredFlowRates="0"
+					maxFlowRates="100">
+				</nitrogenConsumer>
+				<nitrogenProducer desiredFlowRates="0"
+					outputs="Suit_Maintenance" maxFlowRates="100">
+				</nitrogenProducer>
+			</Injector>
+		</framework>
+		<water>
+			<WaterRS moduleName="Water_Distiller"
+				implementation="LINEAR">
+				<powerConsumer inputs="General_Power_Store"
+					desiredFlowRates="1000" maxFlowRates="1000" />
+				<dirtyWaterConsumer inputs="Dirty_Water_Store"
+					desiredFlowRates="10" maxFlowRates="10">
+				</dirtyWaterConsumer>
+				<greyWaterConsumer inputs="Grey_Water_Store"
+					desiredFlowRates="10" maxFlowRates="10" />
+				<potableWaterProducer desiredFlowRates="1000"
+					outputs="Potable_Water_Store" maxFlowRates="1000" />
+			</WaterRS>
+			<DirtyWaterStore capacity="1000"
+				moduleName="Dirty_Water_Store" level="0.0">
+			</DirtyWaterStore>
+			<GreyWaterStore capacity="1000"
+				moduleName="Grey_Water_Store" level="0.0">
+			</GreyWaterStore>
+			<PotableWaterStore capacity="1000"
+				moduleName="Potable_Water_Store" level="1000">
+			</PotableWaterStore>
+		</water>
+		<power>
+			<PowerStore capacity="1000000"
+				moduleName="General_Power_Store" level="1000000">
+			</PowerStore>
+		</power>
+		<food>
+			<FoodStore capacity="1000000000000" level="1000000000000"
+				moduleName="Food_Store">
+			</FoodStore>
+		</food>
+		<waste>
+			<DryWasteStore capacity="1000000"
+				moduleName="Dry_Waste_Store" level="0.0">
+			</DryWasteStore>
+		</waste>
+		<crew>
+			<CrewGroup moduleName="Crew_Quarters_Group">
+				<potableWaterConsumer inputs="Potable_Water_Store"
+					desiredFlowRates="3" maxFlowRates="3">
+				</potableWaterConsumer>
+				<airConsumer inputs="Crew_Quarters" desiredFlowRates="0"
+					maxFlowRates="0" />
+				<foodConsumer inputs="Food_Store" desiredFlowRates="5"
+					maxFlowRates="5">
+				</foodConsumer>
+				<dirtyWaterProducer desiredFlowRates="100"
+					outputs="Dirty_Water_Store" maxFlowRates="100">
+				</dirtyWaterProducer>
+				<greyWaterProducer desiredFlowRates="100"
+					outputs="Grey_Water_Store" maxFlowRates="100" />
+				<airProducer desiredFlowRates="0"
+					outputs="Crew_Quarters" maxFlowRates="0" />
+				<dryWasteProducer desiredFlowRates="10"
+					outputs="Dry_Waste_Store" maxFlowRates="10">
+				</dryWasteProducer>
+				<crewPerson age="35" name="Buck Rogers" sex="MALE"
+					weight="75">
+					<schedule>
+						<activity intensity="2" name="Ruminating"
+							length="12" />
+						<activity intensity="0" name="sleep"
+							length="8">
+						</activity>
+					</schedule>
+				</crewPerson>
+				<crewPerson age="35" name="Ardala" sex="FEMALE"
+					weight="55">
+					<schedule>
+						<activity intensity="2" name="Ruminating"
+							length="12" />
+						<activity intensity="0" name="sleep"
+							length="8">
+						</activity>
+					</schedule>
+				</crewPerson>
+			</CrewGroup>
+			<CrewGroup moduleName="Galley_Group">
+				<potableWaterConsumer inputs="Potable_Water_Store"
+					desiredFlowRates="3" maxFlowRates="3">
+				</potableWaterConsumer>
+				<airConsumer inputs="Galley" desiredFlowRates="0"
+					maxFlowRates="0" />
+				<foodConsumer inputs="Food_Store" desiredFlowRates="5"
+					maxFlowRates="5">
+				</foodConsumer>
+				<dirtyWaterProducer desiredFlowRates="100"
+					outputs="Dirty_Water_Store" maxFlowRates="100">
+				</dirtyWaterProducer>
+				<greyWaterProducer desiredFlowRates="100"
+					outputs="Grey_Water_Store" maxFlowRates="100" />
+				<airProducer desiredFlowRates="0"
+					outputs="Galley" maxFlowRates="0" />
+				<dryWasteProducer desiredFlowRates="10"
+					outputs="Dry_Waste_Store" maxFlowRates="10">
+				</dryWasteProducer>
+				<crewPerson age="35" name="Wilma Deering" sex="FEMALE"
+					weight="55">
+					<schedule>
+						<activity intensity="2" name="Ruminating"
+							length="12" />
+						<activity intensity="0" name="sleep"
+							length="8">
+						</activity>
+					</schedule>
+				</crewPerson>
+			</CrewGroup>
+			<CrewGroup moduleName="Labs_Group">
+				<potableWaterConsumer inputs="Potable_Water_Store"
+					desiredFlowRates="3" maxFlowRates="3">
+				</potableWaterConsumer>
+				<airConsumer inputs="Labs" desiredFlowRates="0"
+					maxFlowRates="0" />
+				<foodConsumer inputs="Food_Store" desiredFlowRates="5"
+					maxFlowRates="5">
+				</foodConsumer>
+				<dirtyWaterProducer desiredFlowRates="100"
+					outputs="Dirty_Water_Store" maxFlowRates="100">
+				</dirtyWaterProducer>
+				<greyWaterProducer desiredFlowRates="100"
+					outputs="Grey_Water_Store" maxFlowRates="100" />
+				<airProducer desiredFlowRates="0"
+					outputs="Labs" maxFlowRates="0" />
+				<dryWasteProducer desiredFlowRates="10"
+					outputs="Dry_Waste_Store" maxFlowRates="10">
+				</dryWasteProducer>
+				<crewPerson age="35" name="Tim O'Connor" sex="MALE"
+					weight="72">
+					<schedule>
+						<activity intensity="2" name="Ruminating"
+							length="12" />
+						<activity intensity="0" name="sleep"
+							length="8">
+						</activity>
+					</schedule>
+				</crewPerson>
+			</CrewGroup>
+			<CrewGroup moduleName="Suit_Maintenance_Group">
+				<potableWaterConsumer inputs="Potable_Water_Store"
+					desiredFlowRates="3" maxFlowRates="3">
+				</potableWaterConsumer>
+				<airConsumer inputs="Suit_Maintenance" desiredFlowRates="0"
+					maxFlowRates="0" />
+				<foodConsumer inputs="Food_Store" desiredFlowRates="5"
+					maxFlowRates="5">
+				</foodConsumer>
+				<dirtyWaterProducer desiredFlowRates="100"
+					outputs="Dirty_Water_Store" maxFlowRates="100">
+				</dirtyWaterProducer>
+				<greyWaterProducer desiredFlowRates="100"
+					outputs="Grey_Water_Store" maxFlowRates="100" />
+				<airProducer desiredFlowRates="0"
+					outputs="Suit_Maintenance" maxFlowRates="0" />
+				<dryWasteProducer desiredFlowRates="10"
+					outputs="Dry_Waste_Store" maxFlowRates="10">
+				</dryWasteProducer>
+				<crewPerson age="35" name="Kane" sex="MALE"
+					weight="77">
+					<schedule>
+						<activity intensity="2" name="Ruminating"
+							length="12" />
+						<activity intensity="0" name="sleep"
+							length="8">
+						</activity>
+					</schedule>
+				</crewPerson>
+			</CrewGroup>
+			<CrewGroup moduleName="EVA_Group">
+				<potableWaterConsumer inputs="Potable_Water_Store"
+					desiredFlowRates="3" maxFlowRates="3">
+				</potableWaterConsumer>
+				<airConsumer inputs="EVA" desiredFlowRates="0"
+					maxFlowRates="0" />
+				<foodConsumer inputs="Food_Store" desiredFlowRates="5"
+					maxFlowRates="5">
+				</foodConsumer>
+				<dirtyWaterProducer desiredFlowRates="100"
+					outputs="Dirty_Water_Store" maxFlowRates="100">
+				</dirtyWaterProducer>
+				<greyWaterProducer desiredFlowRates="100"
+					outputs="Grey_Water_Store" maxFlowRates="100" />
+				<airProducer desiredFlowRates="0"
+					outputs="EVA" maxFlowRates="0" />
+				<dryWasteProducer desiredFlowRates="10"
+					outputs="Dry_Waste_Store" maxFlowRates="10">
+				</dryWasteProducer>
+			</CrewGroup>
+		</crew>
+	</SimBioModules>
 </biosim>
