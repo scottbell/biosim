@@ -1,6 +1,5 @@
 package com.traclabs.biosim.client.simulation.environment;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -11,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.traclabs.biosim.client.framework.TimedPanel;
-import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 
 /**
@@ -22,13 +20,6 @@ import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
  */
 
 public class EnvironmentTextPanel extends TimedPanel {
-    //Various GUI componenets
-    private JLabel tickLabel;
-    
-    private JLabel tickLengthLabel;
-
-    private JPanel tickPanel;
-
     private JLabel O2Label;
 
     private JLabel CO2Label;
@@ -64,27 +55,10 @@ public class EnvironmentTextPanel extends TimedPanel {
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         setLayout(gridbag);
-        JLabel moduleLabel = new JLabel(mySimEnvironment.getModuleName());
-        JPanel modulePanel = new JPanel();
-        modulePanel.setLayout(new BorderLayout());
-        modulePanel.setBorder(BorderFactory.createTitledBorder("Module"));
-        modulePanel.add(moduleLabel, BorderLayout.CENTER);
-
-        long ticksExpired = BioHolderInitializer.getBioHolder().theBioDriver
-                .getTicks();
-        float tickLength = BioHolderInitializer.getBioHolder().theBioDriver.getTickLength();
-        tickLabel = new JLabel(ticksExpired + " ticks (" + numFormat.format(ticksExpired * tickLength)
-                + " hours, "+ numFormat.format(ticksExpired * tickLength / 24) +" days)");
-        tickLengthLabel = new JLabel("tick length: "+tickLength+" hours");
-        tickPanel = new JPanel();
-        tickPanel.setLayout(new GridLayout(2,1));
-        tickPanel.setBorder(BorderFactory.createTitledBorder("Time"));
-        tickPanel.add(tickLabel);
-        tickPanel.add(tickLengthLabel);
+        setBorder(BorderFactory.createTitledBorder(mySimEnvironment.getModuleName()));
 
         airPanel = new JPanel();
         airPanel.setLayout(new GridLayout(5, 1));
-        airPanel.setBorder(BorderFactory.createTitledBorder("Air"));
         O2Label = new JLabel("O2:     "
                 + numFormat.format(mySimEnvironment.getO2Store().getCurrentLevel()) + " moles");
         CO2Label = new JLabel("CO2:   "
@@ -107,12 +81,6 @@ public class EnvironmentTextPanel extends TimedPanel {
         c.weightx = 1.0;
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weighty = 1.0;
-        gridbag.setConstraints(modulePanel, c);
-        add(modulePanel);
-
-        gridbag.setConstraints(tickPanel, c);
-        add(tickPanel);
-
         gridbag.setConstraints(airPanel, c);
         add(airPanel);
     }
@@ -121,12 +89,6 @@ public class EnvironmentTextPanel extends TimedPanel {
      * Updates every label on the panel with new data pulled from the servers.
      */
     public void refresh() {
-        long ticksExpired = BioHolderInitializer.getBioHolder().theBioDriver
-                .getTicks();
-        float tickLength = BioHolderInitializer.getBioHolder().theBioDriver.getTickLength();
-        tickLabel.setText(ticksExpired + " ticks (" + numFormat.format(ticksExpired * tickLength)
-                + " hours, "+numFormat.format(ticksExpired * tickLength / 24f) +" days)");
-        tickLengthLabel.setText("tick length: "+tickLength+" hours");
         O2Label.setText("O2:     "
                 + numFormat.format(mySimEnvironment.getO2Store().getCurrentLevel()) + " moles");
         CO2Label.setText("CO2:   "

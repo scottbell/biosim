@@ -9,6 +9,8 @@ import javax.swing.JButton;
 
 import org.jfree.chart.ChartPanel;
 
+import com.traclabs.biosim.idl.framework.BioModule;
+
 /**
  * 
  * @author Scott Bell
@@ -30,9 +32,9 @@ public abstract class GraphPanel extends TimedPanel {
         buildGui();
     }
 
-    public GraphPanel(String dataSourceName) {
+    public GraphPanel(BioModule module) {
         super();
-        initializeDataSources(dataSourceName);
+        initializeDataSources(module);
         buildGui();
     }
 
@@ -53,7 +55,7 @@ public abstract class GraphPanel extends TimedPanel {
 
     protected abstract void createGraph();
 
-    protected void initializeDataSources(@SuppressWarnings("unused") String dataSourceName) {
+    protected void initializeDataSources(BioModule module) {
     }
 
     /**

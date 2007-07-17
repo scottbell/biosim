@@ -3,7 +3,9 @@ package com.traclabs.biosim.client.framework;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.text.DecimalFormat;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -45,13 +47,21 @@ public class MalfunctionPanel extends TimedPanel {
 
 	private ModulePanel myModulePanel;
 
-	private JPanel myOperatorPanel;
+	private JPanel myOperationsPanel;
 
 	private JPanel myCurrentMalfunctionsPanel;
+
+	private JPanel myTickPanel;
+
+	private JLabel myTickLabel;
+
+	private JLabel myTickLengthLabel;
 
 	private ImageIcon myIcon;
 
 	private Logger myLogger;
+
+	private DecimalFormat myNumberFormat;
 
 	/**
 	 * Default constructor.
@@ -64,6 +74,14 @@ public class MalfunctionPanel extends TimedPanel {
 	}
 
 	public void refresh() {
+		long ticksExpired = BioHolderInitializer.getBioHolder().theBioDriver
+				.getTicks();
+		float tickLength = BioHolderInitializer.getBioHolder().theBioDriver
+				.getTickLength();
+		myTickLabel.setText(ticksExpired + " ticks ("
+				+ myNumberFormat.format(ticksExpired * tickLength) + " hours, "
+				+ myNumberFormat.format(ticksExpired * tickLength / 24f) + " days)");
+		myTickLengthLabel.setText("tick length: " + tickLength + " hours");
 		BioModule selectedModule = myModulePanel.getSelectedModule();
 		if ((selectedModule == null) || (currentMalfunctionList == null))
 			return;
@@ -81,27 +99,50 @@ public class MalfunctionPanel extends TimedPanel {
 		GridBagConstraints c = new GridBagConstraints();
 		setLayout(gridbag);
 
+		createTickPanel();
 		createModuleSelectPanel();
 		createOperatorPanel();
 		createCurrentMalfunctionsPanel();
 
-		c.fill = GridBagConstraints.BOTH;
-		c.gridheight = 2;
 		c.weightx = 1.0;
-		c.weighty = 1.0;
-		c.gridx = 1;
-		c.gridy = 1;
+		c.fill = GridBagConstraints.BOTH;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		gridbag.setConstraints(myTickPanel, c);
+		add(myTickPanel);
+
+		c.weighty = 2.0;
+		c.weightx = 10.0;
+		c.gridheight = 1;
 		c.gridwidth = 1;
 		gridbag.setConstraints(myModulePanel, c);
 		add(myModulePanel);
-		c.gridheight = 1;
-		c.gridx = 2;
+
+		c.weightx = 1.0;
+		c.fill = GridBagConstraints.BOTH;
 		c.gridwidth = GridBagConstraints.REMAINDER;
-		gridbag.setConstraints(myOperatorPanel, c);
-		add(myOperatorPanel);
-		c.gridy = 2;
+		gridbag.setConstraints(myOperationsPanel, c);
+		add(myOperationsPanel);
+
+		c.weighty = 1.0;
 		gridbag.setConstraints(myCurrentMalfunctionsPanel, c);
 		add(myCurrentMalfunctionsPanel);
+	}
+
+	private void createTickPanel() {
+		myNumberFormat = new DecimalFormat("#,##0.00;(#)");
+		long ticksExpired = BioHolderInitializer.getBioHolder().theBioDriver
+				.getTicks();
+		float tickLength = BioHolderInitializer.getBioHolder().theBioDriver
+				.getTickLength();
+		myTickLabel = new JLabel(ticksExpired + " ticks ("
+				+ myNumberFormat.format(ticksExpired * tickLength) + " hours, "
+				+ myNumberFormat.format(ticksExpired * tickLength / 24) + " days)");
+		myTickLengthLabel = new JLabel("tick length: " + tickLength + " hours");
+		myTickPanel = new JPanel();
+		myTickPanel.setLayout(new GridLayout(2, 1));
+		myTickPanel.setBorder(BorderFactory.createTitledBorder("Time"));
+		myTickPanel.add(myTickLabel);
+		myTickPanel.add(myTickLengthLabel);
 	}
 
 	private void createModuleSelectPanel() {
@@ -113,12 +154,12 @@ public class MalfunctionPanel extends TimedPanel {
 	}
 
 	private void createOperatorPanel() {
-		myOperatorPanel = new JPanel();
+		myOperationsPanel = new JPanel();
 		GridBagLayout gridbag = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
-		myOperatorPanel.setLayout(gridbag);
-		myOperatorPanel
-				.setBorder(BorderFactory.createTitledBorder("Operators"));
+		myOperationsPanel.setLayout(gridbag);
+		myOperationsPanel
+				.setBorder(BorderFactory.createTitledBorder("Operations"));
 		JButton addMalfunctionButton = new JButton(new AddMalfunctionAction());
 		addMalfunctionButton.setText("Add Malfunction");
 		JLabel lengthLabel = new JLabel("Length");
@@ -127,25 +168,28 @@ public class MalfunctionPanel extends TimedPanel {
 		JLabel intensityLabel = new JLabel("Intensity");
 		String[] intensityStrings = { "Severe", "Medium", "Low" };
 		intensityComboBox = new JComboBox(intensityStrings);
+		
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
 		c.weightx = 1.0;
 		c.gridwidth = GridBagConstraints.RELATIVE;
 		c.weighty = 1.0;
 		gridbag.setConstraints(lengthLabel, c);
-		myOperatorPanel.add(lengthLabel);
+		myOperationsPanel.add(lengthLabel);
+		
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		gridbag.setConstraints(lengthComboBox, c);
-		myOperatorPanel.add(lengthComboBox);
+		myOperationsPanel.add(lengthComboBox);
 		c.gridwidth = GridBagConstraints.RELATIVE;
 		gridbag.setConstraints(intensityLabel, c);
-		myOperatorPanel.add(intensityLabel);
+		myOperationsPanel.add(intensityLabel);
+		
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		gridbag.setConstraints(intensityComboBox, c);
-		myOperatorPanel.add(intensityComboBox);
+		myOperationsPanel.add(intensityComboBox);
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		gridbag.setConstraints(addMalfunctionButton, c);
-		myOperatorPanel.add(addMalfunctionButton);
+		myOperationsPanel.add(addMalfunctionButton);
 	}
 
 	private void createCurrentMalfunctionsPanel() {
@@ -274,8 +318,8 @@ public class MalfunctionPanel extends TimedPanel {
 			BioModule myModule = myModulePanel.getSelectedModule();
 			if (malfunctionSelected == null || myModule == null)
 				return;
-			CrewGroup myCrewGroup = (BioHolderInitializer
-					.getBioHolder().theCrewGroups.get(0));
+			CrewGroup myCrewGroup = (BioHolderInitializer.getBioHolder().theCrewGroups
+					.get(0));
 			myCrewGroup.scheduleRepair(myModule.getModuleName(),
 					malfunctionSelected.getID(), 5);
 			refresh();
