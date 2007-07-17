@@ -43,8 +43,10 @@ public class ModulePanel extends JPanel {
     public ModulePanel() {
         myListeners = new Vector<ModuleSelectionListener>();
         myLogger = Logger.getLogger(ModulePanel.class);
-
-        String[] myAllModuleNames = BioHolderInitializer.getBioHolder().theBioDriver
+        
+        String[] myAllModuleNames = new String[0];
+        if (BioHolderInitializer.getBioHolder().theModules.size() > 0)
+        	myAllModuleNames = BioHolderInitializer.getBioHolder().theBioDriver
                 .getModuleNames();
         Arrays.sort(myAllModuleNames);
         myAllModulesList = new JList(myAllModuleNames);
@@ -53,7 +55,9 @@ public class ModulePanel extends JPanel {
         myAllModulesList
                 .addListSelectionListener(new ModuleListSelectionListener());
 
-        String[] mySimModuleNames = BioHolderInitializer.getBioHolder().theBioDriver
+        String[] mySimModuleNames = new String[0];
+        if (BioHolderInitializer.getBioHolder().theSimModules.size() > 0)
+        	mySimModuleNames = BioHolderInitializer.getBioHolder().theBioDriver
                 .getSimModuleNames();
         Arrays.sort(mySimModuleNames);
         mySimModulesList = new JList(mySimModuleNames);
@@ -62,7 +66,9 @@ public class ModulePanel extends JPanel {
         mySimModulesList
                 .addListSelectionListener(new ModuleListSelectionListener());
 
-        String[] mySensorModuleNames = BioHolderInitializer.getBioHolder().theBioDriver
+        String[] mySensorModuleNames = new String[0];
+        if (BioHolderInitializer.getBioHolder().theSensors.size() > 0)
+        	mySensorModuleNames = BioHolderInitializer.getBioHolder().theBioDriver
                 .getSensorNames();
         Arrays.sort(mySensorModuleNames);
         mySensorModulesList = new JList(mySensorModuleNames);
@@ -72,7 +78,9 @@ public class ModulePanel extends JPanel {
         mySensorModulesList
                 .addListSelectionListener(new ModuleListSelectionListener());
 
-        String[] myActuatorModuleNames = BioHolderInitializer.getBioHolder().theBioDriver
+        String[] myActuatorModuleNames = new String[0];
+        if (BioHolderInitializer.getBioHolder().theActuators.size() > 0)
+        	myActuatorModuleNames = BioHolderInitializer.getBioHolder().theBioDriver
                 .getActuatorNames();
         Arrays.sort(myActuatorModuleNames);
         myActuatorModulesList = new JList(myActuatorModuleNames);
@@ -111,6 +119,8 @@ public class ModulePanel extends JPanel {
         if (myTabbedPane.getSelectedIndex() == 3)
             currentName = (String) (myAllModulesList.getSelectedValue());
         myLogger.debug("module selected = " + currentName);
+        if (currentName == null)
+        	return null;
         return (BioHolderInitializer.getBioHolder().theModulesMapped
                 .get(currentName));
     }

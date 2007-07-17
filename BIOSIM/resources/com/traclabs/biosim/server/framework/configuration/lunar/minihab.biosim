@@ -2,9 +2,26 @@
 <biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
   <Globals/><SimBioModules>
 	<environment>
-		<SimEnvironment moduleName="TestCabin" initialVolume="28000">
-			<moleInitialization initialWaterMoles="20"
-				initialO2Moles="100" initialNitrogenMoles="800"
-				initialCO2Moles="10" initialOtherMoles="10" />
+		<SimEnvironment moduleName="Crew_Quarters" initialVolume="27000">
+			<percentageInitialization waterPercentage="0.01"
+				nitrogenPercentage="0.659" otherPercentage="0.001" o2Percentage="0.33"
+				totalPressure="55" co2Percentage="0.0" />
+		</SimEnvironment>
+		<SimEnvironment moduleName="Galley" initialVolume="27000">
+			<percentageInitialization waterPercentage="0.01"
+				nitrogenPercentage="0.659" otherPercentage="0.001" o2Percentage="0.33"
+				totalPressure="55" co2Percentage="0.0" />
+		</SimEnvironment>
+		<SimEnvironment moduleName="Labs" initialVolume="19000"
+			airlockVolume="80000">
+			<percentageInitialization waterPercentage="0.01"
+				nitrogenPercentage="0.659" otherPercentage="0.001" o2Percentage="0.33"
+				totalPressure="55" co2Percentage="0.0" />
+		</SimEnvironment>
+		<SimEnvironment moduleName="Suit_Maintenance"
+			initialVolume="19000" airlockVolume="8000">
+			<percentageInitialization waterPercentage="0.01"
+				nitrogenPercentage="0.659" otherPercentage="0.001" o2Percentage="0.33"
+				totalPressure="55" co2Percentage="0.0" />
 		</SimEnvironment></environment></SimBioModules>
 </biosim>

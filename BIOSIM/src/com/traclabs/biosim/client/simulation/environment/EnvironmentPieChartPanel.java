@@ -12,9 +12,9 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.data.general.DefaultPieDataset;
 
 import com.traclabs.biosim.client.framework.GraphPanel;
-import com.traclabs.biosim.client.util.BioHolder;
-import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentHelper;
 
 /**
  * This is the JPanel that displays a chart about the Environment
@@ -44,11 +44,14 @@ public class EnvironmentPieChartPanel extends GraphPanel {
 
     private boolean isVacuum = false;
 
-    private Logger myLogger;
+    private Logger myLogger = Logger.getLogger(EnvironmentPieChartPanel.class);
 
-    public EnvironmentPieChartPanel(String pEnvironmentName) {
-        super(pEnvironmentName);
-        myLogger = Logger.getLogger(this.getClass());
+    public EnvironmentPieChartPanel(SimEnvironment pEnvironment) {
+    	super(pEnvironment);
+    }
+    
+    protected void initializeDataSources(BioModule module) {
+    	mySimEnvironment = SimEnvironmentHelper.narrow(module);
     }
 
     protected void createGraph() {
@@ -69,16 +72,6 @@ public class EnvironmentPieChartPanel extends GraphPanel {
         myChartPanel.setMinimumDrawHeight(250);
         myChartPanel.setMinimumDrawWidth(250);
         myChartPanel.setPreferredSize(new Dimension(250, 250));
-    }
-
-    protected void initializeDataSources(String dataSourceName) {
-        BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-        if (dataSourceName.startsWith("Crew"))
-            mySimEnvironment = (myBioHolder.theSimEnvironments
-                    .get(0));
-        else if (dataSourceName.startsWith("Plant"))
-            mySimEnvironment = (myBioHolder.theSimEnvironments
-                    .get(1));
     }
 
     public void refresh() {
