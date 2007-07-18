@@ -18,6 +18,7 @@ import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.simulation.air.CO2Store;
 import com.traclabs.biosim.idl.simulation.air.H2Store;
+import com.traclabs.biosim.idl.simulation.air.MethaneStore;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStore;
 import com.traclabs.biosim.idl.simulation.air.O2Store;
 
@@ -35,6 +36,8 @@ public class AirStorePanel extends GraphPanel {
 
     private NitrogenStore myNitrogenStore;
 
+    private MethaneStore myMethaneStore;
+
     private DefaultCategoryDataset myDataset;
 
     private ValueAxis rangeAxis;
@@ -46,6 +49,7 @@ public class AirStorePanel extends GraphPanel {
         myCO2Store = (myBioHolder.theCO2Stores.get(0));
         myH2Store = (myBioHolder.theH2Stores.get(0));
         myNitrogenStore = (myBioHolder.theNitrogenStores.get(0));
+        myMethaneStore = (myBioHolder.theMethaneStores.get(0));
         refresh();
         JFreeChart myChart = ChartFactory.createBarChart3D("Gas Store Levels", // chart
                 // title
@@ -65,6 +69,7 @@ public class AirStorePanel extends GraphPanel {
         renderer.setSeriesPaint(1, Color.GREEN);
         renderer.setSeriesPaint(2, Color.ORANGE);
         renderer.setSeriesPaint(3, Color.RED);
+        renderer.setSeriesPaint(4, Color.MAGENTA);
         TextTitle myTextTitle = myChart.getTitle();
         myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
         myChartPanel = new ChartPanel(myChart);
@@ -80,11 +85,14 @@ public class AirStorePanel extends GraphPanel {
             String series2 = "CO2";
             String series3 = "H2";
             String series4 = "N";
+            String series5 = "CH4";
             String category = "";
             myDataset.addValue(myO2Store.getCurrentLevel(), series1, category);
             myDataset.addValue(myCO2Store.getCurrentLevel(), series2, category);
             myDataset.addValue(myH2Store.getCurrentLevel(), series3, category);
             myDataset.addValue(myNitrogenStore.getCurrentLevel(), series4,
+                    category);
+            myDataset.addValue(myMethaneStore.getCurrentLevel(), series5,
                     category);
         } else {
             float capacity1 = Math.max(myO2Store.getCurrentCapacity(),
@@ -93,9 +101,11 @@ public class AirStorePanel extends GraphPanel {
                     .getCurrentCapacity());
             float capacity3 = Math.max(capacity2, myNitrogenStore
                     .getCurrentCapacity());
-            if ((rangeAxis.getRange().getUpperBound() != capacity3)
-                    && (capacity3 > 0)) {
-                rangeAxis.setRange(0.0, capacity3);
+            float capacity4 = Math.max(capacity3, myMethaneStore
+                    .getCurrentCapacity());
+            if ((rangeAxis.getRange().getUpperBound() != capacity4)
+                    && (capacity4 > 0)) {
+                rangeAxis.setRange(0.0, capacity4);
                 myChartPanel.repaint();
             }
             myDataset
@@ -106,6 +116,8 @@ public class AirStorePanel extends GraphPanel {
                     .setValue(new Float(myH2Store.getCurrentLevel()), "H2", "");
             myDataset.setValue(new Float(myNitrogenStore.getCurrentLevel()),
                     "N", "");
+            myDataset.setValue(new Float(myMethaneStore.getCurrentLevel()),
+                    "CH4", "");
         }
     }
 

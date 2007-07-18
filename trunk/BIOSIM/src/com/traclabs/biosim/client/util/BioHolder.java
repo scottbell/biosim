@@ -12,6 +12,8 @@ import com.traclabs.biosim.idl.actuator.air.CO2InFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.air.CO2OutFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.air.H2InFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.air.H2OutFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.air.MethaneInFlowRateActuator;
+import com.traclabs.biosim.idl.actuator.air.MethaneOutFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.air.NitrogenInFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.air.NitrogenOutFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.air.O2InFlowRateActuator;
@@ -46,6 +48,8 @@ import com.traclabs.biosim.idl.sensor.air.CO2InFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.air.CO2OutFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.air.H2InFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.air.H2OutFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.air.MethaneInFlowRateSensor;
+import com.traclabs.biosim.idl.sensor.air.MethaneOutFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.air.NitrogenInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.air.NitrogenOutFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.air.O2InFlowRateSensor;
@@ -87,6 +91,7 @@ import com.traclabs.biosim.idl.simulation.air.AirRS;
 import com.traclabs.biosim.idl.simulation.air.CO2Store;
 import com.traclabs.biosim.idl.simulation.air.CRS;
 import com.traclabs.biosim.idl.simulation.air.H2Store;
+import com.traclabs.biosim.idl.simulation.air.MethaneStore;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStore;
 import com.traclabs.biosim.idl.simulation.air.O2Store;
 import com.traclabs.biosim.idl.simulation.air.OGS;
@@ -153,6 +158,8 @@ public class BioHolder {
     public List<H2Store> theH2Stores = new Vector<H2Store>();
 
     public List<NitrogenStore> theNitrogenStores = new Vector<NitrogenStore>();
+
+    public List<MethaneStore> theMethaneStores = new Vector<MethaneStore>();
 
     //Crew
     public List<CrewGroup> theCrewGroups = new Vector<CrewGroup>();
@@ -221,6 +228,9 @@ public class BioHolder {
 
     public List<NitrogenOutFlowRateSensor> theNitrogenOutFlowRateSensors = new Vector<NitrogenOutFlowRateSensor>();
 
+    public List<MethaneInFlowRateSensor> theMethaneInFlowRateSensors = new Vector<MethaneInFlowRateSensor>();
+
+    public List<MethaneOutFlowRateSensor> theMethaneOutFlowRateSensors = new Vector<MethaneOutFlowRateSensor>();
     //Crew
     public List<CrewGroupDeathSensor> theCrewGroupDeathSensors = new Vector<CrewGroupDeathSensor>();
 
@@ -307,6 +317,10 @@ public class BioHolder {
     public List<NitrogenInFlowRateActuator> theNitrogenInFlowRateActuators = new Vector<NitrogenInFlowRateActuator>();
 
     public List<NitrogenOutFlowRateActuator> theNitrogenOutFlowRateActuators = new Vector<NitrogenOutFlowRateActuator>();
+
+    public List<MethaneInFlowRateActuator> theMethaneInFlowRateActuators = new Vector<MethaneInFlowRateActuator>();
+
+    public List<MethaneOutFlowRateActuator> theMethaneOutFlowRateActuators = new Vector<MethaneOutFlowRateActuator>();
 
     //Environment
     public List<AirInFlowRateActuator> theAirInFlowRateActuators = new Vector<AirInFlowRateActuator>();
@@ -451,6 +465,7 @@ public class BioHolder {
         theSimModules.addAll(theO2Stores);
         theSimModules.addAll(theCO2Stores);
         theSimModules.addAll(theNitrogenStores);
+        theSimModules.addAll(theMethaneStores);
         theSimModules.addAll(theH2Stores);
         //Crew
         theSimModules.addAll(theCrewGroups);
@@ -490,6 +505,8 @@ public class BioHolder {
         theSensors.addAll(theH2OutFlowRateSensors);
         theSensors.addAll(theNitrogenInFlowRateSensors);
         theSensors.addAll(theNitrogenOutFlowRateSensors);
+        theSensors.addAll(theMethaneInFlowRateSensors);
+        theSensors.addAll(theMethaneOutFlowRateSensors);
         //Crew
         theSensors.addAll(theCrewGroupDeathSensors);
         theSensors.addAll(theCrewGroupProductivitySensors);
@@ -538,6 +555,8 @@ public class BioHolder {
         theActuators.addAll(theH2OutFlowRateActuators);
         theActuators.addAll(theNitrogenInFlowRateActuators);
         theActuators.addAll(theNitrogenOutFlowRateActuators);
+        theActuators.addAll(theMethaneInFlowRateActuators);
+        theActuators.addAll(theMethaneOutFlowRateActuators);
         //Environment
         theActuators.addAll(theAirInFlowRateActuators);
         theActuators.addAll(theAirOutFlowRateActuators);
@@ -600,6 +619,7 @@ public class BioHolder {
         theO2Stores.clear();
         theCO2Stores.clear();
         theNitrogenStores.clear();
+        theMethaneStores.clear();
         theH2Stores.clear();
         //Crew
         theCrewGroups.clear();
@@ -639,6 +659,8 @@ public class BioHolder {
         theH2OutFlowRateSensors.clear();
         theNitrogenInFlowRateSensors.clear();
         theNitrogenOutFlowRateSensors.clear();
+        theMethaneInFlowRateSensors.clear();
+        theMethaneOutFlowRateSensors.clear();
         //Crew
         theCrewGroupDeathSensors.clear();
         theCrewGroupProductivitySensors.clear();
@@ -687,6 +709,8 @@ public class BioHolder {
         theH2OutFlowRateActuators.clear();
         theNitrogenInFlowRateActuators.clear();
         theNitrogenOutFlowRateActuators.clear();
+        theMethaneInFlowRateActuators.clear();
+        theMethaneOutFlowRateActuators.clear();
         //Environment
         theAirInFlowRateActuators.clear();
         theAirOutFlowRateActuators.clear();
