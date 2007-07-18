@@ -2,6 +2,8 @@ package com.traclabs.biosim.client.simulation.crew;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,14 +30,14 @@ import com.traclabs.biosim.idl.simulation.crew.CrewPerson;
 public class CrewIntensityChartPanel extends GraphPanel {
     private DefaultCategoryDataset myDataset;
 
-    private CrewPerson[] myCrewPeople;
-
-    private CrewGroup myCrewGroup;
+	private Collection<CrewPerson> myCrewPeople;
 
     protected void buildGui() {
-        myCrewGroup = (BioHolderInitializer.getBioHolder().theCrewGroups
-                .get(0));
-        if (myCrewGroup.getCrewSize() == 0) {
+    	myCrewPeople = new ArrayList<CrewPerson>();
+		for (CrewGroup crewGroup : BioHolderInitializer.getBioHolder().theCrewGroups)
+			for (CrewPerson person : crewGroup.getCrewPeople())
+				myCrewPeople.add(person);
+        if (myCrewPeople.size() == 0) {
             setLayout(new BorderLayout());
             JPanel noCrewPanel = new JPanel();
             noCrewPanel.setLayout(new BorderLayout());
@@ -57,12 +59,10 @@ public class CrewIntensityChartPanel extends GraphPanel {
 
     protected void createGraph() {
         // create the chart...
-        myCrewPeople = myCrewGroup.getCrewPeople();
         myDataset = new DefaultCategoryDataset();
-        for (int i = 0; i < myCrewPeople.length; i++) {
-            myDataset.addValue(myCrewPeople[i].getCurrentActivity()
-                    .getActivityIntensity(), myCrewPeople[i].getName(), "");
-        }
+        for (CrewPerson person : myCrewPeople) {
+            myDataset.addValue(person.getCurrentActivity().getActivityIntensity(), person.getName(), "");
+		}
         JFreeChart myChart = ChartFactory.createBarChart3D(
                 "Crew Activity Intensities", // chart title
                 "", // domain axis label
@@ -85,15 +85,14 @@ public class CrewIntensityChartPanel extends GraphPanel {
 
     public void refresh() {
         if (myChartPanel == null) {
-            int numberOfCrew = myCrewGroup.getCrewSize();
+            int numberOfCrew = myCrewPeople.size();
             if (numberOfCrew > 0) {
                 buildRealGui();
             }
         } else {
-            myCrewPeople = myCrewGroup.getCrewPeople();
-            for (int i = 0; i < myCrewPeople.length; i++) {
-                myDataset.setValue(myCrewPeople[i].getCurrentActivity()
-                        .getActivityIntensity(), myCrewPeople[i].getName(), "");
+            for (CrewPerson person : myCrewPeople) {
+                myDataset.setValue(person.getCurrentActivity()
+                        .getActivityIntensity(),person.getName(), "");
             }
         }
     }

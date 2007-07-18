@@ -30,17 +30,17 @@ public class EnvironmentPieChartPanel extends GraphPanel {
 
     private DefaultPieDataset myDataset;
 
-    private String O2Category = "O2";
+    private static final String O2Category = "O2";
 
-    private String CO2Category = "CO2";
+    private static final String CO2Category = "CO2";
 
-    private String nitrogenCategory = "N";
+    private static final String nitrogenCategory = "N";
 
-    private String waterCategory = "H20";
+    private static final String waterCategory = "H20";
 
-    private String otherCategory = "Other";
+    private static final String otherCategory = "Other";
 
-    private String vacuumCategory = "Vacuum";
+    private static final String vacuumCategory = "Vacuum";
 
     private boolean isVacuum = false;
 
@@ -87,7 +87,7 @@ public class EnvironmentPieChartPanel extends GraphPanel {
                 myDataset = new DefaultPieDataset();
                 myPlot.setDataset(myDataset);
                 myDataset.setValue(vacuumCategory, new Float(1f));
-                myPlot.setSectionPaint(0, Color.DARK_GRAY);
+                myPlot.setSectionPaint(vacuumCategory, Color.DARK_GRAY);
                 isVacuum = true;
             }
         } else {
@@ -95,11 +95,11 @@ public class EnvironmentPieChartPanel extends GraphPanel {
             if (isVacuum) {
                 myDataset = new DefaultPieDataset();
                 myPlot.setDataset(myDataset);
-                myPlot.setSectionPaint(0, Color.BLUE);
-                myPlot.setSectionPaint(1, Color.GREEN);
-                myPlot.setSectionPaint(2, Color.CYAN);
-                myPlot.setSectionPaint(3, Color.YELLOW);
-                myPlot.setSectionPaint(4, Color.RED);
+                myPlot.setSectionPaint(O2Category, Color.BLUE);
+                myPlot.setSectionPaint(CO2Category, Color.GREEN);
+                myPlot.setSectionPaint(waterCategory, Color.CYAN);
+                myPlot.setSectionPaint(otherCategory, Color.YELLOW);
+                myPlot.setSectionPaint(nitrogenCategory, Color.RED);
                 isVacuum = false;
             }
             myDataset.setValue(O2Category, new Float(mySimEnvironment.getO2Store().getCurrentLevel()));
@@ -120,14 +120,14 @@ public class EnvironmentPieChartPanel extends GraphPanel {
                 && (mySimEnvironment.getOtherStore().getCurrentLevel() <= 0)
                 && (mySimEnvironment.getVaporStore().getCurrentLevel() <= 0)) {
             myDataset.setValue(vacuumCategory, new Float(1f));
-            myPlot.setSectionPaint(0, Color.DARK_GRAY);
+            myPlot.setSectionPaint(vacuumCategory, Color.DARK_GRAY);
             isVacuum = true;
         } else {
-            myPlot.setSectionPaint(0, Color.BLUE);
-            myPlot.setSectionPaint(1, Color.GREEN);
-            myPlot.setSectionPaint(2, Color.CYAN);
-            myPlot.setSectionPaint(3, Color.YELLOW);
-            myPlot.setSectionPaint(4, Color.RED);
+            myPlot.setSectionPaint(O2Category, Color.BLUE);
+            myPlot.setSectionPaint(CO2Category, Color.GREEN);
+            myPlot.setSectionPaint(waterCategory, Color.CYAN);
+            myPlot.setSectionPaint(otherCategory, Color.YELLOW);
+            myPlot.setSectionPaint(nitrogenCategory, Color.RED);
             isVacuum = false;
         }
     }

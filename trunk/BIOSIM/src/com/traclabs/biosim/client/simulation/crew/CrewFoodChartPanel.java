@@ -2,6 +2,8 @@ package com.traclabs.biosim.client.simulation.crew;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -23,14 +25,15 @@ import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
  * @author Scott Bell
  */
 public class CrewFoodChartPanel extends GraphPanel {
-    private CrewGroup myCrewGroup;
+    private Collection<CrewGroup> myCrewGroups;
 
     private DefaultCategoryDataset myDataset;
 
     protected void createGraph() {
         // create the chart...
-        myCrewGroup = (BioHolderInitializer.getBioHolder().theCrewGroups
-                .get(0));
+    	myCrewGroups = new ArrayList<CrewGroup>();
+		for (CrewGroup crewGroup : BioHolderInitializer.getBioHolder().theCrewGroups)
+			myCrewGroups.add(crewGroup);
         refresh();
         JFreeChart myChart = ChartFactory.createBarChart3D("Food Consumption", // chart
                 // title
@@ -53,6 +56,13 @@ public class CrewFoodChartPanel extends GraphPanel {
         myChartPanel.setMinimumDrawWidth(250);
         myChartPanel.setPreferredSize(new Dimension(200, 200));
     }
+    
+    private float getTotalFoodConsumed(){
+    	float totalFood = 0f;
+		for (CrewGroup crewGroup : BioHolderInitializer.getBioHolder().theCrewGroups)
+			totalFood += crewGroup.getFoodConsumed();
+		return totalFood;
+    }
 
     public void refresh() {
         if (myDataset == null) {
@@ -60,9 +70,9 @@ public class CrewFoodChartPanel extends GraphPanel {
             String series1 = "Food";
             String category = "";
             myDataset
-                    .addValue(myCrewGroup.getFoodConsumed(), series1, category);
+                    .addValue(getTotalFoodConsumed(), series1, category);
         } else {
-            myDataset.setValue(myCrewGroup.getFoodConsumed(), "Food", "");
+            myDataset.setValue(getTotalFoodConsumed(), "Food", "");
         }
     }
 }

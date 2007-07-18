@@ -28,7 +28,6 @@
 					nitrogenPercentage="0.659" otherPercentage="0.001"
 					o2Percentage="0.33" totalPressure="55" co2Percentage="0.0" />
 			</SimEnvironment>
-			<SimEnvironment moduleName="EVA" initialVolume="3000"/>
 		</environment>
 		<air>
 			<NitrogenStore capacity="1000000"
@@ -43,15 +42,25 @@
 			<NitrogenStore capacity="1000000"
 				moduleName="Suit_Maintenance_Nitrogen_Store" level="1000000">
 			</NitrogenStore>
-			<VCCR moduleName="VCCR">
+			<VCCR moduleName="Main_VCCR">
 				<powerConsumer inputs="General_Power_Store" desiredFlowRates="1000"
 					maxFlowRates="1000" />
 				<airConsumer inputs="Suit_Maintenance" desiredFlowRates="100"
+					maxFlowRates="100" ></airConsumer>
+				<airProducer desiredFlowRates="100" outputs="Suit_Maintenance"
 					maxFlowRates="100" />
-				<airProducer desiredFlowRates="Suit_Maintenance" outputs="100"
-					maxFlowRates="100" />
-				<CO2Producer desiredFlowRates="" outputs=""
-					maxFlowRates="" />
+				<CO2Producer desiredFlowRates="100" outputs="CO2_Store"
+					maxFlowRates="100" ></CO2Producer>
+			</VCCR>
+			<VCCR moduleName="Backup_VCCR">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="1000"
+					maxFlowRates="1000" />
+				<airConsumer inputs="Labs" desiredFlowRates="100"
+					maxFlowRates="100" ></airConsumer>
+				<airProducer desiredFlowRates="100" outputs="Labs"
+					maxFlowRates="100" ></airProducer>
+				<CO2Producer desiredFlowRates="100" outputs="CO2_Store"
+					maxFlowRates="100" ></CO2Producer>
 			</VCCR>
 			<OGS moduleName="OGS">
 				<powerConsumer inputs="General_Power_Store" desiredFlowRates="1000"
@@ -65,6 +74,7 @@
 			</OGS>
 			<O2Store capacity="10000" moduleName="O2_Store" level="0.0"></O2Store>
 			<H2Store capacity="10000" moduleName="H2_Store" level="0"></H2Store>
+			<CO2Store capacity="1000" moduleName="CO2_Store" level="0.0"></CO2Store>
 		</air>
 		<framework>
 			<Injector moduleName="Crew_Quarters_Nitrogen_Injector">
@@ -169,16 +179,6 @@
 						</activity>
 					</schedule>
 				</crewPerson>
-				<crewPerson age="35" name="Ardala" sex="FEMALE"
-					weight="55">
-					<schedule>
-						<activity intensity="2" name="Ruminating"
-							length="12" />
-						<activity intensity="0" name="sleep"
-							length="8">
-						</activity>
-					</schedule>
-				</crewPerson>
 			</CrewGroup>
 			<CrewGroup moduleName="Galley_Group">
 				<potableWaterConsumer inputs="Potable_Water_Store"
@@ -269,26 +269,6 @@
 						</activity>
 					</schedule>
 				</crewPerson>
-			</CrewGroup>
-			<CrewGroup moduleName="EVA_Group">
-				<potableWaterConsumer inputs="Potable_Water_Store"
-					desiredFlowRates="3" maxFlowRates="3">
-				</potableWaterConsumer>
-				<airConsumer inputs="EVA" desiredFlowRates="0"
-					maxFlowRates="0" />
-				<foodConsumer inputs="Food_Store" desiredFlowRates="5"
-					maxFlowRates="5">
-				</foodConsumer>
-				<dirtyWaterProducer desiredFlowRates="100"
-					outputs="Dirty_Water_Store" maxFlowRates="100">
-				</dirtyWaterProducer>
-				<greyWaterProducer desiredFlowRates="100"
-					outputs="Grey_Water_Store" maxFlowRates="100" />
-				<airProducer desiredFlowRates="0"
-					outputs="EVA" maxFlowRates="0" />
-				<dryWasteProducer desiredFlowRates="10"
-					outputs="Dry_Waste_Store" maxFlowRates="10">
-				</dryWasteProducer>
 			</CrewGroup>
 		</crew>
 	</SimBioModules>
