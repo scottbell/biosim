@@ -2,6 +2,8 @@ package com.traclabs.biosim.client.simulation.crew;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -23,14 +25,15 @@ import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
  * @author Scott Bell
  */
 public class CrewAirChartPanel extends GraphPanel {
-    private CrewGroup myCrewGroup;
+    private Collection<CrewGroup> myCrewGroups;
 
     private DefaultCategoryDataset myDataset;
 
     protected void createGraph() {
+    	myCrewGroups = new ArrayList<CrewGroup>();
         // create the chart...
-        myCrewGroup = (BioHolderInitializer.getBioHolder().theCrewGroups
-                .get(0));
+		for (CrewGroup crewGroup : BioHolderInitializer.getBioHolder().theCrewGroups)
+				myCrewGroups.add(crewGroup);
         refresh();
         JFreeChart myChart = ChartFactory.createBarChart3D(
                 "O2/CO2 Consumed/Produced", // chart title
@@ -54,19 +57,33 @@ public class CrewAirChartPanel extends GraphPanel {
         myChartPanel.setMinimumDrawWidth(250);
         myChartPanel.setPreferredSize(new Dimension(200, 200));
     }
-
+    
+    private float getTotalCO2Produced(){
+    	float totalCO2 = 0f;
+		for (CrewGroup crewGroup : BioHolderInitializer.getBioHolder().theCrewGroups)
+			totalCO2 += crewGroup.getCO2Produced();
+		return totalCO2;
+    }
+    
+    private float getTotalO2Consumed(){
+    	float totalO2 = 0f;
+		for (CrewGroup crewGroup : BioHolderInitializer.getBioHolder().theCrewGroups)
+			totalO2 += crewGroup.getO2Consumed();
+		return totalO2;
+    }
+    
     public void refresh() {
         if (myDataset == null) {
             myDataset = new DefaultCategoryDataset();
             String series1 = "O2 Consumed";
             String series2 = "CO2 Produced";
             String category = "";
-            myDataset.addValue(myCrewGroup.getO2Consumed(), series1, category);
-            myDataset.addValue(myCrewGroup.getCO2Produced(), series2, category);
+            myDataset.addValue(getTotalO2Consumed(), series1, category);
+            myDataset.addValue(getTotalCO2Produced(), series2, category);
         } else {
-            myDataset.addValue(myCrewGroup.getO2Consumed(), "O2 Consumed", "");
+            myDataset.addValue(getTotalO2Consumed(), "O2 Consumed", "");
             myDataset
-                    .addValue(myCrewGroup.getCO2Produced(), "CO2 Produced", "");
+                    .addValue(getTotalCO2Produced(), "CO2 Produced", "");
         }
     }
 }

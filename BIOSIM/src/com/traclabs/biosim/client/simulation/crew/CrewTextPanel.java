@@ -4,7 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.text.DecimalFormat;
-import java.util.Iterator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -32,49 +33,30 @@ public class CrewTextPanel extends TimedPanel {
 
 	private JLabel noCrewLabel;
 
-	// Refernce to the server where crew information is pulled
-	private CrewGroup myCrewGroup;
-
-	// Array of crew people pulled from server
-	private CrewPerson[] myCrewGroupPeople;
+	private Map<String, CrewPerson> myCrewPeople = new HashMap<String, CrewPerson>();
 
 	// Vector of crew people GUI's and their respective GUI components
-	private java.util.List<CrewPersonGUI> crewPersonGUIList;
+	private java.util.List<CrewPersonGUI> crewPersonGUIList = new Vector<CrewPersonGUI>();
 
 	// Used to format floats
-	private DecimalFormat numFormat;
+	private DecimalFormat numFormat = new DecimalFormat("#,##0.00;(#)");
 
 	/**
 	 * Creates and registers this panel.
 	 */
 	public CrewTextPanel() {
-		numFormat = new DecimalFormat("#,##0.00;(#)");
-		myCrewGroup = (BioHolderInitializer.getBioHolder().theCrewGroups
-				.get(0));
-		crewPersonGUIList = new Vector<CrewPersonGUI>();
 		buildGui();
-	}
-
-	/**
-	 * Refreshes GUI when simulation has been restarted and repacks panel
-	 */
-	private void rebuildGui() {
-		myCrewGroup = (BioHolderInitializer.getBioHolder().theCrewGroups
-				.get(0));
-		crewPersonGUIList = new Vector<CrewPersonGUI>();
-		buildGui();
-		SimDesktopFrame mySimFrame = getSimFrame();
-		if (mySimFrame != null)
-			mySimFrame.pack();
 	}
 
 	/**
 	 * Contructs GUI components, adds them to the panel.
 	 */
 	private void buildGui() {
+		for (CrewGroup crewGroup : BioHolderInitializer.getBioHolder().theCrewGroups)
+			for (CrewPerson person : crewGroup.getCrewPeople())
+				myCrewPeople.put(person.getName(), person);
 		removeAll();
-		myCrewGroupPeople = myCrewGroup.getCrewPeople();
-		if (myCrewGroupPeople.length == 0) {
+		if (myCrewPeople.size() == 0) {
 			setLayout(new GridLayout(1, 1));
 			noCrewPanel = new JPanel();
 			noCrewPanel.setLayout(new BorderLayout());
@@ -82,88 +64,91 @@ public class CrewTextPanel extends TimedPanel {
 			noCrewPanel.add(noCrewLabel);
 			add(noCrewPanel, BorderLayout.CENTER);
 		} else {
-			if (myCrewGroupPeople.length == 1)
+			if (myCrewPeople.size() == 1)
 				setLayout(new GridLayout(1, 1));
-			if ((myCrewGroupPeople.length % 2) != 0)
-				setLayout(new GridLayout(myCrewGroupPeople.length / 2 + 1,
-						myCrewGroupPeople.length / 2));
+			if ((myCrewPeople.size() % 2) != 0)
+				setLayout(new GridLayout(myCrewPeople.size() / 2 + 1,
+						myCrewPeople.size() / 2));
 			else
-				setLayout(new GridLayout(myCrewGroupPeople.length / 2,
-						myCrewGroupPeople.length / 2));
-			for (int i = 0; i < myCrewGroupPeople.length; i++) {
+				setLayout(new GridLayout(myCrewPeople.size() / 2,
+						myCrewPeople.size() / 2));
+			
+			for (CrewPerson person : myCrewPeople.values()) {
 				JPanel newPersonPanel = new JPanel();
-				newPersonPanel.setLayout(new GridLayout(15, 1));
+				newPersonPanel.setLayout(new GridLayout(16, 1));
 				newPersonPanel.setBorder(BorderFactory
-						.createTitledBorder(myCrewGroupPeople[i].getName()));
+						.createTitledBorder(person.getName()));
 				CrewPersonGUI newPersonGUI = new CrewPersonGUI();
-				newPersonGUI.name = myCrewGroupPeople[i].getName();
+				newPersonGUI.name = person.getName();
 				newPersonGUI.ageLabel = new JLabel("age: "
-						+ myCrewGroupPeople[i].getAge());
+						+ person.getAge());
 				newPersonPanel.add(newPersonGUI.ageLabel);
 				newPersonGUI.weightLabel = new JLabel("weight: "
-						+ myCrewGroupPeople[i].getWeight());
+						+ person.getWeight());
 				newPersonPanel.add(newPersonGUI.weightLabel);
 				String sexString;
-				if (myCrewGroupPeople[i].getSex() == Sex.male)
+				if (person.getSex() == Sex.male)
 					sexString = "male";
 				else
 					sexString = "female";
 				newPersonGUI.sexLabel = new JLabel("sex: " + sexString);
 				newPersonPanel.add(newPersonGUI.sexLabel);
 				newPersonGUI.statusLabel = new JLabel("status: "
-						+ coallateStatus(myCrewGroupPeople[i]));
+						+ coallateStatus(person));
 				newPersonPanel.add(newPersonGUI.statusLabel);
 				newPersonGUI.dirtyWaterProducedLabel = new JLabel(
 						"dirty water produced: "
-								+ numFormat.format(myCrewGroupPeople[i]
+								+ numFormat.format(person
 										.getDirtyWaterProduced()) + " L");
 				newPersonPanel.add(newPersonGUI.dirtyWaterProducedLabel);
 				newPersonGUI.greyWaterProducedLabel = new JLabel(
 						"grey water produced: "
-								+ numFormat.format(myCrewGroupPeople[i]
+								+ numFormat.format(person
 										.getGreyWaterProduced()) + " L");
 				newPersonPanel.add(newPersonGUI.greyWaterProducedLabel);
 				newPersonGUI.potableWaterConsumedLabel = new JLabel(
 						"potable water consumed: "
-								+ numFormat.format(myCrewGroupPeople[i]
+								+ numFormat.format(person
 										.getPotableWaterConsumed()) + " L");
 				newPersonPanel.add(newPersonGUI.potableWaterConsumedLabel);
 				newPersonGUI.foodConsumedLabel = new JLabel("food consumed: "
-						+ numFormat.format(myCrewGroupPeople[i]
+						+ numFormat.format(person
 								.getFoodConsumed()) + " kCal");
 				newPersonPanel.add(newPersonGUI.foodConsumedLabel);
 				newPersonGUI.CO2ProducedLabel = new JLabel("CO2 produced: "
-						+ numFormat.format(myCrewGroupPeople[i]
+						+ numFormat.format(person
 								.getCO2Produced()) + " moles");
 				newPersonPanel.add(newPersonGUI.CO2ProducedLabel);
 				newPersonGUI.O2ConsumedLabel = new JLabel("O2 consumed: "
 						+ numFormat
-								.format(myCrewGroupPeople[i].getO2Consumed())
+								.format(person.getO2Consumed())
 						+ " moles");
 				newPersonPanel.add(newPersonGUI.O2ConsumedLabel);
 				newPersonGUI.activityNameLabel = new JLabel(
 						"current activity: "
-								+ myCrewGroupPeople[i].getCurrentActivity()
+								+ person.getCurrentActivity()
 										.getName());
 				newPersonPanel.add(newPersonGUI.activityNameLabel);
 				newPersonGUI.activityCurrentDurationLabel = new JLabel(
 						"	performed for: "
-								+ myCrewGroupPeople[i]
+								+ person
 										.getTimeActivityPerformed() + " h");
 				newPersonPanel.add(newPersonGUI.activityCurrentDurationLabel);
 				newPersonGUI.activityTotalDurationLabel = new JLabel(
 						"	total duration: "
-								+ myCrewGroupPeople[i].getCurrentActivity()
+								+ person.getCurrentActivity()
 										.getTimeLength() + " h");
 				newPersonPanel.add(newPersonGUI.activityTotalDurationLabel);
 				newPersonGUI.activityIntensityLabel = new JLabel("	intensity: "
-						+ myCrewGroupPeople[i].getCurrentActivity()
+						+ person.getCurrentActivity()
 								.getActivityIntensity());
 				newPersonPanel.add(newPersonGUI.activityIntensityLabel);
 				newPersonGUI.productivityLabel = new JLabel("productivity: "
-						+ numFormat.format(myCrewGroupPeople[i]
+						+ numFormat.format(person
 								.getProductivity()));
 				newPersonPanel.add(newPersonGUI.productivityLabel);
+				newPersonGUI.locationLabel = new JLabel("location: "+person.getCurrentCrewGroup().getAirConsumerDefinition().getEnvironments()[0].getModuleName());
+				newPersonPanel.add(newPersonGUI.locationLabel);
 				crewPersonGUIList.add(newPersonGUI);
 				add(newPersonPanel);
 			}
@@ -205,16 +190,8 @@ public class CrewTextPanel extends TimedPanel {
 	 * updates their labels by pulling from the crew server.
 	 */
 	public void refresh() {
-		int crewSize = myCrewGroup.getCrewSize();
-		if ((crewPersonGUIList.size() != crewSize)) {
-			if (crewSize > 0) {
-				rebuildGui();
-			}
-		}
-		for (Iterator iter = crewPersonGUIList.iterator(); iter.hasNext();) {
-			CrewPersonGUI newPersonGUI = (CrewPersonGUI) (iter.next());
-			CrewPerson crewPerson = myCrewGroup
-					.getCrewPerson(newPersonGUI.name);
+		for (CrewPersonGUI newPersonGUI : crewPersonGUIList) {
+			CrewPerson crewPerson = myCrewPeople.get(newPersonGUI.name);
 			newPersonGUI.ageLabel.setText("age: " + crewPerson.getAge());
 			newPersonGUI.weightLabel.setText("weight: "
 					+ crewPerson.getWeight());
@@ -250,6 +227,7 @@ public class CrewTextPanel extends TimedPanel {
 					+ crewPerson.getCurrentActivity().getName());
 			newPersonGUI.productivityLabel.setText("productivity: "
 					+ numFormat.format(crewPerson.getProductivity()));
+			newPersonGUI.locationLabel.setText("location: "+crewPerson.getCurrentCrewGroup().getAirConsumerDefinition().getEnvironments()[0].getModuleName());
 			String sexString;
 			if (crewPerson.getSex() == Sex.male)
 				sexString = "male";
@@ -309,5 +287,7 @@ public class CrewTextPanel extends TimedPanel {
 		JLabel O2ConsumedLabel;
 
 		JLabel productivityLabel;
+		
+		JLabel locationLabel;
 	}
 }

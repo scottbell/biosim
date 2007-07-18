@@ -2,6 +2,8 @@ package com.traclabs.biosim.client.simulation.crew;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -23,14 +25,15 @@ import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
  * @author Scott Bell
  */
 public class CrewWaterChartPanel extends GraphPanel {
-    private CrewGroup myCrewGroup;
+    private Collection<CrewGroup> myCrewGroups;
 
     private DefaultCategoryDataset myDataset;
 
     protected void createGraph() {
+    	myCrewGroups = new ArrayList<CrewGroup>();
         // create the chart...
-        myCrewGroup = (BioHolderInitializer.getBioHolder().theCrewGroups
-                .get(0));
+		for (CrewGroup crewGroup : BioHolderInitializer.getBioHolder().theCrewGroups)
+			myCrewGroups.add(crewGroup);
         refresh();
         JFreeChart myChart = ChartFactory.createBarChart3D(
                 "Water Consumed/Produced", // chart title
@@ -55,14 +58,34 @@ public class CrewWaterChartPanel extends GraphPanel {
         myChartPanel.setMinimumDrawWidth(250);
         myChartPanel.setPreferredSize(new Dimension(200, 200));
     }
+    
+    private float getTotalGreyWaterProduced(){
+    	float water = 0f;
+		for (CrewGroup crewGroup : BioHolderInitializer.getBioHolder().theCrewGroups)
+			water += crewGroup.getGreyWaterProduced();
+		return water;
+    }
+    
+    private float getTotalDirtyWaterProduced(){
+    	float water = 0f;
+		for (CrewGroup crewGroup : BioHolderInitializer.getBioHolder().theCrewGroups)
+			water += crewGroup.getDirtyWaterProduced();
+		return water;
+    }
+    
+    private float getTotalPotableWaterConsumed(){
+    	float water = 0f;
+		for (CrewGroup crewGroup : BioHolderInitializer.getBioHolder().theCrewGroups)
+			water += crewGroup.getPotableWaterConsumed();
+		return water;
+    }
 
     public void refresh() {
         if (myDataset == null) {
             myDataset = new DefaultCategoryDataset();
-            float myPotableWaterConsumed = myCrewGroup
-                    .getPotableWaterConsumed();
-            float myGreyWaterProduced = myCrewGroup.getGreyWaterProduced();
-            float myDirtyWaterProduced = myCrewGroup.getDirtyWaterProduced();
+            float myPotableWaterConsumed = getTotalPotableWaterConsumed();
+            float myGreyWaterProduced = getTotalGreyWaterProduced();
+            float myDirtyWaterProduced = getTotalDirtyWaterProduced();
             String series1 = "Potable Water Consumed";
             String series2 = "Grey Water Produced";
             String series3 = "Dirty Water Produced";
@@ -72,11 +95,11 @@ public class CrewWaterChartPanel extends GraphPanel {
             myDataset.addValue(myDirtyWaterProduced, series3, category);
         } else {
             myDataset.setValue(
-                    new Float(myCrewGroup.getPotableWaterConsumed()),
+                    new Float(getTotalPotableWaterConsumed()),
                     "Potable Water Consumed", "");
-            myDataset.setValue(new Float(myCrewGroup.getGreyWaterProduced()),
+            myDataset.setValue(new Float(getTotalGreyWaterProduced()),
                     "Grey Water Produced", "");
-            myDataset.setValue(new Float(myCrewGroup.getDirtyWaterProduced()),
+            myDataset.setValue(new Float(getTotalDirtyWaterProduced()),
                     "Dirty Water Produced", "");
         }
     }
