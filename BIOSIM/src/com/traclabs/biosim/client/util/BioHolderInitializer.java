@@ -16,6 +16,8 @@ import com.traclabs.biosim.idl.actuator.air.CO2InFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.air.CO2OutFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.air.H2InFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.air.H2OutFlowRateActuatorHelper;
+import com.traclabs.biosim.idl.actuator.air.MethaneInFlowRateActuatorHelper;
+import com.traclabs.biosim.idl.actuator.air.MethaneOutFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.air.NitrogenInFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.air.NitrogenOutFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.air.O2InFlowRateActuatorHelper;
@@ -47,6 +49,8 @@ import com.traclabs.biosim.idl.sensor.air.CO2InFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.CO2OutFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.H2InFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.H2OutFlowRateSensorHelper;
+import com.traclabs.biosim.idl.sensor.air.MethaneInFlowRateSensorHelper;
+import com.traclabs.biosim.idl.sensor.air.MethaneOutFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.NitrogenInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.NitrogenOutFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.O2InFlowRateSensorHelper;
@@ -86,6 +90,7 @@ import com.traclabs.biosim.idl.simulation.air.AirRSHelper;
 import com.traclabs.biosim.idl.simulation.air.CO2StoreHelper;
 import com.traclabs.biosim.idl.simulation.air.CRSHelper;
 import com.traclabs.biosim.idl.simulation.air.H2StoreHelper;
+import com.traclabs.biosim.idl.simulation.air.MethaneStoreHelper;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStoreHelper;
 import com.traclabs.biosim.idl.simulation.air.O2StoreHelper;
 import com.traclabs.biosim.idl.simulation.air.OGSHelper;
@@ -377,6 +382,11 @@ public class BioHolderInitializer {
 				.narrow(grabModule(getModuleName(node))));
 	}
 
+	private static void fetchMethaneStore(Node node) {
+		myBioHolder.theMethaneStores.add(MethaneStoreHelper
+				.narrow(grabModule(getModuleName(node))));
+	}
+
 	private static void crawlAirModules(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -400,6 +410,8 @@ public class BioHolderInitializer {
 					fetchH2Store(child);
 				else if (childName.equals("NitrogenStore"))
 					fetchNitrogenStore(child);
+				else if (childName.equals("MethaneStore"))
+					fetchMethaneStore(child);
 			}
 			child = child.getNextSibling();
 		}
@@ -696,6 +708,18 @@ public class BioHolderInitializer {
 						.narrow(grabModule(getModuleName(node))));
 	}
 
+	private static void fetchMethaneInFlowRateSensor(Node node) {
+		myBioHolder.theMethaneInFlowRateSensors
+				.add(MethaneInFlowRateSensorHelper
+						.narrow(grabModule(getModuleName(node))));
+	}
+
+	private static void fetchMethaneOutFlowRateSensor(Node node) {
+		myBioHolder.theMethaneOutFlowRateSensors
+				.add(MethaneOutFlowRateSensorHelper
+						.narrow(grabModule(getModuleName(node))));
+	}
+
 	private static void crawlAirSensors(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -717,6 +741,10 @@ public class BioHolderInitializer {
 					fetchNitrogenInFlowRateSensor(child);
 				else if (childName.equals("NitrogenOutFlowRateSensor"))
 					fetchNitrogenOutFlowRateSensor(child);
+				else if (childName.equals("MethaneInFlowRateSensor"))
+					fetchMethaneInFlowRateSensor(child);
+				else if (childName.equals("MethaneOutFlowRateSensor"))
+					fetchMethaneOutFlowRateSensor(child);
 			}
 			child = child.getNextSibling();
 		}
@@ -1102,6 +1130,18 @@ public class BioHolderInitializer {
 						.narrow(grabModule(getModuleName(node))));
 	}
 
+	private static void fetchMethaneInFlowRateActuator(Node node) {
+		myBioHolder.theMethaneInFlowRateActuators
+				.add(MethaneInFlowRateActuatorHelper
+						.narrow(grabModule(getModuleName(node))));
+	}
+
+	private static void fetchMethaneOutFlowRateActuator(Node node) {
+		myBioHolder.theMethaneOutFlowRateActuators
+				.add(MethaneOutFlowRateActuatorHelper
+						.narrow(grabModule(getModuleName(node))));
+	}
+
 	private static void crawlAirActuators(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1123,6 +1163,10 @@ public class BioHolderInitializer {
 					fetchNitrogenInFlowRateActuator(child);
 				else if (childName.equals("NitrogenOutFlowRateActuator"))
 					fetchNitrogenOutFlowRateActuator(child);
+				else if (childName.equals("MethaneInFlowRateActuator"))
+					fetchMethaneInFlowRateActuator(child);
+				else if (childName.equals("MethaneOutFlowRateActuator"))
+					fetchMethaneOutFlowRateActuator(child);
 			}
 			child = child.getNextSibling();
 		}

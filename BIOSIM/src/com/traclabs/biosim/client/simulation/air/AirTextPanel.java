@@ -14,6 +14,7 @@ import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.simulation.air.CO2Store;
 import com.traclabs.biosim.idl.simulation.air.H2Store;
+import com.traclabs.biosim.idl.simulation.air.MethaneStore;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStore;
 import com.traclabs.biosim.idl.simulation.air.O2Store;
 
@@ -45,6 +46,10 @@ public class AirTextPanel extends TimedPanel {
 
     private JLabel nitrogenStoreLevelLabel;
 
+    private JPanel methaneStorePanel;
+
+    private JLabel methaneStoreLevelLabel;
+
     //Servers required for data polling
     private O2Store myO2Store;
 
@@ -53,6 +58,8 @@ public class AirTextPanel extends TimedPanel {
     private H2Store myH2Store;
 
     private NitrogenStore myNitrogenStore;
+
+    private MethaneStore myMethaneStore;
 
     //For formatting floats
     private DecimalFormat numFormat;
@@ -66,6 +73,7 @@ public class AirTextPanel extends TimedPanel {
         myCO2Store = (myBioHolder.theCO2Stores.get(0));
         myH2Store = (myBioHolder.theH2Stores.get(0));
         myNitrogenStore = (myBioHolder.theNitrogenStores.get(0));
+        myMethaneStore = (myBioHolder.theMethaneStores.get(0));
         buildGui();
     }
 
@@ -113,6 +121,15 @@ public class AirTextPanel extends TimedPanel {
                 + " moles");
         nitrogenStorePanel.add(nitrogenStoreLevelLabel);
 
+        methaneStorePanel = new JPanel();
+        methaneStorePanel.setLayout(new GridLayout(1, 1));
+        methaneStorePanel.setBorder(BorderFactory
+                .createTitledBorder("Methane Store"));
+        methaneStoreLevelLabel = new JLabel("Methane level:  "
+                + numFormat.format(myMethaneStore.getCurrentLevel())
+                + " moles");
+        methaneStorePanel.add(methaneStoreLevelLabel);
+
         c.fill = GridBagConstraints.BOTH;
         c.gridheight = 1;
         c.weightx = 1.0;
@@ -148,6 +165,13 @@ public class AirTextPanel extends TimedPanel {
         c.gridwidth = GridBagConstraints.REMAINDER;
         gridbag.setConstraints(nitrogenStorePanel, c);
         add(nitrogenStorePanel);
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 2.0;
+        c.weighty = 1.0;
+        c.gridheight = 1;
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        gridbag.setConstraints(methaneStorePanel, c);
+        add(methaneStorePanel);
     }
 
     /**
@@ -163,5 +187,7 @@ public class AirTextPanel extends TimedPanel {
                 + " moles");
         O2StoreLevelLabel.setText("O2 level:       "
                 + numFormat.format(myO2Store.getCurrentLevel()) + " moles");
+        methaneStoreLevelLabel.setText("Methane level:       "
+                + numFormat.format(myMethaneStore.getCurrentLevel()) + " moles");
     }
 }
