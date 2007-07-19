@@ -97,6 +97,7 @@ import com.traclabs.biosim.idl.simulation.air.OGSHelper;
 import com.traclabs.biosim.idl.simulation.air.VCCRHelper;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupHelper;
 import com.traclabs.biosim.idl.simulation.environment.DehumidifierHelper;
+import com.traclabs.biosim.idl.simulation.environment.FanHelper;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentHelper;
 import com.traclabs.biosim.idl.simulation.food.BiomassPSHelper;
 import com.traclabs.biosim.idl.simulation.food.BiomassStoreHelper;
@@ -445,6 +446,11 @@ public class BioHolderInitializer {
 				.narrow(grabModule(getModuleName(node))));
 	}
 
+	private static void fetchFan(Node node) {
+		myBioHolder.theFans.add(FanHelper
+				.narrow(grabModule(getModuleName(node))));
+	}
+	
 	private static void crawlEnvironmentModules(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -455,6 +461,8 @@ public class BioHolderInitializer {
 					fetchSimEnvironment(child);
 				else if (childName.equals("Dehumidifier"))
 					fetchDehumidifier(child);
+				else if (childName.equals("Fan"))
+					fetchFan(child);
 			}
 			child = child.getNextSibling();
 		}

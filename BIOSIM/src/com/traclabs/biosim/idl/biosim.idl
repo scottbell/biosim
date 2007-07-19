@@ -104,6 +104,7 @@ module com{
                                                 interface SimEnvironment;
                                                 typedef sequence <SimEnvironment> SimEnvironmentList;
                                                 interface Dehumidifier;
+                                                interface Fan;
                                                 interface AirConsumerDefinition;
                                                 interface AirProducerDefinition;
                                                 interface LightConsumerDefinition;
@@ -423,6 +424,9 @@ module com{
                                                 interface StoreEnvironmentProducer : framework::Producer{};
                                                 
                                                 interface Dehumidifier : framework::SimBioModule, environment::AirConsumer, water::DirtyWaterProducer{
+                                                };
+                                                
+                                                interface Fan : framework::SimBioModule, environment::AirConsumer, environment::AirProducer, power::PowerConsumer{
                                                 };
                                                 
                                                 struct Air{

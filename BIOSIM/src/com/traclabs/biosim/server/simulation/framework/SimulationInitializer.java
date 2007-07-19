@@ -54,6 +54,9 @@ import com.traclabs.biosim.idl.simulation.environment.AirProducer;
 import com.traclabs.biosim.idl.simulation.environment.Dehumidifier;
 import com.traclabs.biosim.idl.simulation.environment.DehumidifierHelper;
 import com.traclabs.biosim.idl.simulation.environment.DehumidifierPOATie;
+import com.traclabs.biosim.idl.simulation.environment.Fan;
+import com.traclabs.biosim.idl.simulation.environment.FanHelper;
+import com.traclabs.biosim.idl.simulation.environment.FanPOATie;
 import com.traclabs.biosim.idl.simulation.environment.LightConsumer;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentHelper;
@@ -151,6 +154,7 @@ import com.traclabs.biosim.server.simulation.crew.CrewGroupImpl;
 import com.traclabs.biosim.server.simulation.crew.EVAActivityImpl;
 import com.traclabs.biosim.server.simulation.crew.Schedule;
 import com.traclabs.biosim.server.simulation.environment.DehumidifierImpl;
+import com.traclabs.biosim.server.simulation.environment.FanImpl;
 import com.traclabs.biosim.server.simulation.environment.SimEnvironmentImpl;
 import com.traclabs.biosim.server.simulation.food.BiomassPSImpl;
 import com.traclabs.biosim.server.simulation.food.BiomassStoreImpl;
@@ -1266,6 +1270,29 @@ public class SimulationInitializer {
 		myPrioritySimModules.add(myDehumidifier);
 	}
 
+	private void createFan(Node node) {
+		String moduleName = BiosimInitializer.getModuleName(node);
+		if (BiosimInitializer.isCreatedLocally(node)) {
+			myLogger.debug("Creating Fan with moduleName: "
+					+ moduleName);
+			FanImpl myFanImpl = new FanImpl(myID,
+					moduleName);
+			BiosimInitializer.setupBioModule(myFanImpl, node);
+			BiosimServer.registerServer(new FanPOATie(
+					myFanImpl), myFanImpl.getModuleName(),
+					myFanImpl.getID());
+		} else
+			BiosimInitializer.printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureFan(Node node) {
+		Fan myFan = FanHelper
+				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+						.getModuleName(node)));
+		configureSimBioModule(myFan, node);
+		myPrioritySimModules.add(myFan);
+	}
+
 	private void crawlEnvironmentModules(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1286,6 +1313,12 @@ public class SimulationInitializer {
 						createDehumidifier(child);
 					else
 						configureDehumidifier(child);
+				}
+				if (childName.equals("Fan")) {
+					if (firstPass)
+						createFan(child);
+					else
+						configureFan(child);
 				}
 			}
 			child = child.getNextSibling();

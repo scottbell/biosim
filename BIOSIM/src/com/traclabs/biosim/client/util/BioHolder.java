@@ -98,6 +98,7 @@ import com.traclabs.biosim.idl.simulation.air.OGS;
 import com.traclabs.biosim.idl.simulation.air.VCCR;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.environment.Dehumidifier;
+import com.traclabs.biosim.idl.simulation.environment.Fan;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.food.BiomassPS;
 import com.traclabs.biosim.idl.simulation.food.BiomassPSHelper;
@@ -168,6 +169,8 @@ public class BioHolder {
     public List<SimEnvironment> theSimEnvironments = new Vector<SimEnvironment>();
 
     public List<Dehumidifier> theDehumidifiers = new Vector<Dehumidifier>();
+
+    public List<Fan> theFans = new Vector<Fan>();
 
     //Food
     public List<FoodProcessor> theFoodProcessors = new Vector<FoodProcessor>();
@@ -472,6 +475,7 @@ public class BioHolder {
         //Environment
         theSimModules.addAll(theSimEnvironments);
         theSimModules.addAll(theDehumidifiers);
+        theSimModules.addAll(theFans);
         //Food
         theSimModules.addAll(theFoodProcessors);
         theSimModules.addAll(theBiomassPSModules);
@@ -626,6 +630,7 @@ public class BioHolder {
         //Environment
         theSimEnvironments.clear();
         theDehumidifiers.clear();
+        theFans.clear();
         //Food
         theFoodProcessors.clear();
         theBiomassPSModules.clear();

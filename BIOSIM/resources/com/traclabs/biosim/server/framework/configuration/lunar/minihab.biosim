@@ -163,6 +163,9 @@
 			<PowerStore capacity="1000000"
 				moduleName="General_Power_Store" level="1000000">
 			</PowerStore>
+			<PowerStore capacity="0.0" moduleName="" level="0.0"></PowerStore>
+			<PowerStore capacity="10000" moduleName="Main_VCCR_Battery" level="10000"></PowerStore>
+			<PowerStore capacity="0.0" moduleName="" level="0.0"></PowerStore>
 		</power>
 		<food>
 			<FoodStore capacity="1000000000000" level="1000000000000"
