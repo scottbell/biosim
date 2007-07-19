@@ -19,7 +19,8 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinitionImpl;
  */
 
 public class FanImpl extends SimBioModuleImpl implements FanOperations, AirConsumerOperations, PowerConsumerOperations, AirProducerOperations {
-
+	private static final float POWER_NEEDED = 1000; //watts
+	
     //Consumers, Producers
     private AirConsumerDefinitionImpl myAirConsumerDefinitionImpl;
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
@@ -58,6 +59,10 @@ public class FanImpl extends SimBioModuleImpl implements FanOperations, AirConsu
     }
 
     private void getAndPushAir() {
+    	float powerReceived = myPowerConsumerDefinitionImpl.getResourceFromStores(POWER_NEEDED);
+    	if (powerReceived >= POWER_NEEDED){
+    		
+    	}
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
