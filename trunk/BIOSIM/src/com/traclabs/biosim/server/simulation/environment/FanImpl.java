@@ -2,6 +2,7 @@ package com.traclabs.biosim.server.simulation.environment;
 
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
+import com.traclabs.biosim.idl.simulation.environment.Air;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerOperations;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition;
@@ -19,8 +20,6 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinitionImpl;
  */
 
 public class FanImpl extends SimBioModuleImpl implements FanOperations, AirConsumerOperations, PowerConsumerOperations, AirProducerOperations {
-	private static final float POWER_NEEDED = 1000; //watts
-	
     //Consumers, Producers
     private AirConsumerDefinitionImpl myAirConsumerDefinitionImpl;
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
@@ -59,13 +58,17 @@ public class FanImpl extends SimBioModuleImpl implements FanOperations, AirConsu
     }
 
     private void getAndPushAir() {
-    	float powerReceived = myPowerConsumerDefinitionImpl.getResourceFromStores(POWER_NEEDED);
-    	if (powerReceived >= POWER_NEEDED){
-    		
-    	}
+    	float powerReceived = myPowerConsumerDefinitionImpl.getMostResourceFromStores();
+    	float molesOfAirToConsume = calculateAirToConsume(powerReceived);
+    	Air airConsumed = myAirConsumerDefinitionImpl.getAirFromEnvironment(molesOfAirToConsume, 0);
+    	myAirProducerDefinitionImpl.pushAirToEnvironment(airConsumed, 0);
     }
 
-    protected String getMalfunctionName(MalfunctionIntensity pIntensity,
+    private float calculateAirToConsume(float powerReceived) {
+		return powerReceived / 100;
+	}
+
+	protected String getMalfunctionName(MalfunctionIntensity pIntensity,
             MalfunctionLength pLength) {
         StringBuffer returnBuffer = new StringBuffer();
         if (pIntensity == MalfunctionIntensity.SEVERE_MALF)

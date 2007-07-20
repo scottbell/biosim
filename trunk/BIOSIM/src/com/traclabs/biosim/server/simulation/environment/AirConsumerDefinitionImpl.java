@@ -34,6 +34,25 @@ public class AirConsumerDefinitionImpl extends
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
     }
+    
+
+	
+	public Air getAirFromEnvironment(float molesOfAir, int indexOfEnvironment){
+		if (getEnvironments().length < indexOfEnvironment)
+			return new Air();
+		float actualFlowrateToEnvironment = 0f;
+		SimEnvironment environment = getEnvironments()[indexOfEnvironment];
+		float o2Percentage = environment.getO2Store().getCurrentLevel();
+		/*
+		actualFlowrateToEnvironment += environment.getO2Store().take(randomFilter(airToPush.o2Moles));
+		actualFlowrateToEnvironment += environment.getCO2Store().take(randomFilter(airToPush.co2Moles));
+		actualFlowrateToEnvironment += environment.getOtherStore().take(randomFilter(airToPush.otherMoles));
+		actualFlowrateToEnvironment += environment.getVaporStore().take(randomFilter(airToPush.vaporMoles));
+		actualFlowrateToEnvironment += environment.getNitrogenStore().take(randomFilter(airToPush.nitrogenMoles));
+		*/
+		setActualFlowRate(actualFlowrateToEnvironment, indexOfEnvironment);
+		return new Air();
+	}
 
 	public Air getMostAirFromEnvironments() {
 		Air airToReturn = new Air();
