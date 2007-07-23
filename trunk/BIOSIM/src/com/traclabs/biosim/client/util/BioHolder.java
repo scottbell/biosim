@@ -95,6 +95,7 @@ import com.traclabs.biosim.idl.simulation.air.MethaneStore;
 import com.traclabs.biosim.idl.simulation.air.NitrogenStore;
 import com.traclabs.biosim.idl.simulation.air.O2Store;
 import com.traclabs.biosim.idl.simulation.air.OGS;
+import com.traclabs.biosim.idl.simulation.air.Pyrolizer;
 import com.traclabs.biosim.idl.simulation.air.VCCR;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.environment.Dehumidifier;
@@ -151,6 +152,8 @@ public class BioHolder {
     public List<VCCR> theVCCRModules = new Vector<VCCR>();
 
     public List<CRS> theCRSModules = new Vector<CRS>();
+
+    public List<Pyrolizer> thePyrolizerModules = new Vector<Pyrolizer>();
 
     public List<O2Store> theO2Stores = new Vector<O2Store>();
 
@@ -465,6 +468,7 @@ public class BioHolder {
         theSimModules.addAll(theOGSModules);
         theSimModules.addAll(theVCCRModules);
         theSimModules.addAll(theCRSModules);
+        theSimModules.addAll(thePyrolizerModules);
         theSimModules.addAll(theO2Stores);
         theSimModules.addAll(theCO2Stores);
         theSimModules.addAll(theNitrogenStores);
@@ -620,6 +624,7 @@ public class BioHolder {
         theOGSModules.clear();
         theVCCRModules.clear();
         theCRSModules.clear();
+        thePyrolizerModules.clear();
         theO2Stores.clear();
         theCO2Stores.clear();
         theNitrogenStores.clear();

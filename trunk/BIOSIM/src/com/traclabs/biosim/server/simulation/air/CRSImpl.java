@@ -19,14 +19,6 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.water.PotableWaterProducerDefinitionImpl;
 
-/**
- * The Air Revitalization System Implementation. Takes in Air (O2, CO2, other)
- * from the environment and power from the Power Production System and produces
- * air with less CO2 and more O2.
- * 
- * @author Scott Bell
- */
-
 public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
         PowerConsumerOperations, PotableWaterProducerOperations,
         O2ProducerOperations, CO2ConsumerOperations, H2ConsumerOperations, MethaneProducerOperations {
