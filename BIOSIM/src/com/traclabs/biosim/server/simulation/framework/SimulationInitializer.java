@@ -39,6 +39,9 @@ import com.traclabs.biosim.idl.simulation.air.O2StorePOATie;
 import com.traclabs.biosim.idl.simulation.air.OGS;
 import com.traclabs.biosim.idl.simulation.air.OGSHelper;
 import com.traclabs.biosim.idl.simulation.air.OGSPOATie;
+import com.traclabs.biosim.idl.simulation.air.Pyrolizer;
+import com.traclabs.biosim.idl.simulation.air.PyrolizerHelper;
+import com.traclabs.biosim.idl.simulation.air.PyrolizerPOATie;
 import com.traclabs.biosim.idl.simulation.air.VCCR;
 import com.traclabs.biosim.idl.simulation.air.VCCRHelper;
 import com.traclabs.biosim.idl.simulation.air.VCCRPOATie;
@@ -147,6 +150,7 @@ import com.traclabs.biosim.server.simulation.air.MethaneStoreImpl;
 import com.traclabs.biosim.server.simulation.air.NitrogenStoreImpl;
 import com.traclabs.biosim.server.simulation.air.O2StoreImpl;
 import com.traclabs.biosim.server.simulation.air.OGSImpl;
+import com.traclabs.biosim.server.simulation.air.PyrolizerImpl;
 import com.traclabs.biosim.server.simulation.air.VCCRImpl;
 import com.traclabs.biosim.server.simulation.air.VCCRLinearImpl;
 import com.traclabs.biosim.server.simulation.crew.ActivityImpl;
@@ -826,6 +830,36 @@ public class SimulationInitializer {
 		myActiveSimModules.add(myOGS);
 
 	}
+	
+
+
+	/**
+	 * @param child
+	 */
+	private void createPyrolizer(Node node) {
+		String moduleName = BiosimInitializer.getModuleName(node);
+		if (BiosimInitializer.isCreatedLocally(node)) {
+			myLogger.debug("Creating Pyrolizer with moduleName: " + moduleName);
+			PyrolizerImpl myPyrolizerImpl = new PyrolizerImpl(myID, moduleName);
+			BiosimInitializer.setupBioModule(myPyrolizerImpl, node);
+			BiosimServer.registerServer(new PyrolizerPOATie(myPyrolizerImpl), myPyrolizerImpl
+					.getModuleName(), myPyrolizerImpl.getID());
+		} else
+			BiosimInitializer.printRemoteWarningMessage(moduleName);
+
+	}
+
+	/**
+	 * @param child
+	 */
+	private void configurePyrolizer(Node node) {
+		Pyrolizer myPyrolizer = PyrolizerHelper.narrow(BiosimInitializer.grabModule(myID,
+				BiosimInitializer.getModuleName(node)));
+		configureSimBioModule(myPyrolizer, node);
+		myLogger.debug("Configuring Pyrolizer");
+		myActiveSimModules.add(myPyrolizer);
+
+	}
 
 	private void createO2Store(Node node) {
 		String moduleName = BiosimInitializer.getModuleName(node);
@@ -901,6 +935,11 @@ public class SimulationInitializer {
 						createCRS(child);
 					else
 						configureCRS(child);
+				} else if (childName.equals("Pyrolizer")) {
+					if (firstPass)
+						createPyrolizer(child);
+					else
+						configurePyrolizer(child);
 				} else if (childName.equals("VCCR")) {
 					if (firstPass)
 						createVCCR(child);

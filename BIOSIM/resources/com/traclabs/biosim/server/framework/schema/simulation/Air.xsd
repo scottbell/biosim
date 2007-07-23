@@ -20,6 +20,7 @@
 			<xsd:enumeration value="LINEAR"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+	
 	<xsd:complexType name="OGSType">  
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
@@ -28,6 +29,20 @@
 					<xsd:element name="potableWaterConsumer" type="PotableWaterConsumerType" minOccurs="1" maxOccurs="1"/>
 					<xsd:element name="O2Producer" type="O2ProducerType" minOccurs="1" maxOccurs="1"/>
 					<xsd:element name="H2Producer" type="H2ProducerType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	
+	<xsd:complexType name="PyrolizerType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element name="powerConsumer" type="PowerConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="methaneConsumer" type="MethaneConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="H2Producer" type="H2ProducerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="dryWasteProducer" type="DryWasteProducerType" minOccurs="1" maxOccurs="1"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -103,6 +118,7 @@
 				<xsd:element name="OGS" type="OGSType"/>
 				<xsd:element name="CRS" type="CRSType"/>
 				<xsd:element name="VCCR" type="VCCRType"/>
+				<xsd:element name="Pyrolizer" type="PyrolizerType"/>
 				<xsd:element name="O2Store" type="O2StoreType"/>
 				<xsd:element name="CO2Store" type="CO2StoreType"/>
 				<xsd:element name="H2Store" type="H2StoreType"/>

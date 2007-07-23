@@ -1,4 +1,4 @@
-//Prototyping
+ //Prototyping
 module com{
         module traclabs{
                 module biosim{
@@ -34,6 +34,7 @@ module com{
                                         module air{
                                                 enum AirRSOperationMode {FULL, OFF, LESS, MOST};
                                                 interface AirRS;
+                                                interface Pyrolizer;
                                                 interface O2Store;
                                                 interface CO2Store;
                                                 interface H2Store;
@@ -631,6 +632,8 @@ module com{
                                                 interface AirRS : framework::SimBioModule, power::PowerConsumer, air::H2Consumer, air::H2Producer, environment::AirConsumer, environment::AirProducer, air::CO2Producer, air::O2Producer, air::CO2Consumer, air::MethaneProducer, water::PotableWaterConsumer, water::PotableWaterProducer{
                                                         //void setOperationMode(in AirRSOperationMode pMode);
                                                         //AirRSOperationMode getOpertationMode();
+                                                };
+                                                interface Pyrolizer : framework::SimBioModule, power::PowerConsumer, air::MethaneConsumer, air::H2Producer, waste::DryWasteProducer{
                                                 };
                                                 interface OGS : framework::SimBioModule, power::PowerConsumer, air::H2Producer, air::O2Producer, water::PotableWaterConsumer{
                                                 };
