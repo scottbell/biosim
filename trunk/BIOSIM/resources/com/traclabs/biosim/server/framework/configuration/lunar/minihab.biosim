@@ -55,7 +55,7 @@
 				moduleName="Maintenance_Facility_Nitrogen_Store" level="10000">
 			</NitrogenStore>
 			<VCCR moduleName="Main_VCCR">
-				<powerConsumer inputs="General_Power_Store" desiredFlowRates="1000"
+				<powerConsumer inputs="Main_VCCR_Battery" desiredFlowRates="1000"
 					maxFlowRates="1000" />
 				<airConsumer inputs="Maintenance_Facility" desiredFlowRates="100"
 					maxFlowRates="100" ></airConsumer>
@@ -96,10 +96,20 @@
 					maxFlowRates="100" />
 				<potableWaterProducer desiredFlowRates="100" outputs="Potable_Water_Store"
 					maxFlowRates="100" />
-				<methaneWaterProducer desiredFlowRates="100" outputs="Methane Store"
-					maxFlowRates="100" />
+				<methaneProducer desiredFlowRates="100" outputs="Methane_Store"
+					maxFlowRates="100" ></methaneProducer>
 			</CRS>
-			<MethaneStore capacity="1000" moduleName="Methane Store" level="0"></MethaneStore>
+			<MethaneStore capacity="1000" moduleName="Methane_Store" level="0"></MethaneStore>
+			<Pyrolizer moduleName="Pyrolizer">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100"
+					maxFlowRates="100" />
+				<methaneConsumer inputs="Methane_Store" desiredFlowRates="100"
+					maxFlowRates="100" />
+				<H2Producer desiredFlowRates="100" outputs="H2_Store"
+					maxFlowRates="100" />
+				<dryWasteProducer desiredFlowRates="100" outputs="Dry_Waste_Store"
+					maxFlowRates="100" />
+			</Pyrolizer>
 		</air>
 		<framework>
 			<Injector moduleName="Crew_Quarters_Nitrogen_Injector">
@@ -163,9 +173,8 @@
 			<PowerStore capacity="1000000"
 				moduleName="General_Power_Store" level="1000000">
 			</PowerStore>
-			<PowerStore capacity="0.0" moduleName="" level="0.0"></PowerStore>
+			<PowerStore capacity="10000" moduleName="Fan_Battery" level="10000"></PowerStore>
 			<PowerStore capacity="10000" moduleName="Main_VCCR_Battery" level="10000"></PowerStore>
-			<PowerStore capacity="0.0" moduleName="" level="0.0"></PowerStore>
 		</power>
 		<food>
 			<FoodStore capacity="1000000000000" level="1000000000000"
