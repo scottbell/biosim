@@ -7,8 +7,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import org.apache.log4j.Logger;
-
 /**
  * State Machine Power Production System
  * 
@@ -20,8 +18,6 @@ public class StateMachinePowerPS extends PowerPSImpl {
 	private static final int m_port = 31215;
 
 	private static final String m_serverName = "localhost";
-	
-	private Logger myLogger = Logger.getLogger(StateMachinePowerPS.class);
 	
     public StateMachinePowerPS(int pID, String pName) {
         super(pID, pName);

@@ -4,13 +4,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.traclabs.biosim.client.framework.TimedPanel;
-import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.simulation.power.PowerPS;
 import com.traclabs.biosim.idl.simulation.power.PowerStore;
@@ -27,16 +28,11 @@ public class PowerTextPanel extends TimedPanel {
 	// Various GUI componenets
 	private JPanel powerPSPanel;
 
-	private JLabel powerPSPowerProducedLabel;
+	private List<JLabel> powerSystemLabels = new Vector<JLabel>();
 
 	private JPanel powerStorePanel;
 
-	private JLabel powerStoreLevelLabel;
-
-	// Servers required for data polling
-	private PowerPS myPowerPS;
-
-	private PowerStore myPowerStore;
+	private List<JLabel> powerStoreLabels = new Vector<JLabel>();
 
 	// For formatting floats
 	private DecimalFormat numFormat;
@@ -45,10 +41,6 @@ public class PowerTextPanel extends TimedPanel {
 	 * Creates and registers this panel.
 	 */
 	public PowerTextPanel() {
-		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-		if (myBioHolder.thePowerPSModules.size() > 0)
-			myPowerPS = (myBioHolder.thePowerPSModules.get(0));
-		myPowerStore = (myBioHolder.thePowerStores.get(0));
 		buildGui();
 	}
 
@@ -62,22 +54,30 @@ public class PowerTextPanel extends TimedPanel {
 		setLayout(gridbag);
 
 		powerPSPanel = new JPanel();
-		if (myPowerPS != null) {
-			powerPSPanel.setLayout(new GridLayout(1, 1));
-			powerPSPanel.setBorder(BorderFactory
-					.createTitledBorder("Power Production System"));
-			powerPSPowerProducedLabel = new JLabel("power produced:         "
-					+ numFormat.format(myPowerPS.getPowerProduced()) + " W");
-			powerPSPanel.add(powerPSPowerProducedLabel);
+		powerPSPanel.setBorder(BorderFactory
+				.createTitledBorder("Power Production Systems"));
+		List<PowerPS> powerSystems = BioHolderInitializer.getBioHolder().thePowerPSModules;
+		powerPSPanel.setLayout(new GridLayout(powerSystems.size(), 1));
+		for (PowerPS powerPS : powerSystems) {
+			JLabel powerSystemLabel = new JLabel();
+			powerSystemLabel.setText(powerPS.getModuleName() + " produced: "
+					+ numFormat.format(powerPS.getPowerProduced()) + " W");
+			powerPSPanel.add(powerSystemLabel);
+			powerSystemLabels.add(powerSystemLabel);
 		}
 
 		powerStorePanel = new JPanel();
-		powerStorePanel.setLayout(new GridLayout(1, 1));
 		powerStorePanel.setBorder(BorderFactory
-				.createTitledBorder("Power Store"));
-		powerStoreLevelLabel = new JLabel("power level:    "
-				+ numFormat.format(myPowerStore.getCurrentLevel()) + " W");
-		powerStorePanel.add(powerStoreLevelLabel);
+				.createTitledBorder("Power Stores"));
+		List<PowerStore> powerStores = BioHolderInitializer.getBioHolder().thePowerStores;
+		powerStorePanel.setLayout(new GridLayout(powerStores.size(), 1));
+		for (PowerStore powerStore : powerStores) {
+			JLabel powerStoreLabel = new JLabel();
+			powerStoreLabel.setText(powerStore.getModuleName() + " level: "
+					+ numFormat.format(powerStore.getCurrentLevel()) + " W");
+			powerStorePanel.add(powerStoreLabel);
+			powerStoreLabels.add(powerStoreLabel);
+		}
 
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
@@ -100,11 +100,17 @@ public class PowerTextPanel extends TimedPanel {
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
 	public void refresh() {
-		if (myPowerPS != null) {
-			powerPSPowerProducedLabel.setText("power produced:         "
-					+ numFormat.format(myPowerPS.getPowerProduced()) + " W");
+		for (int i = 0; i < powerSystemLabels.size(); i++){
+			JLabel powerSystemLabel = powerSystemLabels.get(i);
+			PowerPS powerSystem = BioHolderInitializer.getBioHolder().thePowerPSModules.get(i);
+			powerSystemLabel.setText(powerSystem.getModuleName() + " produced: "
+					+ numFormat.format(powerSystem.getPowerProduced()) + " W");
 		}
-		powerStoreLevelLabel.setText("power level:    "
-				+ numFormat.format(myPowerStore.getCurrentLevel()) + " W");
+		for (int i = 0; i < powerStoreLabels.size(); i++){
+			JLabel powerStoreLabel = powerStoreLabels.get(i);
+			PowerStore powerStore = BioHolderInitializer.getBioHolder().thePowerStores.get(i);
+			powerStoreLabel.setText(powerStore.getModuleName() + " level: "
+					+ numFormat.format(powerStore.getCurrentLevel()) + " W");
+		}
 	}
 }

@@ -43,7 +43,7 @@
 			<Fan moduleName="Maintenance_to_Crew_Fan">
 				<airConsumer inputs="Maintenance_Facility" desiredFlowRates="1000"
 					maxFlowRates="1000" />
-				<powerConsumer inputs="Fan_Battery" desiredFlowRates="1000"
+				<powerConsumer inputs="fan_load" desiredFlowRates="1000"
 					maxFlowRates="1000" ></powerConsumer>
 				<airProducer desiredFlowRates="1000" outputs="Crew_Quarters"
 					maxFlowRates="1000" />
@@ -91,7 +91,7 @@
 				moduleName="Maintenance_Facility_Nitrogen_Store" level="10000">
 			</NitrogenStore>
 			<VCCR moduleName="Main_VCCR">
-				<powerConsumer inputs="Main_VCCR_Battery" desiredFlowRates="1000"
+				<powerConsumer inputs="co2_removal_load" desiredFlowRates="1000"
 					maxFlowRates="1000" />
 				<airConsumer inputs="Maintenance_Facility" desiredFlowRates="100"
 					maxFlowRates="100" ></airConsumer>
@@ -206,20 +206,20 @@
 			</PotableWaterStore>
 		</water>
 		<power>
-			<PowerStore capacity="1000000"
-				moduleName="General_Power_Store" level="1000000">
+			<PowerStore capacity="100000"
+				moduleName="General_Power_Store" level="100000">
 			</PowerStore>
-			<PowerStore capacity="10000" moduleName="Fan_Battery" level="10000"></PowerStore>
-			<PowerStore capacity="10000" moduleName="Main_VCCR_Battery" level="10000"></PowerStore>
-			<PowerPS moduleName="Fan_Battery_Source"
+			<PowerStore capacity="100000" moduleName="fan_load" level="1000000"></PowerStore>
+			<PowerStore capacity="100000" moduleName="co2_removal_load" level="100000"></PowerStore>
+			<PowerPS moduleName="fan_load_Source"
 				generationType="STATE_MACHINE" logLevel="DEBUG">
-				<powerProducer desiredFlowRates="1000"
-					outputs="Fan_Battery" maxFlowRates="1000" />
+				<powerProducer desiredFlowRates="100000"
+					outputs="fan_load" maxFlowRates="1000000" />
 			</PowerPS>
 			<PowerPS moduleName="VCCR_Power_Source"
 				generationType="STATE_MACHINE" logLevel="DEBUG">
 				<powerProducer desiredFlowRates="1000"
-					outputs="Main_VCCR_Battery" maxFlowRates="1000" />
+					outputs="co2_removal_load" maxFlowRates="1000" />
 			</PowerPS>
 			<PowerPS moduleName="General_Power_Producer"
 				generationType="NUCLEAR" upperPowerGeneration="500000">
