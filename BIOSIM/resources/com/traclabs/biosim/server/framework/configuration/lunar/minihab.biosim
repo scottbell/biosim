@@ -212,12 +212,12 @@
 			<PowerStore capacity="100000" moduleName="fan_load" level="1000000"></PowerStore>
 			<PowerStore capacity="100000" moduleName="co2_removal_load" level="100000"></PowerStore>
 			<PowerPS moduleName="fan_load_Source"
-				generationType="STATE_MACHINE" logLevel="DEBUG">
+				generationType="STATE_MACHINE" logLevel="INFO">
 				<powerProducer desiredFlowRates="100000"
 					outputs="fan_load" maxFlowRates="1000000" />
 			</PowerPS>
 			<PowerPS moduleName="VCCR_Power_Source"
-				generationType="STATE_MACHINE" logLevel="DEBUG">
+				generationType="STATE_MACHINE" logLevel="INFO">
 				<powerProducer desiredFlowRates="1000"
 					outputs="co2_removal_load" maxFlowRates="1000" />
 			</PowerPS>
