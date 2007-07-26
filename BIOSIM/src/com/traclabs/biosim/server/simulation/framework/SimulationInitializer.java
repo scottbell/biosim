@@ -170,6 +170,7 @@ import com.traclabs.biosim.server.simulation.power.PowerPSImpl;
 import com.traclabs.biosim.server.simulation.power.PowerStoreImpl;
 import com.traclabs.biosim.server.simulation.power.RPCMImpl;
 import com.traclabs.biosim.server.simulation.power.SolarPowerPS;
+import com.traclabs.biosim.server.simulation.power.StateMachinePowerPS;
 import com.traclabs.biosim.server.simulation.waste.DryWasteStoreImpl;
 import com.traclabs.biosim.server.simulation.waste.IncineratorImpl;
 import com.traclabs.biosim.server.simulation.water.DirtyWaterStoreImpl;
@@ -1681,9 +1682,11 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating PowerPS with moduleName: " + moduleName);
 			PowerPSImpl myPowerPSImpl = null;
-			if (node.getAttributes().getNamedItem("generationType")
-					.getNodeValue().equals("SOLAR"))
+			String generationType = node.getAttributes().getNamedItem("generationType").getNodeValue();
+			if (generationType.equals("SOLAR"))
 				myPowerPSImpl = new SolarPowerPS(myID, moduleName);
+			else if (generationType.equals("STATE_MACHINE"))
+				myPowerPSImpl = new StateMachinePowerPS(myID, moduleName);
 			else
 				myPowerPSImpl = new NuclearPowerPS(myID, moduleName);
 			float upperPowerGeneration = Float.parseFloat(node.getAttributes()
