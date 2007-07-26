@@ -43,8 +43,8 @@
 			<Fan moduleName="Maintenance_to_Crew_Fan">
 				<airConsumer inputs="Maintenance_Facility" desiredFlowRates="1000"
 					maxFlowRates="1000" />
-				<powerConsumer inputs="General_Power_Store" desiredFlowRates="1000"
-					maxFlowRates="1000" />
+				<powerConsumer inputs="Fan_Battery" desiredFlowRates="1000"
+					maxFlowRates="1000" ></powerConsumer>
 				<airProducer desiredFlowRates="1000" outputs="Crew_Quarters"
 					maxFlowRates="1000" />
 			</Fan>
@@ -211,6 +211,21 @@
 			</PowerStore>
 			<PowerStore capacity="10000" moduleName="Fan_Battery" level="10000"></PowerStore>
 			<PowerStore capacity="10000" moduleName="Main_VCCR_Battery" level="10000"></PowerStore>
+			<PowerPS moduleName="Fan_Battery_Source"
+				generationType="STATE_MACHINE" logLevel="DEBUG">
+				<powerProducer desiredFlowRates="1000"
+					outputs="Fan_Battery" maxFlowRates="1000" />
+			</PowerPS>
+			<PowerPS moduleName="VCCR_Power_Source"
+				generationType="STATE_MACHINE" logLevel="DEBUG">
+				<powerProducer desiredFlowRates="1000"
+					outputs="Main_VCCR_Battery" maxFlowRates="1000" />
+			</PowerPS>
+			<PowerPS moduleName="General_Power_Producer"
+				generationType="NUCLEAR" upperPowerGeneration="500000">
+				<powerProducer desiredFlowRates="1000000"
+					outputs="General_Power_Store" maxFlowRates="1000000" />
+			</PowerPS>
 		</power>
 		<food>
 			<FoodStore capacity="1000000000000" level="1000000000000"

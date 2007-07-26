@@ -8,6 +8,7 @@
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="SOLAR"/>
 			<xsd:enumeration value="NUCLEAR"/>
+			<xsd:enumeration value="STATE_MACHINE"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	
