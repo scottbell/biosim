@@ -38,7 +38,7 @@ public class CrewAirChartPanel extends GraphPanel {
         JFreeChart myChart = ChartFactory.createBarChart3D(
                 "O2/CO2 Consumed/Produced", // chart title
                 "", // domain axis label
-                "Liters", // range axis label
+                "moles", // range axis label
                 myDataset, PlotOrientation.VERTICAL, // data
                 true, // include legend
                 true, false);
@@ -46,7 +46,7 @@ public class CrewAirChartPanel extends GraphPanel {
         CategoryPlot myPlot = myChart.getCategoryPlot();
         ValueAxis rangeAxis = myPlot.getRangeAxis();
         rangeAxis.setAutoRange(false);
-        rangeAxis.setRange(0.0, 500.00);
+        rangeAxis.setRange(0.0, 2);
         CategoryItemRenderer renderer = myPlot.getRenderer();
         renderer.setSeriesPaint(0, Color.BLUE);
         renderer.setSeriesPaint(1, Color.GREEN);
