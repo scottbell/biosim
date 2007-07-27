@@ -14,7 +14,7 @@ public abstract class TimedPanel extends UpdatablePanel {
 
     private Timer myRefreshTimer;
 
-    private final static int DEFAULT_TIMER_DELAY = 700;
+    private final static int DEFAULT_TIMER_DELAY = 300;
 
     protected boolean tracking = true;
 
