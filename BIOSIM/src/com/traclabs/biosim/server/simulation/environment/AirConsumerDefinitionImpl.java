@@ -4,6 +4,7 @@ import com.traclabs.biosim.idl.simulation.environment.Air;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinitionOperations;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinitionPOATie;
+import com.traclabs.biosim.idl.simulation.environment.EnvironmentStore;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.framework.Store;
 import com.traclabs.biosim.server.framework.BioModuleImpl;
@@ -35,23 +36,35 @@ public class AirConsumerDefinitionImpl extends
         setInitialDesiredFlowRates(pDesiredFlowRates);
     }
     
-
+    private float getGasConcentration(SimEnvironment environment, EnvironmentStore gasStore){
+        float molesOfGas = gasStore.getCurrentLevel();
+        float totalMoles = environment.getTotalMoles();
+        if (totalMoles >= 0)
+        	return molesOfGas / totalMoles;
+        else
+        	return 0;
+    }
 	
 	public Air getAirFromEnvironment(float molesOfAir, int indexOfEnvironment){
 		if (getEnvironments().length < indexOfEnvironment)
 			return new Air();
+		if (molesOfAir <= 0)
+			return new Air();
 		float actualFlowrateToEnvironment = 0f;
 		SimEnvironment environment = getEnvironments()[indexOfEnvironment];
-		float o2Percentage = environment.getO2Store().getCurrentLevel();
-		/*
-		actualFlowrateToEnvironment += environment.getO2Store().take(randomFilter(airToPush.o2Moles));
-		actualFlowrateToEnvironment += environment.getCO2Store().take(randomFilter(airToPush.co2Moles));
-		actualFlowrateToEnvironment += environment.getOtherStore().take(randomFilter(airToPush.otherMoles));
-		actualFlowrateToEnvironment += environment.getVaporStore().take(randomFilter(airToPush.vaporMoles));
-		actualFlowrateToEnvironment += environment.getNitrogenStore().take(randomFilter(airToPush.nitrogenMoles));
-		*/
+		float o2molesToTake = molesOfAir * getGasConcentration(environment, environment.getO2Store());
+		float co2molesToTake = molesOfAir * getGasConcentration(environment, environment.getCO2Store());
+		float othermolesToTake = molesOfAir * getGasConcentration(environment, environment.getOtherStore());
+		float vapormolesToTake = molesOfAir * getGasConcentration(environment, environment.getVaporStore());
+		float nitrogenmolesToTake = molesOfAir * getGasConcentration(environment, environment.getNitrogenStore());	
+		Air airToGet = new Air(o2molesToTake, co2molesToTake, othermolesToTake, vapormolesToTake, nitrogenmolesToTake);
+		actualFlowrateToEnvironment += environment.getO2Store().take(randomFilter(airToGet.o2Moles));
+		actualFlowrateToEnvironment += environment.getCO2Store().take(randomFilter(airToGet.co2Moles));
+		actualFlowrateToEnvironment += environment.getOtherStore().take(randomFilter(airToGet.otherMoles));
+		actualFlowrateToEnvironment += environment.getVaporStore().take(randomFilter(airToGet.vaporMoles));
+		actualFlowrateToEnvironment += environment.getNitrogenStore().take(randomFilter(airToGet.nitrogenMoles));
 		setActualFlowRate(actualFlowrateToEnvironment, indexOfEnvironment);
-		return new Air();
+		return airToGet;
 	}
 
 	public Air getMostAirFromEnvironments() {

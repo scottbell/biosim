@@ -3,6 +3,7 @@ package com.traclabs.biosim.server.simulation.air;
 import com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinition;
 import com.traclabs.biosim.idl.simulation.air.CO2ProducerOperations;
 import com.traclabs.biosim.idl.simulation.air.VCCROperations;
+import com.traclabs.biosim.idl.simulation.environment.Air;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerOperations;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition;
@@ -101,9 +102,10 @@ public class VCCRLinearImpl extends SimBioModuleImpl implements VCCROperations,
     	//roughly 0.02844 moles of CO2 per tick
         float molesAirNeeded = (currentPowerConsumed / 25.625f) * 1.2125f  * getTickLength();
         SimEnvironment theEnvironment = myAirConsumerDefinitionImpl.getEnvironments()[0];
-        float theCO2Percentage = theEnvironment.getCO2Store().getCurrentLevel() / theEnvironment.getTotalMoles();
-        //gather CO2
-        gatheredCO2 = theEnvironment.getCO2Store().take(molesAirNeeded * theCO2Percentage);
+        Air airConsumed = myAirConsumerDefinitionImpl.getAirFromEnvironment(molesAirNeeded, 0);
+    	gatheredCO2 = airConsumed.co2Moles;
+    	airConsumed.co2Moles = 0f;
+    	myAirProducerDefinitionImpl.pushAirToEnvironment(airConsumed, 0);
         myLogger.debug("gatheredCO2 = "+gatheredCO2);
         myLogger.debug("currentPowerConsumed = "+currentPowerConsumed);
     }
