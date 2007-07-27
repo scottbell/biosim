@@ -46,7 +46,7 @@ public class CrewFoodChartPanel extends GraphPanel {
         CategoryPlot myPlot = myChart.getCategoryPlot();
         ValueAxis rangeAxis = myPlot.getRangeAxis();
         rangeAxis.setAutoRange(false);
-        rangeAxis.setRange(0.0, .5);
+        rangeAxis.setRange(0.0, 1.0);
         CategoryItemRenderer renderer = myPlot.getRenderer();
         renderer.setSeriesPaint(0, new Color(10, 204, 102));
         TextTitle myTextTitle = (myChart.getTitle());
