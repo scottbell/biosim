@@ -46,7 +46,7 @@ public class CrewAirChartPanel extends GraphPanel {
         CategoryPlot myPlot = myChart.getCategoryPlot();
         ValueAxis rangeAxis = myPlot.getRangeAxis();
         rangeAxis.setAutoRange(false);
-        rangeAxis.setRange(0.0, 2);
+        rangeAxis.setRange(0.0, 4);
         CategoryItemRenderer renderer = myPlot.getRenderer();
         renderer.setSeriesPaint(0, Color.BLUE);
         renderer.setSeriesPaint(1, Color.GREEN);
