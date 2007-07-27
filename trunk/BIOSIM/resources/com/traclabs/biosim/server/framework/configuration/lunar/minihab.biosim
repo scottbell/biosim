@@ -352,4 +352,9 @@
 			</CrewGroup>
 		</crew>
 	</SimBioModules>
+	<Sensors>
+		<air>
+			<CO2OutFlowRateSensor input="Main_VCCR" moduleName="vccr_co2_out" index="0"></CO2OutFlowRateSensor></air>
+		<environment>
+			<AirOutFlowRateSensor input="Main_VCCR" moduleName="vccr_air_out" index="0"></AirOutFlowRateSensor></environment></Sensors>
 </biosim>
