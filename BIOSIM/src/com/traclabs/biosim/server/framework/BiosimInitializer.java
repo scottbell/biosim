@@ -1,5 +1,6 @@
 package com.traclabs.biosim.server.framework;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
@@ -83,6 +84,8 @@ public class BiosimInitializer {
 	private SensorInitializer mySensorInitializer;
 
 	private ActuatorInitializer myActuatorInitializer;
+	
+	private BioDriverImpl myBioDriverImpl;
 
 	/** Default constructor. */
 	public BiosimInitializer(int pID) {
@@ -205,34 +208,29 @@ public class BiosimInitializer {
 
 	// Globals
 	private void crawlGlobals(Node node, boolean firstPass) {
-		BioDriver myDriver = null;
-		try {
-			myDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(myID)
-					.resolve_str("BioDriver"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		myBioDriverImpl = new BioDriverImpl(myID);
+        
 		if (firstPass) {
 			try {
 				// set the tickLength
 				float tickLength = Float.parseFloat(node.getAttributes()
 						.getNamedItem("tickLength").getNodeValue());
-				myDriver.setTickLength(tickLength);
+				myBioDriverImpl.setTickLength(tickLength);
 
-				myDriver.setRunTillN(Integer.parseInt(node.getAttributes()
+				myBioDriverImpl.setRunTillN(Integer.parseInt(node.getAttributes()
 						.getNamedItem("runTillN").getNodeValue()));
-				myDriver.setPauseSimulation(node.getAttributes().getNamedItem(
+				myBioDriverImpl.setPauseSimulation(node.getAttributes().getNamedItem(
 						"startPaused").getNodeValue().equals("true"));
-				myDriver.setRunTillCrewDeath(node.getAttributes().getNamedItem(
+				myBioDriverImpl.setRunTillCrewDeath(node.getAttributes().getNamedItem(
 						"runTillCrewDeath").getNodeValue().equals("true"));
-				myDriver.setRunTillPlantDeath(node.getAttributes()
+				myBioDriverImpl.setRunTillPlantDeath(node.getAttributes()
 						.getNamedItem("runTillPlantDeath").getNodeValue()
 						.equals("true"));
 				int stutterLength = Integer.parseInt(node.getAttributes()
 						.getNamedItem("driverStutterLength").getNodeValue());
 				if (stutterLength >= 0)
-					myDriver.setDriverStutterLength(stutterLength);
-				myDriver.setLooping(node.getAttributes().getNamedItem(
+					myBioDriverImpl.setDriverStutterLength(stutterLength);
+				myBioDriverImpl.setLooping(node.getAttributes().getNamedItem(
 						"isLooping").getNodeValue().equals("true"));
 
 				Properties logProperties = new Properties();
@@ -248,6 +246,9 @@ public class BiosimInitializer {
 							logProperties.setProperty(nameProperty,
 									valueProperty);
 						}
+						else if (childName.equals("nameServiceLocation")) {
+							parseNameServiceLocation(child);
+						}
 					}
 					child = child.getNextSibling();
 				}
@@ -258,6 +259,10 @@ public class BiosimInitializer {
 		}
 		// second pass
 		else {
+			//register BioDriver
+	        GenericServer.registerServer(myBioDriverImpl, myBioDriverImpl.getName(),
+	        		myBioDriverImpl.getID());
+			
 			// Give BioDriver crew to watch for (if we're doing run till dead)
 			Node crewsToWatchNode = node.getAttributes().getNamedItem(
 					"crewsToWatch");
@@ -276,7 +281,7 @@ public class BiosimInitializer {
 						e.printStackTrace();
 					}
 				}
-				myDriver.setCrewsToWatch(crewGroups);
+				myBioDriverImpl.setCrewsToWatch(crewGroups);
 			}
 
 			// Give BioDriver plant to watch for (if we're doing run till dead)
@@ -297,7 +302,7 @@ public class BiosimInitializer {
 						e.printStackTrace();
 					}
 				}
-				myDriver.setPlantsToWatch(biomassPSs);
+				myBioDriverImpl.setPlantsToWatch(biomassPSs);
 			}
 
 			Node child = node.getFirstChild();
@@ -315,6 +320,34 @@ public class BiosimInitializer {
 				child = child.getNextSibling();
 			}
 		}
+	}
+
+	private void parseNameServiceLocation(Node node) {
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getLocalName();
+			if (childName != null) {
+				if (childName.equals("serverLocation")) {
+					parseServerLocation(child);
+				}
+				else if (childName.equals("fileLocation")) {
+					parseFileLocation(child);
+				}
+			}
+			child = child.getNextSibling();
+		}
+	}
+
+	private void parseFileLocation(Node node) {
+		String iorPathName = node.getAttributes().getNamedItem("path").getNodeValue();
+		File iorFile = new File(iorPathName);
+		OrbUtils.initializeNamingServerWithFile(iorFile);
+	}
+
+	private void parseServerLocation(Node node) {
+		String hostName = node.getAttributes().getNamedItem("hostname").getNodeValue();
+		int port = Integer.parseInt(node.getAttributes().getNamedItem("port").getNodeValue());
+		OrbUtils.initializeNamingServer(hostName, port);
 	}
 
 	private static BioModule[] convertList(List pBioModules) {

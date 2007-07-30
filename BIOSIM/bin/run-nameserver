@@ -47,6 +47,12 @@ then
         echo "          -creating ns directory"
 fi
 iorLocation="-Djacorb.naming.ior_filename=$nsDir/ior.txt"
-echo "  -invoking nameserver"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar$separator$JACORB_HOME"
-$java_command -classpath $jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $iorLocation $nameServer
+jacoInvocation="$java_command -classpath $jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $iorLocation $nameServer"
+port="-port"
+userSelect=$1
+case $userSelect in
+	$port) echo "  -invoking nameserver on port $2";$jacoInvocation -DOAPort=$2 $@;;
+	*) echo "  -invoking nameserver";$jacoInvocation $@;;
+esac
+

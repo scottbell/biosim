@@ -2,7 +2,8 @@
 <biosim xmlns="http://www.traclabs.com/biosim"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
-	<Globals driverStutterLength="500" />
+	<Globals driverStutterLength="500" >
+	</Globals>
 	<SimBioModules>
 		<environment>
 			<SimEnvironment moduleName="Crew_Quarters"
@@ -353,8 +354,11 @@
 		</crew>
 	</SimBioModules>
 	<Sensors>
-		<air>
-			<CO2OutFlowRateSensor input="Main_VCCR" moduleName="vccr_co2_out" index="0"></CO2OutFlowRateSensor></air>
-		<environment>
-			<AirOutFlowRateSensor input="Main_VCCR" moduleName="vccr_air_out" index="0"></AirOutFlowRateSensor></environment></Sensors>
+		<power>
+			<PowerInFlowRateSensor input="Main_VCCR" moduleName="main_vccr_power_sensor" index="0"></PowerInFlowRateSensor></power></Sensors>
+	<Actuators>
+		<power>
+			<PowerInFlowRateActuator output="Main_VCCR" moduleName="main_vccr_power"
+				index="0">
+			</PowerInFlowRateActuator></power></Actuators>
 </biosim>

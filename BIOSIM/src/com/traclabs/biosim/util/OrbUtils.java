@@ -304,17 +304,27 @@ public class OrbUtils {
     }
     
     public static void initializeServerForStandalone(){
-        initializeForStandalone(STANDALONE_SERVER_OA_PORT);
+        initializeNamingServer(STANDALONE_SERVER_OA_PORT);
     }
     
     public static void initializeClientForStandalone(){
-        initializeForStandalone(STANDALONE_CLIENT_OA_PORT);
+        initializeNamingServer(STANDALONE_CLIENT_OA_PORT);
     }
     
-    public static void initializeForStandalone(int OAPort){
+    public static void initializeNamingServer(int OAPort){
+    	initializeNamingServer("localhost", OAPort);
+    }
+    
+    public static void initializeNamingServerWithFile(File namingServiceIor){
         Properties newORBProperties = new Properties();
-        newORBProperties.setProperty("OAPort", Integer.toString(OAPort));
-        newORBProperties.setProperty("ORBInitRef.NameService", "corbaloc::localhost:" + STANDALONE_NAMESERVER_PORT + "/NameService");
+        newORBProperties.setProperty("ORBInitRef.NameService", namingServiceIor.toURI().toString());
+        setMyORBProperties(newORBProperties);
+        resetInit();
+    }
+    
+    public static void initializeNamingServer(String hostname, int port){
+        Properties newORBProperties = new Properties();
+        newORBProperties.setProperty("ORBInitRef.NameService", "corbaloc::"+hostname+":" + port + "/NameService");
         setMyORBProperties(newORBProperties);
         resetInit();
     }
