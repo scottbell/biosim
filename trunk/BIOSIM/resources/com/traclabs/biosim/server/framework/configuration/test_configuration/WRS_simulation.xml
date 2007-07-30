@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
+  <Globals crewsToWatch="CrewGroup" runTillCrewDeath="true"
+  	startPaused="true"/>
+  <SimBioModules>
+	<air>
+		<O2Store capacity="100000" moduleName="O2Store" level="100000"></O2Store>
+		<CO2Store capacity="100000" moduleName="CO2Store" level="0"></CO2Store>
+		<H2Store capacity="10000" moduleName="H2Store" level="0.0"></H2Store>
+		<OGS moduleName="OGS">
+			<normalStochasticFilter deviation="0.8" />
+			<powerConsumer inputs="PowerStore" desiredFlowRates="100"
+				maxFlowRates="100" />
+			<potableWaterConsumer inputs="PotableWaterStore"
+				desiredFlowRates="100" maxFlowRates="100" />
+			<O2Producer desiredFlowRates="100" outputs="O2Store"
+				maxFlowRates="100" />
+			<H2Producer desiredFlowRates="100" outputs="H2Store"
+				maxFlowRates="100">
+			</H2Producer>
+		</OGS>
+		<VCCR moduleName="VCCR">
+			<normalStochasticFilter deviation="0.8" ></normalStochasticFilter>
+			<powerConsumer inputs="PowerStore" desiredFlowRates="20000"
+				maxFlowRates="20000" ></powerConsumer>
+			<airConsumer inputs="CrewEnvironment" desiredFlowRates="100000" maxFlowRates="100000" ></airConsumer>
+			<airProducer desiredFlowRates="100000" outputs="CrewEnvironment" maxFlowRates="100000" ></airProducer>
+			<CO2Producer desiredFlowRates="20000" outputs="CO2Store" maxFlowRates="20000" ></CO2Producer>
+		</VCCR>
+		<NitrogenStore capacity="0.0" moduleName="NitrogenStore" level="0.0"></NitrogenStore></air>
+	<environment>
+		<SimEnvironment moduleName="CrewEnvironment" initialVolume="10000000"></SimEnvironment></environment>
+	<food>
+		<FoodStore capacity="100000" level="100000" moduleName="FoodStore"></FoodStore></food>
+	<waste>
+		<DryWasteStore capacity="500" moduleName="DryWasteStore" level="0.0"></DryWasteStore></waste>
+	<water>
+		<DirtyWaterStore capacity="200000" moduleName="DirtyWaterStore" level="5000"></DirtyWaterStore>
+		<GreyWaterStore capacity="200000" moduleName="GreyWaterStore" level="5000"></GreyWaterStore>
+		<PotableWaterStore capacity="20000" moduleName="PotableWaterStore" level="10000"></PotableWaterStore>
+		<WaterRS moduleName="WaterRS">
+			<normalStochasticFilter deviation="0.8" />
+			<powerConsumer inputs="PowerStore" desiredFlowRates="250"
+				maxFlowRates="250" />
+			<dirtyWaterConsumer inputs="DirtyWaterStore" desiredFlowRates="100"
+				maxFlowRates="100" />
+			<greyWaterConsumer inputs="GreyWaterStore" desiredFlowRates="100"
+				maxFlowRates="100" />
+			<potableWaterProducer desiredFlowRates="100" outputs="PotableWaterStore"
+				maxFlowRates="100" />
+		</WaterRS></water>
+	<crew>
+		<CrewGroup moduleName="CrewGroup">
+			<potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates="100"
+				maxFlowRates="100" />
+			<airConsumer inputs="CrewEnvironment" desiredFlowRates="0" maxFlowRates="0" />
+			<foodConsumer inputs="FoodStore" desiredFlowRates="100" maxFlowRates="100" ></foodConsumer>
+			<dirtyWaterProducer desiredFlowRates="100" outputs="DirtyWaterStore"
+				maxFlowRates="100" />
+			<greyWaterProducer desiredFlowRates="100" outputs="GreyWaterStore"
+				maxFlowRates="100" />
+			<airProducer desiredFlowRates="0" outputs="CrewEnvironment" maxFlowRates="0" />
+			<dryWasteProducer desiredFlowRates="100" outputs="DryWasteStore"
+				maxFlowRates="100" ></dryWasteProducer><crewPerson age="35" name="Astronaut Jackson"
+				sex="MALE" weight="70">
+				<schedule>
+					<activity intensity="1" name="sleep" length="8" /><activity
+						intensity="2" name="hygiene" length="1" /><activity
+						intensity="5" name="exercise" length="1" ></activity>
+					<activity intensity="2" name="eating" length="1" /><activity
+						intensity="3" name="mission" length="9" /><activity
+						intensity="2" name="health" length="1" ></activity><activity
+						intensity="2" name="maintenance" length="1" /><activity
+						intensity="2" name="leisure" length="2" ></activity>
+				</schedule>
+</crewPerson>
+			<crewPerson age="32" name="Astronaut Johnson" sex="FEMALE" weight="71">
+				<schedule>
+					<activity intensity="1" name="sleep" length="8" /><activity
+						intensity="2" name="hygiene" length="1" /><activity
+						intensity="5" name="exercise" length="1" /><activity
+						intensity="2" name="eating" length="1" /><activity
+						intensity="3" name="mission" length="9" /><activity
+						intensity="2" name="health" length="1" /><activity
+						intensity="2" name="maintenance" length="1" /><activity
+						intensity="2" name="leisure" length="2" ></activity>
+				</schedule>
+			</crewPerson>
+			<crewPerson age="30" name="Astronaut Jones" sex="MALE" weight="72">
+				<schedule>
+					<activity intensity="1" name="sleep" length="8" ></activity><activity
+						intensity="2" name="hygiene" length="1" /><activity
+						intensity="5" name="exercise" length="1" ></activity><activity
+						intensity="2" name="eating" length="1" /><activity
+						intensity="3" name="mission" length="9" /><activity
+						intensity="2" name="health" length="1" ></activity><activity
+						intensity="2" name="maintenance" length="1" ></activity><activity
+						intensity="2" name="leisure" length="2" ></activity>
+				</schedule>
+			</crewPerson>
+			<crewPerson age="34" name="Astronaut Jenkins" sex="FEMALE" weight="75">
+				<schedule>
+					<activity intensity="1" name="sleep" length="8" /><activity
+						intensity="2" name="hygiene" length="1" /><activity
+						intensity="5" name="exercise" length="1" /><activity
+						intensity="2" name="eating" length="1" /><activity
+						intensity="3" name="mission" length="9" /><activity
+						intensity="2" name="health" length="1" ></activity><activity
+						intensity="2" name="maintenance" length="1" /><activity
+						intensity="2" name="leisure" length="2" ></activity>
+				</schedule>
+			</crewPerson>
+		</CrewGroup></crew>
+	<power>
+		<PowerStore capacity="100000000" moduleName="PowerStore" level="100000000"></PowerStore></power>
+	<framework>
+		<Injector moduleName="O2Injector">
+			<O2Consumer inputs="O2Store" desiredFlowRates="24" maxFlowRates="24" /><O2Producer
+				desiredFlowRates="24" outputs="CrewEnvironment" maxFlowRates="24" ></O2Producer></Injector></framework></SimBioModules>
+  <Sensors>
+  	<environment>
+  		<GasPressureSensor input="CrewEnvironment" moduleName="O2PressureSensor" gasType="O2"></GasPressureSensor>
+  		<GasPressureSensor input="CrewEnvironment" moduleName="CO2PressureSensor" gasType="CO2"></GasPressureSensor>
+  		<GasPressureSensor input="CrewEnvironment" moduleName="NitrogenPressureSensor" gasType="NITROGEN"></GasPressureSensor>
+  		<GasPressureSensor input="CrewEnvironment" moduleName="VaporPressureSensor" gasType="VAPOR"></GasPressureSensor></environment></Sensors></biosim>
