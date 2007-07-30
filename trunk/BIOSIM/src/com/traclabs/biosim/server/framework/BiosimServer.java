@@ -24,10 +24,7 @@ public class BiosimServer extends GenericServer {
             myLogger.warn("Using default: "+DEFAULT_XML_LOCATION);
             rawFileLocation = OrbUtils.resolveXMLLocation(DEFAULT_XML_LOCATION);
         }
-        myBioDriverImpl = new BioDriverImpl(id);
-        myBioDriverImpl.setDriverStutterLength(stutterLength);
-        registerServer(myBioDriverImpl, myBioDriverImpl.getName(),
-        		myBioDriverImpl.getID());
+        
         myLogger.info("Loading init file: " + rawFileLocation);
         BiosimInitializer myInitializer = new BiosimInitializer(id);
         myInitializer.parseFile(rawFileLocation);

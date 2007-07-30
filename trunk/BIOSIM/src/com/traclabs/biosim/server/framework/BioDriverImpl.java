@@ -304,7 +304,7 @@ public class BioDriverImpl extends BioDriverPOA {
 	 */
 	public synchronized void setDriverStutterLength(int pDriverStutterLength) {
 		if (pDriverStutterLength > 0)
-			myLogger.info("BioDriverImpl" + myID + ": driver pause of "
+			myLogger.debug("BioDriverImpl" + myID + ": driver pause of "
 					+ pDriverStutterLength + " milliseconds");
 		driverStutterLength = pDriverStutterLength;
 	}
