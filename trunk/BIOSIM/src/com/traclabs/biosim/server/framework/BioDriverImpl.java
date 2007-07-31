@@ -68,7 +68,7 @@ public class BioDriverImpl extends BioDriverPOA {
 
 	private BioModule[] actuators;
 
-	private float myTickLength = 360f;
+	private float myTickLength = 1f;
 
 	/**
 	 * Constructs the BioDriver
