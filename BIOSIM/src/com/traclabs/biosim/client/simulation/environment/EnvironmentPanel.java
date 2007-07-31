@@ -14,7 +14,7 @@ import com.traclabs.biosim.client.util.BioHolderInitializer;
 public class EnvironmentPanel extends SimTabbedPanel {
     protected void createPanels() {
         BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-    	if (myBioHolder.theSimEnvironments.size() > 1){
+    	if (myBioHolder.theSimEnvironments.size() > 0){
     		myTextPanel = new EnvironmentMultiTextPanel();
             myChartPanel = new EnvironmentMultiChartPanel();
     	}
