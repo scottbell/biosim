@@ -1,5 +1,6 @@
 package com.traclabs.biosim.client.util;
 
+import java.io.File;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -233,7 +234,11 @@ public class BioHolderInitializer {
 			return;
 		String nodeName = node.getLocalName();
 		if (nodeName != null) {
-			if (nodeName.equals("SimBioModules")) {
+			if (nodeName.equals("Globals")) {
+				crawlGlobals(node);
+				return;
+			}
+			else if (nodeName.equals("SimBioModules")) {
 				crawlModules(node);
 				return;
 			} else if (nodeName.equals("Sensors")) {
@@ -253,8 +258,6 @@ public class BioHolderInitializer {
 	}
 
 	private static void parseFile() {
-		myBioHolder.theBioDriver = BioDriverHelper
-				.narrow(grabModule("BioDriver"));
 		String documentString = OrbUtils.resolveXMLLocation(xmlLocation);
 		if (documentString == null) {
 			Logger.getLogger(BioHolderInitializer.class).error(
@@ -285,6 +288,52 @@ public class BioHolderInitializer {
 					"Couldn't find configuration file: " + xmlLocation);
 			return;
 		}
+	}
+	
+	private static void crawlGlobals(Node node) {
+			try {
+				Node child = node.getFirstChild();
+				while (child != null) {
+					String childName = child.getLocalName();
+					if (childName != null) {
+						if (childName.equals("nameServiceLocation")) {
+							parseNameServiceLocation(child);
+						}
+					}
+					child = child.getNextSibling();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		myBioHolder.theBioDriver = BioDriverHelper.narrow(grabModule("BioDriver"));
+	}
+	
+	private static void parseNameServiceLocation(Node node) {
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getLocalName();
+			if (childName != null) {
+				if (childName.equals("serverLocation")) {
+					parseServerLocation(child);
+				}
+				else if (childName.equals("fileLocation")) {
+					parseFileLocation(child);
+				}
+			}
+			child = child.getNextSibling();
+		}
+	}
+
+	private static void parseFileLocation(Node node) {
+		String iorPathName = node.getAttributes().getNamedItem("path").getNodeValue();
+		File iorFile = new File(iorPathName);
+		OrbUtils.initializeNamingServerWithFile(iorFile);
+	}
+
+	private static void parseServerLocation(Node node) {
+		String hostName = node.getAttributes().getNamedItem("hostname").getNodeValue();
+		int port = Integer.parseInt(node.getAttributes().getNamedItem("port").getNodeValue());
+		OrbUtils.initializeNamingServer(hostName, port);
 	}
 
 	public static org.omg.CORBA.Object grabModule(String moduleName) {
