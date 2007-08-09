@@ -132,7 +132,7 @@ public class CrewGroupImplTest extends TestCase {
 		float oldInitialLevel = mySimEnvironment.getCO2Store().getInitialLevel();
 		mySimEnvironment.getCO2Store().setInitialLevel(100000000000000000f);
 		float ticksWhileCO2HighAverage = 2f * myCrewGroup.getTickLength();
-		assertEquals(ticksWhileCO2HighAverage, getAverageTillDead(20), 2);
+		assertEquals(ticksWhileCO2HighAverage, getAverageTillDead(200), 2);
 		mySimEnvironment.getO2Store().setInitialLevel(oldInitialLevel);
 	}
 	
