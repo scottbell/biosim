@@ -341,12 +341,14 @@ public class BiosimInitializer {
 	private void parseFileLocation(Node node) {
 		String iorPathName = node.getAttributes().getNamedItem("path").getNodeValue();
 		File iorFile = new File(iorPathName);
+		myLogger.info("Looking for nameservice in file "+iorFile);
 		OrbUtils.initializeNamingServerWithFile(iorFile);
 	}
 
 	private void parseServerLocation(Node node) {
 		String hostName = node.getAttributes().getNamedItem("hostname").getNodeValue();
 		int port = Integer.parseInt(node.getAttributes().getNamedItem("port").getNodeValue());
+		myLogger.info("Looking for nameservice on "+hostName+":"+port);
 		OrbUtils.initializeNamingServer(hostName, port);
 	}
 
