@@ -57,7 +57,7 @@
 			<Fan moduleName="Maintenance_to_Crew_Fan">
 				<airConsumer inputs="Maintenance_Facility"
 					desiredFlowRates="1000" maxFlowRates="1000" />
-				<powerConsumer inputs="fan_load" desiredFlowRates="1000"
+				<powerConsumer inputs="Fan_Battery" desiredFlowRates="1000"
 					maxFlowRates="1000"></powerConsumer>
 				<airProducer desiredFlowRates="1000"
 					outputs="Crew_Quarters" maxFlowRates="1000" />
@@ -117,7 +117,7 @@
 				moduleName="Maintenance_Facility_Nitrogen_Store" level="10000">
 			</NitrogenStore>
 			<VCCR moduleName="Main_VCCR">
-				<powerConsumer inputs="co2_removal_load"
+				<powerConsumer inputs="CO2_Removal_Battery"
 					desiredFlowRates="2000" maxFlowRates="2000" />
 				<airConsumer inputs="Maintenance_Facility"
 					desiredFlowRates="100" maxFlowRates="100"></airConsumer>
@@ -242,21 +242,21 @@
 			<PowerStore capacity="100000"
 				moduleName="General_Power_Store" level="100000">
 			</PowerStore>
-			<PowerStore capacity="100000" moduleName="fan_load"
+			<PowerStore capacity="100000" moduleName="Fan_Battery"
 				level="1000000">
 			</PowerStore>
-			<PowerStore capacity="100000" moduleName="co2_removal_load"
+			<PowerStore capacity="100000" moduleName="CO2_Removal_Battery"
 				level="100000">
 			</PowerStore>
-			<PowerPS moduleName="fan_load_Source"
-				generationType="STATE_MACHINE" logLevel="INFO">
-				<powerProducer desiredFlowRates="100000"
-					outputs="fan_load" maxFlowRates="1000000" />
-			</PowerPS>
-			<PowerPS moduleName="VCCR_Power_Source"
+			<PowerPS moduleName="Fan_Battery_Source"
 				generationType="STATE_MACHINE" logLevel="INFO">
 				<powerProducer desiredFlowRates="1000"
-					outputs="co2_removal_load" maxFlowRates="1000" />
+					outputs="Fan_Battery" maxFlowRates="1000" />
+			</PowerPS>
+			<PowerPS moduleName="CO2_Removal_Battery_Source"
+				generationType="STATE_MACHINE" logLevel="INFO">
+				<powerProducer desiredFlowRates="2000"
+					outputs="CO2_Removal_Battery" maxFlowRates="2000" />
 			</PowerPS>
 			<PowerPS moduleName="General_Power_Producer"
 				generationType="NUCLEAR" upperPowerGeneration="500000">
