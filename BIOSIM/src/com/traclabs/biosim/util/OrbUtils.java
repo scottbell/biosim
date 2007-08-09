@@ -306,11 +306,11 @@ public class OrbUtils {
     }
     
     public static void initializeServerForStandalone(){
-        initializeNamingServer(STANDALONE_SERVER_OA_PORT);
+        initializeNamingServer(STANDALONE_NAMESERVER_PORT);
     }
     
     public static void initializeClientForStandalone(){
-        initializeNamingServer(STANDALONE_CLIENT_OA_PORT);
+        initializeNamingServer(STANDALONE_NAMESERVER_PORT);
     }
     
     public static void initializeNamingServer(int OAPort){
