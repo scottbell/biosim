@@ -49,6 +49,8 @@ public class OrbUtils {
     private static final String ORB_CLASS = "org.jacorb.orb.ORB";
     
     private static Thread myNamingServiceThread;
+    
+    private static Logger myLogger = Logger.getLogger(OrbUtils.class);
 
     /**
      * Shouldn't be called (everything static!)
@@ -337,6 +339,12 @@ public class OrbUtils {
     }
     
     public static void initializeLog(boolean pDebug){
+    	//load mysql driver
+    	try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         Properties logProps = new Properties();
         if (pDebug)
             logProps.setProperty("log4j.rootLogger", "DEBUG, rootAppender");
