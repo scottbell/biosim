@@ -278,8 +278,8 @@ module com{
                                 };
                                 module simulation{
                                         module framework{
-                                                interface Consumer : framework::BioModule{};
-                                                interface Producer : framework::BioModule{};
+                                                interface Consumer : idl::framework::BioModule{};
+                                                interface Producer : idl::framework::BioModule{};
                                                 
                                                 interface SingleFlowRateControllable{
                                                         void setMaxFlowRate(in float value, in long index);
@@ -324,7 +324,7 @@ module com{
                                                         boolean isPipe();                                                     
                                                         void setPipe(in boolean pPipe);
                                                 };
-                                                interface SimBioModule : framework::BioModule{};
+                                                interface SimBioModule : idl::framework::BioModule{};
                                                 interface PassiveModule : SimBioModule{};
                                                 interface Accumulator : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, water::DirtyWaterConsumer, water::WaterConsumer, air::O2Consumer, air::CO2Consumer, air::NitrogenConsumer, environment::AirConsumer, food::BiomassConsumer, food::FoodConsumer, waste::DryWasteConsumer, power::PowerProducer, water::PotableWaterProducer, water::GreyWaterProducer, water::DirtyWaterProducer, air::O2Producer, air::CO2Producer, air::NitrogenProducer, environment::AirProducer, food::BiomassProducer, food::FoodProducer, waste::DryWasteProducer{};
                                                 interface Injector : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, water::DirtyWaterConsumer, water::WaterConsumer, air::O2Consumer, air::CO2Consumer, air::NitrogenConsumer, environment::AirConsumer, food::BiomassConsumer, food::FoodConsumer, waste::DryWasteConsumer, power::PowerProducer, water::PotableWaterProducer, water::GreyWaterProducer, water::DirtyWaterProducer, air::O2Producer, air::CO2Producer, air::NitrogenProducer, environment::AirProducer, food::BiomassProducer, food::FoodProducer, waste::DryWasteProducer{};
@@ -391,7 +391,7 @@ module com{
                                                         void tick();
                                                         void reset();
                                                         CrewGroup getCurrentCrewGroup();
-                                                		void setLogLevel(in framework::LogLevel pLogLevel);
+                                                		void setLogLevel(in idl::framework::LogLevel pLogLevel);
                                                 		void kill();
                                                 };
                                                 interface CrewGroup : framework::SimBioModule, environment::AirConsumer, water::PotableWaterConsumer, food::FoodConsumer, environment::AirProducer, water::GreyWaterProducer, water::DirtyWaterProducer, waste::DryWasteProducer{
@@ -795,11 +795,11 @@ module com{
                                 };
                                 module sensor{
                                         module framework{
-                                                interface GenericSensor : framework::BioModule{
+                                                interface GenericSensor : idl::framework::BioModule{
                                                         float getValue();
                                                         float getMax();
                                                         float getMin();
-                                                        framework::BioModule getInputModule();
+                                                        idl::framework::BioModule getInputModule();
                                                 };
                                                 interface StoreSensor : GenericSensor{
                                                         void setInput(in simulation::framework::Store source);
@@ -1018,12 +1018,12 @@ module com{
                                 };
                                 module actuator{
                                         module framework{
-                                                interface GenericActuator : framework::BioModule{
+                                                interface GenericActuator : idl::framework::BioModule{
                                                         void setValue(in float pValue);
                                                         float getValue();
                                                         float getMax();
                                                         float getMin();
-                                                        framework::BioModule getOutputModule();
+                                                        idl::framework::BioModule getOutputModule();
                                                 };
                                                 interface InfluentValveActuator : framework::GenericActuator{
                                                         void setOutput(in simulation::framework::InfluentValve pInfluentValve);
