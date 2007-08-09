@@ -2,7 +2,7 @@
 <biosim xmlns="http://www.traclabs.com/biosim"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
-	<Globals driverStutterLength="500">
+	<Globals driverStutterLength="500" crewsToWatch="Crew_Quarters_Group Galley_Group Labs_Group Maintenance_Facility_Group">
 		<!--   --><log4jProperty name="log4j.logger.com.traclabs.biosim.server.sensor.power" value="DEBUG, dbAppender"/>
 		<log4jProperty name="log4j.appender.dbAppender"
 			value="org.apache.log4j.jdbc.JDBCAppender" />
@@ -266,7 +266,7 @@
 		</power>
 		<food>
 			<FoodStore capacity="1000000000000" level="1000000000000"
-				moduleName="Food_Store" logLevel="DEBUG">
+				moduleName="Food_Store">
 			</FoodStore>
 		</food>
 		<waste>
@@ -400,14 +400,14 @@
 	<Sensors>
 		<power>
 			<PowerInFlowRateSensor input="Main_VCCR"
-				moduleName="main_vccr_power_sensor" index="0" logLevel="DEBUG">
+				moduleName="main_vccr_power_sensor" index="0" logLevel="INFO">
 			</PowerInFlowRateSensor>
 		</power>
 	</Sensors>
 	<Actuators>
 		<power>
 			<PowerInFlowRateActuator output="Main_VCCR"
-				moduleName="main_vccr_power" index="0" logLevel="DEBUG">
+				moduleName="main_vccr_power" index="0" logLevel="INFO">
 			</PowerInFlowRateActuator>
 		</power>
 	</Actuators>
