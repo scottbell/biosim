@@ -225,8 +225,8 @@
 				</nitrogenProducer>
 			</Injector>
 			<Injector moduleName="Maintenance_Oxygen_Injector">
-				<O2Consumer inputs="O2_Store" desiredFlowRates="3.5"
-					maxFlowRates="3.5" ></O2Consumer><O2Producer desiredFlowRates="3.5"
+				<O2Consumer inputs="O2_Store" desiredFlowRates="3.3"
+					maxFlowRates="3.3" ></O2Consumer><O2Producer desiredFlowRates="3.5"
 					outputs="Maintenance_Facility" maxFlowRates="3.5" ></O2Producer></Injector>
 		</framework>
 		<water>
