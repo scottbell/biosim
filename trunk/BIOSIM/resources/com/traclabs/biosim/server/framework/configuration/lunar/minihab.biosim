@@ -2,7 +2,7 @@
 <biosim xmlns="http://www.traclabs.com/biosim"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
-	<Globals driverStutterLength="500"
+	<Globals driverStutterLength="0"
 		crewsToWatch="Crew_Quarters_Group Galley_Group Labs_Group Maintenance_Facility_Group"
 		runTillCrewDeath="true">
 		<!--   -->
@@ -225,9 +225,9 @@
 				</nitrogenProducer>
 			</Injector>
 			<Injector moduleName="Maintenance_Oxygen_Injector">
-				<O2Consumer inputs="O2_Store" desiredFlowRates="3"
-					maxFlowRates="3" ></O2Consumer><O2Producer desiredFlowRates="3"
-					outputs="Maintenance_Facility" maxFlowRates="3" ></O2Producer></Injector>
+				<O2Consumer inputs="O2_Store" desiredFlowRates="3.5"
+					maxFlowRates="3.5" ></O2Consumer><O2Producer desiredFlowRates="3.5"
+					outputs="Maintenance_Facility" maxFlowRates="3.5" ></O2Producer></Injector>
 		</framework>
 		<water>
 			<WaterRS moduleName="Water_Distiller"
