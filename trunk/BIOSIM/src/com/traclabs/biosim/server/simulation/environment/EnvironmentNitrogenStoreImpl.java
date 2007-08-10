@@ -7,9 +7,4 @@ public class EnvironmentNitrogenStoreImpl extends EnvironmentStoreImpl implement
 	public EnvironmentNitrogenStoreImpl(SimEnvironmentImpl pSimEnvironmentImpl) {
 		super(pSimEnvironmentImpl, "Nitrogen");
 	}
-	
-    public float add(float pAmount){
-    	return super.add(pAmount);
-    }
-
 }
