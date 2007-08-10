@@ -224,6 +224,10 @@
 					outputs="Maintenance_Facility" maxFlowRates="100">
 				</nitrogenProducer>
 			</Injector>
+			<Injector moduleName="Maintenance_Oxygen_Injector">
+				<O2Consumer inputs="O2_Store" desiredFlowRates="3"
+					maxFlowRates="3" ></O2Consumer><O2Producer desiredFlowRates="3"
+					outputs="Maintenance_Facility" maxFlowRates="3" ></O2Producer></Injector>
 		</framework>
 		<water>
 			<WaterRS moduleName="Water_Distiller"
