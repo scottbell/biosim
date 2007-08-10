@@ -280,7 +280,7 @@ public class StoreImpl extends PassiveModuleImpl implements
         if (Float.isNaN(amountRequested)) {
             myLogger
                     .warn(getModuleName()
-                            + ": warning, in add(), attemped to add "
+                            + ": warning, in take(), attemped to add "
                             + amountRequested);
             return 0f;
         }

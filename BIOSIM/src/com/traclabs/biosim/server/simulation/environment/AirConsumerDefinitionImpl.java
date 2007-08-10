@@ -39,32 +39,36 @@ public class AirConsumerDefinitionImpl extends
     private float getGasConcentration(SimEnvironment environment, EnvironmentStore gasStore){
         float molesOfGas = gasStore.getCurrentLevel();
         float totalMoles = environment.getTotalMoles();
-        if (totalMoles >= 0)
+        if (totalMoles > 0)
         	return molesOfGas / totalMoles;
         else
         	return 0;
     }
 	
-	public Air getAirFromEnvironment(float molesOfAir, int indexOfEnvironment){
+	public Air getAirFromEnvironment(float pMolesOfAir, int indexOfEnvironment){
 		if (getEnvironments().length < indexOfEnvironment)
 			return new Air();
-		if (molesOfAir <= 0)
+
+		float airMolesToTakeFirst = Math.min(getMaxFlowRate(indexOfEnvironment), getDesiredFlowRate(indexOfEnvironment));
+		float airMolesToTakeFinal = Math.min(airMolesToTakeFirst, pMolesOfAir);
+		if (airMolesToTakeFinal <= 0)
 			return new Air();
+		
 		float actualFlowrateToEnvironment = 0f;
 		SimEnvironment environment = getEnvironments()[indexOfEnvironment];
-		float o2molesToTake = molesOfAir * getGasConcentration(environment, environment.getO2Store());
-		float co2molesToTake = molesOfAir * getGasConcentration(environment, environment.getCO2Store());
-		float othermolesToTake = molesOfAir * getGasConcentration(environment, environment.getOtherStore());
-		float vapormolesToTake = molesOfAir * getGasConcentration(environment, environment.getVaporStore());
-		float nitrogenmolesToTake = molesOfAir * getGasConcentration(environment, environment.getNitrogenStore());	
-		Air airToGet = new Air(o2molesToTake, co2molesToTake, othermolesToTake, vapormolesToTake, nitrogenmolesToTake);
-		actualFlowrateToEnvironment += environment.getO2Store().take(randomFilter(airToGet.o2Moles));
-		actualFlowrateToEnvironment += environment.getCO2Store().take(randomFilter(airToGet.co2Moles));
-		actualFlowrateToEnvironment += environment.getOtherStore().take(randomFilter(airToGet.otherMoles));
-		actualFlowrateToEnvironment += environment.getVaporStore().take(randomFilter(airToGet.vaporMoles));
-		actualFlowrateToEnvironment += environment.getNitrogenStore().take(randomFilter(airToGet.nitrogenMoles));
+		float o2molesToTake = airMolesToTakeFinal * getGasConcentration(environment, environment.getO2Store());
+		float co2molesToTake = airMolesToTakeFinal * getGasConcentration(environment, environment.getCO2Store());
+		float othermolesToTake = airMolesToTakeFinal * getGasConcentration(environment, environment.getOtherStore());
+		float vapormolesToTake = airMolesToTakeFinal * getGasConcentration(environment, environment.getVaporStore());
+		float nitrogenmolesToTake = airMolesToTakeFinal * getGasConcentration(environment, environment.getNitrogenStore());	
+		Air airTaken = new Air();
+		actualFlowrateToEnvironment += airTaken.o2Moles = environment.getO2Store().take(randomFilter(o2molesToTake));
+		actualFlowrateToEnvironment += airTaken.co2Moles = environment.getCO2Store().take(randomFilter(co2molesToTake));
+		actualFlowrateToEnvironment += airTaken.otherMoles = environment.getOtherStore().take(randomFilter(othermolesToTake));
+		actualFlowrateToEnvironment += airTaken.vaporMoles = environment.getVaporStore().take(randomFilter(vapormolesToTake));
+		actualFlowrateToEnvironment += airTaken.nitrogenMoles = environment.getNitrogenStore().take(randomFilter(nitrogenmolesToTake));
 		setActualFlowRate(actualFlowrateToEnvironment, indexOfEnvironment);
-		return airToGet;
+		return airTaken;
 	}
 
 	public Air getMostAirFromEnvironments() {

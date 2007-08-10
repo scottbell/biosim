@@ -65,7 +65,7 @@ public class FanImpl extends SimBioModuleImpl implements FanOperations, AirConsu
     }
 
     private float calculateAirToConsume(float powerReceived) {
-		return powerReceived / 10;
+		return powerReceived * 4;
 	}
 
 	protected String getMalfunctionName(MalfunctionIntensity pIntensity,
