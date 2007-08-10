@@ -311,6 +311,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     }
 
     public void log() {
+    	myLogger.debug(getModuleName()+ " levels");
         for (EnvironmentStoreImpl store : myEnvironmentStores)
         	store.log();
     }

@@ -100,7 +100,7 @@ public class VCCRLinearImpl extends SimBioModuleImpl implements VCCROperations,
     private void gatherCO2() {
         //25.625 watts -> 1.2125 moles of air per tick
     	//roughly 0.02844 moles of CO2 per tick
-        float molesAirNeeded = (currentPowerConsumed / 25.625f) * 1.2125f  * getTickLength();
+        float molesAirNeeded = (currentPowerConsumed / 25.625f) * 1.2125f  * 100 * getTickLength();
         SimEnvironment theEnvironment = myAirConsumerDefinitionImpl.getEnvironments()[0];
         Air airConsumed = myAirConsumerDefinitionImpl.getAirFromEnvironment(molesAirNeeded, 0);
     	gatheredCO2 = airConsumed.co2Moles;
