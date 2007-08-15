@@ -417,6 +417,11 @@
 				moduleName="main_vccr_power_sensor" index="0" logLevel="INFO">
 			</PowerInFlowRateSensor>
 		</power>
+		<air>
+			<CO2OutFlowRateSensor input="Main_VCCR" moduleName="main_vccr_co2_out_sensor" index="0"></CO2OutFlowRateSensor></air>
+		<environment>
+			<AirInFlowRateSensor input="Main_VCCR" moduleName="main_vccr_air_in_sensor" index="0"></AirInFlowRateSensor>
+			<AirOutFlowRateSensor input="Main_VCCR" moduleName="main_vccr_air_out_sensor" index="0"></AirOutFlowRateSensor></environment>
 	</Sensors>
 	<Actuators>
 		<power>
