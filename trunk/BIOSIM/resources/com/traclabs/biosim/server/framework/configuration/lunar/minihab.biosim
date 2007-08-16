@@ -138,13 +138,13 @@
 			</VCCR>
 			<VCCR moduleName="Backup_VCCR">
 				<powerConsumer inputs="General_Power_Store"
-					desiredFlowRates="0" maxFlowRates="0" />
-				<airConsumer inputs="Labs" desiredFlowRates="100"
-					maxFlowRates="100"></airConsumer>
-				<airProducer desiredFlowRates="100" outputs="Labs"
-					maxFlowRates="100"></airProducer>
-				<CO2Producer desiredFlowRates="100" outputs="CO2_Store"
-					maxFlowRates="100"></CO2Producer>
+					desiredFlowRates="0" maxFlowRates="2000" />
+				<airConsumer inputs="Labs" desiredFlowRates="10000"
+					maxFlowRates="10000"></airConsumer>
+				<airProducer desiredFlowRates="10000" outputs="Labs"
+					maxFlowRates="10000"></airProducer>
+				<CO2Producer desiredFlowRates="10000" outputs="CO2_Store"
+					maxFlowRates="10000"></CO2Producer>
 			</VCCR>
 			<OGS moduleName="OGS">
 				<powerConsumer inputs="General_Power_Store"
