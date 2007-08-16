@@ -25,10 +25,10 @@ public class BioDriverImpl extends BioDriverPOA {
 	private boolean simulationStarted = false;
 
 	// If <runTillN == true, this is the number of ticks to run for.
-	private int nTicks = 0;
+	private int nTicks;
 
 	// The number of ticks gone by
-	private int ticksGoneBy = 0;
+	private int ticksGoneBy;
 
 	// Tells whether simulation runs until crew death
 	private boolean runTillCrewDeath = false;
@@ -41,10 +41,10 @@ public class BioDriverImpl extends BioDriverPOA {
 	private boolean runTillN = false;
 
 	// How long BioDriver should pause between ticks
-	private int driverStutterLength = 0;
+	private int myDriverStutterLength;
 
 	// The ID of this instance of BioSim
-	private int myID = 0;
+	private int myID;
 
 	private Logger myLogger;
 
@@ -306,7 +306,7 @@ public class BioDriverImpl extends BioDriverPOA {
 		if (pDriverStutterLength > 0)
 			myLogger.debug("BioDriverImpl" + myID + ": driver pause of "
 					+ pDriverStutterLength + " milliseconds");
-		driverStutterLength = pDriverStutterLength;
+		myDriverStutterLength = pDriverStutterLength;
 	}
 
 	/**
@@ -315,7 +315,7 @@ public class BioDriverImpl extends BioDriverPOA {
 	 * @return How long the simulation pauses between full simulation ticks.
 	 */
 	public int getDriverStutterLength() {
-		return driverStutterLength;
+		return myDriverStutterLength;
 	}
 
 	/**
@@ -462,7 +462,7 @@ public class BioDriverImpl extends BioDriverPOA {
 			reset();
 		while (myTickThread == theCurrentThread) {
 			try {
-				Thread.sleep(driverStutterLength);
+				Thread.sleep(myDriverStutterLength);
 				synchronized (this) {
 					while (simulationIsPaused
 							&& (myTickThread == theCurrentThread)) {

@@ -208,10 +208,9 @@ public class BiosimInitializer {
 
 	// Globals
 	private void crawlGlobals(Node node, boolean firstPass) {
-		myBioDriverImpl = new BioDriverImpl(myID);
-        
 		if (firstPass) {
 			try {
+				myBioDriverImpl = new BioDriverImpl(myID);
 				// set the tickLength
 				float tickLength = Float.parseFloat(node.getAttributes()
 						.getNamedItem("tickLength").getNodeValue());
