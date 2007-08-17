@@ -320,8 +320,7 @@ public class Apollo13Viewer extends SimulationPanel {
 	private class AboutAction extends AbstractAction {
 		public void actionPerformed(ActionEvent ae) {
 			JOptionPane.showMessageDialog(Apollo13Viewer.this,
-					"Apollo 13 Simulation\nCopyright "
-							+ new Character('\u00A9') + " 2005, TRACLabs\n");
+					"Apollo 13 Simulation");
 		}
 	}
 
