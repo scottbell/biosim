@@ -367,8 +367,7 @@ public class SimDesktop extends BioFrame {
         myDisplayStochasticButton.setIcon(stochasticIcon);
         myDisplayStochasticButton.setText("");
         getContentPane().add(myToolBar, BorderLayout.NORTH);
-        setTitle("BioSim: Advanced Life Support Simulation  Copyright "
-                + new Character('\u00A9') + " 2005, TRACLabs");
+        setTitle("BioSim: Advanced Life Support Simulation");
         myDesktop.setDragMode(JDesktopPane.LIVE_DRAG_MODE);
         setIconImage(biosimIcon.getImage());
         getContentPane().add(myDesktop, BorderLayout.CENTER);
