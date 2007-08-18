@@ -4,7 +4,7 @@ package com.traclabs.biosim.client.control;
 /**
  * A controller for analytical approach.
  * @author Haibei
- * Configuration 5, change total area and volume, implement Crop Mix with crop death
+ * Configuration 6, change total area and volume, implement Crop Mix with crop death
  */
 public class AnalyticalController6 extends AnalyticalController5 {
 	public static final String CONFIGURATION_FILE = "kirsten/MurderControllerInit_CropDeath.xml";
