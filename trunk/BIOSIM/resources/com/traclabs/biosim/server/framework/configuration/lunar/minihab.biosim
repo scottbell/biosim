@@ -52,6 +52,11 @@
 					nitrogenPercentage="0.659" otherPercentage="0.001"
 					o2Percentage="0.33" totalPressure="55" co2Percentage="0.0" />
 			</SimEnvironment>
+			<SimEnvironment moduleName="EVA_Environment" initialVolume="2700000">
+				<percentageInitialization waterPercentage="0.0"
+					nitrogenPercentage="0.659" otherPercentage="0.001"
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0.0" />
+			</SimEnvironment>
 			<Dehumidifier moduleName="Main_Dehumidifier">
 				<airConsumer inputs="Maintenance_Facility"
 					desiredFlowRates="1000" maxFlowRates="1000"></airConsumer>
@@ -315,7 +320,8 @@
 							length="12" />
 						<activity intensity="0" name="sleep" length="8" />
 						<activity intensity="5" name="excercise"
-							length="2" />
+							length="2" /><activity intensity="4" name="EVA"
+							length="2" xsi:type="EVAActivityType" evaCrewGroup="EVA_Crew_Group" />
 					</schedule>
 				</crewPerson>
 			</CrewGroup>
@@ -346,6 +352,9 @@
 						<activity intensity="0" name="sleep" length="8" />
 						<activity intensity="5" name="excercise"
 							length="2" />
+						<activity intensity="5" name="excercise"
+							length="2" /><activity intensity="4" name="EVA"
+							length="2" xsi:type="EVAActivityType" evaCrewGroup="EVA_Crew_Group" />
 					</schedule>
 				</crewPerson>
 			</CrewGroup>
@@ -408,6 +417,26 @@
 							length="2" />
 					</schedule>
 				</crewPerson>
+			</CrewGroup>
+			<CrewGroup moduleName="EVA_Crew_Group">
+				<potableWaterConsumer inputs="Potable_Water_Store"
+					desiredFlowRates="3" maxFlowRates="3">
+				</potableWaterConsumer>
+				<airConsumer inputs="EVA_Environment"
+					desiredFlowRates="0" maxFlowRates="0" />
+				<foodConsumer inputs="Food_Store" desiredFlowRates="5"
+					maxFlowRates="5">
+				</foodConsumer>
+				<dirtyWaterProducer desiredFlowRates="100"
+					outputs="Dirty_Water_Store" maxFlowRates="100">
+				</dirtyWaterProducer>
+				<greyWaterProducer desiredFlowRates="100"
+					outputs="Grey_Water_Store" maxFlowRates="100" />
+				<airProducer desiredFlowRates="0"
+					outputs="EVA_Environment" maxFlowRates="0" />
+				<dryWasteProducer desiredFlowRates="10"
+					outputs="Dry_Waste_Store" maxFlowRates="10">
+				</dryWasteProducer>
 			</CrewGroup>
 		</crew>
 	</SimBioModules>
