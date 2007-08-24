@@ -64,9 +64,9 @@
 		</table>
 	</xsl:template>
 	
-	<!-- stores -->
+	<!-- SimBioModules -->
 	<xsl:template match="/biosim:biosim/biosim:SimBioModules" >
-		<h2>Buffers</h2>
+		<h2>Stores</h2>
 		<table border="1">
 			<tr bgcolor="cyan">
 				<th align="left">Name</th>
@@ -78,6 +78,37 @@
 					<td><xsl:value-of select="@moduleName" /></td>
 					<td><xsl:value-of select="@level" /></td>
 					<td><xsl:value-of select="@capacity" /></td>
+				</tr>
+			</xsl:for-each>
+		</table>
+		<h2>Systems</h2>
+		<table border="1">
+			<tr bgcolor="red">
+				<th align="left">Name</th>
+				<th align="left">Inputs</th>
+				<th align="left">Outputs</th>
+			</tr>
+			<xsl:for-each select="*/*[not(contains(name(),'Store') or contains(name(),'CrewGroup') or contains(name(),'SimEnvironment'))]">
+				<tr>
+					<td><xsl:value-of select="@moduleName" /></td>
+					<!-- inputs -->
+					<td>
+						<xsl:for-each select="*[contains(name(),'Consumer')]">
+							<xsl:value-of select="@inputs" /> 
+								<xsl:if test="position()=last()-1">
+									<xsl:text>, </xsl:text>
+								</xsl:if>
+						</xsl:for-each>
+					</td>
+					<!-- outputs -->
+					<td>
+						<xsl:for-each select="*[contains(name(),'Producer')]">
+							<xsl:value-of select="@outputs" /> 
+								<xsl:if test="position()=last()-1">
+									<xsl:text>, </xsl:text>
+								</xsl:if>
+						</xsl:for-each>
+					</td>
 				</tr>
 			</xsl:for-each>
 		</table>
@@ -93,25 +124,6 @@
 			<xsl:for-each select="*/*[contains(name(),'Sensor')]">
 				<tr>
 					<td><xsl:value-of select="@moduleName" /></td>
-				</tr>
-			</xsl:for-each>
-		</table>
-	</xsl:template>
-	
-	<!-- Systems -->
-	<xsl:template match="/biosim:biosim/biosim:SimBioModules" >
-		<h2>Systems</h2>
-		<table border="1">
-			<tr bgcolor="red">
-				<th align="left">Name</th>
-				<th align="left">Inputs</th>
-				<th align="left">Outputs</th>
-			</tr>
-			<xsl:for-each select="*/*[contains(name(),'VCCR')]">
-				<tr>
-					<td><xsl:value-of select="@moduleName" /></td>
-					<td></td>
-					<td></td>
 				</tr>
 			</xsl:for-each>
 		</table>
