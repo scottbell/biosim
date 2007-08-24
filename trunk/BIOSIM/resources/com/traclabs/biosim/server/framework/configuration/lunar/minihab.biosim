@@ -34,29 +34,29 @@
 				initialVolume="27000">
 				<percentageInitialization waterPercentage="0.01"
 					nitrogenPercentage="0.659" otherPercentage="0.001"
-					o2Percentage="0.33" totalPressure="55" co2Percentage="0.0" />
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />
 			</SimEnvironment>
 			<SimEnvironment moduleName="Galley" initialVolume="27000">
 				<percentageInitialization waterPercentage="0.01"
 					nitrogenPercentage="0.659" otherPercentage="0.001"
-					o2Percentage="0.33" totalPressure="55" co2Percentage="0.0" />
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />
 			</SimEnvironment>
 			<SimEnvironment moduleName="Labs" initialVolume="19000"
 				airlockVolume="80000">
 				<percentageInitialization waterPercentage="0.01"
 					nitrogenPercentage="0.659" otherPercentage="0.001"
-					o2Percentage="0.33" totalPressure="55" co2Percentage="0.0" />
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />
 			</SimEnvironment>
 			<SimEnvironment moduleName="Maintenance_Facility"
 				initialVolume="19000" airlockVolume="8000">
 				<percentageInitialization waterPercentage="0.01"
 					nitrogenPercentage="0.659" otherPercentage="0.001"
-					o2Percentage="0.33" totalPressure="55" co2Percentage="0.0" />
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />
 			</SimEnvironment>
 			<SimEnvironment moduleName="EVA_Environment" initialVolume="2700000">
-				<percentageInitialization waterPercentage="0.0"
+				<percentageInitialization waterPercentage="0"
 					nitrogenPercentage="0.659" otherPercentage="0.001"
-					o2Percentage="0.33" totalPressure="55" co2Percentage="0.0" />
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />
 			</SimEnvironment>
 			<Dehumidifier moduleName="Main_Dehumidifier">
 				<airConsumer inputs="Maintenance_Facility"
@@ -167,7 +167,7 @@
 			</O2Store>
 			<H2Store capacity="10000" moduleName="H2_Store" level="0"></H2Store>
 			<CO2Store capacity="1000" moduleName="CO2_Store"
-				level="0.0">
+				level="0">
 			</CO2Store>
 			<CRS moduleName="CRS">
 				<powerConsumer inputs="General_Power_Store"
@@ -249,10 +249,10 @@
 					outputs="Potable_Water_Store" maxFlowRates="1000" />
 			</WaterRS>
 			<DirtyWaterStore capacity="1000"
-				moduleName="Dirty_Water_Store" level="0.0">
+				moduleName="Dirty_Water_Store" level="0">
 			</DirtyWaterStore>
 			<GreyWaterStore capacity="1000"
-				moduleName="Grey_Water_Store" level="0.0">
+				moduleName="Grey_Water_Store" level="0">
 			</GreyWaterStore>
 			<PotableWaterStore capacity="1000"
 				moduleName="Potable_Water_Store" level="1000">
@@ -285,13 +285,13 @@
 			</PowerPS>
 		</power>
 		<food>
-			<FoodStore capacity="1000000000000" level="1000000000000"
+			<FoodStore capacity="10000" level="10000"
 				moduleName="Food_Store">
 			</FoodStore>
 		</food>
 		<waste>
 			<DryWasteStore capacity="1000000"
-				moduleName="Dry_Waste_Store" level="0.0">
+				moduleName="Dry_Waste_Store" level="0">
 			</DryWasteStore>
 		</waste>
 		<crew>
