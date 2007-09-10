@@ -1,5 +1,7 @@
 package com.traclabs.biosim.client.control;
 
+import java.util.Random;
+
 import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.client.util.BioHolder;
@@ -46,6 +48,8 @@ public class EnvironmentController extends MurderController implements
 
 	private GenericActuator myO2OutActuator;
 
+	private static final long seed =  System.currentTimeMillis();
+	
 	private MersenneTwister randomNumberGenerator = new MersenneTwister();
 
 	private int myCO2Segment1Time = (int) (100 * randomNumberGenerator

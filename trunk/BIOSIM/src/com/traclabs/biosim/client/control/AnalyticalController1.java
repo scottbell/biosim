@@ -2,6 +2,7 @@ package com.traclabs.biosim.client.control;
 
 import java.util.Random;
 
+import com.traclabs.biosim.ga.util.MersenneRandomGenerator;
 import com.traclabs.biosim.idl.simulation.food.PlantType;
 import com.traclabs.biosim.util.MersenneTwister;
 
@@ -19,8 +20,10 @@ public class AnalyticalController1 extends EnvironmentController implements Bios
 	public static final String DEFAULT_CONFIGURATION_FILE = "kirsten/MurderControllerInit.xml";
 
 	private static final String DEFAULT_LOG_FILE = "AnalyticalController1.log";
-	
-	protected static Random myRandomNumberGenerator = new MersenneTwister();
+
+	private static final long seed =  System.currentTimeMillis();
+		
+	protected static Random myRandomNumberGenerator = new MersenneTwister(seed);
 	
 	public AnalyticalController1() {
 		super(DEFAULT_CONFIGURATION_FILE, DEFAULT_LOG_FILE);
@@ -35,7 +38,7 @@ public class AnalyticalController1 extends EnvironmentController implements Bios
 	}
 
 	public static void main(String[] args) {
-		int max = 5000;
+		int max = 2000;
 		for (int i = 0; i < max; i ++){
 			AnalyticalController1 myController = new AnalyticalController1(DEFAULT_CONFIGURATION_FILE, DEFAULT_LOG_FILE);
 			myController.collectReferences();
