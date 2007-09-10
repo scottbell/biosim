@@ -1,6 +1,7 @@
 package com.traclabs.biosim.util;
 
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * <h3>MersenneTwister and MersenneTwisterFast</h3>
@@ -137,7 +138,7 @@ import java.io.Serializable;
  * @version 8
  */
 
-public class MersenneTwister extends java.util.Random implements Serializable {
+public class MersenneTwister extends Random implements Serializable {
 	// Period parameters
 	private static final int N = 624;
 
