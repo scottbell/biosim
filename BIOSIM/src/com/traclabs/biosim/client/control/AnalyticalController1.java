@@ -2,11 +2,8 @@ package com.traclabs.biosim.client.control;
 
 import java.util.Random;
 
-import com.traclabs.biosim.ga.util.MersenneRandomGenerator;
 import com.traclabs.biosim.idl.simulation.food.PlantType;
 import com.traclabs.biosim.util.MersenneTwister;
-
-
 
 /**
  * A controller to end and change the simulation based on gas composition.

@@ -1,7 +1,5 @@
 package com.traclabs.biosim.client.control;
 
-import java.util.Random;
-
 import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.client.util.BioHolder;
