@@ -51,8 +51,10 @@ public class AirConsumerDefinitionImpl extends
 
 		float airMolesToTakeFirst = Math.min(getMaxFlowRate(indexOfEnvironment), getDesiredFlowRate(indexOfEnvironment));
 		float airMolesToTakeFinal = Math.min(airMolesToTakeFirst, pMolesOfAir);
-		if (airMolesToTakeFinal <= 0)
+		if (airMolesToTakeFinal <= 0){
+			setActualFlowRate(0, indexOfEnvironment);
 			return new Air();
+		}
 		
 		float actualFlowrateToEnvironment = 0f;
 		SimEnvironment environment = getEnvironments()[indexOfEnvironment];
