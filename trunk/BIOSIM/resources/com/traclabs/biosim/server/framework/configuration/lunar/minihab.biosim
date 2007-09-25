@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
 	<Globals driverStutterLength="1000"
 		crewsToWatch="Crew_Quarters_Group Galley_Group Labs_Group Maintenance_Facility_Group"
-		runTillCrewDeath="true">
+		runTillCrewDeath="false">
 		<!--   -->
 		<log4jProperty
 			name="log4j.logger.com.traclabs.biosim.server.sensor.power"
@@ -27,6 +27,9 @@
 			value="INSERT INTO log (Message) VALUES ('%d - %c - %p - %m')" />
 		-->
 
+	<nameServiceLocation>
+		<serverLocation port="16315" hostname="jonesboro" />
+		</nameServiceLocation>
 	</Globals>
 	<SimBioModules>
 		<environment>
@@ -265,8 +268,8 @@
 			<PowerStore capacity="100000" moduleName="Fan_Battery"
 				level="100000">
 			</PowerStore>
-			<PowerStore capacity="100000" moduleName="CO2_Removal_Battery"
-				level="100000">
+			<PowerStore capacity="400000" moduleName="CO2_Removal_Battery"
+				level="400000">
 			</PowerStore>
 			<PowerPS moduleName="Fan_Battery_Source"
 				generationType="STATE_MACHINE" logLevel="INFO">
