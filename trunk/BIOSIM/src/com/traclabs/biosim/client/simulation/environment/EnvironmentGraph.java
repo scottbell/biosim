@@ -35,8 +35,14 @@ public class EnvironmentGraph extends PlotLive {
 			addPoint(i, myBioDriver.getTicks(), myEnvironments.get(i).getTotalPressure(), true);
 		}
 		addPoint(myEnvironments.size(), myBioDriver.getTicks(), totalPressure, true);
-		if (getXRange()[1] <= myBioDriver.getTicks()){
+		if (getXRange()[1] >= myBioDriver.getTicks() + TICKS_TO_KEEP){
 			setXRange(myBioDriver.getTicks(), myBioDriver.getTicks() + TICKS_TO_KEEP);
+			clear(true);
+			repaint();
+		}
+		else if (getXRange()[1] <= myBioDriver.getTicks()){
+			setXRange(myBioDriver.getTicks(), myBioDriver.getTicks() + TICKS_TO_KEEP);
+			repaint();
 		}
 		try {
             Thread.sleep(5);
