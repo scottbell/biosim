@@ -28,6 +28,8 @@ public class EnvironmentGraph extends PlotLive {
 
 	@Override
 	public synchronized void addPoints() {
+		if (myBioDriver.getTicks() <= 0)
+			return;
 		float totalPressure = 0f;
 		for (int i = 0; i < myEnvironments.size(); i++){
 			float pressure =  myEnvironments.get(i).getTotalPressure();
