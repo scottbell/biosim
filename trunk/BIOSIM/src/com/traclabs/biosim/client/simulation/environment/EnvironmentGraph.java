@@ -39,7 +39,7 @@ public class EnvironmentGraph extends PlotLive {
 		}
 		addPoint(myEnvironments.size(), myBioDriver.getTicks(), totalPressure, true);
 		if (!started){
-			setYRange(0, totalPressure);
+			setYRange(0, totalPressure + (totalPressure / 2));
 			started = true;
 			repaint();
 		}
