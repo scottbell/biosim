@@ -27,7 +27,7 @@ public class EnvironmentGraph extends PlotLive {
 	}
 
 	@Override
-	public void addPoints() {
+	public synchronized void addPoints() {
 		float totalPressure = 0f;
 		for (int i = 0; i < myEnvironments.size(); i++){
 			float pressure =  myEnvironments.get(i).getTotalPressure();
@@ -38,11 +38,10 @@ public class EnvironmentGraph extends PlotLive {
 		if (getXRange()[1] <= myBioDriver.getTicks()){
 			setXRange(myBioDriver.getTicks(), myBioDriver.getTicks() + TICKS_TO_KEEP);
 		}
-		repaint();
 		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-		}
+            Thread.sleep(5);
+        } catch (InterruptedException e) {
+        }
 	}
 
 }
