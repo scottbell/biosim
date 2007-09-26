@@ -49,6 +49,7 @@ public class EnvironmentGraph extends PlotLive {
 			clear(false);
 			setXRange(myBioDriver.getTicks(), myBioDriver.getTicks() + TICKS_TO_KEEP);
 			setYRange(yRange[0], yRange[1]);
+			_yRangeGiven = false;
 			repaint();
 		}
 		else if (getXRange()[1] <= myBioDriver.getTicks()){
