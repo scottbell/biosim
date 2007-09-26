@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../style/table.xsl"?>
+<biosim xmlns="http://www.traclabs.com/biosim"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
+	<Globals driverStutterLength="-1"
+		runTillCrewDeath="false">
+	</Globals>
+	<SimBioModules>
+		<environment>
+			<SimEnvironment moduleName="Crew_Quarters"
+				initialVolume="20000">
+				<percentageInitialization waterPercentage="0.01"
+					nitrogenPercentage="0.659" otherPercentage="0.001"
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0" ></percentageInitialization>
+			</SimEnvironment>
+			<SimEnvironment moduleName="Maintenance_Facility" initialVolume="20000">
+				<percentageInitialization waterPercentage="0.01"
+					nitrogenPercentage="0.659" otherPercentage="0.001"
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />
+			</SimEnvironment>
+			<SimEnvironment moduleName="Labs" initialVolume="20000">
+				<percentageInitialization waterPercentage="0.01"
+					nitrogenPercentage="0.659" otherPercentage="0.001"
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />
+			</SimEnvironment>
+			<Fan moduleName="Maintenance_to_Crew_Fan">
+				<airConsumer inputs="Maintenance_Facility"
+					desiredFlowRates="1000" maxFlowRates="1000" />
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="10"
+					maxFlowRates="10"></powerConsumer>
+				<airProducer desiredFlowRates="1000"
+					outputs="Crew_Quarters" maxFlowRates="1000" ></airProducer>
+			</Fan>
+			<Fan moduleName="Crew_to_Maintenance_Fan">
+				<airConsumer inputs="Crew_Quarters"
+					desiredFlowRates="1000" maxFlowRates="1000" />
+				<powerConsumer inputs="General_Power_Store"
+					desiredFlowRates="10" maxFlowRates="10" ></powerConsumer>
+				<airProducer desiredFlowRates="1000"
+					outputs="Maintenance_Facility" maxFlowRates="1000" ></airProducer>
+			</Fan>
+			<Fan moduleName="Maintenance_to_Labs_Fan">
+				<airConsumer inputs="Maintenance_Facility"
+					desiredFlowRates="1000" maxFlowRates="1000" />
+				<powerConsumer inputs="General_Power_Store"
+					desiredFlowRates="10" maxFlowRates="10" ></powerConsumer>
+				<airProducer desiredFlowRates="1000"
+					outputs="Labs" maxFlowRates="1000" ></airProducer>
+			</Fan>
+			<Fan moduleName="Labs_to_Maintenance_Fan">
+				<airConsumer inputs="Labs"
+					desiredFlowRates="1000" maxFlowRates="1000" />
+				<powerConsumer inputs="General_Power_Store"
+					desiredFlowRates="10" maxFlowRates="10" ></powerConsumer>
+				<airProducer desiredFlowRates="1000"
+					outputs="Maintenance_Facility" maxFlowRates="1000" ></airProducer>
+			</Fan>
+		</environment>
+		<power>
+			<PowerStore capacity="1000000000000000" moduleName="General_Power_Store" level="1000000000000000"></PowerStore></power>
+	</SimBioModules>
+</biosim>
