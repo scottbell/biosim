@@ -12,6 +12,7 @@ public class EnvironmentGraph extends PlotLive {
 	private List<SimEnvironment> myEnvironments;
 	private BioDriver myBioDriver;
 	private final static int TICKS_TO_KEEP = 30000;
+	private boolean started = false;
 
 	public EnvironmentGraph() {
 		setPointsPersistence(TICKS_TO_KEEP);
@@ -37,15 +38,25 @@ public class EnvironmentGraph extends PlotLive {
 			addPoint(i, myBioDriver.getTicks(), myEnvironments.get(i).getTotalPressure(), true);
 		}
 		addPoint(myEnvironments.size(), myBioDriver.getTicks(), totalPressure, true);
-		if (getXRange()[1] >= myBioDriver.getTicks() + TICKS_TO_KEEP){
+		if (!started){
+			setYRange(0, totalPressure);
+			started = true;
+			repaint();
+		}
+		//move x axis
+		if (getXRange()[0] >= myBioDriver.getTicks()){
+			double[] yRange = getYRange();
+			clear(false);
 			setXRange(myBioDriver.getTicks(), myBioDriver.getTicks() + TICKS_TO_KEEP);
-			clear(true);
+			setYRange(yRange[0], yRange[1]);
 			repaint();
 		}
 		else if (getXRange()[1] <= myBioDriver.getTicks()){
 			setXRange(myBioDriver.getTicks(), myBioDriver.getTicks() + TICKS_TO_KEEP);
 			repaint();
 		}
+			
+		//sleep
 		try {
             Thread.sleep(5);
         } catch (InterruptedException e) {
