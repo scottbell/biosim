@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="lib/jacorb/idl.jar"/>
 	<classpathentry kind="lib" path="resources"/>
 	<classpathentry kind="lib" path="lib/mysql/mysql-jdbc.jar"/>
+	<classpathentry kind="lib" path="lib/ptolemy/plot.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
