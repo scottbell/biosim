@@ -36,6 +36,7 @@ import com.traclabs.biosim.client.framework.UpdatablePanel;
 import com.traclabs.biosim.client.sensor.framework.SensorViewer;
 import com.traclabs.biosim.client.simulation.air.AirPanel;
 import com.traclabs.biosim.client.simulation.crew.CrewPanel;
+import com.traclabs.biosim.client.simulation.environment.EnvironmentGraph;
 import com.traclabs.biosim.client.simulation.environment.EnvironmentPanel;
 import com.traclabs.biosim.client.simulation.food.FoodPanel;
 import com.traclabs.biosim.client.simulation.power.PowerPanel;
@@ -152,6 +153,8 @@ public class SimDesktop extends BioFrame {
 
     private Action myShowSensorViewerAction;
 
+    private Action myShowEnvironmentGraphAction;
+
     private Action myLoggingAction;
 
     private Action myQuitAction;
@@ -249,6 +252,7 @@ public class SimDesktop extends BioFrame {
                 "Show Stochastic Controller");
         myShowSensorViewerAction = new ShowSensorViewerAction(
                 "Show Sensor Viewer");
+        myShowEnvironmentGraphAction = new ShowEnvironmentGraphAction("Show Environment Graph");
         myLoggingAction = new LoggingAction("Enable Logging");
         myTileAction = new TileAction("Tile");
         myStackAction = new StackAction("Stack");
@@ -280,7 +284,7 @@ public class SimDesktop extends BioFrame {
                 .add(myShowStochasticDisplayAction);
         myShowStochasticDisplayItem.setMnemonic(KeyEvent.VK_I);
         myNewMenu.add(myShowSensorViewerAction);
-        myShowStochasticDisplayItem.setMnemonic(KeyEvent.VK_I);
+        myNewMenu.add(myShowEnvironmentGraphAction);
         myFileMenu.add(myNewMenu);
         myLoggingItem = myFileMenu.add(myLoggingAction);
         myLoggingItem.setMnemonic(KeyEvent.VK_L);
@@ -728,6 +732,17 @@ public class SimDesktop extends BioFrame {
         }
     }
 
+    /**
+     * Displays the Enviornment volume graph with an internal frame inside this
+     * desktop.
+     */
+    private void displayEnvironmentGraph() {
+        if (!tryExisitingInternalFrame("Environment Graph")) {
+            SimDesktopFrame newFrame = addInternalFrame("Environment Graph", new EnvironmentGraph());
+            newFrame.pack();
+        }
+    }
+
     protected Map getInternalFrames() {
         return myFrames;
     }
@@ -907,6 +922,18 @@ public class SimDesktop extends BioFrame {
         public void actionPerformed(ActionEvent ae) {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             displaySensorViewer();
+            setCursor(Cursor.getDefaultCursor());
+        }
+    }
+    
+    private class ShowEnvironmentGraphAction extends AbstractAction {
+        public ShowEnvironmentGraphAction(String name) {
+            super(name);
+        }
+
+        public void actionPerformed(ActionEvent ae) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            displayEnvironmentGraph();
             setCursor(Cursor.getDefaultCursor());
         }
     }

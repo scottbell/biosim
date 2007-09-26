@@ -22,18 +22,9 @@ public class StoreImpl extends PassiveModuleImpl implements
     //The currentLevel of whatever this store is holding (at t)
     protected float currentLevel = 0f;
 
-    //The currentLevel of whatever this store is holding (at t-1)
-    protected float cachedLevel = 0f;
-
     //The currentCapacity of what this store can hold (at t)
     protected float currentCapacity = 0f;
-
-    //The currentCapacity of what this store can hold (at t-1)
-    protected float cachedCapacity = 0f;
-
-    //What this store has leaked (at t-1)
-    protected float cachedOverflow = 0f;
-
+    
     //What this store has leaked (at t)
     protected float overflow = 0f;
 
@@ -57,8 +48,8 @@ public class StoreImpl extends PassiveModuleImpl implements
      */
     public StoreImpl(int pID, String pName) {
         super(pID, pName);
-        currentLevel = cachedLevel = initialLevel = 100f;
-        currentCapacity = cachedCapacity = initialCapacity = 100f;
+        currentLevel  = initialLevel = 100f;
+        currentCapacity = initialCapacity = 100f;
     }
 
     /**
@@ -83,8 +74,8 @@ public class StoreImpl extends PassiveModuleImpl implements
             float pInitialCapacity, boolean pPipe) {
         super(pID, pName);
         pipe = pPipe;
-        currentLevel = cachedLevel = initialLevel = pInitialLevel;
-        currentCapacity = cachedCapacity = initialCapacity = pInitialCapacity;
+        currentLevel = initialLevel = pInitialLevel;
+        currentCapacity = initialCapacity = pInitialCapacity;
     }
 
     public StoreImpl() {
@@ -133,7 +124,7 @@ public class StoreImpl extends PassiveModuleImpl implements
      *            the new volume of the store
      */
     public void setCurrentCapacity(float metricAmount) {
-        currentCapacity = cachedCapacity = metricAmount;
+        currentCapacity = metricAmount;
     }
 
     /**
@@ -143,7 +134,7 @@ public class StoreImpl extends PassiveModuleImpl implements
      *            the currentLevel to set the store to
      */
     public void setCurrentLevel(float metricAmount) {
-        currentLevel = cachedLevel = metricAmount;
+        currentLevel = metricAmount;
     }
 
     public void setInitialLevel(float metricAmount) {
@@ -153,9 +144,6 @@ public class StoreImpl extends PassiveModuleImpl implements
 
     public void tick() {
         super.tick();
-        cachedLevel = currentLevel;
-        cachedCapacity = currentCapacity;
-        cachedOverflow = overflow;
         if ((getMyTicks() > 0) && (resupplyFrequency > 0)) {
             int remainder = getMyTicks() % resupplyFrequency;
             if (remainder == 0) {
@@ -306,8 +294,6 @@ public class StoreImpl extends PassiveModuleImpl implements
      * @return the currentLevel of the store
      */
     public float getCurrentLevel() {
-        if (cachedValueNeeded())
-            return cachedLevel;
 		return currentLevel;
     }
 
@@ -317,8 +303,6 @@ public class StoreImpl extends PassiveModuleImpl implements
      * @return the overflow of the store
      */
     public float getOverflow() {
-        if (cachedValueNeeded())
-            return cachedOverflow;
 		return overflow;
     }
 
@@ -328,8 +312,6 @@ public class StoreImpl extends PassiveModuleImpl implements
      * @return the currentCapacity of the store
      */
     public float getCurrentCapacity() {
-        if (cachedValueNeeded())
-            return cachedCapacity;
 		return currentCapacity;
     }
 
@@ -338,9 +320,9 @@ public class StoreImpl extends PassiveModuleImpl implements
      */
     public void reset() {
         super.reset();
-        currentLevel = cachedLevel = initialLevel;
-        currentCapacity = cachedCapacity = initialCapacity;
-        overflow = cachedOverflow = 0f;
+        currentLevel = initialLevel;
+        currentCapacity = initialCapacity;
+        overflow = 0f;
     }
 
     private boolean cachedValueNeeded() {
@@ -370,10 +352,6 @@ public class StoreImpl extends PassiveModuleImpl implements
      */
     public float getInitialLevel() {
         return initialLevel;
-    }
-    
-    protected float getNonCachedLevel(){
-    	return currentLevel;
     }
 
 	public float getPercentageFilled() {
