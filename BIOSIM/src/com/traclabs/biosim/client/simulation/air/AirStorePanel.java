@@ -43,6 +43,7 @@ public class AirStorePanel extends GraphPanel {
     private ValueAxis rangeAxis;
 
     protected void createGraph() {
+    	try{
         // create the chart...
         BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
         myO2Store = (myBioHolder.theO2Stores.get(0));
@@ -76,6 +77,10 @@ public class AirStorePanel extends GraphPanel {
         myChartPanel.setMinimumDrawHeight(250);
         myChartPanel.setMinimumDrawWidth(250);
         myChartPanel.setPreferredSize(new Dimension(200, 200));
+    	}
+    	catch (ArrayIndexOutOfBoundsException e){
+    		//do nothing
+    	}
     }
 
     public void refresh() {
