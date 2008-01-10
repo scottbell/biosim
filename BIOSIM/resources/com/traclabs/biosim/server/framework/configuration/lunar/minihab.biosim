@@ -3,29 +3,33 @@
 <biosim xmlns="http://www.traclabs.com/biosim"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
-	<Globals driverStutterLength="0"
+	<Globals driverStutterLength="1000"
 		crewsToWatch="Crew_Quarters_Group Galley_Group Labs_Group Maintenance_Facility_Group"
-		runTillCrewDeath="false" runTillN="300">
-		<!--
-			<log4jProperty
+		runTillCrewDeath="false">
+		<!--   -->
+		<log4jProperty
 			name="log4j.logger.com.traclabs.biosim.server.sensor.power"
 			value="DEBUG, dbAppender" />
-			<log4jProperty name="log4j.appender.dbAppender"
+		<log4jProperty name="log4j.appender.dbAppender"
 			value="org.apache.log4j.jdbc.JDBCAppender" />
-			<log4jProperty name="log4j.appender.dbAppender.layout"
+		<log4jProperty name="log4j.appender.dbAppender.layout"
 			value="org.apache.log4j.PatternLayout" />
-			<log4jProperty
+		<log4jProperty
 			name="log4j.appender.dbAppender.layout.ConversionPattern"
 			value="%5p [%c] - %m%n" />
-			<log4jProperty name="log4j.appender.dbAppender.URL"
+		<log4jProperty name="log4j.appender.dbAppender.URL"
 			value="jdbc:mysql://localhost/biosim" />
-			<log4jProperty name="log4j.appender.dbAppender.user"
+		<log4jProperty name="log4j.appender.dbAppender.user"
 			value="root"></log4jProperty>
-			<log4jProperty name="log4j.appender.dbAppender.password"
+		<log4jProperty name="log4j.appender.dbAppender.password"
 			value="" />
-			<log4jProperty name="log4j.appender.dbAppender.sql"
+		<log4jProperty name="log4j.appender.dbAppender.sql"
 			value="INSERT INTO log (Message) VALUES ('%d - %c - %p - %m')" />
 		-->
+
+	<nameServiceLocation>
+		<serverLocation port="16315" hostname="jonesboro" />
+		</nameServiceLocation>
 	</Globals>
 	<SimBioModules>
 		<environment>
@@ -69,7 +73,7 @@
 				<dirtyWaterProducer desiredFlowRates="1000"
 					outputs="Dirty_Water_Store" maxFlowRates="1000" />
 			</Dehumidifier>
-			<Fan moduleName="Maintenance_to_Crew_Fan" logLevel="DEBUG">
+			<Fan moduleName="Maintenance_to_Crew_Fan">
 				<airConsumer inputs="Maintenance_Facility"
 					desiredFlowRates="1000" maxFlowRates="1000" />
 				<powerConsumer inputs="Fan_Battery" desiredFlowRates="50"
@@ -77,7 +81,7 @@
 				<airProducer desiredFlowRates="1000"
 					outputs="Crew_Quarters" maxFlowRates="1000" ></airProducer>
 			</Fan>
-			<Fan moduleName="Crew_to_Maintenance_Fan" logLevel="DEBUG">
+			<Fan moduleName="Crew_to_Maintenance_Fan">
 				<airConsumer inputs="Crew_Quarters"
 					desiredFlowRates="1000" maxFlowRates="1000" />
 				<powerConsumer inputs="General_Power_Store"
@@ -85,7 +89,7 @@
 				<airProducer desiredFlowRates="1000"
 					outputs="Maintenance_Facility" maxFlowRates="1000" ></airProducer>
 			</Fan>
-			<Fan moduleName="Crew_to_Galley_Fan" logLevel="DEBUG">
+			<Fan moduleName="Crew_to_Galley_Fan">
 				<airConsumer inputs="Crew_Quarters"
 					desiredFlowRates="1000" maxFlowRates="1000" />
 				<powerConsumer inputs="General_Power_Store"
@@ -93,7 +97,7 @@
 				<airProducer desiredFlowRates="1000" outputs="Galley"
 					maxFlowRates="1000" />
 			</Fan>
-			<Fan moduleName="Galley_to_Crew_Fan" logLevel="DEBUG">
+			<Fan moduleName="Galley_to_Crew_Fan">
 				<airConsumer inputs="Galley" desiredFlowRates="1000"
 					maxFlowRates="1000" />
 				<powerConsumer inputs="General_Power_Store"
@@ -101,7 +105,7 @@
 				<airProducer desiredFlowRates="1000"
 					outputs="Crew_Quarters" maxFlowRates="1000" />
 			</Fan>
-			<Fan moduleName="Galley_to_Labs_Fan" logLevel="DEBUG">
+			<Fan moduleName="Galley_to_Labs_Fan">
 				<airConsumer inputs="Galley" desiredFlowRates="1000"
 					maxFlowRates="1000" />
 				<powerConsumer inputs="General_Power_Store"
@@ -109,7 +113,7 @@
 				<airProducer desiredFlowRates="1000" outputs="Labs"
 					maxFlowRates="1000" ></airProducer>
 			</Fan>
-			<Fan moduleName="Labs_to_Galley_Fan" logLevel="DEBUG">
+			<Fan moduleName="Labs_to_Galley_Fan">
 				<airConsumer inputs="Labs" desiredFlowRates="1000"
 					maxFlowRates="1000" />
 				<powerConsumer inputs="General_Power_Store"
@@ -131,8 +135,8 @@
 			<NitrogenStore capacity="10000"
 				moduleName="Maintenance_Facility_Nitrogen_Store" level="10000">
 			</NitrogenStore>
-			<VCCR moduleName="Main_VCCR" logLevel="DEBUG">
-				<powerConsumer inputs="General_Power_Store"
+			<VCCR moduleName="Main_VCCR">
+				<powerConsumer inputs="CO2_Removal_Battery"
 					desiredFlowRates="2000" maxFlowRates="2000" ></powerConsumer>
 				<airConsumer inputs="Maintenance_Facility"
 					desiredFlowRates="10000" maxFlowRates="10000"></airConsumer>
@@ -141,7 +145,7 @@
 				<CO2Producer desiredFlowRates="10000" outputs="CO2_Store"
 					maxFlowRates="10000"></CO2Producer>
 			</VCCR>
-			<VCCR moduleName="Backup_VCCR" logLevel="DEBUG">
+			<VCCR moduleName="Backup_VCCR">
 				<powerConsumer inputs="General_Power_Store"
 					desiredFlowRates="0" maxFlowRates="2000" />
 				<airConsumer inputs="Labs" desiredFlowRates="10000"
@@ -151,7 +155,7 @@
 				<CO2Producer desiredFlowRates="10000" outputs="CO2_Store"
 					maxFlowRates="10000"></CO2Producer>
 			</VCCR>
-			<OGS moduleName="OGS" logLevel="DEBUG">
+			<OGS moduleName="OGS">
 				<powerConsumer inputs="General_Power_Store"
 					desiredFlowRates="1000" maxFlowRates="1000" />
 				<potableWaterConsumer inputs="Potable_Water_Store"
@@ -168,7 +172,7 @@
 			<CO2Store capacity="1000" moduleName="CO2_Store"
 				level="0">
 			</CO2Store>
-			<CRS moduleName="CRS" logLevel="DEBUG">
+			<CRS moduleName="CRS">
 				<powerConsumer inputs="General_Power_Store"
 					desiredFlowRates="100" maxFlowRates="100" />
 				<CO2Consumer inputs="CO2_Store" desiredFlowRates="100"
@@ -183,7 +187,7 @@
 			<MethaneStore capacity="1000" moduleName="Methane_Store"
 				level="0">
 			</MethaneStore>
-			<Pyrolizer moduleName="Pyrolizer" logLevel="DEBUG">
+			<Pyrolizer moduleName="Pyrolizer">
 				<powerConsumer inputs="General_Power_Store"
 					desiredFlowRates="100" maxFlowRates="100" />
 				<methaneConsumer inputs="Methane_Store"
@@ -236,7 +240,7 @@
 		</framework>
 		<water>
 			<WaterRS moduleName="Water_Distiller"
-				implementation="LINEAR" logLevel="DEBUG">
+				implementation="LINEAR">
 				<powerConsumer inputs="General_Power_Store"
 					desiredFlowRates="1000" maxFlowRates="1000" />
 				<dirtyWaterConsumer inputs="Dirty_Water_Store"
@@ -268,9 +272,14 @@
 				level="400000">
 			</PowerStore>
 			<PowerPS moduleName="Fan_Battery_Source"
-				generationType="NUCLEAR" logLevel="INFO">
+				generationType="STATE_MACHINE" logLevel="INFO">
 				<powerProducer desiredFlowRates="1000"
 					outputs="Fan_Battery" maxFlowRates="1000" />
+			</PowerPS>
+			<PowerPS moduleName="CO2_Removal_Battery_Source"
+				generationType="STATE_MACHINE" logLevel="INFO">
+				<powerProducer desiredFlowRates="2000"
+					outputs="CO2_Removal_Battery" maxFlowRates="2000" />
 			</PowerPS>
 			<PowerPS moduleName="General_Power_Producer"
 				generationType="NUCLEAR" upperPowerGeneration="500000">
@@ -440,6 +449,8 @@
 			<PowerInFlowRateSensor input="Main_VCCR"
 				moduleName="main_vccr_power_sensor" index="0" logLevel="INFO">
 			</PowerInFlowRateSensor>
+		</power>
+		<power>
 			<PowerInFlowRateSensor input="Backup_VCCR"
 				moduleName="backup_vccr_power_sensor" index="0" logLevel="INFO">
 			</PowerInFlowRateSensor>

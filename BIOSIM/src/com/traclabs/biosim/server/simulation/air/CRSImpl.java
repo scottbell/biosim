@@ -145,10 +145,6 @@ public class CRSImpl extends SimBioModuleImpl implements CRSOperations,
 
     protected void performMalfunctions() {
     }
-    
-    public void log() {
-        myLogger.debug("power_consumed=" + currentPowerConsumed);
-    }
 
     /**
      * Resets production/consumption levels.

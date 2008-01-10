@@ -97,6 +97,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
      * Called at every tick of the simulation. Does nothing if not overriden.
      */
     public void tick() {
+    	myLogger.debug("Ticking "+getModuleName());
         checkForScheduledMalfunctions();
         if (canFail && !hasFailed)
             checkForFailure();

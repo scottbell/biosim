@@ -17,7 +17,8 @@ public class PowerConsumerDefinitionImpl extends StoreFlowRateControllableImpl
     private PowerConsumerDefinition myPowerConsumerDefinition;
 
     public PowerConsumerDefinitionImpl(BioModuleImpl pModule) {
-    	super(pModule);
+super(pModule);
+
     	PowerConsumerDefinitionPOATie tie = new PowerConsumerDefinitionPOATie(this);
     	myPowerConsumerDefinition = tie._this(OrbUtils.getORB());
     }

@@ -115,14 +115,13 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
         gatherWater();
         pushWater();
     }
-    
+
+    protected void performMalfunctions() {
+    }
+
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
             MalfunctionLength pLength) {
         return "NoName";
-    }
-    
-    public void log() {
-        myLogger.debug("power_consumed=" + currentPowerConsumed);
     }
 
 }

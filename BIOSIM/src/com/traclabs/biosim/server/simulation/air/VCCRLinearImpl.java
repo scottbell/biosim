@@ -106,10 +106,8 @@ public class VCCRLinearImpl extends SimBioModuleImpl implements VCCROperations,
     	gatheredCO2 = airConsumed.co2Moles;
     	airConsumed.co2Moles = 0f;
     	myAirProducerDefinitionImpl.pushAirToEnvironment(airConsumed, 0);
-    }
-    
-    public void log() {
-        myLogger.debug("power_consumed=" + currentPowerConsumed);
+        myLogger.debug("gatheredCO2 = "+gatheredCO2);
+        myLogger.debug("currentPowerConsumed = "+currentPowerConsumed);
     }
 
     private void pushCO2() {
@@ -117,5 +115,6 @@ public class VCCRLinearImpl extends SimBioModuleImpl implements VCCROperations,
         currentCO2Produced = gatheredCO2;
         myCO2ProducerDefinitionImpl
                 .pushResourceToStores(currentCO2Produced);
+        myLogger.debug("currentCO2Produced = " + currentCO2Produced);
     }
 }

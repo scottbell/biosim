@@ -66,7 +66,7 @@
 	
 	<target name="compile-stubs" depends="init-build,init-tmp" description="compiles the IDL stubs">
 		<echo message="Compiling stubs" />
-		<javac srcdir="${stubsDir}" destdir="${buildDir}" fork="yes" memoryMaximumSize="256m" nowarn="yes">
+		<javac srcdir="${stubsDir}" destdir="${buildDir}" fork="yes" memoryMaximumSize="128m" nowarn="yes">
 			<classpath>
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 			</classpath>

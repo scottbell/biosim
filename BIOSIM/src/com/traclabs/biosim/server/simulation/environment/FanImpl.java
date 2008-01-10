@@ -26,10 +26,8 @@ public class FanImpl extends SimBioModuleImpl implements FanOperations, AirConsu
 
     private AirProducerDefinitionImpl myAirProducerDefinitionImpl;
     
-    //  in kPA assuming 101 kPa total pressure and air temperature of 23C and relative humidity of 80%
     public static final float OPTIMAL_MOISTURE_CONCENTRATION = 0.0218910f;
-
-    private float currentPowerConsumed = 0f;
+    //  in kPA assuming 101 kPa total pressure and air temperature of 23C and relative humidity of 80%
 
     public FanImpl(int pID, String pName) {
         super(pID, pName);
@@ -60,8 +58,8 @@ public class FanImpl extends SimBioModuleImpl implements FanOperations, AirConsu
     }
 
     private void getAndPushAir() {
-    	currentPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStores();
-    	float molesOfAirToConsume = calculateAirToConsume(currentPowerConsumed);
+    	float powerReceived = myPowerConsumerDefinitionImpl.getMostResourceFromStores();
+    	float molesOfAirToConsume = calculateAirToConsume(powerReceived);
     	Air airConsumed = myAirConsumerDefinitionImpl.getAirFromEnvironment(molesOfAirToConsume, 0);
     	myAirProducerDefinitionImpl.pushAirToEnvironment(airConsumed, 0);
     }
@@ -85,10 +83,6 @@ public class FanImpl extends SimBioModuleImpl implements FanOperations, AirConsu
             returnBuffer.append("Permanent Production Reduction");
         return returnBuffer.toString();
     }
-    
-    public void log() {
-        myLogger.debug("power_consumed=" + currentPowerConsumed);
-    }
 
     protected void performMalfunctions() {
     }
@@ -98,5 +92,8 @@ public class FanImpl extends SimBioModuleImpl implements FanOperations, AirConsu
         myAirConsumerDefinitionImpl.reset();
         myAirProducerDefinitionImpl.reset();
         myPowerConsumerDefinitionImpl.reset();
+    }
+
+    public void log() {
     }
 }
