@@ -61,6 +61,8 @@ import com.traclabs.biosim.idl.sensor.environment.AirInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.environment.AirOutFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.environment.GasConcentrationSensor;
 import com.traclabs.biosim.idl.sensor.environment.GasPressureSensor;
+import com.traclabs.biosim.idl.sensor.environment.TotalMolesSensor;
+import com.traclabs.biosim.idl.sensor.environment.TotalPressureSensor;
 import com.traclabs.biosim.idl.sensor.food.BiomassInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.food.BiomassOutFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.food.BiomassStoreWaterContentSensor;
@@ -252,6 +254,10 @@ public class BioHolder {
     public List<GasPressureSensor> theGasPressureSensors = new Vector<GasPressureSensor>();
 
     public List<GasConcentrationSensor> theGasConcentrationSensors = new Vector<GasConcentrationSensor>();
+
+    public List<TotalMolesSensor> theTotalMolesSensors = new Vector<TotalMolesSensor>();
+
+    public List<TotalPressureSensor> theTotalPressureSensors = new Vector<TotalPressureSensor>();
 
     //Food
     public List<BiomassInFlowRateSensor> theBiomassInFlowRateSensors = new Vector<BiomassInFlowRateSensor>();

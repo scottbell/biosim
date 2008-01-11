@@ -63,6 +63,8 @@ import com.traclabs.biosim.idl.sensor.environment.AirInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.environment.AirOutFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.environment.GasConcentrationSensorHelper;
 import com.traclabs.biosim.idl.sensor.environment.GasPressureSensorHelper;
+import com.traclabs.biosim.idl.sensor.environment.TotalMolesSensorHelper;
+import com.traclabs.biosim.idl.sensor.environment.TotalPressureSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.BiomassInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.BiomassOutFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.BiomassStoreWaterContentSensorHelper;
@@ -862,13 +864,21 @@ public class BioHolderInitializer {
 	private static void fetchGasPressureSensor(Node child) {
 		myBioHolder.theGasPressureSensors.add(GasPressureSensorHelper
 				.narrow(grabModule(getModuleName(child))));
-
 	}
 
 	private static void fetchGasConcentrationSensor(Node child) {
 		myBioHolder.theGasConcentrationSensors.add(GasConcentrationSensorHelper
 				.narrow(grabModule(getModuleName(child))));
+	}
 
+	private static void fetchTotalMolesSensor(Node child) {
+		myBioHolder.theTotalMolesSensors.add(TotalMolesSensorHelper
+				.narrow(grabModule(getModuleName(child))));
+	}
+
+	private static void fetchTotalPressureSensor(Node child) {
+		myBioHolder.theTotalPressureSensors.add(TotalPressureSensorHelper
+				.narrow(grabModule(getModuleName(child))));
 	}
 
 	private static void crawlEnvironmentSensors(Node node) {
@@ -884,6 +894,10 @@ public class BioHolderInitializer {
 					fetchGasConcentrationSensor(child);
 				else if (childName.equals("GasPressureSensor"))
 					fetchGasPressureSensor(child);
+				else if (childName.equals("TotalMolesSensor"))
+					fetchTotalMolesSensor(child);
+				else if (childName.equals("TotalPressureSensor"))
+					fetchTotalPressureSensor(child);
 			}
 			child = child.getNextSibling();
 		}
