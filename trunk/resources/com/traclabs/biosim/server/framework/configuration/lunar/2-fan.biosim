@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../style/table.xsl"?>
+<biosim xmlns="http://www.traclabs.com/biosim"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
+	<Globals driverStutterLength="-1" runTillCrewDeath="false"
+		startPaused="false">
+	</Globals>
+	<SimBioModules>
+		<environment>
+			<SimEnvironment moduleName="Crew_Quarters"
+				initialVolume="20000">
+			</SimEnvironment>
+			<SimEnvironment moduleName="Labs" initialVolume="20000">
+			</SimEnvironment>
+			<Fan moduleName="Crew_to_Labs_Fan">
+				<airConsumer inputs="Crew_Quarters"
+					desiredFlowRates="1000" maxFlowRates="1000" />
+				<powerConsumer inputs="General_Power_Store"
+					desiredFlowRates="10" maxFlowRates="10" ></powerConsumer>
+				<airProducer desiredFlowRates="1000"
+					outputs="Labs" maxFlowRates="1000" ></airProducer>
+			</Fan>
+			<Fan moduleName="Labs_to_Crew_Fan">
+				<airConsumer inputs="Labs"
+					desiredFlowRates="1000" maxFlowRates="1000" />
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="10"
+					maxFlowRates="10"></powerConsumer>
+				<airProducer desiredFlowRates="1000"
+					outputs="Crew_Quarters" maxFlowRates="1000" ></airProducer>
+			</Fan>
+		</environment>
+		<power>
+			<PowerStore capacity="1000000000000000" moduleName="General_Power_Store" level="1000000000000000">
+			</PowerStore>
+		</power>
+	</SimBioModules>
+	<Sensors>
+		<environment>
+			<AirInFlowRateSensor input="Crew_to_Labs_Fan" moduleName="Crew_to_Labs_Fan-InSensor" index="0"></AirInFlowRateSensor>
+			<AirOutFlowRateSensor input="Crew_to_Labs_Fan" moduleName="Crew_to_Labs_Fan-OutSensor" index="0"></AirOutFlowRateSensor>
+			<AirInFlowRateSensor input="Labs_to_Crew_Fan" moduleName="Labs_to_Crew_Fan-InSensor" index="0"></AirInFlowRateSensor>
+			<AirOutFlowRateSensor input="Labs_to_Crew_Fan" moduleName="Labs_to_Crew_Fan-OutSensor" index="0"></AirOutFlowRateSensor>
+			<GasPressureSensor input="Crew_Quarters" moduleName="Crew_Pressure_Sensor" gasType="O2"></GasPressureSensor>
+			<GasPressureSensor input="Labs" moduleName="Labs_Pressure_Sensor" gasType="O2"></GasPressureSensor></environment></Sensors>
+</biosim>
