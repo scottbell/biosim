@@ -885,6 +885,8 @@ module com{
                                                         void setInput(in simulation::environment::SimEnvironment source);
                                                         simulation::environment::SimEnvironment getInput();
                                                 };
+                                                interface TotalPressureSensor : EnvironmentSensor{};   
+                                                interface TotalMolesSensor : EnvironmentSensor{};   
                                                 interface GasPressureSensor : framework::GenericSensor{
                                                         void setInput(in simulation::environment::EnvironmentStore source);
                                                         simulation::environment::EnvironmentStore getInput();
@@ -893,8 +895,7 @@ module com{
                                                         void setInput(in simulation::environment::SimEnvironment environment, in simulation::environment::EnvironmentStore gas);
                                                         simulation::environment::SimEnvironment getEnvironment();
                                                         simulation::environment::EnvironmentStore getGas();
-                                                };
-                                                interface LightLevelSensor : EnvironmentSensor{};                
+                                                };   
                                                 interface AirInFlowRateSensor : framework::GenericSensor{
                                                         void setInput(in simulation::environment::AirConsumer pConsumer, in long pIndex);
                                                         simulation::environment::AirConsumer getInput();
