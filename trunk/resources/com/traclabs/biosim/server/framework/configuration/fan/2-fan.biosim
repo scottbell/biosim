@@ -41,8 +41,9 @@
 			<AirOutFlowRateSensor input="Crew_to_Labs_Fan" moduleName="Crew_to_Labs_Fan-OutSensor" index="0"></AirOutFlowRateSensor>
 			<AirInFlowRateSensor input="Labs_to_Crew_Fan" moduleName="Labs_to_Crew_Fan-InSensor" index="0"></AirInFlowRateSensor>
 			<AirOutFlowRateSensor input="Labs_to_Crew_Fan" moduleName="Labs_to_Crew_Fan-OutSensor" index="0"></AirOutFlowRateSensor>
-			<TotalMolesSensor input="Crew_Quarters" moduleName="Crew_Quarters_Total_Moles"></TotalMolesSensor>
+			<TotalPressureSensor input="Crew_Quarters" moduleName="Crew_Quarters_Pressure"></TotalPressureSensor>
+			<TotalPressureSensor input="Labs" moduleName="Labs_Pressure"></TotalPressureSensor>
+
 			
-			<TotalMolesSensor input="Labs" moduleName="Labs_Total_Moles"></TotalMolesSensor>
 		</environment></Sensors>
 </biosim>
