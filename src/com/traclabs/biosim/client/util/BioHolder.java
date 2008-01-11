@@ -530,6 +530,8 @@ public class BioHolder {
         theSensors.addAll(theAirOutFlowRateSensors);
         theSensors.addAll(theGasPressureSensors);
         theSensors.addAll(theGasConcentrationSensors);
+        theSensors.addAll(theTotalMolesSensors);
+        theSensors.addAll(theTotalPressureSensors);
         //Food
         theSensors.addAll(theBiomassInFlowRateSensors);
         theSensors.addAll(theBiomassOutFlowRateSensors);
