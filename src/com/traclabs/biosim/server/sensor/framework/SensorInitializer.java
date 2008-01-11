@@ -57,6 +57,12 @@ import com.traclabs.biosim.idl.sensor.environment.GasConcentrationSensorPOATie;
 import com.traclabs.biosim.idl.sensor.environment.GasPressureSensor;
 import com.traclabs.biosim.idl.sensor.environment.GasPressureSensorHelper;
 import com.traclabs.biosim.idl.sensor.environment.GasPressureSensorPOATie;
+import com.traclabs.biosim.idl.sensor.environment.TotalMolesSensor;
+import com.traclabs.biosim.idl.sensor.environment.TotalMolesSensorHelper;
+import com.traclabs.biosim.idl.sensor.environment.TotalMolesSensorPOATie;
+import com.traclabs.biosim.idl.sensor.environment.TotalPressureSensor;
+import com.traclabs.biosim.idl.sensor.environment.TotalPressureSensorHelper;
+import com.traclabs.biosim.idl.sensor.environment.TotalPressureSensorPOATie;
 import com.traclabs.biosim.idl.sensor.food.BiomassInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.food.BiomassInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.food.BiomassInFlowRateSensorPOATie;
@@ -186,6 +192,8 @@ import com.traclabs.biosim.server.sensor.environment.AirInFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.environment.AirOutFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.environment.GasConcentrationSensorImpl;
 import com.traclabs.biosim.server.sensor.environment.GasPressureSensorImpl;
+import com.traclabs.biosim.server.sensor.environment.TotalMolesSensorImpl;
+import com.traclabs.biosim.server.sensor.environment.TotalPressureSensorImpl;
 import com.traclabs.biosim.server.sensor.food.BiomassInFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.food.BiomassOutFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.food.BiomassStoreWaterContentSensorImpl;
@@ -232,32 +240,32 @@ public class SensorInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName != null){
-			if (childName.equals("air")) {
-				crawlAirSensors(child, firstPass);
+			if (childName != null) {
+				if (childName.equals("air")) {
+					crawlAirSensors(child, firstPass);
 
-			} else if (childName.equals("crew")) {
-				crawlCrewSensors(child, firstPass);
+				} else if (childName.equals("crew")) {
+					crawlCrewSensors(child, firstPass);
 
-			} else if (childName.equals("environment")) {
-				crawlEnvironmentSensors(child, firstPass);
+				} else if (childName.equals("environment")) {
+					crawlEnvironmentSensors(child, firstPass);
 
-			} else if (childName.equals("food")) {
-				crawlFoodSensors(child, firstPass);
+				} else if (childName.equals("food")) {
+					crawlFoodSensors(child, firstPass);
 
-			} else if (childName.equals("framework")) {
-				crawlFrameworkSensors(child, firstPass);
+				} else if (childName.equals("framework")) {
+					crawlFrameworkSensors(child, firstPass);
 
-			} else if (childName.equals("power")) {
-				crawlPowerSensors(child, firstPass);
+				} else if (childName.equals("power")) {
+					crawlPowerSensors(child, firstPass);
 
-			} else if (childName.equals("water")) {
-				crawlWaterSensors(child, firstPass);
+				} else if (childName.equals("water")) {
+					crawlWaterSensors(child, firstPass);
 
-			} else if (childName.equals("waste")) {
-				crawlWasteSensors(child, firstPass);
+				} else if (childName.equals("waste")) {
+					crawlWasteSensors(child, firstPass);
 
-			}
+				}
 			}
 			child = child.getNextSibling();
 		}
@@ -536,58 +544,58 @@ public class SensorInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName != null){
-			if (childName.equals("CO2InFlowRateSensor")) {
-				if (firstPass)
-					createCO2InFlowRateSensor(child);
-				else
-					configureCO2InFlowRateSensor(child);
-			} else if (childName.equals("CO2OutFlowRateSensor")) {
-				if (firstPass)
-					createCO2OutFlowRateSensor(child);
-				else
-					configureCO2OutFlowRateSensor(child);
-			} else if (childName.equals("O2InFlowRateSensor")) {
-				if (firstPass)
-					createO2InFlowRateSensor(child);
-				else
-					configureO2InFlowRateSensor(child);
-			} else if (childName.equals("O2OutFlowRateSensor")) {
-				if (firstPass)
-					createO2OutFlowRateSensor(child);
-				else
-					configureO2OutFlowRateSensor(child);
-			} else if (childName.equals("H2InFlowRateSensor")) {
-				if (firstPass)
-					createH2InFlowRateSensor(child);
-				else
-					configureH2InFlowRateSensor(child);
-			} else if (childName.equals("H2OutFlowRateSensor")) {
-				if (firstPass)
-					createH2OutFlowRateSensor(child);
-				else
-					configureH2OutFlowRateSensor(child);
-			} else if (childName.equals("NitrogenInFlowRateSensor")) {
-				if (firstPass)
-					createNitrogenInFlowRateSensor(child);
-				else
-					configureNitrogenInFlowRateSensor(child);
-			} else if (childName.equals("NitrogenOutFlowRateSensor")) {
-				if (firstPass)
-					createNitrogenOutFlowRateSensor(child);
-				else
-					configureNitrogenOutFlowRateSensor(child);
-			} else if (childName.equals("MethaneInFlowRateSensor")) {
-				if (firstPass)
-					createMethaneInFlowRateSensor(child);
-				else
-					configureMethaneInFlowRateSensor(child);
-			} else if (childName.equals("MethaneOutFlowRateSensor")) {
-				if (firstPass)
-					createMethaneOutFlowRateSensor(child);
-				else
-					configureMethaneOutFlowRateSensor(child);
-			}
+			if (childName != null) {
+				if (childName.equals("CO2InFlowRateSensor")) {
+					if (firstPass)
+						createCO2InFlowRateSensor(child);
+					else
+						configureCO2InFlowRateSensor(child);
+				} else if (childName.equals("CO2OutFlowRateSensor")) {
+					if (firstPass)
+						createCO2OutFlowRateSensor(child);
+					else
+						configureCO2OutFlowRateSensor(child);
+				} else if (childName.equals("O2InFlowRateSensor")) {
+					if (firstPass)
+						createO2InFlowRateSensor(child);
+					else
+						configureO2InFlowRateSensor(child);
+				} else if (childName.equals("O2OutFlowRateSensor")) {
+					if (firstPass)
+						createO2OutFlowRateSensor(child);
+					else
+						configureO2OutFlowRateSensor(child);
+				} else if (childName.equals("H2InFlowRateSensor")) {
+					if (firstPass)
+						createH2InFlowRateSensor(child);
+					else
+						configureH2InFlowRateSensor(child);
+				} else if (childName.equals("H2OutFlowRateSensor")) {
+					if (firstPass)
+						createH2OutFlowRateSensor(child);
+					else
+						configureH2OutFlowRateSensor(child);
+				} else if (childName.equals("NitrogenInFlowRateSensor")) {
+					if (firstPass)
+						createNitrogenInFlowRateSensor(child);
+					else
+						configureNitrogenInFlowRateSensor(child);
+				} else if (childName.equals("NitrogenOutFlowRateSensor")) {
+					if (firstPass)
+						createNitrogenOutFlowRateSensor(child);
+					else
+						configureNitrogenOutFlowRateSensor(child);
+				} else if (childName.equals("MethaneInFlowRateSensor")) {
+					if (firstPass)
+						createMethaneInFlowRateSensor(child);
+					else
+						configureMethaneInFlowRateSensor(child);
+				} else if (childName.equals("MethaneOutFlowRateSensor")) {
+					if (firstPass)
+						createMethaneOutFlowRateSensor(child);
+					else
+						configureMethaneOutFlowRateSensor(child);
+				}
 			}
 			child = child.getNextSibling();
 		}
@@ -677,23 +685,23 @@ public class SensorInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName != null){
-			if (childName.equals("CrewGroupDeathSensor")) {
-				if (firstPass)
-					createCrewGroupDeathSensor(child);
-				else
-					configureCrewGroupDeathSensor(child);
-			} else if (childName.equals("CrewGroupAnyDeadSensor")) {
-				if (firstPass)
-					createCrewGroupAnyDeadSensor(child);
-				else
-					configureCrewGroupAnyDeadSensor(child);
-			} else if (childName.equals("CrewGroupProductivitySensor")) {
-				if (firstPass)
-					createCrewGroupProductivitySensor(child);
-				else
-					configureCrewGroupProductivitySensor(child);
-			}
+			if (childName != null) {
+				if (childName.equals("CrewGroupDeathSensor")) {
+					if (firstPass)
+						createCrewGroupDeathSensor(child);
+					else
+						configureCrewGroupDeathSensor(child);
+				} else if (childName.equals("CrewGroupAnyDeadSensor")) {
+					if (firstPass)
+						createCrewGroupAnyDeadSensor(child);
+					else
+						configureCrewGroupAnyDeadSensor(child);
+				} else if (childName.equals("CrewGroupProductivitySensor")) {
+					if (firstPass)
+						createCrewGroupProductivitySensor(child);
+					else
+						configureCrewGroupProductivitySensor(child);
+				}
 			}
 			child = child.getNextSibling();
 		}
@@ -771,14 +779,17 @@ public class SensorInitializer {
 		GasConcentrationSensor myGasConcentrationSensor = GasConcentrationSensorHelper
 				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
 						.getModuleName(node)));
-		SimEnvironment inputEnvironment = SimEnvironmentHelper.narrow(BiosimInitializer.grabModule(myID, getInputName(node)));
-		myGasConcentrationSensor.setInput(inputEnvironment, getGasStore(node, inputEnvironment));
+		SimEnvironment inputEnvironment = SimEnvironmentHelper
+				.narrow(BiosimInitializer.grabModule(myID, getInputName(node)));
+		myGasConcentrationSensor.setInput(inputEnvironment, getGasStore(node,
+				inputEnvironment));
 		mySensors.add(myGasConcentrationSensor);
 	}
 
-	private EnvironmentStore getGasStore(Node node, SimEnvironment pSimEnvironment) {
-		String gasString = node.getAttributes().getNamedItem(
-				"gasType").getNodeValue();
+	private EnvironmentStore getGasStore(Node node,
+			SimEnvironment pSimEnvironment) {
+		String gasString = node.getAttributes().getNamedItem("gasType")
+				.getNodeValue();
 		if (gasString.equals("O2"))
 			return pSimEnvironment.getO2Store();
 		else if (gasString.equals("CO2"))
@@ -801,8 +812,7 @@ public class SensorInitializer {
 					+ moduleName);
 			GasPressureSensorImpl myGasPressureSensorImpl = new GasPressureSensorImpl(
 					myID, moduleName);
-			BiosimInitializer
-					.setupBioModule(myGasPressureSensorImpl, node);
+			BiosimInitializer.setupBioModule(myGasPressureSensorImpl, node);
 			BiosimServer.registerServer(new GasPressureSensorPOATie(
 					myGasPressureSensorImpl), myGasPressureSensorImpl
 					.getModuleName(), myGasPressureSensorImpl.getID());
@@ -812,39 +822,100 @@ public class SensorInitializer {
 
 	private void configureGasPressureSensor(Node node) {
 		GasPressureSensor myGasPressureSensor = GasPressureSensorHelper
-		.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
-				.getModuleName(node)));
-		SimEnvironment inputEnvironment = SimEnvironmentHelper.narrow(BiosimInitializer.grabModule(myID, getInputName(node)));
+				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+						.getModuleName(node)));
+		SimEnvironment inputEnvironment = SimEnvironmentHelper
+				.narrow(BiosimInitializer.grabModule(myID, getInputName(node)));
 		myGasPressureSensor.setInput(getGasStore(node, inputEnvironment));
 		mySensors.add(myGasPressureSensor);
+	}
+	
+	private void createTotalMolesSensor(Node node) {
+		String moduleName = BiosimInitializer.getModuleName(node);
+		if (BiosimInitializer.isCreatedLocally(node)) {
+			myLogger.debug("Creating TotalMolesSensor with moduleName: "
+					+ moduleName);
+			TotalMolesSensorImpl myTotalMolesSensorImpl = new TotalMolesSensorImpl(
+					myID, moduleName);
+			BiosimInitializer.setupBioModule(myTotalMolesSensorImpl, node);
+			BiosimServer.registerServer(new TotalMolesSensorPOATie(
+					myTotalMolesSensorImpl), myTotalMolesSensorImpl
+					.getModuleName(), myTotalMolesSensorImpl.getID());
+		} else
+			BiosimInitializer.printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureTotalMolesSensor(Node node) {
+		TotalMolesSensor myTotalMolesSensor = TotalMolesSensorHelper
+				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+						.getModuleName(node)));
+		SimEnvironment inputEnvironment = SimEnvironmentHelper
+				.narrow(BiosimInitializer.grabModule(myID, getInputName(node)));
+		myTotalMolesSensor.setInput(inputEnvironment);
+		mySensors.add(myTotalMolesSensor);
+	}
+	
+	private void createTotalPressureSensor(Node node) {
+		String moduleName = BiosimInitializer.getModuleName(node);
+		if (BiosimInitializer.isCreatedLocally(node)) {
+			myLogger.debug("Creating TotalPressureSensor with moduleName: "
+					+ moduleName);
+			TotalPressureSensorImpl myTotalPressureSensorImpl = new TotalPressureSensorImpl(
+					myID, moduleName);
+			BiosimInitializer.setupBioModule(myTotalPressureSensorImpl, node);
+			BiosimServer.registerServer(new TotalPressureSensorPOATie(
+					myTotalPressureSensorImpl), myTotalPressureSensorImpl
+					.getModuleName(), myTotalPressureSensorImpl.getID());
+		} else
+			BiosimInitializer.printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureTotalPressureSensor(Node node) {
+		TotalPressureSensor myTotalPressureSensor = TotalPressureSensorHelper
+				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+						.getModuleName(node)));
+		SimEnvironment inputEnvironment = SimEnvironmentHelper
+				.narrow(BiosimInitializer.grabModule(myID, getInputName(node)));
+		myTotalPressureSensor.setInput(inputEnvironment);
+		mySensors.add(myTotalPressureSensor);
 	}
 
 	private void crawlEnvironmentSensors(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName != null){
-			if (childName.equals("AirInFlowRateSensor")) {
-				if (firstPass)
-					createAirInFlowRateSensor(child);
-				else
-					configureAirInFlowRateSensor(child);
-			} else if (childName.equals("AirOutFlowRateSensor")) {
-				if (firstPass)
-					createAirOutFlowRateSensor(child);
-				else
-					configureAirOutFlowRateSensor(child);
-			} else if (childName.equals("GasPressureSensor")) {
-				if (firstPass)
-					createGasPressureSensor(child);
-				else
-					configureGasPressureSensor(child);
-			} else if (childName.equals("GasConcentrationSensor")) {
-				if (firstPass)
-					createGasConcentrationSensor(child);
-				else
-					configureGasConcentrationSensor(child);
-			}
+			if (childName != null) {
+				if (childName.equals("AirInFlowRateSensor")) {
+					if (firstPass)
+						createAirInFlowRateSensor(child);
+					else
+						configureAirInFlowRateSensor(child);
+				} else if (childName.equals("AirOutFlowRateSensor")) {
+					if (firstPass)
+						createAirOutFlowRateSensor(child);
+					else
+						configureAirOutFlowRateSensor(child);
+				} else if (childName.equals("GasPressureSensor")) {
+					if (firstPass)
+						createGasPressureSensor(child);
+					else
+						configureGasPressureSensor(child);
+				} else if (childName.equals("GasConcentrationSensor")) {
+					if (firstPass)
+						createGasConcentrationSensor(child);
+					else
+						configureGasConcentrationSensor(child);
+				} else if (childName.equals("TotalMolesSensor")) {
+					if (firstPass)
+						createTotalMolesSensor(child);
+					else
+						configureTotalMolesSensor(child);
+				} else if (childName.equals("TotalPressureSensor")) {
+					if (firstPass)
+						createTotalPressureSensor(child);
+					else
+						configureTotalPressureSensor(child);
+				}
 			}
 			child = child.getNextSibling();
 		}
@@ -1043,18 +1114,21 @@ public class SensorInitializer {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void createTimeTillCanopyClosureSensor(Node node) {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
-			myLogger.debug("Creating TimeTillCanopyClosureSensor with moduleName: "
-					+ moduleName);
+			myLogger
+					.debug("Creating TimeTillCanopyClosureSensor with moduleName: "
+							+ moduleName);
 			TimeTillCanopyClosureSensorImpl myTimeTillCanopyClosureSensorImpl = new TimeTillCanopyClosureSensorImpl(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myTimeTillCanopyClosureSensorImpl, node);
+			BiosimInitializer.setupBioModule(myTimeTillCanopyClosureSensorImpl,
+					node);
 			BiosimServer.registerServer(new TimeTillCanopyClosureSensorPOATie(
-					myTimeTillCanopyClosureSensorImpl), myTimeTillCanopyClosureSensorImpl
-					.getModuleName(), myTimeTillCanopyClosureSensorImpl.getID());
+					myTimeTillCanopyClosureSensorImpl),
+					myTimeTillCanopyClosureSensorImpl.getModuleName(),
+					myTimeTillCanopyClosureSensorImpl.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1078,48 +1152,48 @@ public class SensorInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName != null){
-			if (childName.equals("BiomassInFlowRateSensor")) {
-				if (firstPass)
-					createBiomassInFlowRateSensor(child);
-				else
-					configureBiomassInFlowRateSensor(child);
-			} else if (childName.equals("BiomassOutFlowRateSensor")) {
-				if (firstPass)
-					createBiomassOutFlowRateSensor(child);
-				else
-					configureBiomassOutFlowRateSensor(child);
-			} else if (childName.equals("BiomassStoreWaterContentSensor")) {
-				if (firstPass)
-					createBiomassStoreWaterContentSensor(child);
-				else
-					configureBiomassStoreWaterContentSensor(child);
-			} else if (childName.equals("FoodInFlowRateSensor")) {
-				if (firstPass)
-					createFoodInFlowRateSensor(child);
-				else
-					configureFoodInFlowRateSensor(child);
-			} else if (childName.equals("FoodOutFlowRateSensor")) {
-				if (firstPass)
-					createFoodOutFlowRateSensor(child);
-				else
-					configureFoodOutFlowRateSensor(child);
-			} else if (childName.equals("HarvestSensor")) {
-				if (firstPass)
-					createHarvestSensor(child);
-				else
-					configureHarvestSensor(child);
-			} else if (childName.equals("PlantDeathSensor")) {
-				if (firstPass)
-					createPlantDeathSensor(child);
-				else
-					configurePlantDeathSensor(child);
-			} else if (childName.equals("TimeTillCanopyClosureSensor")) {
-				if (firstPass)
-					createTimeTillCanopyClosureSensor(child);
-				else
-					configureTimeTillCanopyClosureSensor(child);
-			}
+			if (childName != null) {
+				if (childName.equals("BiomassInFlowRateSensor")) {
+					if (firstPass)
+						createBiomassInFlowRateSensor(child);
+					else
+						configureBiomassInFlowRateSensor(child);
+				} else if (childName.equals("BiomassOutFlowRateSensor")) {
+					if (firstPass)
+						createBiomassOutFlowRateSensor(child);
+					else
+						configureBiomassOutFlowRateSensor(child);
+				} else if (childName.equals("BiomassStoreWaterContentSensor")) {
+					if (firstPass)
+						createBiomassStoreWaterContentSensor(child);
+					else
+						configureBiomassStoreWaterContentSensor(child);
+				} else if (childName.equals("FoodInFlowRateSensor")) {
+					if (firstPass)
+						createFoodInFlowRateSensor(child);
+					else
+						configureFoodInFlowRateSensor(child);
+				} else if (childName.equals("FoodOutFlowRateSensor")) {
+					if (firstPass)
+						createFoodOutFlowRateSensor(child);
+					else
+						configureFoodOutFlowRateSensor(child);
+				} else if (childName.equals("HarvestSensor")) {
+					if (firstPass)
+						createHarvestSensor(child);
+					else
+						configureHarvestSensor(child);
+				} else if (childName.equals("PlantDeathSensor")) {
+					if (firstPass)
+						createPlantDeathSensor(child);
+					else
+						configurePlantDeathSensor(child);
+				} else if (childName.equals("TimeTillCanopyClosureSensor")) {
+					if (firstPass)
+						createTimeTillCanopyClosureSensor(child);
+					else
+						configureTimeTillCanopyClosureSensor(child);
+				}
 			}
 			child = child.getNextSibling();
 		}
@@ -1173,18 +1247,21 @@ public class SensorInitializer {
 				.grabModule(myID, getInputName(node))));
 		mySensors.add(myStoreOverflowSensor);
 	}
-	
+
 	private void createInfluentValveStateSensor(Node node) {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
-			myLogger.debug("Creating InfluentValveStateSensor with moduleName: "
-					+ moduleName);
+			myLogger
+					.debug("Creating InfluentValveStateSensor with moduleName: "
+							+ moduleName);
 			InfluentValveStateSensorImpl myInfluentValveStateSensorImpl = new InfluentValveStateSensorImpl(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myInfluentValveStateSensorImpl, node);
+			BiosimInitializer.setupBioModule(myInfluentValveStateSensorImpl,
+					node);
 			BiosimServer.registerServer(new InfluentValveStateSensorPOATie(
-					myInfluentValveStateSensorImpl), myInfluentValveStateSensorImpl
-					.getModuleName(), myInfluentValveStateSensorImpl.getID());
+					myInfluentValveStateSensorImpl),
+					myInfluentValveStateSensorImpl.getModuleName(),
+					myInfluentValveStateSensorImpl.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1193,22 +1270,26 @@ public class SensorInitializer {
 		InfluentValveStateSensor myInfluentValveStateSensor = InfluentValveStateSensorHelper
 				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
 						.getModuleName(node)));
-		myInfluentValveStateSensor.setInput(InfluentValveHelper.narrow(BiosimInitializer
-				.grabModule(myID, getInputName(node))));
+		myInfluentValveStateSensor
+				.setInput(InfluentValveHelper.narrow(BiosimInitializer
+						.grabModule(myID, getInputName(node))));
 		mySensors.add(myInfluentValveStateSensor);
 	}
-	
+
 	private void createEffluentValveStateSensor(Node node) {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
-			myLogger.debug("Creating EffluentValveStateSensor with moduleName: "
-					+ moduleName);
+			myLogger
+					.debug("Creating EffluentValveStateSensor with moduleName: "
+							+ moduleName);
 			EffluentValveStateSensorImpl myEffluentValveStateSensorImpl = new EffluentValveStateSensorImpl(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myEffluentValveStateSensorImpl, node);
+			BiosimInitializer.setupBioModule(myEffluentValveStateSensorImpl,
+					node);
 			BiosimServer.registerServer(new EffluentValveStateSensorPOATie(
-					myEffluentValveStateSensorImpl), myEffluentValveStateSensorImpl
-					.getModuleName(), myEffluentValveStateSensorImpl.getID());
+					myEffluentValveStateSensorImpl),
+					myEffluentValveStateSensorImpl.getModuleName(),
+					myEffluentValveStateSensorImpl.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1217,8 +1298,9 @@ public class SensorInitializer {
 		EffluentValveStateSensor myEffluentValveStateSensor = EffluentValveStateSensorHelper
 				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
 						.getModuleName(node)));
-		myEffluentValveStateSensor.setInput(EffluentValveHelper.narrow(BiosimInitializer
-				.grabModule(myID, getInputName(node))));
+		myEffluentValveStateSensor
+				.setInput(EffluentValveHelper.narrow(BiosimInitializer
+						.grabModule(myID, getInputName(node))));
 		mySensors.add(myEffluentValveStateSensor);
 	}
 
@@ -1226,28 +1308,28 @@ public class SensorInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName != null){
-			if (childName.equals("StoreLevelSensor")) {
-				if (firstPass)
-					createStoreLevelSensor(child);
-				else
-					configureStoreLevelSensor(child);
-			} else if (childName.equals("StoreOverflowSensor")) {
-				if (firstPass)
-					createStoreOverflowSensor(child);
-				else
-					configureStoreOverflowSensor(child);
-			} else if (childName.equals("InfluentValveStateSensor")) {
-				if (firstPass)
-					createInfluentValveStateSensor(child);
-				else
-					configureInfluentValveStateSensor(child);
-			} else if (childName.equals("EffluentValveStateSensor")) {
-				if (firstPass)
-					createEffluentValveStateSensor(child);
-				else
-					configureEffluentValveStateSensor(child);
-			}
+			if (childName != null) {
+				if (childName.equals("StoreLevelSensor")) {
+					if (firstPass)
+						createStoreLevelSensor(child);
+					else
+						configureStoreLevelSensor(child);
+				} else if (childName.equals("StoreOverflowSensor")) {
+					if (firstPass)
+						createStoreOverflowSensor(child);
+					else
+						configureStoreOverflowSensor(child);
+				} else if (childName.equals("InfluentValveStateSensor")) {
+					if (firstPass)
+						createInfluentValveStateSensor(child);
+					else
+						configureInfluentValveStateSensor(child);
+				} else if (childName.equals("EffluentValveStateSensor")) {
+					if (firstPass)
+						createEffluentValveStateSensor(child);
+					else
+						configureEffluentValveStateSensor(child);
+				}
 			}
 			child = child.getNextSibling();
 		}
@@ -1309,18 +1391,18 @@ public class SensorInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName != null){
-			if (childName.equals("PowerInFlowRateSensor")) {
-				if (firstPass)
-					createPowerInFlowRateSensor(child);
-				else
-					configurePowerInFlowRateSensor(child);
-			} else if (childName.equals("PowerOutFlowRateSensor")) {
-				if (firstPass)
-					createPowerOutFlowRateSensor(child);
-				else
-					configurePowerOutFlowRateSensor(child);
-			}
+			if (childName != null) {
+				if (childName.equals("PowerInFlowRateSensor")) {
+					if (firstPass)
+						createPowerInFlowRateSensor(child);
+					else
+						configurePowerInFlowRateSensor(child);
+				} else if (childName.equals("PowerOutFlowRateSensor")) {
+					if (firstPass)
+						createPowerOutFlowRateSensor(child);
+					else
+						configurePowerOutFlowRateSensor(child);
+				}
 			}
 			child = child.getNextSibling();
 		}
@@ -1551,48 +1633,48 @@ public class SensorInitializer {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
-			if (childName != null){
-			if (childName.equals("PotableWaterInFlowRateSensor")) {
-				if (firstPass)
-					createPotableWaterInFlowRateSensor(child);
-				else
-					configurePotableWaterInFlowRateSensor(child);
-			} else if (childName.equals("PotableWaterOutFlowRateSensor")) {
-				if (firstPass)
-					createPotableWaterOutFlowRateSensor(child);
-				else
-					configurePotableWaterOutFlowRateSensor(child);
-			} else if (childName.equals("GreyWaterInFlowRateSensor")) {
-				if (firstPass)
-					createGreyWaterInFlowRateSensor(child);
-				else
-					configureGreyWaterInFlowRateSensor(child);
-			} else if (childName.equals("GreyWaterOutFlowRateSensor")) {
-				if (firstPass)
-					createGreyWaterOutFlowRateSensor(child);
-				else
-					configureGreyWaterOutFlowRateSensor(child);
-			} else if (childName.equals("DirtyWaterInFlowRateSensor")) {
-				if (firstPass)
-					createDirtyWaterInFlowRateSensor(child);
-				else
-					configureDirtyWaterInFlowRateSensor(child);
-			} else if (childName.equals("DirtyWaterOutFlowRateSensor")) {
-				if (firstPass)
-					createDirtyWaterOutFlowRateSensor(child);
-				else
-					configureDirtyWaterOutFlowRateSensor(child);
-			} else if (childName.equals("WaterInFlowRateSensor")) {
-				if (firstPass)
-					createWaterInFlowRateSensor(child);
-				else
-					configureWaterInFlowRateSensor(child);
-			} else if (childName.equals("WaterOutFlowRateSensor")) {
-				if (firstPass)
-					createWaterOutFlowRateSensor(child);
-				else
-					configureWaterOutFlowRateSensor(child);
-			}
+			if (childName != null) {
+				if (childName.equals("PotableWaterInFlowRateSensor")) {
+					if (firstPass)
+						createPotableWaterInFlowRateSensor(child);
+					else
+						configurePotableWaterInFlowRateSensor(child);
+				} else if (childName.equals("PotableWaterOutFlowRateSensor")) {
+					if (firstPass)
+						createPotableWaterOutFlowRateSensor(child);
+					else
+						configurePotableWaterOutFlowRateSensor(child);
+				} else if (childName.equals("GreyWaterInFlowRateSensor")) {
+					if (firstPass)
+						createGreyWaterInFlowRateSensor(child);
+					else
+						configureGreyWaterInFlowRateSensor(child);
+				} else if (childName.equals("GreyWaterOutFlowRateSensor")) {
+					if (firstPass)
+						createGreyWaterOutFlowRateSensor(child);
+					else
+						configureGreyWaterOutFlowRateSensor(child);
+				} else if (childName.equals("DirtyWaterInFlowRateSensor")) {
+					if (firstPass)
+						createDirtyWaterInFlowRateSensor(child);
+					else
+						configureDirtyWaterInFlowRateSensor(child);
+				} else if (childName.equals("DirtyWaterOutFlowRateSensor")) {
+					if (firstPass)
+						createDirtyWaterOutFlowRateSensor(child);
+					else
+						configureDirtyWaterOutFlowRateSensor(child);
+				} else if (childName.equals("WaterInFlowRateSensor")) {
+					if (firstPass)
+						createWaterInFlowRateSensor(child);
+					else
+						configureWaterInFlowRateSensor(child);
+				} else if (childName.equals("WaterOutFlowRateSensor")) {
+					if (firstPass)
+						createWaterOutFlowRateSensor(child);
+					else
+						configureWaterOutFlowRateSensor(child);
+				}
 			}
 			child = child.getNextSibling();
 		}
