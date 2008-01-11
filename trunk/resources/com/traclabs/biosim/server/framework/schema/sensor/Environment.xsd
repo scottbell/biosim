@@ -34,6 +34,20 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<xsd:complexType name="TotalPressureSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="TotalMolesSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<xsd:complexType name="EnvironmentSensorsType">
 		<xsd:sequence>
 			<xsd:choice minOccurs="0" maxOccurs="unbounded">
@@ -45,6 +59,10 @@
 					type="GasPressureSensorType"/>
 				<xsd:element name="GasConcentrationSensor"
 					type="GasConcentrationSensorType"/>
+				<xsd:element name="TotalMolesSensor"
+					type="TotalMolesSensorType"/>
+				<xsd:element name="TotalPressureSensor"
+					type="TotalPressureSensorType"/>
 			</xsd:choice>
 		</xsd:sequence>
 	</xsd:complexType>
