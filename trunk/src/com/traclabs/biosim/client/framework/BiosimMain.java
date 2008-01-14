@@ -11,7 +11,7 @@ import com.traclabs.biosim.client.control.SimCommandLine;
 import com.traclabs.biosim.client.control.SimpleController;
 import com.traclabs.biosim.client.control.TestController;
 import com.traclabs.biosim.client.framework.apollo13.Apollo13Viewer;
-import com.traclabs.biosim.client.sensor.framework.SensorGraph;
+import com.traclabs.biosim.client.sensor.framework.SensorGraphFrame;
 import com.traclabs.biosim.client.sensor.framework.SensorViewer;
 import com.traclabs.biosim.client.simulation.environment.EnvironmentGraph;
 import com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisPanel;
@@ -199,14 +199,12 @@ public class BiosimMain {
 	}
 
 	private void runGraph() {
-		SensorGraph plotLive = new SensorGraph();
+		SensorGraphFrame plotLive = new SensorGraphFrame();
 		JFrame frame = new JFrame("Sensor Graph");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add("Center", plotLive);
-		plotLive.setButtons(true);
 		frame.pack();
 		frame.setVisible(true);
-		plotLive.start();
 	}
 
 	private void runEnvironment() {
