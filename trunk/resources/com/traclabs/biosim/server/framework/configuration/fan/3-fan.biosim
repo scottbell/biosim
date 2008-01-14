@@ -8,12 +8,23 @@
 	</Globals>
 	<SimBioModules>
 		<environment>
-			<SimEnvironment moduleName="Crew_Quarters" initialVolume="20000"/>
-			<SimEnvironment moduleName="Labs" initialVolume="20000"/>
-			<SimEnvironment moduleName="Galley" initialVolume="20000"/>
+			<SimEnvironment moduleName="Crew_Quarters" initialVolume="20000">
+				<percentageInitialization waterPercentage="0.0"
+					nitrogenPercentage="0.0" otherPercentage="0.0" o2Percentage="1"
+					totalPressure="100" co2Percentage="0.0" />
+			</SimEnvironment>
+			<SimEnvironment moduleName="Labs" initialVolume="20000">
+				<percentageInitialization waterPercentage="0.0"
+					nitrogenPercentage="0.0" otherPercentage="0.0" o2Percentage="1"
+					totalPressure="100" co2Percentage="0.0" />
+			</SimEnvironment>
+			<SimEnvironment moduleName="Galley" initialVolume="20000">
+				<percentageInitialization waterPercentage="0.0"
+					nitrogenPercentage="0.0" otherPercentage="0.0" o2Percentage="1"
+					totalPressure="100" co2Percentage="0.0" />
+			</SimEnvironment>
 			<Fan moduleName="Crew_to_Labs_Fan">
-				<airConsumer inputs="Crew_Quarters"
-					desiredFlowRates="1000" maxFlowRates="1000" />
+				<airConsumer inputs="Crew_Quarters" desiredFlowRates="1000" maxFlowRates="1000" />
 				<powerConsumer inputs="General_Power_Store"
 					desiredFlowRates="100" maxFlowRates="100" ></powerConsumer>
 				<airProducer desiredFlowRates="1000"
@@ -23,7 +34,7 @@
 				<airConsumer inputs="Labs" desiredFlowRates="1000"
 					maxFlowRates="1000" />
 				<powerConsumer inputs="General_Power_Store"
-					desiredFlowRates="100" maxFlowRates="10"></powerConsumer>
+					desiredFlowRates="100" maxFlowRates="100"></powerConsumer>
 				<airProducer desiredFlowRates="1000"
 					outputs="Crew_Quarters" maxFlowRates="1000"></airProducer>
 			</Fan>
@@ -51,22 +62,21 @@
 	</SimBioModules>
 	<Sensors>
 		<environment>
-			<TotalPressureSensor input="Crew_Quarters" moduleName="Crew_Quarters_Pressure"></TotalPressureSensor>
-			<TotalPressureSensor input="Labs" moduleName="Labs_Pressure"></TotalPressureSensor>
-			<TotalPressureSensor input="Galley" moduleName="Galley_Pressure"></TotalPressureSensor>
+			<TotalMolesSensor input="Crew_Quarters" moduleName="Crew_Quarters_Moles" logLevel="DEBUG"></TotalMolesSensor>
+			<TotalMolesSensor input="Labs" moduleName="Labs_Moles" logLevel="DEBUG"></TotalMolesSensor>
+			<TotalMolesSensor input="Galley" moduleName="Galley_Moles" logLevel="DEBUG"></TotalMolesSensor>
 			
-			<AirInFlowRateSensor input="Crew_to_Labs_Fan" moduleName="Crew_to_Labs_Fan-InSensor" index="0"></AirInFlowRateSensor>
-			<AirOutFlowRateSensor input="Crew_to_Labs_Fan" moduleName="Crew_to_Labs_Fan-OutSensor" index="0"></AirOutFlowRateSensor>
+			<AirInFlowRateSensor input="Crew_to_Labs_Fan" moduleName="Crew_to_Labs_Fan-InSensor" index="0" logLevel="DEBUG"></AirInFlowRateSensor>
+			<AirOutFlowRateSensor input="Crew_to_Labs_Fan" moduleName="Crew_to_Labs_Fan-OutSensor" index="0" logLevel="DEBUG"></AirOutFlowRateSensor>
 			
-			<AirInFlowRateSensor input="Labs_to_Crew_Fan" moduleName="Labs_to_Crew_Fan-InSensor" index="0"></AirInFlowRateSensor>
-			<AirOutFlowRateSensor input="Labs_to_Crew_Fan" moduleName="Labs_to_Crew_Fan-OutSensor" index="0"></AirOutFlowRateSensor>
+			<AirInFlowRateSensor input="Labs_to_Crew_Fan" moduleName="Labs_to_Crew_Fan-InSensor" index="0" logLevel="DEBUG"></AirInFlowRateSensor>
+			<AirOutFlowRateSensor input="Labs_to_Crew_Fan" moduleName="Labs_to_Crew_Fan-OutSensor" index="0" logLevel="DEBUG"></AirOutFlowRateSensor>
 			
-			<AirInFlowRateSensor input="Galley_to_Labs_Fan" moduleName="Galley_to_Labs_Fan-InSensor" index="0"></AirInFlowRateSensor>
-			<AirOutFlowRateSensor input="Galley_to_Labs_Fan" moduleName="Galley_to_Labs_Fan-OutSensor" index="0"></AirOutFlowRateSensor>
+			<AirInFlowRateSensor input="Galley_to_Labs_Fan" moduleName="Galley_to_Labs_Fan-InSensor" index="0" logLevel="DEBUG"></AirInFlowRateSensor>
+			<AirOutFlowRateSensor input="Galley_to_Labs_Fan" moduleName="Galley_to_Labs_Fan-OutSensor" index="0" logLevel="DEBUG"></AirOutFlowRateSensor>
 			
-			<AirInFlowRateSensor input="Labs_to_Galley_Fan" moduleName="Labs_to_Galley_Fan-InSensor" index="0"></AirInFlowRateSensor>
-			<AirOutFlowRateSensor input="Labs_to_Galley_Fan" moduleName="Labs_to_Galley_Fan-OutSensor" index="0"></AirOutFlowRateSensor>
-			
+			<AirInFlowRateSensor input="Labs_to_Galley_Fan" moduleName="Labs_to_Galley_Fan-InSensor" index="0" logLevel="DEBUG"></AirInFlowRateSensor>
+			<AirOutFlowRateSensor input="Labs_to_Galley_Fan" moduleName="Labs_to_Galley_Fan-OutSensor" index="0" logLevel="DEBUG"></AirOutFlowRateSensor>
 		</environment>
 	</Sensors>
 </biosim>
