@@ -11,6 +11,7 @@ import com.traclabs.biosim.client.control.SimCommandLine;
 import com.traclabs.biosim.client.control.SimpleController;
 import com.traclabs.biosim.client.control.TestController;
 import com.traclabs.biosim.client.framework.apollo13.Apollo13Viewer;
+import com.traclabs.biosim.client.sensor.framework.SensorGraph;
 import com.traclabs.biosim.client.sensor.framework.SensorViewer;
 import com.traclabs.biosim.client.simulation.environment.EnvironmentGraph;
 import com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisPanel;
@@ -59,6 +60,7 @@ public class BiosimMain {
 		boolean wantsToRunMurderController = false;
 		boolean wantsToRunTestController = false;
 		boolean wantsToRunGraph = false;
+		boolean wantsToRunEnvironment = false;
 		boolean unrealServerGiven = false;
 		String unrealServer = "";
 		for (int i = 0; i < myArgs.length; i++) {
@@ -78,7 +80,9 @@ public class BiosimMain {
 				wantsToRunSensorViewer = true;
 			} else if (myArgs[i].equals("graph")) {
 				wantsToRunGraph = true;
-			} else if (myArgs[i].equals("apollo")) {
+			} else if (myArgs[i].equals("environment")) {
+				wantsToRunEnvironment = true;
+			}else if (myArgs[i].equals("apollo")) {
 				wantsToRunApollo13Viewer = true;
 			} else if (myArgs[i].equals("murder")) {
 				wantsToRunMurderController = true;
@@ -164,6 +168,8 @@ public class BiosimMain {
 			runTestController();
 		else if (wantsToRunGraph)
 			runGraph();
+		else if (wantsToRunEnvironment)
+			runEnvironment();
 		else if (wantsToRunUnreal) {
 			if (unrealServerGiven) {
 				runUnreal(unrealServer);
@@ -193,6 +199,17 @@ public class BiosimMain {
 	}
 
 	private void runGraph() {
+		SensorGraph plotLive = new SensorGraph();
+		JFrame frame = new JFrame("Sensor Graph");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().add("Center", plotLive);
+		plotLive.setButtons(true);
+		frame.pack();
+		frame.setVisible(true);
+		plotLive.start();
+	}
+
+	private void runEnvironment() {
 		EnvironmentGraph plotLive = new EnvironmentGraph();
 		JFrame frame = new JFrame("Environment Graph");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
