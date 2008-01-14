@@ -41,6 +41,6 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements
     public abstract BioModule getInputModule();
 
     public void log() {
-        myLogger.debug(getModuleName() + ":\tinput=" + getValue());
+        myLogger.debug("value=" + getValue());
     }
 }
