@@ -18,7 +18,7 @@ public class TotalMolesSensorImpl extends GenericSensorImpl implements TotalMole
     
 	@Override
 	public float getMax() {
-		return 1;
+		return Float.MAX_VALUE;
 	}
 
 	public void setInput(SimEnvironment environment) {
