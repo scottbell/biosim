@@ -10,22 +10,28 @@
 		<environment>
 			<SimEnvironment moduleName="Crew_Quarters"
 				initialVolume="20000">
+				<percentageInitialization waterPercentage="0.0"
+					nitrogenPercentage="0.0" otherPercentage="0.0" o2Percentage="1"
+					totalPressure="100" co2Percentage="0.0" />
 			</SimEnvironment>
 			<SimEnvironment moduleName="Labs" initialVolume="20000">
+				<percentageInitialization waterPercentage="0.0"
+					nitrogenPercentage="0.0" otherPercentage="0.0" o2Percentage="1"
+					totalPressure="100" co2Percentage="0.0" />
 			</SimEnvironment>
 			<Fan moduleName="Crew_to_Labs_Fan">
 				<airConsumer inputs="Crew_Quarters"
 					desiredFlowRates="1000" maxFlowRates="1000" />
 				<powerConsumer inputs="General_Power_Store"
-					desiredFlowRates="10" maxFlowRates="10" ></powerConsumer>
+					desiredFlowRates="80" maxFlowRates="80" ></powerConsumer>
 				<airProducer desiredFlowRates="1000"
 					outputs="Labs" maxFlowRates="1000" ></airProducer>
 			</Fan>
 			<Fan moduleName="Labs_to_Crew_Fan">
 				<airConsumer inputs="Labs"
 					desiredFlowRates="1000" maxFlowRates="1000" />
-				<powerConsumer inputs="General_Power_Store" desiredFlowRates="10"
-					maxFlowRates="10"></powerConsumer>
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="80"
+					maxFlowRates="80"></powerConsumer>
 				<airProducer desiredFlowRates="1000"
 					outputs="Crew_Quarters" maxFlowRates="1000" ></airProducer>
 			</Fan>
@@ -43,7 +49,5 @@
 			<AirOutFlowRateSensor input="Labs_to_Crew_Fan" moduleName="Labs_to_Crew_Fan-OutSensor" index="0"></AirOutFlowRateSensor>
 			<TotalPressureSensor input="Crew_Quarters" moduleName="Crew_Quarters_Pressure"></TotalPressureSensor>
 			<TotalPressureSensor input="Labs" moduleName="Labs_Pressure"></TotalPressureSensor>
-
-			
 		</environment></Sensors>
 </biosim>
