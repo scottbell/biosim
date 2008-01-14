@@ -47,7 +47,7 @@ public class SensorGraphPanel extends Plot {
 		else if (getXRange()[1] <= myBioDriver.getTicks()){
 			setXRange(myBioDriver.getTicks(), myBioDriver.getTicks() + TICKS_TO_KEEP);
 			repaint();
-		}
+		}repaint();
 	}
 
 }

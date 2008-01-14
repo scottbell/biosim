@@ -45,7 +45,7 @@ public abstract class SimulationPanel extends JPanel {
     
     private Action myPlayPauseButtonAction;
     
-    private final static int REFRESH_DELAY = 200;
+    private final static int REFRESH_DELAY = 500;
 
     public SimulationPanel() {
         buildGUI();
