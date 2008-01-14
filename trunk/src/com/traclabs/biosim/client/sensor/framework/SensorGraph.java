@@ -11,7 +11,7 @@ import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
 public class SensorGraph extends PlotLive {
 	private List<GenericSensor> mySensors;
 	private BioDriver myBioDriver;
-	private final static int TICKS_TO_KEEP = 100;
+	private final static int TICKS_TO_KEEP = 1000;
 	private boolean started = false;
 
 	public SensorGraph() {
@@ -24,18 +24,6 @@ public class SensorGraph extends PlotLive {
 			addLegend(i, mySensors.get(i).getModuleName());
 		addLegend(mySensors.size(), "Total Pressure");
 		setButtons(true);
-		setXRange(myBioDriver.getTicks(), TICKS_TO_KEEP);
-		float minTotal = Float.MAX_VALUE;
-		float maxTotal = Float.MIN_VALUE;
-		for (int i = 0; i < mySensors.size(); i++){
-			float thisMin = mySensors.get(i).getMax();
-			if (thisMin > minTotal)
-				minTotal = thisMin;
-			float thisMax =  mySensors.get(i).getMax();
-			if (thisMax > maxTotal)
-				maxTotal = thisMax;
-		}
-		setYRange(minTotal, maxTotal);
 	}
 
 	@Override

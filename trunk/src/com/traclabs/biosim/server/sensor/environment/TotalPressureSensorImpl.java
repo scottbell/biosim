@@ -15,12 +15,12 @@ public class TotalPressureSensorImpl extends GenericSensorImpl implements TotalP
     protected void gatherData(){
         myValue = getStochasticFilter().randomFilter(myEnvironment.getTotalPressure());
     }
-    
+
 	@Override
 	public float getMax() {
-		return 1;
+		return Float.MAX_VALUE;
 	}
-
+	
 	public void setInput(SimEnvironment environment) {
 		myEnvironment = environment;
 	}
