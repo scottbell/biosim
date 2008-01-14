@@ -2,19 +2,19 @@ package com.traclabs.biosim.client.sensor.framework;
 
 import java.util.List;
 
-import ptolemy.plot.PlotLive;
+import ptolemy.plot.Plot;
 
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
 
-public class SensorGraph extends PlotLive {
+public class SensorGraphPanel extends Plot {
 	private List<GenericSensor> mySensors;
 	private BioDriver myBioDriver;
 	private final static int TICKS_TO_KEEP = 1000;
 	private boolean started = false;
 
-	public SensorGraph() {
+	public SensorGraphPanel() {
 		setPointsPersistence(TICKS_TO_KEEP);
 		setYLabel("Value");
 		setXLabel("Ticks");
@@ -24,9 +24,8 @@ public class SensorGraph extends PlotLive {
 			addLegend(i, mySensors.get(i).getModuleName());
 		setButtons(true);
 	}
-
-	@Override
-	public synchronized void addPoints() {
+	
+	public void addPoints() {
 		if (myBioDriver.getTicks() <= 0)
 			return;
 		for (int i = 0; i < mySensors.size(); i++){
@@ -49,12 +48,6 @@ public class SensorGraph extends PlotLive {
 			setXRange(myBioDriver.getTicks(), myBioDriver.getTicks() + TICKS_TO_KEEP);
 			repaint();
 		}
-			
-		//sleep
-		try {
-            Thread.sleep(5);
-        } catch (InterruptedException e) {
-        }
 	}
 
 }
