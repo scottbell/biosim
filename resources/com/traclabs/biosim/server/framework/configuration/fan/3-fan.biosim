@@ -10,37 +10,23 @@
 		<environment>
 			<SimEnvironment moduleName="Crew_Quarters"
 				initialVolume="20000">
-				<percentageInitialization waterPercentage="0.01"
-					nitrogenPercentage="0.659" otherPercentage="0.001"
-					o2Percentage="0.33" totalPressure="55" co2Percentage="0" ></percentageInitialization>
 			</SimEnvironment>
 			<SimEnvironment moduleName="Labs" initialVolume="20000">
-				<percentageInitialization waterPercentage="0.01"
-					nitrogenPercentage="0.659" otherPercentage="0.001"
-					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />
 			</SimEnvironment>
 			<SimEnvironment moduleName="Galley" initialVolume="20000">
-				<percentageInitialization waterPercentage="0.01"
-					nitrogenPercentage="0.659" otherPercentage="0.001"
-					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />
-			</SimEnvironment>
-			<SimEnvironment moduleName="Maintenance_Facility" initialVolume="20000">
-				<percentageInitialization waterPercentage="0.01"
-					nitrogenPercentage="0.659" otherPercentage="0.001"
-					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />
 			</SimEnvironment>
 			<Fan moduleName="Crew_to_Labs_Fan">
 				<airConsumer inputs="Crew_Quarters"
 					desiredFlowRates="1000" maxFlowRates="1000" />
 				<powerConsumer inputs="General_Power_Store"
-					desiredFlowRates="10" maxFlowRates="10" ></powerConsumer>
+					desiredFlowRates="100" maxFlowRates="100" ></powerConsumer>
 				<airProducer desiredFlowRates="1000"
 					outputs="Labs" maxFlowRates="1000" ></airProducer>
 			</Fan>
 			<Fan moduleName="Labs_to_Crew_Fan">
 				<airConsumer inputs="Labs"
 					desiredFlowRates="1000" maxFlowRates="1000" />
-				<powerConsumer inputs="General_Power_Store" desiredFlowRates="10"
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100"
 					maxFlowRates="10"></powerConsumer>
 				<airProducer desiredFlowRates="1000"
 					outputs="Crew_Quarters" maxFlowRates="1000" ></airProducer>
@@ -48,8 +34,8 @@
 			<Fan moduleName="Labs_to_Galley_Fan">
 				<airConsumer inputs="Labs"
 					desiredFlowRates="1000" maxFlowRates="1000" />
-				<powerConsumer inputs="General_Power_Store" desiredFlowRates="10"
-					maxFlowRates="10"></powerConsumer>
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100"
+					maxFlowRates="100"></powerConsumer>
 				<airProducer desiredFlowRates="1000"
 					outputs="Galley" maxFlowRates="1000" ></airProducer>
 			</Fan>
@@ -57,25 +43,9 @@
 				<airConsumer inputs="Galley"
 					desiredFlowRates="1000" maxFlowRates="1000" />
 				<powerConsumer inputs="General_Power_Store"
-					desiredFlowRates="10" maxFlowRates="10" ></powerConsumer>
+					desiredFlowRates="100" maxFlowRates="100" ></powerConsumer>
 				<airProducer desiredFlowRates="1000"
 					outputs="Labs" maxFlowRates="1000" ></airProducer>
-			</Fan>
-			<Fan moduleName="Galley_to_Maintenance_Fan">
-				<airConsumer inputs="Galley"
-					desiredFlowRates="1000" maxFlowRates="1000" />
-				<powerConsumer inputs="General_Power_Store"
-					desiredFlowRates="10" maxFlowRates="10" ></powerConsumer>
-				<airProducer desiredFlowRates="1000"
-					outputs="Maintenance_Facility" maxFlowRates="1000" ></airProducer>
-			</Fan>
-			<Fan moduleName="Maintenance_to_Galley_Fan">
-				<airConsumer inputs="Maintenance_Facility"
-					desiredFlowRates="1000" maxFlowRates="1000" />
-				<powerConsumer inputs="General_Power_Store"
-					desiredFlowRates="10" maxFlowRates="10" ></powerConsumer>
-				<airProducer desiredFlowRates="1000"
-					outputs="Galley" maxFlowRates="1000" ></airProducer>
 			</Fan>
 		</environment>
 		<power>
@@ -88,7 +58,6 @@
 			<TotalPressureSensor input="Crew_Quarters" moduleName="Crew_Quarters_Pressure"></TotalPressureSensor>
 			<TotalPressureSensor input="Labs" moduleName="Labs_Pressure"></TotalPressureSensor>
 			<TotalPressureSensor input="Galley" moduleName="Galley_Pressure"></TotalPressureSensor>
-			<TotalPressureSensor input="Maintenance_Facility" moduleName="Maintenance_Facility_Pressure"></TotalPressureSensor>
 		</environment>
 	</Sensors>
 </biosim>
