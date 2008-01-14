@@ -39,5 +39,6 @@
 		<environment>
 			<TotalPressureSensor input="Crew_Quarters" moduleName="Crew_Quarters_Pressure"></TotalPressureSensor>
 			<TotalPressureSensor input="Labs" moduleName="Labs_Pressure"></TotalPressureSensor>
-		</environment></Sensors>
+		</environment>
+	</Sensors>
 </biosim>

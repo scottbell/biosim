@@ -22,7 +22,6 @@ public class SensorGraph extends PlotLive {
 		myBioDriver = BioHolderInitializer.getBioHolder().theBioDriver;
 		for (int i = 0; i < mySensors.size(); i++)
 			addLegend(i, mySensors.get(i).getModuleName());
-		addLegend(mySensors.size(), "Total Pressure");
 		setButtons(true);
 	}
 
