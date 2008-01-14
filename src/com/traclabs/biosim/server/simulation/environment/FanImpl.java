@@ -31,6 +31,10 @@ public class FanImpl extends SimBioModuleImpl implements FanOperations, AirConsu
 
     private float currentPowerConsumed = 0f;
 
+    private float currentMolesOfAirConsumed = 0f;
+
+    private Air currentAirConsumed;
+
     public FanImpl(int pID, String pName) {
         super(pID, pName);
         myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl(this);
@@ -61,9 +65,9 @@ public class FanImpl extends SimBioModuleImpl implements FanOperations, AirConsu
 
     private void getAndPushAir() {
     	currentPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStores();
-    	float molesOfAirToConsume = calculateAirToConsume(currentPowerConsumed);
-    	Air airConsumed = myAirConsumerDefinitionImpl.getAirFromEnvironment(molesOfAirToConsume, 0);
-    	myAirProducerDefinitionImpl.pushAirToEnvironment(airConsumed, 0);
+    	currentMolesOfAirConsumed = calculateAirToConsume(currentPowerConsumed);
+    	currentAirConsumed = myAirConsumerDefinitionImpl.getAirFromEnvironment(currentMolesOfAirConsumed, 0);
+    	myAirProducerDefinitionImpl.pushAirToEnvironment(currentAirConsumed, 0);
     }
 
     private float calculateAirToConsume(float powerReceived) {
