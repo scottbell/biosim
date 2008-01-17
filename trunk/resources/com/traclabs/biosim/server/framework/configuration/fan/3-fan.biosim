@@ -8,7 +8,7 @@
 	</Globals>
 	<SimBioModules>
 		<environment>
-			<SimEnvironment moduleName="Crew_Quarters" initialVolume="20000">
+			<SimEnvironment moduleName="Crew_Quarters" initialVolume="10000">
 				<percentageInitialization waterPercentage="0.0"
 					nitrogenPercentage="0.0" otherPercentage="0.0" o2Percentage="1"
 					totalPressure="100" co2Percentage="0.0" />

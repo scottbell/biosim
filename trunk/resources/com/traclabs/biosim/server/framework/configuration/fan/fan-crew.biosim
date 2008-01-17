@@ -10,14 +10,14 @@
 	<SimBioModules>
 		<environment>
 			<SimEnvironment moduleName="Crew_Quarters"
-				initialVolume="27000">
+				initialVolume="10000">
 			</SimEnvironment>
-			<SimEnvironment moduleName="Galley" initialVolume="27000">
+			<SimEnvironment moduleName="Galley" initialVolume="20000">
 			</SimEnvironment>
-			<SimEnvironment moduleName="Labs" initialVolume="27000">
+			<SimEnvironment moduleName="Labs" initialVolume="20000">
 			</SimEnvironment>
 			<SimEnvironment moduleName="Maintenance"
-				initialVolume="27000">
+				initialVolume="10000">
 			</SimEnvironment>
 			<Fan moduleName="Maintenance_to_Crew_Fan">
 				<airConsumer inputs="Maintenance"
@@ -80,14 +80,9 @@
 			</PotableWaterStore>
 		</water>
 		<power>
-			<PowerStore capacity="100000"
-				moduleName="General_Power_Store" level="100000">
+			<PowerStore capacity="100000000000000"
+				moduleName="General_Power_Store" level="100000000000000">
 			</PowerStore>
-			<PowerPS moduleName="General_Power_Producer"
-				generationType="NUCLEAR" upperPowerGeneration="500000">
-				<powerProducer desiredFlowRates="1000000"
-					outputs="General_Power_Store" maxFlowRates="1000000" />
-			</PowerPS>
 		</power>
 		<food>
 			<FoodStore capacity="10000" level="10000"
