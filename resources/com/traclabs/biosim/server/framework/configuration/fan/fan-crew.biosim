@@ -10,14 +10,14 @@
 	<SimBioModules>
 		<environment>
 			<SimEnvironment moduleName="Crew_Quarters"
-				initialVolume="10000">
+				initialVolume="20000">
 			</SimEnvironment>
 			<SimEnvironment moduleName="Galley" initialVolume="20000">
 			</SimEnvironment>
 			<SimEnvironment moduleName="Labs" initialVolume="20000">
 			</SimEnvironment>
 			<SimEnvironment moduleName="Maintenance"
-				initialVolume="10000">
+				initialVolume="20000">
 			</SimEnvironment>
 			<Fan moduleName="Maintenance_to_Crew_Fan">
 				<airConsumer inputs="Maintenance"
@@ -67,6 +67,30 @@
 				<airProducer desiredFlowRates="1000" outputs="Galley"
 					maxFlowRates="1000" />
 			</Fan>
+			<Dehumidifier moduleName="Dehumidifier_for_Maintenance">
+				<airConsumer inputs="Maintenance" desiredFlowRates="1000"
+					maxFlowRates="1000" />
+				<dirtyWaterProducer desiredFlowRates="1000" outputs="Dirty_Water_Store"
+					maxFlowRates="1000" ></dirtyWaterProducer>
+			</Dehumidifier>
+			<Dehumidifier moduleName="Dehumidifier_for_Crew_Quarters">
+				<airConsumer inputs="Crew_Quarters" desiredFlowRates="1000"
+					maxFlowRates="1000" />
+				<dirtyWaterProducer desiredFlowRates="1000" outputs="Dirty_Water_Store"
+					maxFlowRates="1000" ></dirtyWaterProducer>
+			</Dehumidifier>
+			<Dehumidifier moduleName="Dehumidifier_for_Galley">
+				<airConsumer inputs="Galley" desiredFlowRates="1000"
+					maxFlowRates="1000" />
+				<dirtyWaterProducer desiredFlowRates="1000" outputs="Dirty_Water_Store"
+					maxFlowRates="1000" ></dirtyWaterProducer>
+			</Dehumidifier>
+			<Dehumidifier moduleName="Dehumidifier_for_Labs">
+				<airConsumer inputs="Labs" desiredFlowRates="1000"
+					maxFlowRates="1000" />
+				<dirtyWaterProducer desiredFlowRates="1000" outputs="Dirty_Water_Store"
+					maxFlowRates="1000" ></dirtyWaterProducer>
+			</Dehumidifier>
 		</environment>
 		<water>
 			<DirtyWaterStore capacity="1000"
@@ -216,6 +240,118 @@
 				</crewPerson>
 			</CrewGroup>
 		</crew>
+		<air>
+			<VCCR moduleName="VCCR_for_Maintenance">
+				<powerConsumer inputs="General_Power_Store"
+					desiredFlowRates="2000" maxFlowRates="2000" ></powerConsumer>
+				<airConsumer inputs="Maintenance"
+					desiredFlowRates="10000" maxFlowRates="10000"></airConsumer>
+				<airProducer desiredFlowRates="10000"
+					outputs="Maintenance" maxFlowRates="10000" />
+				<CO2Producer desiredFlowRates="10000" outputs="CO2_Store"
+					maxFlowRates="10000"></CO2Producer>
+			</VCCR>
+			<VCCR moduleName="VCCR_for_Crew_Quarters">
+				<powerConsumer inputs="General_Power_Store"
+					desiredFlowRates="2000" maxFlowRates="2000" ></powerConsumer>
+				<airConsumer inputs="Crew_Quarters"
+					desiredFlowRates="10000" maxFlowRates="10000"></airConsumer>
+				<airProducer desiredFlowRates="10000"
+					outputs="Crew_Quarters" maxFlowRates="10000" />
+				<CO2Producer desiredFlowRates="10000" outputs="CO2_Store"
+					maxFlowRates="10000"></CO2Producer>
+			</VCCR>
+			<VCCR moduleName="VCCR_for_Galley">
+				<powerConsumer inputs="General_Power_Store"
+					desiredFlowRates="2000" maxFlowRates="2000" ></powerConsumer>
+				<airConsumer inputs="Galley"
+					desiredFlowRates="10000" maxFlowRates="10000"></airConsumer>
+				<airProducer desiredFlowRates="10000"
+					outputs="Galley" maxFlowRates="10000" />
+				<CO2Producer desiredFlowRates="10000" outputs="CO2_Store"
+					maxFlowRates="10000"></CO2Producer>
+			</VCCR>
+			<VCCR moduleName="VCCR_for_Labs">
+				<powerConsumer inputs="General_Power_Store"
+					desiredFlowRates="2000" maxFlowRates="2000" ></powerConsumer>
+				<airConsumer inputs="Labs"
+					desiredFlowRates="10000" maxFlowRates="10000"></airConsumer>
+				<airProducer desiredFlowRates="10000"
+					outputs="Labs" maxFlowRates="10000" />
+				<CO2Producer desiredFlowRates="10000" outputs="CO2_Store"
+					maxFlowRates="10000"></CO2Producer>
+			</VCCR>
+			<MethaneStore capacity="1000" moduleName="Methane_Store"
+				level="0">
+			</MethaneStore>
+			<NitrogenStore capacity="100000000000000"
+				moduleName="Nitrogen_Store" level="100000000000000">
+			</NitrogenStore>
+			<O2Store capacity="100000000000000" moduleName="O2_Store"
+				level="100000000000000">
+			</O2Store>
+			<H2Store capacity="10000" moduleName="H2_Store" level="0"></H2Store>
+			<CO2Store capacity="1000" moduleName="CO2_Store"
+				level="0">
+			</CO2Store>
+		</air>
+		
+		<framework>
+			<Injector
+				moduleName="Maintenance_Nitrogen_Injector">
+				<nitrogenConsumer
+					inputs="Nitrogen_Store" desiredFlowRates="0"
+					maxFlowRates="100">
+				</nitrogenConsumer>
+				<nitrogenProducer desiredFlowRates="0"
+					outputs="Maintenance" maxFlowRates="100">
+				</nitrogenProducer>
+			</Injector>
+			<Injector moduleName="Crew_Quarters_Nitrogen_Injector">
+				<nitrogenConsumer inputs="Nitrogen_Store"
+					desiredFlowRates="0" maxFlowRates="100">
+				</nitrogenConsumer>
+				<nitrogenProducer desiredFlowRates="0"
+					outputs="Crew_Quarters" maxFlowRates="100">
+				</nitrogenProducer>
+			</Injector>
+			<Injector moduleName="Galley_Nitrogen_Injector">
+				<nitrogenConsumer inputs="Nitrogen_Store"
+					desiredFlowRates="0" maxFlowRates="100">
+				</nitrogenConsumer>
+				<nitrogenProducer desiredFlowRates="0" outputs="Galley"
+					maxFlowRates="100">
+				</nitrogenProducer>
+			</Injector>
+			<Injector moduleName="Labs_Nitrogen_Injector">
+				<nitrogenConsumer inputs="Nitrogen_Store"
+					desiredFlowRates="0" maxFlowRates="100">
+				</nitrogenConsumer>
+				<nitrogenProducer desiredFlowRates="0" outputs="Labs"
+					maxFlowRates="100">
+				</nitrogenProducer>
+			</Injector>
+			<Injector moduleName="Oxygen_Injector_for_Maintenance">
+				<O2Consumer inputs="O2_Store" desiredFlowRates="0.8"
+					maxFlowRates="0.8" ></O2Consumer><O2Producer desiredFlowRates="0.8"
+					outputs="Maintenance" maxFlowRates="0.8" ></O2Producer>
+			</Injector>
+			<Injector moduleName="Oxygen_Injector_for_Crew_Quarters">
+				<O2Consumer inputs="O2_Store" desiredFlowRates="0.8"
+					maxFlowRates="0.8" ></O2Consumer><O2Producer desiredFlowRates="0.8"
+					outputs="Crew_Quarters" maxFlowRates="0.8" ></O2Producer>
+			</Injector>
+			<Injector moduleName="Oxygen_Injector_for_Galley">
+				<O2Consumer inputs="O2_Store" desiredFlowRates="0.8"
+					maxFlowRates="0.8" ></O2Consumer><O2Producer desiredFlowRates="0.8"
+					outputs="Galley" maxFlowRates="0.8" ></O2Producer>
+			</Injector>
+			<Injector moduleName="Oxygen_Injector_for_Labs">
+				<O2Consumer inputs="O2_Store" desiredFlowRates="0.8"
+					maxFlowRates="0.8" ></O2Consumer><O2Producer desiredFlowRates="0.8"
+					outputs="Labs" maxFlowRates="0.8" ></O2Producer>
+			</Injector>
+		</framework>
 	</SimBioModules>
 	<Sensors>
 		<environment>
