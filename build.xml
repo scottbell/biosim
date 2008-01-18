@@ -342,6 +342,14 @@
 		<delete dir="${javadocDir}" />
 	</target>
 	
+	<target name="update" description="update from subversion">
+		<exec executable="svn">
+			<arg line="update" />
+		</exec>
+	</target>
+	
+	<target name="update-and-rebuild" depends="update,rebuild" description="update from subversion and rebuilds"/>
+	
 	<target name="build-jnlp-dist" depends="build-server,build-client,build-framework,init-dist,init-tmp" description="creates windows dist">
 			<mkdir dir="${jnlpDistDir}" />
 			<mkdir dir="${jnlpDistTmpDir}" />
