@@ -13,7 +13,7 @@ import com.traclabs.biosim.client.util.BioHolderInitializer;
  */
 
 public class Apollo13Standalone extends BiosimStandalone{
-sdfsdfsdfsdfsdf
+
     public Apollo13Standalone(ImageIcon splashIcon) {
         super(splashIcon, "Apollo 13 Simulation ", "com/traclabs/biosim/server/framework/apollo13/Apollo13Init.xml", 0);
     }
