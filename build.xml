@@ -14,6 +14,7 @@
 	<property name="nsDir" location="${tmpDir}/ns" />
 	<property name="resourceDir" location="resources" />
 	<property name="stubsDir" location="stubs" />
+	<property name="test.dir" location="test" />
 	<!-- set server properties for this build -->
 	<property name="log4jDir" location="${lib}/log4j" />
 	<!-- set client properties for this build -->
@@ -349,6 +350,44 @@
 	</target>
 	
 	<target name="update-and-rebuild" depends="update,rebuild" description="update from subversion and rebuilds"/>
+	
+	<target name="test">
+	        <javac srcdir="${test.dir}" destdir="${buildDir}">
+	            <classpath>
+					<pathelement location="${buildDir}" />
+					<pathelement location="${resourceDir}" />
+					<pathelement location="${log4jDir}/log4j.jar" />
+					<pathelement location="${jacorbDir}/jacorb.jar" />
+					<pathelement location="${jacorbDir}/logkit.jar" />
+					<pathelement location="${jacorbDir}/avalon-framework.jar" />
+					<pathelement location="${plotDir}/jcommon.jar" />
+					<pathelement location="${plotDir}/jfreechart.jar" />
+					<pathelement location="${lib}/ptolemy/plot.jar" />
+	                <pathelement location="${lib}/junit/junit.jar"/>
+	            </classpath>
+	        </javac>
+
+	        <mkdir dir="${tmpDir}/junit-results"/>
+	        <junit haltonfailure="no" printsummary="on">
+	            <classpath >
+					<pathelement location="${buildDir}" />
+					<pathelement location="${resourceDir}" />
+					<pathelement location="${log4jDir}/log4j.jar" />
+					<pathelement location="${jacorbDir}/jacorb.jar" />
+					<pathelement location="${jacorbDir}/logkit.jar" />
+					<pathelement location="${jacorbDir}/avalon-framework.jar" />
+					<pathelement location="${plotDir}/jcommon.jar" />
+					<pathelement location="${plotDir}/jfreechart.jar" />
+	                <pathelement location="${lib}/junit/junit.jar"/>
+	                <pathelement location="${lib}/mysql/mysql-jdbc.jar"/>
+	            </classpath>
+	            <formatter type="brief" usefile="false"/>
+	            <formatter type="xml" />
+	            <batchtest todir="${tmpDir}/junit-results" >
+	                <fileset dir="${buildDir}" includes="**/*Test.class"/>
+	            </batchtest>
+	        </junit>
+	   </target>
 	
 	<target name="build-jnlp-dist" depends="build-server,build-client,build-framework,init-dist,init-tmp" description="creates windows dist">
 			<mkdir dir="${jnlpDistDir}" />

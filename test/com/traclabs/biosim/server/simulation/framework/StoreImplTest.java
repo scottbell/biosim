@@ -31,15 +31,11 @@ public class StoreImplTest extends TestCase {
 		assertEquals(myStoreImpl.getCurrentLevel(), 100, 0);
 		assertEquals(myStoreImpl.getCurrentCapacity(), 200, 0);
 		myStoreImpl.add(20);
-		assertEquals(myStoreImpl.getCurrentLevel(), 100, 0);
-		assertEquals(myStoreImpl.getCurrentCapacity(), 200, 0);
 		myStoreImpl.tick();
 		assertEquals(myStoreImpl.getCurrentLevel(), 120, 0);
 		assertEquals(myStoreImpl.getCurrentCapacity(), 200, 0);
 		myStoreImpl.add(20);
 		myStoreImpl.take(50);
-		assertEquals(myStoreImpl.getCurrentLevel(), 120, 0);
-		assertEquals(myStoreImpl.getCurrentCapacity(), 200, 0);
 		myStoreImpl.tick();
 		assertEquals(myStoreImpl.getCurrentLevel(), 90, 0);
 		assertEquals(myStoreImpl.getCurrentCapacity(), 200, 0);
@@ -51,23 +47,23 @@ public class StoreImplTest extends TestCase {
 	public void testReset() {
 		myStoreImpl.setInitialCapacity(200);
 		myStoreImpl.setInitialLevel(100);
-		assertEquals(myStoreImpl.getCurrentLevel(), 100, 0);
-		assertEquals(myStoreImpl.getCurrentCapacity(), 200, 0);
+		assertEquals(100, myStoreImpl.getCurrentLevel(), 0);
+		assertEquals(200, myStoreImpl.getCurrentCapacity(), 0);
 		myStoreImpl.add(20);
 		myStoreImpl.take(50);
-		assertEquals(myStoreImpl.getCurrentLevel(), 100, 0);
-		assertEquals(myStoreImpl.getCurrentCapacity(), 200, 0);
+		assertEquals(200, myStoreImpl.getCurrentCapacity(), 0);
+		assertEquals(70, myStoreImpl.getCurrentLevel(), 0);
 		myStoreImpl.tick();
-		assertEquals(myStoreImpl.getCurrentLevel(), 70, 0);
-		assertEquals(myStoreImpl.getCurrentCapacity(), 200, 0);
+		assertEquals(70, myStoreImpl.getCurrentLevel(), 0);
+		assertEquals(200, myStoreImpl.getCurrentCapacity(), 0);
 		myStoreImpl.setCurrentCapacity(80);
-		assertEquals(myStoreImpl.getCurrentCapacity(), 80, 0);
+		assertEquals(80, myStoreImpl.getCurrentCapacity(), 0);
 		myStoreImpl.tick();
-		assertEquals(myStoreImpl.getCurrentLevel(), 70, 0);
-		assertEquals(myStoreImpl.getCurrentCapacity(), 80, 0);
+		assertEquals(70, myStoreImpl.getCurrentLevel(), 0);
+		assertEquals(80, myStoreImpl.getCurrentCapacity(), 0);
 		myStoreImpl.reset();
-		assertEquals(myStoreImpl.getCurrentLevel(), 100, 0);
-		assertEquals(myStoreImpl.getCurrentCapacity(), 200, 0);
+		assertEquals(100, myStoreImpl.getCurrentLevel(), 0);
+		assertEquals(200, myStoreImpl.getCurrentCapacity(), 0);
 	}
 
 	/*
@@ -81,8 +77,8 @@ public class StoreImplTest extends TestCase {
 		myStoreImpl.setResupply(2, 1.5f);
 		for (int i = 0; i < 54; i++)
 			myStoreImpl.tick();
-		assertEquals(myStoreImpl.getCurrentLevel(), 139f, 0);
-		assertEquals(myStoreImpl.getCurrentCapacity(), 200, 0);
+		assertEquals(140.5f, myStoreImpl.getCurrentLevel(), 0);
+		assertEquals(200, myStoreImpl.getCurrentCapacity(), 0);
 	}
 
 	/*
@@ -95,26 +91,18 @@ public class StoreImplTest extends TestCase {
 		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
 		myStoreImpl.add(1);
 		myStoreImpl.add(1);
-		assertEquals(100, myStoreImpl.getCurrentLevel(), 1);
-		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
 		myStoreImpl.tick();
 		assertEquals(102, myStoreImpl.getCurrentLevel(), 1);
 		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
 		myStoreImpl.add(21.3f);
-		assertEquals(102, myStoreImpl.getCurrentLevel(), 1);
-		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
 		myStoreImpl.tick();
 		assertEquals(123.3, myStoreImpl.getCurrentLevel(), 1);
 		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
 		myStoreImpl.add(0f);
-		assertEquals(123.3, myStoreImpl.getCurrentLevel(), 1);
-		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
 		myStoreImpl.tick();
 		assertEquals(123.3, myStoreImpl.getCurrentLevel(), 1);
 		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
 		myStoreImpl.add(30000f);
-		assertEquals(123.3, myStoreImpl.getCurrentLevel(), 1);
-		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
 		myStoreImpl.tick();
 		assertEquals(200, myStoreImpl.getCurrentLevel(), 1);
 		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
@@ -130,26 +118,16 @@ public class StoreImplTest extends TestCase {
 		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
 		myStoreImpl.take(1);
 		myStoreImpl.take(1);
-		assertEquals(100, myStoreImpl.getCurrentLevel(), 1);
-		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
 		myStoreImpl.tick();
 		assertEquals(98, myStoreImpl.getCurrentLevel(), 1);
 		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
 		myStoreImpl.take(1.9f);
-		assertEquals(98, myStoreImpl.getCurrentLevel(), 1);
-		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
 		myStoreImpl.tick();
-		assertEquals(96.1, myStoreImpl.getCurrentLevel(), 1);
-		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
 		myStoreImpl.take(0f);
-		assertEquals(96.1, myStoreImpl.getCurrentLevel(), 1);
-		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
 		myStoreImpl.tick();
 		assertEquals(96.1, myStoreImpl.getCurrentLevel(), 1);
 		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
 		myStoreImpl.take(30000f);
-		assertEquals(96.1, myStoreImpl.getCurrentLevel(), 1);
-		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
 		myStoreImpl.tick();
 		assertEquals(0, myStoreImpl.getCurrentLevel(), 1);
 		assertEquals(200, myStoreImpl.getCurrentCapacity(), 1);
@@ -164,7 +142,6 @@ public class StoreImplTest extends TestCase {
 		myStoreImpl.add(5);
 		assertEquals(0, myStoreImpl.getOverflow(), 1);
 		myStoreImpl.add(200);
-		assertEquals(0, myStoreImpl.getOverflow(), 1);
 		myStoreImpl.tick();
 		assertEquals(105, myStoreImpl.getOverflow(), 1);
 		myStoreImpl.tick();
