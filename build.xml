@@ -349,9 +349,9 @@
 		</exec>
 	</target>
 	
-	<target name="update-and-rebuild" depends="update,rebuild" description="update from subversion and rebuilds"/>
+	<target name="update-and-rebuild-and-test" depends="update,rebuild,test" description="update from subversion and rebuilds"/>
 	
-	<target name="test">
+	<target name="test" depends="build">
 	        <javac srcdir="${test.dir}" destdir="${buildDir}">
 	            <classpath>
 					<pathelement location="${buildDir}" />
