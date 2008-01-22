@@ -40,8 +40,8 @@ public class PressureSensorTest extends TestCase {
 		tick();
 		assertEquals(myO2PressureSensor.getValue(), mySimEnvironment.getO2Store().getPressure());
 		mySimEnvironment.getO2Store().take(10);
-		assertEquals(myO2PressureSensor.getValue(), mySimEnvironment.getO2Store().getPressure());
 		tick();
+		assertEquals(myO2PressureSensor.getValue(), mySimEnvironment.getO2Store().getPressure());
 		assertEquals(myO2PressureSensor.getValue(), mySimEnvironment.getO2Store().getPressure());
 	}
 	

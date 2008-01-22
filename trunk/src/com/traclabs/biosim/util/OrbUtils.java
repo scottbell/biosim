@@ -50,7 +50,7 @@ public class OrbUtils {
     
     private static Thread myNamingServiceThread;
     
-    private static Logger myLogger = Logger.getLogger(OrbUtils5.class);
+    private static Logger myLogger = Logger.getLogger(OrbUtils.class);
 
     /**
      * Shouldn't be called (everything static!)
