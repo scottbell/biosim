@@ -351,8 +351,8 @@
 	
 	<target name="update-and-rebuild-and-test" depends="update,rebuild,test" description="update from subversion and rebuilds"/>
 	
-	<target name="test" depends="build">
-	        <javac srcdir="${test.dir}" destdir="${buildDir}">
+	<target name="test" depends="build" >
+	        <javac srcdir="${test.dir}" destdir="${buildDir}" memoryMaximumSize="256m" fork="yes">
 	            <classpath>
 					<pathelement location="${buildDir}" />
 					<pathelement location="${resourceDir}" />
