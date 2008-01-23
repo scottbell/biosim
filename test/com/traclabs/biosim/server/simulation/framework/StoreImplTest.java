@@ -9,7 +9,7 @@ public class StoreImplTest extends TestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		OrbUtils.initializeLog(true);
+		OrbUtils.initializeLog(false);
 		myStoreImpl = new StoreImpl(0, "TestStore");
 	}
 
