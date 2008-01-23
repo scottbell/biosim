@@ -21,7 +21,7 @@ public class AccumulatorImplTest extends TestCase {
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		OrbUtils.initializeLog();
+		OrbUtils.initializeLog(true);
 		OrbUtils.startStandaloneNameServer();
 		OrbUtils.initializeServerForStandalone();
 		
