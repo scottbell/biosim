@@ -18,7 +18,7 @@ public class PressureSensorTest extends TestCase {
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		OrbUtils.initializeLog(false);
+		OrbUtils.initializeLog(true);
 		OrbUtils.startStandaloneNameServer();
 		OrbUtils.initializeServerForStandalone();
 		
