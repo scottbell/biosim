@@ -12,7 +12,7 @@ public class SimEnvironmentImplTest extends TestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		OrbUtils.initializeLog();
+		OrbUtils.initializeLog(true);
 		OrbUtils.initializeServerForStandalone();
 		myLogger = Logger.getLogger(this.getClass());
 		mySimEnvironmentImpl = new SimEnvironmentImpl();

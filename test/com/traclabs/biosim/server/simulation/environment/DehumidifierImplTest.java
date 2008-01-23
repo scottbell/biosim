@@ -25,7 +25,7 @@ public class DehumidifierImplTest extends TestCase {
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		OrbUtils.initializeLog();
+		OrbUtils.initializeLog(true);
 		OrbUtils.startStandaloneNameServer();
 		OrbUtils.initializeServerForStandalone();
 		DehumidifierImpl dehumidifierImpl = new DehumidifierImpl();
