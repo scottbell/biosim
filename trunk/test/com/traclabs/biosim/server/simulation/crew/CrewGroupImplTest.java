@@ -43,7 +43,7 @@ public class CrewGroupImplTest extends TestCase {
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		OrbUtils.initializeLog();
+		OrbUtils.initializeLog(true);
 		OrbUtils.startStandaloneNameServer();
 		OrbUtils.initializeServerForStandalone();
 		CrewGroupImpl crewGroupImpl = new CrewGroupImpl();
