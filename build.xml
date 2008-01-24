@@ -368,7 +368,7 @@
 	        </javac>
 
 	        <mkdir dir="${tmpDir}/junit-results"/>
-	        <junit haltonfailure="no" printsummary="on" fork="yes">
+	        <junit haltonfailure="no" printsummary="on" fork="yes" maxmemory="256m">
 	            <classpath >
 					<pathelement location="${buildDir}" />
 					<pathelement location="${resourceDir}" />
