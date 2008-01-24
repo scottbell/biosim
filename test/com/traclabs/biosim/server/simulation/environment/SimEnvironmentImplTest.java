@@ -33,7 +33,6 @@ public class SimEnvironmentImplTest extends TestCase {
 		mySimEnvironmentImpl.tick();
 		assertEquals(o2Moles, mySimEnvironmentImpl.getO2Store().getCurrentLevel());
 		mySimEnvironmentImpl.getO2Store().take(o2Moles * 0.1f);
-		assertEquals(o2Moles, mySimEnvironmentImpl.getO2Store().getCurrentLevel());
 		mySimEnvironmentImpl.tick();
 		assertEquals(o2Moles - (o2Moles * 0.1f), mySimEnvironmentImpl.getO2Store().getCurrentLevel());
 	}
