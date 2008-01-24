@@ -123,7 +123,7 @@ public class CrewGroupImplTest extends TestCase {
 	public void testFoodDeath(){
 		float oldInitialLevel = myFoodStore.getInitialLevel();
 		myFoodStore.setInitialLevel(0f);
-		float ticksWithoutFoodAverage = 800f * myCrewGroup.getTickLength();
+		float ticksWithoutFoodAverage = 350 * myCrewGroup.getTickLength();
 		assertEquals(ticksWithoutFoodAverage, getAverageTillDead(20), 100);
 		myFoodStore.setInitialLevel(oldInitialLevel);
 	}
