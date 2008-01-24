@@ -352,7 +352,6 @@
 	<target name="update-and-rebuild-and-test" depends="update,rebuild,test" description="update from subversion and rebuilds"/>
 	
 	<target name="test" depends="build" >
-			<record name="log.xml" action="start"/>
 	        <javac srcdir="${test.dir}" destdir="${buildDir}" memoryMaximumSize="256m" fork="yes">
 	            <classpath>
 					<pathelement location="${buildDir}" />
@@ -388,7 +387,6 @@
 	                <fileset dir="${buildDir}" includes="**/*Test.class"/>
 	            </batchtest>
 	        </junit>
-			<record name="log.xml" action="stop"/>
 	   </target>
 	
 	<target name="build-jnlp-dist" depends="build-server,build-client,build-framework,init-dist,init-tmp" description="creates windows dist">
