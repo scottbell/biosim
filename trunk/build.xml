@@ -349,7 +349,7 @@
 		</exec>
 	</target>
 	
-	<target name="update-and-rebuild-and-test" depends="update,rebuild,test" description="update from subversion and rebuilds"/>
+	<target name="update-and-rebuild-and-test-and-dist" depends="update,rebuild,test,build-jnlp-dist" description="update from subversion and rebuilds"/>
 	
 	<target name="test" depends="build" >
 	        <javac srcdir="${test.dir}" destdir="${buildDir}" memoryMaximumSize="256m" fork="yes">
