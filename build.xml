@@ -173,7 +173,7 @@
 	<target name="build-dist" depends="build-server,build-client,init-dist" description="creates dist">
 		<mkdir dir="${distDir}" />
 		<mkdir dir="${distTmpDir}" />
-		<echo message="Creating biosim jar for genetic algorithm engine" />
+		<echo message="Creating biosim jar for general distribution" />
 		<jar destfile="${distDir}/biosim.jar">
 			<fileset dir="${buildDir}" includes="com/traclabs/biosim/server/**, com/traclabs/biosim/util/**, com/traclabs/biosim/idl/**, com/traclabs/biosim/client/**" />
 			<fileset dir="${resourceDir}" includes="com/traclabs/biosim/server/**, com/traclabs/biosim/util/**, com/traclabs/biosim/idl/**" excludes="com/traclabs/biosim/server/framework/configuration/**/**.xml, com/traclabs/biosim/server/framework/schema/**/**.xsd" />
