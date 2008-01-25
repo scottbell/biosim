@@ -21,9 +21,6 @@
 	<property name="plotDir" location="${lib}/jfreechart" />
 	<!-- set dist properties for this build -->
 	<property name="distDir" location="dist" />
-	<!-- set ga dist properties for this build -->
-	<property name="gaDistDir" location="${distDir}/ga" />
-	<property name="gaDistTmpDir" location="${tmpDir}/ga" />
 	<!-- set win dist properties for this build -->
 	<property name="winDistDir" location="${distDir}/win" />
 	<property name="winDistLibDir" location="${lib}/dist/win" />
@@ -173,14 +170,14 @@
 		</jar>
 	</target>
 
-	<target name="build-ga-dist" depends="build-server,build-client,init-dist" description="creates ga dist">
-		<mkdir dir="${gaDistDir}" />
-		<mkdir dir="${gaDistTmpDir}" />
+	<target name="build-dist" depends="build-server,build-client,init-dist" description="creates dist">
+		<mkdir dir="${distDir}" />
+		<mkdir dir="${distTmpDir}" />
 		<echo message="Creating biosim jar for genetic algorithm engine" />
-		<jar destfile="${gaDistDir}/biosim.jar">
+		<jar destfile="${distDir}/biosim.jar">
 			<fileset dir="${buildDir}" includes="com/traclabs/biosim/server/**, com/traclabs/biosim/util/**, com/traclabs/biosim/idl/**, com/traclabs/biosim/client/**" />
 			<fileset dir="${resourceDir}" includes="com/traclabs/biosim/server/**, com/traclabs/biosim/util/**, com/traclabs/biosim/idl/**" excludes="com/traclabs/biosim/server/framework/configuration/**/**.xml, com/traclabs/biosim/server/framework/schema/**/**.xsd" />
-			<fileset dir="${gaDistTmpDir}">
+			<fileset dir="${distTmpDir}">
 				<exclude name="META-INF" />
 				<exclude name="license-INF" />
 			</fileset>
@@ -314,7 +311,7 @@
 		</java>
 	</target>
 
-	<target name="build-all" depends="docs, build-manual, build-ga-dist, build-win-dist" description="compile biosim, create docs">
+	<target name="build-all" depends="docs, build-manual, build-dist" description="compile biosim, create docs">
 	</target>
 
 	<target name="build" depends="build-server,build-client" description="builds biosim">
@@ -349,7 +346,7 @@
 		</exec>
 	</target>
 	
-	<target name="update-and-rebuild-and-test-and-dist" depends="update,rebuild,test,build-jnlp-dist" description="update from subversion and rebuilds"/>
+	<target name="update-and-rebuild-and-test-and-dist" depends="update,rebuild,test,build-dist" description="update from subversion and rebuilds"/>
 	
 	<target name="test" depends="build" >
 	        <javac srcdir="${test.dir}" destdir="${buildDir}" memoryMaximumSize="256m" fork="yes">
