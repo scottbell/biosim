@@ -337,7 +337,7 @@ public abstract class BaseCrewPersonImpl extends CrewPersonPOA {
 	}
 
 	public boolean isOnBoard() {
-		return (myCurrentActivity.getName().equals("absent"));
+		return (!myCurrentActivity.getName().equals("absent"));
 	}
 	
 	/**
