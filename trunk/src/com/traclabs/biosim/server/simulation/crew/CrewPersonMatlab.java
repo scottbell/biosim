@@ -15,22 +15,24 @@ public class CrewPersonMatlab extends BaseCrewPersonImpl {
 	 */
 	@Override
 	protected void consumeAndProduceResources() {
+		// TODO
 		myLogger.info("Consuming and producing inside MatLab");
 	}
 	
 	/**
 	 * Hurt the crew if enough resources haven't been consumed
+	 * Heal the crew if enough resources have been consumed
 	 */
 	@Override
 	protected void afflictAndRecover() {
-		// TODO Auto-generated method stub
+		// TODO
 	}
 
 	/**
 	 * @return The amount of CO2 exhaled (in moles) by the crew member
 	 */
 	public float getCO2Produced() {
-		// TODO Auto-generated method stub
+		// TODO
 		return 0;
 	}
 	
@@ -38,7 +40,7 @@ public class CrewPersonMatlab extends BaseCrewPersonImpl {
 	 * @return The amount of dirty water produced (in liters) by the crew member
 	 */
 	public float getDirtyWaterProduced() {
-		// TODO Auto-generated method stub
+		// TODO
 		return 0;
 	}
 
@@ -46,7 +48,7 @@ public class CrewPersonMatlab extends BaseCrewPersonImpl {
 	 * @return The amount of food consumed (in kilograms) by the crew member
 	 */
 	public float getFoodConsumed() {
-		// TODO Auto-generated method stub
+		// TODO
 		return 0;
 	}
 
@@ -54,7 +56,7 @@ public class CrewPersonMatlab extends BaseCrewPersonImpl {
 	 * @return The amount of grey water produced (in liters) by the crew member
 	 */
 	public float getGreyWaterProduced() {
-		// TODO Auto-generated method stub
+		// TODO
 		return 0;
 	}
 
@@ -62,7 +64,7 @@ public class CrewPersonMatlab extends BaseCrewPersonImpl {
 	 * @return The amount of oxygen consumed (in moles) by the crew member
 	 */
 	public float getO2Consumed() {
-		// TODO Auto-generated method stub
+		// TODO
 		return 0;
 	}
 
@@ -70,7 +72,7 @@ public class CrewPersonMatlab extends BaseCrewPersonImpl {
 	 * @return The amount of potable water consumed (in liters) by the crew member
 	 */
 	public float getPotableWaterConsumed() {
-		// TODO Auto-generated method stub
+		// TODO
 		return 0;
 	}
 
@@ -78,7 +80,7 @@ public class CrewPersonMatlab extends BaseCrewPersonImpl {
 	 * @return Return a metric on how well the crew member is doing on his or her's mission
 	 */
 	public float getProductivity() {
-		// TODO Auto-generated method stub
+		// TODO
 		return 0;
 	}
 
@@ -86,7 +88,7 @@ public class CrewPersonMatlab extends BaseCrewPersonImpl {
 	 * @return Return true if the crew is poisoned from CO2
 	 */
 	public boolean isPoisoned() {
-		// TODO Auto-generated method stub
+		// TODO
 		return false;
 	}
 
@@ -94,7 +96,7 @@ public class CrewPersonMatlab extends BaseCrewPersonImpl {
 	 * @return Return true if the crew is starving
 	 */
 	public boolean isStarving() {
-		// TODO Auto-generated method stub
+		// TODO 
 		return false;
 	}
 
@@ -102,7 +104,7 @@ public class CrewPersonMatlab extends BaseCrewPersonImpl {
 	 * @return Return true if the crew is suffocating
 	 */
 	public boolean isSuffocating() {
-		// TODO Auto-generated method stub
+		// TODO
 		return false;
 	}
 
@@ -110,7 +112,7 @@ public class CrewPersonMatlab extends BaseCrewPersonImpl {
 	 * @return Return true if the crew is thirsty
 	 */
 	public boolean isThirsty() {
-		// TODO Auto-generated method stub
+		// TODO
 		return false;
 	}
 	
