@@ -228,7 +228,7 @@ module com{
                                                 void setTickLength(in float pInterval);
                                                 float getTickLength();
                                                 void setLogLevel(in LogLevel pLogLevel);
-                                                
+						float randomFilter(in float preFilteredValue);
                                         };
                                         interface BioDriver{
                                                 boolean isPaused();

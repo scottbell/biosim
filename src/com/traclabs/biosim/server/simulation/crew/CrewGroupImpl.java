@@ -152,27 +152,31 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
      */
     public CrewPerson createCrewPerson(String pName, float pAge, float pWeight,
             Sex pSex, int pArrivalTick, int pDepartureTick) {
-        return createCrewPerson(pName, pAge, pWeight, pSex, pArrivalTick, pDepartureTick, new Schedule(this));
+        return createCrewPerson(pName, pAge, pWeight, pSex, pArrivalTick, pDepartureTick, new Schedule(getCrewGroup()));
     }
     
     public CrewPerson createCrewPerson(String pName, float pAge, float pWeight,
             Sex pSex, int pArrivalTick, int pDepartureTick, Schedule pSchedule) {
         return createCrewPerson("NORMAL", pName, pAge, pWeight, pSex, pArrivalTick, pDepartureTick, pSchedule);
     }
+    
+    private CrewGroup getCrewGroup(){
+    	CrewGroupPOATie tie = new CrewGroupPOATie(this);
+    	CrewGroup crewGroup = tie._this(OrbUtils.getORB());
+    	return crewGroup;
+    }
 
     public CrewPerson createCrewPerson(String implementation, String pName, float pAge, float pWeight,
             Sex pSex, int pArrivalTick, int pDepartureTick, Schedule pSchedule) {
-    	CrewGroupPOATie tie = new CrewGroupPOATie(this);
-    	CrewGroup crewGroup = tie._this(OrbUtils.getORB());
     	CrewPersonPOA newCrewPersonPOA = null;
     	if (implementation.equals("NORMAL")){
     		newCrewPersonPOA = new CrewPersonImpl(pName, pAge,
-                pWeight, pSex, pArrivalTick, pDepartureTick, this, crewGroup,
+                pWeight, pSex, pArrivalTick, pDepartureTick, getCrewGroup(),
                 pSchedule);
     	}
     	else
     		newCrewPersonPOA = new CrewPersonMatlab(pName, pAge,
-                    pWeight, pSex, pArrivalTick, pDepartureTick, this, crewGroup,
+                    pWeight, pSex, pArrivalTick, pDepartureTick, getCrewGroup(),
                     pSchedule);
         CrewPerson newCrewPerson = CrewPersonHelper.narrow((OrbUtils
                 .poaToCorbaObj(newCrewPersonPOA)));

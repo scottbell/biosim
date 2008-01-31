@@ -2,6 +2,7 @@ package com.traclabs.biosim.server.simulation.framework;
 
 import java.util.Arrays;
 
+import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.simulation.framework.Store;
 import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllable;
 import com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOperations;
@@ -171,7 +172,7 @@ public abstract class StoreFlowRateControllableImpl extends
      *         the amount needed if sucessful)
      */
     public static float getFractionalResourceFromStores(
-            BioModuleImpl myBioModuleImpl, StoreFlowRateControllable pDefinition, float amountNeeded,
+            BioModule myBioModule, StoreFlowRateControllable pDefinition, float amountNeeded,
             float fraction) {
         if (pDefinition.getStores() == null)
             return 0f;
@@ -187,7 +188,7 @@ public abstract class StoreFlowRateControllableImpl extends
                     * fraction);
             float resourceToGatherFinal = Math.min(resourceToGatherFirst,
                     pDefinition.getDesiredFlowRate(i) * fraction);
-            resourceToGatherFinal = myBioModuleImpl.getStochasticFilter().randomFilter(resourceToGatherFinal);
+            resourceToGatherFinal = myBioModule.randomFilter(resourceToGatherFinal);
             float grabbed = pDefinition.getStores()[i]
                     .take(resourceToGatherFinal);
             pDefinition.getActualFlowRates()[i] += grabbed;
@@ -209,7 +210,7 @@ public abstract class StoreFlowRateControllableImpl extends
      *         amount to push if sucessful)
      */
     public static float pushFractionalResourceToStores(
-            BioModuleImpl myBioModuleImpl,
+            BioModule myBioModule,
             StoreFlowRateControllable pDefinition, float amountToPush,
             float fraction) {
         if (pDefinition.getStores() == null)
@@ -227,7 +228,7 @@ public abstract class StoreFlowRateControllableImpl extends
                     resourceToDistributeFirst, pDefinition
                             .getDesiredFlowRate(i)
                             * fraction);
-            resourceToDistributeFinal = myBioModuleImpl.getStochasticFilter().randomFilter(resourceToDistributeFinal);
+            resourceToDistributeFinal = myBioModule.randomFilter(resourceToDistributeFinal);
             float given = pDefinition.getStores()[i]
                     .add(resourceToDistributeFinal);
             pDefinition.getActualFlowRates()[i] += given;

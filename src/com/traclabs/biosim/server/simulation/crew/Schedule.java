@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import com.traclabs.biosim.idl.simulation.crew.Activity;
 import com.traclabs.biosim.idl.simulation.crew.ActivityHelper;
+import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
@@ -33,13 +34,13 @@ public class Schedule {
 
     private Activity myAbsentActivity;
     
-    private CrewGroupImpl myCrewGroupImpl;
+    private CrewGroup myCrewGroup;
 
     /**
      * Constructor that creates a new default schedule.
      */
-    public Schedule(CrewGroupImpl pCrewGroupImpl) {
-    	myCrewGroupImpl = pCrewGroupImpl;
+    public Schedule(CrewGroup pCrewGroup) {
+    	myCrewGroup = pCrewGroup;
         createDefaultActivites();
     }
 
@@ -49,7 +50,7 @@ public class Schedule {
         ActivityImpl bornActivityImpl = new ActivityImpl("born", 0, 0);
         ActivityImpl deadActivityImpl = new ActivityImpl("dead", 0, 0);
         ActivityImpl absentActivityImpl = new ActivityImpl("absent", 0, 0);
-        ActivityImpl sickActivityImpl = new ActivityImpl("sick", (int)(Math.ceil(12 / myCrewGroupImpl.getTickLength())), 1);
+        ActivityImpl sickActivityImpl = new ActivityImpl("sick", (int)(Math.ceil(12 / myCrewGroup.getTickLength())), 1);
         myBornActivity = ActivityHelper.narrow(OrbUtils
                 .poaToCorbaObj(bornActivityImpl));
         myDeadActivity = ActivityHelper.narrow(OrbUtils

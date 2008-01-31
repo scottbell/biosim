@@ -3,20 +3,7 @@ package com.traclabs.biosim.server.simulation.crew;
 import java.text.DecimalFormat;
 import java.util.Random;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-
-import com.traclabs.biosim.idl.framework.BioModule;
-import com.traclabs.biosim.idl.framework.BioModuleHelper;
-import com.traclabs.biosim.idl.framework.LogLevel;
-import com.traclabs.biosim.idl.simulation.crew.Activity;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
-import com.traclabs.biosim.idl.simulation.crew.CrewGroupHelper;
-import com.traclabs.biosim.idl.simulation.crew.CrewPersonHelper;
-import com.traclabs.biosim.idl.simulation.crew.CrewPersonPOA;
-import com.traclabs.biosim.idl.simulation.crew.EVAActivity;
-import com.traclabs.biosim.idl.simulation.crew.MaitenanceActivity;
-import com.traclabs.biosim.idl.simulation.crew.RepairActivity;
 import com.traclabs.biosim.idl.simulation.crew.Sex;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.food.FoodMatter;
@@ -26,7 +13,6 @@ import com.traclabs.biosim.server.simulation.framework.SimpleBuffer;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
 import com.traclabs.biosim.server.util.MathUtils;
 import com.traclabs.biosim.util.MersenneTwister;
-import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * The Crew Person Implementation. Eats/drinks/excercises away resources
@@ -35,32 +21,7 @@ import com.traclabs.biosim.util.OrbUtils;
  * @author Scott Bell
  */
 
-public class CrewPersonImpl extends CrewPersonPOA {
-    //The name of this crew memeber
-    private String myName = "No Name";
-
-    //The current activity this crew member is performing
-    private Activity myCurrentActivity;
-
-    //The current activity order this crew member is on
-    private int currentOrder = 0;
-
-    //How long this crew member has been performing thier current activity (in
-    // ticks)
-    private int timeActivityPerformed = 0;
-
-    //Flag to determine if the person has died
-    private boolean hasDied = false;
-
-    //The current age of the crew memeber
-    private float age = 30f;
-
-    //The current weight of the crew memeber
-    private float weight = 170f;
-
-    //The sex of the crew memeber
-    private Sex sex = Sex.male;
-
+public class CrewPersonImpl extends BaseCrewPersonImpl {
     //How much O2 this crew member consumed in the current tick
     private float O2Consumed = 0f;
 
@@ -101,12 +62,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
     //How much water (in moles) is produced in one tick
     private float vaporProduced = 0f;
 
-    //Whether this crew member is sick or not. If the crew member is sick, puts
-    // them into sleep like state.
-    private boolean sick = false;
-
-    private boolean onBoard = true;
-
     private boolean thirsty = false;
 
     private boolean starving = false;
@@ -120,18 +75,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
     //A mission productivity measure, used when "mission" is specified in the
     // schedule. Not implemented correctly yet.
     private float myMissionProductivity = 0;
-
-    //The schedule used for this crew memeber
-    private Schedule mySchedule;
-
-    private int myArrivalTick = 0;
-
-    private int myDepartureTick = Integer.MAX_VALUE;
-
-    //The crew group associated with this crew member
-    private CrewGroupImpl myBaseCrewGroupImpl;
-
-    private CrewGroup myCurrentCrewGroup;
 
     //Used to format floats
     private DecimalFormat numFormat;
@@ -184,41 +127,18 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
     private static final float SLEEP_RECOVERY_RATE = 12f;
 
-    private Logger myLogger;
-
-    /**
-     * Constructor that creates a new crew person
-     * 
-     * @param pName
-     *            the name of the new crew person
-     * @param pAge
-     *            the age of the new crew person
-     * @param pSex
-     *            the sex of the new crew person
-     * @param pCrewGroup
-     *            the crew that the new crew person belongs in
-     */
-    CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex,
+    public CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex,
             int pArrivalTick, int pDepartureTick,
-            CrewGroupImpl pBaseCrewGroupImpl, CrewGroup pCurrentCrewGroup) {
+            CrewGroup pBaseCrewGroup, CrewGroup pCurrentCrewGroup) {
         this(pName, pAge, pWeight, pSex, pArrivalTick, pDepartureTick,
-                pBaseCrewGroupImpl, pCurrentCrewGroup, new Schedule(pBaseCrewGroupImpl));
+                pBaseCrewGroup, new Schedule(pBaseCrewGroup));
     }
 
-    CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex,
+    public CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex,
             int pArrivalTick, int pDepartureTick,
-            CrewGroupImpl pBaseCrewGroupImpl, CrewGroup pCurrentCrewGroup,
-            Schedule pSchedule) {
-        myLogger = Logger.getLogger(this.getClass() +"."+pName);
-        myName = pName;
-        age = pAge;
-        weight = pWeight;
-        sex = pSex;
-        myArrivalTick = pArrivalTick;
-        myDepartureTick = pDepartureTick;
-        myBaseCrewGroupImpl = pBaseCrewGroupImpl;
-        myCurrentCrewGroup = pCurrentCrewGroup;
-        mySchedule = pSchedule;
+            CrewGroup pBaseCrewGroup, Schedule pSchedule) {
+        super(pName, pAge, pWeight, pSex, pArrivalTick, pDepartureTick,
+        		pBaseCrewGroup, pSchedule);
         consumedWaterBuffer = new SimpleBuffer(WATER_TILL_DEAD, WATER_TILL_DEAD);
         consumedCaloriesBuffer = new SimpleBuffer(CALORIE_TILL_DEAD,
                 CALORIE_TILL_DEAD);
@@ -233,14 +153,13 @@ public class CrewPersonImpl extends CrewPersonPOA {
         leisureBuffer = new SimpleBuffer(LEISURE_TILL_BURNOUT,
                 LEISURE_TILL_BURNOUT);
         numFormat = new DecimalFormat("#,##0.0;(#)");
-        myCurrentActivity = mySchedule
-                .getScheduledActivityByOrder(currentOrder);
     }
 
-    /**
+	/**
      * Resets the state of this crew member
      */
     public void reset() {
+    	super.reset();
         consumedWaterBuffer.reset();
         consumedLowOxygenBuffer.reset();
         highOxygenBuffer.reset();
@@ -249,13 +168,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
         sleepBuffer.reset();
         leisureBuffer.reset();
         myMissionProductivity = 0f;
-        currentOrder = 0;
-        myCurrentActivity = mySchedule
-                .getScheduledActivityByOrder(currentOrder);
-        timeActivityPerformed = 0;
-        sick = false;
-        onBoard = true;
-        hasDied = false;
         thirsty = false;
         starving = false;
         suffocating = false;
@@ -275,57 +187,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
         potableWaterNeeded = 0f;
         caloriesNeeded = 0f;
         vaporProduced = 0f;
-    }
-    
-    public void setLogLevel(LogLevel pLevel){
-    	if (pLevel == LogLevel.OFF)
-    		myLogger.setLevel(Level.OFF);
-    	else if (pLevel == LogLevel.INFO)
-    		myLogger.setLevel(Level.INFO);
-    	else if (pLevel == LogLevel.DEBUG)
-    		myLogger.setLevel(Level.DEBUG);
-    	else if (pLevel == LogLevel.ERROR)
-    		myLogger.setLevel(Level.ERROR);
-    	else if (pLevel == LogLevel.WARN)
-    		myLogger.setLevel(Level.WARN);
-    	else if (pLevel == LogLevel.FATAL)
-    		myLogger.setLevel(Level.FATAL);
-    	else if (pLevel == LogLevel.ALL)
-    		myLogger.setLevel(Level.ALL);
-    }
-
-    public void setArrivalTick(int pArrivalTick) {
-        myArrivalTick = pArrivalTick;
-    }
-
-    public int getArrivalTick() {
-        return myArrivalTick;
-    }
-
-    public void setDepartureTick(int pDepartureTick) {
-        myDepartureTick = pDepartureTick;
-    }
-
-    public int getDepartureTick() {
-        return myDepartureTick;
-    }
-
-    /**
-     * Returns the name given to this crew memeber
-     * 
-     * @return the name of the crew member
-     */
-    public String getName() {
-        return myName;
-    }
-
-    /**
-     * Returns the age given to this crew memeber
-     * 
-     * @return the age of the crew member
-     */
-    public float getAge() {
-        return age;
     }
 
     /**
@@ -449,215 +310,16 @@ public class CrewPersonImpl extends CrewPersonPOA {
         return fireRisked;
     }
 
-    /**
-     * Returns how much the crew member weighs (in kilograms)
-     * 
-     * @return the crew person's weight in kilograms
-     */
-    public float getWeight() {
-        return weight;
-    }
-
-    /**
-     * Checks whether the crew member is dead or not
-     * 
-     * @return <code>true</code> if the crew memeber is dead,
-     *         <code>false</code> if not.
-     */
-    public boolean isDead() {
-        return hasDied;
-    }
-
-    /**
-     * Returns the crew member's sex
-     * 
-     * @return the crew person's sex
-     */
-    public Sex getSex() {
-        return sex;
-    }
-
-    public void setSchedule(Schedule pSchedule) {
-        mySchedule = pSchedule;
-    }
-
-    /**
-     * Makes this crew member sick (sleep like)
-     */
-    public void sicken() {
-        sick = true;
-        myCurrentActivity = mySchedule.getActivityByName("sick");
-    }
-
-    /**
-     * Returns the crew member's current activity
-     * 
-     * @return the crew member's current activity
-     */
-    public Activity getCurrentActivity() {
-        return myCurrentActivity;
-    }
-
-    /**
-     * Sets the crew memeber's activity to a new one specified.
-     * 
-     * @param pActivity
-     *            the crew member's new activity
-     */
-    public void setCurrentActivity(Activity pActivity) {
-        myCurrentActivity = pActivity;
-        currentOrder = mySchedule.getOrderOfScheduledActivity(myCurrentActivity
-                .getName());
-    }
-
-    /**
-     * Returns a scheduled activity by name (like "sleeping")
-     * 
-     * @param name
-     *            the name of the activity to fetch
-     * @return the activity in the schedule asked for by name
-     */
-    public Activity getActivityByName(String name) {
-        return mySchedule.getActivityByName(name);
-    }
-
-    /**
-     * Returns a scheduled activity by order
-     * 
-     * @param order
-     *            the order of the activity to fetch
-     * @return the activity in the schedule asked for by order
-     */
-    public Activity getScheduledActivityByOrder(int order) {
-        return mySchedule.getScheduledActivityByOrder(order);
-    }
-
-    /**
-     * Returns how long the crew member's been performing the current activity
-     * 
-     * @return the time the crew memeber has been performing the current
-     *         activity
-     */
-    public int getTimeActivityPerformed() {
-        return timeActivityPerformed;
-    }
-
-    /**
-     * Returns a string representation of the crew memeber in the form: [name]
-     * now performing [activity] for [x] hours
-     * 
-     * @return a string representation of the crew member
-     */
-    public String toString() {
-        return (myName + " now performing activity "
-                + myCurrentActivity.getName() + " for " + timeActivityPerformed
-                + " of " + myCurrentActivity.getTimeLength() + " hours");
-    }
-
-    public boolean isSick() {
-        return sick;
-    }
-
-    /**
-     * If the crew memeber has been performing the current activity long enough,
-     * the new scheduled activity is assigned.
-     */
-    private void advanceActivity() {
-        checkForMeaningfulActivity();
-        if (timeActivityPerformed >= myCurrentActivity.getTimeLength()) {
-            if (sick)
-                sick = false;
-            currentOrder++;
-            if (currentOrder >= (mySchedule.getNumberOfScheduledActivities()))
-                currentOrder = 1;
-            myCurrentActivity = mySchedule
-                    .getScheduledActivityByOrder(currentOrder);
-            timeActivityPerformed = 0;
-        }
-    }
-
-    /**
-     * Looks at current activity to see if it's "meaningful" i.e., the activity
-     * affects other modules. mission - productivity measure, used for metrics.
-     * the longer the crew does this, the better evaluation (not implemented
-     * yet) maitenance - prevents other modules from breaking down (not
-     * implemented yet) repair - attempts to fix a module. may have to be called
-     * several time depending on the severity of the malfunction
-     * 
-     * New Stuff: 1) Put new environment to join in activity (make it like a
-     * repair activity) 2) sap 10% of air from old environment (look at air
-     * input of crew) 3) hook up old environment at end of EVA task (keep a
-     * record) 4) allow modules to be reconfigured using acutators (work on this
-     * later)
-     */
-    private void checkForMeaningfulActivity() {
-        myLogger.debug("Checking to see if " + myCurrentActivity.getName()
-                + " is a meaningful activity");
-        if (myCurrentActivity.getName().equals("mission")) {
+    protected void checkForMeaningfulActivity() {
+    	super.checkForMeaningfulActivity();
+        if (getCurrentActivity().getName().equals("mission")) {
             addProductivity();
-        } else if (myCurrentActivity.getName().startsWith("sleep")
-                || myCurrentActivity.getName().startsWith("sick")) {
-            sleepBuffer.add(SLEEP_RECOVERY_RATE * myBaseCrewGroupImpl.getTickLength());
-        } else if (myCurrentActivity.getName().equals("leisure")) {
-            leisureBuffer.add(LEISURE_RECOVERY_RATE * myBaseCrewGroupImpl.getTickLength());
-        } else if (myCurrentActivity instanceof RepairActivity) {
-            RepairActivity repairActivity = (RepairActivity) (myCurrentActivity);
-            repairModule(repairActivity.getModuleNameToRepair(), repairActivity
-                    .getMalfunctionIDToRepair());
-        } else if (myCurrentActivity instanceof EVAActivity) {
-            handleEVA((EVAActivity) (myCurrentActivity));
-        } else if (myCurrentActivity instanceof MaitenanceActivity) {
-            MaitenanceActivity maitenanceActivity = (MaitenanceActivity) (myCurrentActivity);
-            maintainModule(maitenanceActivity.getModuleNameToMaintain());
+        } else if (getCurrentActivity().getName().startsWith("sleep")
+                || getCurrentActivity().getName().startsWith("sick")) {
+            sleepBuffer.add(SLEEP_RECOVERY_RATE * getCurrentCrewGroup().getTickLength());
+        } else if (getCurrentActivity().getName().equals("leisure")) {
+            leisureBuffer.add(LEISURE_RECOVERY_RATE * getCurrentCrewGroup().getTickLength());
         }
-    }
-
-    /**
-     * @param pActivity
-     */
-    private void handleEVA(EVAActivity pEVAActivity) {
-        myLogger.debug("Handling EVA");
-        if (timeActivityPerformed <= 1)
-            startEVA(pEVAActivity.getEVACrewGroupName());
-        else if (timeActivityPerformed >= pEVAActivity.getTimeLength())
-            endEVA(pEVAActivity.getBaseCrewGroupName());
-    }
-
-    /**
-     * @param evaCrewGroupName
-     */
-    private void startEVA(String evaCrewGroupName) {
-        myLogger.debug("Starting EVA");
-        // remove 5% from base environment (assume 3.7 m3 airlock)
-        myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0]
-                .removeAirlockPercentage(0.05f);
-        // detach from current crew group
-        myCurrentCrewGroup.detachCrewPerson(getName());
-        //attach to eva crew group
-        CrewGroup evaCrewGroup = CrewGroupHelper.narrow(OrbUtils.getBioModule(
-                myCurrentCrewGroup.getID(), evaCrewGroupName));
-        evaCrewGroup.attachCrewPerson(CrewPersonHelper.narrow((OrbUtils
-                .poaToCorbaObj(this))));
-        myCurrentCrewGroup = evaCrewGroup;
-        // perform activity for X ticks
-    }
-
-    /**
-     * @param baseCrewGroupName
-     */
-    private void endEVA(String baseCrewGroupName) {
-        myLogger.debug("Ending EVA");
-        // detach from EVA crew group
-        myCurrentCrewGroup.detachCrewPerson(getName());
-        // reattach to base crew group
-        CrewGroup baseCrewGroup = CrewGroupHelper.narrow((OrbUtils
-                .getBioModule(myCurrentCrewGroup.getID(), baseCrewGroupName)));
-        baseCrewGroup.attachCrewPerson(CrewPersonHelper.narrow((OrbUtils
-                .poaToCorbaObj(this))));
-        myCurrentCrewGroup = baseCrewGroup;
-        // remove 5% from base environment (assume 3.7 m3 airlock)
-        myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0]
-                .removeAirlockPercentage(0.05f);
     }
 
     /**
@@ -687,85 +349,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
         return myMissionProductivity;
     }
 
-    /**
-     * attempts to fix a module. may have to be called several time depending on
-     * the severity of the malfunction invoked when crew person performs
-     * "repair" activity
-     */
-    private void repairModule(String moduleName, long id) {
-        try {
-            BioModule moduleToRepair = BioModuleHelper.narrow(OrbUtils
-                    .getNamingContext(myCurrentCrewGroup.getID()).resolve_str(
-                            moduleName));
-            moduleToRepair.doSomeRepairWork(id);
-        } catch (org.omg.CORBA.UserException e) {
-            myLogger.warn("CrewPersonImp:" + myCurrentCrewGroup.getID()
-                    + ": Couldn't locate " + moduleName
-                    + " to repair, skipping...");
-        }
-    }
+    
 
-    /**
-     * prevents other modules from breaking down invoked when crew person
-     * performs "maitenance" activity
-     */
-    private void maintainModule(String moduleName) {
-        try {
-            BioModule module = BioModuleHelper.narrow(OrbUtils
-                    .getNamingContext(myCurrentCrewGroup.getID()).resolve_str(
-                            moduleName));
-            module.maintain();
-        } catch (org.omg.CORBA.UserException e) {
-            myLogger.warn("CrewPersonImp:" + myCurrentCrewGroup.getID()
-                    + ": Couldn't locate " + moduleName
-                    + " to repair, skipping...");
-        }
-    }
-
-    private void checkIfOnBoard() {
-        if ((myCurrentCrewGroup.getMyTicks() >= myArrivalTick)
-                && (myCurrentCrewGroup.getMyTicks() < myDepartureTick)) {
-            onBoard = true;
-        } else if (onBoard) {
-            myCurrentActivity = mySchedule.getActivityByName("absent");
-            onBoard = false;
-        }
-    }
-
-    public boolean isOnBoard() {
-        return onBoard;
-    }
-
-    /**
-     * When the CrewGroup ticks the crew member, the member: 1) increases the
-     * time the activity has been performed by 1. on the condition that the crew
-     * memeber isn't dead he/she then:. 2) attempts to collect references to
-     * various server (if not already done). 3) possibly advances to the next
-     * activity. 4) consumes air/food/water, exhales and excretes. 5) takes
-     * afflictions from lack of any resources. 6) checks whether afflictions (if
-     * any) are fatal.
-     */
-    public void tick() {
-        //myLogger.debug(getName() + " ticked");
-        timeActivityPerformed++;
-//        myLogger.debug(getName() + " performed activity "
-//                + myCurrentActivity.getName() + " for " + timeActivityPerformed
-//                + " of " + myCurrentActivity.getTimeLength() + " ticks");
-        if (!hasDied) {
-            checkIfOnBoard();
-            if (onBoard) {
-                advanceActivity();
-                consumeResources();
-                if (getCurrentCrewGroup().getDeathEnabled()){
-                	afflictCrew();
-                	healthCheck();
-                	recoverCrew();
-                }
-            }
-        }
-        if (myLogger.isDebugEnabled())
-            log();
-    }
 
     /**
      * Calculate the current O2 needed by the crew memeber given the intensity
@@ -781,8 +366,8 @@ public class CrewPersonImpl extends CrewPersonPOA {
             return 0f;
         float heartRate = (currentActivityIntensity * 30f) + 15f;
         float a = 0.223804f;
-        float b = 5.64f * pow(10f, -7f);
-        float resultInLiters = (a + (b * pow(heartRate, 3f) * 60f)); //liters per hour, 5
+        float b = 5.64f * MathUtils.pow(10f, -7f);
+        float resultInLiters = (a + (b * MathUtils.pow(heartRate, 3f) * 60f)); //liters per hour, 5
         myLogger.debug("resultInLiters "+resultInLiters);
         //equation assumes STP
         float moleOfAirPerLiterAtSTP = 22.4f;
@@ -792,10 +377,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
         myLogger.debug("adjustForTickLength "+adjustForTickLength);
         myLogger.debug("adjustForTickLength "+adjustForTickLength);
         return adjustForTickLength; 
-    }
-
-    private float pow(float a, float b) {
-        return (float)(Math.pow(a, b));
     }
 
     /**
@@ -814,18 +395,6 @@ public class CrewPersonImpl extends CrewPersonPOA {
         return CO2Produced;
     }
 
-    public void insertActivityInSchedule(Activity pActivity, int pOrder) {
-        mySchedule.insertActivityInSchedule(pActivity, pOrder);
-    }
-
-    public void insertActivityInScheduleNow(Activity pActivity) {
-        mySchedule.insertActivityInSchedule(pActivity, currentOrder + 1);
-    }
-
-    public int getOrderOfScheduledActivity(String activityName) {
-        return mySchedule.getOrderOfScheduledActivity(activityName);
-    }
-
     /**
      * Calculate the current food needed (in calories) by the crew memeber given
      * the intensity of the activity for the current tick. Algorithm derived
@@ -840,15 +409,15 @@ public class CrewPersonImpl extends CrewPersonPOA {
             return 0f;
         float activityCoefficient = (0.5f * (currentActivityIntensity - 1f)) + 1f;
         float joulesNeeded = 0f;
-        if (sex == Sex.male)
-            if (age < 30f)
-                joulesNeeded = (106f * weight) + (5040f * activityCoefficient);
+        if (getSex() == Sex.male)
+            if (getAge() < 30f)
+                joulesNeeded = (106f * getWeight()) + (5040f * activityCoefficient);
             else
-                joulesNeeded = (86f * weight) + (5990f * activityCoefficient);
-        else if (age < 30f)
-            joulesNeeded = (106f * weight) + (3200f * activityCoefficient);
+                joulesNeeded = (86f * getWeight()) + (5990f * activityCoefficient);
+        else if (getAge() < 30f)
+            joulesNeeded = (106f * getWeight()) + (3200f * activityCoefficient);
         else
-            joulesNeeded = (106f * weight) + (6067f * activityCoefficient);
+            joulesNeeded = (106f * getWeight()) + (6067f * activityCoefficient);
         //make it for one hour
         joulesNeeded /= 24f;
         //make it for the tick interval
@@ -928,7 +497,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * @return percentage of CO2 in air
      */
     public float getCO2Ratio() {
-        SimEnvironment[] myAirInputs = myCurrentCrewGroup
+        SimEnvironment[] myAirInputs = getCurrentCrewGroup()
                 .getAirConsumerDefinition().getEnvironments();
         if (myAirInputs.length < 1) {
         	CO2Ratio = 0f;
@@ -951,7 +520,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * @return percentage of O2 in air
      */
     public float getO2Ratio() {
-        SimEnvironment[] myAirInputs = myCurrentCrewGroup
+        SimEnvironment[] myAirInputs = getCurrentCrewGroup()
                 .getAirConsumerDefinition().getEnvironments();
         if (myAirInputs.length < 1) {
         	O2Ratio = 0f;
@@ -975,6 +544,12 @@ public class CrewPersonImpl extends CrewPersonPOA {
                 * consumedLowOxygenBuffer.getCapacity() * tickInterval);
         consumedCO2Buffer.add(CO2_HIGH_RECOVERY_RATE
                 * consumedCO2Buffer.getCapacity() * tickInterval);
+    }
+    
+    protected void afflictAndRecover(){
+    	afflictCrew();
+    	healthCheck();
+    	recoverCrew();
     }
 
     /**
@@ -1004,7 +579,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
         } else
             suffocating = false;
 
-        float dangerousOxygenThreshold = myCurrentCrewGroup
+        float dangerousOxygenThreshold = getCurrentCrewGroup()
                 .getAirConsumerDefinition().getEnvironments()[0]
                 .getDangerousOxygenThreshold();
         if (getO2Ratio() > dangerousOxygenThreshold) {
@@ -1063,7 +638,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
                         + oxygenLowRiskReturn+ " (level="
                         + consumedLowOxygenBuffer.getLevel() + ", capacity="
                         + consumedLowOxygenBuffer.getCapacity() + ")");
-        float dangerousOxygenThreshold = myCurrentCrewGroup
+        float dangerousOxygenThreshold = getCurrentCrewGroup()
         .getAirConsumerDefinition().getEnvironments()[0]
         .getDangerousOxygenThreshold();
         myLogger
@@ -1100,49 +675,49 @@ public class CrewPersonImpl extends CrewPersonPOA {
             myLogger.info(getName()
                     + " has fallen ill from exhaustion (risk was "
                     + numFormat.format(sleepRiskReturn * 100) + "%) @ tick "
-                    + myCurrentCrewGroup.getMyTicks());
+                    + getCurrentCrewGroup().getMyTicks());
         }
 
         if (calorieRiskReturn > randomNumber) {
             kill();
             myLogger.info(getName() + " has died from starvation on tick "
-                    + myCurrentCrewGroup.getMyTicks() + " (risk was "
+                    + getCurrentCrewGroup().getMyTicks() + " (risk was "
                     + numFormat.format(calorieRiskReturn * 100) + "%)");
         } else if (waterRiskReturn > randomNumber) {
             kill();
             myLogger.info(getName() + " has died from thirst on tick "
-                    + myCurrentCrewGroup.getMyTicks() + " (risk was "
+                    + getCurrentCrewGroup().getMyTicks() + " (risk was "
                     + numFormat.format(waterRiskReturn * 100) + "%)");
         } else if (oxygenLowRiskReturn > randomNumber) {
             kill();
-            SimEnvironment[] myAirInputs = myCurrentCrewGroup
+            SimEnvironment[] myAirInputs = getCurrentCrewGroup()
                     .getAirConsumerDefinition().getEnvironments();
             myLogger.info(getName() + " has died from lack of oxygen on tick "
-                    + myCurrentCrewGroup.getMyTicks() + " (risk was "
+                    + getCurrentCrewGroup().getMyTicks() + " (risk was "
                     + numFormat.format(oxygenLowRiskReturn * 100) + "%)");
             logEnvironmentConditions();
         } else if (oxygenHighRiskReturn > randomNumber) {
             kill();
-            SimEnvironment[] myAirInputs = myCurrentCrewGroup
+            SimEnvironment[] myAirInputs = getCurrentCrewGroup()
                     .getAirConsumerDefinition().getEnvironments();
             myLogger.info(getName()
                     + " has died from oxygen flammability on tick "
-                    + myCurrentCrewGroup.getMyTicks() + " (risk was "
+                    + getCurrentCrewGroup().getMyTicks() + " (risk was "
                     + numFormat.format(oxygenHighRiskReturn * 100) + "%)");
             logEnvironmentConditions();
         } else if (CO2RiskReturn > randomNumber) {
             kill();
-            SimEnvironment[] myAirInputs = myCurrentCrewGroup
+            SimEnvironment[] myAirInputs = getCurrentCrewGroup()
                     .getAirConsumerDefinition().getEnvironments();
             myLogger.info(getName() + " has died from CO2 poisoning on tick "
-                    + myCurrentCrewGroup.getMyTicks() + " (risk was "
+                    + getCurrentCrewGroup().getMyTicks() + " (risk was "
                     + numFormat.format(CO2RiskReturn * 100) + "%)");
             
         }
     }
     
     public void kill(){
-    	hasDied = true;
+    	super.kill();
         O2Consumed = 0f;
         CO2Produced = 0f;
         caloriesConsumed = 0f;
@@ -1150,12 +725,10 @@ public class CrewPersonImpl extends CrewPersonPOA {
         dirtyWaterProduced = 0f;
         greyWaterProduced = 0f;
         caloriesConsumed = 0f;
-        myCurrentActivity = mySchedule.getActivityByName("dead");
-        timeActivityPerformed = 0;
     }
     
     private void logEnvironmentConditions(){
-        SimEnvironment[] myAirInputs = myCurrentCrewGroup
+        SimEnvironment[] myAirInputs = getCurrentCrewGroup()
         .getAirConsumerDefinition().getEnvironments();
     	myLogger.info(getName() + " Environmental conditions were: 02="
     	+ myAirInputs[0].getO2Store().getCurrentLevel() + ", CO2="
@@ -1171,11 +744,11 @@ public class CrewPersonImpl extends CrewPersonPOA {
 
     private void eatFood() {
         FoodMatter[] foodConsumed = FoodConsumerDefinitionImpl
-                .getCaloriesFromStore(myCurrentCrewGroup
+                .getCaloriesFromStore(getCurrentCrewGroup()
                         .getFoodConsumerDefinition(), caloriesNeeded);
         foodMassConsumed = calculateFoodMass(foodConsumed);
         if ((foodConsumed.length == 0)
-                || (myCurrentCrewGroup.getFoodConsumerDefinition().getStores().length == 0))
+                || (getCurrentCrewGroup().getFoodConsumerDefinition().getStores().length == 0))
             caloriesConsumed = 0f;
         else {
             caloriesConsumed = FoodStoreImpl.calculateCalories(foodConsumed);
@@ -1197,9 +770,9 @@ public class CrewPersonImpl extends CrewPersonPOA {
      * Attempts to consume resource for this crew memeber. inhales/drinks/eats,
      * then exhales/excretes
      */
-    private void consumeResources() {
+    protected void consumeResources() {
         //calculate consumption
-        int currentActivityIntensity = myCurrentActivity.getActivityIntensity();
+        int currentActivityIntensity = getCurrentActivity().getActivityIntensity();
         O2Needed = calculateO2Needed(currentActivityIntensity);
         potableWaterNeeded = calculateCleanWaterNeeded(currentActivityIntensity);
         caloriesNeeded = calculateFoodNeeded(currentActivityIntensity);
@@ -1211,26 +784,26 @@ public class CrewPersonImpl extends CrewPersonPOA {
         //adjust tanks
         eatFood();
         potableWaterConsumed = StoreFlowRateControllableImpl
-                .getFractionalResourceFromStores(myBaseCrewGroupImpl, myCurrentCrewGroup
+                .getFractionalResourceFromStores(getCurrentCrewGroup(), getCurrentCrewGroup()
                         .getPotableWaterConsumerDefinition(),
-                        potableWaterNeeded, 1f / myCurrentCrewGroup
+                        potableWaterNeeded, 1f / getCurrentCrewGroup()
                                 .getCrewSize());
         StoreFlowRateControllableImpl
-                .pushFractionalResourceToStores(myBaseCrewGroupImpl, myCurrentCrewGroup
+                .pushFractionalResourceToStores(getCurrentCrewGroup(), getCurrentCrewGroup()
                         .getDirtyWaterProducerDefinition(), dirtyWaterProduced,
-                        1f / myCurrentCrewGroup.getCrewSize());
+                        1f / getCurrentCrewGroup().getCrewSize());
         StoreFlowRateControllableImpl
-                .pushFractionalResourceToStores(myBaseCrewGroupImpl, myCurrentCrewGroup
+                .pushFractionalResourceToStores(getCurrentCrewGroup(), getCurrentCrewGroup()
                         .getGreyWaterProducerDefinition(), greyWaterProduced,
-                        1f / myCurrentCrewGroup.getCrewSize());
+                        1f / getCurrentCrewGroup().getCrewSize());
         StoreFlowRateControllableImpl
-                .pushFractionalResourceToStores(myBaseCrewGroupImpl, myCurrentCrewGroup
+                .pushFractionalResourceToStores(getCurrentCrewGroup(), getCurrentCrewGroup()
                         .getDryWasteProducerDefinition(), dryWasteProduced,
-                        1f / myCurrentCrewGroup.getCrewSize());
+                        1f / getCurrentCrewGroup().getCrewSize());
 
-        SimEnvironment[] myAirInputs = myCurrentCrewGroup
+        SimEnvironment[] myAirInputs = getCurrentCrewGroup()
                 .getAirConsumerDefinition().getEnvironments();
-        SimEnvironment[] myAirOutputs = myCurrentCrewGroup
+        SimEnvironment[] myAirOutputs = getCurrentCrewGroup()
                 .getAirProducerDefinition().getEnvironments();
         if (myAirInputs.length < 1) {
             O2Consumed = 0f;
@@ -1244,18 +817,7 @@ public class CrewPersonImpl extends CrewPersonPOA {
     }
 
     public void log() {
-        myLogger.debug("name=" + myName);
-        myLogger.debug("current_activity=" + myCurrentActivity.getName());
-        myLogger.debug("current_activity_order=" + currentOrder);
-        myLogger.debug("duration_of_activity=" + timeActivityPerformed);
-        myLogger.debug("has_died=" + hasDied);
-        myLogger.debug("sick=" + sick);
-        myLogger.debug("age=" + age);
-        myLogger.debug("weight" + weight);
-        if (sex == Sex.male)
-            myLogger.debug("sex=male");
-        else if (sex == Sex.female)
-            myLogger.debug("sex=female");
+    	super.log();
         myLogger.debug("O2_consumed=" + O2Consumed);
         myLogger.debug("CO2_produced=" + CO2Produced);
         myLogger.debug("calories_consumed=" + caloriesConsumed);
@@ -1268,9 +830,5 @@ public class CrewPersonImpl extends CrewPersonPOA {
         myLogger.debug("vapor_produced=" + vaporProduced);
         logEnvironmentConditions();
     }
-
-	public CrewGroup getCurrentCrewGroup() {
-		return myCurrentCrewGroup;
-	}
 
 }

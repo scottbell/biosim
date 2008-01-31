@@ -47,10 +47,10 @@ public class CrewGroupImplTest extends TestCase {
 		OrbUtils.startStandaloneNameServer();
 		OrbUtils.initializeServerForStandalone();
 		CrewGroupImpl crewGroupImpl = new CrewGroupImpl();
-		for (int i = 0; i < 1; i++)
-			crewGroupImpl.createCrewPerson(createGenericSchedule(crewGroupImpl));
-		
 		myCrewGroup = (new CrewGroupPOATie(crewGroupImpl))._this(OrbUtils.getORB());
+		for (int i = 0; i < 1; i++)
+			crewGroupImpl.createCrewPerson(createGenericSchedule(myCrewGroup));
+		
 		//initialize stores
 		mySimEnvironment = (new SimEnvironmentPOATie(new SimEnvironmentImpl()))._this(OrbUtils.getORB());
 		myPotableWaterStore = (new PotableWaterStorePOATie(new PotableWaterStoreImpl()))._this(OrbUtils.getORB());
@@ -162,8 +162,8 @@ public class CrewGroupImplTest extends TestCase {
 		return totalTicks;
 	}
 	
-    public Schedule createGenericSchedule(CrewGroupImpl myCrewGroupImpl){
-    	Schedule theSchedule = new Schedule(myCrewGroupImpl);
+    public Schedule createGenericSchedule(CrewGroup myCrewGroup){
+    	Schedule theSchedule = new Schedule(myCrewGroup);
         ActivityImpl missionActivityImpl = new ActivityImpl("mission", 15, 3);
         ActivityImpl sleepActivityImpl = new ActivityImpl("sleep",8, 1);
         theSchedule.insertActivityInSchedule(ActivityHelper.narrow(OrbUtils.poaToCorbaObj(missionActivityImpl)));
