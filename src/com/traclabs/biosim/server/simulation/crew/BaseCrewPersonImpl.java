@@ -384,7 +384,7 @@ public abstract class BaseCrewPersonImpl extends CrewPersonPOA {
 			arriveOrDepart();
 			if (isOnBoard()) {
 				advanceActivity();
-				consumeResources();
+				consumeAndProduceResources();
 				if (getCurrentCrewGroup().getDeathEnabled())
 					afflictAndRecover();
 			}
@@ -393,7 +393,7 @@ public abstract class BaseCrewPersonImpl extends CrewPersonPOA {
 			log();
 	}
 
-	protected abstract void consumeResources();
+	protected abstract void consumeAndProduceResources();
 
 	protected abstract void afflictAndRecover();
 

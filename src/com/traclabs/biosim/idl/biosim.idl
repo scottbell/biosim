@@ -380,8 +380,6 @@ module com{
                                                         float getFoodConsumed();
                                                         float getCO2Produced();
                                                         float getO2Consumed();
-														float getO2Ratio();
-														float getCO2Ratio();
                                                         Activity getActivityByName(in string name);
                                                         Activity getScheduledActivityByOrder(in long order);
                                                         void setArrivalTick(in long arrivalTick);
