@@ -15,6 +15,7 @@ public class CrewPersonMatlab extends BaseCrewPersonImpl {
 	 */
 	@Override
 	protected void consumeAndProduceResources() {
+		myLogger.info("Consuming and producing inside MatLab");
 	}
 	
 	/**
