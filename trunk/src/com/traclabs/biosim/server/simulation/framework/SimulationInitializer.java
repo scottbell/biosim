@@ -998,7 +998,7 @@ public class SimulationInitializer {
 		}
 	}
 
-	private Activity createActivity(Node node, CrewGroupImpl crew) {
+	private Activity createActivity(Node node, CrewGroup crew) {
 		int length = 0;
 		int intensity = 0;
 		try {
@@ -1032,7 +1032,7 @@ public class SimulationInitializer {
 		return ActivityHelper.narrow(OrbUtils.poaToCorbaObj(newActivityImpl));
 	}
 
-	private Schedule createSchedule(Node node, CrewGroupImpl crew) {
+	private Schedule createSchedule(Node node, CrewGroup crew) {
 		Schedule newSchedule = new Schedule(crew);
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1048,8 +1048,7 @@ public class SimulationInitializer {
 		return newSchedule;
 	}
 
-	private void createCrewPerson(Node node, CrewGroupImpl pCrewGroupImpl,
-			CrewGroup pCrewGroup) {
+	private void createCrewPerson(Node node, CrewGroup crewGroup, CrewGroupImpl crewGroupImpl) {
 		Node child = node.getFirstChild();
 		Schedule schedule = null;
 		while (child != null) {
@@ -1057,7 +1056,7 @@ public class SimulationInitializer {
 			if (childName != null) {
 				if (childName.equals("schedule"))
 					schedule = createSchedule(node.getFirstChild()
-							.getNextSibling(), pCrewGroupImpl);
+							.getNextSibling(), crewGroup);
 			}
 			child = child.getNextSibling();
 		}
@@ -1088,9 +1087,9 @@ public class SimulationInitializer {
 
 			e.printStackTrace();
 		}
-		pCrewGroupImpl.createCrewPerson(implementation, name, age, weight, sex, arrivalDate,
+		crewGroupImpl.createCrewPerson(implementation, name, age, weight, sex, arrivalDate,
 				departureDate, schedule);
-		pCrewGroupImpl.getCrewPerson(name).setLogLevel(
+		crewGroup.getCrewPerson(name).setLogLevel(
 				BiosimInitializer.getLogLevel(node));
 	}
 
@@ -1113,7 +1112,7 @@ public class SimulationInitializer {
 				String childName = child.getLocalName();
 				if (childName != null) {
 					if (childName.equals("crewPerson"))
-						createCrewPerson(child, myCrewGroupImpl, myCrewGroup);
+						createCrewPerson(child, myCrewGroup, myCrewGroupImpl);
 				}
 				child = child.getNextSibling();
 			}

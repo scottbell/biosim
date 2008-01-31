@@ -364,6 +364,10 @@ public abstract class BioModuleImpl extends BioModulePOA {
     	else if (pLevel == LogLevel.ALL)
     		myLogger.setLevel(Level.ALL);
     }
+    
+    public float randomFilter(float value){
+    	return myStochasticFilter.randomFilter(value);
+    }
 
     public StochasticFilter getStochasticFilter() {
         return myStochasticFilter;
