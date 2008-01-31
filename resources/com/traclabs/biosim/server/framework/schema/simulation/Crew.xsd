@@ -4,6 +4,13 @@
 	elementFormDefault="qualified">
 	
 	<!-- Special CrewGroup specific declarations -->
+	<xsd:simpleType name="CrewPersonType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="NORMAL"/>
+			<xsd:enumeration value="MATLAB"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
 	<xsd:complexType name="ScheduleType">
 		<xsd:sequence>
 			<xsd:element name="activity" type="ActivityType" minOccurs="1"
@@ -31,6 +38,8 @@
 			<xsd:element name="schedule" type="ScheduleType" minOccurs="1"
 				maxOccurs="1"/>
 		</xsd:sequence>
+		<xsd:attribute name="implementation"
+					type="CrewPersonType" default="NORMAL"/>
 		<xsd:attribute name="name" type="xsd:string" use="required"/>
 		<xsd:attribute name="age" type="nonNegativeFloat" use="required"/>
 		<xsd:attribute name="weight" type="nonNegativeFloat" use="required"/>

@@ -17,6 +17,7 @@ import com.traclabs.biosim.idl.simulation.crew.CrewGroupOperations;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupPOATie;
 import com.traclabs.biosim.idl.simulation.crew.CrewPerson;
 import com.traclabs.biosim.idl.simulation.crew.CrewPersonHelper;
+import com.traclabs.biosim.idl.simulation.crew.CrewPersonPOA;
 import com.traclabs.biosim.idl.simulation.crew.RepairActivity;
 import com.traclabs.biosim.idl.simulation.crew.RepairActivityHelper;
 import com.traclabs.biosim.idl.simulation.crew.RepairActivityPOATie;
@@ -153,16 +154,28 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
             Sex pSex, int pArrivalTick, int pDepartureTick) {
         return createCrewPerson(pName, pAge, pWeight, pSex, pArrivalTick, pDepartureTick, new Schedule(this));
     }
-
+    
     public CrewPerson createCrewPerson(String pName, float pAge, float pWeight,
+            Sex pSex, int pArrivalTick, int pDepartureTick, Schedule pSchedule) {
+        return createCrewPerson("NORMAL", pName, pAge, pWeight, pSex, pArrivalTick, pDepartureTick, pSchedule);
+    }
+
+    public CrewPerson createCrewPerson(String implementation, String pName, float pAge, float pWeight,
             Sex pSex, int pArrivalTick, int pDepartureTick, Schedule pSchedule) {
     	CrewGroupPOATie tie = new CrewGroupPOATie(this);
     	CrewGroup crewGroup = tie._this(OrbUtils.getORB());
-        CrewPersonImpl newCrewPersonImpl = new CrewPersonImpl(pName, pAge,
+    	CrewPersonPOA newCrewPersonPOA = null;
+    	if (implementation.equals("NORMAL")){
+    		newCrewPersonPOA = new CrewPersonImpl(pName, pAge,
                 pWeight, pSex, pArrivalTick, pDepartureTick, this, crewGroup,
                 pSchedule);
+    	}
+    	else
+    		newCrewPersonPOA = new CrewPersonMatlab(pName, pAge,
+                    pWeight, pSex, pArrivalTick, pDepartureTick, this, crewGroup,
+                    pSchedule);
         CrewPerson newCrewPerson = CrewPersonHelper.narrow((OrbUtils
-                .poaToCorbaObj(newCrewPersonImpl)));
+                .poaToCorbaObj(newCrewPersonPOA)));
         crewPeople.put(pName, newCrewPerson);
         return newCrewPerson;
     }

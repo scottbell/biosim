@@ -1061,6 +1061,7 @@ public class SimulationInitializer {
 			}
 			child = child.getNextSibling();
 		}
+		String implementation = node.getAttributes().getNamedItem("implementation").getNodeValue();
 		String name = node.getAttributes().getNamedItem("name").getNodeValue();
 		Sex sex;
 		if (node.getAttributes().getNamedItem("sex").getNodeValue().equals(
@@ -1087,7 +1088,7 @@ public class SimulationInitializer {
 
 			e.printStackTrace();
 		}
-		pCrewGroupImpl.createCrewPerson(name, age, weight, sex, arrivalDate,
+		pCrewGroupImpl.createCrewPerson(implementation, name, age, weight, sex, arrivalDate,
 				departureDate, schedule);
 		pCrewGroupImpl.getCrewPerson(name).setLogLevel(
 				BiosimInitializer.getLogLevel(node));
