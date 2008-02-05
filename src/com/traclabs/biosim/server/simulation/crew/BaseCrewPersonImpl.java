@@ -468,4 +468,81 @@ public abstract class BaseCrewPersonImpl extends CrewPersonPOA {
         }
     }
 
+	/**
+	 * @return The amount of CO2 exhaled (in moles) by the crew member
+	 */
+	public float getCO2Produced() {
+		return -1;
+	}
+	
+	/**
+	 * @return The amount of dirty water produced (in liters) by the crew member
+	 */
+	public float getDirtyWaterProduced() {
+		return -1;
+	}
+
+	/**
+	 * @return The amount of food consumed (in kilograms) by the crew member
+	 */
+	public float getFoodConsumed() {
+		return -1;
+	}
+
+	/**
+	 * @return The amount of grey water produced (in liters) by the crew member
+	 */
+	public float getGreyWaterProduced() {
+		return -1;
+	}
+
+	/**
+	 * @return The amount of oxygen consumed (in moles) by the crew member
+	 */
+	public float getO2Consumed() {
+		return -1;
+	}
+
+	/**
+	 * @return The amount of potable water consumed (in liters) by the crew member
+	 */
+	public float getPotableWaterConsumed() {
+		return -1;
+	}
+
+	/**
+	 * @return Return a metric on how well the crew member is doing on his or her's mission
+	 */
+	public float getProductivity() {
+		return -1;
+	}
+
+	/**
+	 * @return Return true if the crew is poisoned from CO2
+	 */
+	public boolean isPoisoned() {
+		return false;
+	}
+
+	/**
+	 * @return Return true if the crew is starving
+	 */
+	public boolean isStarving() {
+		return false;
+	}
+
+	/**
+	 * @return Return true if the crew is suffocating
+	 */
+	public boolean isSuffocating() {
+		return false;
+	}
+
+	/**
+	 * @return Return true if the crew is thirsty
+	 */
+	public boolean isThirsty() {
+		return false;
+	}
+
 }
