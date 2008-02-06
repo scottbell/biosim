@@ -11,6 +11,7 @@ import com.traclabs.biosim.idl.simulation.air.OGS;
 import com.traclabs.biosim.idl.simulation.water.WaterRS;
 
 public class ActionMap {
+	BreakingOnPurpose;
     private BioHolder myBioHolder;
 
     private Logger myLogger;
