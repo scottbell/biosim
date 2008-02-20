@@ -344,6 +344,10 @@ public class OrbUtils {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 		} catch (ClassNotFoundException e) {
 			//ignore
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
 		}
         Properties logProps = new Properties();
         if (pDebug)
