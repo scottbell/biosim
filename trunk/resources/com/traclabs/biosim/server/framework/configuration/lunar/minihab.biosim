@@ -30,24 +30,24 @@
 	<SimBioModules>
 		<environment>
 			<SimEnvironment moduleName="Crew_Quarters"
-				initialVolume="27000">
+				initialVolume="2700000">
 				<percentageInitialization waterPercentage="0.01"
 					nitrogenPercentage="0.659" otherPercentage="0.001"
 					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />
 			</SimEnvironment>
-			<SimEnvironment moduleName="Galley" initialVolume="27000">
+			<SimEnvironment moduleName="Galley" initialVolume="2700000">
 				<percentageInitialization waterPercentage="0.01"
 					nitrogenPercentage="0.659" otherPercentage="0.001"
 					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />
 			</SimEnvironment>
-			<SimEnvironment moduleName="Labs" initialVolume="19000"
+			<SimEnvironment moduleName="Labs" initialVolume="1900000"
 				airlockVolume="80000">
 				<percentageInitialization waterPercentage="0.01"
 					nitrogenPercentage="0.659" otherPercentage="0.001"
 					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />
 			</SimEnvironment>
 			<SimEnvironment moduleName="Maintenance"
-				initialVolume="19000" airlockVolume="8000">
+				initialVolume="19000" airlockVolume="800000">
 				<percentageInitialization waterPercentage="0.01"
 					nitrogenPercentage="0.659" otherPercentage="0.001"
 					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />

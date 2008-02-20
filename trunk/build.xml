@@ -352,7 +352,7 @@
 				<fileset file="${jacorbDir}/avalon-framework.jar" />
 				<fileset file="${plotDir}/jcommon.jar" />
 				<fileset file="${plotDir}/jfreechart.jar" />
-				<fileset file="${plotDir}/ptolemy/plot.jar" />
+				<fileset file="${lib}/ptolemy/plot.jar" />
 			</unzip>
 			<echo message="Create biosim jar" />
 			<jar destfile="${jnlpDistDir}/biosim.jar" manifest="${jnlpDistLibDir}/MANIFEST.MF">
