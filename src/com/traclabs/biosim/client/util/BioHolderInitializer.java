@@ -138,7 +138,7 @@ public class BioHolderInitializer {
 
 	private static final String JAXP_SCHEMA_SOURCE = "http://java.sun.com/xml/jaxp/properties/schemaSource";
 
-	private static String xmlLocation = "com/traclabs/biosim/server/framework/configuration/DefaultInit.xml";
+	private static String xmlLocation = "com/traclabs/biosim/server/framework/configuration/default.biosim";
 
 	private static BioHolder myBioHolder = null;
 

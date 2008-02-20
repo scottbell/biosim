@@ -14,7 +14,7 @@ import com.traclabs.biosim.util.OrbUtils;
  */
 
 public class BiosimServer extends GenericServer {
-	private static final String DEFAULT_XML_LOCATION = "com/traclabs/biosim/server/framework/configuration/DefaultInit.xml";
+	private static final String DEFAULT_XML_LOCATION = "com/traclabs/biosim/server/framework/configuration/default.biosim";
 	private BioDriverImpl myBioDriverImpl;
 	
     public BiosimServer(int id, int stutterLength, String xmlLocation) {

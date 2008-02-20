@@ -32,7 +32,7 @@ public class BiosimStandalone {
 
     private ReadyListener myReadyListener;
 
-    private static final String XML_INIT_FILENAME = "com/traclabs/biosim/server/framework/DefaultInit.xml";
+    private static final String XML_INIT_FILENAME = "com/traclabs/biosim/server/framework/default.biosim";
 
     private JFrame myFrame;
 
