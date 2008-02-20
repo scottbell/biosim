@@ -90,8 +90,8 @@ public class BiosimStandalone {
     }
     
     protected void runClient(){
-        String[] emptyArgs = new String[0];
-        BiosimMain.main(emptyArgs);
+        String[] args = {"-xml=" + myXmlFilename};
+        BiosimMain.main(args);
     }
 
     private class ServerThread implements Runnable {
