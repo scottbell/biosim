@@ -21,10 +21,6 @@
 	<property name="plotDir" location="${lib}/jfreechart" />
 	<!-- set dist properties for this build -->
 	<property name="distDir" location="dist" />
-	<!-- set win dist properties for this build -->
-	<property name="winDistDir" location="${distDir}/win" />
-	<property name="winDistLibDir" location="${lib}/dist/win" />
-	<property name="winDistTmpDir" location="${tmpDir}/win" />
 	<!-- set jnlp dist properties for this build -->
 	<property name="jnlpDistDir" location="${distDir}/jnlp" />
 	<property name="jnlpDistLibDir" location="${lib}/dist/jnlp" />
@@ -127,47 +123,6 @@
 				<pathelement location="${lib}/ptolemy/plot.jar" />
 			</classpath>
 		</javac>
-	</target>
-
-	<target name="build-win-dist" depends="build-server,build-client,build-framework,init-dist,init-tmp" description="creates windows dist">
-		<mkdir dir="${winDistDir}" />
-		<mkdir dir="${winDistTmpDir}" />
-		<echo message="Unpacking libraries" />
-		<unzip dest="${winDistTmpDir}">
-			<fileset file="${log4jDir}/log4j.jar" />
-			<fileset file="${jacorbDir}/jacorb.jar" />
-			<fileset file="${jacorbDir}/logkit.jar" />
-			<fileset file="${jacorbDir}/avalon-framework.jar" />
-			<fileset file="${plotDir}/jcommon.jar" />
-			<fileset file="${plotDir}/jfreechart.jar" />
-			<fileset file="${lib}/ptolemy/plot.jar" />
-		</unzip>
-		<echo message="Copying necessary windows dist utilities" />
-		<copy todir="${winDistDir}">
-			<fileset dir="${winDistLibDir}">
-				<exclude name="CVS" />
-				<exclude name="BiosimStandalone.java" />
-				<exclude name="mars.gif" />
-			</fileset>
-		</copy>
-		<copy file="${winDistLibDir}/BiosimStandalone.java" todir="${winDistTmpDir}" />
-		<javac srcdir="${winDistTmpDir}">
-			<classpath>
-				<pathelement location="${buildDir}" />
-				<pathelement location="${jacorbDir}/jacorb.jar" />
-			</classpath>
-		</javac>
-		<echo message="Create biosim jar" />
-		<jar destfile="${winDistDir}/biosim.jar">
-			<fileset dir="${buildDir}" />
-			<fileset dir="${resourceDir}" />
-			<fileset dir="${winDistTmpDir}" excludesFile="${winDistTmpDir}/BiosimStandalone.java">
-				<exclude name="META-INF" />
-				<exclude name="license-INF" />
-			</fileset>
-			<fileset file="${winDistDir}/mars.png" />
-			<fileset file="${jacorbDir}/jacorb.properties" />
-		</jar>
 	</target>
 
 	<target name="build-dist" depends="build-server,build-client,init-dist" description="creates dist">
