@@ -342,8 +342,8 @@ public class OrbUtils {
     	//load mysql driver
     	try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			//ignore
 		}
         Properties logProps = new Properties();
         if (pDebug)
