@@ -4,6 +4,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -12,6 +14,7 @@ import javax.swing.JPanel;
 import com.traclabs.biosim.client.framework.TimedPanel;
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.simulation.food.BiomassPS;
 import com.traclabs.biosim.idl.simulation.food.BiomassStore;
 import com.traclabs.biosim.idl.simulation.food.FoodProcessor;
 import com.traclabs.biosim.idl.simulation.food.FoodStore;
@@ -28,30 +31,19 @@ public class FoodTextPanel extends TimedPanel {
 	// Various GUI componenets
 	private JPanel biomassPSPanel;
 
+	private List<JLabel> biomassPSlLabels = new Vector<JLabel>();
+
 	private JPanel biomassStorePanel;
 
-	private JLabel biomassStoreLevelLabel;
+	private List<JLabel> biomassStoreLabels = new Vector<JLabel>();
 
 	private JPanel foodProcessorPanel;
 
-	private JLabel foodProcessorStatusLabel;
-
-	private JLabel foodProcessorPowerLabel;
-
-	private JLabel foodProcessorBiomassConsumedLabel;
-
-	private JLabel foodProcessorFoodProducedLabel;
+	private List<JLabel> foodProcessorLabels = new Vector<JLabel>();
 
 	private JPanel foodStorePanel;
 
-	private JLabel foodStoreLevelLabel;
-
-	// Servers required for data polling
-	private BiomassStore myBiomassStore;
-
-	private FoodProcessor myFoodProcessor;
-
-	private FoodStore myFoodStore;
+	private List<JLabel> foodStoreLabels = new Vector<JLabel>();
 
 	// For formatting floats
 	private DecimalFormat numFormat;
@@ -61,9 +53,6 @@ public class FoodTextPanel extends TimedPanel {
 	 */
 	public FoodTextPanel() {
 		BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-		myBiomassStore = (myBioHolder.theBiomassStores.get(0));
-		myFoodProcessor = (myBioHolder.theFoodProcessors.get(0));
-		myFoodStore = (myBioHolder.theFoodStores.get(0));
 		buildGui();
 	}
 
@@ -79,40 +68,55 @@ public class FoodTextPanel extends TimedPanel {
 		biomassPSPanel = new JPanel();
 		biomassPSPanel.setBorder(BorderFactory
 				.createTitledBorder("Biomass Production System"));
-
+		List<BiomassPS> biomassPSs = BioHolderInitializer.getBioHolder().theBiomassPSModules;
+		biomassPSPanel.setLayout(new GridLayout(biomassPSs.size(), 1));
+		for (BiomassPS biomassPS : biomassPSs) {
+			JLabel biomassSystemLabel = new JLabel();
+			biomassSystemLabel.setText(biomassPS.getModuleName() + " produced: "
+					+ numFormat.format(biomassPS.getBiomassProducerDefinition().getActualFlowRate(0)) + " kg");
+			biomassPSPanel.add(biomassSystemLabel);
+			biomassPSlLabels.add(biomassSystemLabel);
+		}
+		
 		biomassStorePanel = new JPanel();
-		biomassStorePanel.setLayout(new GridLayout(1, 1));
 		biomassStorePanel.setBorder(BorderFactory
-				.createTitledBorder("Biomass Store"));
-		biomassStoreLevelLabel = new JLabel("biomass level:    "
-				+ numFormat.format(myBiomassStore.getCurrentLevel()) + " kg");
-		biomassStorePanel.add(biomassStoreLevelLabel);
-
+				.createTitledBorder("biomass Stores"));
+		List<BiomassStore> biomassStores = BioHolderInitializer.getBioHolder().theBiomassStores;
+		biomassStorePanel.setLayout(new GridLayout(biomassStores.size(), 1));
+		for (BiomassStore biomassStore : biomassStores) {
+			JLabel biomassStoreLabel = new JLabel();
+			biomassStoreLabel.setText(biomassStore.getModuleName() + " level: "
+					+ numFormat.format(biomassStore.getCurrentLevel()) + " kg");
+			biomassStorePanel.add(biomassStoreLabel);
+			biomassStoreLabels.add(biomassStoreLabel);
+		}
+		
 		foodProcessorPanel = new JPanel();
-		foodProcessorPanel.setLayout(new GridLayout(4, 1));
 		foodProcessorPanel.setBorder(BorderFactory
-				.createTitledBorder("Food Processor"));
-		foodProcessorStatusLabel = new JLabel("status:                       "
-				+ coallateFoodProcessorStatus());
-		foodProcessorFoodProducedLabel = new JLabel("food produced:          "
-				+ numFormat.format(myFoodProcessor.getFoodProduced()) + " kg");
-		foodProcessorBiomassConsumedLabel = new JLabel("biomass consumed:    "
-				+ numFormat.format(myFoodProcessor.getBiomassConsumed())
-				+ " kg");
-		foodProcessorPowerLabel = new JLabel("power consumed:      "
-				+ numFormat.format(myFoodProcessor.getPowerConsumed()) + " W");
-		foodProcessorPanel.add(foodProcessorStatusLabel);
-		foodProcessorPanel.add(foodProcessorFoodProducedLabel);
-		foodProcessorPanel.add(foodProcessorBiomassConsumedLabel);
-		foodProcessorPanel.add(foodProcessorPowerLabel);
-
+				.createTitledBorder("Biomass Production System"));
+		List<FoodProcessor> foodProcessors = BioHolderInitializer.getBioHolder().theFoodProcessors;
+		foodProcessorPanel.setLayout(new GridLayout(foodProcessors.size(), 1));
+		for (FoodProcessor foodProcessor : foodProcessors) {
+			JLabel biomassSystemLabel = new JLabel();
+			biomassSystemLabel.setText(foodProcessor.getModuleName() + " produced: "
+					+ numFormat.format(foodProcessor.getFoodProduced() + " kg"));
+			foodProcessorPanel.add(biomassSystemLabel);
+			foodProcessorLabels.add(biomassSystemLabel);
+		}
+		
+		
 		foodStorePanel = new JPanel();
-		foodStorePanel.setLayout(new GridLayout(1, 1));
-		foodStorePanel
-				.setBorder(BorderFactory.createTitledBorder("Food Store"));
-		foodStoreLevelLabel = new JLabel("food level:    "
-				+ numFormat.format(myFoodStore.getCurrentLevel()) + " kg");
-		foodStorePanel.add(foodStoreLevelLabel);
+		foodStorePanel.setBorder(BorderFactory
+				.createTitledBorder("food Stores"));
+		List<FoodStore> foodStores = BioHolderInitializer.getBioHolder().theFoodStores;
+		foodStorePanel.setLayout(new GridLayout(foodStores.size(), 1));
+		for (FoodStore foodStore : foodStores) {
+			JLabel foodStoreLabel = new JLabel();
+			foodStoreLabel.setText(foodStore.getModuleName() + " level: "
+					+ numFormat.format(foodStore.getCurrentLevel()) + " kg");
+			foodStorePanel.add(foodStoreLabel);
+			foodStoreLabels.add(foodStoreLabel);
+		}
 
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 1;
@@ -149,39 +153,32 @@ public class FoodTextPanel extends TimedPanel {
 	}
 
 	/**
-	 * Checks the status of Food Processor and constructs a string describing
-	 * it.
-	 * 
-	 * @return A String representing the status of the Food Processor
-	 */
-	private String coallateFoodProcessorStatus() {
-		StringBuffer statusBuffer = new StringBuffer();
-		if (!myFoodProcessor.hasPower())
-			statusBuffer.append("needs power, ");
-		if (!myFoodProcessor.hasBiomass())
-			statusBuffer.append("needs biomass, ");
-		if (statusBuffer.length() < 1)
-			return "nominal";
-		statusBuffer.delete(statusBuffer.length() - 2, statusBuffer.length());
-		return statusBuffer.toString();
-	}
-
-	/**
 	 * Updates every label on the panel with new data pulled from the servers.
 	 */
 	public void refresh() {
-		foodProcessorFoodProducedLabel.setText("food produced:          "
-				+ numFormat.format(myFoodProcessor.getFoodProduced()) + " kg");
-		foodProcessorBiomassConsumedLabel.setText("biomass consumed:   "
-				+ numFormat.format(myFoodProcessor.getBiomassConsumed())
-				+ " kg");
-		foodProcessorPowerLabel.setText("power consumed:      "
-				+ numFormat.format(myFoodProcessor.getPowerConsumed()) + " W");
-		foodStoreLevelLabel.setText("food level:    "
-				+ numFormat.format(myFoodStore.getCurrentLevel()) + " kg");
-		biomassStoreLevelLabel.setText("biomass level:    "
-				+ numFormat.format(myBiomassStore.getCurrentLevel()) + " kg");
-		foodProcessorStatusLabel.setText("status:                       "
-				+ coallateFoodProcessorStatus());
+		for (int i = 0; i < biomassPSlLabels.size(); i++){
+			JLabel biomassPSLabel = biomassPSlLabels.get(i);
+			BiomassPS biomassSystem = BioHolderInitializer.getBioHolder().theBiomassPSModules.get(i);
+			biomassPSLabel.setText(biomassSystem.getModuleName() + " produced: "
+					+ numFormat.format(biomassSystem.getBiomassProducerDefinition().getActualFlowRate(0)) + " kg");
+		}
+		for (int i = 0; i < biomassStoreLabels.size(); i++){
+			JLabel biomassStoreLabel = biomassStoreLabels.get(i);
+			BiomassStore biomassStore = BioHolderInitializer.getBioHolder().theBiomassStores.get(i);
+			biomassStoreLabel.setText(biomassStore.getModuleName() + " level: "
+					+ numFormat.format(biomassStore.getCurrentLevel()) + " kg");
+		}
+		for (int i = 0; i < foodProcessorLabels.size(); i++){
+			JLabel foodProcessorLabel = foodProcessorLabels.get(i);
+			FoodProcessor foodSystem = BioHolderInitializer.getBioHolder().theFoodProcessors.get(i);
+			foodProcessorLabel.setText(foodSystem.getModuleName() + " produced: "
+					+ numFormat.format(foodSystem.getFoodProducerDefinition().getActualFlowRate(0)) + " kg");
+		}
+		for (int i = 0; i < foodStoreLabels.size(); i++){
+			JLabel foodStoreLabel = foodStoreLabels.get(i);
+			FoodStore foodStore = BioHolderInitializer.getBioHolder().theFoodStores.get(i);
+			foodStoreLabel.setText(foodStore.getModuleName() + " level: "
+					+ numFormat.format(foodStore.getCurrentLevel()) + " kg");
+		}
 	}
 }
