@@ -451,25 +451,25 @@
 			<AirOutFlowRateSensor input="Main_VCCR" moduleName="main_vccr_air_out_sensor" index="0"></AirOutFlowRateSensor>
 			
 			
-			<TotalMolesSensor input="Crew_Quarters" moduleName="Crew_Quarters_Moles" logLevel="DEBUG"></TotalMolesSensor>
-			<TotalMolesSensor input="Labs" moduleName="Labs_Moles" logLevel="DEBUG"></TotalMolesSensor>
-			<TotalMolesSensor input="Galley" moduleName="Galley_Moles" logLevel="DEBUG"></TotalMolesSensor>
-			<TotalMolesSensor input="Maintenance" moduleName="Maintenance_Moles" logLevel="DEBUG"></TotalMolesSensor>
+			<TotalMolesSensor input="Crew_Quarters" moduleName="Crew_Quarters_Moles" logLevel="INFO"></TotalMolesSensor>
+			<TotalMolesSensor input="Labs" moduleName="Labs_Moles" logLevel="INFO"></TotalMolesSensor>
+			<TotalMolesSensor input="Galley" moduleName="Galley_Moles" logLevel="INFO"></TotalMolesSensor>
+			<TotalMolesSensor input="Maintenance" moduleName="Maintenance_Moles" logLevel="INFO"></TotalMolesSensor>
 			
-			<AirInFlowRateSensor input="Maintenance_to_Crew_Fan" moduleName="Maintenance_to_Crew_Fan-InSensor" index="0" logLevel="DEBUG"></AirInFlowRateSensor>
-			<AirOutFlowRateSensor input="Maintenance_to_Crew_Fan" moduleName="Maintenance_to_Crew_Fan-OutSensor" index="0" logLevel="DEBUG"></AirOutFlowRateSensor>
-			<AirInFlowRateSensor input="Crew_to_Maintenance_Fan" moduleName="Crew_to_Maintenance_Fan-InSensor" index="0" logLevel="DEBUG"></AirInFlowRateSensor>
-			<AirOutFlowRateSensor input="Crew_to_Maintenance_Fan" moduleName="Crew_to_Maintenance_Fan-OutSensor" index="0" logLevel="DEBUG"></AirOutFlowRateSensor>
+			<AirInFlowRateSensor input="Maintenance_to_Crew_Fan" moduleName="Maintenance_to_Crew_Fan-InSensor" index="0" logLevel="INFO"></AirInFlowRateSensor>
+			<AirOutFlowRateSensor input="Maintenance_to_Crew_Fan" moduleName="Maintenance_to_Crew_Fan-OutSensor" index="0" logLevel="INFO"></AirOutFlowRateSensor>
+			<AirInFlowRateSensor input="Crew_to_Maintenance_Fan" moduleName="Crew_to_Maintenance_Fan-InSensor" index="0" logLevel="INFO"></AirInFlowRateSensor>
+			<AirOutFlowRateSensor input="Crew_to_Maintenance_Fan" moduleName="Crew_to_Maintenance_Fan-OutSensor" index="0" logLevel="INFO"></AirOutFlowRateSensor>
 			
-			<AirInFlowRateSensor input="Crew_to_Galley_Fan" moduleName="Crew_to_Galley_Fan-InSensor" index="0" logLevel="DEBUG"></AirInFlowRateSensor>
-			<AirOutFlowRateSensor input="Crew_to_Galley_Fan" moduleName="Crew_to_Galley_Fan-OutSensor" index="0" logLevel="DEBUG"></AirOutFlowRateSensor>
-			<AirInFlowRateSensor input="Galley_to_Crew_Fan" moduleName="Galley_to_Crew_Fan-InSensor" index="0" logLevel="DEBUG"></AirInFlowRateSensor>
-			<AirOutFlowRateSensor input="Galley_to_Crew_Fan" moduleName="Galley_to_Crew_Fan-OutSensor" index="0" logLevel="DEBUG"></AirOutFlowRateSensor>
+			<AirInFlowRateSensor input="Crew_to_Galley_Fan" moduleName="Crew_to_Galley_Fan-InSensor" index="0" logLevel="INFO"></AirInFlowRateSensor>
+			<AirOutFlowRateSensor input="Crew_to_Galley_Fan" moduleName="Crew_to_Galley_Fan-OutSensor" index="0" logLevel="INFO"></AirOutFlowRateSensor>
+			<AirInFlowRateSensor input="Galley_to_Crew_Fan" moduleName="Galley_to_Crew_Fan-InSensor" index="0" logLevel="INFO"></AirInFlowRateSensor>
+			<AirOutFlowRateSensor input="Galley_to_Crew_Fan" moduleName="Galley_to_Crew_Fan-OutSensor" index="0" logLevel="INFO"></AirOutFlowRateSensor>
 			
-			<AirInFlowRateSensor input="Galley_to_Labs_Fan" moduleName="Galley_to_Labs_Fan-InSensor" index="0" logLevel="DEBUG"></AirInFlowRateSensor>
-			<AirOutFlowRateSensor input="Galley_to_Labs_Fan" moduleName="Galley_to_Labs_Fan-OutSensor" index="0" logLevel="DEBUG"></AirOutFlowRateSensor>
-			<AirInFlowRateSensor input="Labs_to_Galley_Fan" moduleName="Labs_to_Galley_Fan-InSensor" index="0" logLevel="DEBUG"></AirInFlowRateSensor>
-			<AirOutFlowRateSensor input="Labs_to_Galley_Fan" moduleName="Labs_to_Galley_Fan-OutSensor" index="0" logLevel="DEBUG"></AirOutFlowRateSensor>
+			<AirInFlowRateSensor input="Galley_to_Labs_Fan" moduleName="Galley_to_Labs_Fan-InSensor" index="0" logLevel="INFO"></AirInFlowRateSensor>
+			<AirOutFlowRateSensor input="Galley_to_Labs_Fan" moduleName="Galley_to_Labs_Fan-OutSensor" index="0" logLevel="INFO"></AirOutFlowRateSensor>
+			<AirInFlowRateSensor input="Labs_to_Galley_Fan" moduleName="Labs_to_Galley_Fan-InSensor" index="0" logLevel="INFO"></AirInFlowRateSensor>
+			<AirOutFlowRateSensor input="Labs_to_Galley_Fan" moduleName="Labs_to_Galley_Fan-OutSensor" index="0" logLevel="INFO"></AirOutFlowRateSensor>
 			
 		</environment>
 	</Sensors>
