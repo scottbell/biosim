@@ -42,8 +42,8 @@ public class BiosimStandalone {
     public static void main(String args[]) {
         ImageIcon marsIcon = new ImageIcon(BiosimStandalone.class
                 .getClassLoader().getResource(
-                        "com/traclabs/biosim/framework/mars.png"));
-        BiosimStandalone myBiosimStandalone = new BiosimStandalone(marsIcon, "BioSim: Advanced Life Support Simulation", "com/traclabs/biosim/server/framework/DefaultInit.xml", 500);
+                        "com/traclabs/biosim/framework/moon.png"));
+        BiosimStandalone myBiosimStandalone = new BiosimStandalone(marsIcon, "BioSim: Advanced Life Support Simulation", "lunar/minihab.biosim", 500);
         myBiosimStandalone.beginSimulation();
     }
     
