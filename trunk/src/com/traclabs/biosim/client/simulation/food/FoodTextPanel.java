@@ -99,7 +99,7 @@ public class FoodTextPanel extends TimedPanel {
 		for (FoodProcessor foodProcessor : foodProcessors) {
 			JLabel biomassSystemLabel = new JLabel();
 			biomassSystemLabel.setText(foodProcessor.getModuleName() + " produced: "
-					+ numFormat.format(foodProcessor.getFoodProduced() + " kg"));
+					+ numFormat.format(foodProcessor.getFoodProduced()) + " kg");
 			foodProcessorPanel.add(biomassSystemLabel);
 			foodProcessorLabels.add(biomassSystemLabel);
 		}
