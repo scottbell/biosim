@@ -58,6 +58,8 @@ public abstract class BioModuleImpl extends BioModulePOA {
     private float myTickInterval = 1f;
     
     private FailureDecider myFailureDecider;
+    
+    private boolean myBionetEnablement = false;
 
     protected Logger myLogger;
     
@@ -405,5 +407,13 @@ public abstract class BioModuleImpl extends BioModulePOA {
 	
 	public void setStochasticFilter(StochasticFilter filter){
 		this.myStochasticFilter = filter;
+	}
+	
+	public boolean isBionetEnabled(){
+		return myBionetEnablement;
+	}
+	
+	public void setBionetEnabled(boolean enabled){
+		this.myBionetEnablement = enabled;
 	}
 }

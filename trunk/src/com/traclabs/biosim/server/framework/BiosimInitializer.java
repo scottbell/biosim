@@ -448,11 +448,18 @@ public class BiosimInitializer {
 		else
 			return null;
 	}
+	
+	private static boolean getBionetEnablement(Node pNode) {
+		return pNode.getAttributes().getNamedItem("isBionetEnabled")
+				.getNodeValue().equals("true");
+	}
 
 	public static void setupBioModule(BioModuleImpl pModule, Node node) {
 		LogLevel logLevel = getLogLevel(node);
 		if (logLevel != null)
 			pModule.setLogLevel(logLevel);
+		boolean isBionetEnabled = getBionetEnablement(node);
+		pModule.setBionetEnabled(isBionetEnabled);
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
