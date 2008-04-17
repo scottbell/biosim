@@ -48,4 +48,8 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements
     public void log() {
         myLogger.debug(getModuleName() + ":\toutput=" + getValue());
     }
+    
+    public void bionetCallBack(String resourceId, String value) {
+    	
+	}
 }
