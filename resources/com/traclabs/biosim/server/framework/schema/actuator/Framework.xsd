@@ -7,9 +7,17 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:attribute name="output" type="xsd:string" use="required"/>
+				<xsd:attribute name="implementation" type="ActuatorImplementationType" default="DEFAULT"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	
+	<xsd:simpleType name="ActuatorImplementationType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="DEFAULT"/>
+			<xsd:enumeration value="BIONET"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 	
 	<xsd:complexType name="FlowRateActuatorType">  
 		<xsd:complexContent>
