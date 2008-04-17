@@ -416,4 +416,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
 	public void setBionetEnabled(boolean enabled){
 		this.myBionetEnablement = enabled;
 	}
+
+	public void bionetCallBack(String resourceId, String value) {
+	}
 }
