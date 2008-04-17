@@ -8,9 +8,17 @@
 		<xsd:complexContent>
 			<xsd:extension base="BioModuleType">
 				<xsd:attribute name="input" type="xsd:string" use="required"/>
+				<xsd:attribute name="implementation" type="SensorImplementationType" default="DEFAULT"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	
+	<xsd:simpleType name="SensorImplementationType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="DEFAULT"/>
+			<xsd:enumeration value="BIONET"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 	
 	<xsd:complexType name="FlowRateSensorType">  
 		<xsd:complexContent>
