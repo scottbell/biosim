@@ -28,6 +28,7 @@
 			default="true" />
 		<xsd:attribute name="logLevel" type="LogLevelType"
 			default="INFO" />
+		<xsd:attribute name="isBionetEnabled" type="xsd:boolean" default="false" />
 	</xsd:complexType>
 
 	<xsd:complexType name="StochasticFilterType">
