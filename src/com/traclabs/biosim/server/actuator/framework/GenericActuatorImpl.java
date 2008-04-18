@@ -1,17 +1,27 @@
 package com.traclabs.biosim.server.actuator.framework;
 
+import com.tietronix.bionet.util.Node;
+import com.tietronix.bionet.util.Timeval;
 import com.traclabs.biosim.idl.actuator.framework.GenericActuatorOperations;
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.server.framework.BioModuleImpl;
+import com.traclabs.biosim.server.util.BionetUtils;
 
 public abstract class GenericActuatorImpl extends BioModuleImpl implements
         GenericActuatorOperations {
     protected float myValue;
 
     protected boolean newValueSet = false;
+    
+    private Node myBionetNode;
 
     public GenericActuatorImpl(int pID, String pName) {
         super(pID, pName);
+    }
+    
+    protected void notifyListeners(){
+    	if (isBionetEnabled())
+    		myBionetNode.setResourceValue(BionetUtils.RESOURCE_ID, Float.valueOf(getValue()), new Timeval());
     }
 
     public void setValue(float pValue) {
@@ -37,6 +47,7 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements
         super.tick();
         if (newValueSet) {
             processData();
+            notifyListeners();
             newValueSet = false;
         }
     }
@@ -49,7 +60,20 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements
         myLogger.debug(getModuleName() + ":\toutput=" + getValue());
     }
     
-    public void bionetCallBack(String resourceId, String value) {
-    	
+    @Override
+    public void bionetCallBack(String value) {
+    	try {
+    		float newValue = Float.parseFloat(value);
+    		setValue(newValue);
+    	}
+    	catch (NumberFormatException e){
+    		myLogger.warn("Attempted to set actuator to a non-float value", e);
+    	}
+	}
+    
+    public void setBionetEnabled(boolean enabled){
+		super.setBionetEnabled(enabled);
+		if (isBionetEnabled())
+			myBionetNode = BionetUtils.getBionetUtils().registerActuator(this);
 	}
 }

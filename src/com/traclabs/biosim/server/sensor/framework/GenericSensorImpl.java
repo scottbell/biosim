@@ -1,12 +1,16 @@
 package com.traclabs.biosim.server.sensor.framework;
 
+import com.tietronix.bionet.util.Node;
+import com.tietronix.bionet.util.Timeval;
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensorOperations;
 import com.traclabs.biosim.server.framework.BioModuleImpl;
+import com.traclabs.biosim.server.util.BionetUtils;
 
 public abstract class GenericSensorImpl extends BioModuleImpl implements
         GenericSensorOperations {
     protected float myValue;
+    private Node myBionetNode;
 
     public GenericSensorImpl(int pID, String pName) {
         super(pID, pName);
@@ -15,6 +19,8 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements
     protected abstract void gatherData();
 
     protected void notifyListeners(){
+    	if (isBionetEnabled())
+    		myBionetNode.setResourceValue(BionetUtils.RESOURCE_ID, Float.valueOf(getValue()), new Timeval());
     }
 
     public float getValue() {
@@ -46,6 +52,7 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements
     
     public void setBionetEnabled(boolean enabled){
 		super.setBionetEnabled(enabled);
-		
+		if (isBionetEnabled())
+			myBionetNode = BionetUtils.getBionetUtils().registerSensor(this);
 	}
 }
