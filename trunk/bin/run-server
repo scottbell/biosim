@@ -6,6 +6,7 @@ userSelect="$1"
 devRootDir=$BIOSIM_HOME
 jacoOrbClass="-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB"
 jacoSingletonOrbClass="-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton"
+bionetArchitecture="x86-64"
 biosimHome="-DBIOSIM_HOME=$BIOSIM_HOME"
 currentDir=`pwd`
 if [ -z "$devRootDir" ]
@@ -44,6 +45,9 @@ jacoInvocation="$java_command -classpath $buildDir$separator$resourceDir$separat
 nojitOption="-Djava.compiler=none"
 case $userSelect in
 	"-nojit") echo "		-starting with no JIT";jacoInvocation="$jacoInvocation $nojitOption";userSelect=$2;;
+esac
+case $userSelect in
+	"-bionet") echo "		-starting with bionet support";export LD_LIBRARY_PATH=$devRootDir/lib/bionet/$bionetArchitecture;;
 esac
 echo "	-starting servers"
 case $userSelect in
