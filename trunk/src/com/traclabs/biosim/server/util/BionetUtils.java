@@ -15,7 +15,7 @@ import com.traclabs.biosim.server.framework.BioModuleImpl;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
 public class BionetUtils extends JBionetHab{
-	private final static String RESOURCE_ID = "value";
+	public final static String RESOURCE_ID = "value";
 	private final static String CONFIG_FILE = "config.bionet";
 	private final static String NODE_ID = "com.traclabs.biosim";
 	private final static Node myNode = new Node(BionetConfig.HAB_TYPE, BionetConfig.HAB_ID, NODE_ID);
@@ -91,13 +91,15 @@ public class BionetUtils extends JBionetHab{
 		}
 	}
 	
-	public void registerSensor(GenericSensorImpl sensor){
-		registerModule(sensor, Resource.resourceFlavor.BIONET_RESOURCE_FLAVOR_SENSOR);
+	public Node registerSensor(GenericSensorImpl sensor){
+		Node node = registerModule(sensor, Resource.resourceFlavor.BIONET_RESOURCE_FLAVOR_SENSOR);
+		return node;
 	}
 	
-	public void registerActuator(GenericActuatorImpl actuator){
+	public Node registerActuator(GenericActuatorImpl actuator){
 		Node node = registerModule(actuator, Resource.resourceFlavor.BIONET_RESOURCE_FLAVOR_ACTUATOR);
 		myCallbackMap.put(node.getNodeId(), actuator);
+		return node;
 		
 	}
 	
