@@ -438,10 +438,12 @@
 	<Sensors>
 		<power>
 			<PowerInFlowRateSensor input="Main_VCCR"
-				moduleName="main_vccr_power_sensor" index="0" logLevel="INFO">
+				moduleName="MainVccrPowerSensor" index="0" logLevel="INFO"
+				isBionetEnabled="true">
 			</PowerInFlowRateSensor>
 			<PowerInFlowRateSensor input="Backup_VCCR"
-				moduleName="backup_vccr_power_sensor" index="0" logLevel="INFO">
+				moduleName="BackupVccrPowerSensor" index="0" logLevel="INFO"
+				isBionetEnabled="true">
 			</PowerInFlowRateSensor>
 		</power>
 		<air>
@@ -476,10 +478,12 @@
 	<Actuators>
 		<power>
 			<PowerInFlowRateActuator output="Main_VCCR"
-				moduleName="main_vccr_power" index="0" logLevel="INFO">
+				moduleName="MainVccrPower" index="0" logLevel="INFO"
+				isBionetEnabled="true">
 			</PowerInFlowRateActuator>
 			<PowerInFlowRateActuator output="Backup_VCCR"
-				moduleName="backup_vccr_power" index="0" logLevel="INFO">
+				moduleName="BackupVccrPower" index="0" logLevel="INFO"
+				isBionetEnabled="true">
 			</PowerInFlowRateActuator>
 		</power>
 	</Actuators>

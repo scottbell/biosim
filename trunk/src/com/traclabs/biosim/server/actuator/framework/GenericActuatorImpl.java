@@ -63,8 +63,8 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements
     @Override
     public void bionetCallBack(String value) {
     	try {
-    		float newValue = Float.parseFloat(value);
-    		setValue(newValue);
+    		Double rawValue = new Double(value);
+    		setValue(rawValue.floatValue());
     	}
     	catch (NumberFormatException e){
     		myLogger.warn("Attempted to set actuator to a non-float value", e);
