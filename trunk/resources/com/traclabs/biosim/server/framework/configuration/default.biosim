@@ -75,16 +75,16 @@
 				<schedule>
 					<activity name="sleep" length="10" intensity="1"/>
 					<activity name="eating" length="1" intensity="2"/>
-					<activity name="mission" length="8" intensity="3"/>
-					<activity name="leisure" length="5" intensity="2"/>
+					<activity name="mission" length="6" intensity="3"/>
+					<activity name="leisure" length="4" intensity="2"/>
 				</schedule>
 			</crewPerson>
-			<crewPerson name="Minnie Mouse" age="33" weight="75" sex="MALE">
+			<crewPerson name="Minnie Mouse" age="33" weight="75" sex="FEMALE">
 				<schedule>
 					<activity name="sleep" length="10" intensity="1"/>
 					<activity name="eating" length="1" intensity="2"/>
-					<activity name="mission" length="8" intensity="3"/>
-					<activity name="leisure" length="5" intensity="2"/>
+					<activity name="mission" length="6" intensity="3"/>
+					<activity name="leisure" length="4" intensity="2"/>
 				</schedule>
 			</crewPerson>
 		</CrewGroup>
