@@ -10,9 +10,6 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements
 
     public GenericSensorImpl(int pID, String pName) {
         super(pID, pName);
-        if (isBionetEnabled()){
-        	//register this sensor
-        }
     }
 
     protected abstract void gatherData();
@@ -46,4 +43,9 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements
     public void log() {
         myLogger.debug("value=" + getValue());
     }
+    
+    public void setBionetEnabled(boolean enabled){
+		super.setBionetEnabled(enabled);
+		
+	}
 }
