@@ -17,8 +17,6 @@ import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 public class BionetUtils extends JBionetHab{
 	public final static String RESOURCE_ID = "value";
 	private final static String CONFIG_FILE = "config.bionet";
-	private final static String NODE_ID = "com.traclabs.biosim";
-	private final static Node myNode = new Node(BionetConfig.HAB_TYPE, BionetConfig.HAB_ID, NODE_ID);
 	private final static Map<String, BioModuleImpl> myCallbackMap = new HashMap<String, BioModuleImpl>();
 	private final static Logger myLogger = Logger.getLogger(BionetUtils.class);
 	private static BionetUtils mySingleton;
@@ -112,13 +110,13 @@ public class BionetUtils extends JBionetHab{
 				nodeId);
 
 		// create actuator resource and add to local node
-		final Resource actuatorResource = new Resource(node.getHabType(), node
+		final Resource newResource = new Resource(node.getHabType(), node
 				.getHabId(), node.getNodeId(),
 				Resource.resourceDataType.BIONET_RESOURCE_DATA_TYPE_FLOAT,
 				resourceFlavor,
 				RESOURCE_ID);
-		actuatorResource.setResourceValue(1);
-		node.addResource(actuatorResource);
+		newResource.setResourceValue(1);
+		node.addResource(newResource);
 		reportNode(node);
 		return node;
 	}
