@@ -1,5 +1,6 @@
 package com.traclabs.biosim.server.util;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,25 +15,38 @@ import com.traclabs.biosim.server.actuator.framework.GenericActuatorImpl;
 import com.traclabs.biosim.server.framework.BioModuleImpl;
 import com.traclabs.biosim.server.sensor.framework.GenericSensorImpl;
 
-public class BionetUtils extends JBionetHab{
+public class BionetUtils extends JBionetHab {
 	public final static String RESOURCE_ID = "value";
 	private final static String CONFIG_FILE = "config.bionet";
 	private final static Map<String, BioModuleImpl> myCallbackMap = new HashMap<String, BioModuleImpl>();
 	private final static Logger myLogger = Logger.getLogger(BionetUtils.class);
 	private static BionetUtils mySingleton;
-	
+
 	private BionetUtils() {
-		super(CONFIG_FILE);
+		super(findXmlInClasspath(CONFIG_FILE));
 	}
-	
-	public static BionetUtils getBionetUtils(){
-		if (mySingleton == null){
+
+	private static String findXmlInClasspath(String xmlLocation) {
+		Logger.getLogger(BionetUtils.class).info(
+				"Looking for " + xmlLocation + " in classpath");
+		URL foundURL = BionetUtils.class.getClassLoader().getResource(
+				xmlLocation);
+		if (foundURL != null) {
+			String urlString = foundURL.toExternalForm();
+			if (urlString.length() > 0)
+				return urlString;
+		}
+		return null;
+	}
+
+	public static BionetUtils getBionetUtils() {
+		if (mySingleton == null) {
 			initialize();
 		}
 		return mySingleton;
 	}
-	
-	private static void initialize(){
+
+	private static void initialize() {
 		mySingleton = new BionetUtils();
 		// Register the set resource callback function
 		mySingleton.registerCallbackSetResource("setResourceCallBack");
@@ -72,36 +86,40 @@ public class BionetUtils extends JBionetHab{
 		final Node node = new Node(BionetConfig.HAB_TYPE, BionetConfig.HAB_ID,
 				nodeId);
 	}
-	
+
 	/**
 	 * Start the polling thread to handle NAG messages.
 	 */
 	private void poll() {
 		this.startPolling(this);
 	}
-	
-	private void reportNode(Node node){
+
+	private void reportNode(Node node) {
 		int result = mySingleton.reportNewNode(node);
 		if (result == 0) {
-			myLogger.info("Reported new node named "+node.getNodeId());
+			myLogger.info("Reported new node named " + node.getNodeId());
 		} else {
-			myLogger.error("Failed to report new node named "+node.getNodeId());
+			myLogger.error("Failed to report new node named "
+					+ node.getNodeId());
 		}
 	}
-	
-	public Node registerSensor(GenericSensorImpl sensor){
-		Node node = registerModule(sensor, Resource.resourceFlavor.BIONET_RESOURCE_FLAVOR_SENSOR);
+
+	public Node registerSensor(GenericSensorImpl sensor) {
+		Node node = registerModule(sensor,
+				Resource.resourceFlavor.BIONET_RESOURCE_FLAVOR_SENSOR);
 		return node;
 	}
-	
-	public Node registerActuator(GenericActuatorImpl actuator){
-		Node node = registerModule(actuator, Resource.resourceFlavor.BIONET_RESOURCE_FLAVOR_ACTUATOR);
+
+	public Node registerActuator(GenericActuatorImpl actuator) {
+		Node node = registerModule(actuator,
+				Resource.resourceFlavor.BIONET_RESOURCE_FLAVOR_ACTUATOR);
 		myCallbackMap.put(node.getNodeId(), actuator);
 		return node;
-		
+
 	}
-	
-	private Node registerModule(BioModuleImpl module, resourceFlavor resourceFlavor) {
+
+	private Node registerModule(BioModuleImpl module,
+			resourceFlavor resourceFlavor) {
 		if (mySingleton == null)
 			initialize();
 		// create local node
@@ -113,8 +131,7 @@ public class BionetUtils extends JBionetHab{
 		final Resource newResource = new Resource(node.getHabType(), node
 				.getHabId(), node.getNodeId(),
 				Resource.resourceDataType.BIONET_RESOURCE_DATA_TYPE_FLOAT,
-				resourceFlavor,
-				RESOURCE_ID);
+				resourceFlavor, RESOURCE_ID);
 		newResource.setResourceValue(1);
 		node.addResource(newResource);
 		reportNode(node);
@@ -131,14 +148,16 @@ public class BionetUtils extends JBionetHab{
 	 * @param value
 	 *            New Value of updated actuator Resource
 	 */
-	public static void setResourceCallBack(final String nodeId, final String resourceId, final String value) {
-		myLogger.info("Receive callback: " + nodeId + ":" + resourceId + " = " + value);
-		if (resourceId.equals(RESOURCE_ID)){
+	public static void setResourceCallBack(final String nodeId,
+			final String resourceId, final String value) {
+		myLogger.info("Receive callback: " + nodeId + ":" + resourceId + " = "
+				+ value);
+		if (resourceId.equals(RESOURCE_ID)) {
 			BioModuleImpl module = myCallbackMap.get(nodeId);
 			module.bionetCallBack(value);
-		}
-		else
-			myLogger.warn("Received the wrong resource ID. Expecting: " + RESOURCE_ID + " and got: "+ resourceId);
+		} else
+			myLogger.warn("Received the wrong resource ID. Expecting: "
+					+ RESOURCE_ID + " and got: " + resourceId);
 	}
-	
+
 }
