@@ -21,7 +21,7 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements
     
     protected void notifyListeners(){
     	if (isBionetEnabled())
-    		myBionetNode.setResourceValue(BionetUtils.RESOURCE_ID, Float.valueOf(getValue()), new Timeval());
+    		myBionetNode.setResourceValue(BionetUtils.RESOURCE_ID, Double.valueOf(getValue()), new Timeval());
     }
 
     public void setValue(float pValue) {

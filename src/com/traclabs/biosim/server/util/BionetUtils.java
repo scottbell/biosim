@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.util;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,20 +22,7 @@ public class BionetUtils extends JBionetHab {
 	private static BionetUtils mySingleton;
 
 	private BionetUtils() {
-		super(findXmlInClasspath(CONFIG_FILE));
-	}
-
-	private static String findXmlInClasspath(String xmlLocation) {
-		Logger.getLogger(BionetUtils.class).info(
-				"Looking for " + xmlLocation + " in classpath");
-		URL foundURL = BionetUtils.class.getClassLoader().getResource(
-				xmlLocation);
-		if (foundURL != null) {
-			String urlString = foundURL.toExternalForm();
-			if (urlString.length() > 0)
-				return urlString;
-		}
-		return null;
+		super(CONFIG_FILE);
 	}
 
 	public static BionetUtils getBionetUtils() {
@@ -130,7 +116,7 @@ public class BionetUtils extends JBionetHab {
 		// create actuator resource and add to local node
 		final Resource newResource = new Resource(node.getHabType(), node
 				.getHabId(), node.getNodeId(),
-				Resource.resourceDataType.BIONET_RESOURCE_DATA_TYPE_FLOAT,
+				Resource.resourceDataType.BIONET_RESOURCE_DATA_TYPE_DOUBLE,
 				resourceFlavor, RESOURCE_ID);
 		newResource.setResourceValue(1);
 		node.addResource(newResource);
