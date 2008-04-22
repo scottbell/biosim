@@ -92,20 +92,20 @@ public class BionetUtils extends JBionetHab {
 
 	public Node registerSensor(GenericSensorImpl sensor) {
 		Node node = registerModule(sensor,
-				Resource.resourceFlavor.BIONET_RESOURCE_FLAVOR_SENSOR);
+				Resource.resourceFlavor.BIONET_RESOURCE_FLAVOR_SENSOR, sensor.getValue());
 		return node;
 	}
 
 	public Node registerActuator(GenericActuatorImpl actuator) {
 		Node node = registerModule(actuator,
-				Resource.resourceFlavor.BIONET_RESOURCE_FLAVOR_ACTUATOR);
+				Resource.resourceFlavor.BIONET_RESOURCE_FLAVOR_ACTUATOR, actuator.getValue());
 		myCallbackMap.put(node.getNodeId(), actuator);
 		return node;
 
 	}
 
 	private Node registerModule(BioModuleImpl module,
-			resourceFlavor resourceFlavor) {
+			resourceFlavor resourceFlavor, float initialValue) {
 		if (mySingleton == null)
 			initialize();
 		// create local node
@@ -116,9 +116,9 @@ public class BionetUtils extends JBionetHab {
 		// create actuator resource and add to local node
 		final Resource newResource = new Resource(node.getHabType(), node
 				.getHabId(), node.getNodeId(),
-				Resource.resourceDataType.BIONET_RESOURCE_DATA_TYPE_DOUBLE,
+				Resource.resourceDataType.BIONET_RESOURCE_DATA_TYPE_FLOAT,
 				resourceFlavor, RESOURCE_ID);
-		newResource.setResourceValue(1);
+		newResource.setResourceValue(initialValue);
 		node.addResource(newResource);
 		reportNode(node);
 		return node;
