@@ -21,7 +21,7 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements
     
     protected void notifyListeners(){
     	if (isBionetEnabled())
-    		myBionetNode.setResourceValue(BionetUtils.RESOURCE_ID, Double.valueOf(getValue()), new Timeval());
+    		myBionetNode.setResourceValue(BionetUtils.RESOURCE_ID, Float.valueOf(getValue()), new Timeval());
     }
 
     public void setValue(float pValue) {
@@ -63,8 +63,8 @@ public abstract class GenericActuatorImpl extends BioModuleImpl implements
     @Override
     public void bionetCallBack(String value) {
     	try {
-    		Double rawValue = new Double(value);
-    		setValue(rawValue.floatValue());
+    		float newValue = Float.parseFloat(value);
+    		setValue(newValue);
     	}
     	catch (NumberFormatException e){
     		myLogger.warn("Attempted to set actuator to a non-float value", e);

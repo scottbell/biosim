@@ -19,9 +19,10 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements
     protected abstract void gatherData();
 
     protected void notifyListeners(){
-    	//TODO
-    	if (isBionetEnabled())
-    		myBionetNode.setResourceValue(BionetUtils.RESOURCE_ID, Double.valueOf(getValue()), new Timeval());
+    	if (isBionetEnabled()){
+    		myBionetNode.setResourceValue(BionetUtils.RESOURCE_ID, Float.valueOf(getValue()), new Timeval());
+    		BionetUtils.getBionetUtils().reportResourceUpdate(myBionetNode);
+    	}
     }
 
     public float getValue() {
