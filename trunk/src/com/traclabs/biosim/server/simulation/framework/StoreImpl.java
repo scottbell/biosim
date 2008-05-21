@@ -211,9 +211,9 @@ public class StoreImpl extends PassiveModuleImpl implements
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
                     currentCapacity = 0f;
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                    currentCapacity *= 0.5;
+                    currentCapacity *= 0.25;
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                    currentCapacity *= .25f;
+                    currentCapacity *= .50f;
                 currentLevel = percentage * currentCapacity;
                 currentMalfunction.setPerformed(true);
             }
