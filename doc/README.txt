@@ -14,7 +14,7 @@ I. SETUP
 		Ex: JAVA_HOME=c:\jsdk1.4 on windows systems
 	4) Set your BIOSIM_HOME environment variable.
 		Ex: BIOSIM_HOME=/home/joe/BIOSIM on unix systems
-		Ex: JAVA_HOME=c:\workbench\BIOSIM on windows systems
+		Ex: BIOSIM_HOME=c:\workbench\BIOSIM on windows systems
 	5) You can optionally add BIOSIM_HOME's bin directory to your path.
 		Ex: $BIOSIM_HOME/bin on unix systems
 		Ex: %BIOSIM_HOME%/bin/win on windows
