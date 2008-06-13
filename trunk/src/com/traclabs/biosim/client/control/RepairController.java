@@ -199,6 +199,12 @@ public class RepairController implements BiosimController {
 			myRepairOutput.flush();
 		} while (!myBioDriver.isDone());
 		myBioDriver.endSimulation();
+		mySensorOutput.println("Controller finished run");
+		mySensorOutput.println();
+		myRepairOutput.println("Controller finished run");
+		myRepairOutput.println();
+		mySensorOutput.flush();
+		myRepairOutput.flush();
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 	}
 
