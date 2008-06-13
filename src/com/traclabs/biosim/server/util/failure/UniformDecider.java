@@ -9,6 +9,10 @@ public class UniformDecider extends FailureDecider {
 		this.myAlpha = alpha;
 		this.myBeta = beta;
 	}
+	
+	@Override
+	public void reset() {
+	}
 
 	@Override
 	protected double getReliability(double timeElapsed) {

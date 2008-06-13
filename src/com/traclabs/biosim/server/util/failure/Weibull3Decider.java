@@ -12,6 +12,10 @@ public class Weibull3Decider extends FailureDecider {
 		this.myBeta = beta;
 		this.myHold = hold;
 	}
+	
+	@Override
+	public void reset() {
+	}
 
 	@Override
 	protected double getReliability(double timeElapsed) {

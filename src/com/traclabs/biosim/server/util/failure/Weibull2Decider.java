@@ -9,6 +9,10 @@ public class Weibull2Decider extends FailureDecider {
 		this.myLambda = lambda;
 		this.myBeta = beta;
 	}
+	
+	@Override
+	public void reset() {
+	}
 
 	@Override
 	protected double getReliability(double timeElapsed) {

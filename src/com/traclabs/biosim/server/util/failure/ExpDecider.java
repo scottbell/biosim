@@ -6,6 +6,10 @@ public class ExpDecider extends FailureDecider {
 	public ExpDecider(double lambda) {
 		this.myLambda = lambda;
 	}
+	
+	@Override
+	public void reset() {
+	}
 
 	@Override
 	protected double getReliability(double timeElapsed) {

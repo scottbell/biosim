@@ -9,6 +9,10 @@ public class LogisticDecider extends FailureDecider {
 		this.mymu = mu;
 		this.mysd = sd;
 	}
+	
+	@Override
+	public void reset() {
+	}
 
 	@Override
 	protected double getReliability(double timeElapsed) {
