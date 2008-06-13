@@ -322,8 +322,10 @@ public abstract class BioModuleImpl extends BioModulePOA {
         myTicks = 0;
         myFailureTime = 0;
         hasFailed = false;
-        myFailureDecider.reset();
-        myStochasticFilter.reset();
+        if (myFailureDecider != null)
+        	myFailureDecider.reset();
+        if (myStochasticFilter != null)
+        	myStochasticFilter.reset();
         myMalfunctions.clear();
     	for (MalfunctionImpl currentMalfunction : myScheduledMalfunctions)
     		currentMalfunction.reset();
