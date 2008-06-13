@@ -22,4 +22,7 @@ public abstract class FailureDecider {
 	}
 
 	protected abstract double getReliability(double timeElapsed);
+
+	public void reset() {
+	}
 }
