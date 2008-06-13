@@ -21,18 +21,23 @@ import com.traclabs.biosim.util.OrbUtils;
  */
 
 /*
-To run the reliability controller: (assuming BIOSIM_HOME/bin is in your path) 
-   1)type run-nameserver 
-   2)type run-server -xml=/home/haibei/workspace/BIOSIM/resources/com/traclabs/biosim/server/framework/configuration/reliability/CEVconfig.xml
-   3)type java -classpath $BIOSIM_HOME/lib/xerces/xercesImpl.jar:$BIOSIM_HOME/lib/log4j/log4j.jar:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb/logkit.jar:$BIOSIM_HOME/lib/jacorb/avalon-framework.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/build:$BIOSIM_HOME/resources -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton -DORBInitRef.NameService=file:$BIOSIM_HOME/tmp/ns/ior.txt com.traclabs.biosim.client.control.RepairController
-*/
+ * To run the reliability controller: (assuming BIOSIM_HOME/bin is in your path)
+ * 1)type run-nameserver 2)type run-server
+ * -xml=/home/haibei/workspace/BIOSIM/resources/com/traclabs/biosim/server/framework/configuration/reliability/CEVconfig.xml
+ * 3)type java -classpath
+ * $BIOSIM_HOME/lib/xerces/xercesImpl.jar:$BIOSIM_HOME/lib/log4j/log4j.jar:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb/logkit.jar:$BIOSIM_HOME/lib/jacorb/avalon-framework.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/build:$BIOSIM_HOME/resources
+ * -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB
+ * -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton
+ * -DORBInitRef.NameService=file:$BIOSIM_HOME/tmp/ns/ior.txt
+ * com.traclabs.biosim.client.control.RepairController
+ */
 
 public class RepairController implements BiosimController {
 
 	// remember to change path for xml file
 	private static String CONFIGURATION_FILE = "/reliability/CEVconfig.xml";
 	private static final String LOG_FILE = "RepairControllerResults.log";
-	
+
 	private BioDriver myBioDriver;
 
 	private BioHolder myBioHolder;
@@ -78,43 +83,37 @@ public class RepairController implements BiosimController {
 	private int myRepairDelay = 0;
 
 	private boolean logToFile = true;
-	FileOutputStream out; 
-	
+
+	FileOutputStream out;
+
 	private PrintStream myOutput;
 
 	public RepairController(boolean log) {
 		logToFile = log;
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
-		try{
-			out = new FileOutputStream("RepairControllerResult.txt", true);		
-		}catch (Exception e){
-			System.out.println("Can't open RepairControllerResult.txt.");
-		}
-
 		if (logToFile) {
 			try {
 				myOutput = new PrintStream(new FileOutputStream(LOG_FILE, true));
-			} 
-			catch (FileNotFoundException e) {
-						e.printStackTrace();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
 			}
 		} else
 			myOutput = System.out;
-		
+
 	}
 
 	public static void main(String[] args) {
 		boolean logToFile = Boolean.parseBoolean(CommandLineUtils
 				.getOptionValueFromArgs(args, "log"));
 		int max = 10;
-		for (int i = 0; i < max; i ++){
-		RepairController myController = new RepairController(logToFile);
-		myController.collectReferences();
-		myController.runSim();
+		for (int i = 0; i < max; i++) {
+			RepairController myController = new RepairController(logToFile);
+			myController.collectReferences();
+			myController.runSim();
 		}
 	}
-	
+
 	/**
 	 * Collects references to BioModules we'll need to run/observer/poke the
 	 * sim. The BioHolder is a utility for clients to easily access different
@@ -130,33 +129,33 @@ public class RepairController implements BiosimController {
 		SimEnvironment crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 
 		// Air Sensors
-		GenericSensor myOGS_O2OutFlowRateSensor = myBioHolder.theO2OutFlowRateSensors
+		myOGS_O2OutFlowRateSensor = myBioHolder.theO2OutFlowRateSensors
 				.get(0);
-		GenericSensor myOGS_H2OutFlowRateSensor = myBioHolder.theH2OutFlowRateSensors
+		myOGS_H2OutFlowRateSensor = myBioHolder.theH2OutFlowRateSensors
 				.get(0);
-		GenericSensor myVCCR_CO2ProducerFlowRateSensor = myBioHolder.theCO2OutFlowRateSensors
+		myVCCR_CO2ProducerFlowRateSensor = myBioHolder.theCO2OutFlowRateSensors
 				.get(0);
-		GenericSensor myInjector_O2ConsumerRateSensor = myBioHolder.theO2InFlowRateSensors
+		myInjector_O2ConsumerRateSensor = myBioHolder.theO2InFlowRateSensors
 				.get(0);
-		GenericSensor myInjector_O2ProducerRateSensor = myBioHolder.theO2OutFlowRateSensors
+		myInjector_O2ProducerRateSensor = myBioHolder.theO2OutFlowRateSensors
 				.get(1);
 
 		// Power Sensors
-		GenericSensor myOGS_PowerConsumerRateSensor = myBioHolder.thePowerInFlowRateSensors
+		myOGS_PowerConsumerRateSensor = myBioHolder.thePowerInFlowRateSensors
 				.get(0);
-		GenericSensor myVCCR_PowerConsumerRateSensor = myBioHolder.thePowerInFlowRateSensors
+		myVCCR_PowerConsumerRateSensor = myBioHolder.thePowerInFlowRateSensors
 				.get(1);
-		GenericSensor myWaterRS_PowerConsumerRateSensor = myBioHolder.thePowerInFlowRateSensors
+		myWaterRS_PowerConsumerRateSensor = myBioHolder.thePowerInFlowRateSensors
 				.get(2);
 
 		// Water Sensors
-		GenericSensor myOGS_PortableWaterInFlowRateSensor = myBioHolder.thePotableWaterInFlowRateSensors
+		myOGS_PortableWaterInFlowRateSensor = myBioHolder.thePotableWaterInFlowRateSensors
 				.get(0);
-		GenericSensor myWaterRS_DirtyWaterConsumerRateSensor = myBioHolder.theDirtyWaterInFlowRateSensors
+		myWaterRS_DirtyWaterConsumerRateSensor = myBioHolder.theDirtyWaterInFlowRateSensors
 				.get(0);
-		GenericSensor myWaterRS_GreyWaterConsumerRateSensor = myBioHolder.theGreyWaterInFlowRateSensors
+		myWaterRS_GreyWaterConsumerRateSensor = myBioHolder.theGreyWaterInFlowRateSensors
 				.get(0);
-		GenericSensor myWaterRS_PortableWaterProducerRateSensor = myBioHolder.thePotableWaterOutFlowRateSensors
+		myWaterRS_PortableWaterProducerRateSensor = myBioHolder.thePotableWaterOutFlowRateSensors
 				.get(0);
 
 		// Crew Suvival Condition Sensors
@@ -191,8 +190,8 @@ public class RepairController implements BiosimController {
 			if (crewShouldDie())
 				myBioHolder.theCrewGroups.get(0).killCrew();
 			stepSim();
+			printResults();
 		} while (!myBioDriver.isDone());
-		printResults();
 		myBioDriver.endSimulation();
 		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 	}
@@ -218,37 +217,38 @@ public class RepairController implements BiosimController {
 	}
 
 	public void printResults() {
-		FileOutputStream out; 
-		PrintStream myOutput; 
-		try {
-			out = new FileOutputStream("RepairController_result.txt", true);
-			myOutput = new PrintStream(out);
-			myOutput.println();
-			myOutput.println("Ticks H2ProducerOGS O2ProducerOGS PotableWaterConsumeOGS PowerConsumerOGS PowerConsumerVCCR CO2ProducerVCCR O2ConsumerInjector O2ProdurerInjector DirtyWaterConsumer GreyWaterConsumer PotableWaterProducer PowerConsumerWaterRS");
-			myOutput.print(myBioDriver.getTicks() + "  ");// Ticks
-			myOutput.print(myOGS_H2OutFlowRateSensor.getValue() + "  ");// H2ProducerOGS
-			myOutput.print(myOGS_O2OutFlowRateSensor.getValue() + "  ");// O2ProducerOGS
-			myOutput.print(myOGS_PortableWaterInFlowRateSensor.getValue() + "  ");// PotableWaterConsumeOGS
-			myOutput.print(myOGS_PowerConsumerRateSensor.getValue() + "  "); // PowerConsumerOGS
+		myOutput.println();
+		myOutput.println("Ticks H2ProducerOGS O2ProducerOGS PotableWaterConsumeOGS PowerConsumerOGS PowerConsumerVCCR CO2ProducerVCCR O2ConsumerInjector O2ProdurerInjector DirtyWaterConsumer GreyWaterConsumer PotableWaterProducer PowerConsumerWaterRS");
+		myOutput.print(myBioDriver.getTicks());// Ticks
+		myOutput.print("\t");
+		myOutput.print(myOGS_H2OutFlowRateSensor.getValue());// H2ProducerOGS
+		myOutput.print("\t");
+		myOutput.print(myOGS_O2OutFlowRateSensor.getValue());// O2ProducerOGS
+		myOutput.print("\t");
+		myOutput.print(myOGS_PortableWaterInFlowRateSensor.getValue());// PotableWaterConsumeOGS
+		myOutput.print("\t");
+		myOutput.print(myOGS_PowerConsumerRateSensor.getValue()); // PowerConsumerOGS
+		myOutput.print("\t");
 
-			myOutput.print(myVCCR_PowerConsumerRateSensor.getValue() + "  "); // PowerConsumerVCCR
-			myOutput.print(myVCCR_CO2ProducerFlowRateSensor.getValue() + "  ");// CO2ProducerVCCR
+		myOutput.print(myVCCR_PowerConsumerRateSensor.getValue()); // PowerConsumerVCCR
+		myOutput.print("\t");
+		myOutput.print(myVCCR_CO2ProducerFlowRateSensor.getValue());// CO2ProducerVCCR
+		myOutput.print("\t");
 
-			myOutput.print(myInjector_O2ConsumerRateSensor.getValue() + "  "); // O2ConsumerInjector
-			myOutput.print(myInjector_O2ProducerRateSensor.getValue() + "  ");// O2ProducerINjector
+		myOutput.print(myInjector_O2ConsumerRateSensor.getValue()); // O2ConsumerInjector
+		myOutput.print("\t");
+		myOutput.print(myInjector_O2ProducerRateSensor.getValue());// O2ProducerINjector
+		myOutput.print("\t");
 
-			myOutput.print(myWaterRS_DirtyWaterConsumerRateSensor.getValue()
-				+ "  "); // DirtyWaterConsumer
-			myOutput
-				.print(myWaterRS_GreyWaterConsumerRateSensor.getValue() + "   "); // GreyWaterConsumer
-			myOutput.print(myWaterRS_PortableWaterProducerRateSensor.getValue()
-				+ "  "); // PortableWaterProducer
-			myOutput.print(myWaterRS_PowerConsumerRateSensor.getValue() + "  "); // PowerConsumer
-			myOutput.flush();
-		} 
-		catch (FileNotFoundException e) {
-					e.printStackTrace();
-		}
+		myOutput.print(myWaterRS_DirtyWaterConsumerRateSensor.getValue()); // DirtyWaterConsumer
+		myOutput.print("\t");
+		myOutput.print(myWaterRS_GreyWaterConsumerRateSensor.getValue()); // GreyWaterConsumer
+		myOutput.print("\t");
+		myOutput.print(myWaterRS_PortableWaterProducerRateSensor.getValue()); // PortableWaterProducer
+		myOutput.print("\t");
+		myOutput.print(myWaterRS_PowerConsumerRateSensor.getValue()); // PowerConsumer
+		myOutput.print("\t");
+		myOutput.flush();
 	}
 
 	public boolean checkFailure() {
@@ -409,7 +409,7 @@ public class RepairController implements BiosimController {
 		// "ComponentRepair"
 		if (checkFailure()) {
 			if (myRepairDelay >= 1) { // Repair Delay is the time needed for
-									// repair activities
+				// repair activities
 				componentRepair();
 				myRepairDelay = 0;
 			} else {
