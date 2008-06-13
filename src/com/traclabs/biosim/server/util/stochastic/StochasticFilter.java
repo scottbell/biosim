@@ -26,4 +26,7 @@ public abstract class StochasticFilter {
     public boolean getEnabled(){
     	return myEnabledState;
     }
+
+	public void reset() {
+	}
 }
