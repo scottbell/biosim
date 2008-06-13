@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.client.control.HandController;
 import com.traclabs.biosim.client.control.MurderController;
+import com.traclabs.biosim.client.control.RepairController;
 import com.traclabs.biosim.client.control.SimCommandLine;
 import com.traclabs.biosim.client.control.SimpleController;
 import com.traclabs.biosim.client.control.TestController;
@@ -58,6 +59,7 @@ public class BiosimMain {
 		boolean wantsToRunApollo13Viewer = false;
 		boolean wantsToRunSimpleController = false;
 		boolean wantsToRunMurderController = false;
+		boolean wantsToRunRepairController = false;
 		boolean wantsToRunTestController = false;
 		boolean wantsToRunGraph = false;
 		boolean wantsToRunEnvironment = false;
@@ -86,6 +88,8 @@ public class BiosimMain {
 				wantsToRunApollo13Viewer = true;
 			} else if (myArgs[i].equals("murder")) {
 				wantsToRunMurderController = true;
+			} else if (myArgs[i].equals("repair")) {
+				wantsToRunRepairController = true;
 			} else if (myArgs[i].equals("test")) {
 				wantsToRunTestController = true;
 			} else if (myArgs[i].startsWith("-xml=")) {
@@ -158,12 +162,14 @@ public class BiosimMain {
 			runHandController();
 		else if (wantsToRunSimpleController)
 			runSimpleController();
+		else if (wantsToRunMurderController)
+			runMurderController();
+		else if (wantsToRunRepairController)
+			runRepairController();
 		else if (wantsToRunSensorViewer)
 			runSensorViewer();
 		else if (wantsToRunApollo13Viewer)
 			runApollo13Viewer();
-		else if (wantsToRunMurderController)
-			runMurderController();
 		else if (wantsToRunTestController)
 			runTestController();
 		else if (wantsToRunGraph)
@@ -228,6 +234,11 @@ public class BiosimMain {
 
 	private void runHandController() {
 		HandController myController = new HandController();
+		myController.runSim();
+	}
+
+	private void runRepairController() {
+		RepairController myController = new RepairController(true);
 		myController.runSim();
 	}
 
