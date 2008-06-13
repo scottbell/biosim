@@ -9,6 +9,10 @@ public class LognormalDecider extends FailureDecider {
 		this.myLogmean = logmean;
 		this.myLogsd = logsd;
 	}
+	
+	@Override
+	public void reset() {
+	}
 
 	@Override
 	protected double getReliability(double timeElapsed) {

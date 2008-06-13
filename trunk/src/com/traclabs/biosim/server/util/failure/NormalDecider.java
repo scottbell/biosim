@@ -11,6 +11,10 @@ public class NormalDecider extends FailureDecider {
 	}
 
 	@Override
+	public void reset() {
+	}
+	
+	@Override
 	protected double getReliability(double timeElapsed) {
 		return normalFailureRate(myLogmean, myLogsd, timeElapsed);
 	}
