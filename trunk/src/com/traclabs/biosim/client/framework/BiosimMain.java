@@ -165,7 +165,7 @@ public class BiosimMain {
 		else if (wantsToRunMurderController)
 			runMurderController();
 		else if (wantsToRunRepairController)
-			runRepairController();
+			runRepairController(myArgs);
 		else if (wantsToRunSensorViewer)
 			runSensorViewer();
 		else if (wantsToRunApollo13Viewer)
@@ -237,9 +237,8 @@ public class BiosimMain {
 		myController.runSim();
 	}
 
-	private void runRepairController() {
-		RepairController myController = new RepairController(true);
-		myController.runSim();
+	private void runRepairController(String[] args) {
+		RepairController.main(args);
 	}
 
 	private void runSimpleController() {
