@@ -34,7 +34,7 @@
   				maxFlowRates="" />
   		</p:OGS>
   		<p:VCCR moduleName="">
-  			<p:normalFailureDecider logmean="0.0" logsd="0.0" /><p:normalStochasticFilter
+  			<p:normalFailureDecider logmean="4320" logsd="3" /><p:normalStochasticFilter
   				deviation="0.0" />
   			<p:powerConsumer inputs="" desiredFlowRates=""
   				maxFlowRates="" />
@@ -46,7 +46,7 @@
   				maxFlowRates="" />
   		</p:VCCR>
   		<p:VCCR moduleName="">
-  			<p:normalFailureDecider logmean="0.0" logsd="0.0" /><p:normalStochasticFilter
+  			<p:normalFailureDecider logmean="4320" logsd="3" /><p:normalStochasticFilter
   				deviation="0.0" />
   			<p:powerConsumer inputs="" desiredFlowRates=""
   				maxFlowRates="" />
@@ -87,11 +87,11 @@
   			<p:expFailureDecider lambda="0.00023148" /></p:FoodStore></p:food>
   	<p:framework>
   		<p:Injector moduleName="">
-  			<p:normalFailureDecider logmean="0.0" logsd="0.0" /><p:airConsumer
+  			<p:normalFailureDecider logmean="3888" logsd="3" /><p:airConsumer
   				inputs="" desiredFlowRates="" maxFlowRates="" /><p:airProducer
   				desiredFlowRates="" outputs="" maxFlowRates="" /></p:Injector>
   		<p:Injector moduleName="">
-  			<p:normalFailureDecider logmean="0.0" logsd="0.0" />
+  			<p:normalFailureDecider logmean="3888" logsd="3" />
   			<p:airConsumer inputs="" desiredFlowRates=""
   				maxFlowRates="" /><p:airProducer desiredFlowRates=""
   				outputs="" maxFlowRates="" /></p:Injector></p:framework>
