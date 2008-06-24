@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <p:biosim xmlns:p="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
-  <p:Globals/><p:SimBioModules>
+  <p:Globals crewsToWatch="" runTillCrewDeath="true" >
+  	<p:author>Francisco and Haibei</p:author></p:Globals>
+  <p:SimBioModules>
 	<p:air>
 		<p:CO2Store capacity="0.0" moduleName="" level="0.0">
-			<p:expFailureDecider lambda=".00001447" /></p:CO2Store>
+			<p:expFailureDecider lambda="0.00001447" /></p:CO2Store>
 		<p:H2Store capacity="0.0" moduleName="" level="0.0">
-			<p:expFailureDecider lambda=".00001447" ></p:expFailureDecider></p:H2Store>
+			<p:expFailureDecider lambda="0.00001447" ></p:expFailureDecider></p:H2Store>
 		<p:O2Store capacity="0.0" moduleName="" level="0.0">
-			<p:expFailureDecider lambda=".00001447" /></p:O2Store>
+			<p:expFailureDecider lambda="0.00001447" /></p:O2Store>
 		<p:OGS moduleName="">
 			<p:expFailureDecider lambda=".00046296" />
 			<p:powerConsumer inputs="" desiredFlowRates=""
@@ -32,7 +34,7 @@
 		</p:VCCR></p:air>
 	<p:crew>
 		<p:CrewGroup moduleName="">
-			<p:normalFailureDecider logmean="4325.6" logsd="3" />
+			<p:normalFailureDecider logmean="4325.6" logsd="2" />
 			<p:potableWaterConsumer inputs="" desiredFlowRates=""
 				maxFlowRates="" />
 			<p:airConsumer inputs="" desiredFlowRates=""
