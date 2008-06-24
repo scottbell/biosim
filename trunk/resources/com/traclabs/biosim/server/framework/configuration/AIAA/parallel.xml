@@ -1,4 +1,137 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <p:biosim xmlns:p="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
-  <p:Globals/>
+  <p:Globals crewsToWatch="" runTillCrewDeath="true">
+  	<p:author>Haibei and Francisco</p:author>
+  </p:Globals>
+  <p:SimBioModules>
+  	<p:air>
+  		<p:CO2Store capacity="0.0" moduleName="" level="10000">
+  			<p:expFailureDecider lambda="0.00001447" ></p:expFailureDecider></p:CO2Store>
+  		<p:H2Store capacity="0.0" moduleName="" level="0.0">
+  			<p:expFailureDecider lambda="0.00001447" /></p:H2Store>
+  		<p:O2Store capacity="0.0" moduleName="" level="0.0">
+  			<p:expFailureDecider lambda="0.00001447" ></p:expFailureDecider></p:O2Store>
+  		<p:OGS moduleName="">
+  			<p:expFailureDecider lambda="0.00046296" />
+  			<p:powerConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:potableWaterConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:O2Producer desiredFlowRates="" outputs=""
+  				maxFlowRates="" />
+  			<p:H2Producer desiredFlowRates="" outputs=""
+  				maxFlowRates="" />
+  		</p:OGS>
+  		<p:OGS moduleName="">
+  			<p:expFailureDecider lambda="0.00046296" ></p:expFailureDecider>
+  			<p:powerConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:potableWaterConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:O2Producer desiredFlowRates="" outputs=""
+  				maxFlowRates="" />
+  			<p:H2Producer desiredFlowRates="" outputs=""
+  				maxFlowRates="" />
+  		</p:OGS>
+  		<p:VCCR moduleName="">
+  			<p:normalFailureDecider logmean="0.0" logsd="0.0" /><p:normalStochasticFilter
+  				deviation="0.0" />
+  			<p:powerConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:airConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:airProducer desiredFlowRates="" outputs=""
+  				maxFlowRates="" />
+  			<p:CO2Producer desiredFlowRates="" outputs=""
+  				maxFlowRates="" />
+  		</p:VCCR>
+  		<p:VCCR moduleName="">
+  			<p:normalFailureDecider logmean="0.0" logsd="0.0" /><p:normalStochasticFilter
+  				deviation="0.0" />
+  			<p:powerConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:airConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:airProducer desiredFlowRates="" outputs=""
+  				maxFlowRates="" />
+  			<p:CO2Producer desiredFlowRates="" outputs=""
+  				maxFlowRates="" />
+  		</p:VCCR></p:air>
+  	<p:crew>
+  		<p:CrewGroup moduleName="">
+  			<p:normalFailureDecider logmean="4325.6" logsd="2" />
+  			<p:potableWaterConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:airConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:foodConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:dirtyWaterProducer desiredFlowRates="" outputs=""
+  				maxFlowRates="" />
+  			<p:greyWaterProducer desiredFlowRates="" outputs=""
+  				maxFlowRates="" />
+  			<p:airProducer desiredFlowRates="" outputs=""
+  				maxFlowRates="" />
+  			<p:dryWasteProducer desiredFlowRates="" outputs=""
+  				maxFlowRates="" /><p:crewPerson age="0.0" name=""
+  				sex="MALE" weight="0.0">
+  				<p:schedule>
+  					<p:activity intensity="0" name="" length="0" />
+  				</p:schedule>
+</p:crewPerson>
+  		</p:CrewGroup></p:crew>
+  	<p:environment>
+  		<p:SimEnvironment moduleName="" initialVolume="0.0"></p:SimEnvironment></p:environment>
+  	<p:food>
+  		<p:FoodStore capacity="0.0" level="0.0" moduleName="">
+  			<p:expFailureDecider lambda="0.00023148" /></p:FoodStore></p:food>
+  	<p:framework>
+  		<p:Injector moduleName="">
+  			<p:normalFailureDecider logmean="0.0" logsd="0.0" /><p:airConsumer
+  				inputs="" desiredFlowRates="" maxFlowRates="" /><p:airProducer
+  				desiredFlowRates="" outputs="" maxFlowRates="" /></p:Injector>
+  		<p:Injector moduleName="">
+  			<p:normalFailureDecider logmean="0.0" logsd="0.0" />
+  			<p:airConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" /><p:airProducer desiredFlowRates=""
+  				outputs="" maxFlowRates="" /></p:Injector></p:framework>
+  	<p:power>
+  		<p:PowerStore capacity="0.0" moduleName="" level="0.0"
+  			logLevel="INFO">
+  			<p:expFailureDecider lambda="0.00023148" />
+  		</p:PowerStore></p:power>
+  	<p:waste>
+  		<p:DryWasteStore capacity="0.0" moduleName="" level="0.0">
+  			<p:expFailureDecider lambda="0.00001447" ></p:expFailureDecider></p:DryWasteStore></p:waste>
+  	<p:water>
+  		<p:DirtyWaterStore capacity="0.0" moduleName="" level="0.0">
+  			<p:expFailureDecider lambda="0.00001447" /></p:DirtyWaterStore>
+  		<p:GreyWaterStore capacity="0.0" moduleName="" level="0.0">
+  			<p:expFailureDecider lambda="0.00001447" /></p:GreyWaterStore>
+  		<p:PotableWaterStore capacity="0.0" moduleName=""
+  			level="0.0">
+  			<p:expFailureDecider lambda="0.00001447" />
+  		</p:PotableWaterStore>
+  		<p:WaterRS moduleName="">
+  			<p:weibull2FailureDecider lambda="0.000231" beta="5" />
+  			<p:powerConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:dirtyWaterConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:greyWaterConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:potableWaterProducer desiredFlowRates="" outputs=""
+  				maxFlowRates="" />
+  		</p:WaterRS>
+  		<p:WaterRS moduleName="">
+  			<p:weibull2FailureDecider lambda="0.000231" beta="5" />
+  			<p:powerConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:dirtyWaterConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:greyWaterConsumer inputs="" desiredFlowRates=""
+  				maxFlowRates="" />
+  			<p:potableWaterProducer desiredFlowRates="" outputs=""
+  				maxFlowRates="" />
+  		</p:WaterRS></p:water></p:SimBioModules>
 </p:biosim>
