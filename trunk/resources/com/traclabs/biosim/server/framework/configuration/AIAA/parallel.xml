@@ -5,137 +5,146 @@
   </p:Globals>
   <p:SimBioModules>
   	<p:air>
-  		<p:CO2Store capacity="0.0" moduleName="CO2Store" level="10000">
+  		<p:CO2Store capacity="10000" moduleName="CO2Store" level="0">
   			<p:expFailureDecider lambda="0.00001447" ></p:expFailureDecider></p:CO2Store>
-  		<p:H2Store capacity="0.0" moduleName="H2Store" level="10000">
-  			<p:expFailureDecider lambda="0.00001447" /></p:H2Store>
-  		<p:O2Store capacity="0.0" moduleName="O2Store" level="10000">
+  		<p:H2Store capacity="10000" moduleName="H2Store" level="0">
+  			<p:expFailureDecider lambda="0.00001447" ></p:expFailureDecider></p:H2Store>
+  		<p:O2Store capacity="10000" moduleName="O2Store" level="5000">
   			<p:expFailureDecider lambda="0.00001447" ></p:expFailureDecider></p:O2Store>
   		<p:OGS moduleName="OGS1">
   			<p:expFailureDecider lambda="0.00046296" />
-  			<p:powerConsumer inputs="PowerStore" desiredFlowRates=""
-  				maxFlowRates="" />
-  			<p:potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates=""
-  				maxFlowRates="" ></p:potableWaterConsumer>
-  			<p:O2Producer desiredFlowRates="" outputs="O2Store"
-  				maxFlowRates="" ></p:O2Producer>
-  			<p:H2Producer desiredFlowRates="" outputs="H2Store"
-  				maxFlowRates="" />
+  			<p:powerConsumer inputs="PowerStore" desiredFlowRates="1000"
+  				maxFlowRates="1500" />
+  			<p:potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates="10"
+  				maxFlowRates="15" ></p:potableWaterConsumer>
+  			<p:O2Producer desiredFlowRates="1000" outputs="O2Store"
+  				maxFlowRates="1500" ></p:O2Producer>
+  			<p:H2Producer desiredFlowRates="1000" outputs="H2Store"
+  				maxFlowRates="1500" />
   		</p:OGS>
   		<p:OGS moduleName="OGS2">
   			<p:expFailureDecider lambda="0.00046296" ></p:expFailureDecider>
-  			<p:powerConsumer inputs="PowerStore" desiredFlowRates=""
-  				maxFlowRates="" ></p:powerConsumer>
-  			<p:potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates=""
-  				maxFlowRates="" />
-  			<p:O2Producer desiredFlowRates="" outputs="O2Store"
-  				maxFlowRates="" />
-  			<p:H2Producer desiredFlowRates="" outputs="H2Store"
-  				maxFlowRates="" />
+  			<p:powerConsumer inputs="PowerStore" desiredFlowRates="1000"
+  				maxFlowRates="1500" ></p:powerConsumer>
+  			<p:potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates="10"
+  				maxFlowRates="15" />
+  			<p:O2Producer desiredFlowRates="1000" outputs="O2Store"
+  				maxFlowRates="1500" />
+  			<p:H2Producer desiredFlowRates="1000" outputs="H2Store"
+  				maxFlowRates="1500" />
   		</p:OGS>
   		<p:VCCR moduleName="VCCR1">
   			<p:normalFailureDecider logmean="4320" logsd="3" />
-  			<p:powerConsumer inputs="PowerStore" desiredFlowRates=""
-  				maxFlowRates="" />
-  			<p:airConsumer inputs="SimEnvironment" desiredFlowRates=""
-  				maxFlowRates="" />
-  			<p:airProducer desiredFlowRates="" outputs="SimEnvironment"
-  				maxFlowRates="" />
-  			<p:CO2Producer desiredFlowRates="" outputs="CO2Store"
-  				maxFlowRates="" />
+  			<p:powerConsumer inputs="PowerStore" desiredFlowRates="2000"
+  				maxFlowRates="2500" />
+  			<p:airConsumer inputs="SimEnvironment" desiredFlowRates="10000"
+  				maxFlowRates="15000" />
+  			<p:airProducer desiredFlowRates="10000" outputs="SimEnvironment"
+  				maxFlowRates="15000" />
+  			<p:CO2Producer desiredFlowRates="10000" outputs="CO2Store"
+  				maxFlowRates="15000" />
   		</p:VCCR>
   		<p:VCCR moduleName="VCCR2">
   			<p:normalFailureDecider logmean="4320" logsd="3" />
-  			<p:powerConsumer inputs="PowerStore" desiredFlowRates=""
-  				maxFlowRates="" />
-  			<p:airConsumer inputs="SimEnvironment" desiredFlowRates=""
-  				maxFlowRates="" ></p:airConsumer>
-  			<p:airProducer desiredFlowRates="" outputs="SimEnvironment"
-  				maxFlowRates="" />
-  			<p:CO2Producer desiredFlowRates="" outputs="CO2Store"
-  				maxFlowRates="" />
+  			<p:powerConsumer inputs="PowerStore" desiredFlowRates="2000"
+  				maxFlowRates="2500" ></p:powerConsumer>
+  			<p:airConsumer inputs="SimEnvironment" desiredFlowRates="10000"
+  				maxFlowRates="15000" ></p:airConsumer>
+  			<p:airProducer desiredFlowRates="10000" outputs="SimEnvironment"
+  				maxFlowRates="15000" />
+  			<p:CO2Producer desiredFlowRates="10000" outputs="CO2Store"
+  				maxFlowRates="15000" />
   		</p:VCCR></p:air>
   	<p:crew>
   		<p:CrewGroup moduleName="CrewGroup">
   			<p:normalFailureDecider logmean="4325.6" logsd="2" />
-  			<p:potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates=""
-  				maxFlowRates="" />
-  			<p:airConsumer inputs="SimEnvironment" desiredFlowRates=""
-  				maxFlowRates="" />
-  			<p:foodConsumer inputs="FoodStore" desiredFlowRates=""
-  				maxFlowRates="" />
-  			<p:dirtyWaterProducer desiredFlowRates="" outputs="DirtyWaterStore"
-  				maxFlowRates="" />
-  			<p:greyWaterProducer desiredFlowRates="" outputs="GreyWaterStore"
-  				maxFlowRates="" />
-  			<p:airProducer desiredFlowRates="" outputs="SimEnvironment"
-  				maxFlowRates="" />
-  			<p:dryWasteProducer desiredFlowRates="" outputs="DryWasteStore"
-  				maxFlowRates="" /><p:crewPerson age="22" name="Francisco"
-  				sex="MALE" weight="170">
-  				<p:schedule>
-  					<p:activity intensity="0" name="" length="0" />
-  				</p:schedule>
-</p:crewPerson>
+  			<p:potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates="5"
+  				maxFlowRates="10" />
+  			<p:airConsumer inputs="SimEnvironment" desiredFlowRates="0"
+  				maxFlowRates="2" />
+  			<p:foodConsumer inputs="FoodStore" desiredFlowRates="5"
+  				maxFlowRates="10" />
+  			<p:dirtyWaterProducer desiredFlowRates="100" outputs="DirtyWaterStore"
+  				maxFlowRates="150" ></p:dirtyWaterProducer>
+  			<p:greyWaterProducer desiredFlowRates="100" outputs="GreyWaterStore"
+  				maxFlowRates="150" />
+  			<p:airProducer desiredFlowRates="0" outputs="SimEnvironment"
+  				maxFlowRates="0" />
+  			<p:dryWasteProducer desiredFlowRates="10" outputs="DryWasteStore"
+  				maxFlowRates="15" />
+  			<p:crewPerson age="22" name="Francisco" sex="MALE" weight="75">
+  				<schedule>
+						<activity intensity="2" name="ruminating" length="12" />
+						<activity intensity="0" name="sleep" length="8" />
+						<activity intensity="5" name="excercise" length="4" />
+				</schedule>
+			</p:crewPerson>
   		</p:CrewGroup></p:crew>
   	<p:environment>
-  		<p:SimEnvironment moduleName="SimEnvironment" initialVolume="0.0"></p:SimEnvironment></p:environment>
+  		<p:SimEnvironment moduleName="SimEnvironment" initialVolume="2700000"></p:SimEnvironment></p:environment>
   	<p:food>
-  		<p:FoodStore capacity="0.0" level="0.0" moduleName="FoodStore">
+  		<p:FoodStore capacity="100000" level="100000" moduleName="FoodStore">
   			<p:expFailureDecider lambda="0.00023148" /></p:FoodStore></p:food>
   	<p:framework>
   		<p:Injector moduleName="Injector1">
   			<p:normalFailureDecider logmean="3888" logsd="3" /><p:O2Consumer
-  				inputs="O2Store" desiredFlowRates="" maxFlowRates="" />
+  				inputs="O2Store" desiredFlowRates="5" maxFlowRates="10" />
   			<p:O2Producer
-  				desiredFlowRates="" outputs="SimEnvironment" maxFlowRates="" ></p:O2Producer></p:Injector>
+  				desiredFlowRates="5" outputs="SimEnvironment" maxFlowRates="10" ></p:O2Producer></p:Injector>
   		<p:Injector moduleName="Injector2">
   			<p:normalFailureDecider logmean="3888" logsd="3" /><p:O2Consumer
-  				inputs="O2Store" desiredFlowRates="" maxFlowRates="" /><p:O2Producer
-  				desiredFlowRates="" outputs="SimEnvironment" maxFlowRates="" /></p:Injector></p:framework>
+  				inputs="O2Store" desiredFlowRates="5" maxFlowRates="10" /><p:O2Producer
+  				desiredFlowRates="5" outputs="SimEnvironment" maxFlowRates="10" ></p:O2Producer></p:Injector></p:framework>
   	<p:power>
-  		<p:PowerStore capacity="0.0" moduleName="PowerStore" level="0.0"
+  		<p:PowerStore capacity="100000" moduleName="PowerStore" level="100000"
   			logLevel="INFO">
   			<p:expFailureDecider lambda="0.00023148" />
   		</p:PowerStore></p:power>
   	<p:waste>
-  		<p:DryWasteStore capacity="0.0" moduleName="DryWasteStore" level="0.0">
+  		<p:DryWasteStore capacity="100000" moduleName="DryWasteStore" level="0.0">
   			<p:expFailureDecider lambda="0.00001447" ></p:expFailureDecider></p:DryWasteStore></p:waste>
   	<p:water>
-  		<p:DirtyWaterStore capacity="0.0" moduleName="DirtyWaterStore" level="0.0">
+  		<p:DirtyWaterStore capacity="1000" moduleName="DirtyWaterStore" level="0.0">
   			<p:expFailureDecider lambda="0.00001447" /></p:DirtyWaterStore>
-  		<p:GreyWaterStore capacity="0.0" moduleName="GreyWaterStore" level="0.0">
+  		<p:GreyWaterStore capacity="1000" moduleName="GreyWaterStore" level="0.0">
   			<p:expFailureDecider lambda="0.00001447" /></p:GreyWaterStore>
-  		<p:PotableWaterStore capacity="0.0" moduleName="PotableWaterStore"
-  			level="0.0">
+  		<p:PotableWaterStore capacity="2000" moduleName="PotableWaterStore"
+  			level="1000">
   			<p:expFailureDecider lambda="0.00001447" />
   		</p:PotableWaterStore>
   		<p:WaterRS moduleName="WaterRS1">
   			<p:weibull2FailureDecider lambda="0.000231" beta="5" />
-  			<p:powerConsumer inputs="PowerStore" desiredFlowRates=""
-  				maxFlowRates="" />
-  			<p:dirtyWaterConsumer inputs="DirtyWaterStore" desiredFlowRates=""
-  				maxFlowRates="" />
-  			<p:greyWaterConsumer inputs="GreyWaterStore" desiredFlowRates=""
-  				maxFlowRates="" ></p:greyWaterConsumer>
-  			<p:potableWaterProducer desiredFlowRates="" outputs="PotableWaterStore"
-  				maxFlowRates="" />
+  			<p:powerConsumer inputs="PowerStore" desiredFlowRates="1000"
+  				maxFlowRates="1500" />
+  			<p:dirtyWaterConsumer inputs="DirtyWaterStore" desiredFlowRates="10"
+  				maxFlowRates="15" ></p:dirtyWaterConsumer>
+  			<p:greyWaterConsumer inputs="GreyWaterStore" desiredFlowRates="10"
+  				maxFlowRates="15" ></p:greyWaterConsumer>
+  			<p:potableWaterProducer desiredFlowRates="10" outputs="PotableWaterStore"
+  				maxFlowRates="15" />
   		</p:WaterRS>
   		<p:WaterRS moduleName="WaterRS2">
   			<p:weibull2FailureDecider lambda="0.000231" beta="5" />
-  			<p:powerConsumer inputs="PowerStore" desiredFlowRates=""
-  				maxFlowRates="" ></p:powerConsumer>
-  			<p:dirtyWaterConsumer inputs="DirtyWaterStore" desiredFlowRates=""
-  				maxFlowRates="" />
-  			<p:greyWaterConsumer inputs="GreyWaterStore" desiredFlowRates=""
-  				maxFlowRates="" />
-  			<p:potableWaterProducer desiredFlowRates="" outputs="PotableWaterStore"
-  				maxFlowRates="" />
+  			<p:powerConsumer inputs="PowerStore" desiredFlowRates="1000"
+  				maxFlowRates="1500" ></p:powerConsumer>
+  			<p:dirtyWaterConsumer inputs="DirtyWaterStore" desiredFlowRates="10"
+  				maxFlowRates="15" />
+  			<p:greyWaterConsumer inputs="GreyWaterStore" desiredFlowRates="10"
+  				maxFlowRates="15" />
+  			<p:potableWaterProducer desiredFlowRates="10" outputs="PotableWaterStore"
+  				maxFlowRates="15" />
   		</p:WaterRS></p:water></p:SimBioModules>
   <p:Sensors>
   	<p:environment>
   		<p:GasPressureSensor input="SimEnvironment" moduleName="O2PressureSensor" gasType="O2"></p:GasPressureSensor>
   		<p:GasPressureSensor input="SimEnvironment" moduleName="CO2PressureSensor" gasType="CO2"></p:GasPressureSensor>
   		<p:GasPressureSensor input="SimEnvironment" moduleName="N2PressureSensor" gasType="NITROGEN"></p:GasPressureSensor>
-  		<p:GasPressureSensor input="SimEnvironment" moduleName="VaporPressureSensor" gasType="VAPOR"></p:GasPressureSensor></p:environment></p:Sensors>
+  		<p:GasPressureSensor input="SimEnvironment" moduleName="VaporPressureSensor" gasType="VAPOR"></p:GasPressureSensor>
+  		<p:AirInFlowRateSensor input="SimEnvironment" moduleName="AirInFlowRateSensor" index="0"></p:AirInFlowRateSensor>
+  		<p:AirOutFlowRateSensor input="SimEnvironment" moduleName="AirOutFlowRateSensor" index="0"></p:AirOutFlowRateSensor></p:environment>
+  	<p:air>
+  		<p:CO2OutFlowRateSensor input="VCCR1"
+  			moduleName="CO2OutFlowRateSensor" index="0"
+  			isBionetEnabled="true">
+  		</p:CO2OutFlowRateSensor></p:air></p:Sensors>
 </p:biosim>
