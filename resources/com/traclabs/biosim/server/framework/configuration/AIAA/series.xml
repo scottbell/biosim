@@ -100,5 +100,8 @@
   		<p:AirInFlowRateSensor input="SimEnvironment" moduleName="AirinFlowRateSensor" index="0"></p:AirInFlowRateSensor>
   		<p:AirOutFlowRateSensor input="SimEnvironment" moduleName="AirOutFlowRateSensor" index="0"></p:AirOutFlowRateSensor></p:environment>
   	<p:air>
-  		<p:CO2OutFlowRateSensor input="VCCR" moduleName="CO2OutFlowRateSensor" index="0"></p:CO2OutFlowRateSensor></p:air></p:Sensors>
+  		<p:CO2OutFlowRateSensor input="VCCR"
+  			moduleName="CO2OutFlowRateSensor" index="0"
+  			isBionetEnabled="true">
+  		</p:CO2OutFlowRateSensor></p:air></p:Sensors>
 </p:biosim>
