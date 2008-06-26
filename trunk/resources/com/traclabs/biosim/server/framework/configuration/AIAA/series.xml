@@ -1,105 +1,105 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<p:biosim xmlns:p="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
-  <p:Globals crewsToWatch="CrewGroup" runTillCrewDeath="true" >
-  	<p:author>Francisco and Haibei</p:author></p:Globals>
-  <p:SimBioModules>
-	<p:air>
-		<p:CO2Store capacity="10000" moduleName="CO2Store" level="0.0">
-			<p:expFailureDecider lambda="0.00001447" /></p:CO2Store>
-		<p:H2Store capacity="10000" moduleName="H2Store" level="0.0">
-			<p:expFailureDecider lambda="0.00001447" ></p:expFailureDecider></p:H2Store>
-		<p:O2Store capacity="10000" moduleName="O2Store" level="5000">
-			<p:expFailureDecider lambda="0.00001447" /></p:O2Store>
-		<p:OGS moduleName="OGS">
-			<p:expFailureDecider lambda=".00046296" ></p:expFailureDecider>
-			<p:powerConsumer inputs="PowerStore" desiredFlowRates="1000"
-				maxFlowRates="1500" ></p:powerConsumer>
-			<p:potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates="10"
-				maxFlowRates="15" ></p:potableWaterConsumer>
-			<p:O2Producer desiredFlowRates="1000" outputs="O2Store"
+<biosim xmlns:p="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
+  <Globals crewsToWatch="CrewGroup" runTillCrewDeath="true" >
+  	<author>Francisco and Haibei</author></Globals>
+  <SimBioModules>
+	<air>
+		<CO2Store capacity="10000" moduleName="CO2Store" level="0.0">
+			<expFailureDecider lambda="0.00001447" /></CO2Store>
+		<H2Store capacity="10000" moduleName="H2Store" level="0.0">
+			<expFailureDecider lambda="0.00001447" ></expFailureDecider></H2Store>
+		<O2Store capacity="10000" moduleName="O2Store" level="5000">
+			<expFailureDecider lambda="0.00001447" /></O2Store>
+		<OGS moduleName="OGS">
+			<expFailureDecider lambda=".00046296" ></expFailureDecider>
+			<powerConsumer inputs="PowerStore" desiredFlowRates="1000"
+				maxFlowRates="1500" ></powerConsumer>
+			<potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates="10"
+				maxFlowRates="15" ></potableWaterConsumer>
+			<O2Producer desiredFlowRates="1000" outputs="O2Store"
 				maxFlowRates="1500" />
-			<p:H2Producer desiredFlowRates="1000" outputs="H2Store"
+			<H2Producer desiredFlowRates="1000" outputs="H2Store"
 				maxFlowRates="1500" />
-		</p:OGS>
-		<p:VCCR moduleName="VCCR">
-			<p:normalFailureDecider logmean="4320" logsd="3" ></p:normalFailureDecider>
-			<p:powerConsumer inputs="PowerStore" desiredFlowRates="2000"
-				maxFlowRates="2500" ></p:powerConsumer>
-			<p:airConsumer inputs="SimEnvironment" desiredFlowRates="10000"
-				maxFlowRates="15000" ></p:airConsumer>
-			<p:airProducer desiredFlowRates="10000" outputs="SimEnvironment"
+		</OGS>
+		<VCCR moduleName="VCCR">
+			<normalFailureDecider logmean="4320" logsd="3" ></normalFailureDecider>
+			<powerConsumer inputs="PowerStore" desiredFlowRates="2000"
+				maxFlowRates="2500" ></powerConsumer>
+			<airConsumer inputs="SimEnvironment" desiredFlowRates="10000"
+				maxFlowRates="15000" ></airConsumer>
+			<airProducer desiredFlowRates="10000" outputs="SimEnvironment"
 				maxFlowRates="15000" />
-			<p:CO2Producer desiredFlowRates="10000" outputs="CO2Store"
-				maxFlowRates="15000" ></p:CO2Producer>
-		</p:VCCR></p:air>
-	<p:crew>
-		<p:CrewGroup moduleName="CrewGroup">
-			<p:normalFailureDecider logmean="4325.6" logsd="2" />
-			<p:potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates="5"
-				maxFlowRates="10" ></p:potableWaterConsumer>
-			<p:airConsumer inputs="SimEnvironment" desiredFlowRates="1"
+			<CO2Producer desiredFlowRates="10000" outputs="CO2Store"
+				maxFlowRates="15000" ></CO2Producer>
+		</VCCR></air>
+	<crew>
+		<CrewGroup moduleName="CrewGroup">
+			<normalFailureDecider logmean="4325.6" logsd="2" />
+			<potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates="5"
+				maxFlowRates="10" ></potableWaterConsumer>
+			<airConsumer inputs="SimEnvironment" desiredFlowRates="1"
 				maxFlowRates="2" />
-			<p:foodConsumer inputs="FoodStore" desiredFlowRates="5"
+			<foodConsumer inputs="FoodStore" desiredFlowRates="5"
 				maxFlowRates="10" />
-			<p:dirtyWaterProducer desiredFlowRates="100" outputs="DirtyWaterStore"
-				maxFlowRates="150" ></p:dirtyWaterProducer>
-			<p:greyWaterProducer desiredFlowRates="100" outputs="GreyWaterStore"
+			<dirtyWaterProducer desiredFlowRates="100" outputs="DirtyWaterStore"
+				maxFlowRates="150" ></dirtyWaterProducer>
+			<greyWaterProducer desiredFlowRates="100" outputs="GreyWaterStore"
 				maxFlowRates="150" />
-			<p:airProducer desiredFlowRates="0" outputs="SimEnvironment"
-				maxFlowRates="0" ></p:airProducer>
-			<p:dryWasteProducer desiredFlowRates="10" outputs="DryWasteStore"
-				maxFlowRates="15" /><p:crewPerson age="24" name="Haibei"
+			<airProducer desiredFlowRates="0" outputs="SimEnvironment"
+				maxFlowRates="0" ></airProducer>
+			<dryWasteProducer desiredFlowRates="10" outputs="DryWasteStore"
+				maxFlowRates="15" /><crewPerson age="24" name="Haibei"
 				sex="MALE" weight="150">
-				<p:schedule>
-					<p:activity intensity="2" name="ruminating" length="12" /><p:activity
-						intensity="0" name="sleep" length="8" /><p:activity
+				<schedule>
+					<activity intensity="2" name="ruminating" length="12" /><activity
+						intensity="0" name="sleep" length="8" /><activity
 						intensity="5" name="exercise" length="4" />
-				</p:schedule>
-</p:crewPerson>
-		</p:CrewGroup></p:crew>
-	<p:food>
-		<p:FoodStore capacity="0.0" level="0.0" moduleName="FoodStore">
-			<p:expFailureDecider lambda=".00023148" /></p:FoodStore></p:food><p:waste>
-		<p:DryWasteStore capacity="100000" moduleName="DryWasteStore" level="0.0">
-			<p:expFailureDecider lambda=".00001447" /></p:DryWasteStore></p:waste>
+				</schedule>
+</crewPerson>
+		</CrewGroup></crew>
+	<food>
+		<FoodStore capacity="0.0" level="0.0" moduleName="FoodStore">
+			<expFailureDecider lambda=".00023148" /></FoodStore></food><waste>
+		<DryWasteStore capacity="100000" moduleName="DryWasteStore" level="0.0">
+			<expFailureDecider lambda=".00001447" /></DryWasteStore></waste>
 	
-	<p:power>
-		<p:PowerStore capacity="100000" moduleName="PowerStore"
+	<power>
+		<PowerStore capacity="100000" moduleName="PowerStore"
 			level="100000" logLevel="INFO">
-			<p:expFailureDecider lambda=".00023148"></p:expFailureDecider>
-		</p:PowerStore></p:power>
-	<p:water>
-		<p:DirtyWaterStore capacity="1000" moduleName="DirtyWaterStore" level="0.0">
-			<p:expFailureDecider lambda=".00001447" /></p:DirtyWaterStore>
-		<p:GreyWaterStore capacity="1000" moduleName="GreyWaterStore" level="0.0">
-			<p:expFailureDecider lambda=".00001447" /></p:GreyWaterStore>
-		<p:PotableWaterStore capacity="2000" moduleName="PotableWaterStore" level="1000">
-			<p:expFailureDecider lambda=".00001447" /></p:PotableWaterStore>
-		<p:WaterRS moduleName="WaterRS">
-			<p:weibull2FailureDecider lambda=".000231" beta="5" />
-			<p:powerConsumer inputs="PowerStore" desiredFlowRates="1000"
+			<expFailureDecider lambda=".00023148"></expFailureDecider>
+		</PowerStore></power>
+	<water>
+		<DirtyWaterStore capacity="1000" moduleName="DirtyWaterStore" level="0.0">
+			<expFailureDecider lambda=".00001447" /></DirtyWaterStore>
+		<GreyWaterStore capacity="1000" moduleName="GreyWaterStore" level="0.0">
+			<expFailureDecider lambda=".00001447" /></GreyWaterStore>
+		<PotableWaterStore capacity="2000" moduleName="PotableWaterStore" level="1000">
+			<expFailureDecider lambda=".00001447" /></PotableWaterStore>
+		<WaterRS moduleName="WaterRS">
+			<weibull2FailureDecider lambda=".000231" beta="5" />
+			<powerConsumer inputs="PowerStore" desiredFlowRates="1000"
 				maxFlowRates="1500" />
-			<p:dirtyWaterConsumer inputs="DirtyWaterStore" desiredFlowRates="10"
+			<dirtyWaterConsumer inputs="DirtyWaterStore" desiredFlowRates="10"
 				maxFlowRates="15" />
-			<p:greyWaterConsumer inputs="GreyWaterStore" desiredFlowRates="10"
-				maxFlowRates="15" ></p:greyWaterConsumer>
-			<p:potableWaterProducer desiredFlowRates="10" outputs="PotableWaterStore"
+			<greyWaterConsumer inputs="GreyWaterStore" desiredFlowRates="10"
+				maxFlowRates="15" ></greyWaterConsumer>
+			<potableWaterProducer desiredFlowRates="10" outputs="PotableWaterStore"
 				maxFlowRates="15" />
-		</p:WaterRS></p:water>
-	<p:framework>
-		<p:Injector moduleName="Injector">
-			<p:normalFailureDecider logmean="3888" logsd="3" /><p:O2Consumer
-				inputs="O2Store" desiredFlowRates="5" maxFlowRates="10" /><p:O2Producer
-				desiredFlowRates="5" outputs="SimEnvironment" maxFlowRates="10" /></p:Injector></p:framework>
-	<p:environment>
-		<p:SimEnvironment moduleName="SimEnvironment" initialVolume="20000"></p:SimEnvironment></p:environment></p:SimBioModules>
-  <p:Sensors>
-  	<p:environment>
-  		<p:GasPressureSensor input="SimEnvironment" moduleName="O2PressureSensor" gasType="O2"></p:GasPressureSensor>
-  		<p:GasPressureSensor input="SimEnvironment" moduleName="CO2PressureSensor" gasType="CO2"></p:GasPressureSensor>
-  		<p:GasPressureSensor input="SimEnvironment" moduleName="N2PressureSensor" gasType="NITROGEN"></p:GasPressureSensor>
-  		<p:GasPressureSensor input="SimEnvironment" moduleName="VaporPressureSensor" gasType="VAPOR"></p:GasPressureSensor>
-  		<p:AirInFlowRateSensor input="SimEnvironment" moduleName="AirinFlowRateSensor" index="0"></p:AirInFlowRateSensor>
-  	</p:environment>
-</p:Sensors>
-</p:biosim>
+		</WaterRS></water>
+	<framework>
+		<Injector moduleName="Injector">
+			<normalFailureDecider logmean="3888" logsd="3" /><O2Consumer
+				inputs="O2Store" desiredFlowRates="5" maxFlowRates="10" /><O2Producer
+				desiredFlowRates="5" outputs="SimEnvironment" maxFlowRates="10" /></Injector></framework>
+	<environment>
+		<SimEnvironment moduleName="SimEnvironment" initialVolume="20000"></SimEnvironment></environment></SimBioModules>
+  <Sensors>
+  	<environment>
+  		<GasPressureSensor input="SimEnvironment" moduleName="O2PressureSensor" gasType="O2"></GasPressureSensor>
+  		<GasPressureSensor input="SimEnvironment" moduleName="CO2PressureSensor" gasType="CO2"></GasPressureSensor>
+  		<GasPressureSensor input="SimEnvironment" moduleName="N2PressureSensor" gasType="NITROGEN"></GasPressureSensor>
+  		<GasPressureSensor input="SimEnvironment" moduleName="VaporPressureSensor" gasType="VAPOR"></GasPressureSensor>
+  		<AirInFlowRateSensor input="SimEnvironment" moduleName="AirinFlowRateSensor" index="0"></AirInFlowRateSensor>
+  	</environment>
+</Sensors>
+</biosim>
