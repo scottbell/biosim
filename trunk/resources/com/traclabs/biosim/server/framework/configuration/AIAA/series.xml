@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<biosim xmlns:p="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
+<biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
   <Globals crewsToWatch="CrewGroup" runTillCrewDeath="true" >
   	<author>Francisco and Haibei</author></Globals>
   <SimBioModules>
@@ -59,7 +59,8 @@
 		</CrewGroup></crew>
 	<food>
 		<FoodStore capacity="0.0" level="0.0" moduleName="FoodStore">
-			<expFailureDecider lambda=".00023148" /></FoodStore></food><waste>
+			<expFailureDecider lambda=".00023148" /></FoodStore></food>
+			<waste>
 		<DryWasteStore capacity="100000" moduleName="DryWasteStore" level="0.0">
 			<expFailureDecider lambda=".00001447" /></DryWasteStore></waste>
 	
@@ -93,13 +94,63 @@
 				desiredFlowRates="5" outputs="SimEnvironment" maxFlowRates="10" /></Injector></framework>
 	<environment>
 		<SimEnvironment moduleName="SimEnvironment" initialVolume="20000"></SimEnvironment></environment></SimBioModules>
-  <Sensors>
-  	<environment>
-  		<GasPressureSensor input="SimEnvironment" moduleName="O2PressureSensor" gasType="O2"></GasPressureSensor>
-  		<GasPressureSensor input="SimEnvironment" moduleName="CO2PressureSensor" gasType="CO2"></GasPressureSensor>
-  		<GasPressureSensor input="SimEnvironment" moduleName="N2PressureSensor" gasType="NITROGEN"></GasPressureSensor>
-  		<GasPressureSensor input="SimEnvironment" moduleName="VaporPressureSensor" gasType="VAPOR"></GasPressureSensor>
-  		<AirInFlowRateSensor input="SimEnvironment" moduleName="AirinFlowRateSensor" index="0"></AirInFlowRateSensor>
-  	</environment>
-</Sensors>
+    <Sensors>
+		<environment>
+			<GasPressureSensor input="SimEnvironment"
+				moduleName="O2PressureSensor" gasType="O2">
+			</GasPressureSensor>
+			<GasPressureSensor input="SimEnvironment"
+				moduleName="CO2PressureSensor" gasType="CO2">
+			</GasPressureSensor>
+			<GasPressureSensor input="SimEnvironment"
+				moduleName="NitrogenPressureSensor" gasType="NITROGEN">
+			</GasPressureSensor>
+			<GasPressureSensor input="SimEnvironment"
+				moduleName="VaporPressureSensor" gasType="VAPOR">
+			</GasPressureSensor>
+		</environment>
+		<air>
+			<H2OutFlowRateSensor input="OGS" moduleName="OGS_H2OutFlowRateSensor" index="0"
+				logLevel="DEBUG">
+			</H2OutFlowRateSensor>
+			<CO2OutFlowRateSensor input="VCCR"
+				moduleName="VCCR_CO2ProducerFlowRateSensor" index="0"
+				logLevel="DEBUG">
+			</CO2OutFlowRateSensor>
+			<O2InFlowRateSensor input="Injector"
+				moduleName="Injector_O2ConsumerRateSensor" index="0"
+				logLevel="DEBUG">
+			</O2InFlowRateSensor>
+			<O2OutFlowRateSensor input="Injector" moduleName="Injector_O2ProducerRateSensor" index="0"
+				logLevel="INFO">
+			</O2OutFlowRateSensor>
+			<O2OutFlowRateSensor input="OGS" moduleName="OGS_O2OutFlowRateSensor" index="0"
+				logLevel="DEBUG">
+			</O2OutFlowRateSensor></air>
+		<power>
+			<PowerInFlowRateSensor input="OGS" moduleName="OGS_PowerConsumerRateSensor" index="0"
+				logLevel="DEBUG">
+			</PowerInFlowRateSensor>
+			<PowerInFlowRateSensor input="VCCR"
+				moduleName="VCCR_PowerConsumerRateSensor" index="0"
+				logLevel="DEBUG">
+			</PowerInFlowRateSensor>
+			<PowerInFlowRateSensor input="WaterRS"
+				moduleName="WaterRS_PowerConsumerRateSensor" index="0"
+				logLevel="DEBUG">
+			</PowerInFlowRateSensor></power>
+		<water>
+			<PotableWaterInFlowRateSensor input="OGS" moduleName="OGS_PortableWaterInFlowRateSensor"
+				index="0" logLevel="DEBUG">
+			</PotableWaterInFlowRateSensor>
+			<DirtyWaterInFlowRateSensor input="WaterRS" moduleName="WaterRS_DirtyWaterConsumerRateSensor" index="0"
+				logLevel="DEBUG">
+			</DirtyWaterInFlowRateSensor>
+			<GreyWaterInFlowRateSensor input="WaterRS" moduleName="WaterRS_GreyWaterConsumerRateSensor" index="0"
+				logLevel="DEBUG">
+			</GreyWaterInFlowRateSensor>
+			<PotableWaterOutFlowRateSensor input="WaterRS" moduleName="WaterRS_PortableWaterProducerRateSensor"
+				index="0" logLevel="DEBUG">
+			</PotableWaterOutFlowRateSensor></water>
+    </Sensors>
 </biosim>
