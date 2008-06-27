@@ -9,7 +9,7 @@
 		<H2Store capacity="10000" moduleName="H2Store" level="0.0">
 			<expFailureDecider lambda="0.00001447" ></expFailureDecider></H2Store>
 		<O2Store capacity="10000" moduleName="O2Store" level="5000">
-			<expFailureDecider lambda="0.00001447" /></O2Store>
+			<expFailureDecider lambda="0.00001447" ></expFailureDecider></O2Store>
 		<OGS moduleName="OGS">
 			<expFailureDecider lambda=".00046296" ></expFailureDecider>
 			<powerConsumer inputs="PowerStore" desiredFlowRates="1000"
@@ -27,8 +27,8 @@
 				maxFlowRates="2500" ></powerConsumer>
 			<airConsumer inputs="SimEnvironment" desiredFlowRates="10000"
 				maxFlowRates="15000" ></airConsumer>
-			<airProducer desiredFlowRates="10000" outputs="SimEnvironment"
-				maxFlowRates="15000" />
+			<airProducer desiredFlowRates="1" outputs="SimEnvironment"
+				maxFlowRates="150" />
 			<CO2Producer desiredFlowRates="10000" outputs="CO2Store"
 				maxFlowRates="15000" ></CO2Producer>
 		</VCCR></air>
@@ -37,10 +37,10 @@
 			<normalFailureDecider logmean="4325.6" logsd="2" />
 			<potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates="5"
 				maxFlowRates="10" ></potableWaterConsumer>
-			<airConsumer inputs="SimEnvironment" desiredFlowRates="1"
-				maxFlowRates="2" />
+			<airConsumer inputs="SimEnvironment" desiredFlowRates="1000"
+				maxFlowRates="1500" ></airConsumer>
 			<foodConsumer inputs="FoodStore" desiredFlowRates="5"
-				maxFlowRates="10" />
+				maxFlowRates="10" ></foodConsumer>
 			<dirtyWaterProducer desiredFlowRates="100" outputs="DirtyWaterStore"
 				maxFlowRates="150" ></dirtyWaterProducer>
 			<greyWaterProducer desiredFlowRates="100" outputs="GreyWaterStore"
@@ -121,12 +121,14 @@
 				moduleName="Injector_O2ConsumerRateSensor" index="0"
 				logLevel="DEBUG">
 			</O2InFlowRateSensor>
-			<O2OutFlowRateSensor input="Injector" moduleName="Injector_O2ProducerRateSensor" index="0"
+
+			<O2OutFlowRateSensor input="OGS" moduleName="OGS_O2OutFlowRateSensor" index="0"
 				logLevel="INFO">
 			</O2OutFlowRateSensor>
-			<O2OutFlowRateSensor input="OGS" moduleName="OGS_O2OutFlowRateSensor" index="0"
+			<O2OutFlowRateSensor input="Injector" moduleName="Injector_O2ProducerRateSensor" index="1"
 				logLevel="DEBUG">
-			</O2OutFlowRateSensor></air>
+			</O2OutFlowRateSensor>			
+			</air>
 		<power>
 			<PowerInFlowRateSensor input="OGS" moduleName="OGS_PowerConsumerRateSensor" index="0"
 				logLevel="DEBUG">
