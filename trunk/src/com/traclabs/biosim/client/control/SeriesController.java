@@ -81,7 +81,7 @@ public class SeriesController implements BiosimController {
 	private GenericSensor myWaterRS_PowerConsumerRateSensor;
 	
 
-	private int myRepairDelay = 0;
+	private int myRepairDelay = 10000;
 
 	private boolean logToFile = true;
 
@@ -142,7 +142,7 @@ public class SeriesController implements BiosimController {
 		myInjector_O2ConsumerRateSensor = myBioHolder.theO2InFlowRateSensors
 				.get(0);
 		myInjector_O2ProducerRateSensor = myBioHolder.theO2OutFlowRateSensors
-				.get(1);
+				.get(1);//hey Haibei, I made it work :), now I have to solve the other issues...but I have like 1000 questions
 		
 		// Power Sensors
 		myOGS_PowerConsumerRateSensor = myBioHolder.thePowerInFlowRateSensors
@@ -193,7 +193,7 @@ public class SeriesController implements BiosimController {
 			myBioDriver.advanceOneTick();
 			if (crewShouldDie())
 				myBioHolder.theCrewGroups.get(0).killCrew();
-			stepSim();
+			//stepSim();
 			printResults();
 			mySensorOutput.flush();
 			myRepairOutput.flush();
@@ -446,19 +446,19 @@ public class SeriesController implements BiosimController {
 	 * Executed every tick. Looks at a sensor, looks at an actuator, then
 	 * increments the actuator.
 	 */
-	public void stepSim() {
+//	public void stepSim() {
 		// Check failure to monitor component malfunction using a Boolean
 		// "CheckFailure"
 		// Report Failure and fix the failed component using a function
 		// "ComponentRepair"
-		if (checkFailure()) {
-			if (myRepairDelay >= 1) { // Repair Delay is the time needed for
+//		if (checkFailure()) {
+//			if (myRepairDelay >= 1) { // Repair Delay is the time needed for
 				// repair activities
-				//componentRepair();
-				myRepairDelay = 0;
-			} else {
-				myRepairDelay = 1;
-			}
-		}
-	}
+//				componentRepair();
+//				myRepairDelay = 0;
+	//		} else {
+	//			myRepairDelay = 1;
+	//		}
+	//	}
+//	}
 }
