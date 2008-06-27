@@ -79,6 +79,7 @@ public class SeriesController implements BiosimController {
 	private GenericSensor myWaterRS_PortableWaterProducerRateSensor;
 
 	private GenericSensor myWaterRS_PowerConsumerRateSensor;
+	
 
 	private int myRepairDelay = 0;
 
@@ -142,7 +143,7 @@ public class SeriesController implements BiosimController {
 				.get(0);
 		myInjector_O2ProducerRateSensor = myBioHolder.theO2OutFlowRateSensors
 				.get(1);
-
+		
 		// Power Sensors
 		myOGS_PowerConsumerRateSensor = myBioHolder.thePowerInFlowRateSensors
 				.get(0);
@@ -215,10 +216,10 @@ public class SeriesController implements BiosimController {
 			myLogger.info("killing crew for low oxygen: "
 					+ myO2PressureSensor.getValue());
 			return true;
-		//} else if (myO2PressureSensor.getValue() > 30.39) {
-			//myLogger.info("killing crew for high oxygen: "
-			//		+ myO2PressureSensor.getValue());
-			//return true;
+		} else if (myO2PressureSensor.getValue() > 30.39) {
+			myLogger.info("killing crew for high oxygen: "
+					+ myO2PressureSensor.getValue());
+			return true;
 		
 		} else if (myCO2PressureSensor.getValue() > 10) {
 			myLogger.info("killing crew for high CO2: "
@@ -259,33 +260,35 @@ public class SeriesController implements BiosimController {
 		mySensorOutput.println();
 		mySensorOutput.print(myBioDriver.getTicks());// Ticks
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myOGS_H2OutFlowRateSensor.getValue());// H2ProducerOGS
-		mySensorOutput.print("\t");
+		//mySensorOutput.print(myOGS_H2OutFlowRateSensor.getValue());// H2ProducerOGS
+		//mySensorOutput.print("\t");
 		mySensorOutput.print(myOGS_O2OutFlowRateSensor.getValue());// O2ProducerOGS
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myOGS_PortableWaterInFlowRateSensor.getValue());// PotableWaterConsumeOGS
-		mySensorOutput.print("\t");
-		mySensorOutput.print(myOGS_PowerConsumerRateSensor.getValue()); // PowerConsumerOGS
-		mySensorOutput.print("\t");
+		//mySensorOutput.print(myOGS_PortableWaterInFlowRateSensor.getValue());// PotableWaterConsumeOGS
+		//mySensorOutput.print("\t");
+		//mySensorOutput.print(myOGS_PowerConsumerRateSensor.getValue()); // PowerConsumerOGS
+		//mySensorOutput.print("\t");
 
-		mySensorOutput.print(myVCCR_PowerConsumerRateSensor.getValue()); // PowerConsumerVCCR
-		mySensorOutput.print("\t");
-		mySensorOutput.print(myVCCR_CO2ProducerFlowRateSensor.getValue());// CO2ProducerVCCR
-		mySensorOutput.print("\t");
+		//mySensorOutput.print(myVCCR_PowerConsumerRateSensor.getValue()); // PowerConsumerVCCR
+		//mySensorOutput.print("\t");
+		//mySensorOutput.print(myVCCR_CO2ProducerFlowRateSensor.getValue());// CO2ProducerVCCR
+		//mySensorOutput.print("\t");
 
 		mySensorOutput.print(myInjector_O2ConsumerRateSensor.getValue()); // O2ConsumerInjector
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myInjector_O2ProducerRateSensor.getValue());// O2ProducerINjector
 		mySensorOutput.print("\t");
+		mySensorOutput.print(myO2PressureSensor.getValue() );
+		mySensorOutput.print("\t");
 
-		mySensorOutput.print(myWaterRS_DirtyWaterConsumerRateSensor.getValue()); // DirtyWaterConsumer
-		mySensorOutput.print("\t");
-		mySensorOutput.print(myWaterRS_GreyWaterConsumerRateSensor.getValue()); // GreyWaterConsumer
-		mySensorOutput.print("\t");
-		mySensorOutput.print(myWaterRS_PortableWaterProducerRateSensor.getValue()); // PortableWaterProducer
-		mySensorOutput.print("\t");
-		mySensorOutput.print(myWaterRS_PowerConsumerRateSensor.getValue()); // PowerConsumer
-		mySensorOutput.print("\t");
+		//mySensorOutput.print(myWaterRS_DirtyWaterConsumerRateSensor.getValue()); // DirtyWaterConsumer
+		//mySensorOutput.print("\t");
+		//mySensorOutput.print(myWaterRS_GreyWaterConsumerRateSensor.getValue()); // GreyWaterConsumer
+		//mySensorOutput.print("\t");
+		//mySensorOutput.print(myWaterRS_PortableWaterProducerRateSensor.getValue()); // PortableWaterProducer
+		//mySensorOutput.print("\t");
+		//mySensorOutput.print(myWaterRS_PowerConsumerRateSensor.getValue()); // PowerConsumer
+		//mySensorOutput.print("\t");
 	}
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
