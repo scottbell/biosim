@@ -10,10 +10,13 @@ import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
+
 import com.traclabs.biosim.idl.simulation.crew.CrewPerson;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.util.CommandLineUtils;
 import com.traclabs.biosim.util.OrbUtils;
+import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
+//import com.traclabs.biosim.idl.simulation.framework.Injector;
 
 /**
  * @author Haibei Jiang A controller for stochastic performance and random
@@ -79,9 +82,10 @@ public class SeriesController implements BiosimController {
 	private GenericSensor myWaterRS_PortableWaterProducerRateSensor;
 
 	private GenericSensor myWaterRS_PowerConsumerRateSensor;
+	private GenericActuator myTrial;
 	
 
-	private int myRepairDelay = 10000;
+	private int myRepairDelay = 1;
 
 	private boolean logToFile = true;
 
@@ -130,6 +134,7 @@ public class SeriesController implements BiosimController {
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
+		//Injector myInjector = myBioHolder.theInjectors.get(0);
 		SimEnvironment crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 
 		// Air Sensors
@@ -178,6 +183,7 @@ public class SeriesController implements BiosimController {
 		myVaporPressureSensor = myBioHolder.getSensorAttachedTo(
 				myBioHolder.theGasPressureSensors, crewEnvironment
 						.getVaporStore());
+		
 
 	}
 
@@ -193,7 +199,7 @@ public class SeriesController implements BiosimController {
 			myBioDriver.advanceOneTick();
 			if (crewShouldDie())
 				myBioHolder.theCrewGroups.get(0).killCrew();
-			//stepSim();
+			stepSim();
 			printResults();
 			mySensorOutput.flush();
 			myRepairOutput.flush();
@@ -216,11 +222,20 @@ public class SeriesController implements BiosimController {
 			myLogger.info("killing crew for low oxygen: "
 					+ myO2PressureSensor.getValue());
 			return true;
-		} else if (myO2PressureSensor.getValue() > 30.39) {
+	/*	} else if (myO2PressureSensor.getValue() > 30.39) {
 			myLogger.info("killing crew for high oxygen: "
 					+ myO2PressureSensor.getValue());
 			return true;
-		
+	/*	}else if (myO2PressureSensor.getValue()>25) {
+				Injector myInjector = myBioHolder.theInjectors.get(1);
+				myBioHolder.theInjectors(0)=myInjector;
+			return false;
+			
+
+		}else if (myO2PressureSensor.getValue()<25) {
+			Injector myInjector = myBioHolder.theInjectors.;
+			myBioHolder.theInjectors.set(0, myInjector);
+		return false;*/
 		} else if (myCO2PressureSensor.getValue() > 10) {
 			myLogger.info("killing crew for high CO2: "
 					+ myO2PressureSensor.getValue());
@@ -273,13 +288,14 @@ public class SeriesController implements BiosimController {
 		//mySensorOutput.print("\t");
 		//mySensorOutput.print(myVCCR_CO2ProducerFlowRateSensor.getValue());// CO2ProducerVCCR
 		//mySensorOutput.print("\t");
-
+		
 		mySensorOutput.print(myInjector_O2ConsumerRateSensor.getValue()); // O2ConsumerInjector
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myInjector_O2ProducerRateSensor.getValue());// O2ProducerINjector
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myO2PressureSensor.getValue() );
 		mySensorOutput.print("\t");
+	
 
 		//mySensorOutput.print(myWaterRS_DirtyWaterConsumerRateSensor.getValue()); // DirtyWaterConsumer
 		//mySensorOutput.print("\t");
@@ -446,19 +462,19 @@ public class SeriesController implements BiosimController {
 	 * Executed every tick. Looks at a sensor, looks at an actuator, then
 	 * increments the actuator.
 	 */
-//	public void stepSim() {
+	public void stepSim() {
 		// Check failure to monitor component malfunction using a Boolean
-		// "CheckFailure"
+		 //"CheckFailure"
 		// Report Failure and fix the failed component using a function
 		// "ComponentRepair"
-//		if (checkFailure()) {
-//			if (myRepairDelay >= 1) { // Repair Delay is the time needed for
+		if (checkFailure()) {
+			if (myRepairDelay >= 1) { // Repair Delay is the time needed for
 				// repair activities
-//				componentRepair();
-//				myRepairDelay = 0;
-	//		} else {
-	//			myRepairDelay = 1;
-	//		}
-	//	}
-//	}
+			//	componentRepair();
+				myRepairDelay = 0;
+			} else {
+				myRepairDelay = 1;
+			}
+		}
+	}
 }
