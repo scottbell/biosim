@@ -90,8 +90,10 @@
 	<framework>
 		<Injector moduleName="Injector">
 			<normalFailureDecider logmean="3888" logsd="3" /><O2Consumer
-				inputs="O2Store" desiredFlowRates="5" maxFlowRates="10" /><O2Producer
-				desiredFlowRates="5" outputs="SimEnvironment" maxFlowRates="5" ></O2Producer></Injector></framework>
+				inputs="O2Store" desiredFlowRates="1" maxFlowRates="5" /><O2Producer
+				desiredFlowRates="1" outputs="SimEnvironment" maxFlowRates="5" ></O2Producer>
+			<CO2Consumer inputs="SimEnvironment" desiredFlowRates="1" maxFlowRates="200" ></CO2Consumer><CO2Producer
+				desiredFlowRates="1" outputs="CO2Store" maxFlowRates="200" ></CO2Producer></Injector></framework>
 	<environment>
 		<SimEnvironment moduleName="SimEnvironment" initialVolume="20000"></SimEnvironment></environment></SimBioModules>
     <Sensors>
