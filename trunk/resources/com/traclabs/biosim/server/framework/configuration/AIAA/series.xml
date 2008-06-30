@@ -126,7 +126,7 @@
 			</O2InFlowRateSensor>
 
 			<O2OutFlowRateSensor input="OGS" moduleName="OGS_O2OutFlowRateSensor" index="0"
-				logLevel="INFO">
+				logLevel="DEBUG">
 			</O2OutFlowRateSensor>
 			<O2OutFlowRateSensor input="Injector" moduleName="Injector_O2ProducerRateSensor" index="0"
 				logLevel="INFO">
