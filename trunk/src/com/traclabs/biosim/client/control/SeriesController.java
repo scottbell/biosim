@@ -248,7 +248,7 @@ public class SeriesController implements BiosimController {
 			
 			return false;
 	////////////////////////////////////////////////////////////////////////// next line is regular code
-		} else if (myCO2PressureSensor.getValue() > 10) {
+		} else if (myCO2PressureSensor.getValue() > 1) {
 			myLogger.info("killing crew for high CO2: "
 					+ myO2PressureSensor.getValue());
 			return true;
