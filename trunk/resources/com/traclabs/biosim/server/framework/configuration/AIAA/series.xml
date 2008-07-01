@@ -27,8 +27,8 @@
 				maxFlowRates="2500" ></powerConsumer>
 			<airConsumer inputs="SimEnvironment" desiredFlowRates="10000"
 				maxFlowRates="15000" ></airConsumer>
-			<airProducer desiredFlowRates="1" outputs="SimEnvironment"
-				maxFlowRates="150" />
+			<airProducer desiredFlowRates="10000" outputs="SimEnvironment"
+				maxFlowRates="15000" />
 			<CO2Producer desiredFlowRates="10000" outputs="CO2Store"
 				maxFlowRates="15000" ></CO2Producer>
 		</VCCR></air>
@@ -47,8 +47,8 @@
 				maxFlowRates="150" />
 			<airProducer desiredFlowRates="0" outputs="SimEnvironment"
 				maxFlowRates="0" ></airProducer>
-			<dryWasteProducer desiredFlowRates="10" outputs="DryWasteStore"
-				maxFlowRates="15" /><crewPerson age="24" name="Haibei"
+			<dryWasteProducer desiredFlowRates="1000" outputs="DryWasteStore"
+				maxFlowRates="1500" /><crewPerson age="24" name="Haibei"
 				sex="MALE" weight="150">
 				<schedule>
 					<activity intensity="2" name="ruminating" length="12" /><activity
@@ -58,7 +58,7 @@
 </crewPerson>
 		</CrewGroup></crew>
 	<food>
-		<FoodStore capacity="10000" level="10000" moduleName="FoodStore">
+		<FoodStore capacity="100000" level="100000" moduleName="FoodStore">
 			<expFailureDecider lambda=".00023148" /></FoodStore></food>
 			<waste>
 		<DryWasteStore capacity="100000" moduleName="DryWasteStore" level="0.0">
@@ -90,8 +90,8 @@
 	<framework>
 		<Injector moduleName="Injector">
 			<normalFailureDecider logmean="3888" logsd="3" /><O2Consumer
-				inputs="O2Store" desiredFlowRates="1" maxFlowRates="5" /><O2Producer
-				desiredFlowRates="1" outputs="SimEnvironment" maxFlowRates="5" ></O2Producer>
+				inputs="O2Store" desiredFlowRates="5" maxFlowRates="10" /><O2Producer
+				desiredFlowRates="5" outputs="SimEnvironment" maxFlowRates="10" ></O2Producer>
 			<CO2Consumer inputs="SimEnvironment" desiredFlowRates="1" maxFlowRates="200" ></CO2Consumer><CO2Producer
 				desiredFlowRates="1" outputs="CO2Store" maxFlowRates="200" ></CO2Producer></Injector></framework>
 	<environment>
@@ -158,4 +158,9 @@
 				index="0" logLevel="DEBUG">
 			</PotableWaterOutFlowRateSensor></water>
     </Sensors>
+    <Actuators>
+    	<air>
+    		<O2InFlowRateActuator output="Injector" moduleName="InjectorO2InFlowRateActuator" index="0"></O2InFlowRateActuator>
+    	</air>
+    </Actuators>
 </biosim>
