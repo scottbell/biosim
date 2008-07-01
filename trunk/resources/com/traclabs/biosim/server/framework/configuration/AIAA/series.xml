@@ -58,7 +58,7 @@
 </crewPerson>
 		</CrewGroup></crew>
 	<food>
-		<FoodStore capacity="0.0" level="0.0" moduleName="FoodStore">
+		<FoodStore capacity="10000" level="10000" moduleName="FoodStore">
 			<expFailureDecider lambda=".00023148" /></FoodStore></food>
 			<waste>
 		<DryWasteStore capacity="100000" moduleName="DryWasteStore" level="0.0">
