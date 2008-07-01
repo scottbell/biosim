@@ -480,9 +480,22 @@ public class SeriesController implements BiosimController {
 		
 
 		
-		// advancing the sim 1 tick
-		myBioDriver.advanceOneTick();}
-	
+		// Check failure to monitor component malfunction using a Boolean
+		// "CheckFailure"
+		// Report Failure and fix the failed component using a function
+		// "ComponentRepair"
+		if (checkFailure()) {
+			if (myRepairDelay >= 1) { // Repair Delay is the time needed for
+				// repair activities
+				componentRepair();
+				myRepairDelay = 0;
+			} else {
+				myRepairDelay = 1;
+			}
+		}
 	}
+}
+
+	
 
 
