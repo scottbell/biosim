@@ -16,7 +16,7 @@ import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.util.CommandLineUtils;
 import com.traclabs.biosim.util.OrbUtils;
 import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
-//import com.traclabs.biosim.idl.simulation.framework.Injector;
+import com.traclabs.biosim.idl.simulation.framework.Injector;
 
 /**
  * @author Haibei Jiang A controller for stochastic performance and random
@@ -83,6 +83,7 @@ public class SeriesController implements BiosimController {
 
 	private GenericSensor myWaterRS_PowerConsumerRateSensor;
 	private GenericActuator myTrial;
+	private GenericActuator myO2InjectorAcutator;
 	
 
 	private int myRepairDelay = 1;
@@ -134,8 +135,12 @@ public class SeriesController implements BiosimController {
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
-		//Injector myInjector = myBioHolder.theInjectors.get(0);
+		Injector myInjector = myBioHolder.theInjectors.get(0);
 		SimEnvironment crewEnvironment = myBioHolder.theSimEnvironments.get(0);
+		Injector O2Injector = myBioHolder.theInjectors.get(0);
+
+		myO2InjectorAcutator = (myBioHolder.getActuatorAttachedTo(
+				myBioHolder.theO2InFlowRateActuators, O2Injector));
 
 		// Air Sensors
 		myOGS_O2OutFlowRateSensor = myBioHolder.theO2OutFlowRateSensors
@@ -218,24 +223,31 @@ public class SeriesController implements BiosimController {
 	 * If the crew is dead, end the simulation.
 	 */
 	private boolean crewShouldDie() {
+		float actuatorValue = myO2InjectorAcutator.getValue();
 		if (myO2PressureSensor.getValue() < 10.13) {
 			myLogger.info("killing crew for low oxygen: "
 					+ myO2PressureSensor.getValue());
 			return true;
-	/*	} else if (myO2PressureSensor.getValue() > 30.39) {
+		
+
+
+		} else if (myO2PressureSensor.getValue() > 30.39) {
 			myLogger.info("killing crew for high oxygen: "
 					+ myO2PressureSensor.getValue());
 			return true;
-	/*	}else if (myO2PressureSensor.getValue()>25) {
-				Injector myInjector = myBioHolder.theInjectors.get(1);
-				myBioHolder.theInjectors(0)=myInjector;
-			return false;
 			
+			
+		//To get the Injector to change its parametes	
+		}else if (myO2PressureSensor.getValue() > 27) {
 
-		}else if (myO2PressureSensor.getValue()<25) {
-			Injector myInjector = myBioHolder.theInjectors.;
-			myBioHolder.theInjectors.set(0, myInjector);
-		return false;*/
+				myO2InjectorAcutator.setValue(0);
+				return false;
+		}else if (myO2PressureSensor.getValue() <27) {
+
+			myO2InjectorAcutator.setValue(5);
+			
+			return false;
+	////////////////////////////////////////////////////////////////////////// next line is regular code
 		} else if (myCO2PressureSensor.getValue() > 10) {
 			myLogger.info("killing crew for high CO2: "
 					+ myO2PressureSensor.getValue());
@@ -295,7 +307,9 @@ public class SeriesController implements BiosimController {
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myO2PressureSensor.getValue() );
 		mySensorOutput.print("\t");
-	
+		//mySensorOutput.print(myO2InjectorAcutator.getValue() );
+		//mySensorOutput.print("\t");
+	   
 
 		//mySensorOutput.print(myWaterRS_DirtyWaterConsumerRateSensor.getValue()); // DirtyWaterConsumer
 		//mySensorOutput.print("\t");
@@ -463,18 +477,12 @@ public class SeriesController implements BiosimController {
 	 * increments the actuator.
 	 */
 	public void stepSim() {
-		// Check failure to monitor component malfunction using a Boolean
-		 //"CheckFailure"
-		// Report Failure and fix the failed component using a function
-		// "ComponentRepair"
-		if (checkFailure()) {
-			if (myRepairDelay >= 1) { // Repair Delay is the time needed for
-				// repair activities
-			//	componentRepair();
-				myRepairDelay = 0;
-			} else {
-				myRepairDelay = 1;
-			}
-		}
+		
+
+		
+		// advancing the sim 1 tick
+		myBioDriver.advanceOneTick();}
+	
 	}
-}
+
+
