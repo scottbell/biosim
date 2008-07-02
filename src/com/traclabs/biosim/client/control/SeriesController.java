@@ -188,7 +188,7 @@ public class SeriesController implements BiosimController {
 		myVaporPressureSensor = myBioHolder.getSensorAttachedTo(
 				myBioHolder.theGasPressureSensors, crewEnvironment
 						.getVaporStore());
-		
+	
 
 	}
 
@@ -319,7 +319,63 @@ public class SeriesController implements BiosimController {
 		//mySensorOutput.print("\t");
 		//mySensorOutput.print(myWaterRS_PowerConsumerRateSensor.getValue()); // PowerConsumer
 		//mySensorOutput.print("\t");
-	}
+		if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()) {
+			myOutput.println("Component failure caused by CO2Store " + " "
+					+ " at Tick " + myBioDriver.getTicks());
+		}
+		if (myBioHolder.theVCCRModules.get(0).isMalfunctioning()) {
+			myOutput.println("Component failure caused by VCCR " + " "
+					+ " at Tick " + myBioDriver.getTicks());
+		}
+		if (myBioHolder.theO2Stores.get(0).isMalfunctioning()) {
+			myOutput.println("Component failure caused by O2Store " + " "
+					+ " at Tick " + myBioDriver.getTicks());
+		}
+		if (myBioHolder.theOGSModules.get(0).isMalfunctioning()) {
+			myOutput.println("Component failure caused by OGS " + " "
+					+ " at Tick " + myBioDriver.getTicks());
+		}
+		if (myBioHolder.theH2Stores.get(0).isMalfunctioning()) {
+			myOutput.println("Component failure caused by H2Store " + " "
+					+ " at Tick " + myBioDriver.getTicks());
+		}
+		if (myBioHolder.theCrewGroups.get(0).isMalfunctioning()) {
+			myOutput.println("Component failure caused by Crew " + " "
+					+ " at Tick " + myBioDriver.getTicks());
+		}
+		if (myBioHolder.theFoodStores.get(0).isMalfunctioning()) {
+			myOutput.println("Component failure caused by FoodStore " + " "
+					+ " at Tick " + myBioDriver.getTicks());
+		}
+		if (myBioHolder.theInjectors.get(0).isMalfunctioning()) {
+			myOutput.println("Component failure caused by Injector " + " "
+					+ " at Tick " + myBioDriver.getTicks());
+		}
+		if (myBioHolder.thePowerStores.get(0).isMalfunctioning()) {
+			myOutput.println("Component failure caused by PowerStore " + " "
+					+ " at Tick " + myBioDriver.getTicks());
+		}
+		if (myBioHolder.theDryWasteStores.get(0).isMalfunctioning()) {
+			myOutput.println("Component failure caused by DryWasteStore " + " "
+					+ " at Tick " + myBioDriver.getTicks());
+		}
+		if (myBioHolder.thePotableWaterStores.get(0).isMalfunctioning()) {
+			myOutput.println("Component failure caused by PortableWaterStore "
+					+ " " + " at Tick " + myBioDriver.getTicks());
+		}
+		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()) {
+			myOutput.println("Component failure caused by DirtyWaterStore " + " "
+					+ " at Tick " + myBioDriver.getTicks());
+		}
+		if (myBioHolder.theWaterRSModules.get(0).isMalfunctioning()) {
+			myOutput.println("Component failure caused by WaterRS " + " "
+					+ " at Tick " + myBioDriver.getTicks());
+		}
+		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()) {
+			myOutput.println("Component failure caused by DirtyWaterStore " + " "
+					+ " at Tick " + myBioDriver.getTicks());
+			
+	}}
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
 }
