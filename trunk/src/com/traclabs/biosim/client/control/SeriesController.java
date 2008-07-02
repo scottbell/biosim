@@ -487,7 +487,7 @@ public class SeriesController implements BiosimController {
 		if (checkFailure()) {
 			if (myRepairDelay >= 1) { // Repair Delay is the time needed for
 				// repair activities
-				componentRepair();
+				//componentRepair();
 				myRepairDelay = 0;
 			} else {
 				myRepairDelay = 1;
