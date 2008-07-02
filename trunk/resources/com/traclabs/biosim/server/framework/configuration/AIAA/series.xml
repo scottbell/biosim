@@ -17,9 +17,9 @@
 			<potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates="10"
 				maxFlowRates="15" ></potableWaterConsumer>
 			<O2Producer desiredFlowRates="1000" outputs="O2Store"
-				maxFlowRates="1500" />
-			<H2Producer desiredFlowRates="1000" outputs="H2Store"
-				maxFlowRates="1500" />
+				maxFlowRates="1500" ></O2Producer>
+			<H2Producer desiredFlowRates="100" outputs="H2Store"
+				maxFlowRates="150" ></H2Producer>
 		</OGS>
 		<VCCR moduleName="VCCR">
 			<normalFailureDecider logmean="4320" logsd="3" ></normalFailureDecider>
@@ -37,36 +37,36 @@
 			<normalFailureDecider logmean="4325.6" logsd="2" />
 			<potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates="5"
 				maxFlowRates="10" ></potableWaterConsumer>
-			<airConsumer inputs="SimEnvironment" desiredFlowRates="1000"
+			<airConsumer inputs="SimEnvironment" desiredFlowRates="10"
 				maxFlowRates="1500" ></airConsumer>
-			<foodConsumer inputs="FoodStore" desiredFlowRates="5"
-				maxFlowRates="10" ></foodConsumer>
+			<foodConsumer inputs="FoodStore" desiredFlowRates="500"
+				maxFlowRates="600" ></foodConsumer>
 			<dirtyWaterProducer desiredFlowRates="100" outputs="DirtyWaterStore"
 				maxFlowRates="150" ></dirtyWaterProducer>
 			<greyWaterProducer desiredFlowRates="100" outputs="GreyWaterStore"
 				maxFlowRates="150" />
 			<airProducer desiredFlowRates="0" outputs="SimEnvironment"
-				maxFlowRates="0" ></airProducer>
+				maxFlowRates="2000" ></airProducer>
 			<dryWasteProducer desiredFlowRates="1000" outputs="DryWasteStore"
-				maxFlowRates="1500" /><crewPerson age="24" name="Haibei"
+				maxFlowRates="1500" ></dryWasteProducer><crewPerson age="24" name="Haibei"
 				sex="MALE" weight="150">
 				<schedule>
 					<activity intensity="2" name="ruminating" length="12" /><activity
 						intensity="0" name="sleep" length="8" /><activity
-						intensity="5" name="exercise" length="4" />
+						intensity="3" name="exercise" length="4" />
 				</schedule>
 </crewPerson>
 		</CrewGroup></crew>
 	<food>
-		<FoodStore capacity="100000" level="100000" moduleName="FoodStore">
+		<FoodStore capacity="10000000000000000000000000" level="10000000000000000000000" moduleName="FoodStore">
 			<expFailureDecider lambda=".00023148" /></FoodStore></food>
 			<waste>
 		<DryWasteStore capacity="100000" moduleName="DryWasteStore" level="0.0">
 			<expFailureDecider lambda=".00001447" /></DryWasteStore></waste>
 	
 	<power>
-		<PowerStore capacity="100000" moduleName="PowerStore"
-			level="100000" logLevel="INFO">
+		<PowerStore capacity="10000000" moduleName="PowerStore"
+			level="10000000" logLevel="INFO">
 			<expFailureDecider lambda=".00023148"></expFailureDecider>
 		</PowerStore></power>
 	<water>
@@ -95,7 +95,7 @@
 			<CO2Consumer inputs="SimEnvironment" desiredFlowRates="1" maxFlowRates="200" ></CO2Consumer><CO2Producer
 				desiredFlowRates="1" outputs="CO2Store" maxFlowRates="200" ></CO2Producer></Injector></framework>
 	<environment>
-		<SimEnvironment moduleName="SimEnvironment" initialVolume="20000"></SimEnvironment></environment></SimBioModules>
+		<SimEnvironment moduleName="SimEnvironment" initialVolume="200000"></SimEnvironment></environment></SimBioModules>
     <Sensors>
 		<environment>
 			<GasPressureSensor input="SimEnvironment"
