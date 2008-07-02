@@ -485,13 +485,13 @@ public class SeriesController implements BiosimController {
 		// Report Failure and fix the failed component using a function
 		// "ComponentRepair"
 		if (checkFailure()) {
-			/*if (myRepairDelay >= 1) { // Repair Delay is the time needed for
+			if (myRepairDelay >= 1) { // Repair Delay is the time needed for
 				// repair activities
 				//componentRepair();
 				myRepairDelay = 0;
-			//} else {
+			} else {
 				myRepairDelay = 1;
-			}*/
+			}
 		}
 	}
 }
