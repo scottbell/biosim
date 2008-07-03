@@ -1,5 +1,6 @@
 package com.traclabs.biosim.server.simulation.framework;
 
+import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.air.CO2ConsumerDefinition;
@@ -193,6 +194,40 @@ public class ResourceMover extends SimBioModuleImpl implements PowerConsumerOper
 		super.tick();
 		getAndPushResources();
 	}
+	
+	protected void performMalfunctions() {
+        for (Malfunction malfunction : myMalfunctions.values()) {
+			malfunction.setPerformed(true);
+		}
+
+		myPowerConsumerDefinitionImpl.malfunction();
+		myPotableWaterConsumerDefinitionImpl.malfunction();
+		myGreyWaterConsumerDefinitionImpl.malfunction();
+		myDirtyWaterConsumerDefinitionImpl.malfunction();
+		myO2ConsumerDefinitionImpl.malfunction();
+		myCO2ConsumerDefinitionImpl.malfunction();
+		myH2ConsumerDefinitionImpl.malfunction();
+		myNitrogenConsumerDefinitionImpl.malfunction();
+		myAirConsumerDefinitionImpl.malfunction();
+		myBiomassConsumerDefinitionImpl.malfunction();
+		myFoodConsumerDefinitionImpl.malfunction();
+		myDryWasteConsumerDefinitionImpl.malfunction();
+		myWaterConsumerDefinitionImpl.malfunction();
+
+		myPowerProducerDefinitionImpl.malfunction();
+		myPotableWaterProducerDefinitionImpl.malfunction();
+		myGreyWaterProducerDefinitionImpl.malfunction();
+		myDirtyWaterProducerDefinitionImpl.malfunction();
+		myO2ProducerDefinitionImpl.malfunction();
+		myCO2ProducerDefinitionImpl.malfunction();
+		myH2ProducerDefinitionImpl.malfunction();
+		myNitrogenProducerDefinitionImpl.malfunction();
+		myAirProducerDefinitionImpl.malfunction();
+		myBiomassProducerDefinitionImpl.malfunction();
+		myFoodProducerDefinitionImpl.malfunction();
+		myDryWasteProducerDefinitionImpl.malfunction();
+		myWaterProducerDefinitionImpl.malfunction();
+    }
 
 	private void getAndPushResources() {
 		float powerGathered = myPowerConsumerDefinitionImpl
@@ -271,9 +306,6 @@ public class ResourceMover extends SimBioModuleImpl implements PowerConsumerOper
 		else if (pLength == MalfunctionLength.PERMANENT_MALF)
 			returnBuffer.append("Permanent Production Reduction");
 		return returnBuffer.toString();
-	}
-
-	protected void performMalfunctions() {
 	}
 
 	public void reset() {

@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.simulation.food.FoodMatter;
 import com.traclabs.biosim.idl.simulation.food.FoodStoreOperations;
 import com.traclabs.biosim.idl.simulation.food.PlantType;
@@ -89,6 +90,19 @@ public class FoodStoreImpl extends StoreImpl implements FoodStoreOperations {
             }
         }
         return totalAdded;
+    }
+    
+    /**
+     * Actually performs the malfunctions. Reduces levels/currentCapacity
+     */
+    @Override
+    protected void performMalfunctions() {
+        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
+            Malfunction currentMalfunction = (Malfunction) (iter.next());
+            setCurrentLevel(0);
+            setCurrentCapacity(0);
+            currentMalfunction.setPerformed(true);
+        }
     }
 
     public float addFoodMatterMass(FoodMatter pMatter) {

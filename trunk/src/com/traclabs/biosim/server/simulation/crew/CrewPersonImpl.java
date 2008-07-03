@@ -725,6 +725,7 @@ public class CrewPersonImpl extends BaseCrewPersonImpl {
 
 	public void kill() {
 		super.kill();
+		myLogger.info(getName() + " killed");
 		O2Consumed = 0f;
 		CO2Produced = 0f;
 		caloriesConsumed = 0f;
