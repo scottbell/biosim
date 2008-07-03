@@ -202,12 +202,16 @@ public class SeriesController implements BiosimController {
 		myLogger.info("Controller starting run");
 		do {
 			myBioDriver.advanceOneTick();
-			if (crewShouldDie())
+			if (crewShouldDie()){
+				myLogger.info("Killing crew");
 				myBioHolder.theCrewGroups.get(0).killCrew();
+			}
 			stepSim();
 			printResults();
 			mySensorOutput.flush();
 			myRepairOutput.flush();
+			if (myBioDriver.isDone())
+				myLogger.info("Biosim thinks the simulation is finished");
 		} while (!myBioDriver.isDone());
 		myBioDriver.endSimulation();
 		mySensorOutput.println("Controller finished run");
@@ -251,7 +255,7 @@ public class SeriesController implements BiosimController {
 			out = new FileOutputStream("SeriesController_result.txt", true);
 			myOutput = new PrintStream(out);
 			myOutput.println();
-			//myOutput.println("Ticks H2ProducerOGS O2ProducerOGS PotableWaterConsumeOGS PowerConsumerOGS PowerConsumerVCCR CO2ProducerVCCR O2ConsumerInjector O2ProdurerInjector DirtyWaterConsumer GreyWaterConsumer PotableWaterProducer PowerConsumerWaterRS");
+			myOutput.println("Ticks H2ProducerOGS O2ProducerOGS PotableWaterConsumeOGS PowerConsumerOGS PowerConsumerVCCR CO2ProducerVCCR O2ConsumerInjector O2ProdurerInjector DirtyWaterConsumer GreyWaterConsumer PotableWaterProducer PowerConsumerWaterRS");
 			myOutput.print(myBioDriver.getTicks() + "  ");// Ticks
 			myOutput.print(myOGS_H2OutFlowRateSensor.getValue() + "  ");// H2ProducerOGS
 			myOutput.print(myOGS_O2OutFlowRateSensor.getValue() + "  ");// O2ProducerOGS

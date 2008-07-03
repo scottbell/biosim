@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import com.traclabs.biosim.client.control.HandController;
 import com.traclabs.biosim.client.control.MurderController;
 import com.traclabs.biosim.client.control.RepairController;
+import com.traclabs.biosim.client.control.SeriesController;
 import com.traclabs.biosim.client.control.SimCommandLine;
 import com.traclabs.biosim.client.control.SimpleController;
 import com.traclabs.biosim.client.control.TestController;
@@ -60,6 +61,7 @@ public class BiosimMain {
 		boolean wantsToRunSimpleController = false;
 		boolean wantsToRunMurderController = false;
 		boolean wantsToRunRepairController = false;
+		boolean wantsToRunSeriesController = false;
 		boolean wantsToRunTestController = false;
 		boolean wantsToRunGraph = false;
 		boolean wantsToRunEnvironment = false;
@@ -90,6 +92,8 @@ public class BiosimMain {
 				wantsToRunMurderController = true;
 			} else if (myArgs[i].equals("repair")) {
 				wantsToRunRepairController = true;
+			} else if (myArgs[i].equals("series")) {
+				wantsToRunSeriesController = true;
 			} else if (myArgs[i].equals("test")) {
 				wantsToRunTestController = true;
 			} else if (myArgs[i].startsWith("-xml=")) {
@@ -166,6 +170,8 @@ public class BiosimMain {
 			runMurderController();
 		else if (wantsToRunRepairController)
 			runRepairController(myArgs);
+		else if (wantsToRunSeriesController)
+			runSeriesController(myArgs);
 		else if (wantsToRunSensorViewer)
 			runSensorViewer();
 		else if (wantsToRunApollo13Viewer)
@@ -239,6 +245,10 @@ public class BiosimMain {
 
 	private void runRepairController(String[] args) {
 		RepairController.main(args);
+	}
+
+	private void runSeriesController(String[] args) {
+		SeriesController.main(args);
 	}
 
 	private void runSimpleController() {

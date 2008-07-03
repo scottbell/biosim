@@ -8,7 +8,7 @@
 			<expFailureDecider lambda="0.00001447" /></CO2Store>
 		<H2Store capacity="10000" moduleName="H2Store" level="0.0">
 			<expFailureDecider lambda="0.00001447" ></expFailureDecider></H2Store>
-		<O2Store capacity="10000" moduleName="O2Store" level="5000">
+		<O2Store capacity="2000" moduleName="O2Store" level="1000">
 			<expFailureDecider lambda="0.00001447" ></expFailureDecider></O2Store>
 		<OGS moduleName="OGS">
 			<expFailureDecider lambda=".00046296" ></expFailureDecider>
@@ -95,7 +95,12 @@
 			<CO2Consumer inputs="SimEnvironment" desiredFlowRates="1" maxFlowRates="200" ></CO2Consumer><CO2Producer
 				desiredFlowRates="1" outputs="CO2Store" maxFlowRates="200" ></CO2Producer></Injector></framework>
 	<environment>
-		<SimEnvironment moduleName="SimEnvironment" initialVolume="200000"></SimEnvironment></environment></SimBioModules>
+		<SimEnvironment moduleName="SimEnvironment" initialVolume="20000"></SimEnvironment>
+		<Dehumidifier moduleName="Dehumdifier">
+			<airConsumer inputs="SimEnvironment" desiredFlowRates="1000" maxFlowRates="1000" />
+			<dirtyWaterProducer desiredFlowRates="1000" outputs="DirtyWaterStore"
+				maxFlowRates="1000" />
+		</Dehumidifier></environment></SimBioModules>
     <Sensors>
 		<environment>
 			<GasPressureSensor input="SimEnvironment"
@@ -157,6 +162,9 @@
 			<PotableWaterOutFlowRateSensor input="WaterRS" moduleName="WaterRS_PortableWaterProducerRateSensor"
 				index="0" logLevel="DEBUG">
 			</PotableWaterOutFlowRateSensor></water>
+		<framework>
+			<StoreLevelSensor input="PotableWaterStore" moduleName="PotableWaterStoreLevel"></StoreLevelSensor>
+			<StoreLevelSensor input="O2Store" moduleName="O2StoreStoreLevel"></StoreLevelSensor></framework>
     </Sensors>
     <Actuators>
     	<air>

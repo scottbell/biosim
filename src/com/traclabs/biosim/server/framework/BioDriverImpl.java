@@ -357,7 +357,7 @@ public class BioDriverImpl extends BioDriverPOA {
 		if (runTillCrewDeath) {
 			for (int i = 0; i < crewsToWatch.length; i++) {
 				if (crewsToWatch[i].anyDead()) {
-					myLogger.debug("BioDriverImpl" + myID
+					myLogger.info("BioDriverImpl" + myID
 							+ ": simulation ended due to crew death at "
 							+ nTicks);
 					return true;
@@ -367,7 +367,7 @@ public class BioDriverImpl extends BioDriverPOA {
 		if (runTillPlantDeath) {
 			for (int i = 0; i < plantsToWatch.length; i++) {
 				if (plantsToWatch[i].isAnyPlantDead()) {
-					myLogger.debug("BioDriverImpl" + myID
+					myLogger.info("BioDriverImpl" + myID
 							+ ": simulation ended due to plant death at "
 							+ nTicks);
 					return true;
