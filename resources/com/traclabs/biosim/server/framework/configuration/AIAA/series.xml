@@ -12,7 +12,7 @@
 			<expFailureDecider lambda="0.00001447" ></expFailureDecider></O2Store>
 		<OGS moduleName="OGS">
 			<expFailureDecider lambda=".00046296" ></expFailureDecider>
-			<powerConsumer inputs="PowerStore" desiredFlowRates="1000"
+			<powerConsumer inputs="PowerStore" desiredFlowRates="100"
 				maxFlowRates="1500" ></powerConsumer>
 			<potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates="10"
 				maxFlowRates="15" ></potableWaterConsumer>
@@ -23,8 +23,8 @@
 		</OGS>
 		<VCCR moduleName="VCCR">
 			<normalFailureDecider logmean="4320" logsd="3" ></normalFailureDecider>
-			<powerConsumer inputs="PowerStore" desiredFlowRates="2000"
-				maxFlowRates="2500" ></powerConsumer>
+			<powerConsumer inputs="PowerStore" desiredFlowRates="100"
+				maxFlowRates="1000" ></powerConsumer>
 			<airConsumer inputs="SimEnvironment" desiredFlowRates="10000"
 				maxFlowRates="15000" ></airConsumer>
 			<airProducer desiredFlowRates="10000" outputs="SimEnvironment"
@@ -74,18 +74,18 @@
 			<expFailureDecider lambda=".00001447" /></DirtyWaterStore>
 		<GreyWaterStore capacity="1000" moduleName="GreyWaterStore" level="0.0">
 			<expFailureDecider lambda=".00001447" /></GreyWaterStore>
-		<PotableWaterStore capacity="2000" moduleName="PotableWaterStore" level="1000">
+		<PotableWaterStore capacity="20000" moduleName="PotableWaterStore" level="10000">
 			<expFailureDecider lambda=".00001447" /></PotableWaterStore>
 		<WaterRS moduleName="WaterRS">
 			<weibull2FailureDecider lambda=".000231" beta="5" />
-			<powerConsumer inputs="PowerStore" desiredFlowRates="1000"
+			<powerConsumer inputs="PowerStore" desiredFlowRates="100"
 				maxFlowRates="1500" />
-			<dirtyWaterConsumer inputs="DirtyWaterStore" desiredFlowRates="10"
-				maxFlowRates="15" />
-			<greyWaterConsumer inputs="GreyWaterStore" desiredFlowRates="10"
-				maxFlowRates="15" ></greyWaterConsumer>
-			<potableWaterProducer desiredFlowRates="10" outputs="PotableWaterStore"
-				maxFlowRates="15" />
+			<dirtyWaterConsumer inputs="DirtyWaterStore" desiredFlowRates="40"
+				maxFlowRates="50" />
+			<greyWaterConsumer inputs="GreyWaterStore" desiredFlowRates="40"
+				maxFlowRates="50" ></greyWaterConsumer>
+			<potableWaterProducer desiredFlowRates="10000" outputs="PotableWaterStore"
+				maxFlowRates="10000" ></potableWaterProducer>
 		</WaterRS></water>
 	<framework>
 		<Injector moduleName="Injector">
@@ -161,10 +161,11 @@
 			</GreyWaterInFlowRateSensor>
 			<PotableWaterOutFlowRateSensor input="WaterRS" moduleName="WaterRS_PortableWaterProducerRateSensor"
 				index="0" logLevel="DEBUG">
-			</PotableWaterOutFlowRateSensor></water>
-		<framework>
-			<StoreLevelSensor input="PotableWaterStore" moduleName="PotableWaterStoreLevel"></StoreLevelSensor>
-			<StoreLevelSensor input="O2Store" moduleName="O2StoreStoreLevel"></StoreLevelSensor></framework>
+			</PotableWaterOutFlowRateSensor>
+			<DirtyWaterOutFlowRateSensor input="Dehumdifier" moduleName="Dehumdifier_DirtyWater_Out"
+				index="0">
+			</DirtyWaterOutFlowRateSensor></water>
+		<framework></framework>
     </Sensors>
     <Actuators>
     	<air>

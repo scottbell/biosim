@@ -84,18 +84,19 @@ import com.traclabs.biosim.server.simulation.water.WaterConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.water.WaterProducerDefinitionImpl;
 
 /**
- * The basic Resource Mover Implementation. Can be configured to take any modules
- * as input, and any modules as output. It takes as much as it can (max taken
- * set by maxFlowRates) from one module and pushes it into another module.
+ * The basic Resource Mover Implementation. Can be configured to take any
+ * modules as input, and any modules as output. It takes as much as it can (max
+ * taken set by maxFlowRates) from one module and pushes it into another module.
  * Functionally equivalent to an Resource Mover at this point.
  * 
  * @author Scott Bell
  */
 
-public class ResourceMover extends SimBioModuleImpl implements PowerConsumerOperations,
-		PotableWaterConsumerOperations, GreyWaterConsumerOperations,
-		WaterConsumerOperations, DirtyWaterConsumerOperations,
-		O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations,
+public class ResourceMover extends SimBioModuleImpl implements
+		PowerConsumerOperations, PotableWaterConsumerOperations,
+		GreyWaterConsumerOperations, WaterConsumerOperations,
+		DirtyWaterConsumerOperations, O2ConsumerOperations,
+		CO2ConsumerOperations, AirConsumerOperations,
 		BiomassConsumerOperations, FoodConsumerOperations,
 		DryWasteConsumerOperations, H2ConsumerOperations,
 		NitrogenConsumerOperations, PowerProducerOperations,
@@ -128,7 +129,7 @@ public class ResourceMover extends SimBioModuleImpl implements PowerConsumerOper
 	private BiomassConsumerDefinitionImpl myBiomassConsumerDefinitionImpl;
 
 	private FoodConsumerDefinitionImpl myFoodConsumerDefinitionImpl;
-	
+
 	private DryWasteConsumerDefinitionImpl myDryWasteConsumerDefinitionImpl;
 
 	private WaterConsumerDefinitionImpl myWaterConsumerDefinitionImpl;
@@ -154,7 +155,7 @@ public class ResourceMover extends SimBioModuleImpl implements PowerConsumerOper
 	private BiomassProducerDefinitionImpl myBiomassProducerDefinitionImpl;
 
 	private FoodProducerDefinitionImpl myFoodProducerDefinitionImpl;
-	
+
 	private DryWasteProducerDefinitionImpl myDryWasteProducerDefinitionImpl;
 
 	private WaterProducerDefinitionImpl myWaterProducerDefinitionImpl;
@@ -162,31 +163,43 @@ public class ResourceMover extends SimBioModuleImpl implements PowerConsumerOper
 	public ResourceMover(int pID, String pName) {
 		super(pID, pName);
 		myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
-		myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl(this);
-		myGreyWaterConsumerDefinitionImpl = new GreyWaterConsumerDefinitionImpl(this);
-		myDirtyWaterConsumerDefinitionImpl = new DirtyWaterConsumerDefinitionImpl(this);
+		myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl(
+				this);
+		myGreyWaterConsumerDefinitionImpl = new GreyWaterConsumerDefinitionImpl(
+				this);
+		myDirtyWaterConsumerDefinitionImpl = new DirtyWaterConsumerDefinitionImpl(
+				this);
 		myO2ConsumerDefinitionImpl = new O2ConsumerDefinitionImpl(this);
 		myCO2ConsumerDefinitionImpl = new CO2ConsumerDefinitionImpl(this);
 		myH2ConsumerDefinitionImpl = new H2ConsumerDefinitionImpl(this);
-		myNitrogenConsumerDefinitionImpl = new NitrogenConsumerDefinitionImpl(this);
+		myNitrogenConsumerDefinitionImpl = new NitrogenConsumerDefinitionImpl(
+				this);
 		myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl(this);
-		myBiomassConsumerDefinitionImpl = new BiomassConsumerDefinitionImpl(this);
+		myBiomassConsumerDefinitionImpl = new BiomassConsumerDefinitionImpl(
+				this);
 		myFoodConsumerDefinitionImpl = new FoodConsumerDefinitionImpl(this);
-		myDryWasteConsumerDefinitionImpl = new DryWasteConsumerDefinitionImpl(this);
+		myDryWasteConsumerDefinitionImpl = new DryWasteConsumerDefinitionImpl(
+				this);
 		myWaterConsumerDefinitionImpl = new WaterConsumerDefinitionImpl(this);
 
 		myPowerProducerDefinitionImpl = new PowerProducerDefinitionImpl(this);
-		myPotableWaterProducerDefinitionImpl = new PotableWaterProducerDefinitionImpl(this);
-		myGreyWaterProducerDefinitionImpl = new GreyWaterProducerDefinitionImpl(this);
-		myDirtyWaterProducerDefinitionImpl = new DirtyWaterProducerDefinitionImpl(this);
+		myPotableWaterProducerDefinitionImpl = new PotableWaterProducerDefinitionImpl(
+				this);
+		myGreyWaterProducerDefinitionImpl = new GreyWaterProducerDefinitionImpl(
+				this);
+		myDirtyWaterProducerDefinitionImpl = new DirtyWaterProducerDefinitionImpl(
+				this);
 		myO2ProducerDefinitionImpl = new O2ProducerDefinitionImpl(this);
 		myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl(this);
 		myH2ProducerDefinitionImpl = new H2ProducerDefinitionImpl(this);
-		myNitrogenProducerDefinitionImpl = new NitrogenProducerDefinitionImpl(this);
+		myNitrogenProducerDefinitionImpl = new NitrogenProducerDefinitionImpl(
+				this);
 		myAirProducerDefinitionImpl = new AirProducerDefinitionImpl(this);
-		myBiomassProducerDefinitionImpl = new BiomassProducerDefinitionImpl(this);
+		myBiomassProducerDefinitionImpl = new BiomassProducerDefinitionImpl(
+				this);
 		myFoodProducerDefinitionImpl = new FoodProducerDefinitionImpl(this);
-		myDryWasteProducerDefinitionImpl = new DryWasteProducerDefinitionImpl(this);
+		myDryWasteProducerDefinitionImpl = new DryWasteProducerDefinitionImpl(
+				this);
 		myWaterProducerDefinitionImpl = new WaterProducerDefinitionImpl(this);
 	}
 
@@ -194,40 +207,41 @@ public class ResourceMover extends SimBioModuleImpl implements PowerConsumerOper
 		super.tick();
 		getAndPushResources();
 	}
-	
+
 	protected void performMalfunctions() {
-        for (Malfunction malfunction : myMalfunctions.values()) {
+		for (Malfunction malfunction : myMalfunctions.values()) {
 			malfunction.setPerformed(true);
 		}
+		if (myMalfunctions.values().size() > 0) {
+			myPowerConsumerDefinitionImpl.malfunction();
+			myPotableWaterConsumerDefinitionImpl.malfunction();
+			myGreyWaterConsumerDefinitionImpl.malfunction();
+			myDirtyWaterConsumerDefinitionImpl.malfunction();
+			myO2ConsumerDefinitionImpl.malfunction();
+			myCO2ConsumerDefinitionImpl.malfunction();
+			myH2ConsumerDefinitionImpl.malfunction();
+			myNitrogenConsumerDefinitionImpl.malfunction();
+			myAirConsumerDefinitionImpl.malfunction();
+			myBiomassConsumerDefinitionImpl.malfunction();
+			myFoodConsumerDefinitionImpl.malfunction();
+			myDryWasteConsumerDefinitionImpl.malfunction();
+			myWaterConsumerDefinitionImpl.malfunction();
 
-		myPowerConsumerDefinitionImpl.malfunction();
-		myPotableWaterConsumerDefinitionImpl.malfunction();
-		myGreyWaterConsumerDefinitionImpl.malfunction();
-		myDirtyWaterConsumerDefinitionImpl.malfunction();
-		myO2ConsumerDefinitionImpl.malfunction();
-		myCO2ConsumerDefinitionImpl.malfunction();
-		myH2ConsumerDefinitionImpl.malfunction();
-		myNitrogenConsumerDefinitionImpl.malfunction();
-		myAirConsumerDefinitionImpl.malfunction();
-		myBiomassConsumerDefinitionImpl.malfunction();
-		myFoodConsumerDefinitionImpl.malfunction();
-		myDryWasteConsumerDefinitionImpl.malfunction();
-		myWaterConsumerDefinitionImpl.malfunction();
-
-		myPowerProducerDefinitionImpl.malfunction();
-		myPotableWaterProducerDefinitionImpl.malfunction();
-		myGreyWaterProducerDefinitionImpl.malfunction();
-		myDirtyWaterProducerDefinitionImpl.malfunction();
-		myO2ProducerDefinitionImpl.malfunction();
-		myCO2ProducerDefinitionImpl.malfunction();
-		myH2ProducerDefinitionImpl.malfunction();
-		myNitrogenProducerDefinitionImpl.malfunction();
-		myAirProducerDefinitionImpl.malfunction();
-		myBiomassProducerDefinitionImpl.malfunction();
-		myFoodProducerDefinitionImpl.malfunction();
-		myDryWasteProducerDefinitionImpl.malfunction();
-		myWaterProducerDefinitionImpl.malfunction();
-    }
+			myPowerProducerDefinitionImpl.malfunction();
+			myPotableWaterProducerDefinitionImpl.malfunction();
+			myGreyWaterProducerDefinitionImpl.malfunction();
+			myDirtyWaterProducerDefinitionImpl.malfunction();
+			myO2ProducerDefinitionImpl.malfunction();
+			myCO2ProducerDefinitionImpl.malfunction();
+			myH2ProducerDefinitionImpl.malfunction();
+			myNitrogenProducerDefinitionImpl.malfunction();
+			myAirProducerDefinitionImpl.malfunction();
+			myBiomassProducerDefinitionImpl.malfunction();
+			myFoodProducerDefinitionImpl.malfunction();
+			myDryWasteProducerDefinitionImpl.malfunction();
+			myWaterProducerDefinitionImpl.malfunction();
+		}
+	}
 
 	private void getAndPushResources() {
 		float powerGathered = myPowerConsumerDefinitionImpl
@@ -276,9 +290,10 @@ public class ResourceMover extends SimBioModuleImpl implements PowerConsumerOper
 		float H2Gathered = myH2ConsumerDefinitionImpl
 				.getMostResourceFromStores();
 		myH2ProducerDefinitionImpl.pushResourceToStores(H2Gathered);
-		
-		Air airGathered = myAirConsumerDefinitionImpl.getMostAirFromEnvironments();
-		//TODO currently only pushes to one environment
+
+		Air airGathered = myAirConsumerDefinitionImpl
+				.getMostAirFromEnvironments();
+		// TODO currently only pushes to one environment
 		if (myAirProducerDefinitionImpl.getEnvironments().length > 0)
 			myAirProducerDefinitionImpl.pushAirToEnvironment(airGathered, 0);
 		airGathered = null;

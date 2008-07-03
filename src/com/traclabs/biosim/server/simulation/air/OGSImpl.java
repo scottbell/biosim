@@ -1,5 +1,6 @@
 package com.traclabs.biosim.server.simulation.air;
 
+import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.simulation.air.H2ProducerDefinition;
 import com.traclabs.biosim.idl.simulation.air.H2ProducerOperations;
 import com.traclabs.biosim.idl.simulation.air.O2ProducerDefinition;
@@ -42,6 +43,19 @@ public class OGSImpl extends SimBioModuleImpl implements OGSOperations,
         myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl(this);
         myO2ProducerDefinitionImpl = new O2ProducerDefinitionImpl(this);
         myH2ProducerDefinitionImpl = new H2ProducerDefinitionImpl(this);
+    }
+    
+    @Override
+    protected void performMalfunctions() {
+		for (Malfunction malfunction : myMalfunctions.values()) {
+			malfunction.setPerformed(true);
+		}
+		if (myMalfunctions.values().size() > 0) {
+	        myPowerConsumerDefinitionImpl.malfunction();
+	        myPotableWaterConsumerDefinitionImpl.malfunction();
+	        myO2ProducerDefinitionImpl.malfunction();
+	        myH2ProducerDefinitionImpl.malfunction();
+		}
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
