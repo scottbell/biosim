@@ -63,7 +63,7 @@ public class SeriesController implements BiosimController {
 
 	private GenericSensor myOGS_H2OutFlowRateSensor;
 
-	private GenericSensor myOGS_PortableWaterInFlowRateSensor;
+	private GenericSensor myOGS_PotableWaterInFlowRateSensor;
 
 	private GenericSensor myOGS_PowerConsumerRateSensor;
 
@@ -83,7 +83,7 @@ public class SeriesController implements BiosimController {
 
 	private GenericSensor myWaterRS_PowerConsumerRateSensor;
 	private GenericActuator myTrial;
-	private GenericActuator myO2InjectorAcutator;
+	private GenericActuator myO2InjectorActuator;
 	
 
 	private int myRepairDelay = 1;
@@ -139,7 +139,7 @@ public class SeriesController implements BiosimController {
 		SimEnvironment crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 		Injector O2Injector = myBioHolder.theInjectors.get(0);
 
-		myO2InjectorAcutator = (myBioHolder.getActuatorAttachedTo(
+		myO2InjectorActuator = (myBioHolder.getActuatorAttachedTo(
 				myBioHolder.theO2InFlowRateActuators, O2Injector));
 
 		// Air Sensors
@@ -152,7 +152,7 @@ public class SeriesController implements BiosimController {
 		myInjector_O2ConsumerRateSensor = myBioHolder.theO2InFlowRateSensors
 				.get(0);
 		myInjector_O2ProducerRateSensor = myBioHolder.theO2OutFlowRateSensors
-				.get(1);//hey Haibei, I made it work :), now I have to solve the other issues...but I have like 1000 questions
+				.get(1);
 		
 		// Power Sensors
 		myOGS_PowerConsumerRateSensor = myBioHolder.thePowerInFlowRateSensors
@@ -163,7 +163,7 @@ public class SeriesController implements BiosimController {
 				.get(2);
 
 		// Water Sensors
-		myOGS_PortableWaterInFlowRateSensor = myBioHolder.thePotableWaterInFlowRateSensors
+		myOGS_PotableWaterInFlowRateSensor = myBioHolder.thePotableWaterInFlowRateSensors
 				.get(0);
 		myWaterRS_DirtyWaterConsumerRateSensor = myBioHolder.theDirtyWaterInFlowRateSensors
 				.get(0);
@@ -223,7 +223,6 @@ public class SeriesController implements BiosimController {
 	 * If the crew is dead, end the simulation.
 	 */
 	private boolean crewShouldDie() {
-		float actuatorValue = myO2InjectorAcutator.getValue();
 		if (myO2PressureSensor.getValue() < 10.13) {
 			myLogger.info("killing crew for low oxygen: "
 					+ myO2PressureSensor.getValue());
@@ -236,18 +235,7 @@ public class SeriesController implements BiosimController {
 					+ myO2PressureSensor.getValue());
 			return true;
 			
-			
-		//To get the Injector to change its parametes	
-		}else if (myO2PressureSensor.getValue() > 27) {
-
-				myO2InjectorAcutator.setValue(0);
-				return false;
-		}else if (myO2PressureSensor.getValue() <27) {
-
-			myO2InjectorAcutator.setValue(5);
-			
-			return false;
-	////////////////////////////////////////////////////////////////////////// next line is regular code
+		
 		} else if (myCO2PressureSensor.getValue() > 1) {
 			myLogger.info("killing crew for high CO2: "
 					+ myO2PressureSensor.getValue());
@@ -267,7 +255,7 @@ public class SeriesController implements BiosimController {
 			myOutput.print(myBioDriver.getTicks() + "  ");// Ticks
 			myOutput.print(myOGS_H2OutFlowRateSensor.getValue() + "  ");// H2ProducerOGS
 			myOutput.print(myOGS_O2OutFlowRateSensor.getValue() + "  ");// O2ProducerOGS
-			myOutput.print(myOGS_PortableWaterInFlowRateSensor.getValue() + "  ");// PotableWaterConsumeOGS
+			myOutput.print(myOGS_PotableWaterInFlowRateSensor.getValue() + "  ");// PotableWaterConsumeOGS
 			myOutput.print(myOGS_PowerConsumerRateSensor.getValue() + "  "); // PowerConsumerOGS
 
 			myOutput.print(myVCCR_PowerConsumerRateSensor.getValue() + "  "); // PowerConsumerVCCR
@@ -533,6 +521,14 @@ public class SeriesController implements BiosimController {
 	 * increments the actuator.
 	 */
 	public void stepSim() {
+		//To get the Injector to change its parametes	
+	 if (myO2PressureSensor.getValue() > 27) {
+
+			myO2InjectorActuator.setValue(0);
+			
+	}else if (myO2PressureSensor.getValue() <27) {
+
+		myO2InjectorActuator.setValue(5);}
 		
 
 		
