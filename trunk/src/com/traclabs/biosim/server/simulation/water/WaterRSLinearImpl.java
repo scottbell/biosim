@@ -1,5 +1,6 @@
 package com.traclabs.biosim.server.simulation.water;
 
+import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
@@ -123,6 +124,21 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
     
     public void log() {
         myLogger.debug("power_consumed=" + currentPowerConsumed);
+    }
+    
+
+	
+	@Override
+    protected void performMalfunctions() {
+		for (Malfunction malfunction : myMalfunctions.values()) {
+			malfunction.setPerformed(true);
+		}
+		if (myMalfunctions.values().size() > 0) {
+			myPowerConsumerDefinitionImpl.malfunction();
+	        myGreyWaterConsumerDefinitionImpl.malfunction();
+	        myDirtyWaterConsumerDefinitionImpl.malfunction();
+	        myPotableWaterProducerDefinitionImpl.malfunction();
+		}
     }
 
 }

@@ -1,5 +1,6 @@
 package com.traclabs.biosim.server.simulation.air;
 
+import com.traclabs.biosim.idl.framework.Malfunction;
 import com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinition;
 import com.traclabs.biosim.idl.simulation.air.CO2ProducerOperations;
 import com.traclabs.biosim.idl.simulation.air.VCCROperations;
@@ -145,6 +146,19 @@ public class VCCRImpl extends SimBioModuleImpl implements VCCROperations,
 	public CO2ProducerDefinition getCO2ProducerDefinition() {
 		return myCO2ProducerDefinitionImpl.getCorbaObject();
 	}
+	
+	@Override
+    protected void performMalfunctions() {
+		for (Malfunction malfunction : myMalfunctions.values()) {
+			malfunction.setPerformed(true);
+		}
+		if (myMalfunctions.values().size() > 0) {
+			myPowerConsumerDefinitionImpl.malfunction();
+			myAirConsumerDefinitionImpl.malfunction();
+			myAirProducerDefinitionImpl.malfunction();
+			myCO2ProducerDefinitionImpl.malfunction();
+		}
+    }
 
 	/**
 	 * Processes a tick by collecting referernces (if needed), resources, and
