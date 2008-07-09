@@ -58,8 +58,8 @@
 </crewPerson>
 		</CrewGroup></crew>
 	<food>
-		<FoodStore capacity="10000000000000000000000000" level="10000000000000000000000" moduleName="FoodStore">
-			<expFailureDecider lambda=".00023148" /></FoodStore></food>
+		<FoodStore capacity="10000" level="10000" moduleName="FoodStore">
+			<expFailureDecider lambda=".000023148" /></FoodStore></food>
 			<waste>
 		<DryWasteStore capacity="100000" moduleName="DryWasteStore" level="0.0">
 			<expFailureDecider lambda=".00001447" /></DryWasteStore></waste>
@@ -67,7 +67,7 @@
 	<power>
 		<PowerStore capacity="10000000" moduleName="PowerStore"
 			level="10000000" logLevel="INFO">
-			<expFailureDecider lambda=".00023148"></expFailureDecider>
+			<expFailureDecider lambda=".000023148"></expFailureDecider>
 		</PowerStore></power>
 	<water>
 		<DirtyWaterStore capacity="1000" moduleName="DirtyWaterStore" level="0.0">
@@ -90,12 +90,12 @@
 	<framework>
 		<Injector moduleName="Injector">
 			<normalFailureDecider logmean="3888" logsd="3" /><O2Consumer
-				inputs="O2Store" desiredFlowRates="5" maxFlowRates="10" /><O2Producer
-				desiredFlowRates="5" outputs="SimEnvironment" maxFlowRates="10" ></O2Producer>
+				inputs="O2Store" desiredFlowRates="2" maxFlowRates="10" /><O2Producer
+				desiredFlowRates="2" outputs="SimEnvironment" maxFlowRates="10" ></O2Producer>
 			<CO2Consumer inputs="SimEnvironment" desiredFlowRates="1" maxFlowRates="200" ></CO2Consumer><CO2Producer
 				desiredFlowRates="1" outputs="CO2Store" maxFlowRates="200" ></CO2Producer></Injector></framework>
 	<environment>
-		<SimEnvironment moduleName="SimEnvironment" initialVolume="20000"></SimEnvironment>
+		<SimEnvironment moduleName="SimEnvironment" initialVolume="2000"></SimEnvironment>
 		<Dehumidifier moduleName="Dehumdifier">
 			<airConsumer inputs="SimEnvironment" desiredFlowRates="1000" maxFlowRates="1000" />
 			<dirtyWaterProducer desiredFlowRates="1000" outputs="DirtyWaterStore"
