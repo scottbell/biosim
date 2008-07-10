@@ -201,13 +201,13 @@ public class SeriesController implements BiosimController {
 						.getVaporStore());
 		
 		//Level Sensors 
-		myFoodStoreSensor =  BioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, theFoodStores.get(0));
+		myFoodStoreSensor =  myBioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, myBioHolder.theFoodStores.get(0));
 		
-		myPowerStoreSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, thePowerStores.get(0));
+		myPowerStoreSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, myBioHolder.thePowerStores.get(0));
 		
-		myPotableWaterStoreSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, thePotableWaterStores.get(0));
+		myPotableWaterStoreSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, myBioHolder.thePotableWaterStores.get(0));
 			    
-		myO2StoreSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, theO2Stores.get(0));
+		myO2StoreSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, myBioHolder.theO2Stores.get(0));
 		
 	}
 
