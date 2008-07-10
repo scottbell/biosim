@@ -4,7 +4,7 @@
   	<author>Francisco and Haibei</author></Globals>
   <SimBioModules>
 	<air>
-		<CO2Store capacity="10000" moduleName="CO2Store" level="0.0">
+		<CO2Store capacity="2000" moduleName="CO2Store" level="0.0">
 			<expFailureDecider lambda="0.00001447" /></CO2Store>
 		<H2Store capacity="10000" moduleName="H2Store" level="0.0">
 			<expFailureDecider lambda="0.00001447" ></expFailureDecider></H2Store>
@@ -12,8 +12,8 @@
 			<expFailureDecider lambda="0.00001447" ></expFailureDecider></O2Store>
 		<OGS moduleName="OGS">
 			<expFailureDecider lambda=".00046296" ></expFailureDecider>
-			<powerConsumer inputs="PowerStore" desiredFlowRates="100"
-				maxFlowRates="1500" ></powerConsumer>
+			<powerConsumer inputs="PowerStore" desiredFlowRates="5"
+				maxFlowRates="100" ></powerConsumer>
 			<potableWaterConsumer inputs="PotableWaterStore" desiredFlowRates="10"
 				maxFlowRates="15" ></potableWaterConsumer>
 			<O2Producer desiredFlowRates="1000" outputs="O2Store"
@@ -23,14 +23,14 @@
 		</OGS>
 		<VCCR moduleName="VCCR">
 			<normalFailureDecider logmean="4320" logsd="3" ></normalFailureDecider>
-			<powerConsumer inputs="PowerStore" desiredFlowRates="100"
-				maxFlowRates="1000" ></powerConsumer>
-			<airConsumer inputs="SimEnvironment" desiredFlowRates="10000"
-				maxFlowRates="15000" ></airConsumer>
-			<airProducer desiredFlowRates="10000" outputs="SimEnvironment"
-				maxFlowRates="15000" ></airProducer>
-			<CO2Producer desiredFlowRates="10000" outputs="CO2Store"
-				maxFlowRates="15000" ></CO2Producer>
+			<powerConsumer inputs="PowerStore" desiredFlowRates="5"
+				maxFlowRates="100" ></powerConsumer>
+			<airConsumer inputs="SimEnvironment" desiredFlowRates="1000"
+				maxFlowRates="1500" ></airConsumer>
+			<airProducer desiredFlowRates="1000" outputs="SimEnvironment"
+				maxFlowRates="1500" ></airProducer>
+			<CO2Producer desiredFlowRates="1000" outputs="CO2Store"
+				maxFlowRates="1500" ></CO2Producer>
 		</VCCR></air>
 	<crew>
 		<CrewGroup moduleName="CrewGroup">
@@ -58,15 +58,15 @@
 </crewPerson>
 		</CrewGroup></crew>
 	<food>
-		<FoodStore capacity="10000" level="10000" moduleName="FoodStore">
+		<FoodStore capacity="2000" level="1000" moduleName="FoodStore">
 			<expFailureDecider lambda=".000023148" /></FoodStore></food>
 			<waste>
-		<DryWasteStore capacity="100000" moduleName="DryWasteStore" level="0.0">
+		<DryWasteStore capacity="2000" moduleName="DryWasteStore" level="0.0">
 			<expFailureDecider lambda=".00001447" /></DryWasteStore></waste>
 	
 	<power>
-		<PowerStore capacity="10000000" moduleName="PowerStore"
-			level="10000000" logLevel="INFO">
+		<PowerStore capacity="60000" moduleName="PowerStore"
+			level="60000" logLevel="INFO">
 			<expFailureDecider lambda=".000023148"></expFailureDecider>
 		</PowerStore></power>
 	<water>
@@ -74,12 +74,12 @@
 			<expFailureDecider lambda=".00001447" /></DirtyWaterStore>
 		<GreyWaterStore capacity="1000" moduleName="GreyWaterStore" level="0.0">
 			<expFailureDecider lambda=".00001447" /></GreyWaterStore>
-		<PotableWaterStore capacity="20000" moduleName="PotableWaterStore" level="10000">
+		<PotableWaterStore capacity="1500" moduleName="PotableWaterStore" level="800">
 			<expFailureDecider lambda=".00001447" /></PotableWaterStore>
 		<WaterRS moduleName="WaterRS">
 			<weibull2FailureDecider lambda=".000231" beta="5" />
-			<powerConsumer inputs="PowerStore" desiredFlowRates="100"
-				maxFlowRates="1500" />
+			<powerConsumer inputs="PowerStore" desiredFlowRates="5"
+				maxFlowRates="100" />
 			<dirtyWaterConsumer inputs="DirtyWaterStore" desiredFlowRates="40"
 				maxFlowRates="50" />
 			<greyWaterConsumer inputs="GreyWaterStore" desiredFlowRates="40"
@@ -95,7 +95,7 @@
 			<CO2Consumer inputs="SimEnvironment" desiredFlowRates="1" maxFlowRates="200" ></CO2Consumer><CO2Producer
 				desiredFlowRates="1" outputs="CO2Store" maxFlowRates="200" ></CO2Producer></Injector></framework>
 	<environment>
-		<SimEnvironment moduleName="SimEnvironment" initialVolume="2000"></SimEnvironment>
+		<SimEnvironment moduleName="SimEnvironment" initialVolume="20000"></SimEnvironment>
 		<Dehumidifier moduleName="Dehumdifier">
 			<airConsumer inputs="SimEnvironment" desiredFlowRates="1000" maxFlowRates="1000" />
 			<dirtyWaterProducer desiredFlowRates="1000" outputs="DirtyWaterStore"
