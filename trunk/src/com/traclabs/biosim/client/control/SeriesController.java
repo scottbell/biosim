@@ -39,13 +39,13 @@ public class SeriesController implements BiosimController {
 
 	// remember to change path for xml file
 	private static String CONFIGURATION_FILE = "/AIAA/series.xml";
-	private static final String SENSOR_LOG_FILE = "SeriesControllerSensors.log";
-	private static final String REPAIR_LOG_FILE = "SeriesControllerActivity.log";
+	private static final String SENSOR_LOG_FILE = "SystemSensors.log";
+	private static final String REPAIR_LOG_FILE = "FailureEvent.log";
 
 	private BioDriver myBioDriver;
 
 	private BioHolder myBioHolder;
-
+	
 	private Logger myLogger;
 
 	private CrewPerson myCrewPerson;
@@ -83,6 +83,15 @@ public class SeriesController implements BiosimController {
 	private GenericSensor myWaterRS_PotableWaterProducerRateSensor;
 
 	private GenericSensor myWaterRS_PowerConsumerRateSensor;
+
+	private GenericSensor myFoodStoreSensor;
+	
+    private GenericSensor myPowerStoreSensor;
+    
+	private GenericSensor myO2StoreSensor;
+	
+    private GenericSensor myPotableWaterStoreSensor;
+	
 	private GenericActuator myTrial;
 	private GenericActuator myO2InjectorActuator;
 
@@ -112,7 +121,7 @@ public class SeriesController implements BiosimController {
 			myRepairOutput = System.out;
 		}
 		mySensorOutput
-				.println("Ticks H2ProducerOGS O2ProducerOGS PotableWaterConsumeOGS PowerConsumerOGS PowerConsumerVCCR CO2ProducerVCCR O2ConsumerInjector O2ProdurerInjector DirtyWaterConsumer GreyWaterConsumer PotableWaterProducer PowerConsumerWaterRS");
+				.println("Ticks H2ProducerOGS O2ProducerOGS PotableWaterConsumeOGS PowerConsumerOGS PowerConsumerVCCR CO2ProducerVCCR O2ConsumerInjector O2ProdurerInjector DirtyWaterConsumer GreyWaterConsumer PotableWaterProducer PowerConsumerWaterRS FoodStore PowerStore PotatbleWaterStore O2Store");
 	}
 
 	public static void main(String[] args) {
@@ -140,6 +149,7 @@ public class SeriesController implements BiosimController {
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 		Injector myInjector = myBioHolder.theInjectors.get(0);
 		SimEnvironment crewEnvironment = myBioHolder.theSimEnvironments.get(0);
+		
 		Injector O2Injector = myBioHolder.theInjectors.get(0);
 
 		myO2InjectorActuator = (myBioHolder.getActuatorAttachedTo(
@@ -189,7 +199,16 @@ public class SeriesController implements BiosimController {
 		myVaporPressureSensor = myBioHolder.getSensorAttachedTo(
 				myBioHolder.theGasPressureSensors, crewEnvironment
 						.getVaporStore());
-
+		
+		//Level Sensors 
+		myFoodStoreSensor =  BioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, theFoodStores.get(0));
+		
+		myPowerStoreSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, thePowerStores.get(0));
+		
+		myPotableWaterStoreSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, thePotableWaterStores.get(0));
+			    
+		myO2StoreSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, theO2Stores.get(0));
+		
 	}
 
 	/**
@@ -272,26 +291,35 @@ public class SeriesController implements BiosimController {
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myWaterRS_GreyWaterConsumerRateSensor.getValue()); // GreyWaterConsumer
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myWaterRS_PotableWaterProducerRateSensor
-				.getValue()); // PortableWaterProducer
+		mySensorOutput.print(myWaterRS_PotableWaterProducerRateSensor.getValue()); // PortableWaterProducer
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myWaterRS_PowerConsumerRateSensor.getValue()); // PowerConsumer
 		mySensorOutput.print("\t");
+		
+		//storage sensors
+		mySensorOutput.print(myFoodStoreSensor.getValue()); // Food Store
+		mySensorOutput.print("\t");
+		mySensorOutput.print(myPowerStoreSensor.getValue()); // Power Store
+		mySensorOutput.print("\t");
+		mySensorOutput.print(myPotableWaterStoreSensor.getValue()); // Potable Water Store
+		mySensorOutput.print("\t");
+		mySensorOutput.print(myO2StoreSensor.getValue()); // O2 Store
+		mySensorOutput.print("\t");
 
 		if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()) {
-			myRepairOutput.println("Component failure caused by CO2Store "
+			myRepairOutput.println("CO2Store failure"
 					+ " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theVCCRModules.get(0).isMalfunctioning()) {
-			myRepairOutput.println("Component failure caused by VCCR " + " "
+			myRepairOutput.println("VCCR failure" + " "
 					+ " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theO2Stores.get(0).isMalfunctioning()) {
-			myRepairOutput.println("Component failure caused by O2Store " + " "
+			myRepairOutput.println("O2Store failure" + " "
 					+ " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theOGSModules.get(0).isMalfunctioning()) {
-			myRepairOutput.println("Component failure caused by OGS " + " "
+			myRepairOutput.println("OGS failure" + " "
 					+ " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theH2Stores.get(0).isMalfunctioning()) {
@@ -299,42 +327,42 @@ public class SeriesController implements BiosimController {
 					+ " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theCrewGroups.get(0).isMalfunctioning()) {
-			myRepairOutput.println("Component failure caused by Crew " + " "
+			myRepairOutput.println("Crew failure" + " "
 					+ " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theFoodStores.get(0).isMalfunctioning()) {
-			myRepairOutput.println("Component failure caused by FoodStore "
+			myRepairOutput.println("FoodStore failure"
 					+ " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theInjectors.get(0).isMalfunctioning()) {
-			myRepairOutput.println("Component failure caused by Injector "
+			myRepairOutput.println("Injector failure"
 					+ " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.thePowerStores.get(0).isMalfunctioning()) {
-			myRepairOutput.println("Component failure caused by PowerStore "
+			myRepairOutput.println("PowerStore failure"
 					+ " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theDryWasteStores.get(0).isMalfunctioning()) {
-			myRepairOutput.println("Component failure caused by DryWasteStore "
+			myRepairOutput.println("DryWasteStore failure"
 					+ " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.thePotableWaterStores.get(0).isMalfunctioning()) {
 			myRepairOutput
-					.println("Component failure caused by PortableWaterStore "
+					.println("PortableWaterStore failure"
 							+ " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()) {
 			myRepairOutput
-					.println("Component failure caused by DirtyWaterStore "
+					.println("DirtyWaterStore failure"
 							+ " " + " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theWaterRSModules.get(0).isMalfunctioning()) {
-			myRepairOutput.println("Component failure caused by WaterRS " + " "
+			myRepairOutput.println("WaterRS failure" + " "
 					+ " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()) {
 			myRepairOutput
-					.println("Component failure caused by DirtyWaterStore "
+					.println("DirtyWaterStore failure"
 							+ " " + " at Tick " + myBioDriver.getTicks());
 
 		}
