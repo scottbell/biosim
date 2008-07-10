@@ -21,7 +21,6 @@ public abstract class GraphPanel extends TimedPanel {
 
 	protected ChartPanel myChartPanel;
 
-	@SuppressWarnings("unused")
 	private TrackingAction myTrackingAction;
 
 	/**

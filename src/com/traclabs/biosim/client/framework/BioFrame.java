@@ -86,7 +86,7 @@ public class BioFrame extends javax.swing.JFrame {
      * The Window Close listener for this Frame
      */
     private class WindowCloseListener extends java.awt.event.WindowAdapter {
-        public void windowClosing(@SuppressWarnings("unused") java.awt.event.WindowEvent event) {
+        public void windowClosing(java.awt.event.WindowEvent event) {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             frameClosing();
             setCursor(Cursor.getDefaultCursor());
