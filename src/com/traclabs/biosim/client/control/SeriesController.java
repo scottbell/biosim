@@ -265,9 +265,11 @@ public class SeriesController implements BiosimController {
 	}
 
 	public void printResults() {
+		//tick number
 		mySensorOutput.println();
 		mySensorOutput.print(myBioDriver.getTicks());// Ticks
 		mySensorOutput.print("\t");
+		//OGS info
 		mySensorOutput.print(myOGS_H2OutFlowRateSensor.getValue());// H2ProducerOGS
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myOGS_O2OutFlowRateSensor.getValue());// O2ProducerOGS
@@ -276,17 +278,17 @@ public class SeriesController implements BiosimController {
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myOGS_PowerConsumerRateSensor.getValue()); // PowerConsumerOGS
 		mySensorOutput.print("\t");
-
+		//VCCR info
 		mySensorOutput.print(myVCCR_PowerConsumerRateSensor.getValue()); // PowerConsumerVCCR
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myVCCR_CO2ProducerFlowRateSensor.getValue());// CO2ProducerVCCR
 		mySensorOutput.print("\t");
-
+		//Injector info
 		mySensorOutput.print(myInjector_O2ConsumerRateSensor.getValue()); // O2ConsumerInjector
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myInjector_O2ProducerRateSensor.getValue());// O2ProducerINjector
+		mySensorOutput.print(myInjector_O2ProducerRateSensor.getValue());// O2ProducerInjector
 		mySensorOutput.print("\t");
-
+		//WRS info
 		mySensorOutput.print(myWaterRS_DirtyWaterConsumerRateSensor.getValue()); // DirtyWaterConsumer
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myWaterRS_GreyWaterConsumerRateSensor.getValue()); // GreyWaterConsumer
@@ -295,8 +297,7 @@ public class SeriesController implements BiosimController {
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myWaterRS_PowerConsumerRateSensor.getValue()); // PowerConsumer
 		mySensorOutput.print("\t");
-		
-		//storage sensors
+		//Storage sensors
 		mySensorOutput.print(myFoodStoreSensor.getValue()); // Food Store
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myPowerStoreSensor.getValue()); // Power Store
