@@ -28,7 +28,7 @@
 			<airConsumer inputs="SimEnvironment" desiredFlowRates="10000"
 				maxFlowRates="15000" ></airConsumer>
 			<airProducer desiredFlowRates="10000" outputs="SimEnvironment"
-				maxFlowRates="15000" />
+				maxFlowRates="15000" ></airProducer>
 			<CO2Producer desiredFlowRates="10000" outputs="CO2Store"
 				maxFlowRates="15000" ></CO2Producer>
 		</VCCR></air>
@@ -89,7 +89,7 @@
 		</WaterRS></water>
 	<framework>
 		<Injector moduleName="Injector">
-			<normalFailureDecider logmean="3888" logsd="3" /><O2Consumer
+			<normalFailureDecider logmean="3888" logsd="10" /><O2Consumer
 				inputs="O2Store" desiredFlowRates="2" maxFlowRates="10" /><O2Producer
 				desiredFlowRates="2" outputs="SimEnvironment" maxFlowRates="10" ></O2Producer>
 			<CO2Consumer inputs="SimEnvironment" desiredFlowRates="1" maxFlowRates="200" ></CO2Consumer><CO2Producer
@@ -165,7 +165,11 @@
 			<DirtyWaterOutFlowRateSensor input="Dehumdifier" moduleName="Dehumdifier_DirtyWater_Out"
 				index="0">
 			</DirtyWaterOutFlowRateSensor></water>
-		<framework></framework>
+		<framework>
+			<StoreLevelSensor input="FoodStore" moduleName="FoodStoreSensor"></StoreLevelSensor>
+			<StoreLevelSensor input="PowerStore" moduleName="PowerStoreSensor"></StoreLevelSensor>
+			<StoreLevelSensor input="PotableWaterStore" moduleName="PotableWaterStoreSensor"></StoreLevelSensor>
+			<StoreLevelSensor input="O2Store" moduleName="O2StoreSensor"></StoreLevelSensor></framework>
     </Sensors>
     <Actuators>
     	<air>
