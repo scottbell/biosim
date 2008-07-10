@@ -6,7 +6,7 @@
 	<air>
 		<CO2Store capacity="2000" moduleName="CO2Store" level="0.0">
 			<expFailureDecider lambda="0.00001447" /></CO2Store>
-		<H2Store capacity="10000" moduleName="H2Store" level="0.0">
+		<H2Store capacity="2000" moduleName="H2Store" level="0.0">
 			<expFailureDecider lambda="0.00001447" ></expFailureDecider></H2Store>
 		<O2Store capacity="2000" moduleName="O2Store" level="1000">
 			<expFailureDecider lambda="0.00001447" ></expFailureDecider></O2Store>
@@ -49,7 +49,7 @@
 				maxFlowRates="2000" ></airProducer>
 			<dryWasteProducer desiredFlowRates="1000" outputs="DryWasteStore"
 				maxFlowRates="1500" ></dryWasteProducer><crewPerson age="24" name="Haibei"
-				sex="MALE" weight="150">
+				sex="MALE" weight="80">
 				<schedule>
 					<activity intensity="2" name="ruminating" length="12" /><activity
 						intensity="0" name="sleep" length="8" /><activity
