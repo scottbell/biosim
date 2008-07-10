@@ -8,7 +8,7 @@ public class SensorGraphFrame extends SimulationPanel {
 	SensorGraphPanel myGraph = new SensorGraphPanel();
 	
 	public SensorGraphFrame(){
-		myGraph.setButtons(false);
+		myGraph.setButtons(true);
 		add(myGraph, BorderLayout.CENTER);
 	}
 
