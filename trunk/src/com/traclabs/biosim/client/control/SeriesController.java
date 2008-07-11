@@ -121,7 +121,7 @@ public class SeriesController implements BiosimController {
 			myRepairOutput = System.out;
 		}
 		mySensorOutput
-				.println("Ticks H2ProducerOGS O2ProducerOGS PotableWaterConsumeOGS PowerConsumerOGS PowerConsumerVCCR CO2ProducerVCCR O2ConsumerInjector O2ProdurerInjector DirtyWaterConsumer GreyWaterConsumer PotableWaterProducer PowerConsumerWaterRS FoodStore PowerStore PotatbleWaterStore O2Store");
+				.println("Ticks H2ProducerOGS O2ProducerOGS PotableWaterConsumeOGS PowerConsumerOGS PowerConsumerVCCR CO2ProducerVCCR O2ConsumerInjector O2ProdurerInjector DirtyWaterConsumer GreyWaterConsumer PotableWaterProducer PowerConsumerWaterRS FoodStore PowerStore PotatbleWaterStore O2Store O2PP CO2PP N2PP VaporPP");
 	}
 
 	public static void main(String[] args) {
