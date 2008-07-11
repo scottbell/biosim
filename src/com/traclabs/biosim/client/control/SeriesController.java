@@ -245,6 +245,7 @@ public class SeriesController implements BiosimController {
 			if (myBioDriver.isDone())
 				myLogger.info("Biosim thinks the simulation is finished");
 		} while (!myBioDriver.isDone());
+		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 		myBioDriver.endSimulation();
 		myBioDriver.reset();
 		mySensorOutput.println("Controller finished run");
@@ -253,7 +254,6 @@ public class SeriesController implements BiosimController {
 		myRepairOutput.println();
 		mySensorOutput.flush();
 		myRepairOutput.flush();
-		myLogger.info("Controller ended on tick " + myBioDriver.getTicks());
 	}
 
 	/**
