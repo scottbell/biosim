@@ -315,6 +315,7 @@ public class SeriesController implements BiosimController {
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myVaporPressureSensor.getValue()); // Vapor pressure
 		mySensorOutput.print("\t");
+		mySensorOutput.print("\t");
 		
 		if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()) {
 			myRepairOutput.println("CO2Store failure"
