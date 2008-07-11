@@ -102,6 +102,7 @@ public abstract class BaseCrewPersonImpl extends CrewPersonPOA {
 	public void reset() {
 		myCurrentActivityIndex = 0;
 		myTimeActivityPerformed = 0;
+		myCurrentActivity = mySchedule.getScheduledActivityByOrder(myCurrentActivityIndex);
 		myCurrentCrewGroup = myBaseCrewGroup;
 	}
 

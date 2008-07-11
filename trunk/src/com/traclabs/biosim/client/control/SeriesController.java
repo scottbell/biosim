@@ -26,10 +26,15 @@ import com.traclabs.biosim.idl.simulation.framework.Injector;
 /*
  * To run the reliability controller: (assuming BIOSIM_HOME/bin is in your path)
  * 1)type run-nameserver 2)type run-server
- * -xml=/home/haibei/workspace/BIOSIM/resources/com/traclabs/biosim/server/framework/configuration/reliability/CEVconfig.xml
+ * -xml=/home/haibei/workspace/BIOSIM/resources
+ * /com/traclabs/biosim/server/framework/configuration/reliability/CEVconfig.xml
  * 3)type java
- * -classpath$BIOSIM_HOME/lib/xerces/xercesImpl.jar:$BIOSIM_HOME/lib/log4j/log4j.jar:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb/logkit.jar:$BIOSIM_HOME/lib/jacorb/avalon-framework.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/build:$BIOSIM_HOME/resources
- * -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB
+ * -classpath$BIOSIM_HOME/lib/xerces/xercesImpl.jar:$BIOSIM_HOME/lib/
+ * log4j/log4j.
+ * jar:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb/logkit
+ * .jar:$BIOSIM_HOME
+ * /lib/jacorb/avalon-framework.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME
+ * /build:$BIOSIM_HOME/resources -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB
  * -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton
  * -DORBInitRef.NameService=file:$BIOSIM_HOME/tmp/ns/ior.txt
  * com.traclabs.biosim.client.control.SeriesController
@@ -45,7 +50,7 @@ public class SeriesController implements BiosimController {
 	private BioDriver myBioDriver;
 
 	private BioHolder myBioHolder;
-	
+
 	private Logger myLogger;
 
 	private CrewPerson myCrewPerson;
@@ -85,13 +90,13 @@ public class SeriesController implements BiosimController {
 	private GenericSensor myWaterRS_PowerConsumerRateSensor;
 
 	private GenericSensor myFoodStoreSensor;
-	
-    private GenericSensor myPowerStoreSensor;
-    
+
+	private GenericSensor myPowerStoreSensor;
+
 	private GenericSensor myO2StoreSensor;
-	
-    private GenericSensor myPotableWaterStoreSensor;
-	
+
+	private GenericSensor myPotableWaterStoreSensor;
+
 	private GenericActuator myTrial;
 	private GenericActuator myO2InjectorActuator;
 
@@ -129,13 +134,11 @@ public class SeriesController implements BiosimController {
 				.getOptionValueFromArgs(args, "log"));
 		int max = 5;
 		for (int i = 0; i < max; i++) {
-		SeriesController myController = new SeriesController(logToFile);
-		myController.collectReferences();
-		myController.runSim();
+			SeriesController myController = new SeriesController(logToFile);
+			myController.collectReferences();
+			myController.runSim();
 		}
 	}
-
-
 
 	/**
 	 * Collects references to BioModules we'll need to run/observer/poke the
@@ -151,7 +154,7 @@ public class SeriesController implements BiosimController {
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 		Injector myInjector = myBioHolder.theInjectors.get(0);
 		SimEnvironment crewEnvironment = myBioHolder.theSimEnvironments.get(0);
-		
+
 		Injector O2Injector = myBioHolder.theInjectors.get(0);
 
 		myO2InjectorActuator = (myBioHolder.getActuatorAttachedTo(
@@ -201,15 +204,23 @@ public class SeriesController implements BiosimController {
 		myVaporPressureSensor = myBioHolder.getSensorAttachedTo(
 				myBioHolder.theGasPressureSensors, crewEnvironment
 						.getVaporStore());
-		
-		//Level Sensors 
-		myFoodStoreSensor =  myBioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, myBioHolder.theFoodStores.get(0));
-		
-		myPowerStoreSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, myBioHolder.thePowerStores.get(0));
-		
-		myPotableWaterStoreSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, myBioHolder.thePotableWaterStores.get(0));
-			    
-		myO2StoreSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, myBioHolder.theO2Stores.get(0));
+
+		// Level Sensors
+		myFoodStoreSensor = myBioHolder.getSensorAttachedTo(
+				myBioHolder.theStoreLevelSensors, myBioHolder.theFoodStores
+						.get(0));
+
+		myPowerStoreSensor = myBioHolder.getSensorAttachedTo(
+				myBioHolder.theStoreLevelSensors, myBioHolder.thePowerStores
+						.get(0));
+
+		myPotableWaterStoreSensor = myBioHolder.getSensorAttachedTo(
+				myBioHolder.theStoreLevelSensors,
+				myBioHolder.thePotableWaterStores.get(0));
+
+		myO2StoreSensor = myBioHolder.getSensorAttachedTo(
+				myBioHolder.theStoreLevelSensors, myBioHolder.theO2Stores
+						.get(0));
 
 	}
 
@@ -268,11 +279,11 @@ public class SeriesController implements BiosimController {
 	}
 
 	public void printResults() {
-		//tick number
+		// tick number
 		mySensorOutput.println();
 		mySensorOutput.print(myBioDriver.getTicks());// Ticks
 		mySensorOutput.print("\t");
-		//OGS info
+		// OGS info
 		mySensorOutput.print(myOGS_H2OutFlowRateSensor.getValue());// H2ProducerOGS
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myOGS_O2OutFlowRateSensor.getValue());// O2ProducerOGS
@@ -281,103 +292,105 @@ public class SeriesController implements BiosimController {
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myOGS_PowerConsumerRateSensor.getValue()); // PowerConsumerOGS
 		mySensorOutput.print("\t");
-		//VCCR info
+		// VCCR info
 		mySensorOutput.print(myVCCR_PowerConsumerRateSensor.getValue()); // PowerConsumerVCCR
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myVCCR_CO2ProducerFlowRateSensor.getValue());// CO2ProducerVCCR
 		mySensorOutput.print("\t");
-		//Injector info
+		// Injector info
 		mySensorOutput.print(myInjector_O2ConsumerRateSensor.getValue()); // O2ConsumerInjector
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myInjector_O2ProducerRateSensor.getValue());// O2ProducerInjector
 		mySensorOutput.print("\t");
-		//WRS info
+		// WRS info
 		mySensorOutput.print(myWaterRS_DirtyWaterConsumerRateSensor.getValue()); // DirtyWaterConsumer
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myWaterRS_GreyWaterConsumerRateSensor.getValue()); // GreyWaterConsumer
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myWaterRS_PotableWaterProducerRateSensor.getValue()); // PortableWaterProducer
+		mySensorOutput.print(myWaterRS_PotableWaterProducerRateSensor
+				.getValue()); // PortableWaterProducer
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myWaterRS_PowerConsumerRateSensor.getValue()); // PowerConsumer
 		mySensorOutput.print("\t");
-		//Storage sensors
+		// Storage sensors
 		mySensorOutput.print(myFoodStoreSensor.getValue()); // Food Store
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myPowerStoreSensor.getValue()); // Power Store
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myPotableWaterStoreSensor.getValue()); // Potable Water Store
+		mySensorOutput.print(myPotableWaterStoreSensor.getValue()); // Potable
+																	// Water
+																	// Store
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myO2StoreSensor.getValue()); // O2 Store
 		mySensorOutput.print("\t");
-		//Environmental Condition Sensors
+		// Environmental Condition Sensors
 		mySensorOutput.print(myO2PressureSensor.getValue()); // O2 pressure
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myCO2PressureSensor.getValue()); // CO2 pressure
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myNitrogenPressureSensor.getValue()); // N2 pressure
+		mySensorOutput.print(myNitrogenPressureSensor.getValue()); // N2
+																	// pressure
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myVaporPressureSensor.getValue()); // Vapor pressure
+		mySensorOutput.print(myVaporPressureSensor.getValue()); // Vapor
+																// pressure
 		mySensorOutput.print("\t");
 		mySensorOutput.print("\t");
-		
+
 		if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()) {
-			myRepairOutput.println("CO2Store failure"
-					+ " " + " at Tick " + myBioDriver.getTicks());
+			myRepairOutput.println("CO2Store failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
 		}
 		if (myBioHolder.theVCCRModules.get(0).isMalfunctioning()) {
-			myRepairOutput.println("VCCR failure" + " "
-					+ " at Tick " + myBioDriver.getTicks());
+			myRepairOutput.println("VCCR failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
 		}
 		if (myBioHolder.theO2Stores.get(0).isMalfunctioning()) {
-			myRepairOutput.println("O2Store failure" + " "
-					+ " at Tick " + myBioDriver.getTicks());
+			myRepairOutput.println("O2Store failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
 		}
 		if (myBioHolder.theOGSModules.get(0).isMalfunctioning()) {
-			myRepairOutput.println("OGS failure" + " "
-					+ " at Tick " + myBioDriver.getTicks());
+			myRepairOutput.println("OGS failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
 		}
 		if (myBioHolder.theH2Stores.get(0).isMalfunctioning()) {
-			myRepairOutput.println("H2Store failure" + " "
-					+ " at Tick " + myBioDriver.getTicks());
+			myRepairOutput.println("H2Store failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
 		}
 		if (myBioHolder.theCrewGroups.get(0).isMalfunctioning()) {
-			myRepairOutput.println("Crew failure" + " "
-					+ " at Tick " + myBioDriver.getTicks());
+			myRepairOutput.println("Crew failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
 		}
 		if (myBioHolder.theFoodStores.get(0).isMalfunctioning()) {
-			myRepairOutput.println("FoodStore failure"
-					+ " " + " at Tick " + myBioDriver.getTicks());
+			myRepairOutput.println("FoodStore failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
 		}
 		if (myBioHolder.theInjectors.get(0).isMalfunctioning()) {
-			myRepairOutput.println("Injector failure"
-					+ " " + " at Tick " + myBioDriver.getTicks());
+			myRepairOutput.println("Injector failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
 		}
 		if (myBioHolder.thePowerStores.get(0).isMalfunctioning()) {
-			myRepairOutput.println("PowerStore failure"
-					+ " " + " at Tick " + myBioDriver.getTicks());
+			myRepairOutput.println("PowerStore failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
 		}
 		if (myBioHolder.theDryWasteStores.get(0).isMalfunctioning()) {
-			myRepairOutput.println("DryWasteStore failure"
-					+ " " + " at Tick " + myBioDriver.getTicks());
+			myRepairOutput.println("DryWasteStore failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
 		}
 		if (myBioHolder.thePotableWaterStores.get(0).isMalfunctioning()) {
-			myRepairOutput
-					.println("PortableWaterStore failure"
-							+ " " + " at Tick " + myBioDriver.getTicks());
-		}
-		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()) {
-			myRepairOutput
-					.println("DirtyWaterStore failure"
-							+ " " + " at Tick " + myBioDriver.getTicks());
-		}
-		if (myBioHolder.theWaterRSModules.get(0).isMalfunctioning()) {
-			myRepairOutput.println("WaterRS failure" + " "
+			myRepairOutput.println("PortableWaterStore failure" + " "
 					+ " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()) {
-			myRepairOutput
-					.println("DirtyWaterStore failure"
-							+ " " + " at Tick " + myBioDriver.getTicks());
+			myRepairOutput.println("DirtyWaterStore failure" + " "
+					+ " at Tick " + myBioDriver.getTicks());
+		}
+		if (myBioHolder.theWaterRSModules.get(0).isMalfunctioning()) {
+			myRepairOutput.println("WaterRS failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
+		}
+		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()) {
+			myRepairOutput.println("DirtyWaterStore failure" + " "
+					+ " at Tick " + myBioDriver.getTicks());
 
 		}
 	}
@@ -516,19 +529,18 @@ public class SeriesController implements BiosimController {
 			myO2InjectorActuator.setValue(2);
 		}
 
-		
 		// Check failure to monitor component malfunction using a Boolean
 		// "CheckFailure"
 		// Report Failure and fix the failed component using a function
 		// "ComponentRepair"
-		//if (checkFailure()) {
-		//	if (myRepairDelay >= 1) { // Repair Delay is the time needed for
-				// repair activities
-				// componentRepair();
-		//		myRepairDelay = 0;
-		//	}else {
-		//		myRepairDelay = 1;
-		//	}
-		//}
+		// if (checkFailure()) {
+		// if (myRepairDelay >= 1) { // Repair Delay is the time needed for
+		// repair activities
+		// componentRepair();
+		// myRepairDelay = 0;
+		// }else {
+		// myRepairDelay = 1;
+		// }
+		// }
 	}
 }
