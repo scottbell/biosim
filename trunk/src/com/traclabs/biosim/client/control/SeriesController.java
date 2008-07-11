@@ -132,7 +132,7 @@ public class SeriesController implements BiosimController {
 	public static void main(String[] args) {
 		boolean logToFile = Boolean.parseBoolean(CommandLineUtils
 				.getOptionValueFromArgs(args, "log"));
-		int max = 5;
+		int max = 4;
 		for (int i = 0; i < max; i++) {
 			SeriesController myController = new SeriesController(logToFile);
 			myController.collectReferences();
