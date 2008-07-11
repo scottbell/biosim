@@ -125,7 +125,7 @@ public class CrewPersonImpl extends BaseCrewPersonImpl {
 
 	private static final float AWAKE_TILL_EXHAUSTION = 120;
 
-	private static final float SLEEP_RECOVERY_RATE = 12f;
+	private static final float SLEEP_RECOVERY_RATE = 120f;
 
 	public CrewPersonImpl(String pName, float pAge, float pWeight, Sex pSex,
 			int pArrivalTick, int pDepartureTick, CrewGroup pBaseCrewGroup,
@@ -173,6 +173,7 @@ public class CrewPersonImpl extends BaseCrewPersonImpl {
 		suffocating = false;
 		poisoned = false;
 		fireRisked = false;
+		
 		O2Consumed = 0f;
 		CO2Produced = 0f;
 		O2Ratio = 0f;
