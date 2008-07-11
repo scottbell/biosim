@@ -127,13 +127,15 @@ public class SeriesController implements BiosimController {
 	public static void main(String[] args) {
 		boolean logToFile = Boolean.parseBoolean(CommandLineUtils
 				.getOptionValueFromArgs(args, "log"));
-		// int max = 10;
-		// for (int i = 0; i < max; i++) {
+		int max = 5;
+		for (int i = 0; i < max; i++) {
 		SeriesController myController = new SeriesController(logToFile);
 		myController.collectReferences();
 		myController.runSim();
-		// }
+		}
 	}
+
+
 
 	/**
 	 * Collects references to BioModules we'll need to run/observer/poke the
@@ -208,7 +210,7 @@ public class SeriesController implements BiosimController {
 		myPotableWaterStoreSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, myBioHolder.thePotableWaterStores.get(0));
 			    
 		myO2StoreSensor = myBioHolder.getSensorAttachedTo(myBioHolder.theStoreLevelSensors, myBioHolder.theO2Stores.get(0));
-		
+
 	}
 
 	/**
@@ -233,6 +235,7 @@ public class SeriesController implements BiosimController {
 				myLogger.info("Biosim thinks the simulation is finished");
 		} while (!myBioDriver.isDone());
 		myBioDriver.endSimulation();
+		myBioDriver.reset();
 		mySensorOutput.println("Controller finished run");
 		mySensorOutput.println();
 		myRepairOutput.println("Controller finished run");
@@ -513,18 +516,19 @@ public class SeriesController implements BiosimController {
 			myO2InjectorActuator.setValue(2);
 		}
 
+		
 		// Check failure to monitor component malfunction using a Boolean
 		// "CheckFailure"
 		// Report Failure and fix the failed component using a function
 		// "ComponentRepair"
-		if (checkFailure()) {
-			if (myRepairDelay >= 1) { // Repair Delay is the time needed for
+		//if (checkFailure()) {
+		//	if (myRepairDelay >= 1) { // Repair Delay is the time needed for
 				// repair activities
 				// componentRepair();
-				myRepairDelay = 0;
-			} else {
-				myRepairDelay = 1;
-			}
-		}
+		//		myRepairDelay = 0;
+		//	}else {
+		//		myRepairDelay = 1;
+		//	}
+		//}
 	}
 }
