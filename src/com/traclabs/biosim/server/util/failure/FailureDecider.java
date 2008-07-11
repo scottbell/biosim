@@ -15,9 +15,9 @@ public abstract class FailureDecider {
 		double Reliability = getReliability(timeElapsed);
 		double randomNumber = myRandomGenerator.nextDouble();
 		boolean failed = randomNumber < Reliability;
-		myLogger.debug("Reliability = " + Reliability);
-		myLogger.debug("randomNumber = " + randomNumber);
-		myLogger.debug("failed = " + failed);
+		//myLogger.debug("Reliability = " + Reliability);
+		//myLogger.debug("randomNumber = " + randomNumber);
+		//myLogger.debug("failed = " + failed);
 		return failed;
 	}
 
