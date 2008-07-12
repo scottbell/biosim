@@ -20,7 +20,7 @@ import com.traclabs.biosim.idl.simulation.framework.Injector;
 
 /**
  * @author Haibei Jiang 
- * A controller for modeling parallel system relaibility
+ * A controller for modeling parallel system reliability
  */
 
 /*
@@ -40,10 +40,10 @@ import com.traclabs.biosim.idl.simulation.framework.Injector;
  * com.traclabs.biosim.client.control.SeriesController
  */
 
-public class ParellelController implements BiosimController {
+public class ParallelController implements BiosimController {
 
 	// remember to change path for xml file
-	private static String CONFIGURATION_FILE = "/AIAA/series.xml";
+	private static String CONFIGURATION_FILE = "/AIAA/parallel.xml";
 	private static final String SENSOR_LOG_FILE = "ParallelSystemSensors.log";
 	private static final String REPAIR_LOG_FILE = "ParallelFailureEvent.log";
 
@@ -65,29 +65,41 @@ public class ParellelController implements BiosimController {
 
 	private GenericSensor myVaporPressureSensor;
 
-	private GenericSensor myOGS_O2OutFlowRateSensor;
+	private GenericSensor myOGS_O2OutFlowRateSensor1;
+	private GenericSensor myOGS_O2OutFlowRateSensor2;
 
-	private GenericSensor myOGS_H2OutFlowRateSensor;
+	private GenericSensor myOGS_H2OutFlowRateSensor1;
+	private GenericSensor myOGS_H2OutFlowRateSensor2;
 
-	private GenericSensor myOGS_PotableWaterInFlowRateSensor;
+	private GenericSensor myOGS_PotableWaterInFlowRateSensor1;
+	private GenericSensor myOGS_PotableWaterInFlowRateSensor2;
 
-	private GenericSensor myOGS_PowerConsumerRateSensor;
+	private GenericSensor myOGS_PowerConsumerRateSensor1;
+	private GenericSensor myOGS_PowerConsumerRateSensor2;
 
-	private GenericSensor myVCCR_PowerConsumerRateSensor;
+	private GenericSensor myVCCR_PowerConsumerRateSensor1;
+	private GenericSensor myVCCR_PowerConsumerRateSensor2;
 
-	private GenericSensor myVCCR_CO2ProducerFlowRateSensor;
+	private GenericSensor myVCCR_CO2ProducerFlowRateSensor1;
+	private GenericSensor myVCCR_CO2ProducerFlowRateSensor2;
+	
+	private GenericSensor myInjector_O2ConsumerRateSensor1;
+	private GenericSensor myInjector_O2ConsumerRateSensor2;
 
-	private GenericSensor myInjector_O2ConsumerRateSensor;
+	private GenericSensor myInjector_O2ProducerRateSensor1;
+	private GenericSensor myInjector_O2ProducerRateSensor2;
 
-	private GenericSensor myInjector_O2ProducerRateSensor;
+	private GenericSensor myWaterRS_DirtyWaterConsumerRateSensor1;
+	private GenericSensor myWaterRS_DirtyWaterConsumerRateSensor2;
 
-	private GenericSensor myWaterRS_DirtyWaterConsumerRateSensor;
+	private GenericSensor myWaterRS_GreyWaterConsumerRateSensor1;
+	private GenericSensor myWaterRS_GreyWaterConsumerRateSensor2;
 
-	private GenericSensor myWaterRS_GreyWaterConsumerRateSensor;
+	private GenericSensor myWaterRS_PotableWaterProducerRateSensor1;
+	private GenericSensor myWaterRS_PotableWaterProducerRateSensor2;
 
-	private GenericSensor myWaterRS_PotableWaterProducerRateSensor;
-
-	private GenericSensor myWaterRS_PowerConsumerRateSensor;
+	private GenericSensor myWaterRS_PowerConsumerRateSensor1;
+	private GenericSensor myWaterRS_PowerConsumerRateSensor2;
 
 	private GenericSensor myFoodStoreSensor;
 
@@ -97,8 +109,10 @@ public class ParellelController implements BiosimController {
 
 	private GenericSensor myPotableWaterStoreSensor;
 
-	private GenericActuator myTrial;
-	private GenericActuator myO2InjectorActuator;
+	//private GenericActuator myTrial;
+	
+	private GenericActuator myO2InjectorActuator1;
+	private GenericActuator myO2InjectorActuator2;
 
 	private int myRepairDelay = 1;
 
@@ -108,7 +122,7 @@ public class ParellelController implements BiosimController {
 
 	private PrintStream myRepairOutput;
 
-	public ParellelController(boolean log) {
+	public ParallelController(boolean log) {
 		logToFile = log;
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
@@ -132,12 +146,12 @@ public class ParellelController implements BiosimController {
 	public static void main(String[] args) {
 		boolean logToFile = Boolean.parseBoolean(CommandLineUtils
 				.getOptionValueFromArgs(args, "log"));
-		int max = 4;
-		for (int i = 0; i < max; i++) {
-			SeriesController myController = new SeriesController(logToFile);
+		//int max = 4;
+		//for (int i = 0; i < max; i++) {
+			ParallelController myController = new ParallelController(logToFile);
 			myController.collectReferences();
 			myController.runSim();
-		}
+		//}
 	}
 
 	/**
@@ -152,41 +166,48 @@ public class ParellelController implements BiosimController {
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		myBioDriver = myBioHolder.theBioDriver;
 		crewEnvironment = myBioHolder.theSimEnvironments.get(0);
-		Injector myInjector = myBioHolder.theInjectors.get(0);
+		Injector myInjector1 = myBioHolder.theInjectors.get(0);
+		Injector myInjector2 = myBioHolder.theInjectors.get(1);
 		SimEnvironment crewEnvironment = myBioHolder.theSimEnvironments.get(0);
 
-		Injector O2Injector = myBioHolder.theInjectors.get(0);
+		//Injectors and Actuators
+		Injector O2Injector1 = myBioHolder.theInjectors.get(0);
+		Injector O2Injector2 = myBioHolder.theInjectors.get(1);
 
-		myO2InjectorActuator = (myBioHolder.getActuatorAttachedTo(
-				myBioHolder.theO2InFlowRateActuators, O2Injector));
+		myO2InjectorActuator1 = (myBioHolder.getActuatorAttachedTo(
+				myBioHolder.theO2InFlowRateActuators, O2Injector1));
+		myO2InjectorActuator2 = (myBioHolder.getActuatorAttachedTo(
+				myBioHolder.theO2InFlowRateActuators, O2Injector2));
 
 		// Air Sensors
-		myOGS_O2OutFlowRateSensor = myBioHolder.theO2OutFlowRateSensors.get(0);
-		myOGS_H2OutFlowRateSensor = myBioHolder.theH2OutFlowRateSensors.get(0);
-		myVCCR_CO2ProducerFlowRateSensor = myBioHolder.theCO2OutFlowRateSensors
-				.get(0);
-		myInjector_O2ConsumerRateSensor = myBioHolder.theO2InFlowRateSensors
-				.get(0);
-		myInjector_O2ProducerRateSensor = myBioHolder.theO2OutFlowRateSensors
-				.get(1);
+		myInjector_O2ConsumerRateSensor1 = myBioHolder.theO2InFlowRateSensors.get(0);
+		myInjector_O2ConsumerRateSensor2 = myBioHolder.theO2InFlowRateSensors.get(1);
+		myInjector_O2ProducerRateSensor1 = myBioHolder.theO2OutFlowRateSensors.get(0);
+		myInjector_O2ProducerRateSensor2 = myBioHolder.theO2OutFlowRateSensors.get(1);
+		myOGS_O2OutFlowRateSensor1 		= myBioHolder.theO2OutFlowRateSensors.get(2);
+		myOGS_O2OutFlowRateSensor2		= myBioHolder.theO2OutFlowRateSensors.get(3);
+		myOGS_H2OutFlowRateSensor1 		= myBioHolder.theH2OutFlowRateSensors.get(0);
+		myOGS_H2OutFlowRateSensor2 		= myBioHolder.theH2OutFlowRateSensors.get(1);
+		myVCCR_CO2ProducerFlowRateSensor1 = myBioHolder.theCO2OutFlowRateSensors.get(0);
+		myVCCR_CO2ProducerFlowRateSensor2 = myBioHolder.theCO2OutFlowRateSensors.get(1);
 
 		// Power Sensors
-		myOGS_PowerConsumerRateSensor = myBioHolder.thePowerInFlowRateSensors
-				.get(0);
-		myVCCR_PowerConsumerRateSensor = myBioHolder.thePowerInFlowRateSensors
-				.get(1);
-		myWaterRS_PowerConsumerRateSensor = myBioHolder.thePowerInFlowRateSensors
-				.get(2);
+		myOGS_PowerConsumerRateSensor1 = myBioHolder.thePowerInFlowRateSensors.get(0);
+		myOGS_PowerConsumerRateSensor2 = myBioHolder.thePowerInFlowRateSensors.get(1);
+		myVCCR_PowerConsumerRateSensor1 = myBioHolder.thePowerInFlowRateSensors.get(2);
+		myVCCR_PowerConsumerRateSensor2 = myBioHolder.thePowerInFlowRateSensors.get(3);
+		myWaterRS_PowerConsumerRateSensor1 = myBioHolder.thePowerInFlowRateSensors.get(4);
+		myWaterRS_PowerConsumerRateSensor2 = myBioHolder.thePowerInFlowRateSensors.get(5);
 
 		// Water Sensors
-		myOGS_PotableWaterInFlowRateSensor = myBioHolder.thePotableWaterInFlowRateSensors
-				.get(0);
-		myWaterRS_DirtyWaterConsumerRateSensor = myBioHolder.theDirtyWaterInFlowRateSensors
-				.get(0);
-		myWaterRS_GreyWaterConsumerRateSensor = myBioHolder.theGreyWaterInFlowRateSensors
-				.get(0);
-		myWaterRS_PotableWaterProducerRateSensor = myBioHolder.thePotableWaterOutFlowRateSensors
-				.get(0);
+		myOGS_PotableWaterInFlowRateSensor1 = myBioHolder.thePotableWaterInFlowRateSensors.get(0);
+		myOGS_PotableWaterInFlowRateSensor2 = myBioHolder.thePotableWaterInFlowRateSensors.get(1);
+		myWaterRS_DirtyWaterConsumerRateSensor1 = myBioHolder.theDirtyWaterInFlowRateSensors.get(0);
+		myWaterRS_DirtyWaterConsumerRateSensor2 = myBioHolder.theDirtyWaterInFlowRateSensors.get(1);
+		myWaterRS_GreyWaterConsumerRateSensor1 = myBioHolder.theGreyWaterInFlowRateSensors.get(0);
+		myWaterRS_GreyWaterConsumerRateSensor2 = myBioHolder.theGreyWaterInFlowRateSensors.get(1);
+		myWaterRS_PotableWaterProducerRateSensor1 = myBioHolder.thePotableWaterOutFlowRateSensors.get(0);
+		myWaterRS_PotableWaterProducerRateSensor2 = myBioHolder.thePotableWaterOutFlowRateSensors.get(0);
 
 		// Crew Survival Condition Sensors
 		myO2PressureSensor = myBioHolder
@@ -283,89 +304,98 @@ public class ParellelController implements BiosimController {
 		mySensorOutput.println();
 		mySensorOutput.print(myBioDriver.getTicks());// Ticks
 		mySensorOutput.print("\t");
-		// OGS info
-		mySensorOutput.print(myOGS_H2OutFlowRateSensor.getValue());// H2ProducerOGS
+		// OGS1 info
+		mySensorOutput.print(myOGS_H2OutFlowRateSensor1.getValue());// H2ProducerOGS1
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myOGS_O2OutFlowRateSensor.getValue());// O2ProducerOGS
+		mySensorOutput.print(myOGS_O2OutFlowRateSensor1.getValue());// O2ProducerOGS1
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myOGS_PotableWaterInFlowRateSensor.getValue());// PotableWaterConsumeOGS
+		mySensorOutput.print(myOGS_PotableWaterInFlowRateSensor1.getValue());// PotableWaterConsumeOGS1
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myOGS_PowerConsumerRateSensor.getValue()); // PowerConsumerOGS
+		mySensorOutput.print(myOGS_PowerConsumerRateSensor1.getValue()); // PowerConsumerOGS1
 		mySensorOutput.print("\t");
-		// VCCR info
-		mySensorOutput.print(myVCCR_PowerConsumerRateSensor.getValue()); // PowerConsumerVCCR
+		//OGS2 info
+		mySensorOutput.print(myOGS_H2OutFlowRateSensor2.getValue());// H2ProducerOGS2
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myVCCR_CO2ProducerFlowRateSensor.getValue());// CO2ProducerVCCR
+		mySensorOutput.print(myOGS_O2OutFlowRateSensor2.getValue());// O2ProducerOGS2
 		mySensorOutput.print("\t");
-		// Injector info
-		mySensorOutput.print(myInjector_O2ConsumerRateSensor.getValue()); // O2ConsumerInjector
+		mySensorOutput.print(myOGS_PotableWaterInFlowRateSensor2.getValue());// PotableWaterConsumeOGS2
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myInjector_O2ProducerRateSensor.getValue());// O2ProducerInjector
+		mySensorOutput.print(myOGS_PowerConsumerRateSensor2.getValue()); // PowerConsumerOGS2
 		mySensorOutput.print("\t");
-		// WRS info
-		mySensorOutput.print(myWaterRS_DirtyWaterConsumerRateSensor.getValue()); // DirtyWaterConsumer
+		// VCCR1 info
+		mySensorOutput.print(myVCCR_PowerConsumerRateSensor1.getValue()); // PowerConsumerVCCR1
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myWaterRS_GreyWaterConsumerRateSensor.getValue()); // GreyWaterConsumer
+		mySensorOutput.print(myVCCR_CO2ProducerFlowRateSensor1.getValue());// CO2ProducerVCCR1
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myWaterRS_PotableWaterProducerRateSensor
-				.getValue()); // PortableWaterProducer
+		// VCCR2 info
+		mySensorOutput.print(myVCCR_PowerConsumerRateSensor2.getValue()); // PowerConsumerVCCR2
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myWaterRS_PowerConsumerRateSensor.getValue()); // PowerConsumer
+		mySensorOutput.print(myVCCR_CO2ProducerFlowRateSensor2.getValue());// CO2ProducerVCCR2
+		mySensorOutput.print("\t");
+		// Injector1 info
+		mySensorOutput.print(myInjector_O2ConsumerRateSensor1.getValue()); // O2ConsumerInjector1
+		mySensorOutput.print("\t");
+		mySensorOutput.print(myInjector_O2ProducerRateSensor1.getValue());// O2ProducerInjector1
+		mySensorOutput.print("\t");
+		// Injector2 info
+		mySensorOutput.print(myInjector_O2ConsumerRateSensor2.getValue()); // O2ConsumerInjector2
+		mySensorOutput.print("\t");
+		mySensorOutput.print(myInjector_O2ProducerRateSensor2.getValue());// O2ProducerInjector2
+		mySensorOutput.print("\t");
+		// WRS1 info
+		mySensorOutput.print(myWaterRS_DirtyWaterConsumerRateSensor1.getValue()); // DirtyWaterConsumer1
+		mySensorOutput.print("\t");
+		mySensorOutput.print(myWaterRS_GreyWaterConsumerRateSensor1.getValue()); // GreyWaterConsumer1
+		mySensorOutput.print("\t");
+		mySensorOutput.print(myWaterRS_PotableWaterProducerRateSensor1.getValue()); // PortableWaterProducer1
+		mySensorOutput.print("\t");
+		mySensorOutput.print(myWaterRS_PowerConsumerRateSensor1.getValue()); // PowerConsumer1
+		mySensorOutput.print("\t");
+		// WRS2 info
+		mySensorOutput.print(myWaterRS_DirtyWaterConsumerRateSensor2.getValue()); // DirtyWaterConsumer2
+		mySensorOutput.print("\t");
+		mySensorOutput.print(myWaterRS_GreyWaterConsumerRateSensor2.getValue()); // GreyWaterConsumer2
+		mySensorOutput.print("\t");
+		mySensorOutput.print(myWaterRS_PotableWaterProducerRateSensor2.getValue()); // PortableWaterProducer2
+		mySensorOutput.print("\t");
+		mySensorOutput.print(myWaterRS_PowerConsumerRateSensor2.getValue()); // PowerConsumer2
 		mySensorOutput.print("\t");
 		// Storage sensors
 		mySensorOutput.print(myFoodStoreSensor.getValue()); // Food Store
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myPowerStoreSensor.getValue()); // Power Store
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myPotableWaterStoreSensor.getValue()); // Potable
-																	// Water
-																	// Store
+		mySensorOutput.print(myPotableWaterStoreSensor.getValue()); // PotableWaterStore
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myO2StoreSensor.getValue()); // O2 Store
 		mySensorOutput.print("\t");
 		// Environmental Condition Sensors
-		mySensorOutput.print(myO2PressureSensor.getValue()); // O2 pressure
+		mySensorOutput.print(myO2PressureSensor.getValue()); // O2Pressure
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myCO2PressureSensor.getValue()); // CO2 pressure
+		mySensorOutput.print(myCO2PressureSensor.getValue()); // CO2Pressure
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myNitrogenPressureSensor.getValue()); // N2
-																	// pressure
+		mySensorOutput.print(myNitrogenPressureSensor.getValue()); // N2Pressure
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myVaporPressureSensor.getValue()); // Vapor
-																// pressure
+		mySensorOutput.print(myVaporPressureSensor.getValue()); // VaporPressure
 		mySensorOutput.print("\t");
 		mySensorOutput.print("\t");
 
+		//Store Failures
 		if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()) {
 			myRepairOutput.println("CO2Store failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
 		}
-		if (myBioHolder.theVCCRModules.get(0).isMalfunctioning()) {
-			myRepairOutput.println("VCCR failure" + " " + " at Tick "
-					+ myBioDriver.getTicks());
-		}
+
 		if (myBioHolder.theO2Stores.get(0).isMalfunctioning()) {
 			myRepairOutput.println("O2Store failure" + " " + " at Tick "
-					+ myBioDriver.getTicks());
-		}
-		if (myBioHolder.theOGSModules.get(0).isMalfunctioning()) {
-			myRepairOutput.println("OGS failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
 		}
 		if (myBioHolder.theH2Stores.get(0).isMalfunctioning()) {
 			myRepairOutput.println("H2Store failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
 		}
-		if (myBioHolder.theCrewGroups.get(0).isMalfunctioning()) {
-			myRepairOutput.println("Crew failure" + " " + " at Tick "
-					+ myBioDriver.getTicks());
-		}
 		if (myBioHolder.theFoodStores.get(0).isMalfunctioning()) {
 			myRepairOutput.println("FoodStore failure" + " " + " at Tick "
-					+ myBioDriver.getTicks());
-		}
-		if (myBioHolder.theInjectors.get(0).isMalfunctioning()) {
-			myRepairOutput.println("Injector failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
 		}
 		if (myBioHolder.thePowerStores.get(0).isMalfunctioning()) {
@@ -384,18 +414,42 @@ public class ParellelController implements BiosimController {
 			myRepairOutput.println("DirtyWaterStore failure" + " "
 					+ " at Tick " + myBioDriver.getTicks());
 		}
-		if (myBioHolder.theWaterRSModules.get(0).isMalfunctioning()) {
-			myRepairOutput.println("WaterRS failure" + " " + " at Tick "
-					+ myBioDriver.getTicks());
-		}
 		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()) {
 			myRepairOutput.println("DirtyWaterStore failure" + " "
 					+ " at Tick " + myBioDriver.getTicks());
 
 		}
+		
+
+
 	}
 
 	public boolean checkFailure() {
+		//check regenerative component failure 
+		if (myBioHolder.theVCCRModules.get(0).isMalfunctioning()) {
+			myRepairOutput.println("VCCR failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
+		}
+		if (myBioHolder.theOGSModules.get(0).isMalfunctioning()) {
+			myRepairOutput.println("OGS failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
+		}
+
+		if (myBioHolder.theCrewGroups.get(0).isMalfunctioning()) {
+			myRepairOutput.println("Crew failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
+		}
+
+		if (myBioHolder.theInjectors.get(0).isMalfunctioning()) {
+			myRepairOutput.println("Injector failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
+		}
+		if (myBioHolder.theWaterRSModules.get(0).isMalfunctioning()) {
+			myRepairOutput.println("WaterRS failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
+		}
+		
+		//check storage component failure 
 		if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()) {
 			return true;
 		}
@@ -441,7 +495,7 @@ public class ParellelController implements BiosimController {
 			return false;
 	}
 
-	public void componentRepair() {
+		/**	public void componentRepair() {
 		if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()) {
 			myBioHolder.theCO2Stores.get(0).reset();
 			myRepairOutput.println("CO2Store is repaired" + " " + " at Tick "
@@ -513,7 +567,7 @@ public class ParellelController implements BiosimController {
 					+ " at Tick " + myBioDriver.getTicks());
 		}
 	}
-
+ 	*/
 	/**
 	 * Executed every tick. Looks at a sensor, looks at an actuator, then
 	 * increments the actuator.
@@ -522,11 +576,11 @@ public class ParellelController implements BiosimController {
 		// To get the Injector to change its parameters
 		if (myO2PressureSensor.getValue() > 27) {
 
-			myO2InjectorActuator.setValue(0);
+			myO2InjectorActuator1.setValue(0);
 
 		} else if (myO2PressureSensor.getValue() < 27) {
 
-			myO2InjectorActuator.setValue(2);
+			myO2InjectorActuator1.setValue(2);
 		}
 
 		// Check failure to monitor component malfunction using a Boolean

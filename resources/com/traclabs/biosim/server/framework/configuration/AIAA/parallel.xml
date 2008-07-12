@@ -256,15 +256,15 @@
 				logLevel="DEBUG">
 			</PowerInFlowRateSensor>
 			<PowerInFlowRateSensor input="VCCR2"
-				moduleName="VCCR2_PowerConsumerRateSensor" index="4"
+				moduleName="VCCR2_PowerConsumerRateSensor" index="3"
 				logLevel="DEBUG">
 			</PowerInFlowRateSensor>
 			<PowerInFlowRateSensor input="WaterRS1"
-				moduleName="WaterRS1_PowerConsumerRateSensor" index="5"
+				moduleName="WaterRS1_PowerConsumerRateSensor" index="4"
 				logLevel="DEBUG">
 			</PowerInFlowRateSensor>
 			<PowerInFlowRateSensor input="WaterRS2"
-				moduleName="WaterRS2_PowerConsumerRateSensor" index="6"
+				moduleName="WaterRS2_PowerConsumerRateSensor" index="5"
 				logLevel="DEBUG">
 			</PowerInFlowRateSensor>
 		</power>
