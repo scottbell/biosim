@@ -140,7 +140,7 @@ public class ParallelController implements BiosimController {
 			myRepairOutput = System.out;
 		}
 		mySensorOutput
-				.println("Ticks H2ProducerOGS1 O2ProducerOGS1 PotableWaterConsumeOGS1 PowerConsumerOGS1 H2ProducerOGS2 O2ProducerOGS2 PotableWaterConsumeOGS2 PowerConsumerOGS2 PowerConsumerVCCR1 CO2ProducerVCCR1 PowerConsumerVCCR2 CO2ProducerVCCR2	O2ConsumerInjector1 O2ProducerInjector1 O2ConsumerInjector2 O2ProducerInjector2 DirtyWaterConsumer1 GreyWaterConsumer1 PortableWaterProducer1 PowerConsumer1 DirtyWaterConsumer2 GreyWaterConsumer2 PortableWaterProducer2 PowerConsumer2 FoodStore PowerStore PotableWaterStore O2Store O2Pressure CO2Pressure N2Pressure VaporPressure");
+				.println("Ticks H2ProducerOGS1 O2ProducerOGS1 PotableWaterConsumeOGS1 PowerConsumerOGS1 H2ProducerOGS2 O2ProducerOGS2 PotableWaterConsumeOGS2 PowerConsumerOGS2 PowerConsumerVCCR1 CO2ProducerVCCR1 PowerConsumerVCCR2 CO2ProducerVCCR2	O2ConsumerInjector1 O2ProducerInjector1 O2ConsumerInjector2 O2ProducerInjector2 DirtyWaterConsumer1 GreyWaterConsumer1 PortableWaterProducer1 PowerConsumerWRS1 DirtyWaterConsumer2 GreyWaterConsumer2 PortableWaterProducer2 PowerConsumerWRS2 FoodStore PowerStore PotableWaterStore O2Store O2Pressure CO2Pressure N2Pressure VaporPressure");
 	}
 
 	public static void main(String[] args) {
@@ -349,7 +349,7 @@ public class ParallelController implements BiosimController {
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myWaterRS_PotableWaterProducerRateSensor1.getValue()); // PortableWaterProducer1
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myWaterRS_PowerConsumerRateSensor1.getValue()); // PowerConsumer1
+		mySensorOutput.print(myWaterRS_PowerConsumerRateSensor1.getValue()); // PowerConsumerWRS1
 		mySensorOutput.print("\t");
 		// WRS2 info
 		mySensorOutput.print(myWaterRS_DirtyWaterConsumerRateSensor2.getValue()); // DirtyWaterConsumer2
@@ -358,7 +358,7 @@ public class ParallelController implements BiosimController {
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myWaterRS_PotableWaterProducerRateSensor2.getValue()); // PortableWaterProducer2
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myWaterRS_PowerConsumerRateSensor2.getValue()); // PowerConsumer2
+		mySensorOutput.print(myWaterRS_PowerConsumerRateSensor2.getValue()); // PowerConsumerWRS2
 		mySensorOutput.print("\t");
 		// Storage sensors
 		mySensorOutput.print(myFoodStoreSensor.getValue()); // Food Store
