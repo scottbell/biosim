@@ -2,7 +2,7 @@
 <biosim xmlns="http://www.traclabs.com/biosim"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
-	<Globals crewsToWatch="" runTillCrewDeath="true">
+	<Globals crewsToWatch="CrewGroup" runTillCrewDeath="true">
 		<author>Haibei and Francisco</author>
 	</Globals>
 	<SimBioModules>
@@ -23,17 +23,17 @@
 					maxFlowRates="100" />
 				<potableWaterConsumer inputs="PotableWaterStore"
 					desiredFlowRates="10" maxFlowRates="15"></potableWaterConsumer>
-				<O2Producer desiredFlowRates="1000 400" outputs="O2Store"
+				<O2Producer desiredFlowRates="1000" outputs="O2Store"
 					maxFlowRates="1500"></O2Producer>
 				<H2Producer desiredFlowRates="100" outputs="H2Store"
 					maxFlowRates="150" />
 			</OGS>
 			<OGS moduleName="OGS2">
 				<expFailureDecider lambda="0.00046296" isFailureEnabled="false"></expFailureDecider>
-				<powerConsumer inputs="PowerStore" desiredFlowRates="5"
+				<powerConsumer inputs="PowerStore" desiredFlowRates="0"
 					maxFlowRates="100"></powerConsumer>
 				<potableWaterConsumer inputs="PotableWaterStore"
-					desiredFlowRates="10" maxFlowRates="15" />
+					desiredFlowRates="10" maxFlowRates="15" ></potableWaterConsumer>
 				<O2Producer desiredFlowRates="1000" outputs="O2Store"
 					maxFlowRates="1500" />
 				<H2Producer desiredFlowRates="100" outputs="H2Store"
@@ -105,7 +105,7 @@
 			<SimEnvironment moduleName="SimEnvironment"
 				initialVolume="40000">
 			</SimEnvironment>
-			<Dehumidifier moduleName="">
+			<Dehumidifier moduleName="Dehumidifier">
 				<airConsumer inputs="SimEnvironment"
 					desiredFlowRates="1000" maxFlowRates="1000" />
 				<dirtyWaterProducer desiredFlowRates="1000"
@@ -302,7 +302,7 @@
 				moduleName="WaterRS2_PortableWaterProducerRateSensor" index="0"
 				logLevel="DEBUG">
 			</PotableWaterOutFlowRateSensor>
-			<DirtyWaterOutFlowRateSensor input="Dehumdifier" moduleName="Dehumdifier_DirtyWater_Out"
+			<DirtyWaterOutFlowRateSensor input="Dehumidifier" moduleName="Dehumidifier_DirtyWater_Out"
 				index="0">
 			</DirtyWaterOutFlowRateSensor>
 		</water>
@@ -325,10 +325,10 @@
 	<Actuators>
 		<air>
 			<O2InFlowRateActuator output="Injector1"
-				moduleName="InjectorO2InFlowRateActuator" index="0">
+				moduleName="Injector1O2InFlowRateActuator" index="0">
 			</O2InFlowRateActuator>
-			<O2InFlowRateActuator output="Inector2"
-				moduleName="InjectorO2InFlowRateActuator" index="1">
+			<O2InFlowRateActuator output="Injector2"
+				moduleName="Injector2O2InFlowRateActuator" index="1">
 			</O2InFlowRateActuator>
 		</air>
 	</Actuators>
