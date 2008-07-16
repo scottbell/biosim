@@ -380,22 +380,36 @@ public class ParallelController implements BiosimController {
 		mySensorOutput.print("\t");
 		mySensorOutput.print("\t");
 
-		//Store Failures
 		if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()) {
 			myRepairOutput.println("CO2Store failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
 		}
-
+		if (myBioHolder.theVCCRModules.get(0).isMalfunctioning()) {
+			myRepairOutput.println("VCCR failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
+		}
 		if (myBioHolder.theO2Stores.get(0).isMalfunctioning()) {
 			myRepairOutput.println("O2Store failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
+		}
+		if (myBioHolder.theOGSModules.get(0).isMalfunctioning()) {
+			myRepairOutput.println("OGS failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
 		}
 		if (myBioHolder.theH2Stores.get(0).isMalfunctioning()) {
 			myRepairOutput.println("H2Store failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
 		}
+		if (myBioHolder.theCrewGroups.get(0).isMalfunctioning()) {
+			myRepairOutput.println("Crew failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
+		}
 		if (myBioHolder.theFoodStores.get(0).isMalfunctioning()) {
 			myRepairOutput.println("FoodStore failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
+		}
+		if (myBioHolder.theInjectors.get(0).isMalfunctioning()) {
+			myRepairOutput.println("Injector failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
 		}
 		if (myBioHolder.thePowerStores.get(0).isMalfunctioning()) {
@@ -414,14 +428,14 @@ public class ParallelController implements BiosimController {
 			myRepairOutput.println("DirtyWaterStore failure" + " "
 					+ " at Tick " + myBioDriver.getTicks());
 		}
+		if (myBioHolder.theWaterRSModules.get(0).isMalfunctioning()) {
+			myRepairOutput.println("WaterRS failure" + " " + " at Tick "
+					+ myBioDriver.getTicks());
+		}
 		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()) {
 			myRepairOutput.println("DirtyWaterStore failure" + " "
 					+ " at Tick " + myBioDriver.getTicks());
-
 		}
-		
-
-
 	}
 
 	public boolean checkFailure() {
