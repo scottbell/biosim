@@ -42,7 +42,7 @@ jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HO
 logCLasspath="$devRootDir/lib/log4j/log4j.jar"
 mysqlClasspath="$devRootDir/lib/mysql/mysql-jdbc.jar"
 bionetClasspath="$devRootDir/lib/bionet/JBionet.jar$separator$devRootDir/lib/bionet"
-jacoInvocation="$java_command -Xmx1g -classpath $buildDir$separator$resourceDir$separator$logCLasspath$separator$jacoClasspath$separator$mysqlClasspath$separator$bionetClasspath $machineTypeEnv $biosimHome $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
+jacoInvocation="$java_command -Xmx1g -Xms500m -classpath $buildDir$separator$resourceDir$separator$logCLasspath$separator$jacoClasspath$separator$mysqlClasspath$separator$bionetClasspath $machineTypeEnv $biosimHome $jacoOrbClass $jacoSingletonOrbClass $jacoNameIOR"
 nojitOption="-Djava.compiler=none"
 case $userSelect in
 	"-nojit") echo "		-starting with no JIT";jacoInvocation="$jacoInvocation $nojitOption";userSelect=$2;;

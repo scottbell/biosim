@@ -258,8 +258,8 @@ public abstract class StoreFlowRateControllableImpl extends
                     getMaxFlowRate(i));
             float resourceToDistributeFinal = Math.min(
                     resourceToDistributeFirst, getDesiredFlowRate(i));
-            getActualFlowRates()[i] = getStores()[i]
-                    .add(resourceToDistributeFinal);
+            getStores()[i].add(resourceToDistributeFinal);
+            getActualFlowRates()[i] = resourceToDistributeFinal;
             resourceRemaining -= getActualFlowRate(i);
         }
         return (amountToPush - resourceRemaining);

@@ -23,13 +23,13 @@
 					maxFlowRates="100" />
 				<potableWaterConsumer inputs="PotableWaterStore"
 					desiredFlowRates="10" maxFlowRates="15"></potableWaterConsumer>
-				<O2Producer desiredFlowRates="1000" outputs="O2Store"
+				<O2Producer desiredFlowRates="1000 400" outputs="O2Store"
 					maxFlowRates="1500"></O2Producer>
 				<H2Producer desiredFlowRates="100" outputs="H2Store"
 					maxFlowRates="150" />
 			</OGS>
 			<OGS moduleName="OGS2">
-				<expFailureDecider lambda="0.00046296"></expFailureDecider>
+				<expFailureDecider lambda="0.00046296" isFailureEnabled="false"></expFailureDecider>
 				<powerConsumer inputs="PowerStore" desiredFlowRates="5"
 					maxFlowRates="100"></powerConsumer>
 				<potableWaterConsumer inputs="PotableWaterStore"
