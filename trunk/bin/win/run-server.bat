@@ -9,5 +9,5 @@ set jacoNameIOR="ORBInitRef.NameService=file:%BIOSIM_HOME%\tmp\ns\ior.txt"
 set resourceDir="%BIOSIM_HOME%\resources"
 set jacoClasspath="%BIOSIM_HOME%\lib\jacorb\jacorb.jar;%BIOSIM_HOME%\lib\jacorb;%BIOSIM_HOME%\lib\jacorb\avalon-framework.jar;%BIOSIM_HOME%\lib\jacorb\logkit.jar"
 set logCLasspath="%BIOSIM_HOME%\lib\log4j\log4j.jar;%BIOSIM_HOME%\lib\mysql\mysql-jdbc.jar"
-java -Xmx1g -classpath %buildDir%;%resourceDir%;%logCLasspath%;%jacoClasspath% %machineTypeEnv% -D%jacoOrbClass% -D%jacoSingletonOrbClass% -D%jacoNameIOR% "%mainClass%" %*
+java -Xmx1g -Xms500m -classpath %buildDir%;%resourceDir%;%logCLasspath%;%jacoClasspath% %machineTypeEnv% -D%jacoOrbClass% -D%jacoSingletonOrbClass% -D%jacoNameIOR% "%mainClass%" %*
 pause
