@@ -441,7 +441,7 @@ public class SeriesController implements BiosimController {
 			return false;
 	}
 
-	public void componentRepair() {
+	/*public void componentRepair() {
 		if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()) {
 			myBioHolder.theCO2Stores.get(0).reset();
 			myRepairOutput.println("CO2Store is repaired" + " " + " at Tick "
@@ -513,7 +513,8 @@ public class SeriesController implements BiosimController {
 					+ " at Tick " + myBioDriver.getTicks());
 		}
 	}
-
+	*/
+	
 	/**
 	 * Executed every tick. Looks at a sensor, looks at an actuator, then
 	 * increments the actuator.
