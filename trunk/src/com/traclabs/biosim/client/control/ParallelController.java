@@ -140,7 +140,7 @@ public class ParallelController implements BiosimController {
 			myRepairOutput = System.out;
 		}
 		mySensorOutput
-				.println("Ticks H2ProducerOGS O2ProducerOGS PotableWaterConsumeOGS PowerConsumerOGS PowerConsumerVCCR CO2ProducerVCCR O2ConsumerInjector O2ProdurerInjector DirtyWaterConsumer GreyWaterConsumer PotableWaterProducer PowerConsumerWaterRS FoodStore PowerStore PotatbleWaterStore O2Store O2PP CO2PP N2PP VaporPP");
+				.println("Ticks H2ProducerOGS1 O2ProducerOGS1 PotableWaterConsumeOGS1 PowerConsumerOGS1 H2ProducerOGS2 O2ProducerOGS2 PotableWaterConsumeOGS2 PowerConsumerOGS2 PowerConsumerVCCR1 CO2ProducerVCCR1 PowerConsumerVCCR2 CO2ProducerVCCR2	O2ConsumerInjector1 O2ProducerInjector1 O2ConsumerInjector2 O2ProducerInjector2 DirtyWaterConsumer1 GreyWaterConsumer1 PortableWaterProducer1 PowerConsumer1 DirtyWaterConsumer2 GreyWaterConsumer2 PortableWaterProducer2 PowerConsumer2 FoodStore PowerStore PotableWaterStore O2Store O2Pressure CO2Pressure N2Pressure VaporPressure");
 	}
 
 	public static void main(String[] args) {
