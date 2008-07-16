@@ -207,7 +207,7 @@ public class ParallelController implements BiosimController {
 		myWaterRS_GreyWaterConsumerRateSensor1 = myBioHolder.theGreyWaterInFlowRateSensors.get(0);
 		myWaterRS_GreyWaterConsumerRateSensor2 = myBioHolder.theGreyWaterInFlowRateSensors.get(1);
 		myWaterRS_PotableWaterProducerRateSensor1 = myBioHolder.thePotableWaterOutFlowRateSensors.get(0);
-		myWaterRS_PotableWaterProducerRateSensor2 = myBioHolder.thePotableWaterOutFlowRateSensors.get(0);
+		myWaterRS_PotableWaterProducerRateSensor2 = myBioHolder.thePotableWaterOutFlowRateSensors.get(1);
 
 		// Crew Survival Condition Sensors
 		myO2PressureSensor = myBioHolder
@@ -347,7 +347,7 @@ public class ParallelController implements BiosimController {
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myWaterRS_GreyWaterConsumerRateSensor1.getValue()); // GreyWaterConsumer1
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myWaterRS_PotableWaterProducerRateSensor1.getValue()); // PortableWaterProducer1
+		mySensorOutput.print(myWaterRS_PotableWaterProducerRateSensor1.getValue()); // PotableWaterProducer1
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myWaterRS_PowerConsumerRateSensor1.getValue()); // PowerConsumerWRS1
 		mySensorOutput.print("\t");
@@ -356,7 +356,7 @@ public class ParallelController implements BiosimController {
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myWaterRS_GreyWaterConsumerRateSensor2.getValue()); // GreyWaterConsumer2
 		mySensorOutput.print("\t");
-		mySensorOutput.print(myWaterRS_PotableWaterProducerRateSensor2.getValue()); // PortableWaterProducer2
+		mySensorOutput.print(myWaterRS_PotableWaterProducerRateSensor2.getValue()); // PotableWaterProducer2
 		mySensorOutput.print("\t");
 		mySensorOutput.print(myWaterRS_PowerConsumerRateSensor2.getValue()); // PowerConsumerWRS2
 		mySensorOutput.print("\t");
