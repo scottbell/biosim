@@ -55,7 +55,7 @@
 			<VCCR moduleName="VCCR2">
 				<normalFailureDecider logmean="4320" logsd="3"
 					isFailureEnabled="false" />
-				<powerConsumer inputs="PowerStore" desiredFlowRates="5"
+				<powerConsumer inputs="PowerStore" desiredFlowRates="0"
 					maxFlowRates="100"></powerConsumer>
 				<airConsumer inputs="SimEnvironment"
 					desiredFlowRates="1000" maxFlowRates="1500"></airConsumer>
@@ -188,7 +188,7 @@
 			<WaterRS moduleName="WaterRS2">
 				<weibull2FailureDecider lambda="0.000231" beta="5"
 					isFailureEnabled="false" />
-				<powerConsumer inputs="PowerStore" desiredFlowRates="5"
+				<powerConsumer inputs="PowerStore" desiredFlowRates="0"
 					maxFlowRates="100"></powerConsumer>
 				<dirtyWaterConsumer inputs="DirtyWaterStore"
 					desiredFlowRates="40" maxFlowRates="50" />
