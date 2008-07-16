@@ -18,7 +18,8 @@
 				<expFailureDecider lambda="0.00001447"></expFailureDecider>
 			</O2Store>
 			<OGS moduleName="OGS1">
-				<expFailureDecider lambda="0.00046296" />
+				<expFailureDecider lambda="0.00046296"
+					isFailureEnabled="true" />
 				<powerConsumer inputs="PowerStore" desiredFlowRates="5"
 					maxFlowRates="100" />
 				<potableWaterConsumer inputs="PotableWaterStore"
@@ -40,7 +41,8 @@
 					maxFlowRates="150" />
 			</OGS>
 			<VCCR moduleName="VCCR1">
-				<normalFailureDecider logmean="4320" logsd="3" />
+				<normalFailureDecider logmean="4320" logsd="3"
+					isFailureEnabled="true" />
 				<powerConsumer inputs="PowerStore" desiredFlowRates="5"
 					maxFlowRates="100" />
 				<airConsumer inputs="SimEnvironment"
@@ -116,12 +118,14 @@
 		<food>
 			<FoodStore capacity="4000" level="2000"
 				moduleName="FoodStore">
-				<expFailureDecider lambda="0.00023148" />
+				<expFailureDecider lambda="0.00023148"
+					isFailureEnabled="true" />
 			</FoodStore>
 		</food>
 		<framework>
 			<Injector moduleName="Injector1">
-				<normalFailureDecider logmean="3888" logsd="10" />
+				<normalFailureDecider logmean="3888" logsd="10"
+					isFailureEnabled="true" />
 				<O2Consumer inputs="O2Store" desiredFlowRates="2"
 					maxFlowRates="10" />
 				<O2Producer desiredFlowRates="2"
@@ -145,13 +149,15 @@
 		<power>
 			<PowerStore capacity="120000" moduleName="PowerStore"
 				level="60000" logLevel="INFO">
-				<expFailureDecider lambda="0.00023148" />
+				<expFailureDecider lambda="0.00023148"
+					isFailureEnabled="true" />
 			</PowerStore>
 		</power>
 		<waste>
 			<DryWasteStore capacity="2000" moduleName="DryWasteStore"
 				level="0.0">
-				<expFailureDecider lambda="0.00001447"></expFailureDecider>
+				<expFailureDecider lambda="0.00001447"
+					isFailureEnabled="true"></expFailureDecider>
 			</DryWasteStore>
 		</waste>
 		<water>
@@ -168,7 +174,8 @@
 				<expFailureDecider lambda="0.00001447" />
 			</PotableWaterStore>
 			<WaterRS moduleName="WaterRS1">
-				<weibull2FailureDecider lambda="0.000231" beta="5" />
+				<weibull2FailureDecider lambda="0.000231" beta="5"
+					isFailureEnabled="true" />
 				<powerConsumer inputs="PowerStore" desiredFlowRates="5"
 					maxFlowRates="100" />
 				<dirtyWaterConsumer inputs="DirtyWaterStore"
@@ -179,13 +186,14 @@
 					outputs="PotableWaterStore" maxFlowRates="10000" />
 			</WaterRS>
 			<WaterRS moduleName="WaterRS2">
-				<weibull2FailureDecider lambda="0.000231" beta="5" />
+				<weibull2FailureDecider lambda="0.000231" beta="5"
+					isFailureEnabled="false" />
 				<powerConsumer inputs="PowerStore" desiredFlowRates="5"
 					maxFlowRates="100"></powerConsumer>
 				<dirtyWaterConsumer inputs="DirtyWaterStore"
 					desiredFlowRates="40" maxFlowRates="50" />
 				<greyWaterConsumer inputs="GreyWaterStore"
-					desiredFlowRates="40" maxFlowRates="50" />
+					desiredFlowRates="40" maxFlowRates="50" ></greyWaterConsumer>
 				<potableWaterProducer desiredFlowRates="10000"
 					outputs="PotableWaterStore" maxFlowRates="10000" />
 			</WaterRS>
@@ -330,7 +338,7 @@
 				moduleName="Injector1O2InFlowRateActuator" index="0">
 			</O2InFlowRateActuator>
 			<O2InFlowRateActuator output="Injector2"
-				moduleName="Injector2O2InFlowRateActuator" index="1">
+				moduleName="Injector2O2InFlowRateActuator" index="0">
 			</O2InFlowRateActuator>
 		</air>
 	</Actuators>
