@@ -51,7 +51,8 @@
 					maxFlowRates="1500" />
 			</VCCR>
 			<VCCR moduleName="VCCR2">
-				<normalFailureDecider logmean="4320" logsd="3" />
+				<normalFailureDecider logmean="4320" logsd="3"
+					isFailureEnabled="false" />
 				<powerConsumer inputs="PowerStore" desiredFlowRates="5"
 					maxFlowRates="100"></powerConsumer>
 				<airConsumer inputs="SimEnvironment"
@@ -130,14 +131,15 @@
 					outputs="CO2Store" maxFlowRates="200" />
 			</Injector>
 			<Injector moduleName="Injector2">
-				<normalFailureDecider logmean="3888" logsd="10" />
-				<O2Consumer inputs="O2Store" desiredFlowRates="2"
-					maxFlowRates="10" />
-				<O2Producer desiredFlowRates="2"
-					outputs="SimEnvironment" maxFlowRates="10"></O2Producer>
-				<CO2Consumer inputs="SimEnvironment" desiredFlowRates="1"
-					maxFlowRates="200" /><CO2Producer desiredFlowRates="1"
-					outputs="CO2Store" maxFlowRates="200" />
+				<normalFailureDecider logmean="3888" logsd="10"
+					isFailureEnabled="false" />
+				<O2Consumer inputs="O2Store" desiredFlowRates="0"
+					maxFlowRates="0" />
+				<O2Producer desiredFlowRates="0"
+					outputs="SimEnvironment" maxFlowRates="0"></O2Producer>
+				<CO2Consumer inputs="SimEnvironment" desiredFlowRates="0"
+					maxFlowRates="0" /><CO2Producer desiredFlowRates="0"
+					outputs="CO2Store" maxFlowRates="0" />
 			</Injector>
 		</framework>
 		<power>
@@ -209,14 +211,14 @@
 				moduleName="OGS_H2OutFlowRateSensor1" index="0" logLevel="DEBUG">
 			</H2OutFlowRateSensor>
 			<H2OutFlowRateSensor input="OGS2"
-				moduleName="OGS_H2OutFlowRateSensor2" index="1" logLevel="DEBUG">
+				moduleName="OGS_H2OutFlowRateSensor2" index="0" logLevel="DEBUG">
 			</H2OutFlowRateSensor>
 			<CO2OutFlowRateSensor input="VCCR1"
 				moduleName="VCCR1_CO2ProducerFlowRateSensor" index="0"
 				logLevel="DEBUG">
 			</CO2OutFlowRateSensor>
 			<CO2OutFlowRateSensor input="VCCR2"
-				moduleName="VCCR2_CO2ProducerFlowRateSensor" index="1"
+				moduleName="VCCR2_CO2ProducerFlowRateSensor" index="0"
 				logLevel="DEBUG">
 			</CO2OutFlowRateSensor>
 			<O2InFlowRateSensor input="Injector1"
@@ -224,7 +226,7 @@
 				logLevel="DEBUG">
 			</O2InFlowRateSensor>
 			<O2InFlowRateSensor input="Injector2"
-				moduleName="Injector2_O2ConsumerRateSensor" index="1"
+				moduleName="Injector2_O2ConsumerRateSensor" index="0"
 				logLevel="DEBUG">
 			</O2InFlowRateSensor>
 			<O2OutFlowRateSensor input="Injector1"
@@ -232,14 +234,14 @@
 				logLevel="DEBUG">
 			</O2OutFlowRateSensor>
 			<O2OutFlowRateSensor input="Injector2"
-				moduleName="Injector2_O2ProducerRateSensor" index="1"
+				moduleName="Injector2_O2ProducerRateSensor" index="0"
 				logLevel="DEBUG">
 			</O2OutFlowRateSensor>
 			<O2OutFlowRateSensor input="OGS1"
-				moduleName="OGS1_O2OutFlowRateSensor" index="2" logLevel="DEBUG">
+				moduleName="OGS1_O2OutFlowRateSensor" index="0" logLevel="DEBUG">
 			</O2OutFlowRateSensor>
 			<O2OutFlowRateSensor input="OGS2"
-				moduleName="OGS2_O2OutFlowRateSensor" index="3" logLevel="DEBUG">
+				moduleName="OGS2_O2OutFlowRateSensor" index="0" logLevel="DEBUG">
 			</O2OutFlowRateSensor>
 		</air>
 		<power>
@@ -248,23 +250,23 @@
 				logLevel="DEBUG">
 			</PowerInFlowRateSensor>
 			<PowerInFlowRateSensor input="OGS2"
-				moduleName="OGS2_PowerConsumerRateSensor" index="1"
+				moduleName="OGS2_PowerConsumerRateSensor" index="0"
 				logLevel="DEBUG">
 			</PowerInFlowRateSensor>
 			<PowerInFlowRateSensor input="VCCR1"
-				moduleName="VCCR1_PowerConsumerRateSensor" index="2"
+				moduleName="VCCR1_PowerConsumerRateSensor" index="0"
 				logLevel="DEBUG">
 			</PowerInFlowRateSensor>
 			<PowerInFlowRateSensor input="VCCR2"
-				moduleName="VCCR2_PowerConsumerRateSensor" index="3"
+				moduleName="VCCR2_PowerConsumerRateSensor" index="0"
 				logLevel="DEBUG">
 			</PowerInFlowRateSensor>
 			<PowerInFlowRateSensor input="WaterRS1"
-				moduleName="WaterRS1_PowerConsumerRateSensor" index="4"
+				moduleName="WaterRS1_PowerConsumerRateSensor" index="0"
 				logLevel="DEBUG">
 			</PowerInFlowRateSensor>
 			<PowerInFlowRateSensor input="WaterRS2"
-				moduleName="WaterRS2_PowerConsumerRateSensor" index="5"
+				moduleName="WaterRS2_PowerConsumerRateSensor" index="0"
 				logLevel="DEBUG">
 			</PowerInFlowRateSensor>
 		</power>
@@ -287,15 +289,15 @@
 			</PotableWaterOutFlowRateSensor>
 
 			<PotableWaterInFlowRateSensor input="OGS2"
-				moduleName="OGS2_PortableWaterInFlowRateSensor" index="1"
+				moduleName="OGS2_PortableWaterInFlowRateSensor" index="0"
 				logLevel="DEBUG">
 			</PotableWaterInFlowRateSensor>
 			<DirtyWaterInFlowRateSensor input="WaterRS2"
-				moduleName="WaterRS2_DirtyWaterConsumerRateSensor" index="1"
+				moduleName="WaterRS2_DirtyWaterConsumerRateSensor" index="0"
 				logLevel="DEBUG">
 			</DirtyWaterInFlowRateSensor>
 			<GreyWaterInFlowRateSensor input="WaterRS2"
-				moduleName="WaterRS2_GreyWaterConsumerRateSensor" index="1"
+				moduleName="WaterRS2_GreyWaterConsumerRateSensor" index="0"
 				logLevel="DEBUG">
 			</GreyWaterInFlowRateSensor>
 			<PotableWaterOutFlowRateSensor input="WaterRS2"
