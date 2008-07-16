@@ -260,6 +260,7 @@ public class ParallelController implements BiosimController {
 				myBioHolder.theCrewGroups.get(0).killCrew();
 			}
 			stepSim();
+			parallel();
 			printResults();
 			mySensorOutput.flush();
 			myRepairOutput.flush();
@@ -622,5 +623,12 @@ public class ParallelController implements BiosimController {
 		// myRepairDelay = 1;
 		// }
 		// }
+	}
+	public void parallel() {
+		if (myBioHolder.theOGSModules.get(0).isMalfunctioning()) {
+			
+			myBioHolder.theOGSModules.get(1).isFailureEnabled();
+			myBioHolder.theOGSModules.get(1).getPowerConsumerDefinition().setDesiredFlowRate(5, 0);
+		}
 	}
 }
