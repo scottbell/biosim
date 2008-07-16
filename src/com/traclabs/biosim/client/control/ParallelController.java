@@ -579,9 +579,21 @@ public class ParallelController implements BiosimController {
 			myO2InjectorActuator1.setValue(0);
 
 		} else if (myO2PressureSensor.getValue() < 27) {
-
+			
 			myO2InjectorActuator1.setValue(2);
+			
 		}
+
+		/*if (myBioHolder.theOGSModules.get(0).isMalfunctioning()){
+			
+			myBioHolder.theOGSModules.get(1).isFailureEnabled();
+		
+			myBioHolder.theOGSModules.get(1).getPowerConsumerDefinition().setDesiredFlowRate(5, 0);
+		
+			myBioHolder.theOGSModules.get(1).getO2ProducerDefinition().setDesiredFlowRate(5, 0);
+			}
+		}*/
+		
 
 		// Check failure to monitor component malfunction using a Boolean
 		// "CheckFailure"
