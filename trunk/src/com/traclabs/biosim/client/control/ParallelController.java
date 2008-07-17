@@ -668,7 +668,7 @@ public class ParallelController implements BiosimController {
 	public void parallel() {
 		if ((myBioHolder.theOGSModules.get(0).isMalfunctioning()))  {
 			if (OGS1active){
-			myBioHolder.theOGSModules.get(1).reset();
+			myBioHolder.theOGSModules.get(1).setEnableFailure(true);
 			myBioHolder.theOGSModules.get(1).getPowerConsumerDefinition().setDesiredFlowRate(5, 0);
 			myRepairOutput.println("OGS2 activated" + " " + " at Tick "
 					+ myBioDriver.getTicks());
