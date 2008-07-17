@@ -118,6 +118,7 @@ public class ParallelController implements BiosimController {
 
 	private boolean logToFile = true;
 	private boolean OGS1active = true;
+	private boolean OGS2active = true;
 	private boolean VCCR1active = true;
 	private boolean VCCR2active = true;
 	private boolean Injector1active = true;
