@@ -19,7 +19,7 @@ import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
 import com.traclabs.biosim.idl.simulation.framework.Injector;
 
 /**
- * @author Haibei Jiang 
+ * @author Haibei Jiang and Francisco Capristan
  * A controller for modeling parallel system reliability
  */
 
@@ -125,7 +125,15 @@ public class ParallelController implements BiosimController {
 	private boolean Injector2active = true;
 	private boolean WRS1active = true;
 	private boolean WRS2active = true;
-	
+	private boolean FoodStoreactive = true;
+	private boolean O2Storeactive = true;
+	private boolean PowerStoreactive = true;
+	private boolean PotableWaterStoreactive = true;
+	private boolean CO2Storeactive = true;
+	private boolean DryWasteStoreactive = true;
+	private boolean H2Storeactive = true;
+	private boolean Crewactive = true;
+	private boolean DirtyWaterStoreactive = true;
 	private PrintStream mySensorOutput;
 
 	private PrintStream myRepairOutput;
@@ -390,67 +398,87 @@ public class ParallelController implements BiosimController {
 		mySensorOutput.print("\t");
 
 		if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()) {
+			if (CO2Storeactive){
 			myRepairOutput.println("CO2Store failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
-		}
+			CO2Storeactive=false;
+		}}
 		if (myBioHolder.theVCCRModules.get(0).isMalfunctioning()) {
+			if (VCCR1active){
 			myRepairOutput.println("VCCR1 failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
-		}
+		}}
 		if (myBioHolder.theO2Stores.get(0).isMalfunctioning()) {
+			if (O2Storeactive){
 			myRepairOutput.println("O2Store failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
-		}
+			O2Storeactive = false;
+		}}
 		if (myBioHolder.theOGSModules.get(0).isMalfunctioning()) {
 			if (OGS1active){
 			myRepairOutput.println("OGS1 failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
 			}}
 		if (myBioHolder.theH2Stores.get(0).isMalfunctioning()) {
+			if (H2Storeactive){
 			myRepairOutput.println("H2Store failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
-		}
+			H2Storeactive=false;
+		}}
 		if (myBioHolder.theCrewGroups.get(0).isMalfunctioning()) {
+			if(Crewactive){
 			myRepairOutput.println("Crew failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
-		}
+			Crewactive=false;
+		}}
 		if (myBioHolder.theFoodStores.get(0).isMalfunctioning()) {
+			if (FoodStoreactive){
 			myRepairOutput.println("FoodStore failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
-		}
+			FoodStoreactive=false;
+		}}
 		if (myBioHolder.theInjectors.get(0).isMalfunctioning()) {
+			if (Injector1active){
 			myRepairOutput.println("Injector1 failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
-		}
+		}}
 		if (myBioHolder.thePowerStores.get(0).isMalfunctioning()) {
+			if (PowerStoreactive){
 			myRepairOutput.println("PowerStore failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
-		}
+			PowerStoreactive = false;
+		}}
 		if (myBioHolder.theDryWasteStores.get(0).isMalfunctioning()) {
+			if (DryWasteStoreactive){
 			myRepairOutput.println("DryWasteStore failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
-		}
+			DryWasteStoreactive=false;
+		}}
 		if (myBioHolder.thePotableWaterStores.get(0).isMalfunctioning()) {
+			if (PotableWaterStoreactive){
 			myRepairOutput.println("PortableWaterStore failure" + " "
 					+ " at Tick " + myBioDriver.getTicks());
-		}
+			PotableWaterStoreactive=false;
+		}}
 		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()) {
+			if(DirtyWaterStoreactive){
 			myRepairOutput.println("DirtyWaterStore failure" + " "
 					+ " at Tick " + myBioDriver.getTicks());
-		}
+			DirtyWaterStoreactive=false;
+		}}
 		if (myBioHolder.theWaterRSModules.get(0).isMalfunctioning()) {
+			if (WRS1active){
 			myRepairOutput.println("WaterRS1 failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
-		}
-		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()) {
-			myRepairOutput.println("DirtyWaterStore failure" + " "
-					+ " at Tick " + myBioDriver.getTicks());
-		}
+		}}
+		
 		//check regenerative component failure for second components
 		if (myBioHolder.theVCCRModules.get(1).isMalfunctioning()) {
+			if(VCCR2active){
 			myRepairOutput.println("VCCR2 failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
-		}
+			VCCR2active=false;
+		}}
 		if (myBioHolder.theOGSModules.get(1).isMalfunctioning()) {
 			if (!OGS1active && OGS2active){
 			myRepairOutput.println("OGS2 failure" + " " + " at Tick "
@@ -458,18 +486,22 @@ public class ParallelController implements BiosimController {
 			OGS2active = false;
 		}}
 		if (myBioHolder.theInjectors.get(1).isMalfunctioning()) {
+			if (Injector2active){
 			myRepairOutput.println("Injector2 failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
-		}
+			Injector2active=false;
+		}}
 		if (myBioHolder.theWaterRSModules.get(1).isMalfunctioning()) {
+			if(WRS2active){
 			myRepairOutput.println("WaterRS2 failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
-		}
+			WRS2active=false;
+		}}
 		
 		
 	}
 
-	public boolean checkFailure() {
+	/*public boolean checkFailure() {
 		//check regenerative component failure for first components
 		if (myBioHolder.theVCCRModules.get(0).isMalfunctioning()) {
 			myRepairOutput.println("VCCR1 failure" + " " + " at Tick "
@@ -556,7 +588,7 @@ public class ParallelController implements BiosimController {
 			return true;
 		} else
 			return false;
-	}
+	}*/
 
 		/**	public void componentRepair() {
 		if (myBioHolder.theCO2Stores.get(0).isMalfunctioning()) {
@@ -674,8 +706,8 @@ public class ParallelController implements BiosimController {
 	}
 	public void parallel() {
 		if ((myBioHolder.theOGSModules.get(0).isMalfunctioning()))  {
-			if (OGS1active){
-			myBioHolder.theOGSModules.get(1).setEnableFailure(true);
+			if (OGS1active){			
+			myBioHolder.theOGSModules.get(1).setEnableFailure(true);			
 			myBioHolder.theOGSModules.get(1).getPowerConsumerDefinition().setDesiredFlowRate(5, 0);
 			myRepairOutput.println("OGS2 activated" + " " + " at Tick "
 					+ myBioDriver.getTicks());
@@ -689,6 +721,29 @@ public class ParallelController implements BiosimController {
 			myRepairOutput.println("VCCR2 activated" + " " + " at Tick "
 					+ myBioDriver.getTicks());
 			VCCR1active = false;
+		}
+			}
+		if (myBioHolder.theWaterRSModules.get(0).isMalfunctioning()) {
+			if (WRS1active){
+			myBioHolder.theWaterRSModules.get(1).setEnableFailure(true);
+			myBioHolder.theWaterRSModules.get(1).getPowerConsumerDefinition().setDesiredFlowRate(5, 0);
+			myRepairOutput.println("WRS2 activated" + " " + " at Tick "
+					+ myBioDriver.getTicks());
+			WRS1active = false;
+		}
+			}
+		if (myBioHolder.theInjectors.get(0).isMalfunctioning()) {
+			if (Injector1active){
+			myBioHolder.theInjectors.get(1).setEnableFailure(true);
+			//myBioHolder.theWaterRSModules.get(1).getPowerConsumerDefinition().setDesiredFlowRate(5, 0);
+			myBioHolder.theInjectors.get(1).setEnableFailure(true);
+			myBioHolder.theInjectors.get(1).getO2ConsumerDefinition().setDesiredFlowRate(2, 0);
+			myBioHolder.theInjectors.get(1).getO2ProducerDefinition().setDesiredFlowRate(2, 0);
+			myBioHolder.theInjectors.get(1).getCO2ConsumerDefinition().setDesiredFlowRate(1, 0);
+			myBioHolder.theInjectors.get(1).getCO2ProducerDefinition().setDesiredFlowRate(1, 0);
+			myRepairOutput.println("Injector2 activated" + " " + " at Tick "
+					+ myBioDriver.getTicks());
+			Injector1active = false;
 		}
 			}
 	}
