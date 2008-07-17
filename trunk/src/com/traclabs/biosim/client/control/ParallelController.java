@@ -118,7 +118,13 @@ public class ParallelController implements BiosimController {
 
 	private boolean logToFile = true;
 	private boolean OGS1active = true;
-	private boolean OGS2active = true;
+	private boolean VCCR1active = true;
+	private boolean VCCR2active = true;
+	private boolean Injector1active = true;
+	private boolean Injector2active = true;
+	private boolean WRS1active = true;
+	private boolean WRS2active = true;
+	
 	private PrintStream mySensorOutput;
 
 	private PrintStream myRepairOutput;
@@ -673,6 +679,15 @@ public class ParallelController implements BiosimController {
 			myRepairOutput.println("OGS2 activated" + " " + " at Tick "
 					+ myBioDriver.getTicks());
 			OGS1active = false;
+		}
+			}
+		if (myBioHolder.theVCCRModules.get(0).isMalfunctioning())  {
+			if (VCCR1active){
+			myBioHolder.theVCCRModules.get(1).setEnableFailure(true);
+			myBioHolder.theVCCRModules.get(1).getPowerConsumerDefinition().setDesiredFlowRate(5, 0);
+			myRepairOutput.println("VCCR2 activated" + " " + " at Tick "
+					+ myBioDriver.getTicks());
+			VCCR1active = false;
 		}
 			}
 	}
