@@ -408,6 +408,7 @@ public class ParallelControllerOnlineRedundancy implements BiosimController {
 			if (VCCR1active){
 			myRepairOutput.println("VCCR1 failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
+			VCCR1active=false;
 		}}
 		if (myBioHolder.theO2Stores.get(0).isMalfunctioning()) {
 			if (O2Storeactive){
@@ -419,6 +420,7 @@ public class ParallelControllerOnlineRedundancy implements BiosimController {
 			if (OGS1active){
 			myRepairOutput.println("OGS1 failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
+			OGS1active=false;
 			}}
 		if (myBioHolder.theH2Stores.get(0).isMalfunctioning()) {
 			if (H2Storeactive){
@@ -442,6 +444,7 @@ public class ParallelControllerOnlineRedundancy implements BiosimController {
 			if (Injector1active){
 			myRepairOutput.println("Injector1 failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
+			Injector1active=false;
 		}}
 		if (myBioHolder.thePowerStores.get(0).isMalfunctioning()) {
 			if (PowerStoreactive){
@@ -471,6 +474,7 @@ public class ParallelControllerOnlineRedundancy implements BiosimController {
 			if (WRS1active){
 			myRepairOutput.println("WaterRS1 failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
+			WRS1active=false;
 		}}
 		
 		//check regenerative component failure for second components
@@ -648,7 +652,7 @@ public class ParallelControllerOnlineRedundancy implements BiosimController {
 					+ " at Tick " + myBioDriver.getTicks());
 		}
 		if (myBioHolder.theDirtyWaterStores.get(0).isMalfunctioning()) {
-			myBioHolder.theDirtyWaterStores.get(0).reset();
+			myBioHolder.theDirtyWaterStores.get(0).reset();Injector2
 			myRepairOutput.println("DirtyWaterStore is repaired" + " "
 					+ " at Tick " + myBioDriver.getTicks());
 		}
@@ -673,10 +677,12 @@ public class ParallelControllerOnlineRedundancy implements BiosimController {
 		if (myO2PressureSensor.getValue() > 25) {
 
 			myO2InjectorActuator1.setValue(0);
+			myO2InjectorActuator2.setValue(0);
 
 		} else if (myO2PressureSensor.getValue() < 15) {
 			
 			myO2InjectorActuator1.setValue(2);
+			myO2InjectorActuator2.setValue(2);
 			
 		}
 
@@ -706,9 +712,17 @@ public class ParallelControllerOnlineRedundancy implements BiosimController {
 		// }
 	}
 	public void parallel() {
-		average = (myOGS_O2OutFlowRateSensor1.getValue()+myOGS_O2OutFlowRateSensor2.getValue())/2;
+		/*average = (myOGS_O2OutFlowRateSensor1.getValue()+myOGS_O2OutFlowRateSensor2.getValue())/2;
 		myBioHolder.theOGSModules.get(0).getO2ProducerDefinition().setDesiredFlowRate(average, 0);
+		myBioHolder.theOGSModules.get(1).getO2ProducerDefinition().setDesiredFlowRate(average, 0);
 		average = (myOGS_H2OutFlowRateSensor1.getValue()+myOGS_H2OutFlowRateSensor2.getValue())/2;
 		myBioHolder.theOGSModules.get(0).getH2ProducerDefinition().setDesiredFlowRate(average, 0);
+		myBioHolder.theOGSModules.get(1).getH2ProducerDefinition().setDesiredFlowRate(average, 0);
+		average = (myOGS_PotableWaterInFlowRateSensor1.getValue()+myOGS_PotableWaterInFlowRateSensor2.getValue())/2;
+		myBioHolder.theOGSModules.get(0).getPotableWaterConsumerDefinition().setDesiredFlowRate(average, 0);
+		myBioHolder.theOGSModules.get(1).getPotableWaterConsumerDefinition().setDesiredFlowRate(average, 0);
+		average = (myOGS_PowerConsumerRateSensor1.getValue()+myOGS_PowerConsumerRateSensor2.getValue())/2;
+		myBioHolder.theOGSModules.get(0).getPowerConsumerDefinition().setDesiredFlowRate(average, 0);
+		myBioHolder.theOGSModules.get(1).getPowerConsumerDefinition().setDesiredFlowRate(average, 0);*/
 }
 }
