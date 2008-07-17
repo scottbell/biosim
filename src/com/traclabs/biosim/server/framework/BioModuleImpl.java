@@ -319,7 +319,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
      * malfunctions)
      */
     public void reset() {
-        myTicks = 0;
+    	myTicks = 0;
         myFailureTime = 0;
         hasFailed = false;
         if (myFailureDecider != null)
@@ -344,6 +344,9 @@ public abstract class BioModuleImpl extends BioModulePOA {
 
     public void setEnableFailure(boolean pValue) {
         canFail = pValue;
+    	myTicks = 0;
+        myFailureTime = 0;
+        hasFailed = false;
     }
 
     public boolean isFailureEnabled() {
