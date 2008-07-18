@@ -670,13 +670,17 @@ public class ParallelController implements BiosimController {
 	public void stepSim() {
 		// To get the Injector to change its parameters
 		if (myO2PressureSensor.getValue() > 25) {
-
-			myO2InjectorActuator1.setValue(0);
-
+			if (Injector1active){
+  			myO2InjectorActuator1.setValue(0);
+			}else if (Injector2active){
+			myO2InjectorActuator2.setValue(0);
+			}
 		} else if (myO2PressureSensor.getValue() < 15) {
-			
+			if (Injector1active){
 			myO2InjectorActuator1.setValue(2);
-			
+			}else if (Injector2active){
+			myO2InjectorActuator2.setValue(2);
+			}
 		}
 
 		/*if (myBioHolder.theOGSModules.get(0).isMalfunctioning()){
