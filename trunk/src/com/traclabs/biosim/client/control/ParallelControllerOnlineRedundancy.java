@@ -165,7 +165,7 @@ public class ParallelControllerOnlineRedundancy implements BiosimController {
 				.getOptionValueFromArgs(args, "log"));
 		//int max = 4;
 		//for (int i = 0; i < max; i++) {
-			ParallelController myController = new ParallelController(logToFile);
+			ParallelControllerOnlineRedundancy myController = new ParallelControllerOnlineRedundancy(logToFile);
 			myController.collectReferences();
 			myController.runSim();
 		//}
