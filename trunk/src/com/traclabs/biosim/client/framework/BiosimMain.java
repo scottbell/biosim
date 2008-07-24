@@ -2,6 +2,8 @@ package com.traclabs.biosim.client.framework;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.log4j.Logger;
 
@@ -48,6 +50,17 @@ public class BiosimMain {
 	}
 
 	private void checkArgs(String[] myArgs) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
 		myLogger.debug("arg length = " + myArgs.length);
 		int myID = 0;
 		String xmlFile = null;
