@@ -43,8 +43,8 @@ public class ParallelControllerOnlineRedundancy implements BiosimController {
 
 	// remember to change path for xml file
 	private static String CONFIGURATION_FILE = "/AIAA/ParallelOnlineRedundancy.xml";
-	private static final String SENSOR_LOG_FILE = "ParallelSystemSensors.log";
-	private static final String REPAIR_LOG_FILE = "ParallelFailureEvent.log";
+	private static final String SENSOR_LOG_FILE = "ParallelOnlineRedundancySystemSensors.log";
+	private static final String REPAIR_LOG_FILE = "ParallelOnlineRedundancyFailureEvent.log";
 
 	private BioDriver myBioDriver;
 
@@ -192,13 +192,13 @@ public class ParallelControllerOnlineRedundancy implements BiosimController {
 	public static void main(String[] args) {
 		boolean logToFile = Boolean.parseBoolean(CommandLineUtils
 				.getOptionValueFromArgs(args, "log"));
-		//int max = 4;
-		//for (int i = 0; i < max; i++) {
+		int max = 4;
+		for (int i = 0; i < max; i++) {
 			ParallelControllerOnlineRedundancy myController = new ParallelControllerOnlineRedundancy(logToFile);
 			myController.collectReferences();
 			myController.desired_values();
 			myController.runSim();
-		//}
+		}
 	}
 
 	/**
