@@ -42,7 +42,7 @@ import com.traclabs.biosim.idl.simulation.framework.Injector;
 public class ParallelControllerOnlineRedundancy implements BiosimController {
 
 	// remember to change path for xml file
-	private static String CONFIGURATION_FILE = "/AIAA/OnlineRedundancy.xml";
+	private static String CONFIGURATION_FILE = "/AIAA/ParallelOnlineRedundancy.xml";
 	private static final String SENSOR_LOG_FILE = "ParallelSystemSensors.log";
 	private static final String REPAIR_LOG_FILE = "ParallelFailureEvent.log";
 
@@ -521,30 +521,15 @@ public class ParallelControllerOnlineRedundancy implements BiosimController {
 					+ myBioDriver.getTicks());
 			VCCR2active=false;
 		}}
-		if (myBioHolder.theH2Stores.get(1).isMalfunctioning()) {
-			if (H2Storeactive2){
-			myRepairOutput.println("H2Store2 failure" + " " + " at Tick "
-					+ myBioDriver.getTicks());
-			H2Storeactive2=false;
-		}}
-		if (myBioHolder.theCO2Stores.get(1).isMalfunctioning()) {
-			if (CO2Storeactive2){
-			myRepairOutput.println("CO2Store2 failure" + " " + " at Tick "
-					+ myBioDriver.getTicks());
-			CO2Storeactive2=false;
-		}}
+
+
 		if (myBioHolder.theOGSModules.get(1).isMalfunctioning()) {
 			if (!OGS1active && OGS2active){
 			myRepairOutput.println("OGS2 failure" + " " + " at Tick "
 					+ myBioDriver.getTicks());
 			OGS2active = false;
 		}}
-		if (myBioHolder.theO2Stores.get(1).isMalfunctioning()) {
-			if (O2Storeactive2){
-			myRepairOutput.println("O2Store2 failure" + " " + " at Tick "
-					+ myBioDriver.getTicks());
-			O2Storeactive2 = false;
-		}}
+
 		if (myBioHolder.theInjectors.get(1).isMalfunctioning()) {
 			if (Injector2active){
 			myRepairOutput.println("Injector2 failure" + " " + " at Tick "
@@ -558,18 +543,8 @@ public class ParallelControllerOnlineRedundancy implements BiosimController {
 			WRS2active=false;
 		}}
 			
-		if (myBioHolder.thePotableWaterStores.get(1).isMalfunctioning()) {
-			if (PotableWaterStoreactive2){
-			myRepairOutput.println("PortableWaterStore2 failure" + " "
-					+ " at Tick " + myBioDriver.getTicks());
-			PotableWaterStoreactive2=false;
-		}}
-		if (myBioHolder.theDirtyWaterStores.get(1).isMalfunctioning()) {
-			if(DirtyWaterStoreactive2){
-			myRepairOutput.println("DirtyWaterStore2 failure" + " "
-					+ " at Tick " + myBioDriver.getTicks());
-			DirtyWaterStoreactive2=false;
-		}}
+
+
 		
 	}
 
