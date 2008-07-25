@@ -124,7 +124,7 @@
 		</food>
 		<framework>
 			<Injector moduleName="Injector1">
-				<normalFailureDecider logmean="3888" logsd="10"
+				<normalFailureDecider logmean="3888" logsd="3"
 					isFailureEnabled="true" />
 				<O2Consumer inputs="O2Store" desiredFlowRates="2"
 					maxFlowRates="10" />
@@ -135,15 +135,15 @@
 					outputs="CO2Store" maxFlowRates="200" />
 			</Injector>
 			<Injector moduleName="Injector2">
-				<normalFailureDecider logmean="3888" logsd="10"
+				<normalFailureDecider logmean="3888" logsd="3"
 					isFailureEnabled="false" />
 				<O2Consumer inputs="O2Store" desiredFlowRates="0"
-					maxFlowRates="0" />
+					maxFlowRates="10" />
 				<O2Producer desiredFlowRates="0"
-					outputs="SimEnvironment" maxFlowRates="0"></O2Producer>
+					outputs="SimEnvironment" maxFlowRates="10"></O2Producer>
 				<CO2Consumer inputs="SimEnvironment" desiredFlowRates="0"
-					maxFlowRates="0" /><CO2Producer desiredFlowRates="0"
-					outputs="CO2Store" maxFlowRates="0" />
+					maxFlowRates="10" /><CO2Producer desiredFlowRates="0"
+					outputs="CO2Store" maxFlowRates="10" />
 			</Injector>
 		</framework>
 		<power>
