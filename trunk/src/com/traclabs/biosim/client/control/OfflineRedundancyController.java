@@ -166,6 +166,8 @@ public class OfflineRedundancyController implements BiosimController {
 	private float WaterRSDirtyWaterConsumer ;
 	private float WaterRSGreyWaterConsumer;
 	private float WaterRSPotableWaterConsumer;
+	private float DehumidifierAirConsumer;
+	private float DehumidifierDirtyWaterProducer;
 	private PrintStream mySensorOutput;
 
 	private PrintStream myRepairOutput;
@@ -626,6 +628,8 @@ public class OfflineRedundancyController implements BiosimController {
 		WaterRSDirtyWaterConsumer = myBioHolder.theWaterRSModules.get(0).getDirtyWaterConsumerDefinition().getDesiredFlowRate(0);
 		WaterRSGreyWaterConsumer = myBioHolder.theWaterRSModules.get(0).getGreyWaterConsumerDefinition().getDesiredFlowRate(0);
 		WaterRSPotableWaterConsumer = myBioHolder.theWaterRSModules.get(0).getPotableWaterProducerDefinition().getDesiredFlowRate(0);
+		DehumidifierAirConsumer = myBioHolder.theDehumidifiers.get(0).getAirConsumerDefinition().getDesiredFlowRate(0);
+		DehumidifierDirtyWaterProducer = myBioHolder.theDehumidifiers.get(0).getDirtyWaterProducerDefinition().getDesiredFlowRate(0);
 	}
 	private void line1_fail(){
 	 if(OGS1active && O2Storeactive1 && CO2Storeactive1 && Injector1active && VCCR1active && H2Storeactive1 && WRS1active && DirtyWaterStoreactive1 && GreyWaterStoreactive1 && PotableWaterStoreactive1){
@@ -659,6 +663,10 @@ public class OfflineRedundancyController implements BiosimController {
 			myBioHolder.theWaterRSModules.get(1).getPotableWaterProducerDefinition().setDesiredFlowRate(WaterRSPotableWaterConsumer , 0);
 			myBioHolder.theWaterRSModules.get(1).getDirtyWaterConsumerDefinition().setDesiredFlowRate(WaterRSDirtyWaterConsumer, 0);
 			myBioHolder.theWaterRSModules.get(1).getGreyWaterConsumerDefinition().setDesiredFlowRate(WaterRSGreyWaterConsumer, 0);
+			myBioHolder.theDehumidifiers.get(1).getAirConsumerDefinition().setDesiredFlowRate(DehumidifierAirConsumer, 0);
+			myBioHolder.theDehumidifiers.get(1).getDirtyWaterProducerDefinition().setDesiredFlowRate(DehumidifierDirtyWaterProducer, 0);
+			myBioHolder.theDehumidifiers.get(0).getAirConsumerDefinition().setDesiredFlowRate(0, 0);
+			myBioHolder.theDehumidifiers.get(0).getDirtyWaterProducerDefinition().setDesiredFlowRate(0, 0);
 			myBioHolder.theWaterRSModules.get(0).getPowerConsumerDefinition().setDesiredFlowRate(0, 0);
 			myBioHolder.theOGSModules.get(0).getPowerConsumerDefinition().setDesiredFlowRate(0, 0);
 			myBioHolder.theVCCRModules.get(0).getPowerConsumerDefinition().setDesiredFlowRate(0, 0);
