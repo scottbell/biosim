@@ -144,7 +144,7 @@
 		</food>
 		<framework>
 			<Injector moduleName="Injector1">
-				<normalFailureDecider logmean="3888" logsd="10"
+				<normalFailureDecider logmean="3888" logsd="3"
 					isFailureEnabled="true" />
 				<O2Consumer inputs="O2Store1" desiredFlowRates="2"
 					maxFlowRates="10" />
@@ -155,8 +155,8 @@
 					outputs="CO2Store1" maxFlowRates="200" ></CO2Producer>
 			</Injector>
 			<Injector moduleName="Injector2">
-				<normalFailureDecider logmean="3888" logsd="10"
-					isFailureEnabled="true" />
+				<normalFailureDecider logmean="3888" logsd="3"
+					isFailureEnabled="false" />
 				<O2Consumer inputs="O2Store2" desiredFlowRates="0"
 					maxFlowRates="10" />
 				<O2Producer desiredFlowRates="0"
@@ -221,8 +221,8 @@
 			</WaterRS>
 			<WaterRS moduleName="WaterRS2">
 				<weibull2FailureDecider lambda="0.000231" beta="5"
-					isFailureEnabled="true" />
-				<powerConsumer inputs="PowerStore" desiredFlowRates="5"
+					isFailureEnabled="false" />
+				<powerConsumer inputs="PowerStore" desiredFlowRates="0"
 					maxFlowRates="100"></powerConsumer>
 				<dirtyWaterConsumer inputs="DirtyWaterStore2"
 					desiredFlowRates="40" maxFlowRates="50" />
