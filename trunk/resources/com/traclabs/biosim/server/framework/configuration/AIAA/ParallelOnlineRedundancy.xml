@@ -20,48 +20,48 @@
 			<OGS moduleName="OGS1">
 				<expFailureDecider lambda="0.00046296"
 					isFailureEnabled="true" />
-				<powerConsumer inputs="PowerStore" desiredFlowRates="5"
+				<powerConsumer inputs="PowerStore" desiredFlowRates="2.5"
 					maxFlowRates="100" />
 				<potableWaterConsumer inputs="PotableWaterStore"
-					desiredFlowRates="10" maxFlowRates="15"></potableWaterConsumer>
-				<O2Producer desiredFlowRates="1000" outputs="O2Store"
+					desiredFlowRates="5" maxFlowRates="15"></potableWaterConsumer>
+				<O2Producer desiredFlowRates="500" outputs="O2Store"
 					maxFlowRates="1500"></O2Producer>
-				<H2Producer desiredFlowRates="100" outputs="H2Store"
+				<H2Producer desiredFlowRates="50" outputs="H2Store"
 					maxFlowRates="150" />
 			</OGS>
 			<OGS moduleName="OGS2">
 				<expFailureDecider lambda="0.00046296" isFailureEnabled="true"></expFailureDecider>
-				<powerConsumer inputs="PowerStore" desiredFlowRates="5"
+				<powerConsumer inputs="PowerStore" desiredFlowRates="2.5"
 					maxFlowRates="100"></powerConsumer>
 				<potableWaterConsumer inputs="PotableWaterStore"
-					desiredFlowRates="10" maxFlowRates="15" ></potableWaterConsumer>
-				<O2Producer desiredFlowRates="1000" outputs="O2Store"
+					desiredFlowRates="5" maxFlowRates="15" ></potableWaterConsumer>
+				<O2Producer desiredFlowRates="500" outputs="O2Store"
 					maxFlowRates="1500" />
-				<H2Producer desiredFlowRates="100" outputs="H2Store"
+				<H2Producer desiredFlowRates="50" outputs="H2Store"
 					maxFlowRates="150" />
 			</OGS>
 			<VCCR moduleName="VCCR1">
 				<normalFailureDecider logmean="4320" logsd="3"
 					isFailureEnabled="true" />
-				<powerConsumer inputs="PowerStore" desiredFlowRates="5"
+				<powerConsumer inputs="PowerStore" desiredFlowRates="2.5"
 					maxFlowRates="100" />
 				<airConsumer inputs="SimEnvironment"
-					desiredFlowRates="1000" maxFlowRates="1500" />
-				<airProducer desiredFlowRates="1000"
+					desiredFlowRates="500" maxFlowRates="1500" />
+				<airProducer desiredFlowRates="500"
 					outputs="SimEnvironment" maxFlowRates="1500" />
-				<CO2Producer desiredFlowRates="1000" outputs="CO2Store"
+				<CO2Producer desiredFlowRates="500" outputs="CO2Store"
 					maxFlowRates="1500" />
 			</VCCR>
 			<VCCR moduleName="VCCR2">
 				<normalFailureDecider logmean="4320" logsd="3"
 					isFailureEnabled="true" />
-				<powerConsumer inputs="PowerStore" desiredFlowRates="5"
+				<powerConsumer inputs="PowerStore" desiredFlowRates="2.5"
 					maxFlowRates="100"></powerConsumer>
 				<airConsumer inputs="SimEnvironment"
-					desiredFlowRates="1000" maxFlowRates="1500"></airConsumer>
-				<airProducer desiredFlowRates="1000"
+					desiredFlowRates="500" maxFlowRates="1500"></airConsumer>
+				<airProducer desiredFlowRates="500"
 					outputs="SimEnvironment" maxFlowRates="1500" />
-				<CO2Producer desiredFlowRates="1000" outputs="CO2Store"
+				<CO2Producer desiredFlowRates="500" outputs="CO2Store"
 					maxFlowRates="1500" />
 			</VCCR>
 		</air>
@@ -126,23 +126,23 @@
 			<Injector moduleName="Injector1">
 				<normalFailureDecider logmean="3888" logsd="10"
 					isFailureEnabled="true" />
-				<O2Consumer inputs="O2Store" desiredFlowRates="2"
+				<O2Consumer inputs="O2Store" desiredFlowRates="1"
 					maxFlowRates="10" />
-				<O2Producer desiredFlowRates="2"
+				<O2Producer desiredFlowRates="1"
 					outputs="SimEnvironment" maxFlowRates="10"></O2Producer>
-				<CO2Consumer inputs="SimEnvironment" desiredFlowRates="1"
-					maxFlowRates="200" /><CO2Producer desiredFlowRates="1"
+				<CO2Consumer inputs="SimEnvironment" desiredFlowRates="0.5"
+					maxFlowRates="200" /><CO2Producer desiredFlowRates="0.5"
 					outputs="CO2Store" maxFlowRates="200" />
 			</Injector>
 			<Injector moduleName="Injector2">
 				<normalFailureDecider logmean="3888" logsd="10"
 					isFailureEnabled="true" />
-				<O2Consumer inputs="O2Store" desiredFlowRates="2"
+				<O2Consumer inputs="O2Store" desiredFlowRates="1"
 					maxFlowRates="10" />
-				<O2Producer desiredFlowRates="2"
+				<O2Producer desiredFlowRates="1"
 					outputs="SimEnvironment" maxFlowRates="10"></O2Producer>
-				<CO2Consumer inputs="SimEnvironment" desiredFlowRates="1"
-					maxFlowRates="10" /><CO2Producer desiredFlowRates="1"
+				<CO2Consumer inputs="SimEnvironment" desiredFlowRates="0.5"
+					maxFlowRates="10" /><CO2Producer desiredFlowRates="0.5"
 					outputs="CO2Store" maxFlowRates="10" />
 			</Injector>
 		</framework>
@@ -176,25 +176,25 @@
 			<WaterRS moduleName="WaterRS1">
 				<weibull2FailureDecider lambda="0.000231" beta="5"
 					isFailureEnabled="true" />
-				<powerConsumer inputs="PowerStore" desiredFlowRates="5"
+				<powerConsumer inputs="PowerStore" desiredFlowRates="2.5"
 					maxFlowRates="100" />
 				<dirtyWaterConsumer inputs="DirtyWaterStore"
-					desiredFlowRates="40" maxFlowRates="50"></dirtyWaterConsumer>
+					desiredFlowRates="20" maxFlowRates="50"></dirtyWaterConsumer>
 				<greyWaterConsumer inputs="GreyWaterStore"
-					desiredFlowRates="40" maxFlowRates="50"></greyWaterConsumer>
-				<potableWaterProducer desiredFlowRates="10000"
+					desiredFlowRates="20" maxFlowRates="50"></greyWaterConsumer>
+				<potableWaterProducer desiredFlowRates="5000"
 					outputs="PotableWaterStore" maxFlowRates="10000" />
 			</WaterRS>
 			<WaterRS moduleName="WaterRS2">
 				<weibull2FailureDecider lambda="0.000231" beta="5"
 					isFailureEnabled="true" />
-				<powerConsumer inputs="PowerStore" desiredFlowRates="5"
+				<powerConsumer inputs="PowerStore" desiredFlowRates="2.5"
 					maxFlowRates="100"></powerConsumer>
 				<dirtyWaterConsumer inputs="DirtyWaterStore"
-					desiredFlowRates="40" maxFlowRates="50" />
+					desiredFlowRates="20" maxFlowRates="50" />
 				<greyWaterConsumer inputs="GreyWaterStore"
-					desiredFlowRates="40" maxFlowRates="50" ></greyWaterConsumer>
-				<potableWaterProducer desiredFlowRates="10000"
+					desiredFlowRates="20" maxFlowRates="50" ></greyWaterConsumer>
+				<potableWaterProducer desiredFlowRates="5000"
 					outputs="PotableWaterStore" maxFlowRates="10000" />
 			</WaterRS>
 		</water>
