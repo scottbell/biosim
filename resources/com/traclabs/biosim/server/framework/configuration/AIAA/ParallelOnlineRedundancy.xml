@@ -92,16 +92,6 @@
 							length="4" />
 					</schedule>
 				</crewPerson>
-				<crewPerson age="24" name="Haibei" sex="MALE"
-					weight="80">
-					<schedule>
-						<activity intensity="2" name="ruminating"
-							length="12" />
-						<activity intensity="0" name="sleep" length="8" />
-						<activity intensity="3" name="excercise"
-							length="4" />
-					</schedule>
-				</crewPerson>
 			</CrewGroup>
 		</crew>
 		<environment>
@@ -147,7 +137,7 @@
 			</Injector>
 		</framework>
 		<power>
-			<PowerStore capacity="120000" moduleName="PowerStore"
+			<PowerStore capacity="60000" moduleName="PowerStore"
 				level="60000" logLevel="INFO">
 				<expFailureDecider lambda="0.00023148"
 					isFailureEnabled="true" />
