@@ -187,7 +187,8 @@
 			</DirtyWaterStore>
 			<DirtyWaterStore capacity="1000"
 				moduleName="DirtyWaterStore2" level="0.0">
-				<expFailureDecider lambda="0.00001447" />
+				<expFailureDecider lambda="0.00001447"
+					isFailureEnabled="false" />
 			</DirtyWaterStore>
 			<GreyWaterStore capacity="1000" moduleName="GreyWaterStore1"
 				level="0.0">
@@ -195,7 +196,8 @@
 			</GreyWaterStore>
 			<GreyWaterStore capacity="1000" moduleName="GreyWaterStore2"
 				level="0.0">
-				<expFailureDecider lambda="0.00001447" />
+				<expFailureDecider lambda="0.00001447"
+					isFailureEnabled="false" />
 			</GreyWaterStore>
 			<PotableWaterStore capacity="1500"
 				moduleName="PotableWaterStore1" level="800">
@@ -204,8 +206,9 @@
 			</PotableWaterStore>
 			<PotableWaterStore capacity="1500"
 				moduleName="PotableWaterStore2" level="800">
-				<expFailureDecider lambda="0.00001447" />
-				
+				<expFailureDecider lambda="0.00001447"
+					isFailureEnabled="false" />
+
 			</PotableWaterStore>
 			<WaterRS moduleName="WaterRS1">
 				<weibull2FailureDecider lambda="0.000231" beta="5"
