@@ -169,7 +169,7 @@ public class ParallelController implements BiosimController {
 	public static void main(String[] args) {
 		boolean logToFile = Boolean.parseBoolean(CommandLineUtils
 				.getOptionValueFromArgs(args, "log"));
-		int max = 4;
+		int max = 3;
 		for (int i = 0; i < max; i++) {
 			ParallelController myController = new ParallelController(logToFile);
 			myController.collectReferences();

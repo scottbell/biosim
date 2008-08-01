@@ -192,7 +192,7 @@ public class ParallelControllerOnlineRedundancy implements BiosimController {
 	public static void main(String[] args) {
 		boolean logToFile = Boolean.parseBoolean(CommandLineUtils
 				.getOptionValueFromArgs(args, "log"));
-		int max = 4;
+		int max = 3;
 		for (int i = 0; i < max; i++) {
 			ParallelControllerOnlineRedundancy myController = new ParallelControllerOnlineRedundancy(logToFile);
 			myController.collectReferences();
