@@ -108,7 +108,7 @@
 		<food>
 			<FoodStore capacity="4000" level="2000"
 				moduleName="FoodStore">
-				<expFailureDecider lambda="0.00023148"
+				<expFailureDecider lambda="0.000023148"
 					isFailureEnabled="true" />
 			</FoodStore>
 		</food>
