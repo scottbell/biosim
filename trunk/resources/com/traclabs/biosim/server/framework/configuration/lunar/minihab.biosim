@@ -439,19 +439,19 @@
 		<power>
 			<PowerInFlowRateSensor input="Main_VCCR"
 				moduleName="MainVccrPowerSensor" index="0" logLevel="INFO"
-				isBionetEnabled="true">
+				isBionetEnabled="false">
 			</PowerInFlowRateSensor>
 			<PowerInFlowRateSensor input="Backup_VCCR"
 				moduleName="BackupVccrPowerSensor" index="0" logLevel="INFO"
-				isBionetEnabled="true">
+				isBionetEnabled="false">
 			</PowerInFlowRateSensor>
 		</power>
 		<air>
-			<CO2OutFlowRateSensor input="Main_VCCR" moduleName="MainVccrCo2OutSensor" index="0" isBionetEnabled="true"/>
+			<CO2OutFlowRateSensor input="Main_VCCR" moduleName="MainVccrCo2OutSensor" index="0" isBionetEnabled="false"/>
 		</air>
 		<environment>
-			<AirInFlowRateSensor input="Main_VCCR" moduleName="MainVccrAirInSensor" index="0" isBionetEnabled="true"></AirInFlowRateSensor>
-			<AirOutFlowRateSensor input="Main_VCCR" moduleName="MainVccrAirOutSensor" index="0" isBionetEnabled="true"></AirOutFlowRateSensor>
+			<AirInFlowRateSensor input="Main_VCCR" moduleName="MainVccrAirInSensor" index="0" isBionetEnabled="false"></AirInFlowRateSensor>
+			<AirOutFlowRateSensor input="Main_VCCR" moduleName="MainVccrAirOutSensor" index="0" isBionetEnabled="false"></AirOutFlowRateSensor>
 			
 			
 			<TotalMolesSensor input="Crew_Quarters" moduleName="Crew_Quarters_Moles" logLevel="INFO"></TotalMolesSensor>
@@ -480,11 +480,11 @@
 		<power>
 			<PowerInFlowRateActuator output="Main_VCCR"
 				moduleName="MainVccrPower" index="0" logLevel="INFO"
-				isBionetEnabled="true">
+				isBionetEnabled="false">
 			</PowerInFlowRateActuator>
 			<PowerInFlowRateActuator output="Backup_VCCR"
 				moduleName="BackupVccrPower" index="0" logLevel="INFO"
-				isBionetEnabled="true">
+				isBionetEnabled="false">
 			</PowerInFlowRateActuator>
 		</power>
 	</Actuators>
