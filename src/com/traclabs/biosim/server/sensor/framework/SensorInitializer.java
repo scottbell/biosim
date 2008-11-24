@@ -298,10 +298,10 @@ public class SensorInitializer {
 
 	private void configureCO2InFlowRateSensor(Node node) {
 		CO2InFlowRateSensor myCO2InFlowRateSensor = CO2InFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myCO2InFlowRateSensor.setInput(
-				CO2ConsumerHelper.narrow(BiosimInitializer.grabModule(myID,
+				CO2ConsumerHelper.narrow(BiosimInitializer.getModule(myID,
 						getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myCO2InFlowRateSensor);
 	}
@@ -323,10 +323,10 @@ public class SensorInitializer {
 
 	private void configureCO2OutFlowRateSensor(Node node) {
 		CO2OutFlowRateSensor myCO2OutFlowRateSensor = CO2OutFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myCO2OutFlowRateSensor.setInput(
-				CO2ProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				CO2ProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myCO2OutFlowRateSensor);
 	}
@@ -348,10 +348,10 @@ public class SensorInitializer {
 
 	private void configureO2InFlowRateSensor(Node node) {
 		O2InFlowRateSensor myO2InFlowRateSensor = O2InFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myO2InFlowRateSensor.setInput(O2ConsumerHelper.narrow(BiosimInitializer
-				.grabModule(myID, getInputName(node))), getFlowRateIndex(node));
+				.getModule(myID, getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myO2InFlowRateSensor);
 	}
 
@@ -372,10 +372,10 @@ public class SensorInitializer {
 
 	private void configureO2OutFlowRateSensor(Node node) {
 		O2OutFlowRateSensor myO2OutFlowRateSensor = O2OutFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myO2OutFlowRateSensor.setInput(
-				O2ProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				O2ProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myO2OutFlowRateSensor);
 	}
@@ -397,10 +397,10 @@ public class SensorInitializer {
 
 	private void configureH2InFlowRateSensor(Node node) {
 		H2InFlowRateSensor myH2InFlowRateSensor = H2InFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myH2InFlowRateSensor.setInput(H2ConsumerHelper.narrow(BiosimInitializer
-				.grabModule(myID, getInputName(node))), getFlowRateIndex(node));
+				.getModule(myID, getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myH2InFlowRateSensor);
 	}
 
@@ -421,10 +421,10 @@ public class SensorInitializer {
 
 	private void configureH2OutFlowRateSensor(Node node) {
 		H2OutFlowRateSensor myH2OutFlowRateSensor = H2OutFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myH2OutFlowRateSensor.setInput(
-				H2ProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				H2ProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myH2OutFlowRateSensor);
 	}
@@ -449,10 +449,10 @@ public class SensorInitializer {
 
 	private void configureNitrogenInFlowRateSensor(Node node) {
 		NitrogenInFlowRateSensor myNitrogenInFlowRateSensor = NitrogenInFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myNitrogenInFlowRateSensor.setInput(
-				NitrogenConsumerHelper.narrow(BiosimInitializer.grabModule(
+				NitrogenConsumerHelper.narrow(BiosimInitializer.getModule(
 						myID, getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myNitrogenInFlowRateSensor);
 	}
@@ -477,10 +477,10 @@ public class SensorInitializer {
 
 	private void configureNitrogenOutFlowRateSensor(Node node) {
 		NitrogenOutFlowRateSensor myNitrogenOutFlowRateSensor = NitrogenOutFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myNitrogenOutFlowRateSensor.setInput(
-				NitrogenProducerHelper.narrow(BiosimInitializer.grabModule(
+				NitrogenProducerHelper.narrow(BiosimInitializer.getModule(
 						myID, getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myNitrogenOutFlowRateSensor);
 	}
@@ -504,10 +504,10 @@ public class SensorInitializer {
 
 	private void configureMethaneInFlowRateSensor(Node node) {
 		MethaneInFlowRateSensor myMethaneInFlowRateSensor = MethaneInFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myMethaneInFlowRateSensor.setInput(
-				MethaneConsumerHelper.narrow(BiosimInitializer.grabModule(myID,
+				MethaneConsumerHelper.narrow(BiosimInitializer.getModule(myID,
 						getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myMethaneInFlowRateSensor);
 	}
@@ -532,10 +532,10 @@ public class SensorInitializer {
 
 	private void configureMethaneOutFlowRateSensor(Node node) {
 		MethaneOutFlowRateSensor myMethaneOutFlowRateSensor = MethaneOutFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myMethaneOutFlowRateSensor.setInput(
-				MethaneProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				MethaneProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myMethaneOutFlowRateSensor);
 	}
@@ -619,10 +619,10 @@ public class SensorInitializer {
 
 	private void configureCrewGroupDeathSensor(Node node) {
 		CrewGroupDeathSensor myCrewGroupDeathSensor = CrewGroupDeathSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myCrewGroupDeathSensor
-				.setInput(CrewGroupHelper.narrow(BiosimInitializer.grabModule(
+				.setInput(CrewGroupHelper.narrow(BiosimInitializer.getModule(
 						myID, getInputName(node))));
 		mySensors.add(myCrewGroupDeathSensor);
 	}
@@ -645,10 +645,10 @@ public class SensorInitializer {
 
 	private void configureCrewGroupAnyDeadSensor(Node node) {
 		CrewGroupAnyDeadSensor myCrewGroupAnyDeadSensor = CrewGroupAnyDeadSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myCrewGroupAnyDeadSensor
-				.setInput(CrewGroupHelper.narrow(BiosimInitializer.grabModule(
+				.setInput(CrewGroupHelper.narrow(BiosimInitializer.getModule(
 						myID, getInputName(node))));
 		mySensors.add(myCrewGroupAnyDeadSensor);
 	}
@@ -673,10 +673,10 @@ public class SensorInitializer {
 
 	private void configureCrewGroupProductivitySensor(Node node) {
 		CrewGroupProductivitySensor myCrewGroupProductivitySensor = CrewGroupProductivitySensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myCrewGroupProductivitySensor
-				.setInput(CrewGroupHelper.narrow(BiosimInitializer.grabModule(
+				.setInput(CrewGroupHelper.narrow(BiosimInitializer.getModule(
 						myID, getInputName(node))));
 		mySensors.add(myCrewGroupProductivitySensor);
 	}
@@ -725,10 +725,10 @@ public class SensorInitializer {
 
 	private void configureAirInFlowRateSensor(Node node) {
 		AirInFlowRateSensor myAirInFlowRateSensor = AirInFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myAirInFlowRateSensor.setInput(
-				AirConsumerHelper.narrow(BiosimInitializer.grabModule(myID,
+				AirConsumerHelper.narrow(BiosimInitializer.getModule(myID,
 						getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myAirInFlowRateSensor);
 	}
@@ -750,10 +750,10 @@ public class SensorInitializer {
 
 	private void configureAirOutFlowRateSensor(Node node) {
 		AirOutFlowRateSensor myAirOutFlowRateSensor = AirOutFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myAirOutFlowRateSensor.setInput(
-				AirProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				AirProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myAirOutFlowRateSensor);
 	}
@@ -777,10 +777,10 @@ public class SensorInitializer {
 
 	private void configureGasConcentrationSensor(Node node) {
 		GasConcentrationSensor myGasConcentrationSensor = GasConcentrationSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		SimEnvironment inputEnvironment = SimEnvironmentHelper
-				.narrow(BiosimInitializer.grabModule(myID, getInputName(node)));
+				.narrow(BiosimInitializer.getModule(myID, getInputName(node)));
 		myGasConcentrationSensor.setInput(inputEnvironment, getGasStore(node,
 				inputEnvironment));
 		mySensors.add(myGasConcentrationSensor);
@@ -822,10 +822,10 @@ public class SensorInitializer {
 
 	private void configureGasPressureSensor(Node node) {
 		GasPressureSensor myGasPressureSensor = GasPressureSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		SimEnvironment inputEnvironment = SimEnvironmentHelper
-				.narrow(BiosimInitializer.grabModule(myID, getInputName(node)));
+				.narrow(BiosimInitializer.getModule(myID, getInputName(node)));
 		myGasPressureSensor.setInput(getGasStore(node, inputEnvironment));
 		mySensors.add(myGasPressureSensor);
 	}
@@ -847,10 +847,10 @@ public class SensorInitializer {
 
 	private void configureTotalMolesSensor(Node node) {
 		TotalMolesSensor myTotalMolesSensor = TotalMolesSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		SimEnvironment inputEnvironment = SimEnvironmentHelper
-				.narrow(BiosimInitializer.grabModule(myID, getInputName(node)));
+				.narrow(BiosimInitializer.getModule(myID, getInputName(node)));
 		myTotalMolesSensor.setInput(inputEnvironment);
 		mySensors.add(myTotalMolesSensor);
 	}
@@ -872,10 +872,10 @@ public class SensorInitializer {
 
 	private void configureTotalPressureSensor(Node node) {
 		TotalPressureSensor myTotalPressureSensor = TotalPressureSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		SimEnvironment inputEnvironment = SimEnvironmentHelper
-				.narrow(BiosimInitializer.grabModule(myID, getInputName(node)));
+				.narrow(BiosimInitializer.getModule(myID, getInputName(node)));
 		myTotalPressureSensor.setInput(inputEnvironment);
 		mySensors.add(myTotalPressureSensor);
 	}
@@ -941,10 +941,10 @@ public class SensorInitializer {
 
 	private void configureBiomassInFlowRateSensor(Node node) {
 		BiomassInFlowRateSensor myBiomassInFlowRateSensor = BiomassInFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myBiomassInFlowRateSensor.setInput(
-				BiomassConsumerHelper.narrow(BiosimInitializer.grabModule(myID,
+				BiomassConsumerHelper.narrow(BiosimInitializer.getModule(myID,
 						getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myBiomassInFlowRateSensor);
 	}
@@ -969,10 +969,10 @@ public class SensorInitializer {
 
 	private void configureBiomassOutFlowRateSensor(Node node) {
 		BiomassOutFlowRateSensor myBiomassOutFlowRateSensor = BiomassOutFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myBiomassOutFlowRateSensor.setInput(
-				BiomassProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				BiomassProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myBiomassOutFlowRateSensor);
 	}
@@ -994,10 +994,10 @@ public class SensorInitializer {
 
 	private void configureFoodInFlowRateSensor(Node node) {
 		FoodInFlowRateSensor myFoodInFlowRateSensor = FoodInFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myFoodInFlowRateSensor.setInput(
-				FoodConsumerHelper.narrow(BiosimInitializer.grabModule(myID,
+				FoodConsumerHelper.narrow(BiosimInitializer.getModule(myID,
 						getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myFoodInFlowRateSensor);
 	}
@@ -1019,21 +1019,21 @@ public class SensorInitializer {
 
 	private void configureFoodOutFlowRateSensor(Node node) {
 		FoodOutFlowRateSensor myFoodOutFlowRateSensor = FoodOutFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myFoodOutFlowRateSensor.setInput(
-				FoodProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				FoodProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myFoodOutFlowRateSensor);
 	}
 
 	private void configureBiomassStoreWaterContentSensor(Node node) {
 		BiomassStoreWaterContentSensor myBiomassStoreWaterContentSensor = BiomassStoreWaterContentSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myBiomassStoreWaterContentSensor
 				.setInput(BiomassStoreHelper.narrow(BiosimInitializer
-						.grabModule(myID, getInputName(node))));
+						.getModule(myID, getInputName(node))));
 		mySensors.add(myBiomassStoreWaterContentSensor);
 	}
 
@@ -1075,10 +1075,10 @@ public class SensorInitializer {
 		try {
 			int index = XMLUtils.getIntAttribute(node, "shelfIndex");
 			HarvestSensor myHarvestSensor = HarvestSensorHelper
-					.narrow(BiosimInitializer.grabModule(myID,
+					.narrow(BiosimInitializer.getModule(myID,
 							BiosimInitializer.getModuleName(node)));
 			myHarvestSensor.setInput(BiomassPSHelper.narrow(BiosimInitializer
-					.grabModule(myID, getInputName(node))), index);
+					.getModule(myID, getInputName(node))), index);
 			mySensors.add(myHarvestSensor);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -1104,10 +1104,10 @@ public class SensorInitializer {
 		try {
 			int index = XMLUtils.getIntAttribute(node, "shelfIndex");
 			PlantDeathSensor myPlantDeathSensor = PlantDeathSensorHelper
-					.narrow(BiosimInitializer.grabModule(myID,
+					.narrow(BiosimInitializer.getModule(myID,
 							BiosimInitializer.getModuleName(node)));
 			myPlantDeathSensor.setInput(BiomassPSHelper
-					.narrow(BiosimInitializer.grabModule(myID,
+					.narrow(BiosimInitializer.getModule(myID,
 							getInputName(node))), index);
 			mySensors.add(myPlantDeathSensor);
 		} catch (NumberFormatException e) {
@@ -1137,10 +1137,10 @@ public class SensorInitializer {
 		try {
 			int index = XMLUtils.getIntAttribute(node, "shelfIndex");
 			TimeTillCanopyClosureSensor myTimeTillCanopyClosureSensor = TimeTillCanopyClosureSensorHelper
-					.narrow(BiosimInitializer.grabModule(myID,
+					.narrow(BiosimInitializer.getModule(myID,
 							BiosimInitializer.getModuleName(node)));
 			myTimeTillCanopyClosureSensor.setInput(BiomassPSHelper
-					.narrow(BiosimInitializer.grabModule(myID,
+					.narrow(BiosimInitializer.getModule(myID,
 							getInputName(node))), index);
 			mySensors.add(myTimeTillCanopyClosureSensor);
 		} catch (NumberFormatException e) {
@@ -1217,10 +1217,10 @@ public class SensorInitializer {
 
 	private void configureStoreLevelSensor(Node node) {
 		StoreLevelSensor myStoreLevelSensor = StoreLevelSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myStoreLevelSensor.setInput(StoreHelper.narrow(BiosimInitializer
-				.grabModule(myID, getInputName(node))));
+				.getModule(myID, getInputName(node))));
 		mySensors.add(myStoreLevelSensor);
 	}
 
@@ -1241,10 +1241,10 @@ public class SensorInitializer {
 
 	private void configureStoreOverflowSensor(Node node) {
 		StoreOverflowSensor myStoreOverflowSensor = StoreOverflowSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myStoreOverflowSensor.setInput(StoreHelper.narrow(BiosimInitializer
-				.grabModule(myID, getInputName(node))));
+				.getModule(myID, getInputName(node))));
 		mySensors.add(myStoreOverflowSensor);
 	}
 
@@ -1268,11 +1268,11 @@ public class SensorInitializer {
 
 	private void configureInfluentValveStateSensor(Node node) {
 		InfluentValveStateSensor myInfluentValveStateSensor = InfluentValveStateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myInfluentValveStateSensor
 				.setInput(InfluentValveHelper.narrow(BiosimInitializer
-						.grabModule(myID, getInputName(node))));
+						.getModule(myID, getInputName(node))));
 		mySensors.add(myInfluentValveStateSensor);
 	}
 
@@ -1296,11 +1296,11 @@ public class SensorInitializer {
 
 	private void configureEffluentValveStateSensor(Node node) {
 		EffluentValveStateSensor myEffluentValveStateSensor = EffluentValveStateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myEffluentValveStateSensor
 				.setInput(EffluentValveHelper.narrow(BiosimInitializer
-						.grabModule(myID, getInputName(node))));
+						.getModule(myID, getInputName(node))));
 		mySensors.add(myEffluentValveStateSensor);
 	}
 
@@ -1353,10 +1353,10 @@ public class SensorInitializer {
 
 	private void configurePowerInFlowRateSensor(Node node) {
 		PowerInFlowRateSensor myPowerInFlowRateSensor = PowerInFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myPowerInFlowRateSensor.setInput(
-				PowerConsumerHelper.narrow(BiosimInitializer.grabModule(myID,
+				PowerConsumerHelper.narrow(BiosimInitializer.getModule(myID,
 						getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myPowerInFlowRateSensor);
 	}
@@ -1379,10 +1379,10 @@ public class SensorInitializer {
 
 	private void configurePowerOutFlowRateSensor(Node node) {
 		PowerOutFlowRateSensor myPowerOutFlowRateSensor = PowerOutFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myPowerOutFlowRateSensor.setInput(
-				PowerProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				PowerProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myPowerOutFlowRateSensor);
 	}
@@ -1429,10 +1429,10 @@ public class SensorInitializer {
 
 	private void configurePotableWaterInFlowRateSensor(Node node) {
 		PotableWaterInFlowRateSensor myPotableWaterInFlowRateSensor = PotableWaterInFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myPotableWaterInFlowRateSensor.setInput(
-				PotableWaterConsumerHelper.narrow(BiosimInitializer.grabModule(
+				PotableWaterConsumerHelper.narrow(BiosimInitializer.getModule(
 						myID, getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myPotableWaterInFlowRateSensor);
 	}
@@ -1458,10 +1458,10 @@ public class SensorInitializer {
 
 	private void configurePotableWaterOutFlowRateSensor(Node node) {
 		PotableWaterOutFlowRateSensor myPotableWaterOutFlowRateSensor = PotableWaterOutFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myPotableWaterOutFlowRateSensor.setInput(
-				PotableWaterProducerHelper.narrow(BiosimInitializer.grabModule(
+				PotableWaterProducerHelper.narrow(BiosimInitializer.getModule(
 						myID, getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myPotableWaterOutFlowRateSensor);
 	}
@@ -1486,10 +1486,10 @@ public class SensorInitializer {
 
 	private void configureGreyWaterInFlowRateSensor(Node node) {
 		GreyWaterInFlowRateSensor myGreyWaterInFlowRateSensor = GreyWaterInFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myGreyWaterInFlowRateSensor.setInput(
-				GreyWaterConsumerHelper.narrow(BiosimInitializer.grabModule(
+				GreyWaterConsumerHelper.narrow(BiosimInitializer.getModule(
 						myID, getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myGreyWaterInFlowRateSensor);
 	}
@@ -1514,10 +1514,10 @@ public class SensorInitializer {
 
 	private void configureGreyWaterOutFlowRateSensor(Node node) {
 		GreyWaterOutFlowRateSensor myGreyWaterOutFlowRateSensor = GreyWaterOutFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myGreyWaterOutFlowRateSensor.setInput(
-				GreyWaterProducerHelper.narrow(BiosimInitializer.grabModule(
+				GreyWaterProducerHelper.narrow(BiosimInitializer.getModule(
 						myID, getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myGreyWaterOutFlowRateSensor);
 	}
@@ -1542,10 +1542,10 @@ public class SensorInitializer {
 
 	private void configureDirtyWaterInFlowRateSensor(Node node) {
 		DirtyWaterInFlowRateSensor myDirtyWaterInFlowRateSensor = DirtyWaterInFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myDirtyWaterInFlowRateSensor.setInput(
-				DirtyWaterConsumerHelper.narrow(BiosimInitializer.grabModule(
+				DirtyWaterConsumerHelper.narrow(BiosimInitializer.getModule(
 						myID, getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myDirtyWaterInFlowRateSensor);
 	}
@@ -1570,10 +1570,10 @@ public class SensorInitializer {
 
 	private void configureDirtyWaterOutFlowRateSensor(Node node) {
 		DirtyWaterOutFlowRateSensor myDirtyWaterOutFlowRateSensor = DirtyWaterOutFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myDirtyWaterOutFlowRateSensor.setInput(
-				DirtyWaterProducerHelper.narrow(BiosimInitializer.grabModule(
+				DirtyWaterProducerHelper.narrow(BiosimInitializer.getModule(
 						myID, getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myDirtyWaterOutFlowRateSensor);
 	}
@@ -1595,10 +1595,10 @@ public class SensorInitializer {
 
 	private void configureWaterInFlowRateSensor(Node node) {
 		WaterInFlowRateSensor myWaterInFlowRateSensor = WaterInFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myWaterInFlowRateSensor.setInput(
-				WaterConsumerHelper.narrow(BiosimInitializer.grabModule(myID,
+				WaterConsumerHelper.narrow(BiosimInitializer.getModule(myID,
 						getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myWaterInFlowRateSensor);
 	}
@@ -1621,10 +1621,10 @@ public class SensorInitializer {
 
 	private void configureWaterOutFlowRateSensor(Node node) {
 		WaterOutFlowRateSensor myWaterOutFlowRateSensor = WaterOutFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myWaterOutFlowRateSensor.setInput(
-				WaterProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				WaterProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myWaterOutFlowRateSensor);
 	}
@@ -1701,10 +1701,10 @@ public class SensorInitializer {
 
 	private void configureDryWasteInFlowRateSensor(Node node) {
 		DryWasteInFlowRateSensor myDryWasteInFlowRateSensor = DryWasteInFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myDryWasteInFlowRateSensor.setInput(
-				DryWasteConsumerHelper.narrow(BiosimInitializer.grabModule(
+				DryWasteConsumerHelper.narrow(BiosimInitializer.getModule(
 						myID, getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myDryWasteInFlowRateSensor);
 	}
@@ -1729,10 +1729,10 @@ public class SensorInitializer {
 
 	private void configureDryWasteOutFlowRateSensor(Node node) {
 		DryWasteOutFlowRateSensor myDryWasteOutFlowRateSensor = DryWasteOutFlowRateSensorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myDryWasteOutFlowRateSensor.setInput(
-				DryWasteProducerHelper.narrow(BiosimInitializer.grabModule(
+				DryWasteProducerHelper.narrow(BiosimInitializer.getModule(
 						myID, getInputName(node))), getFlowRateIndex(node));
 		mySensors.add(myDryWasteOutFlowRateSensor);
 	}

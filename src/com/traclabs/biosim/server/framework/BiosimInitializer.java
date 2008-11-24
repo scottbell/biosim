@@ -369,8 +369,12 @@ public class BiosimInitializer {
 	public static String getModuleName(Node node) {
 		return node.getAttributes().getNamedItem("moduleName").getNodeValue();
 	}
+	
+	public static org.omg.CORBA.Object getModule(String moduleName) {
+		return getModule(0, moduleName);
+	}
 
-	public static org.omg.CORBA.Object grabModule(int pID, String moduleName) {
+	public static org.omg.CORBA.Object getModule(int pID, String moduleName) {
 		org.omg.CORBA.Object moduleToReturn = null;
 		while (moduleToReturn == null) {
 			try {

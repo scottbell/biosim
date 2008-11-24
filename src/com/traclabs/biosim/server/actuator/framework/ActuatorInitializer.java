@@ -218,10 +218,10 @@ public class ActuatorInitializer {
 
 	private void configureCO2InFlowRateActuator(Node node) {
 		CO2InFlowRateActuator myCO2InFlowRateActuator = CO2InFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myCO2InFlowRateActuator.setOutput(
-				CO2ConsumerHelper.narrow(BiosimInitializer.grabModule(myID,
+				CO2ConsumerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myCO2InFlowRateActuator);
 	}
@@ -244,10 +244,10 @@ public class ActuatorInitializer {
 
 	private void configureCO2OutFlowRateActuator(Node node) {
 		CO2OutFlowRateActuator myCO2OutFlowRateActuator = CO2OutFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myCO2OutFlowRateActuator.setOutput(
-				CO2ProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				CO2ProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myCO2OutFlowRateActuator);
 	}
@@ -269,10 +269,10 @@ public class ActuatorInitializer {
 
 	private void configureO2InFlowRateActuator(Node node) {
 		O2InFlowRateActuator myO2InFlowRateActuator = O2InFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myO2InFlowRateActuator.setOutput(
-				O2ConsumerHelper.narrow(BiosimInitializer.grabModule(myID,
+				O2ConsumerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myO2InFlowRateActuator);
 	}
@@ -294,10 +294,10 @@ public class ActuatorInitializer {
 
 	private void configureO2OutFlowRateActuator(Node node) {
 		O2OutFlowRateActuator myO2OutFlowRateActuator = O2OutFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myO2OutFlowRateActuator.setOutput(
-				O2ProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				O2ProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myO2OutFlowRateActuator);
 	}
@@ -319,10 +319,10 @@ public class ActuatorInitializer {
 
 	private void configureH2InFlowRateActuator(Node node) {
 		H2InFlowRateActuator myH2InFlowRateActuator = H2InFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myH2InFlowRateActuator.setOutput(
-				H2ConsumerHelper.narrow(BiosimInitializer.grabModule(myID,
+				H2ConsumerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myH2InFlowRateActuator);
 	}
@@ -344,10 +344,10 @@ public class ActuatorInitializer {
 
 	private void configureH2OutFlowRateActuator(Node node) {
 		H2OutFlowRateActuator myH2OutFlowRateActuator = H2OutFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myH2OutFlowRateActuator.setOutput(
-				H2ProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				H2ProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myH2OutFlowRateActuator);
 	}
@@ -372,10 +372,10 @@ public class ActuatorInitializer {
 
 	private void configureNitrogenInFlowRateActuator(Node node) {
 		NitrogenInFlowRateActuator myNitrogenInFlowRateActuator = NitrogenInFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myNitrogenInFlowRateActuator.setOutput(
-				NitrogenConsumerHelper.narrow(BiosimInitializer.grabModule(
+				NitrogenConsumerHelper.narrow(BiosimInitializer.getModule(
 						myID, getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myNitrogenInFlowRateActuator);
 	}
@@ -400,10 +400,10 @@ public class ActuatorInitializer {
 
 	private void configureNitrogenOutFlowRateActuator(Node node) {
 		NitrogenOutFlowRateActuator myNitrogenOutFlowRateActuator = NitrogenOutFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myNitrogenOutFlowRateActuator.setOutput(
-				NitrogenProducerHelper.narrow(BiosimInitializer.grabModule(
+				NitrogenProducerHelper.narrow(BiosimInitializer.getModule(
 						myID, getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myNitrogenOutFlowRateActuator);
 	}
@@ -428,10 +428,10 @@ public class ActuatorInitializer {
 
 	private void configureMethaneInFlowRateActuator(Node node) {
 		MethaneInFlowRateActuator myMethaneInFlowRateActuator = MethaneInFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myMethaneInFlowRateActuator.setOutput(
-				MethaneConsumerHelper.narrow(BiosimInitializer.grabModule(myID,
+				MethaneConsumerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myMethaneInFlowRateActuator);
 	}
@@ -456,10 +456,10 @@ public class ActuatorInitializer {
 
 	private void configureMethaneOutFlowRateActuator(Node node) {
 		MethaneOutFlowRateActuator myMethaneOutFlowRateActuator = MethaneOutFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myMethaneOutFlowRateActuator.setOutput(
-				MethaneProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				MethaneProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myMethaneOutFlowRateActuator);
 	}
@@ -543,10 +543,10 @@ public class ActuatorInitializer {
 
 	private void configureAirInFlowRateActuator(Node node) {
 		AirInFlowRateActuator myAirInFlowRateActuator = AirInFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myAirInFlowRateActuator.setOutput(
-				AirConsumerHelper.narrow(BiosimInitializer.grabModule(myID,
+				AirConsumerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myAirInFlowRateActuator);
 	}
@@ -569,10 +569,10 @@ public class ActuatorInitializer {
 
 	private void configureAirOutFlowRateActuator(Node node) {
 		AirOutFlowRateActuator myAirOutFlowRateActuator = AirOutFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myAirOutFlowRateActuator.setOutput(
-				AirProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				AirProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myAirOutFlowRateActuator);
 	}
@@ -619,10 +619,10 @@ public class ActuatorInitializer {
 
 	private void configureBiomassInFlowRateActuator(Node node) {
 		BiomassInFlowRateActuator myBiomassInFlowRateActuator = BiomassInFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myBiomassInFlowRateActuator.setOutput(
-				BiomassConsumerHelper.narrow(BiosimInitializer.grabModule(myID,
+				BiomassConsumerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myBiomassInFlowRateActuator);
 	}
@@ -647,10 +647,10 @@ public class ActuatorInitializer {
 
 	private void configureBiomassOutFlowRateActuator(Node node) {
 		BiomassOutFlowRateActuator myBiomassOutFlowRateActuator = BiomassOutFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myBiomassOutFlowRateActuator.setOutput(
-				BiomassProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				BiomassProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myBiomassOutFlowRateActuator);
 	}
@@ -673,10 +673,10 @@ public class ActuatorInitializer {
 
 	private void configureFoodInFlowRateActuator(Node node) {
 		FoodInFlowRateActuator myFoodInFlowRateActuator = FoodInFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myFoodInFlowRateActuator.setOutput(
-				FoodConsumerHelper.narrow(BiosimInitializer.grabModule(myID,
+				FoodConsumerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myFoodInFlowRateActuator);
 	}
@@ -700,10 +700,10 @@ public class ActuatorInitializer {
 
 	private void configureFoodOutFlowRateActuator(Node node) {
 		FoodOutFlowRateActuator myFoodOutFlowRateActuator = FoodOutFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myFoodOutFlowRateActuator.setOutput(
-				FoodProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				FoodProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myFoodOutFlowRateActuator);
 	}
@@ -725,10 +725,10 @@ public class ActuatorInitializer {
 
 	private void configurePlantingActuator(Node node) {
 		PlantingActuator myPlantingActuator = PlantingActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myPlantingActuator.setOutput(BiomassPSHelper.narrow(BiosimInitializer
-				.grabModule(myID, getOutputName(node))), getShelfIndex(node));
+				.getModule(myID, getOutputName(node))), getShelfIndex(node));
 		myActuators.add(myPlantingActuator);
 	}
 
@@ -749,10 +749,10 @@ public class ActuatorInitializer {
 
 	private void configureHarvestingActuator(Node node) {
 		HarvestingActuator myHarvestingActuator = HarvestingActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myHarvestingActuator.setOutput(BiomassPSHelper.narrow(BiosimInitializer
-				.grabModule(myID, getOutputName(node))), getShelfIndex(node));
+				.getModule(myID, getOutputName(node))), getShelfIndex(node));
 		myActuators.add(myHarvestingActuator);
 	}
 
@@ -814,11 +814,11 @@ public class ActuatorInitializer {
 
 	private void configureInfluentValveActuator(Node node) {
 		InfluentValveActuator myInfluentValveActuator = InfluentValveActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myInfluentValveActuator
 				.setOutput(InfluentValveHelper.narrow(BiosimInitializer
-						.grabModule(myID, getOutputName(node))));
+						.getModule(myID, getOutputName(node))));
 		myActuators.add(myInfluentValveActuator);
 	}
 
@@ -839,11 +839,11 @@ public class ActuatorInitializer {
 
 	private void configureEffluentValveActuator(Node node) {
 		EffluentValveActuator myEffluentValveActuator = EffluentValveActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myEffluentValveActuator
 				.setOutput(EffluentValveHelper.narrow(BiosimInitializer
-						.grabModule(myID, getOutputName(node))));
+						.getModule(myID, getOutputName(node))));
 		myActuators.add(myEffluentValveActuator);
 	}
 
@@ -888,10 +888,10 @@ public class ActuatorInitializer {
 
 	private void configurePowerInFlowRateActuator(Node node) {
 		PowerInFlowRateActuator myPowerInFlowRateActuator = PowerInFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myPowerInFlowRateActuator.setOutput(
-				PowerConsumerHelper.narrow(BiosimInitializer.grabModule(myID,
+				PowerConsumerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myPowerInFlowRateActuator);
 	}
@@ -916,10 +916,10 @@ public class ActuatorInitializer {
 
 	private void configurePowerOutFlowRateActuator(Node node) {
 		PowerOutFlowRateActuator myPowerOutFlowRateActuator = PowerOutFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myPowerOutFlowRateActuator.setOutput(
-				PowerProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				PowerProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myPowerOutFlowRateActuator);
 	}
@@ -967,10 +967,10 @@ public class ActuatorInitializer {
 
 	private void configurePotableWaterInFlowRateActuator(Node node) {
 		PotableWaterInFlowRateActuator myPotableWaterInFlowRateActuator = PotableWaterInFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myPotableWaterInFlowRateActuator.setOutput(
-				PotableWaterConsumerHelper.narrow(BiosimInitializer.grabModule(
+				PotableWaterConsumerHelper.narrow(BiosimInitializer.getModule(
 						myID, getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myPotableWaterInFlowRateActuator);
 	}
@@ -996,10 +996,10 @@ public class ActuatorInitializer {
 
 	private void configurePotableWaterOutFlowRateActuator(Node node) {
 		PotableWaterOutFlowRateActuator myPotableWaterOutFlowRateActuator = PotableWaterOutFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myPotableWaterOutFlowRateActuator.setOutput(
-				PotableWaterProducerHelper.narrow(BiosimInitializer.grabModule(
+				PotableWaterProducerHelper.narrow(BiosimInitializer.getModule(
 						myID, getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myPotableWaterOutFlowRateActuator);
 	}
@@ -1024,10 +1024,10 @@ public class ActuatorInitializer {
 
 	private void configureGreyWaterInFlowRateActuator(Node node) {
 		GreyWaterInFlowRateActuator myGreyWaterInFlowRateActuator = GreyWaterInFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myGreyWaterInFlowRateActuator.setOutput(
-				GreyWaterConsumerHelper.narrow(BiosimInitializer.grabModule(
+				GreyWaterConsumerHelper.narrow(BiosimInitializer.getModule(
 						myID, getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myGreyWaterInFlowRateActuator);
 	}
@@ -1052,10 +1052,10 @@ public class ActuatorInitializer {
 
 	private void configureGreyWaterOutFlowRateActuator(Node node) {
 		GreyWaterOutFlowRateActuator myGreyWaterOutFlowRateActuator = GreyWaterOutFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myGreyWaterOutFlowRateActuator.setOutput(
-				GreyWaterProducerHelper.narrow(BiosimInitializer.grabModule(
+				GreyWaterProducerHelper.narrow(BiosimInitializer.getModule(
 						myID, getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myGreyWaterOutFlowRateActuator);
 	}
@@ -1080,10 +1080,10 @@ public class ActuatorInitializer {
 
 	private void configureDirtyWaterInFlowRateActuator(Node node) {
 		DirtyWaterInFlowRateActuator myDirtyWaterInFlowRateActuator = DirtyWaterInFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myDirtyWaterInFlowRateActuator.setOutput(
-				DirtyWaterConsumerHelper.narrow(BiosimInitializer.grabModule(
+				DirtyWaterConsumerHelper.narrow(BiosimInitializer.getModule(
 						myID, getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myDirtyWaterInFlowRateActuator);
 	}
@@ -1109,10 +1109,10 @@ public class ActuatorInitializer {
 
 	private void configureDirtyWaterOutFlowRateActuator(Node node) {
 		DirtyWaterOutFlowRateActuator myDirtyWaterOutFlowRateActuator = DirtyWaterOutFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myDirtyWaterOutFlowRateActuator.setOutput(
-				DirtyWaterProducerHelper.narrow(BiosimInitializer.grabModule(
+				DirtyWaterProducerHelper.narrow(BiosimInitializer.getModule(
 						myID, getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myDirtyWaterOutFlowRateActuator);
 	}
@@ -1136,10 +1136,10 @@ public class ActuatorInitializer {
 
 	private void configureWaterInFlowRateActuator(Node node) {
 		WaterInFlowRateActuator myWaterInFlowRateActuator = WaterInFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myWaterInFlowRateActuator.setOutput(
-				WaterConsumerHelper.narrow(BiosimInitializer.grabModule(myID,
+				WaterConsumerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myWaterInFlowRateActuator);
 	}
@@ -1164,10 +1164,10 @@ public class ActuatorInitializer {
 
 	private void configureWaterOutFlowRateActuator(Node node) {
 		WaterOutFlowRateActuator myWaterOutFlowRateActuator = WaterOutFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myWaterOutFlowRateActuator.setOutput(
-				WaterProducerHelper.narrow(BiosimInitializer.grabModule(myID,
+				WaterProducerHelper.narrow(BiosimInitializer.getModule(myID,
 						getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myWaterOutFlowRateActuator);
 	}
@@ -1244,10 +1244,10 @@ public class ActuatorInitializer {
 
 	private void configureDryWasteInFlowRateActuator(Node node) {
 		DryWasteInFlowRateActuator myDryWasteInFlowRateActuator = DryWasteInFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myDryWasteInFlowRateActuator.setOutput(
-				DryWasteConsumerHelper.narrow(BiosimInitializer.grabModule(
+				DryWasteConsumerHelper.narrow(BiosimInitializer.getModule(
 						myID, getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myDryWasteInFlowRateActuator);
 	}
@@ -1272,10 +1272,10 @@ public class ActuatorInitializer {
 
 	private void configureDryWasteOutFlowRateActuator(Node node) {
 		DryWasteOutFlowRateActuator myDryWasteOutFlowRateActuator = DryWasteOutFlowRateActuatorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		myDryWasteOutFlowRateActuator.setOutput(
-				DryWasteProducerHelper.narrow(BiosimInitializer.grabModule(
+				DryWasteProducerHelper.narrow(BiosimInitializer.getModule(
 						myID, getOutputName(node))), getFlowRateIndex(node));
 		myActuators.add(myDryWasteOutFlowRateActuator);
 	}
