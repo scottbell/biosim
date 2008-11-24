@@ -1,5 +1,8 @@
 package com.traclabs.biosim.server.framework;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.idl.framework.BioDriverPOA;
@@ -51,6 +54,8 @@ public class BioDriverImpl extends BioDriverPOA {
 	// If we loop after end conditions of a simulation run have been met (crew
 	// death or n-ticks)
 	private boolean looping = false;
+	
+	private Map<String, BioModule> myModuleMap = new HashMap<String, BioModule>();
 
 	private CrewGroup[] crewsToWatch;
 
@@ -150,9 +155,16 @@ public class BioDriverImpl extends BioDriverPOA {
 	public synchronized void setRunTillPlantDeath(boolean pRunTillDead) {
 		runTillPlantDeath = pRunTillDead;
 	}
+	
+	public BioModule getModule(String moduleName){
+		return myModuleMap.get(moduleName);
+	}
 
 	public void setModules(BioModule[] pModules) {
 		modules = pModules;
+		for (BioModule module : pModules) {
+			myModuleMap.put(module.getModuleName(), module);
+		}
 	}
 
 	public void setSensors(BioModule[] pSensors) {

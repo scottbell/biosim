@@ -770,7 +770,7 @@ public class SimulationInitializer {
 	 * @param child
 	 */
 	private void configureVCCR(Node node) {
-		VCCR myVCCR = VCCRHelper.narrow(BiosimInitializer.grabModule(myID,
+		VCCR myVCCR = VCCRHelper.narrow(BiosimInitializer.getModule(myID,
 				BiosimInitializer.getModuleName(node)));
 		configureSimBioModule(myVCCR, node);
 		myActiveSimModules.add(myVCCR);
@@ -797,7 +797,7 @@ public class SimulationInitializer {
 	 * @param child
 	 */
 	private void configureCRS(Node node) {
-		CRS myCRS = CRSHelper.narrow(BiosimInitializer.grabModule(myID,
+		CRS myCRS = CRSHelper.narrow(BiosimInitializer.getModule(myID,
 				BiosimInitializer.getModuleName(node)));
 		configureSimBioModule(myCRS, node);
 		myActiveSimModules.add(myCRS);
@@ -824,7 +824,7 @@ public class SimulationInitializer {
 	 * @param child
 	 */
 	private void configureOGS(Node node) {
-		OGS myOGS = OGSHelper.narrow(BiosimInitializer.grabModule(myID,
+		OGS myOGS = OGSHelper.narrow(BiosimInitializer.getModule(myID,
 				BiosimInitializer.getModuleName(node)));
 		configureSimBioModule(myOGS, node);
 		myLogger.debug("Configuring OGS");
@@ -854,7 +854,7 @@ public class SimulationInitializer {
 	 * @param child
 	 */
 	private void configurePyrolizer(Node node) {
-		Pyrolizer myPyrolizer = PyrolizerHelper.narrow(BiosimInitializer.grabModule(myID,
+		Pyrolizer myPyrolizer = PyrolizerHelper.narrow(BiosimInitializer.getModule(myID,
 				BiosimInitializer.getModuleName(node)));
 		configureSimBioModule(myPyrolizer, node);
 		myLogger.debug("Configuring Pyrolizer");
@@ -952,7 +952,7 @@ public class SimulationInitializer {
 					else
 						myPassiveSimModules
 								.add(O2StoreHelper.narrow(BiosimInitializer
-										.grabModule(myID, BiosimInitializer
+										.getModule(myID, BiosimInitializer
 												.getModuleName(child))));
 				} else if (childName.equals("CO2Store")) {
 					if (firstPass)
@@ -960,7 +960,7 @@ public class SimulationInitializer {
 					else
 						myPassiveSimModules
 								.add(CO2StoreHelper.narrow(BiosimInitializer
-										.grabModule(myID, BiosimInitializer
+										.getModule(myID, BiosimInitializer
 												.getModuleName(child))));
 
 				} else if (childName.equals("H2Store")) {
@@ -969,7 +969,7 @@ public class SimulationInitializer {
 					else
 						myPassiveSimModules
 								.add(H2StoreHelper.narrow(BiosimInitializer
-										.grabModule(myID, BiosimInitializer
+										.getModule(myID, BiosimInitializer
 												.getModuleName(child))));
 
 				} else if (childName.equals("NitrogenStore")) {
@@ -978,7 +978,7 @@ public class SimulationInitializer {
 					else
 						myPassiveSimModules
 								.add(NitrogenStoreHelper
-										.narrow(BiosimInitializer.grabModule(
+										.narrow(BiosimInitializer.getModule(
 												myID, BiosimInitializer
 														.getModuleName(child))));
 
@@ -988,7 +988,7 @@ public class SimulationInitializer {
 					else
 						myPassiveSimModules
 								.add(MethaneStoreHelper
-										.narrow(BiosimInitializer.grabModule(
+										.narrow(BiosimInitializer.getModule(
 												myID, BiosimInitializer
 														.getModuleName(child))));
 
@@ -1106,7 +1106,7 @@ public class SimulationInitializer {
 			myCrewGroupImpl.setDeathEnabled(deathEnabled);
 			// Create crew members
 			CrewGroup myCrewGroup = CrewGroupHelper.narrow(BiosimInitializer
-					.grabModule(myID, myCrewGroupImpl.getModuleName()));
+					.getModule(myID, myCrewGroupImpl.getModuleName()));
 			Node child = node.getFirstChild();
 			while (child != null) {
 				String childName = child.getLocalName();
@@ -1122,7 +1122,7 @@ public class SimulationInitializer {
 
 	private void configureCrewGroup(Node node) {
 		CrewGroup myCrewGroup = CrewGroupHelper.narrow(BiosimInitializer
-				.grabModule(myID, BiosimInitializer.getModuleName(node)));
+				.getModule(myID, BiosimInitializer.getModuleName(node)));
 		configureSimBioModule(myCrewGroup, node);
 		myActiveSimModules.add(myCrewGroup);
 	}
@@ -1304,7 +1304,7 @@ public class SimulationInitializer {
 
 	private void configureDehumidifier(Node node) {
 		Dehumidifier myDehumidifier = DehumidifierHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		configureSimBioModule(myDehumidifier, node);
 		myPrioritySimModules.add(myDehumidifier);
@@ -1327,7 +1327,7 @@ public class SimulationInitializer {
 
 	private void configureFan(Node node) {
 		Fan myFan = FanHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		configureSimBioModule(myFan, node);
 		myPrioritySimModules.add(myFan);
@@ -1344,7 +1344,7 @@ public class SimulationInitializer {
 					else
 						myPassiveSimModules
 								.add(SimEnvironmentHelper
-										.narrow(BiosimInitializer.grabModule(
+										.narrow(BiosimInitializer.getModule(
 												myID, BiosimInitializer
 														.getModuleName(child))));
 				}
@@ -1382,7 +1382,7 @@ public class SimulationInitializer {
 
 	private void configureAccumulator(Node node) {
 		Accumulator myAccumulator = AccumulatorHelper.narrow(BiosimInitializer
-				.grabModule(myID, BiosimInitializer.getModuleName(node)));
+				.getModule(myID, BiosimInitializer.getModuleName(node)));
 		configureSimBioModule(myAccumulator, node);
 		myActiveSimModules.add(myAccumulator);
 	}
@@ -1401,7 +1401,7 @@ public class SimulationInitializer {
 
 	private void configureInjector(Node node) {
 		Injector myInjector = InjectorHelper.narrow(BiosimInitializer
-				.grabModule(myID, BiosimInitializer.getModuleName(node)));
+				.getModule(myID, BiosimInitializer.getModuleName(node)));
 		configureSimBioModule(myInjector, node);
 		myActiveSimModules.add(myInjector);
 	}
@@ -1423,7 +1423,7 @@ public class SimulationInitializer {
 
 	private void configureInfluentValve(Node node) {
 		InfluentValve myInfluentValve = InfluentValveHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		configureSimBioModule(myInfluentValve, node);
 		myActiveSimModules.add(myInfluentValve);
@@ -1446,7 +1446,7 @@ public class SimulationInitializer {
 
 	private void configureEffluentValve(Node node) {
 		EffluentValve myEffluentValve = EffluentValveHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		configureSimBioModule(myEffluentValve, node);
 		myActiveSimModules.add(myEffluentValve);
@@ -1561,7 +1561,7 @@ public class SimulationInitializer {
 
 	private void configureBiomassPS(Node node) {
 		BiomassPS myBiomassPS = BiomassPSHelper.narrow(BiosimInitializer
-				.grabModule(myID, BiosimInitializer.getModuleName(node)));
+				.getModule(myID, BiosimInitializer.getModuleName(node)));
 		configureSimBioModule(myBiomassPS, node);
 		myActiveSimModules.add(myBiomassPS);
 	}
@@ -1583,7 +1583,7 @@ public class SimulationInitializer {
 
 	private void configureFoodProcessor(Node node) {
 		FoodProcessor myFoodProcessor = FoodProcessorHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		configureSimBioModule(myFoodProcessor, node);
 		myActiveSimModules.add(myFoodProcessor);
@@ -1660,7 +1660,7 @@ public class SimulationInitializer {
 					else
 						myPassiveSimModules
 								.add(BiomassStoreHelper
-										.narrow(BiosimInitializer.grabModule(
+										.narrow(BiosimInitializer.getModule(
 												myID, BiosimInitializer
 														.getModuleName(child))));
 				} else if (childName.equals("FoodStore")) {
@@ -1669,7 +1669,7 @@ public class SimulationInitializer {
 					else
 						myPassiveSimModules
 								.add(FoodStoreHelper.narrow(BiosimInitializer
-										.grabModule(myID, BiosimInitializer
+										.getModule(myID, BiosimInitializer
 												.getModuleName(child))));
 				}
 			}
@@ -1700,7 +1700,7 @@ public class SimulationInitializer {
 	}
 
 	private void configurePowerPS(Node node) {
-		PowerPS myPowerPS = PowerPSHelper.narrow(BiosimInitializer.grabModule(
+		PowerPS myPowerPS = PowerPSHelper.narrow(BiosimInitializer.getModule(
 				myID, BiosimInitializer.getModuleName(node)));
 		configureSimBioModule(myPowerPS, node);
 		myActiveSimModules.add(myPowerPS);
@@ -1726,7 +1726,7 @@ public class SimulationInitializer {
 
 	private void configureGenericPowerConsumer(Node node) {
 		GenericPowerConsumer myGenericPowerConsumer = GenericPowerConsumerHelper
-				.narrow(BiosimInitializer.grabModule(myID, BiosimInitializer
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
 						.getModuleName(node)));
 		configureSimBioModule(myGenericPowerConsumer, node);
 		myActiveSimModules.add(myGenericPowerConsumer);
@@ -1746,7 +1746,7 @@ public class SimulationInitializer {
 	}
 
 	private void configureRPCM(Node node) {
-		RPCM myRPCM = RPCMHelper.narrow(BiosimInitializer.grabModule(myID,
+		RPCM myRPCM = RPCMHelper.narrow(BiosimInitializer.getModule(myID,
 				BiosimInitializer.getModuleName(node)));
 		configureSimBioModule(myRPCM, node);
 		myRPCM.setInitialSwitches(getSwitchValues(node));
@@ -1793,7 +1793,7 @@ public class SimulationInitializer {
 					else
 						myPassiveSimModules
 								.add(PowerStoreHelper.narrow(BiosimInitializer
-										.grabModule(myID, BiosimInitializer
+										.getModule(myID, BiosimInitializer
 												.getModuleName(child))));
 				}
 			}
@@ -1825,7 +1825,7 @@ public class SimulationInitializer {
 	}
 
 	private void configureWaterRS(Node node) {
-		WaterRS myWaterRS = WaterRSHelper.narrow(BiosimInitializer.grabModule(
+		WaterRS myWaterRS = WaterRSHelper.narrow(BiosimInitializer.getModule(
 				myID, BiosimInitializer.getModuleName(node)));
 		configureSimBioModule(myWaterRS, node);
 		/*
@@ -1906,7 +1906,7 @@ public class SimulationInitializer {
 					else
 						myPassiveSimModules
 								.add(PotableWaterStoreHelper
-										.narrow(BiosimInitializer.grabModule(
+										.narrow(BiosimInitializer.getModule(
 												myID, BiosimInitializer
 														.getModuleName(child))));
 				} else if (childName.equals("GreyWaterStore")) {
@@ -1915,7 +1915,7 @@ public class SimulationInitializer {
 					else
 						myPassiveSimModules
 								.add(GreyWaterStoreHelper
-										.narrow(BiosimInitializer.grabModule(
+										.narrow(BiosimInitializer.getModule(
 												myID, BiosimInitializer
 														.getModuleName(child))));
 				} else if (childName.equals("DirtyWaterStore")) {
@@ -1924,7 +1924,7 @@ public class SimulationInitializer {
 					else
 						myPassiveSimModules
 								.add(DirtyWaterStoreHelper
-										.narrow(BiosimInitializer.grabModule(
+										.narrow(BiosimInitializer.getModule(
 												myID, BiosimInitializer
 														.getModuleName(child))));
 				}
@@ -1950,7 +1950,7 @@ public class SimulationInitializer {
 
 	private void configureIncinerator(Node node) {
 		Incinerator myIncinerator = IncineratorHelper.narrow(BiosimInitializer
-				.grabModule(myID, BiosimInitializer.getModuleName(node)));
+				.getModule(myID, BiosimInitializer.getModuleName(node)));
 		configureSimBioModule(myIncinerator, node);
 		myActiveSimModules.add(myIncinerator);
 	}
@@ -1986,7 +1986,7 @@ public class SimulationInitializer {
 					else
 						myPassiveSimModules
 								.add(DryWasteStoreHelper
-										.narrow(BiosimInitializer.grabModule(
+										.narrow(BiosimInitializer.getModule(
 												myID, BiosimInitializer
 														.getModuleName(child))));
 				}

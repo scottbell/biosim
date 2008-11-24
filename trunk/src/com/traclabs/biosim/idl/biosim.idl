@@ -251,6 +251,7 @@ module com{
                                                 void setPrioritySimModules(in BioModuleList pSimModules);
                                                 void setActiveSimModules(in BioModuleList pSimModules);
                                                 void setPassiveSimModules(in BioModuleList pSimModules);
+                                                BioModule getModule(in string moduleName);
                                                 BioModuleList getModules();
                                                 BioModuleList getSensors();
                                                 BioModuleList getActuators();
