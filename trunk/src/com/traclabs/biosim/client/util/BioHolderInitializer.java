@@ -307,7 +307,7 @@ public class BioHolderInitializer {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		myBioHolder.theBioDriver = BioDriverHelper.narrow(grabModule("BioDriver"));
+		myBioHolder.theBioDriver = BioDriverHelper.narrow(getModule("BioDriver"));
 	}
 	
 	private static void parseNameServiceLocation(Node node) {
@@ -338,7 +338,7 @@ public class BioHolderInitializer {
 		OrbUtils.initializeNamingServer(hostName, port);
 	}
 
-	public static org.omg.CORBA.Object grabModule(String moduleName) {
+	public static org.omg.CORBA.Object getModule(String moduleName) {
 		org.omg.CORBA.Object moduleToReturn = null;
 		while (moduleToReturn == null) {
 			try {
@@ -395,54 +395,54 @@ public class BioHolderInitializer {
 
 	private static void fetchAirRS(Node node) {
 		myBioHolder.theAirRSModules.add(AirRSHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchOGS(Node node) {
 		myBioHolder.theOGSModules.add(OGSHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchPyrolizer(Node node) {
 		myBioHolder.thePyrolizerModules.add(PyrolizerHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchVCCR(Node node) {
 		Logger.getLogger(BioHolderInitializer.class).debug(
 				"module named " + getModuleName(node));
 		myBioHolder.theVCCRModules.add(VCCRHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchCRS(Node node) {
 		myBioHolder.theCRSModules.add(CRSHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchO2Store(Node node) {
 		myBioHolder.theO2Stores.add(O2StoreHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchCO2Store(Node node) {
 		myBioHolder.theCO2Stores.add(CO2StoreHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchH2Store(Node node) {
 		myBioHolder.theH2Stores.add(H2StoreHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchNitrogenStore(Node node) {
 		myBioHolder.theNitrogenStores.add(NitrogenStoreHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchMethaneStore(Node node) {
 		myBioHolder.theMethaneStores.add(MethaneStoreHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlAirModules(Node node) {
@@ -479,7 +479,7 @@ public class BioHolderInitializer {
 
 	private static void fetchCrewGroup(Node node) {
 		myBioHolder.theCrewGroups.add(CrewGroupHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlCrewModules(Node node) {
@@ -497,17 +497,17 @@ public class BioHolderInitializer {
 
 	private static void fetchSimEnvironment(Node node) {
 		myBioHolder.theSimEnvironments.add(SimEnvironmentHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchDehumidifier(Node node) {
 		myBioHolder.theDehumidifiers.add(DehumidifierHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchFan(Node node) {
 		myBioHolder.theFans.add(FanHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 	
 	private static void crawlEnvironmentModules(Node node) {
@@ -529,22 +529,22 @@ public class BioHolderInitializer {
 
 	private static void fetchAccumulator(Node node) {
 		myBioHolder.theAccumulators.add(AccumulatorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchInjector(Node node) {
 		myBioHolder.theInjectors.add(InjectorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchInfluentValve(Node node) {
 		myBioHolder.theInfluentValves.add(InfluentValveHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchEffluentValve(Node node) {
 		myBioHolder.theEffluentValves.add(EffluentValveHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlFrameworkModules(Node node) {
@@ -568,22 +568,22 @@ public class BioHolderInitializer {
 
 	private static void fetchBiomassPS(Node node) {
 		myBioHolder.theBiomassPSModules.add(BiomassPSHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchFoodProcessor(Node node) {
 		myBioHolder.theFoodProcessors.add(FoodProcessorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchBiomassStore(Node node) {
 		myBioHolder.theBiomassStores.add(BiomassStoreHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchFoodStore(Node node) {
 		myBioHolder.theFoodStores.add(FoodStoreHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlFoodModules(Node node) {
@@ -607,22 +607,22 @@ public class BioHolderInitializer {
 
 	private static void fetchPowerPS(Node node) {
 		myBioHolder.thePowerPSModules.add(PowerPSHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchPowerStore(Node node) {
 		myBioHolder.thePowerStores.add(PowerStoreHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchRPCM(Node node) {
 		myBioHolder.theRPCMs.add(RPCMHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchGenericPowerConsumer(Node node) {
 		myBioHolder.theGenericPowerConsumers.add(GenericPowerConsumerHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlPowerModules(Node node) {
@@ -645,22 +645,22 @@ public class BioHolderInitializer {
 
 	private static void fetchWaterRS(Node node) {
 		myBioHolder.theWaterRSModules.add(WaterRSHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchPotableWaterStore(Node node) {
 		myBioHolder.thePotableWaterStores.add(PotableWaterStoreHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchDirtyWaterStore(Node node) {
 		myBioHolder.theDirtyWaterStores.add(DirtyWaterStoreHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchGreyWaterStore(Node node) {
 		myBioHolder.theGreyWaterStores.add(GreyWaterStoreHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlWaterModules(Node node) {
@@ -683,12 +683,12 @@ public class BioHolderInitializer {
 
 	private static void fetchIncinerator(Node node) {
 		myBioHolder.theIncinerators.add(IncineratorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchDryWasteStore(Node node) {
 		myBioHolder.theDryWasteStores.add(DryWasteStoreHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlWasteModules(Node node) {
@@ -735,56 +735,56 @@ public class BioHolderInitializer {
 	// Air
 	private static void fetchCO2InFlowRateSensor(Node node) {
 		myBioHolder.theCO2InFlowRateSensors.add(CO2InFlowRateSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchCO2OutFlowRateSensor(Node node) {
 		myBioHolder.theCO2OutFlowRateSensors.add(CO2OutFlowRateSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchO2InFlowRateSensor(Node node) {
 		myBioHolder.theO2InFlowRateSensors.add(O2InFlowRateSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchO2OutFlowRateSensor(Node node) {
 		myBioHolder.theO2OutFlowRateSensors.add(O2OutFlowRateSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchH2InFlowRateSensor(Node node) {
 		myBioHolder.theH2InFlowRateSensors.add(H2InFlowRateSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchH2OutFlowRateSensor(Node node) {
 		myBioHolder.theH2OutFlowRateSensors.add(H2OutFlowRateSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchNitrogenInFlowRateSensor(Node node) {
 		myBioHolder.theNitrogenInFlowRateSensors
 				.add(NitrogenInFlowRateSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchNitrogenOutFlowRateSensor(Node node) {
 		myBioHolder.theNitrogenOutFlowRateSensors
 				.add(NitrogenOutFlowRateSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchMethaneInFlowRateSensor(Node node) {
 		myBioHolder.theMethaneInFlowRateSensors
 				.add(MethaneInFlowRateSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchMethaneOutFlowRateSensor(Node node) {
 		myBioHolder.theMethaneOutFlowRateSensors
 				.add(MethaneOutFlowRateSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlAirSensors(Node node) {
@@ -820,18 +820,18 @@ public class BioHolderInitializer {
 	// Crew
 	private static void fetchCrewGroupDeathSensor(Node node) {
 		myBioHolder.theCrewGroupDeathSensors.add(CrewGroupDeathSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchCrewGroupAnyDeadSensor(Node node) {
 		myBioHolder.theCrewGroupAnyDeadSensors.add(CrewGroupAnyDeadSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchCrewGroupProductivitySensor(Node node) {
 		myBioHolder.theCrewGroupProductivitySensors
 				.add(CrewGroupProductivitySensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlCrewSensors(Node node) {
@@ -853,32 +853,32 @@ public class BioHolderInitializer {
 	// Environment
 	private static void fetchAirInFlowRateSensor(Node node) {
 		myBioHolder.theAirInFlowRateSensors.add(AirInFlowRateSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchAirOutFlowRateSensor(Node node) {
 		myBioHolder.theAirOutFlowRateSensors.add(AirOutFlowRateSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchGasPressureSensor(Node child) {
 		myBioHolder.theGasPressureSensors.add(GasPressureSensorHelper
-				.narrow(grabModule(getModuleName(child))));
+				.narrow(getModule(getModuleName(child))));
 	}
 
 	private static void fetchGasConcentrationSensor(Node child) {
 		myBioHolder.theGasConcentrationSensors.add(GasConcentrationSensorHelper
-				.narrow(grabModule(getModuleName(child))));
+				.narrow(getModule(getModuleName(child))));
 	}
 
 	private static void fetchTotalMolesSensor(Node child) {
 		myBioHolder.theTotalMolesSensors.add(TotalMolesSensorHelper
-				.narrow(grabModule(getModuleName(child))));
+				.narrow(getModule(getModuleName(child))));
 	}
 
 	private static void fetchTotalPressureSensor(Node child) {
 		myBioHolder.theTotalPressureSensors.add(TotalPressureSensorHelper
-				.narrow(grabModule(getModuleName(child))));
+				.narrow(getModule(getModuleName(child))));
 	}
 
 	private static void crawlEnvironmentSensors(Node node) {
@@ -907,45 +907,45 @@ public class BioHolderInitializer {
 	private static void fetchBiomassInFlowRateSensor(Node node) {
 		myBioHolder.theBiomassInFlowRateSensors
 				.add(BiomassInFlowRateSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchBiomassOutFlowRateSensor(Node node) {
 		myBioHolder.theBiomassOutFlowRateSensors
 				.add(BiomassOutFlowRateSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchBiomassStoreWaterContentSensor(Node node) {
 		myBioHolder.theBiomassStoreWaterContentSensors
 				.add(BiomassStoreWaterContentSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchFoodInFlowRateSensor(Node node) {
 		myBioHolder.theFoodInFlowRateSensors.add(FoodInFlowRateSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchFoodOutFlowRateSensor(Node node) {
 		myBioHolder.theFoodOutFlowRateSensors.add(FoodOutFlowRateSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchHarvestSensor(Node node) {
 		myBioHolder.theHarvestSensors.add(HarvestSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchPlantDeathSensor(Node node) {
 		myBioHolder.thePlantDeathSensors.add(PlantDeathSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchTimeTillCanopyClosedSensor(Node node) {
 		myBioHolder.theTimeTillCanopyClosureSensors
 				.add(TimeTillCanopyClosureSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlFoodSensors(Node node) {
@@ -977,24 +977,24 @@ public class BioHolderInitializer {
 	// Framework
 	private static void fetchStoreLevelSensor(Node node) {
 		myBioHolder.theStoreLevelSensors.add(StoreLevelSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchStoreOverflowSensor(Node node) {
 		myBioHolder.theStoreOverflowSensors.add(StoreOverflowSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchInfluentValveStateSensor(Node node) {
 		myBioHolder.theInfluentValveStateSensors
 				.add(InfluentValveStateSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchEffluentValveStateSensor(Node node) {
 		myBioHolder.theEffluentValveStateSensors
 				.add(EffluentValveStateSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlFrameworkSensors(Node node) {
@@ -1018,12 +1018,12 @@ public class BioHolderInitializer {
 	// Power
 	private static void fetchPowerInFlowRateSensor(Node node) {
 		myBioHolder.thePowerInFlowRateSensors.add(PowerInFlowRateSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchPowerOutFlowRateSensor(Node node) {
 		myBioHolder.thePowerOutFlowRateSensors.add(PowerOutFlowRateSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlPowerSensors(Node node) {
@@ -1044,47 +1044,47 @@ public class BioHolderInitializer {
 	private static void fetchPotableWaterInFlowRateSensor(Node node) {
 		myBioHolder.thePotableWaterInFlowRateSensors
 				.add(PotableWaterInFlowRateSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchPotableWaterOutFlowRateSensor(Node node) {
 		myBioHolder.thePotableWaterOutFlowRateSensors
 				.add(PotableWaterOutFlowRateSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchGreyWaterInFlowRateSensor(Node node) {
 		myBioHolder.theGreyWaterInFlowRateSensors
 				.add(GreyWaterInFlowRateSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchGreyWaterOutFlowRateSensor(Node node) {
 		myBioHolder.theGreyWaterOutFlowRateSensors
 				.add(GreyWaterOutFlowRateSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchDirtyWaterInFlowRateSensor(Node node) {
 		myBioHolder.theDirtyWaterInFlowRateSensors
 				.add(DirtyWaterInFlowRateSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchDirtyWaterOutFlowRateSensor(Node node) {
 		myBioHolder.theDirtyWaterOutFlowRateSensors
 				.add(DirtyWaterOutFlowRateSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchWaterInFlowRateSensor(Node node) {
 		myBioHolder.theWaterInFlowRateSensors.add(WaterInFlowRateSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchWaterOutFlowRateSensor(Node node) {
 		myBioHolder.theWaterOutFlowRateSensors.add(WaterOutFlowRateSensorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlWaterSensors(Node node) {
@@ -1117,13 +1117,13 @@ public class BioHolderInitializer {
 	private static void fetchDryWasteInFlowRateSensor(Node node) {
 		myBioHolder.theDryWasteInFlowRateSensors
 				.add(DryWasteInFlowRateSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchDryWasteOutFlowRateSensor(Node node) {
 		myBioHolder.theDryWasteOutFlowRateSensors
 				.add(DryWasteOutFlowRateSensorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlWasteSensors(Node node) {
@@ -1169,56 +1169,56 @@ public class BioHolderInitializer {
 	// Air
 	private static void fetchCO2InFlowRateActuator(Node node) {
 		myBioHolder.theCO2InFlowRateActuators.add(CO2InFlowRateActuatorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchCO2OutFlowRateActuator(Node node) {
 		myBioHolder.theCO2OutFlowRateActuators.add(CO2OutFlowRateActuatorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchO2InFlowRateActuator(Node node) {
 		myBioHolder.theO2InFlowRateActuators.add(O2InFlowRateActuatorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchO2OutFlowRateActuator(Node node) {
 		myBioHolder.theO2OutFlowRateActuators.add(O2OutFlowRateActuatorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchH2InFlowRateActuator(Node node) {
 		myBioHolder.theH2InFlowRateActuators.add(H2InFlowRateActuatorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchH2OutFlowRateActuator(Node node) {
 		myBioHolder.theH2OutFlowRateActuators.add(H2OutFlowRateActuatorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchNitrogenInFlowRateActuator(Node node) {
 		myBioHolder.theNitrogenInFlowRateActuators
 				.add(NitrogenInFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchNitrogenOutFlowRateActuator(Node node) {
 		myBioHolder.theNitrogenOutFlowRateActuators
 				.add(NitrogenOutFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchMethaneInFlowRateActuator(Node node) {
 		myBioHolder.theMethaneInFlowRateActuators
 				.add(MethaneInFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchMethaneOutFlowRateActuator(Node node) {
 		myBioHolder.theMethaneOutFlowRateActuators
 				.add(MethaneOutFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlAirActuators(Node node) {
@@ -1254,12 +1254,12 @@ public class BioHolderInitializer {
 	// Environment
 	private static void fetchAirInFlowRateActuator(Node node) {
 		myBioHolder.theAirInFlowRateActuators.add(AirInFlowRateActuatorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchAirOutFlowRateActuator(Node node) {
 		myBioHolder.theAirOutFlowRateActuators.add(AirOutFlowRateActuatorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlEnvironmentActuators(Node node) {
@@ -1279,12 +1279,12 @@ public class BioHolderInitializer {
 	// Framework
 	private static void fetchInfluentValveActuator(Node node) {
 		myBioHolder.theInfluentValveActuators.add(InfluentValveActuatorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchEffluentValveActuator(Node node) {
 		myBioHolder.theEffluentValveActuators.add(EffluentValveActuatorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlFrameworkActuators(Node node) {
@@ -1305,34 +1305,34 @@ public class BioHolderInitializer {
 	private static void fetchBiomassInFlowRateActuator(Node node) {
 		myBioHolder.theBiomassInFlowRateActuators
 				.add(BiomassInFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchBiomassOutFlowRateActuator(Node node) {
 		myBioHolder.theBiomassOutFlowRateActuators
 				.add(BiomassOutFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchFoodInFlowRateActuator(Node node) {
 		myBioHolder.theFoodInFlowRateActuators.add(FoodInFlowRateActuatorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchFoodOutFlowRateActuator(Node node) {
 		myBioHolder.theFoodOutFlowRateActuators
 				.add(FoodOutFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchPlantingActuator(Node node) {
 		myBioHolder.thePlantingActuators.add(PlantingActuatorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchHarvestingActuator(Node node) {
 		myBioHolder.theHarvestingActuators.add(HarvestingActuatorHelper
-				.narrow(grabModule(getModuleName(node))));
+				.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlFoodActuators(Node node) {
@@ -1361,13 +1361,13 @@ public class BioHolderInitializer {
 	private static void fetchPowerInFlowRateActuator(Node node) {
 		myBioHolder.thePowerInFlowRateActuators
 				.add(PowerInFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchPowerOutFlowRateActuator(Node node) {
 		myBioHolder.thePowerOutFlowRateActuators
 				.add(PowerOutFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlPowerActuators(Node node) {
@@ -1388,49 +1388,49 @@ public class BioHolderInitializer {
 	private static void fetchPotableWaterInFlowRateActuator(Node node) {
 		myBioHolder.thePotableWaterInFlowRateActuators
 				.add(PotableWaterInFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchPotableWaterOutFlowRateActuator(Node node) {
 		myBioHolder.thePotableWaterOutFlowRateActuators
 				.add(PotableWaterOutFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchGreyWaterInFlowRateActuator(Node node) {
 		myBioHolder.theGreyWaterInFlowRateActuators
 				.add(GreyWaterInFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchGreyWaterOutFlowRateActuator(Node node) {
 		myBioHolder.theGreyWaterOutFlowRateActuators
 				.add(GreyWaterOutFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchDirtyWaterInFlowRateActuator(Node node) {
 		myBioHolder.theDirtyWaterInFlowRateActuators
 				.add(DirtyWaterInFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchDirtyWaterOutFlowRateActuator(Node node) {
 		myBioHolder.theDirtyWaterOutFlowRateActuators
 				.add(DirtyWaterOutFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchWaterInFlowRateActuator(Node node) {
 		myBioHolder.theWaterInFlowRateActuators
 				.add(WaterInFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchWaterOutFlowRateActuator(Node node) {
 		myBioHolder.theWaterOutFlowRateActuators
 				.add(WaterOutFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlWaterActuators(Node node) {
@@ -1463,13 +1463,13 @@ public class BioHolderInitializer {
 	private static void fetchDryWasteInFlowRateActuator(Node node) {
 		myBioHolder.theDryWasteInFlowRateActuators
 				.add(DryWasteInFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void fetchDryWasteOutFlowRateActuator(Node node) {
 		myBioHolder.theDryWasteOutFlowRateActuators
 				.add(DryWasteOutFlowRateActuatorHelper
-						.narrow(grabModule(getModuleName(node))));
+						.narrow(getModule(getModuleName(node))));
 	}
 
 	private static void crawlWasteActuators(Node node) {
