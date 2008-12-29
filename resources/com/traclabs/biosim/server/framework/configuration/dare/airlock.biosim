@@ -3,7 +3,7 @@
 <biosim xmlns="http://www.traclabs.com/biosim"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
-	<Globals driverStutterLength="0" crewsToWatch="Crew_Quarters_Group" runTillCrewDeath="false" runTillN="2000">
+	<Globals driverStutterLength="100" crewsToWatch="Crew_Quarters_Group" runTillCrewDeath="false">
 	</Globals>
 	<SimBioModules>
 		<environment>
