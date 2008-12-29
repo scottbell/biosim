@@ -1,0 +1,4 @@
+#Mon Dec 29 13:29:33 CST 2008
+eclipse.preferences.version=1
+encoding//resources/com/traclabs/biosim/server/framework/schema/BiosimInitSchema.xsd=UTF8
+encoding//resources/com/traclabs/biosim/server/framework/schema/simulation/Crew.xsd=UTF8

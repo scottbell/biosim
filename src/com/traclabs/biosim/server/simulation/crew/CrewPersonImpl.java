@@ -677,7 +677,7 @@ public class CrewPersonImpl extends BaseCrewPersonImpl {
 				+ ", capacity=" + sleepBuffer.getCapacity() + ")");
 		myLogger.debug("\tCO2 ration =" + getCO2Ratio()
 				+ ", DANGEROUS_CO2_RATION=" + CO2_HIGH_RATIO);
-
+		/*
 		if (sleepRiskReturn > (randomNumber + 0.05f)) {
 			sicken();
 			myLogger.info(getName()
@@ -685,7 +685,7 @@ public class CrewPersonImpl extends BaseCrewPersonImpl {
 					+ numFormat.format(sleepRiskReturn * 100) + "%) @ tick "
 					+ getCurrentCrewGroup().getMyTicks());
 		}
-
+		*/
 		if (calorieRiskReturn > randomNumber) {
 			kill();
 			myLogger.info(getName() + " has died from starvation on tick "
