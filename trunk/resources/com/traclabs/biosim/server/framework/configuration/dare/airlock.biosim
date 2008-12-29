@@ -85,8 +85,12 @@
 		<framework>
 			<Injector moduleName="Crew_Quarters_Oxygen_Injector">
 				<O2Consumer inputs="O2_Store" desiredFlowRates="3.3"
-					maxFlowRates="3.3" ></O2Consumer><O2Producer desiredFlowRates="3.5"
-					outputs="Crew_Quarters" maxFlowRates="3.5" ></O2Producer></Injector>
+					maxFlowRates="3.3" ></O2Consumer><O2Producer desiredFlowRates="3.3"
+					outputs="Crew_Quarters" maxFlowRates="3.3" ></O2Producer></Injector>
+			<Accumulator moduleName="Airlock_Oxygen_Accumulator">
+				<O2Consumer inputs="Airlock" desiredFlowRates="2.5"
+					maxFlowRates="2.5" /><O2Producer desiredFlowRates="2.5"
+					outputs="O2_Store" maxFlowRates="2.5" /></Accumulator>
 		</framework>
 		<water>
 			<WaterRS moduleName="Water_Distiller"
@@ -175,8 +179,8 @@
 		<environment>
 			<AirInFlowRateSensor input="Main_VCCR" moduleName="MainVccrAirInSensor" index="0" isBionetEnabled="false"></AirInFlowRateSensor>
 			<AirOutFlowRateSensor input="Main_VCCR" moduleName="MainVccrAirOutSensor" index="0" isBionetEnabled="false"></AirOutFlowRateSensor>
-			<TotalPressureSensor input="Crew_Quarters" moduleName="Crew_Quarters_Total_Pressure"></TotalPressureSensor>
-			<GasPressureSensor input="Crew_Quarters" moduleName="Crew_Quarters_O2_Pressure" gasType="O2"></GasPressureSensor>
+			<TotalPressureSensor input="Airlock" moduleName="Airlock_Total_Pressure"></TotalPressureSensor>
+			<GasPressureSensor input="Airlock" moduleName="Airlock_O2_Pressure" gasType="O2"></GasPressureSensor>
 		</environment>
 	</Sensors>
 </biosim>
