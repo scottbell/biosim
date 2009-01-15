@@ -36,14 +36,9 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements
     }
 
     public void tick() {
+        gatherData();
         super.tick();
-        try {
-            gatherData();
-            notifyListeners();
-        } catch (Exception e) {
-            myLogger.error(getModuleName() + " had an exception: " + e);
-            e.printStackTrace();
-        }
+        notifyListeners();
     }
 
     public abstract BioModule getInputModule();
@@ -57,4 +52,9 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements
 		if (isBionetEnabled())
 			myBionetNode = BionetUtils.getBionetUtils().registerSensor(this);
 	}
+    
+    protected void performMalfunctions() {
+    	if (!myMalfunctions.isEmpty())
+    		myValue = Float.MAX_VALUE;
+    }
 }
