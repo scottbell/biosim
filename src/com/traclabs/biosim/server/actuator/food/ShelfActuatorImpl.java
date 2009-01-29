@@ -19,6 +19,7 @@ public abstract class ShelfActuatorImpl extends GenericActuatorImpl implements
     public void setOutput(BiomassPS pBiomassPS, int shelfIndex) {
         myShelf = pBiomassPS.getShelf(shelfIndex);
         myModule = pBiomassPS;
+        myValue = shelfIndex;
     }
 
     public Shelf getOutput() {

@@ -26,6 +26,7 @@ public class PowerOutFlowRateActuatorImpl extends GenericActuatorImpl implements
     public void setOutput(PowerProducer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;
+        myValue = getOutput().getPowerProducerDefinition().getDesiredFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {

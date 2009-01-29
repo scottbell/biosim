@@ -26,6 +26,7 @@ public class DryWasteOutFlowRateActuatorImpl extends GenericActuatorImpl
     public void setOutput(DryWasteProducer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;
+        myValue = getOutput().getDryWasteProducerDefinition().getDesiredFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {

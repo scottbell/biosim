@@ -26,6 +26,7 @@ public class PotableWaterInFlowRateActuatorImpl extends GenericActuatorImpl
     public void setOutput(PotableWaterConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;
         myIndex = pIndex;
+        myValue = getOutput().getPotableWaterConsumerDefinition().getDesiredFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {

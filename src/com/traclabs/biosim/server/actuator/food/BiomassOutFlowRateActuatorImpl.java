@@ -26,6 +26,7 @@ public class BiomassOutFlowRateActuatorImpl extends GenericActuatorImpl
     public void setOutput(BiomassProducer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;
+        myValue = getOutput().getBiomassProducerDefinition().getDesiredFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {

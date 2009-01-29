@@ -26,6 +26,7 @@ public class H2OutFlowRateActuatorImpl extends GenericActuatorImpl implements
     public void setOutput(H2Producer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;
+        myValue = getOutput().getH2ProducerDefinition().getDesiredFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {

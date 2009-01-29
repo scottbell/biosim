@@ -30,6 +30,7 @@ public class AirOutFlowRateActuatorImpl extends GenericActuatorImpl implements
     public void setOutput(AirProducer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;
+        myValue = getOutput().getAirProducerDefinition().getDesiredFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {

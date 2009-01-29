@@ -26,6 +26,7 @@ public class NitrogenInFlowRateActuatorImpl extends GenericActuatorImpl
     public void setOutput(NitrogenConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;
         myIndex = pIndex;
+        myValue = getOutput().getNitrogenConsumerDefinition().getDesiredFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {

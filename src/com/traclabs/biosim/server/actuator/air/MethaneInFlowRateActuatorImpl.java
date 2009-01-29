@@ -26,6 +26,7 @@ public class MethaneInFlowRateActuatorImpl extends GenericActuatorImpl
     public void setOutput(MethaneConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;
         myIndex = pIndex;
+        myValue = getOutput().getMethaneConsumerDefinition().getDesiredFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {

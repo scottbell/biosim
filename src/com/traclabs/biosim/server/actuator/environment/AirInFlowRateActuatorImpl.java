@@ -30,6 +30,7 @@ public class AirInFlowRateActuatorImpl extends GenericActuatorImpl implements
     public void setOutput(AirConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;
         myIndex = pIndex;
+        myValue = getOutput().getAirConsumerDefinition().getDesiredFlowRate(myIndex);
     }
 
     public AirConsumer getOutput() {

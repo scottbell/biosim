@@ -26,6 +26,7 @@ public class GreyWaterInFlowRateActuatorImpl extends GenericActuatorImpl
     public void setOutput(GreyWaterConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;
         myIndex = pIndex;
+        myValue = getOutput().getGreyWaterConsumerDefinition().getDesiredFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {
