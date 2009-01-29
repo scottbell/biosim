@@ -23,6 +23,7 @@ public class InfluentValveActuatorImpl extends GenericActuatorImpl implements In
 
     public void setOutput(InfluentValve source) {
     	myInfluentValve = source;
+        myValue = source.getIndexOfInfluentStore();
     }
 
     public InfluentValve getOutput() {

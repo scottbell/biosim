@@ -26,6 +26,7 @@ public class WaterOutFlowRateActuatorImpl extends GenericActuatorImpl implements
     public void setOutput(WaterProducer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;
+        myValue = getOutput().getWaterProducerDefinition().getDesiredFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {

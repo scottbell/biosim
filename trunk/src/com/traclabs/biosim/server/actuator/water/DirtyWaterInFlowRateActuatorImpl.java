@@ -26,6 +26,7 @@ public class DirtyWaterInFlowRateActuatorImpl extends GenericActuatorImpl
     public void setOutput(DirtyWaterConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;
         myIndex = pIndex;
+        myValue = getOutput().getDirtyWaterConsumerDefinition().getDesiredFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {

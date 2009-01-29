@@ -26,6 +26,7 @@ public class CO2OutFlowRateActuatorImpl extends GenericActuatorImpl implements
     public void setOutput(CO2Producer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;
+        myValue = getOutput().getCO2ProducerDefinition().getDesiredFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {

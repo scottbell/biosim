@@ -26,6 +26,7 @@ public class O2InFlowRateActuatorImpl extends GenericActuatorImpl implements
     public void setOutput(O2Consumer pConsumer, int pIndex) {
         myConsumer = pConsumer;
         myIndex = pIndex;
+        myValue = getOutput().getO2ConsumerDefinition().getDesiredFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {

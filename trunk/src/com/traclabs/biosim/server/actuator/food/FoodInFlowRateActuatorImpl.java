@@ -26,6 +26,7 @@ public class FoodInFlowRateActuatorImpl extends GenericActuatorImpl implements
     public void setOutput(FoodConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;
         myIndex = pIndex;
+        myValue = getOutput().getFoodConsumerDefinition().getDesiredFlowRate(myIndex);
     }
 
     public BioModule getOutputModule() {

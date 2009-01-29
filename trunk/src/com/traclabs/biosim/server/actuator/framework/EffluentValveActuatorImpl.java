@@ -23,6 +23,7 @@ public class EffluentValveActuatorImpl extends GenericActuatorImpl implements Ef
 
     public void setOutput(EffluentValve source) {
     	myEffluentValve = source;
+        myValue = source.getIndexOfEffluentStore();
     }
 
     public EffluentValve getOutput() {
