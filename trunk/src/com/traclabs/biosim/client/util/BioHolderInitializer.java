@@ -353,8 +353,7 @@ public class BioHolderInitializer {
 			} catch (Exception e) {
 				Logger.getLogger(BioHolderInitializer.class).error(
 						"BioHolder: Had problems contacting nameserver with module "
-								+ moduleName + ", polling again...");
-				e.printStackTrace();
+								+ moduleName + ", polling again: ", e);
 				OrbUtils.resetInit();
 				OrbUtils.sleepAwhile();
 			}
