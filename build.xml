@@ -56,7 +56,7 @@
 		description="compiles the IDL stubs">
 		<echo message="Compiling stubs" />
 		<javac srcdir="${stubsDir}" destdir="${buildDir}" fork="yes"
-			memoryMaximumSize="256m" nowarn="yes">
+			memoryMaximumSize="256m" nowarn="yes" debug="on">
 			<classpath>
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 			</classpath>
@@ -69,7 +69,7 @@
 		description="compile the server">
 		<echo message="Compling the server" />
 		<javac srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}"
-			nowarn="yes" failonerror="yes">
+			nowarn="yes" failonerror="yes" debug="on">
 			<classpath>
 				<pathelement location="${src}" />
 				<pathelement location="${buildDir}" />
@@ -84,7 +84,7 @@
 		description="compile the framework">
 		<echo message="Compling the framework" />
 		<javac srcdir="${src}/com/traclabs/biosim/framework" destdir="${buildDir}"
-			nowarn="yes" failonerror="yes">
+			nowarn="yes" failonerror="yes" debug="on">
 			<classpath>
 				<pathelement location="${src}" />
 				<pathelement location="${buildDir}" />
@@ -97,7 +97,7 @@
 	<target name="build-util" depends="" description="compile the util">
 		<echo message="Compling the util" />
 		<javac srcdir="${src}/com/traclabs/biosim/util" destdir="${buildDir}"
-			nowarn="yes" failonerror="yes">
+			nowarn="yes" failonerror="yes" debug="on">
 			<classpath>
 				<pathelement location="${src}" />
 				<pathelement location="${buildDir}" />
@@ -111,7 +111,7 @@
 		description="compile the client">
 		<echo message="Compling the client" />
 		<javac srcdir="${src}/com/traclabs/biosim/client" destdir="${buildDir}"
-			nowarn="yes" failonerror="yes">
+			nowarn="yes" failonerror="yes" debug="on">
 			<classpath>
 				<pathelement location="${src}" />
 				<pathelement location="${buildDir}" />
@@ -347,7 +347,7 @@
 		description="update from subversion and rebuilds" />
 	<target name="test" depends="build">
 		<javac srcdir="${test.dir}" destdir="${buildDir}"
-			memoryMaximumSize="256m" fork="yes">
+			memoryMaximumSize="256m" fork="yes" debug="on">
 			<classpath>
 				<pathelement location="${buildDir}" />
 				<pathelement location="${resourceDir}" />
@@ -363,7 +363,7 @@
 		</javac>
 		<mkdir dir="${tmpDir}/junit-results" />
 		<junit haltonfailure="no" printsummary="on" fork="yes"
-			maxmemory="256m">
+			maxmemory="256m" debug="on">
 			<classpath>
 				<pathelement location="${buildDir}" />
 				<pathelement location="${resourceDir}" />
