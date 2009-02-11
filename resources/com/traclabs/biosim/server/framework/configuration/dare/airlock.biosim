@@ -3,8 +3,7 @@
 <biosim xmlns="http://www.traclabs.com/biosim"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
-	<Globals driverStutterLength="100" crewsToWatch="Crew_Quarters_Group" runTillCrewDeath="false">
-	</Globals>
+	<Globals driverStutterLength="500" crewsToWatch="Crew_Quarters_Group" runTillCrewDeath="false"/>
 	<SimBioModules>
 		<environment>
 			<SimEnvironment moduleName="Crew_Quarters"
@@ -95,7 +94,7 @@
 					outputs="Airlock" maxFlowRates="10" />
 			</Injector>
 			<Accumulator moduleName="Airlock_Vent">
-				<AirConsumer inputs="Airlock" desiredFlowRates="2"
+				<airConsumer inputs="Airlock" desiredFlowRates="2"
 					maxFlowRates="10" />
 			</Accumulator>
 			<Injector moduleName="Airlock_Nitrogen_Injector">
@@ -192,7 +191,7 @@
 			<AirOutFlowRateSensor input="Main_VCCR" moduleName="MainVccrAirOutSensor" index="0" isBionetEnabled="false"/>
 			<TotalPressureSensor input="Airlock" moduleName="Airlock_Total_Pressure"/>
 			<GasPressureSensor input="Airlock" moduleName="Airlock_O2_Pressure" gasType="O2"/>
-			<GasPressureSensor input="Airlock" moduleName="Airlock_Nitrogen_Pressure" gasType="N"/>
+			<GasPressureSensor input="Airlock" moduleName="Airlock_Nitrogen_Pressure" gasType="NITROGEN"/>
 		</environment>
 	</Sensors>
 	<Actuators>
