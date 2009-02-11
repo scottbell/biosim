@@ -94,7 +94,7 @@
 					outputs="Airlock" maxFlowRates="10" />
 			</Injector>
 			<Accumulator moduleName="Airlock_Vent">
-				<airConsumer inputs="Airlock" desiredFlowRates="2"
+				<airConsumer inputs="Airlock" desiredFlowRates="0"
 					maxFlowRates="10" />
 			</Accumulator>
 			<Injector moduleName="Airlock_Nitrogen_Injector">
