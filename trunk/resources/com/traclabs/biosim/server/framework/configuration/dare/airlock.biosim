@@ -26,8 +26,8 @@
 			</Dehumidifier>
 		</environment>
 		<air>
-			<NitrogenStore capacity="10000"
-				moduleName="Crew_Quarter_Nitrogen_Store" level="10000">
+			<NitrogenStore capacity="1000000"
+				moduleName="Nitrogen_Store" level="1000000">
 			</NitrogenStore>
 			<VCCR moduleName="Main_VCCR">
 				<powerConsumer inputs="General_Power_Store"
@@ -88,17 +88,20 @@
 					maxFlowRates="3.3" ></O2Consumer><O2Producer desiredFlowRates="3.3"
 					outputs="Crew_Quarters" maxFlowRates="3.3" ></O2Producer>
 			</Injector>
-			<Accumulator moduleName="Airlock_Oxygen_Accumulator">
-				<O2Consumer inputs="Airlock" desiredFlowRates="0"
-					maxFlowRates="10" /><O2Producer desiredFlowRates="10"
-					outputs="O2_Store" maxFlowRates="10" />
-			</Accumulator>
 			<Injector moduleName="Airlock_Oxygen_Injector">
 				<O2Consumer inputs="O2_Store" desiredFlowRates="0"
 					maxFlowRates="10" />
 				<O2Producer desiredFlowRates="10"
 					outputs="Airlock" maxFlowRates="10" />
 			</Injector>
+			<Accumulator moduleName="Airlock_Vent">
+				<AirConsumer inputs="Airlock" desiredFlowRates="2"
+					maxFlowRates="10" />
+			</Accumulator>
+			<Injector moduleName="Airlock_Nitrogen_Injector">
+				<nitrogenConsumer inputs="Nitrogen_Store" desiredFlowRates="0"
+					maxFlowRates="10" /><nitrogenProducer
+					desiredFlowRates="0" outputs="Airlock" maxFlowRates="10" /></Injector>
 		</framework>
 		<water>
 			<WaterRS moduleName="Water_Distiller"
@@ -189,12 +192,14 @@
 			<AirOutFlowRateSensor input="Main_VCCR" moduleName="MainVccrAirOutSensor" index="0" isBionetEnabled="false"/>
 			<TotalPressureSensor input="Airlock" moduleName="Airlock_Total_Pressure"/>
 			<GasPressureSensor input="Airlock" moduleName="Airlock_O2_Pressure" gasType="O2"/>
+			<GasPressureSensor input="Airlock" moduleName="Airlock_Nitrogen_Pressure" gasType="N"/>
 		</environment>
 	</Sensors>
 	<Actuators>
 		<air>
 			<O2InFlowRateActuator output="Airlock_Oxygen_Injector" moduleName="Airlock_Oxygen_Injector_Actuator" index="0"/>
-			<O2InFlowRateActuator output="Airlock_Oxygen_Accumulator" moduleName="Airlock_Oxygen_Accumulator_Actuator" index="0"/>
+			<AirInFlowRateActuator output="Airlock_Vent" moduleName="Airlock_Vent_Actuator" index="0"/>
+			<NitrogenInFlowRateActuator output="Airlock_Nitrogen_Injector" moduleName="Airlock_Nitrogen_Injector_Actuator" index="0"/>
 		</air>
 	</Actuators>
 </biosim>
