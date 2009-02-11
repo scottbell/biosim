@@ -40,8 +40,7 @@ public abstract class SingleFlowRateControllableImpl extends
 
 	private void checkArguments(int index, float[] flowRateArray) {
 		if (index >= flowRateArray.length){
-			myLogger.error("Index ("+index+") greater than flow rate array length ("+flowRateArray.length+")");
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Something referenced " + myModuleImpl.getModuleName() + " with an index ("+index+") greater than the flowrate array length ("+flowRateArray.length+")");
 		}
 	}
 	
