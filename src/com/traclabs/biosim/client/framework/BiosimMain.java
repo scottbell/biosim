@@ -7,6 +7,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.log4j.Logger;
 
+import com.traclabs.biosim.client.actuator.ActuatorGraphFrame;
+import com.traclabs.biosim.client.actuator.ActuatorViewer;
 import com.traclabs.biosim.client.control.HandController;
 import com.traclabs.biosim.client.control.MurderController;
 import com.traclabs.biosim.client.control.RepairController;
@@ -192,7 +194,7 @@ public class BiosimMain {
 		else if (wantsToRunTestController)
 			runTestController();
 		else if (wantsToRunGraph)
-			runGraph();
+			runSensorGraph();
 		else if (wantsToRunEnvironment)
 			runEnvironment();
 		else if (wantsToRunUnreal) {
@@ -223,9 +225,25 @@ public class BiosimMain {
 		SensorViewer.main(new String[] {});
 	}
 
-	private void runGraph() {
+	private void runSensorGraph() {
 		SensorGraphFrame plotLive = new SensorGraphFrame();
 		JFrame frame = new JFrame("Sensor Graph");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().add("Center", plotLive);
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
+	/**
+	 * Runs the actuator viewer
+	 */
+	private void runActuatorViewer() {
+		ActuatorViewer.main(new String[] {});
+	}
+
+	private void runActuatorGraph() {
+		ActuatorGraphFrame plotLive = new ActuatorGraphFrame();
+		JFrame frame = new JFrame("Actuator Graph");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add("Center", plotLive);
 		frame.pack();

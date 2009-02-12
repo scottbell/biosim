@@ -153,6 +153,8 @@ public class SimDesktop extends BioFrame {
 
     private Action myShowSensorViewerAction;
 
+    private Action myShowActuatorViewerAction;
+
     private Action myShowEnvironmentGraphAction;
 
     private Action myLoggingAction;
@@ -252,6 +254,7 @@ public class SimDesktop extends BioFrame {
                 "Show Stochastic Controller");
         myShowSensorViewerAction = new ShowSensorViewerAction(
                 "Show Sensor Viewer");
+        myShowActuatorViewerAction = new ShowActuatorViewerAction("Show Actuator Viewer");
         myShowEnvironmentGraphAction = new ShowEnvironmentGraphAction("Show Environment Graph");
         myLoggingAction = new LoggingAction("Enable Logging");
         myTileAction = new TileAction("Tile");
@@ -733,6 +736,17 @@ public class SimDesktop extends BioFrame {
     }
 
     /**
+     * Displays the Actuator Viewer panel with an internal frame inside this
+     * desktop.
+     */
+    private void displayActuatorViewer() {
+        if (!tryExisitingInternalFrame("Actuator Viewer")) {
+            SimDesktopFrame newFrame = addInternalFrame("Actuator Viewer", new SensorViewer());
+            newFrame.pack();
+        }
+    }
+
+    /**
      * Displays the Enviornment volume graph with an internal frame inside this
      * desktop.
      */
@@ -910,10 +924,6 @@ public class SimDesktop extends BioFrame {
         }
     }
 
-    /**
-     * Action that displays the malfunction panel in an internal frame on the
-     * desktop.
-     */
     private class ShowSensorViewerAction extends AbstractAction {
         public ShowSensorViewerAction(String name) {
             super(name);
@@ -922,6 +932,18 @@ public class SimDesktop extends BioFrame {
         public void actionPerformed(ActionEvent ae) {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             displaySensorViewer();
+            setCursor(Cursor.getDefaultCursor());
+        }
+    }
+
+    private class ShowActuatorViewerAction extends AbstractAction {
+        public ShowActuatorViewerAction(String name) {
+            super(name);
+        }
+
+        public void actionPerformed(ActionEvent ae) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            displayActuatorViewer();
             setCursor(Cursor.getDefaultCursor());
         }
     }
