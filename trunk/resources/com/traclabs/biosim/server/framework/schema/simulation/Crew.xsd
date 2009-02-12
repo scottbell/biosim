@@ -4,7 +4,7 @@
 	elementFormDefault="qualified">
 	
 	<!-- Special CrewGroup specific declarations -->
-	<xsd:simpleType name="CrewPersonType">
+	<xsd:simpleType name="CrewPersonImplementationType">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="NORMAL"/>
 			<xsd:enumeration value="MATLAB"/>
@@ -39,7 +39,7 @@
 				maxOccurs="1"/>
 		</xsd:sequence>
 		<xsd:attribute name="implementation"
-					type="CrewPersonType" default="NORMAL"/>
+					type="CrewPersonImplementationType" default="NORMAL"/>
 		<xsd:attribute name="name" type="xsd:string" use="required"/>
 		<xsd:attribute name="age" type="nonNegativeFloat" use="required"/>
 		<xsd:attribute name="weight" type="nonNegativeFloat" use="required"/>
