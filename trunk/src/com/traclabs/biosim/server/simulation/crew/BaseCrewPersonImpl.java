@@ -9,7 +9,6 @@ import com.traclabs.biosim.idl.framework.LogLevel;
 import com.traclabs.biosim.idl.simulation.crew.Activity;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupHelper;
-import com.traclabs.biosim.idl.simulation.crew.CrewGroupPOATie;
 import com.traclabs.biosim.idl.simulation.crew.CrewPersonHelper;
 import com.traclabs.biosim.idl.simulation.crew.CrewPersonPOA;
 import com.traclabs.biosim.idl.simulation.crew.EVAActivity;
@@ -429,9 +428,7 @@ public abstract class BaseCrewPersonImpl extends CrewPersonPOA {
 	}
 
 	public CrewGroup getCurrentCrewGroup() {
-		CrewGroupPOATie crewGroupTie = new CrewGroupPOATie(myCurrentCrewGroup);
-		CrewGroup currentCrewGroup = crewGroupTie._this(OrbUtils.getORB());
-		return currentCrewGroup;
+		return myCurrentCrewGroup;
 	}
 	
 	/**

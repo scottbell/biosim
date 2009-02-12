@@ -9,11 +9,8 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.EventObject;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -31,28 +28,19 @@ import javax.swing.table.TableColumn;
 
 import org.apache.log4j.Logger;
 
-/*******************************************************************************
- * 
- * This class implements a basic spreadsheet using a JTable. It also provides a
- * main() method to be run as an application.
- * 
- * @version 1.0 July-2002
- * @author Thierry Manfé
- *  
- ******************************************************************************/
 public class SpreadSheet extends JTable {
 
-    private JScrollPane _scp;
+    private JScrollPane myScrollPane;
 
-    private SpreadSheetModel _model;
+    private SpreadSheetModel myModel;
 
-    private int _numRow;
+    private int myRowNumber;
 
-    private int _numCol;
+    private int myColumnNumber;
 
-    private int _editedModelRow;
+    private int myEditedRowNumber;
 
-    private int _editedModelCol;
+    private int myEditedColumnNumber;
 
     /*
      * GUI components used to tailored the SpreadSheet.
@@ -65,50 +53,6 @@ public class SpreadSheet extends JTable {
 
     // Cells selected.
     private Object[] _selection;
-
-    /**
-     * Start the spreadsheet into a JFrame.
-     * 
-     * @param args
-     *            The options passed on the command line. Not used.
-     */
-    public static void main(String[] args) {
-
-        String vers = System.getProperty("java.version");
-        if (vers.compareTo("1.3") < 0) {
-            Logger.getLogger(SpreadSheet.class).warn(
-                    "Please use Java 1.3 or above.");
-            //System.exit(1);
-        }
-
-        try {
-            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-        } catch (Exception ex) {
-            Logger.getLogger(SpreadSheet.class).error(
-                    "Can't set look and feel MetalLookAndFeel");
-            System.exit(2);
-        }
-
-        JFrame frame = new JFrame("A Simple Spreadsheet");
-
-        /*
-         * Allows the user to exit the application from the window manager's
-         * dressing.
-         */
-        frame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
-
-        String[] colNames1 = { "bob", "steve", "toby" };
-        String[] rowNames2 = { "red", "green" };
-        SpreadSheet sp = new SpreadSheet(colNames1, rowNames2);
-        frame.getContentPane().add(sp.getScrollPane());
-        frame.pack();
-        frame.setVisible(true);
-
-    }
 
     public SpreadSheet(String[] colNames, String[] rowNames) {
         this(null, colNames, rowNames);
@@ -144,13 +88,13 @@ public class SpreadSheet extends JTable {
             }
         }
 
-        _numRow = rowNames.length;
-        _numCol = colNames.length;
+        myRowNumber = rowNames.length;
+        myColumnNumber = colNames.length;
 
         _cellFont = new Font("Arial", Font.PLAIN, 14);
 
         // Create the JScrollPane that includes the Table
-        _scp = new JScrollPane(this);
+        myScrollPane = new JScrollPane(this);
 
         // Create the rendeder for the cells
         _renderer = new CellRenderer();
@@ -161,8 +105,8 @@ public class SpreadSheet extends JTable {
                     "SpreadSheet() Can't modify renderer");
         }
 
-        _model = new SpreadSheetModel(foo, this, colNames);
-        setModel(_model);
+        myModel = new SpreadSheetModel(foo, this, colNames);
+        setModel(myModel);
 
         /*
          * Tune the selection mode
@@ -185,7 +129,7 @@ public class SpreadSheet extends JTable {
                         int indice = 0;
                         for (int r = 0; r < selRow.length; r++) {
                             for (int c = 0; c < selCol.length; c++) {
-                                _selection[indice] = _model.cells[selRow[r]][convertColumnIndexToModel(selCol[c])];
+                                _selection[indice] = myModel.cells[selRow[r]][convertColumnIndexToModel(selCol[c])];
                                 indice++;
                             }
                         }
@@ -229,7 +173,7 @@ public class SpreadSheet extends JTable {
          */
         JPanel pnl = new JPanel((LayoutManager) null);
         Dimension dim = new Dimension(metrics.stringWidth(getLongestString(rowNames))
-                + insets.right + insets.left, rowHeight * _numRow);
+                + insets.right + insets.left, rowHeight * myRowNumber);
         pnl.setPreferredSize(dim);
 
         // Adding the row header labels
@@ -245,23 +189,23 @@ public class SpreadSheet extends JTable {
         }
 
         JViewport vp = new JViewport();
-        dim.height = rowHeight * _numRow;
+        dim.height = rowHeight * myRowNumber;
         vp.setViewSize(dim);
         vp.setView(pnl);
-        _scp.setRowHeader(vp);
+        myScrollPane.setRowHeader(vp);
 
         // Set resize policy and make sure
         // the table's size is tailored
         // as soon as it gets drawn.
         setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         Dimension dimScpViewport = getPreferredScrollableViewportSize();
-        if (_numRow > 30)
+        if (myRowNumber > 30)
             dimScpViewport.height = 30 * rowHeight;
         else
-            dimScpViewport.height = _numRow * rowHeight;
-        if (_numCol > 15)
+            dimScpViewport.height = myRowNumber * rowHeight;
+        if (myColumnNumber > 15)
             dimScpViewport.width = 15 * getColumnModel().getTotalColumnWidth()
-                    / _numCol;
+                    / myColumnNumber;
         else
             dimScpViewport.width = getColumnModel().getTotalColumnWidth();
         setPreferredScrollableViewportSize(dimScpViewport);
@@ -291,13 +235,13 @@ public class SpreadSheet extends JTable {
      */
     public boolean editCellAt(int row, int column, EventObject ev) {
 
-        if (_editedModelRow != -1)
-            _model.setDisplayMode(_editedModelRow, _editedModelCol);
+        if (myEditedRowNumber != -1)
+            myModel.setDisplayMode(myEditedRowNumber, myEditedColumnNumber);
 
-        _editedModelRow = row;
-        _editedModelCol = convertColumnIndexToModel(column);
+        myEditedRowNumber = row;
+        myEditedColumnNumber = convertColumnIndexToModel(column);
 
-        _model.setEditMode(row, convertColumnIndexToModel(column));
+        myModel.setEditMode(row, convertColumnIndexToModel(column));
         return super.editCellAt(row, column, ev);
 
     }
@@ -308,7 +252,7 @@ public class SpreadSheet extends JTable {
      *  
      */
     public void editingStopped(ChangeEvent ev) {
-        _model.setDisplayMode(_editedModelRow, _editedModelCol);
+        myModel.setDisplayMode(myEditedRowNumber, myEditedColumnNumber);
         super.editingStopped(ev);
     }
 
@@ -318,12 +262,12 @@ public class SpreadSheet extends JTable {
      *  
      */
     public void editingCanceled(ChangeEvent ev) {
-        _model.setDisplayMode(_editedModelRow, _editedModelCol);
+        myModel.setDisplayMode(myEditedRowNumber, myEditedColumnNumber);
         super.editingCanceled(ev);
     }
 
     public JScrollPane getScrollPane() {
-        return _scp;
+        return myScrollPane;
     }
 
     public void processMouseEvent(MouseEvent ev) {
@@ -347,11 +291,11 @@ public class SpreadSheet extends JTable {
     }
 
     protected void release() {
-        _model = null;
+        myModel = null;
     }
 
     public void setVisible(boolean flag) {
-        _scp.setVisible(flag);
+        myScrollPane.setVisible(flag);
     }
 
     public boolean isCellEditable(int row, int col) {
