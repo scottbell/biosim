@@ -38,17 +38,20 @@ public class ActuatorViewer extends TimedPanel
 			add(new JLabel("No actuators found!"));
 			return;
 		}
-		String[] sensorNames = new String[myActuators.size()];
+		String[] actuatorNames = new String[myActuators.size()];
 		for (int i = 0; i < myActuators.size(); i++)
-			sensorNames[i] = myActuators.get(i).getModuleName();
-		mySpreadSheet = new SpreadSheet(new String[]{"value"}, sensorNames);
+			actuatorNames[i] = myActuators.get(i).getModuleName();
+		mySpreadSheet = new SpreadSheet(new String[]{"value"}, actuatorNames);
+		mySpreadSheet.setEnabled(true);
+		mySpreadSheet.setCellSelectionEnabled(true);
+		mySpreadSheet.
 		setLayout(new GridLayout(1,1));
 		add(mySpreadSheet.getScrollPane());
 	}
 	
 	public static void main(String args[]) {
 		OrbUtils.initializeLog();
-		JFrame myFrame = new JFrame("Sensor Viewer");
+		JFrame myFrame = new JFrame("Actuator Viewer");
 		ActuatorViewer myViewer = new ActuatorViewer();
 		myFrame.getContentPane().add(myViewer);
 		myFrame.pack();

@@ -29,6 +29,7 @@ import javax.swing.JToolBar;
 
 import org.apache.log4j.Logger;
 
+import com.traclabs.biosim.client.actuator.ActuatorViewer;
 import com.traclabs.biosim.client.framework.BioFrame;
 import com.traclabs.biosim.client.framework.MalfunctionPanel;
 import com.traclabs.biosim.client.framework.StochasticPanel;
@@ -287,6 +288,7 @@ public class SimDesktop extends BioFrame {
                 .add(myShowStochasticDisplayAction);
         myShowStochasticDisplayItem.setMnemonic(KeyEvent.VK_I);
         myNewMenu.add(myShowSensorViewerAction);
+        myNewMenu.add(myShowActuatorViewerAction);
         myNewMenu.add(myShowEnvironmentGraphAction);
         myFileMenu.add(myNewMenu);
         myLoggingItem = myFileMenu.add(myLoggingAction);
@@ -741,7 +743,7 @@ public class SimDesktop extends BioFrame {
      */
     private void displayActuatorViewer() {
         if (!tryExisitingInternalFrame("Actuator Viewer")) {
-            SimDesktopFrame newFrame = addInternalFrame("Actuator Viewer", new SensorViewer());
+            SimDesktopFrame newFrame = addInternalFrame("Actuator Viewer", new ActuatorViewer());
             newFrame.pack();
         }
     }
