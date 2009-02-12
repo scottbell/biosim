@@ -201,8 +201,10 @@
 	<Actuators>
 		<air>
 			<O2InFlowRateActuator output="Airlock_Oxygen_Injector" moduleName="Airlock_Oxygen_Injector_Actuator" index="0"/>
-			<AirInFlowRateActuator output="Airlock_Vent" moduleName="Airlock_Vent_Actuator" index="0"/>
 			<NitrogenInFlowRateActuator output="Airlock_Nitrogen_Injector" moduleName="Airlock_Nitrogen_Injector_Actuator" index="0"/>
 		</air>
+		<environment>
+			<AirInFlowRateActuator output="Airlock_Vent" moduleName="Airlock_Vent_Actuator" index="0"/>
+		</environment>
 	</Actuators>
 </biosim>
