@@ -104,7 +104,7 @@
 			<Injector moduleName="Airlock_Nitrogen_Injector">
 				<nitrogenConsumer inputs="Nitrogen_Store" desiredFlowRates="0"
 					maxFlowRates="10" /><nitrogenProducer
-					desiredFlowRates="0" outputs="Airlock" maxFlowRates="10" /></Injector>
+					desiredFlowRates="10" outputs="Airlock" maxFlowRates="10" /></Injector>
 		</framework>
 		<water>
 			<WaterRS moduleName="Water_Distiller"
