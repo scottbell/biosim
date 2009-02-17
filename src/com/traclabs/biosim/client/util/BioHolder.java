@@ -77,6 +77,7 @@ import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
 import com.traclabs.biosim.idl.sensor.framework.InfluentValveStateSensor;
 import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensor;
 import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensor;
+import com.traclabs.biosim.idl.sensor.framework.TimeSensor;
 import com.traclabs.biosim.idl.sensor.power.PowerInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.power.PowerOutFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.waste.DryWasteInFlowRateSensor;
@@ -280,6 +281,8 @@ public class BioHolder {
     public List<StoreOverflowSensor> theStoreOverflowSensors = new Vector<StoreOverflowSensor>();
 
     public List<StoreLevelSensor> theStoreLevelSensors = new Vector<StoreLevelSensor>();
+
+    public List<TimeSensor> theTimeSensors = new Vector<TimeSensor>();
     
     public List<InfluentValveStateSensor> theInfluentValveStateSensors = new Vector<InfluentValveStateSensor>();
     
@@ -546,6 +549,7 @@ public class BioHolder {
         theSensors.addAll(theStoreLevelSensors);
         theSensors.addAll(theInfluentValveStateSensors);
         theSensors.addAll(theEffluentValveStateSensors);
+        theSensors.addAll(theTimeSensors);
         //Power
         theSensors.addAll(thePowerInFlowRateSensors);
         theSensors.addAll(thePowerOutFlowRateSensors);
@@ -702,6 +706,7 @@ public class BioHolder {
         theStoreLevelSensors.clear();
         theInfluentValveStateSensors.clear();
         theEffluentValveStateSensors.clear();
+        theTimeSensors.clear();
         //Power
         thePowerInFlowRateSensors.clear();
         thePowerOutFlowRateSensors.clear();

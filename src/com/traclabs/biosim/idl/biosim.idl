@@ -804,6 +804,7 @@ module com{
                                                         void setInput(in simulation::framework::Store source);
                                                         simulation::framework::Store getInput();
                                                 };
+                                                interface TimeSensor : framework::GenericSensor{};
                                                 interface StoreLevelSensor : StoreSensor{};
                                                 interface StoreOverflowSensor : StoreSensor{};
                                                 interface InfluentValveSensor : framework::GenericSensor{

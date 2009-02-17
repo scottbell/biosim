@@ -100,6 +100,9 @@ import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensorPOATie;
 import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensor;
 import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensorHelper;
 import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensorPOATie;
+import com.traclabs.biosim.idl.sensor.framework.TimeSensor;
+import com.traclabs.biosim.idl.sensor.framework.TimeSensorHelper;
+import com.traclabs.biosim.idl.sensor.framework.TimeSensorPOATie;
 import com.traclabs.biosim.idl.sensor.power.PowerInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.power.PowerInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.power.PowerInFlowRateSensorPOATie;
@@ -1247,6 +1250,28 @@ public class SensorInitializer {
 				.getModule(myID, getInputName(node))));
 		mySensors.add(myStoreOverflowSensor);
 	}
+	
+	private void createTimeSensor(Node node) {
+		String moduleName = BiosimInitializer.getModuleName(node);
+		if (BiosimInitializer.isCreatedLocally(node)) {
+			myLogger.debug("Creating TimeSensor with moduleName: "
+					+ moduleName);
+			TimeSensorImpl myTimeSensorImpl = new TimeSensorImpl(
+					myID, moduleName);
+			BiosimInitializer.setupBioModule(myTimeSensorImpl, node);
+			BiosimServer.registerServer(new TimeSensorPOATie(
+					myTimeSensorImpl), myTimeSensorImpl
+					.getModuleName(), myTimeSensorImpl.getID());
+		} else
+			BiosimInitializer.printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureTimeSensor(Node node) {
+		TimeSensor myTimeSensor = TimeSensorHelper
+				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
+						.getModuleName(node)));
+		mySensors.add(myTimeSensor);
+	}
 
 	private void createInfluentValveStateSensor(Node node) {
 		String moduleName = BiosimInitializer.getModuleName(node);
@@ -1329,7 +1354,12 @@ public class SensorInitializer {
 						createEffluentValveStateSensor(child);
 					else
 						configureEffluentValveStateSensor(child);
-				}
+				} else if (childName.equals("TimeSensor")) {
+					if (firstPass)
+						createTimeSensor(child);
+					else
+						configureTimeSensor(child);
+				} 
 			}
 			child = child.getNextSibling();
 		}
