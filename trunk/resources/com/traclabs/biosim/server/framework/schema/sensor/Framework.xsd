@@ -48,6 +48,14 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	
+	<xsd:complexType name="TimeSensorType">
+		<xsd:complexContent>
+			<xsd:extension base="SensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<xsd:complexType name="FrameworkSensorsType">
 		<xsd:sequence>
 			<xsd:choice minOccurs="0" maxOccurs="unbounded">
@@ -58,6 +66,8 @@
 					type="InfluentValveStateSensorType"/>
 				<xsd:element name="EffluentValveStateSensor"
 					type="EffluentValveStateSensorType"/>
+				<xsd:element name="TimeSensor"
+					type="TimeSensorType"/>
 			</xsd:choice>
 		</xsd:sequence>
 	</xsd:complexType>

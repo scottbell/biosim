@@ -77,6 +77,7 @@ import com.traclabs.biosim.idl.sensor.framework.EffluentValveStateSensorHelper;
 import com.traclabs.biosim.idl.sensor.framework.InfluentValveStateSensorHelper;
 import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensorHelper;
 import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensorHelper;
+import com.traclabs.biosim.idl.sensor.framework.TimeSensorHelper;
 import com.traclabs.biosim.idl.sensor.power.PowerInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.power.PowerOutFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.waste.DryWasteInFlowRateSensorHelper;
@@ -996,6 +997,12 @@ public class BioHolderInitializer {
 						.narrow(getModule(getModuleName(node))));
 	}
 
+	private static void fetchTimeSensor(Node node) {
+		myBioHolder.theTimeSensors
+				.add(TimeSensorHelper
+						.narrow(getModule(getModuleName(node))));
+	}
+
 	private static void crawlFrameworkSensors(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1009,6 +1016,8 @@ public class BioHolderInitializer {
 					fetchInfluentValveStateSensor(child);
 				else if (childName.equals("EfffluentValveStateSensor"))
 					fetchEffluentValveStateSensor(child);
+				else if (childName.equals("TimeSensor"))
+					fetchTimeSensor(child);
 			}
 			child = child.getNextSibling();
 		}
