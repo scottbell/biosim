@@ -23,7 +23,7 @@
 			</SimEnvironment>
 			<Dehumidifier moduleName="Main_Dehumidifier">
 				<airConsumer inputs="Crew_Quarters"
-					desiredFlowRates="1000" maxFlowRates="1000"></airConsumer>
+					desiredFlowRates="1000" maxFlowRates="1000"/>
 				<dirtyWaterProducer desiredFlowRates="1000"
 					outputs="Dirty_Water_Store" maxFlowRates="1000" />
 			</Dehumidifier>
@@ -34,13 +34,13 @@
 			</NitrogenStore>
 			<VCCR moduleName="Main_VCCR">
 				<powerConsumer inputs="General_Power_Store"
-					desiredFlowRates="2000" maxFlowRates="2000" ></powerConsumer>
+					desiredFlowRates="2000" maxFlowRates="2000"/>
 				<airConsumer inputs="Crew_Quarters"
-					desiredFlowRates="10000" maxFlowRates="10000"></airConsumer>
+					desiredFlowRates="10000" maxFlowRates="10000"/>
 				<airProducer desiredFlowRates="10000"
 					outputs="Crew_Quarters" maxFlowRates="10000" />
 				<CO2Producer desiredFlowRates="10000" outputs="CO2_Store"
-					maxFlowRates="10000"></CO2Producer>
+					maxFlowRates="10000"/>
 			</VCCR>
 			<OGS moduleName="OGS">
 				<powerConsumer inputs="General_Power_Store"
@@ -48,17 +48,15 @@
 				<potableWaterConsumer inputs="Potable_Water_Store"
 					desiredFlowRates="10" maxFlowRates="10" />
 				<O2Producer desiredFlowRates="1000" outputs="O2_Store"
-					maxFlowRates="1000"></O2Producer>
+					maxFlowRates="1000"/>
 				<H2Producer desiredFlowRates="1000" outputs="H2_Store"
-					maxFlowRates="1000" />
+					maxFlowRates="1000"/>
 			</OGS>
 			<O2Store capacity="10000" moduleName="O2_Store"
-				level="1000">
-			</O2Store>
-			<H2Store capacity="10000" moduleName="H2_Store" level="0"></H2Store>
+				level="1000"/>
+			<H2Store capacity="10000" moduleName="H2_Store" level="0"/>
 			<CO2Store capacity="1000" moduleName="CO2_Store"
-				level="0">
-			</CO2Store>
+				level="0"/>
 			<CRS moduleName="CRS">
 				<powerConsumer inputs="General_Power_Store"
 					desiredFlowRates="100" maxFlowRates="100" />
@@ -69,11 +67,10 @@
 				<potableWaterProducer desiredFlowRates="100"
 					outputs="Potable_Water_Store" maxFlowRates="100" />
 				<methaneProducer desiredFlowRates="100"
-					outputs="Methane_Store" maxFlowRates="100"></methaneProducer>
+					outputs="Methane_Store" maxFlowRates="100"/>
 			</CRS>
 			<MethaneStore capacity="1000" moduleName="Methane_Store"
-				level="0">
-			</MethaneStore>
+				level="0"/>
 			<Pyrolizer moduleName="Pyrolizer">
 				<powerConsumer inputs="General_Power_Store"
 					desiredFlowRates="100" maxFlowRates="100" />
@@ -88,14 +85,15 @@
 		<framework>
 			<Injector moduleName="Crew_Quarters_Oxygen_Injector">
 				<O2Consumer inputs="O2_Store" desiredFlowRates="3.3"
-					maxFlowRates="3.3" ></O2Consumer><O2Producer desiredFlowRates="3.3"
-					outputs="Crew_Quarters" maxFlowRates="3.3" ></O2Producer>
+					maxFlowRates="3.3"/>
+				<O2Producer desiredFlowRates="3.3"
+					outputs="Crew_Quarters" maxFlowRates="3.3"/>
 			</Injector>
 			<Injector moduleName="Airlock_Oxygen_Injector">
 				<O2Consumer inputs="O2_Store" desiredFlowRates="0"
-					maxFlowRates="10" />
+					maxFlowRates="10"/>
 				<O2Producer desiredFlowRates="10"
-					outputs="Airlock" maxFlowRates="10" />
+					outputs="Airlock" maxFlowRates="10"/>
 			</Injector>
 			<Accumulator moduleName="Airlock_Vent">
 				<airConsumer inputs="Airlock" desiredFlowRates="0"
@@ -103,14 +101,16 @@
 			</Accumulator>
 			<Injector moduleName="Airlock_Nitrogen_Injector">
 				<nitrogenConsumer inputs="Nitrogen_Store" desiredFlowRates="0"
-					maxFlowRates="10" /><nitrogenProducer
-					desiredFlowRates="10" outputs="Airlock" maxFlowRates="10" /></Injector>
+					maxFlowRates="10" />
+				<nitrogenProducer
+					desiredFlowRates="10" outputs="Airlock" maxFlowRates="10" />
+			</Injector>
 		</framework>
 		<water>
 			<WaterRS moduleName="Water_Distiller"
 				implementation="LINEAR">
 				<powerConsumer inputs="General_Power_Store"
-					desiredFlowRates="1000" maxFlowRates="1000" ></powerConsumer>
+					desiredFlowRates="1000" maxFlowRates="1000"/>
 				<dirtyWaterConsumer inputs="Dirty_Water_Store"
 					desiredFlowRates="10" maxFlowRates="10"/>
 				<greyWaterConsumer inputs="Grey_Water_Store"
@@ -119,19 +119,15 @@
 					outputs="Potable_Water_Store" maxFlowRates="1000" />
 			</WaterRS>
 			<DirtyWaterStore capacity="1000"
-				moduleName="Dirty_Water_Store" level="0">
-			</DirtyWaterStore>
+				moduleName="Dirty_Water_Store" level="0"/>
 			<GreyWaterStore capacity="1000"
-				moduleName="Grey_Water_Store" level="0">
-			</GreyWaterStore>
+				moduleName="Grey_Water_Store" level="0"/>
 			<PotableWaterStore capacity="1000"
-				moduleName="Potable_Water_Store" level="1000">
-			</PotableWaterStore>
+				moduleName="Potable_Water_Store" level="1000"/>
 		</water>
 		<power>
 			<PowerStore capacity="100000"
-				moduleName="General_Power_Store" level="100000">
-			</PowerStore>
+				moduleName="General_Power_Store" level="100000"/>
 			<PowerPS moduleName="General_Power_Producer"
 				generationType="NUCLEAR" upperPowerGeneration="500000">
 				<powerProducer desiredFlowRates="1000000"
@@ -140,13 +136,11 @@
 		</power>
 		<food>
 			<FoodStore capacity="10000" level="10000"
-				moduleName="Food_Store">
-			</FoodStore>
+				moduleName="Food_Store"/>
 		</food>
 		<waste>
 			<DryWasteStore capacity="1000000"
-				moduleName="Dry_Waste_Store" level="0">
-			</DryWasteStore>
+				moduleName="Dry_Waste_Store" level="0"/>
 		</waste>
 		<crew>
 			<CrewGroup moduleName="Crew_Quarters_Group">
@@ -179,8 +173,7 @@
 		<power>
 			<PowerInFlowRateSensor input="Main_VCCR"
 				moduleName="MainVccrPowerSensor" index="0" logLevel="INFO"
-				isBionetEnabled="false">
-			</PowerInFlowRateSensor>
+				isBionetEnabled="false"/>
 		</power>
 		<air>
 			<CO2OutFlowRateSensor input="Main_VCCR" moduleName="MainVccrCo2OutSensor" index="0" isBionetEnabled="false"/>
