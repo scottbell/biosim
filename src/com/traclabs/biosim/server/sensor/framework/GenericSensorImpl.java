@@ -6,6 +6,7 @@ import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensorOperations;
 import com.traclabs.biosim.server.framework.BioModuleImpl;
 import com.traclabs.biosim.server.util.BionetUtils;
+import com.traclabs.biosim.server.util.MathUtils;
 
 public abstract class GenericSensorImpl extends BioModuleImpl implements
         GenericSensorOperations {
@@ -54,7 +55,9 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements
 	}
     
     protected void performMalfunctions() {
-    	if (!myMalfunctions.isEmpty())
-    		myValue = Float.MAX_VALUE;
+    	if (!myMalfunctions.isEmpty()){
+            Double noisyValue = MathUtils.gaussian(myValue, 10);
+    		myValue = noisyValue.floatValue();
+    	}
     }
 }
