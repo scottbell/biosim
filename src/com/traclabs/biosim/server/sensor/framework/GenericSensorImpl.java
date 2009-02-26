@@ -56,7 +56,7 @@ public abstract class GenericSensorImpl extends BioModuleImpl implements
     
     protected void performMalfunctions() {
     	if (!myMalfunctions.isEmpty()){
-            Double noisyValue = MathUtils.gaussian(myValue, 10);
+            Double noisyValue = MathUtils.gaussian(myValue, 100);
     		myValue = noisyValue.floatValue();
     	}
     }
