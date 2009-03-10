@@ -7,6 +7,8 @@ case $1 in
 	*) userSelect=$1;idSelect="$2";iorHome=$BIOSIM_HOME;;
 esac
 devRootDir=$BIOSIM_HOME
+nameServiceHost="localhost"
+nameServicePort="16315"
 jacoOrbClass="-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB"
 jacoSingletonOrbClass="-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton"
 biosimHome="-DBIOSIM_HOME=$BIOSIM_HOME"
@@ -25,7 +27,7 @@ then
 	java_command="java"
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
-jacoNameIOR="-DORBInitRef.NameService=file:$iorHome/tmp/ns/ior.txt"
+jacoNameIOR="-DORBInitRef.NameService=corbaloc::$nameServiceHost:$nameServicePort/NameService"
 separator=":"
 machineType=`uname -s`
 winName="CYGWIN"

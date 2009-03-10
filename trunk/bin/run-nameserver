@@ -6,6 +6,7 @@ devRootDir=$BIOSIM_HOME
 jacoOrbClass="-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB"
 jacoSingletonOrbClass="-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton"
 nameServer="org.jacorb.naming.NameServer"
+nameServicePort="16315"
 currentDir=`pwd`
 if [ -z "$devRootDir" ]
 then
@@ -48,11 +49,7 @@ then
 fi
 iorLocation="-Djacorb.naming.ior_filename=$nsDir/ior.txt"
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar$separator$JACORB_HOME"
-jacoInvocation="$java_command -classpath $jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $iorLocation $nameServer"
-port="-port"
-userSelect=$1
-case $userSelect in
-	$port) echo "  -invoking nameserver on port $2";$jacoInvocation -DOAPort=$2 $@;;
-	*) echo "  -invoking nameserver";$jacoInvocation $@;;
-esac
+jacoInvocation="$java_command -DOAPort=$nameServicePort -classpath $jacoClasspath $jacoOrbClass $jacoSingletonOrbClass $iorLocation $nameServer"
+echo "  -invoking nameserver on port $nameServicePort"
+$jacoInvocation $@
 
