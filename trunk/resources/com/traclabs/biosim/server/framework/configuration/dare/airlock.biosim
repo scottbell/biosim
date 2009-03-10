@@ -29,8 +29,8 @@
 			</Dehumidifier>
 		</environment>
 		<air>
-			<NitrogenStore capacity="1000000"
-				moduleName="Nitrogen_Store" level="1000000">
+			<NitrogenStore capacity="100000"
+				moduleName="Nitrogen_Store" level="100000">
 			</NitrogenStore>
 			<VCCR moduleName="Main_VCCR">
 				<powerConsumer inputs="General_Power_Store"
@@ -52,11 +52,11 @@
 				<H2Producer desiredFlowRates="1000" outputs="H2_Store"
 					maxFlowRates="1000"/>
 			</OGS>
-			<O2Store capacity="10000" moduleName="O2_Store"
-				level="1000"/>
-			<H2Store capacity="10000" moduleName="H2_Store" level="0"/>
-			<CO2Store capacity="1000" moduleName="CO2_Store"
-				level="0"/>
+			<O2Store capacity="100000" moduleName="O2_Store"
+				level="100000"/>
+			<H2Store capacity="100000" moduleName="H2_Store" level="2000"/>
+			<CO2Store capacity="100000" moduleName="CO2_Store"
+				level="2000"/>
 			<CRS moduleName="CRS">
 				<powerConsumer inputs="General_Power_Store"
 					desiredFlowRates="100" maxFlowRates="100" />
@@ -69,8 +69,8 @@
 				<methaneProducer desiredFlowRates="100"
 					outputs="Methane_Store" maxFlowRates="100"/>
 			</CRS>
-			<MethaneStore capacity="1000" moduleName="Methane_Store"
-				level="0"/>
+			<MethaneStore capacity="100000" moduleName="Methane_Store"
+				level="2000"/>
 			<Pyrolizer moduleName="Pyrolizer">
 				<powerConsumer inputs="General_Power_Store"
 					desiredFlowRates="100" maxFlowRates="100" />
@@ -91,19 +91,19 @@
 			</Injector>
 			<Injector moduleName="Airlock_Oxygen_Injector">
 				<O2Consumer inputs="O2_Store" desiredFlowRates="0"
-					maxFlowRates="10"/>
-				<O2Producer desiredFlowRates="10"
-					outputs="Airlock" maxFlowRates="10"/>
+					maxFlowRates="50"/>
+				<O2Producer desiredFlowRates="50"
+					outputs="Airlock" maxFlowRates="50"/>
 			</Injector>
 			<Accumulator moduleName="Airlock_Vent">
 				<airConsumer inputs="Airlock" desiredFlowRates="0"
-					maxFlowRates="10" />
+					maxFlowRates="50" />
 			</Accumulator>
 			<Injector moduleName="Airlock_Nitrogen_Injector">
 				<nitrogenConsumer inputs="Nitrogen_Store" desiredFlowRates="0"
-					maxFlowRates="10" />
+					maxFlowRates="50" />
 				<nitrogenProducer
-					desiredFlowRates="10" outputs="Airlock" maxFlowRates="10" />
+					desiredFlowRates="50" outputs="Airlock" maxFlowRates="50" />
 			</Injector>
 		</framework>
 		<water>
