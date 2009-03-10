@@ -7,6 +7,8 @@ devRootDir=$BIOSIM_HOME
 jacoOrbClass="-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB"
 jacoSingletonOrbClass="-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton"
 biosimHome="-DBIOSIM_HOME=$BIOSIM_HOME"
+nameServiceHost="localhost"
+nameServicePort="16315"
 currentDir=`pwd`
 if [ -z "$devRootDir" ]
 then
@@ -22,7 +24,7 @@ then
 	java_command="java"
 fi
 JACORB_HOME="$devRootDir/lib/jacorb"
-jacoNameIOR="-DORBInitRef.NameService=file:$devRootDir/tmp/ns/ior.txt"
+jacoNameIOR="-DORBInitRef.NameService=corbaloc::$nameServiceHost:$nameServicePort/NameService"
 separator=":"
 machineType=`uname`
 winName="CYGWIN"
