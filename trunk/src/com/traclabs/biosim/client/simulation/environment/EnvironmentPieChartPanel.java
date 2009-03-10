@@ -7,10 +7,8 @@ import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.title.TextTitle;
-import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
 import com.traclabs.biosim.client.framework.GraphPanel;
@@ -26,17 +24,11 @@ import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentHelper;
 public class EnvironmentPieChartPanel extends GraphPanel {
     private SimEnvironment mySimEnvironment;
 
-    private PiePlot3D myPiePlot;
+    private PiePlot3D myPlot;
 
-    private JFreeChart myPieChart;
+    private JFreeChart myChart;
 
-    private DefaultPieDataset myPieDataset;
-    
-    private DefaultCategoryDataset myTotalPressureDataset;
-    
-    private ValueAxis myTotalPressureAxis;
-
-    private JFreeChart myTotalPressureChart;
+    private DefaultPieDataset myDataset;
 
     private static final String O2Category = "O2";
 
@@ -66,25 +58,25 @@ public class EnvironmentPieChartPanel extends GraphPanel {
         // create the chart...
         refresh();
         String titleText = mySimEnvironment.getModuleName();
-        myPieChart = ChartFactory.createPieChart3D(titleText, myPieDataset, true,
+        myChart = ChartFactory.createPieChart3D(titleText, myDataset, true,
                 true, false);
-        myPiePlot = (PiePlot3D) (myPieChart.getPlot());
-        myPiePlot.setDepthFactor(0.1d);
-        myPiePlot.setLabelLinksVisible(false);
-        myPiePlot.setForegroundAlpha(0.3f);
-        myPiePlot.setLabelGenerator(null);
+        myPlot = (PiePlot3D) (myChart.getPlot());
+        myPlot.setDepthFactor(0.1d);
+        myPlot.setLabelLinksVisible(false);
+        myPlot.setForegroundAlpha(0.3f);
+        myPlot.setLabelGenerator(null);
         initDataset();
-        TextTitle myTextTitle = (myPieChart.getTitle());
+        TextTitle myTextTitle = (myChart.getTitle());
         myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
-        myChartPanel = new ChartPanel(myPieChart);
+        myChartPanel = new ChartPanel(myChart);
         myChartPanel.setMinimumDrawHeight(250);
         myChartPanel.setMinimumDrawWidth(250);
         myChartPanel.setPreferredSize(new Dimension(250, 250));
     }
 
     public void refresh() {
-        if (myPieDataset == null) {
-            myPieDataset = new DefaultPieDataset();
+        if (myDataset == null) {
+            myDataset = new DefaultPieDataset();
         } else if ((mySimEnvironment.getO2Store().getCurrentLevel() <= 0)
                 && (mySimEnvironment.getCO2Store().getCurrentLevel() <= 0)
                 && (mySimEnvironment.getNitrogenStore().getCurrentLevel() <= 0)
@@ -92,29 +84,29 @@ public class EnvironmentPieChartPanel extends GraphPanel {
                 && (mySimEnvironment.getVaporStore().getCurrentLevel() <= 0)) {
             //It isn't in a vacuum, set it up
             if (!isVacuum) {
-                myPieDataset = new DefaultPieDataset();
-                myPiePlot.setDataset(myPieDataset);
-                myPieDataset.setValue(vacuumCategory, new Float(1f));
-                myPiePlot.setSectionPaint(vacuumCategory, Color.DARK_GRAY);
+                myDataset = new DefaultPieDataset();
+                myPlot.setDataset(myDataset);
+                myDataset.setValue(vacuumCategory, new Float(1f));
+                myPlot.setSectionPaint(vacuumCategory, Color.DARK_GRAY);
                 isVacuum = true;
             }
         } else {
             //In a vacuum, set it up for normal use
             if (isVacuum) {
-                myPieDataset = new DefaultPieDataset();
-                myPiePlot.setDataset(myPieDataset);
-                myPiePlot.setSectionPaint(O2Category, Color.BLUE);
-                myPiePlot.setSectionPaint(CO2Category, Color.GREEN);
-                myPiePlot.setSectionPaint(waterCategory, Color.CYAN);
-                myPiePlot.setSectionPaint(otherCategory, Color.YELLOW);
-                myPiePlot.setSectionPaint(nitrogenCategory, Color.RED);
+                myDataset = new DefaultPieDataset();
+                myPlot.setDataset(myDataset);
+                myPlot.setSectionPaint(O2Category, Color.BLUE);
+                myPlot.setSectionPaint(CO2Category, Color.GREEN);
+                myPlot.setSectionPaint(waterCategory, Color.CYAN);
+                myPlot.setSectionPaint(otherCategory, Color.YELLOW);
+                myPlot.setSectionPaint(nitrogenCategory, Color.RED);
                 isVacuum = false;
             }
-            myPieDataset.setValue(O2Category, new Float(mySimEnvironment.getO2Store().getCurrentLevel()));
-            myPieDataset.setValue(CO2Category, new Float(mySimEnvironment.getCO2Store().getCurrentLevel()));
-            myPieDataset.setValue(waterCategory, new Float(mySimEnvironment.getVaporStore().getCurrentLevel()));
-            myPieDataset.setValue(otherCategory, new Float(mySimEnvironment.getOtherStore().getCurrentLevel()));
-            myPieDataset.setValue(nitrogenCategory, new Float(mySimEnvironment.getNitrogenStore().getCurrentLevel()));
+            myDataset.setValue(O2Category, new Float(mySimEnvironment.getO2Store().getCurrentLevel()));
+            myDataset.setValue(CO2Category, new Float(mySimEnvironment.getCO2Store().getCurrentLevel()));
+            myDataset.setValue(waterCategory, new Float(mySimEnvironment.getVaporStore().getCurrentLevel()));
+            myDataset.setValue(otherCategory, new Float(mySimEnvironment.getOtherStore().getCurrentLevel()));
+            myDataset.setValue(nitrogenCategory, new Float(mySimEnvironment.getNitrogenStore().getCurrentLevel()));
         }
     }
 
@@ -127,15 +119,15 @@ public class EnvironmentPieChartPanel extends GraphPanel {
                 && (mySimEnvironment.getNitrogenStore().getCurrentLevel() <= 0)
                 && (mySimEnvironment.getOtherStore().getCurrentLevel() <= 0)
                 && (mySimEnvironment.getVaporStore().getCurrentLevel() <= 0)) {
-            myPieDataset.setValue(vacuumCategory, new Float(1f));
-            myPiePlot.setSectionPaint(vacuumCategory, Color.DARK_GRAY);
+            myDataset.setValue(vacuumCategory, new Float(1f));
+            myPlot.setSectionPaint(vacuumCategory, Color.DARK_GRAY);
             isVacuum = true;
         } else {
-            myPiePlot.setSectionPaint(O2Category, Color.BLUE);
-            myPiePlot.setSectionPaint(CO2Category, Color.GREEN);
-            myPiePlot.setSectionPaint(waterCategory, Color.CYAN);
-            myPiePlot.setSectionPaint(otherCategory, Color.YELLOW);
-            myPiePlot.setSectionPaint(nitrogenCategory, Color.RED);
+            myPlot.setSectionPaint(O2Category, Color.BLUE);
+            myPlot.setSectionPaint(CO2Category, Color.GREEN);
+            myPlot.setSectionPaint(waterCategory, Color.CYAN);
+            myPlot.setSectionPaint(otherCategory, Color.YELLOW);
+            myPlot.setSectionPaint(nitrogenCategory, Color.RED);
             isVacuum = false;
         }
     }
