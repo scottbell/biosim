@@ -21,7 +21,7 @@ public class EnvironmentMultiChartPanel extends UpdatablePanel {
 			setLayout(new GridLayout(numberOfEnvironments / 2,numberOfEnvironments / 2));
         
         for (SimEnvironment environment : BioHolderInitializer.getBioHolder().theSimEnvironments) {
-        	EnvironmentPieChartPanel newPieChartPanel = new EnvironmentPieChartPanel(environment);
+        	EnvironmentHybridChartPanel newPieChartPanel = new EnvironmentHybridChartPanel(environment);
         	myUpdatablePanels.add(newPieChartPanel);
             add(newPieChartPanel);
         }
