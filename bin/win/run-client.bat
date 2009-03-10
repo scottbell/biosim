@@ -4,7 +4,9 @@ set buildDir="%BIOSIM_HOME%\build"
 set jacoOrbClass=org.omg.CORBA.ORBClass=org.jacorb.orb.ORB
 set jacoSingletonOrbClass=org.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton
 set machineType=MACHINE_TYPE=CYGWIN
-set jacoNameIOR="ORBInitRef.NameService=file:%BIOSIM_HOME%\tmp\ns\ior.txt"
+set nameServiceHost="localhost"
+set nameServicePort="16315"
+set jacoNameIOR="ORBInitRef.NameService=corbaloc::%nameServiceHost%:%nameServicePort%/NameService"
 set resourceDir="%BIOSIM_HOME%\resources"
 set plotClasspath="%BIOSIM_HOME%\lib\jfreechart\jcommon.jar;%BIOSIM_HOME%\lib\jfreechart\jfreechart.jar;%BIOSIM_HOME%\lib\ptolemy\plot.jar"
 set jacoClasspath="%BIOSIM_HOME%\lib\jacorb/jacorb.jar;%BIOSIM_HOME%\lib\jacorb;%BIOSIM_HOME%\lib\jacorb/avalon-framework.jar;%BIOSIM_HOME%\lib\jacorb/logkit.jar"
