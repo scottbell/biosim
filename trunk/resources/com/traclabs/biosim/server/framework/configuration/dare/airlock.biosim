@@ -4,9 +4,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
 	<Globals driverStutterLength="500" crewsToWatch="Crew_Quarters_Group" runTillCrewDeath="false"> 
-		<!--  <nameServiceLocation>
-			<serverLocation hostname="192.168.63.185" port="16315"/>
-		</nameServiceLocation>-->
+		<nameServiceLocation>
+			<serverLocation hostname="localhost" port="16315"/>
+		</nameServiceLocation>
 	</Globals>
 	<SimBioModules>
 		<environment>
