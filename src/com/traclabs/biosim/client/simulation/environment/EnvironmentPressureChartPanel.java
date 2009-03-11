@@ -50,7 +50,8 @@ public class EnvironmentPressureChartPanel extends GraphPanel {
         CategoryPlot myPlot = myChart.getCategoryPlot();
         rangeAxis = myPlot.getRangeAxis();
         rangeAxis.setAutoRange(false);
-        rangeAxis.setRange(0.0, mySimEnvironment.getInitialTotalPressure() * 1.2);
+        float totalInitialPressure = mySimEnvironment.getInitialTotalPressure();
+        rangeAxis.setRange(0.0, totalInitialPressure * 1.2);
         CategoryItemRenderer renderer = myPlot.getRenderer();
         renderer.setSeriesPaint(0, Color.YELLOW);
         TextTitle myTextTitle = (myChart.getTitle());

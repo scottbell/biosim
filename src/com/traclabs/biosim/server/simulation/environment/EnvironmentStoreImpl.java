@@ -21,15 +21,18 @@ public class EnvironmentStoreImpl extends StoreImpl implements EnvironmentStoreO
 	}
 	
 	public float getInitialPressure() {
-		return calculatePressure(getInitialLevel());
+		return calculatePressure(getInitialLevel(), mySimEnvironmentImpl.getInitialVolume());
 	}
-
+	
     private float calculatePressure(float pNumberOfMoles) {
-    	float currentVolume = mySimEnvironmentImpl.getCurrentVolume();
+    	return calculatePressure(pNumberOfMoles, mySimEnvironmentImpl.getCurrentVolume());
+    }
+
+    private float calculatePressure(float pNumberOfMoles, float volume) {
     	float temperature = mySimEnvironmentImpl.getTemperatureInKelvin();
-        if (currentVolume > 0)
+        if (volume > 0)
             return (pNumberOfMoles * idealGasConstant * temperature)
-                    / currentVolume;
+                    / volume;
 		return 0;
     }
     
