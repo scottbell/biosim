@@ -233,6 +233,13 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
         myNitrogenStoreImpl.setCurrentLevel(currentVolume *  moleOfHumidAirPerLiter * (1f - 0.185f - 0.117f/101f - 0.0f - 0.0218910f));
     }
 
+    public float getInitialTotalPressure() {
+    	float initialTotalPressure = 0f;
+        for (EnvironmentStoreImpl store : myEnvironmentStores)
+        	initialTotalPressure += store.getInitialPressure();
+        return initialTotalPressure;
+    }
+
     public float getInitialVolume() {
         return initialVolume;
     }
@@ -486,4 +493,5 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
         	totalPressure += store.getPressure();
         return totalPressure;
     }
+
 }

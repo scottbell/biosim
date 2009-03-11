@@ -28,7 +28,7 @@ public class EnvironmentHybridChartPanel extends UpdatablePanel {
         add(myPieChartPanel);
         
         c.gridwidth = GridBagConstraints.REMAINDER;
-        c.weightx = 0.5;
+        c.weightx = 0.4;
         gridbag.setConstraints(myBarChartPanel, c);
         add(myBarChartPanel);
     }
