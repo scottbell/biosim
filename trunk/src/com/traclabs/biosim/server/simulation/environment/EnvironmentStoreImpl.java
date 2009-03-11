@@ -19,6 +19,10 @@ public class EnvironmentStoreImpl extends StoreImpl implements EnvironmentStoreO
 	public float getPressure() {
 		return calculatePressure(getCurrentLevel());
 	}
+	
+	public float getInitialPressure() {
+		return calculatePressure(getInitialLevel());
+	}
 
     private float calculatePressure(float pNumberOfMoles) {
     	float currentVolume = mySimEnvironmentImpl.getCurrentVolume();
@@ -53,8 +57,6 @@ public class EnvironmentStoreImpl extends StoreImpl implements EnvironmentStoreO
     }
     
     public void tick(){
-    	//myLogger.debug(getModuleName() + " totalTaken = "+totalTaken);
-    	//myLogger.debug(getModuleName() + " totalAdded = "+totalAdded);
     	super.tick();
     }
 

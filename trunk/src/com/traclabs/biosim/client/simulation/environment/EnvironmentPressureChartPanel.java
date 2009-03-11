@@ -40,7 +40,7 @@ public class EnvironmentPressureChartPanel extends GraphPanel {
         // create the chart...
         refresh();
         JFreeChart myChart = ChartFactory.createBarChart3D(
-                "Pressure (kPA)", // chart title
+                "", // chart title
                 "", // domain axis label
                 "Pressure (kPA)", // range axis label
                 myDataset, PlotOrientation.VERTICAL, // data
@@ -50,15 +50,14 @@ public class EnvironmentPressureChartPanel extends GraphPanel {
         CategoryPlot myPlot = myChart.getCategoryPlot();
         rangeAxis = myPlot.getRangeAxis();
         rangeAxis.setAutoRange(false);
-        rangeAxis.setRange(0.0, mySimEnvironment.getTotalPressure());
+        rangeAxis.setRange(0.0, mySimEnvironment.getInitialTotalPressure() * 1.2);
         CategoryItemRenderer renderer = myPlot.getRenderer();
         renderer.setSeriesPaint(0, Color.YELLOW);
         TextTitle myTextTitle = (myChart.getTitle());
-        myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
         myChartPanel = new ChartPanel(myChart);
         myChartPanel.setMinimumDrawHeight(300);
-        myChartPanel.setMinimumDrawWidth(300);
-        myChartPanel.setPreferredSize(new Dimension(200, 300));
+        myChartPanel.setMinimumDrawWidth(20);
+        myChartPanel.setPreferredSize(new Dimension(20, 300));
     }
 
     public void refresh() {

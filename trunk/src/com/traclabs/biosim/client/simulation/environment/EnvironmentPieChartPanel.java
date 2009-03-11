@@ -69,9 +69,9 @@ public class EnvironmentPieChartPanel extends GraphPanel {
         TextTitle myTextTitle = (myChart.getTitle());
         myTextTitle.setFont(myTextTitle.getFont().deriveFont(13.0f));
         myChartPanel = new ChartPanel(myChart);
-        myChartPanel.setMinimumDrawHeight(250);
-        myChartPanel.setMinimumDrawWidth(250);
-        myChartPanel.setPreferredSize(new Dimension(250, 250));
+        myChartPanel.setMinimumDrawHeight(300);
+        myChartPanel.setMinimumDrawWidth(300);
+        myChartPanel.setPreferredSize(new Dimension(300, 300));
     }
 
     public void refresh() {

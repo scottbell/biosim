@@ -447,6 +447,7 @@ module com{
                                                         void setInitialVolumeAtSeaLevel(in float pInitialVolume);
                                                         void setCurrentVolumeAtSeaLevel(in float pInitialVolume);
                                                         float getInitialVolume();
+                                                        float getInitialTotalPressure();
                                                         float getCurrentVolume();
                                                         float getTotalPressure();
                                                         float getRelativeHumidity();
@@ -470,6 +471,7 @@ module com{
                                                 
                                                 interface EnvironmentStore : framework::Store {
                                                 		float getPressure();
+                                                		float getInitialPressure();
                                                 };
                                                 
                                                 interface EnvironmentO2Store : air::O2Store, EnvironmentStore{};
