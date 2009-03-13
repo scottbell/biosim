@@ -19,7 +19,7 @@
 			<SimEnvironment moduleName="Airlock" initialVolume="100000">
 				<percentageInitialization waterPercentage="0.01"
 					nitrogenPercentage="0.659" otherPercentage="0.001"
-					o2Percentage="0.33" totalPressure="85" co2Percentage="0" />
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />
 			</SimEnvironment>
 			<Dehumidifier moduleName="Main_Dehumidifier">
 				<airConsumer inputs="Crew_Quarters"
