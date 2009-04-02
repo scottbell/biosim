@@ -1,0 +1,90 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim"
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<!-- Special CrewGroup specific declarations -->
+	<xsd:simpleType name="CrewPersonImplementationType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="NORMAL"/>
+			<xsd:enumeration value="MATLAB"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="ScheduleType">
+		<xsd:sequence>
+			<xsd:element name="activity" type="ActivityType" minOccurs="1"
+				maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="EVAActivityType">
+		<xsd:complexContent>
+			<xsd:extension base="ActivityType">
+				<xsd:attribute name="evaCrewGroup" type="xsd:string"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ActivityType">
+		<xsd:attribute name="name" type="xsd:string" use="required"/>
+		<xsd:attribute name="length" type="xsd:nonNegativeInteger" use="required"/>
+		<xsd:attribute name="intensity" type="xsd:nonNegativeInteger"
+			use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CrewPersonType">
+		<xsd:sequence>
+			<xsd:element name="schedule" type="ScheduleType" minOccurs="1"
+				maxOccurs="1"/>
+		</xsd:sequence>
+		<xsd:attribute name="implementation"
+					type="CrewPersonImplementationType" default="NORMAL"/>
+		<xsd:attribute name="name" type="xsd:string" use="required"/>
+		<xsd:attribute name="age" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="weight" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="sex" type="SexType" use="required"/>
+		<xsd:attribute name="arrivalDate" type="xsd:nonNegativeInteger"
+			default="0"/>
+		<xsd:attribute name="departureDate" type="xsd:integer" default="-1"/>
+		<xsd:attribute name="logLevel" type="LogLevelType" default="INFO"/>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="SexType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="MALE"/>
+			<xsd:enumeration value="FEMALE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="CrewGroupType">
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element name="potableWaterConsumer"
+							type="PotableWaterConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="airConsumer" type="AirConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="foodConsumer" type="FoodConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="dirtyWaterProducer"
+							type="DirtyWaterProducerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="greyWaterProducer"
+							type="GreyWaterProducerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="airProducer" type="AirProducerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="dryWasteProducer"
+							type="DryWasteProducerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="crewPerson" type="CrewPersonType"
+							minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+				<xsd:attribute name="isDeathEnabled" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CrewSimBioModulesType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="CrewGroup" type="CrewGroupType"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

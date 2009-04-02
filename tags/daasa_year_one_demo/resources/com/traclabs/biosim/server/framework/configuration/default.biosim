@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../style/table.xsl"?>
+<biosim xmlns="http://www.traclabs.com/biosim"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.traclabs.com/biosim ../schema/BiosimInitSchema.xsd">
+	<Globals crewsToWatch="Crew_Group" tickLength="10" runTillCrewDeath="true"/>
+	<SimBioModules>
+
+		<environment>
+			<SimEnvironment moduleName="Crew_Environment" 
+			initialVolume="110000">
+			<percentageInitialization waterPercentage="0.01"
+					nitrogenPercentage="0.659" otherPercentage="0.001"
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />
+			</SimEnvironment>
+			<SimEnvironment moduleName="Plant_Environment" 
+			initialVolume="110000">
+			<percentageInitialization waterPercentage="0.01"
+					nitrogenPercentage="0.659" otherPercentage="0.001"
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0.001" />
+			</SimEnvironment>
+			<Dehumidifier moduleName="Dehumidifier">
+				<airConsumer maxFlowRates="100" desiredFlowRates="100" inputs="Crew_Environment"/>
+				<dirtyWaterProducer maxFlowRates="10" desiredFlowRates="10" outputs="Dirty_Water_Store"/>	
+			</Dehumidifier>
+			<Dehumidifier moduleName="Plant_Dehumidifier">
+				<airConsumer maxFlowRates="100" desiredFlowRates="100" inputs="Plant_Environment"/>
+				<dirtyWaterProducer maxFlowRates="10" desiredFlowRates="10" outputs="Dirty_Water_Store"/>	
+			</Dehumidifier>
+		</environment>
+
+		<air>
+			<VCCR moduleName="VCCR" implementation="LINEAR">
+				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="Power_Store"/>
+				<airConsumer maxFlowRates="10000" desiredFlowRates="10000" inputs="Crew_Environment"/>
+				<airProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="Crew_Environment"/>
+				<CO2Producer maxFlowRates="10000" desiredFlowRates="10000" outputs="CO2_Store"/>
+			</VCCR>
+			<OGS moduleName="OGS">
+				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="Power_Store"/>
+				<potableWaterConsumer maxFlowRates="10000" desiredFlowRates="10000" inputs="Potable_Water_Store"/>
+				<O2Producer maxFlowRates="10000" desiredFlowRates="10000" outputs="O2_Store"/>
+				<H2Producer maxFlowRates="10000" desiredFlowRates="10000" outputs="H2_Store"/>
+			</OGS>
+			<O2Store moduleName="O2_Store" capacity="10000" level="1000">
+					<malfunction occursAtTick="200" length="PERMANENT_MALF" intensity="MEDIUM_MALF"/>
+			</O2Store>
+			<CO2Store capacity="10000" moduleName="CO2_Store"
+				level="0">
+			</CO2Store>
+			<H2Store moduleName="H2_Store" capacity="10000" level="0"/>
+			<NitrogenStore moduleName="N2_Store" capacity="10000" level="10000"/>
+			<MethaneStore capacity="10000" moduleName="CH4_Store"
+				level="0">
+			</MethaneStore>
+		</air>
+
+		<crew>
+		<CrewGroup moduleName="Crew_Group">
+			<potableWaterConsumer maxFlowRates="1000" desiredFlowRates="1000" 
+			inputs="Potable_Water_Store"/>
+			<airConsumer maxFlowRates="1000" desiredFlowRates="1000" 
+			inputs="Crew_Environment"/>
+			<foodConsumer maxFlowRates="1000" desiredFlowRates="1000" 
+			inputs="Food_Store"/>
+			<dirtyWaterProducer maxFlowRates="1000" desiredFlowRates="1000" 
+			outputs="Dirty_Water_Store"/>
+			<greyWaterProducer maxFlowRates="1000" desiredFlowRates="1000" 
+			outputs="Grey_Water_Store"/>
+			<airProducer maxFlowRates="1000" desiredFlowRates="1000" 
+			outputs="Crew_Environment"/>
+			<dryWasteProducer maxFlowRates="1000" desiredFlowRates="1000" 
+			outputs="Dry_Waste_Store"/>
+			<crewPerson name="Mickey Mouse" age="33" weight="75" sex="MALE">
+				<schedule>
+					<activity name="sleep" length="10" intensity="1"/>
+					<activity name="eating" length="1" intensity="2"/>
+					<activity name="mission" length="6" intensity="3"/>
+					<activity name="leisure" length="4" intensity="2"/>
+				</schedule>
+			</crewPerson>
+			<crewPerson name="Minnie Mouse" age="33" weight="75" sex="FEMALE">
+				<schedule>
+					<activity name="sleep" length="10" intensity="1"/>
+					<activity name="eating" length="1" intensity="2"/>
+					<activity name="mission" length="6" intensity="3"/>
+					<activity name="leisure" length="4" intensity="2"/>
+				</schedule>
+			</crewPerson>
+		</CrewGroup>
+		</crew>
+
+		<framework>
+			<Injector moduleName="O2_Injector">
+				<O2Consumer desiredFlowRates="5.5"
+				maxFlowRates="5.5" inputs="O2_Store"/>
+				<O2Producer  desiredFlowRates="5.5" 
+				maxFlowRates="5.5" outputs="Crew_Environment"/>
+			</Injector>
+			<Injector moduleName="CO2_Injector">
+				<CO2Consumer desiredFlowRates="0.025"
+				maxFlowRates="0.025" inputs="CO2_Store"/>
+				<CO2Producer  desiredFlowRates="0.025"
+				maxFlowRates="0.025" outputs="Plant_Environment"/>
+			</Injector>
+		</framework>
+
+		<power>
+			<PowerPS moduleName="Power_PS" generationType="NUCLEAR" upperPowerGeneration="10000">
+				<powerProducer maxFlowRates="1000000" desiredFlowRates="1000000" outputs="Power_Store"/>
+			</PowerPS>
+			<PowerStore moduleName="Power_Store" capacity="100000" level="100000"/>
+		</power>
+
+		<food>	
+			<FoodProcessor moduleName="Food_Processor">
+				<powerConsumer maxFlowRates="100" desiredFlowRates="100" inputs="Power_Store"/>
+				<biomassConsumer maxFlowRates="200" desiredFlowRates="200" inputs="Biomass_Store"/>
+				<foodProducer maxFlowRates="200" desiredFlowRates="200" outputs="Food_Store"/>
+				<dryWasteProducer maxFlowRates="100" desiredFlowRates="100" outputs="Dry_Waste_Store"/>
+				<waterProducer maxFlowRates="100 100" desiredFlowRates="100 100" outputs="Dirty_Water_Store Grey_Water_Store"/>
+			</FoodProcessor>
+			<BiomassPS moduleName="Biomass_PS">
+				<shelf cropArea="20" cropType="LETTUCE"/>
+				<shelf cropArea="20" cropType="TOMATO"/>
+				<powerConsumer maxFlowRates="100000" desiredFlowRates="100000" inputs="Power_Store"/>
+				<potableWaterConsumer maxFlowRates="10000" desiredFlowRates="10000" inputs="Potable_Water_Store"/>
+				<greyWaterConsumer maxFlowRates="10000" desiredFlowRates="10000" inputs="Grey_Water_Store"/>
+				<airConsumer maxFlowRates="10000" desiredFlowRates="10000" inputs="Plant_Environment"/>
+				<dirtyWaterProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="Dirty_Water_Store"/>
+				<biomassProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="Biomass_Store"/>
+				<airProducer maxFlowRates="10000" desiredFlowRates="10000" outputs="Plant_Environment"/>
+			</BiomassPS>
+			<BiomassStore moduleName="Biomass_Store" 
+			capacity="500" level="500"/>
+			<FoodStore moduleName="Food_Store"
+			capacity="1000" level="700"/>
+		</food>
+
+		<water>
+			<WaterRS moduleName="Water_RS" implementation="LINEAR">
+				<powerConsumer maxFlowRates="1000" desiredFlowRates="1000"
+				inputs="Power_Store"/>
+				<dirtyWaterConsumer maxFlowRates="1000" desiredFlowRates="1000" 
+				inputs="Dirty_Water_Store"/>
+				<greyWaterConsumer maxFlowRates="1000" desiredFlowRates="1000"
+				inputs="Grey_Water_Store"/>
+				<potableWaterProducer maxFlowRates="1000" desiredFlowRates="1000" 
+				outputs="Potable_Water_Store"/>
+			</WaterRS>
+
+			<PotableWaterStore moduleName="Potable_Water_Store" 
+			capacity="2000" level="2000"/>
+			<GreyWaterStore moduleName="Grey_Water_Store" 
+			capacity="2000" level="2000"/>
+			<DirtyWaterStore moduleName="Dirty_Water_Store" 
+			capacity="1000" level="0"/>
+		</water>
+
+		<waste>
+			<DryWasteStore moduleName="Dry_Waste_Store"
+			capacity="500" level="0"/>
+		</waste>
+
+	</SimBioModules>
+</biosim>

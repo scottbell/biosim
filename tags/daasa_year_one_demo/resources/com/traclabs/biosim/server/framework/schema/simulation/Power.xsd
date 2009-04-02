@@ -1,0 +1,70 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim"
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<!-- Special PowerPS specific declarations -->
+	<xsd:simpleType name="GenerationType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="SOLAR"/>
+			<xsd:enumeration value="NUCLEAR"/>
+			<xsd:enumeration value="STATE_MACHINE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="PowerStoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PowerPSType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element name="powerProducer" type="PowerProducerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="lightConsumer" type="LightConsumerType" minOccurs="0" maxOccurs="1"/>
+				</xsd:sequence>
+				<xsd:attribute name="generationType" type="GenerationType" default="NUCLEAR"/>
+				<xsd:attribute name="upperPowerGeneration" type="nonNegativeFloat" default="500"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="GenericPowerConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element name="powerConsumer" type="PowerConsumerType"/>
+				</xsd:sequence>
+				<xsd:attribute name="powerRequired" type="nonNegativeFloat" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="RPCMType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element name="powerConsumer" type="PowerConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="powerProducer" type="PowerProducerType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+				<xsd:attribute name="switchValues" type="switchList" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PowerSimBioModulesType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="PowerPS" type="PowerPSType"/>
+				<xsd:element name="PowerStore" type="PowerStoreType"/>
+				<xsd:element name="GenericPowerConsumer"
+					type="GenericPowerConsumerType" minOccurs="1" maxOccurs="1"/>
+				<xsd:element name="RPCM" type="RPCMType"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+</xsd:schema>

@@ -1,0 +1,468 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim" 
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<!-- Module declarations -->
+	<xsd:complexType name="BioModuleType">
+		<xsd:sequence>
+			<xsd:element name="malfunction" type="MalfunctionType"
+				minOccurs="0" maxOccurs="1" />
+			<xsd:choice minOccurs="0" maxOccurs="1">
+					<xsd:element name="cauchyFailureDecider" type="CauchyFailureDeciderType" />
+					<xsd:element name="expFailureDecider" type="ExpFailureDeciderType" />
+					<xsd:element name="logisticFailureDecider" type="LogisticFailureDeciderType" />
+					<xsd:element name="lognormalFailureDecider" type="LognormalFailureDeciderType" />
+					<xsd:element name="normalFailureDecider" type="NormalFailureDeciderType" />
+					<xsd:element name="uniformFailureDecider" type="UniformFailureDeciderType" />
+					<xsd:element name="weibull2FailureDecider" type="Weibull2FailureDeciderType" />
+					<xsd:element name="weibull3FailureDecider" type="Weibull3FailureDeciderType" />
+			</xsd:choice>
+			<xsd:choice minOccurs="0" maxOccurs="1">
+					<xsd:element name="normalStochasticFilter" type="NormalStochasticFilterType" />
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="moduleName" type="xsd:string"
+			use="required" />
+		<xsd:attribute name="createLocally" type="xsd:boolean"
+			default="true" />
+		<xsd:attribute name="logLevel" type="LogLevelType"
+			default="INFO" />
+		<xsd:attribute name="isBionetEnabled" type="xsd:boolean" default="false" />
+	</xsd:complexType>
+
+	<xsd:complexType name="StochasticFilterType">
+		<xsd:attribute name="isFilterEnabled" type="xsd:boolean" default="true"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NormalStochasticFilterType">  
+		<xsd:complexContent>
+			<xsd:extension base="StochasticFilterType">
+				<xsd:attribute name="deviation" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="FailureDeciderType">
+		<xsd:attribute name="isFailureEnabled" type="xsd:boolean" default="true"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CauchyFailureDeciderType">  
+		<xsd:complexContent>
+			<xsd:extension base="FailureDeciderType">
+				<xsd:attribute name="mu" type="xsd:double" use="required"/>
+				<xsd:attribute name="sd" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ExpFailureDeciderType">  
+		<xsd:complexContent>
+			<xsd:extension base="FailureDeciderType">
+				<xsd:attribute name="lambda" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="LogisticFailureDeciderType">  
+		<xsd:complexContent>
+			<xsd:extension base="FailureDeciderType">
+				<xsd:attribute name="mu" type="xsd:double" use="required"/>
+				<xsd:attribute name="sd" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="LognormalFailureDeciderType">  
+		<xsd:complexContent>
+			<xsd:extension base="FailureDeciderType">
+				<xsd:attribute name="logmean" type="xsd:double" use="required"/>
+				<xsd:attribute name="logsd" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NormalFailureDeciderType">  
+		<xsd:complexContent>
+			<xsd:extension base="FailureDeciderType">
+				<xsd:attribute name="logmean" type="xsd:double" use="required"/>
+				<xsd:attribute name="logsd" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="UniformFailureDeciderType">  
+		<xsd:complexContent>
+			<xsd:extension base="FailureDeciderType">
+				<xsd:attribute name="alpha" type="xsd:double" use="required"/>
+				<xsd:attribute name="beta" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="Weibull2FailureDeciderType">  
+		<xsd:complexContent>
+			<xsd:extension base="FailureDeciderType">
+				<xsd:attribute name="lambda" type="xsd:double" use="required"/>
+				<xsd:attribute name="beta" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="Weibull3FailureDeciderType">  
+		<xsd:complexContent>
+			<xsd:extension base="FailureDeciderType">
+				<xsd:attribute name="lambda" type="xsd:double" use="required"/>
+				<xsd:attribute name="beta" type="xsd:double" use="required"/>
+				<xsd:attribute name="hold" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="Log4jPropertyType">
+		<xsd:attribute name="name" type="xsd:string" use="required"/>
+		<xsd:attribute name="value" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FileLocationType">
+		<xsd:attribute name="path" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ServerLocationType">
+		<xsd:attribute name="hostname" type="xsd:string" use="required"/>
+		<xsd:attribute name="port" type="xsd:integer" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NameServiceLocationType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="1" maxOccurs="1">
+					<xsd:element name="fileLocation" type="FileLocationType" />
+					<xsd:element name="serverLocation" type="ServerLocationType" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="GlobalsType">
+		<xsd:sequence>
+			<xsd:element name="comment" type="xsd:string" minOccurs="0" maxOccurs="1"/>	
+			<xsd:element name="author" type="xsd:string" minOccurs="0" maxOccurs="1"/>	
+			<xsd:element name="log4jProperty" type="Log4jPropertyType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="nameServiceLocation" type="NameServiceLocationType" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+		<xsd:attribute name="startPaused" type="xsd:boolean" default="true"/>
+		<xsd:attribute name="runTillN" type="xsd:nonNegativeInteger" default="0"/>
+		<xsd:attribute name="runTillCrewDeath" type="xsd:boolean" default="true"/>
+		<xsd:attribute name="runTillPlantDeath" type="xsd:boolean" default="false"/>
+		<xsd:attribute name="crewsToWatch" type="stringList" use="optional"/>
+		<xsd:attribute name="plantsToWatch" type="stringList" use="optional"/>
+		<xsd:attribute name="driverStutterLength" type="xsd:integer" default="-1"/>     
+		<xsd:attribute name="isLooping" type="xsd:boolean" default="false"/>
+		<xsd:attribute name="stochasticIntensity" type="StochasticIntensityType" default="NONE_STOCH"/>
+		<xsd:attribute name="tickLength" type="nonNegativeFloat" default="1"/>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="floatList">
+		<xsd:list itemType="nonNegativeFloat"/>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="stringList">
+		<xsd:list itemType="xsd:string"/>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="booleanList">
+		<xsd:list itemType="xsd:boolean"/>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="nonNegativeFloat">
+		<xsd:restriction base="xsd:float">
+			<xsd:minInclusive value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="percentageFloat">
+		<xsd:restriction base="xsd:float">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="switchList">
+		<xsd:list itemType="switchValue"/>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="switchValue">
+		<xsd:restriction base="xsd:integer">
+			<xsd:enumeration value="0"/>
+			<xsd:enumeration value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="StochasticIntensityType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="HIGH_STOCH"/>
+			<xsd:enumeration value="MEDIUM_STOCH"/>
+			<xsd:enumeration value="LOW_STOCH"/>
+			<xsd:enumeration value="NONE_STOCH"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<!-- Producer/Consumer types -->
+	<xsd:complexType name="FlowRateType">  
+		<xsd:attribute name="maxFlowRates" type="floatList" use="required"/>
+		<xsd:attribute name="desiredFlowRates" type="floatList" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateType">
+					<xsd:attribute name="inputs" type="stringList" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateType">
+					<xsd:attribute name="outputs" type="stringList" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PowerConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PotableWaterConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="GreyWaterConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DirtyWaterConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="WaterConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="AirConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="H2ConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="O2ConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CO2ConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NitrogenConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MethaneConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="LightConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="BiomassConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FoodConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DryWasteConsumerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ConsumerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PowerProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PotableWaterProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="GreyWaterProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DirtyWaterProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="WaterProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="AirProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="H2ProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="O2ProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CO2ProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NitrogenProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MethaneProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="BiomassProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FoodProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DryWasteProducerType">  
+		<xsd:complexContent>
+			<xsd:extension base="ProducerType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<!-- Malfunction declarations -->
+	<xsd:simpleType name="MalfunctionIntensityType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="SEVERE_MALF"/>
+			<xsd:enumeration value="MEDIUM_MALF"/>
+			<xsd:enumeration value="LOW_MALF"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="MalfunctionIntensityLength">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="TEMPORARY_MALF"/>
+			<xsd:enumeration value="PERMANENT_MALF"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="MalfunctionType">
+		<xsd:attribute name="intensity" type="MalfunctionIntensityType" use="required"/>
+		<xsd:attribute name="length" type="MalfunctionIntensityLength" use="required"/>
+		<xsd:attribute name="occursAtTick" type="xsd:nonNegativeInteger" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="LogLevelType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="OFF"/>
+			<xsd:enumeration value="INFO"/>
+			<xsd:enumeration value="DEBUG"/>
+			<xsd:enumeration value="ERROR"/>
+			<xsd:enumeration value="WARN"/>
+			<xsd:enumeration value="FATAL"/>
+			<xsd:enumeration value="ALL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+</xsd:schema>
