@@ -15,7 +15,6 @@
 	<classpathentry kind="lib" path="resources"/>
 	<classpathentry kind="lib" path="lib/mysql/mysql-jdbc.jar"/>
 	<classpathentry kind="lib" path="lib/ptolemy/plot.jar" sourcepath="/net/home/scott/workspace/ptplot"/>
-	<classpathentry kind="lib" path="lib/bionet/JBionet.jar" sourcepath="/net/home/scott/workspace/bionet/jni/Java/bionetjar/src"/>
 	<classpathentry kind="lib" path="lib/bionet"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
