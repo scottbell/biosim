@@ -7,7 +7,6 @@
 	<property name="buildDir" location="build" />
 	<property name="lib" location="lib" />
 	<property name="jacorbDir" location="${lib}/jacorb" />
-	<property name="bionetDir" location="${lib}/bionet" />
 	<property name="tmpDir" location="tmp" />
 	<property name="nsDir" location="${tmpDir}/ns" />
 	<property name="resourceDir" location="resources" />
@@ -76,7 +75,6 @@
 				<pathelement location="${log4jDir}/log4j.jar" />
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
-				<pathelement location="${bionetDir}/JBionet.jar" />
 			</classpath>
 		</javac>
 	</target>
