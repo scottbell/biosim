@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <biosim:biosim xmlns:biosim="http://www.traclabs.com/biosim"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd ">
+	xsi:schemaLocation="http://www.traclabs.com/biosim ../../../schema/BiosimInitSchema.xsd ">
 	<biosim:Globals startPaused="true" />
 	<biosim:SimBioModules>
 		<biosim:power>
@@ -15,6 +15,8 @@
 		</biosim:power>
 		<biosim:air>
 			<biosim:OGS moduleName="oxy">
+				<biosim:normalFailureDecider logmean="5" logsd="300" />
+
 				<biosim:powerConsumer inputs="SolarPowerBattery"
 					desiredFlowRates="50" maxFlowRates="50"></biosim:powerConsumer>
 				<biosim:potableWaterConsumer inputs="waterstore"
@@ -24,10 +26,23 @@
 				<biosim:H2Producer desiredFlowRates="300" outputs="hstore"
 					maxFlowRates="300" />
 			</biosim:OGS>
+			<biosim:OGS moduleName="oxy2">
+				<biosim:normalFailureDecider logmean="5" logsd="300" />
+				<biosim:powerConsumer inputs="SolarPowerBattery"
+					desiredFlowRates="50" maxFlowRates="50"></biosim:powerConsumer>
+				<biosim:potableWaterConsumer inputs="waterstore"
+					desiredFlowRates="5" maxFlowRates="5" />
+				<biosim:O2Producer desiredFlowRates="300" outputs="ostore"
+					maxFlowRates="300" />
+				<biosim:H2Producer desiredFlowRates="300" outputs="hstore"
+					maxFlowRates="300" />
+			</biosim:OGS>
+
 			<biosim:H2Store capacity="1000" moduleName="hstore"
 				level="0.0"></biosim:H2Store>
 			<biosim:O2Store capacity="1000" moduleName="ostore"
 				level="0.0"></biosim:O2Store>
+
 		</biosim:air>
 		<biosim:water>
 			<biosim:PotableWaterStore capacity="1000"
@@ -40,32 +55,24 @@
 				moduleName="greywater" level="0.0">
 			</biosim:GreyWaterStore>
 			<biosim:WaterRS moduleName="AWaterRS">
-				<biosim:normalFailureDecider logmean="5" logsd="200" />
 				<biosim:powerConsumer inputs="SolarPowerBattery"
 					desiredFlowRates="100" maxFlowRates="100" />
 				<biosim:dirtyWaterConsumer inputs="dirtywaterstore"
-					desiredFlowRates="50" maxFlowRates="50">
-				</biosim:dirtyWaterConsumer>
+					desiredFlowRates="50" maxFlowRates="50"/>
 				<biosim:greyWaterConsumer inputs="greywater"
-					desiredFlowRates="50" maxFlowRates="50">
-				</biosim:greyWaterConsumer>
+					desiredFlowRates="50" maxFlowRates="50"/>
 				<biosim:potableWaterProducer
-					desiredFlowRates="50" outputs="waterstore" maxFlowRates="50">
-				</biosim:potableWaterProducer>
+					desiredFlowRates="50" outputs="waterstore" maxFlowRates="50"/>
 			</biosim:WaterRS>
 			<biosim:WaterRS moduleName="AWaterRS2">
-				<biosim:normalFailureDecider logmean="2" logsd="100" />
 				<biosim:powerConsumer inputs="SolarPowerBattery"
 					desiredFlowRates="100" maxFlowRates="100" />
 				<biosim:dirtyWaterConsumer inputs="dirtywaterstore"
-					desiredFlowRates="50" maxFlowRates="50">
-				</biosim:dirtyWaterConsumer>
+					desiredFlowRates="50" maxFlowRates="50"/>
 				<biosim:greyWaterConsumer inputs="greywater"
-					desiredFlowRates="50" maxFlowRates="50">
-				</biosim:greyWaterConsumer>
+					desiredFlowRates="50" maxFlowRates="50"/>
 				<biosim:potableWaterProducer
-					desiredFlowRates="50" outputs="waterstore" maxFlowRates="50">
-				</biosim:potableWaterProducer>
+					desiredFlowRates="50" outputs="waterstore" maxFlowRates="50"/>
 			</biosim:WaterRS>
 		</biosim:water>
 		<biosim:crew>

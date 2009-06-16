@@ -8,6 +8,7 @@ import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
 import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
+import com.traclabs.biosim.idl.simulation.air.OGS;
 import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.idl.simulation.framework.Injector;
 import com.traclabs.biosim.idl.simulation.water.WaterRS;
@@ -19,7 +20,7 @@ import com.traclabs.biosim.util.OrbUtils;
 */
 
 public class KofNController implements BiosimController{
-	private static String CONFIGURATION_FILE = "test/pritesh.biosim";
+	private static String CONFIGURATION_FILE = "reliability/ultra/KofN.biosim";
 
 	private BioDriver myBioDriver;
 
@@ -92,6 +93,7 @@ public class KofNController implements BiosimController{
 	 */
 	private boolean endConditionMet() {
 		int waterSystemsFailed=0;
+		int OGSFailed=0;
 		for (WaterRS waterSystem : myBioHolder.theWaterRSModules) 
 		{
 			
@@ -100,11 +102,20 @@ public class KofNController implements BiosimController{
 			
 			
 		}
+		for(OGS oxySystem : myBioHolder.theOGSModules)
+		{
+			if(oxySystem.isMalfunctioning())
+				OGSFailed++;
+		}
+		
 		float percentageFailed = waterSystemsFailed/myBioHolder.theWaterRSModules.size();
+		float ogsPercentageFailed = OGSFailed/myBioHolder.theOGSModules.size();
+		
 		boolean tooManyWaterSystemsFailed = percentageFailed>0.75;
+		boolean tooManyOGSFailed = ogsPercentageFailed>0.75;
 		boolean crewDead = myDeathSensor.getValue()==1;
 		
-		return (crewDead || tooManyWaterSystemsFailed);
+		return (crewDead || tooManyWaterSystemsFailed ||tooManyOGSFailed);
 	}
 
 	/**
