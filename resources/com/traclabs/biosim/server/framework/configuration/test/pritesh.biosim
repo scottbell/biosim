@@ -27,15 +27,28 @@
 			<biosim:H2Store capacity="1000" moduleName="hstore" level="0.0"></biosim:H2Store>
 			<biosim:O2Store capacity="1000" moduleName="ostore" level="0.0"></biosim:O2Store></biosim:air>
 		<biosim:water>
-			<biosim:PotableWaterStore capacity="1000" moduleName="waterstore"
-				level="1000">
+			<biosim:PotableWaterStore capacity="1000"
+				moduleName="waterstore" level="1000">
 			</biosim:PotableWaterStore>
 			<biosim:DirtyWaterStore capacity="1000" moduleName="dirtywaterstore"
 				level="0.0">
 			</biosim:DirtyWaterStore>
 			<biosim:GreyWaterStore capacity="1000" moduleName="greywater"
 				level="0.0">
-			</biosim:GreyWaterStore></biosim:water>
+			</biosim:GreyWaterStore>
+			<biosim:WaterRS moduleName="AWaterRS">
+				<biosim:powerConsumer inputs="SolarPowerBattery"
+					desiredFlowRates="100" maxFlowRates="100" />
+				<biosim:dirtyWaterConsumer inputs="dirtywaterstore"
+					desiredFlowRates="50" maxFlowRates="50">
+				</biosim:dirtyWaterConsumer>
+				<biosim:greyWaterConsumer inputs="greywater"
+					desiredFlowRates="50" maxFlowRates="50">
+				</biosim:greyWaterConsumer>
+				<biosim:potableWaterProducer desiredFlowRates="50"
+					outputs="waterstore" maxFlowRates="50">
+				</biosim:potableWaterProducer>
+			</biosim:WaterRS></biosim:water>
 		<biosim:crew>
 			<biosim:CrewGroup moduleName="ATeam">
 				<biosim:potableWaterConsumer inputs="waterstore"
@@ -76,4 +89,16 @@
 					maxFlowRates="10" /><biosim:O2Producer
 					desiredFlowRates="10" outputs="ACabin" maxFlowRates="10" /></biosim:Injector></biosim:framework>
 	</biosim:SimBioModules>
+	<biosim:Sensors>
+		<biosim:environment>
+			<biosim:GasConcentrationSensor input="ACabin" moduleName="AGCS"
+				gasType="O2">
+			</biosim:GasConcentrationSensor></biosim:environment>
+		<biosim:crew>
+			<biosim:CrewGroupAnyDeadSensor input="ATeam" moduleName="ATeamDead"></biosim:CrewGroupAnyDeadSensor></biosim:crew></biosim:Sensors>
+	<biosim:Actuators>
+		<biosim:air>
+			<biosim:O2InFlowRateActuator output="oxyinjector" moduleName="oxygencontroller"
+				index="0">
+			</biosim:O2InFlowRateActuator></biosim:air></biosim:Actuators>
 </biosim:biosim>
