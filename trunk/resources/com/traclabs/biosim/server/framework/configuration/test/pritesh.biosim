@@ -15,8 +15,8 @@
 		</biosim:power>
 		<biosim:air>
 			<biosim:OGS moduleName="oxy">
-				<biosim:powerConsumer inputs="SolarPowerBattery" desiredFlowRates="50"
-					maxFlowRates="50" ></biosim:powerConsumer>
+				<biosim:powerConsumer inputs="SolarPowerBattery"
+					desiredFlowRates="50" maxFlowRates="50"></biosim:powerConsumer>
 				<biosim:potableWaterConsumer inputs="waterstore"
 					desiredFlowRates="5" maxFlowRates="5" />
 				<biosim:O2Producer desiredFlowRates="300" outputs="ostore"
@@ -24,19 +24,23 @@
 				<biosim:H2Producer desiredFlowRates="300" outputs="hstore"
 					maxFlowRates="300" />
 			</biosim:OGS>
-			<biosim:H2Store capacity="1000" moduleName="hstore" level="0.0"></biosim:H2Store>
-			<biosim:O2Store capacity="1000" moduleName="ostore" level="0.0"></biosim:O2Store></biosim:air>
+			<biosim:H2Store capacity="1000" moduleName="hstore"
+				level="0.0"></biosim:H2Store>
+			<biosim:O2Store capacity="1000" moduleName="ostore"
+				level="0.0"></biosim:O2Store>
+		</biosim:air>
 		<biosim:water>
 			<biosim:PotableWaterStore capacity="1000"
 				moduleName="waterstore" level="1000">
 			</biosim:PotableWaterStore>
-			<biosim:DirtyWaterStore capacity="1000" moduleName="dirtywaterstore"
-				level="0.0">
+			<biosim:DirtyWaterStore capacity="1000"
+				moduleName="dirtywaterstore" level="0.0">
 			</biosim:DirtyWaterStore>
-			<biosim:GreyWaterStore capacity="1000" moduleName="greywater"
-				level="0.0">
+			<biosim:GreyWaterStore capacity="1000"
+				moduleName="greywater" level="0.0">
 			</biosim:GreyWaterStore>
 			<biosim:WaterRS moduleName="AWaterRS">
+				<biosim:normalFailureDecider logmean="5" logsd="200" />
 				<biosim:powerConsumer inputs="SolarPowerBattery"
 					desiredFlowRates="100" maxFlowRates="100" />
 				<biosim:dirtyWaterConsumer inputs="dirtywaterstore"
@@ -45,26 +49,41 @@
 				<biosim:greyWaterConsumer inputs="greywater"
 					desiredFlowRates="50" maxFlowRates="50">
 				</biosim:greyWaterConsumer>
-				<biosim:potableWaterProducer desiredFlowRates="50"
-					outputs="waterstore" maxFlowRates="50">
+				<biosim:potableWaterProducer
+					desiredFlowRates="50" outputs="waterstore" maxFlowRates="50">
 				</biosim:potableWaterProducer>
-			</biosim:WaterRS></biosim:water>
+			</biosim:WaterRS>
+			<biosim:WaterRS moduleName="AWaterRS2">
+				<biosim:normalFailureDecider logmean="2" logsd="100" />
+				<biosim:powerConsumer inputs="SolarPowerBattery"
+					desiredFlowRates="100" maxFlowRates="100" />
+				<biosim:dirtyWaterConsumer inputs="dirtywaterstore"
+					desiredFlowRates="50" maxFlowRates="50">
+				</biosim:dirtyWaterConsumer>
+				<biosim:greyWaterConsumer inputs="greywater"
+					desiredFlowRates="50" maxFlowRates="50">
+				</biosim:greyWaterConsumer>
+				<biosim:potableWaterProducer
+					desiredFlowRates="50" outputs="waterstore" maxFlowRates="50">
+				</biosim:potableWaterProducer>
+			</biosim:WaterRS>
+		</biosim:water>
 		<biosim:crew>
 			<biosim:CrewGroup moduleName="ATeam">
 				<biosim:potableWaterConsumer inputs="waterstore"
 					desiredFlowRates="20" maxFlowRates="20" />
-				<biosim:airConsumer inputs="ACabin" desiredFlowRates="50"
-					maxFlowRates="50" ></biosim:airConsumer>
-				<biosim:foodConsumer inputs="AFood" desiredFlowRates="20"
-					maxFlowRates="20" />
-				<biosim:dirtyWaterProducer desiredFlowRates="50"
-					outputs="dirtywaterstore" maxFlowRates="50" ></biosim:dirtyWaterProducer>
-				<biosim:greyWaterProducer desiredFlowRates="50" outputs="greywater"
-					maxFlowRates="50" />
-				<biosim:airProducer desiredFlowRates="100" outputs="ACabin"
-					maxFlowRates="100" />
-				<biosim:dryWasteProducer desiredFlowRates="50" outputs="drywaste"
-					maxFlowRates="50" ></biosim:dryWasteProducer>
+				<biosim:airConsumer inputs="ACabin"
+					desiredFlowRates="50" maxFlowRates="50"></biosim:airConsumer>
+				<biosim:foodConsumer inputs="AFood"
+					desiredFlowRates="20" maxFlowRates="20" />
+				<biosim:dirtyWaterProducer
+					desiredFlowRates="50" outputs="dirtywaterstore" maxFlowRates="50"></biosim:dirtyWaterProducer>
+				<biosim:greyWaterProducer desiredFlowRates="50"
+					outputs="greywater" maxFlowRates="50" />
+				<biosim:airProducer desiredFlowRates="100"
+					outputs="ACabin" maxFlowRates="100" />
+				<biosim:dryWasteProducer desiredFlowRates="50"
+					outputs="drywaste" maxFlowRates="50"></biosim:dryWasteProducer>
 				<biosim:crewPerson age="30" name="Pritesh" sex="MALE"
 					weight="65">
 					<biosim:schedule>
@@ -72,33 +91,47 @@
 							length="24" />
 					</biosim:schedule>
 				</biosim:crewPerson>
-			</biosim:CrewGroup></biosim:crew>
+			</biosim:CrewGroup>
+		</biosim:crew>
 		<biosim:environment>
-			<biosim:SimEnvironment moduleName="ACabin" initialVolume="500"></biosim:SimEnvironment></biosim:environment>
+			<biosim:SimEnvironment moduleName="ACabin"
+				initialVolume="500"></biosim:SimEnvironment>
+		</biosim:environment>
 		<biosim:food>
 			<biosim:FoodStore capacity="500" level="500"
 				moduleName="AFood" cropType="TOMATO">
-			</biosim:FoodStore></biosim:food>
+			</biosim:FoodStore>
+		</biosim:food>
 		<biosim:waste>
-			<biosim:DryWasteStore capacity="1000" moduleName="drywaste"
-				level="0.0">
-			</biosim:DryWasteStore></biosim:waste>
+			<biosim:DryWasteStore capacity="1000"
+				moduleName="drywaste" level="0.0">
+			</biosim:DryWasteStore>
+		</biosim:waste>
 		<biosim:framework>
 			<biosim:Injector moduleName="oxyinjector">
-				<biosim:O2Consumer inputs="ostore" desiredFlowRates="10"
-					maxFlowRates="10" /><biosim:O2Producer
-					desiredFlowRates="10" outputs="ACabin" maxFlowRates="10" /></biosim:Injector></biosim:framework>
+				<biosim:O2Consumer inputs="ostore"
+					desiredFlowRates="10" maxFlowRates="10" />
+				<biosim:O2Producer desiredFlowRates="10" outputs="ACabin"
+					maxFlowRates="10" />
+			</biosim:Injector>
+		</biosim:framework>
 	</biosim:SimBioModules>
 	<biosim:Sensors>
 		<biosim:environment>
-			<biosim:GasConcentrationSensor input="ACabin" moduleName="AGCS"
-				gasType="O2">
-			</biosim:GasConcentrationSensor></biosim:environment>
+			<biosim:GasConcentrationSensor input="ACabin"
+				moduleName="AGCS" gasType="O2">
+			</biosim:GasConcentrationSensor>
+		</biosim:environment>
 		<biosim:crew>
-			<biosim:CrewGroupAnyDeadSensor input="ATeam" moduleName="ATeamDead"></biosim:CrewGroupAnyDeadSensor></biosim:crew></biosim:Sensors>
+			<biosim:CrewGroupAnyDeadSensor input="ATeam"
+				moduleName="ATeamDead"></biosim:CrewGroupAnyDeadSensor>
+		</biosim:crew>
+	</biosim:Sensors>
 	<biosim:Actuators>
 		<biosim:air>
-			<biosim:O2InFlowRateActuator output="oxyinjector" moduleName="oxygencontroller"
-				index="0">
-			</biosim:O2InFlowRateActuator></biosim:air></biosim:Actuators>
+			<biosim:O2InFlowRateActuator output="oxyinjector"
+				moduleName="oxygencontroller" index="0">
+			</biosim:O2InFlowRateActuator>
+		</biosim:air>
+	</biosim:Actuators>
 </biosim:biosim>
