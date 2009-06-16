@@ -116,7 +116,7 @@ public abstract class BioModuleImpl extends BioModulePOA {
 
     private void checkForFailure() {
         if (myFailureDecider.hasFailed(myFailureTime)){
-        	myLogger.info(getModuleName() + " has failed!");
+        	myLogger.info(getModuleName() + " has failed on tick "+getMyTicks());
         	hasFailed = true;
             startMalfunction(MalfunctionIntensity.SEVERE_MALF,MalfunctionLength.PERMANENT_MALF);
         }
