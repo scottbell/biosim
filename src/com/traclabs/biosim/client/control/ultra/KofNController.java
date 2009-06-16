@@ -1,7 +1,8 @@
-package com.traclabs.biosim.client.control;
+package com.traclabs.biosim.client.control.ultra;
 
 import org.apache.log4j.Logger;
 
+import com.traclabs.biosim.client.control.BiosimController;
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.idl.actuator.framework.GenericActuator;
@@ -13,25 +14,11 @@ import com.traclabs.biosim.idl.simulation.water.WaterRS;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
- * @author Scott Bell
- * A simple, yet ineffective controller
- */
-
-/*
-To compile:
-1) build biosim (type "ant" in BIOSIM_HOME directory)
-
-To run: (assuming BIOSIM_HOME/bin is in your path)
-1)type "run-nameserver"
-2)type "run-server -xml=test/SimpleControllerInit.xml"
-3)type "java -classpath $BIOSIM_HOME/lib/xerces/xercesImpl.jar:$BIOSIM_HOME/lib/log4j/log4j.jar:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb/logkit.jar:$BIOSIM_HOME/lib/jacorb/avalon-framework.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/build:$BIOSIM_HOME/resources -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton -DORBInitRef.NameService=file:$BIOSIM_HOME/tmp/ns/ior.txt com.traclabs.biosim.client.control.SimpleController"
-
-Good Luck!  If you have any questions, email me at:
-scott@traclabs.com
+ * @author Pritesh Patel
 
 */
 
-public class PriteshController implements BiosimController{
+public class KofNController implements BiosimController{
 	private static String CONFIGURATION_FILE = "test/pritesh.biosim";
 
 	private BioDriver myBioDriver;
@@ -46,13 +33,13 @@ public class PriteshController implements BiosimController{
 
 	private GenericActuator myO2InjectorAcutator;
 
-	public PriteshController() {
+	public KofNController() {
 		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
 	}
 
 	public static void main(String[] args) {
-		PriteshController myController = new PriteshController();
+		KofNController myController = new KofNController();
 		myController.collectReferences();
 		myController.runSim();
 	}
