@@ -42,6 +42,17 @@
 				level="0.0"></biosim:H2Store>
 			<biosim:O2Store capacity="1000" moduleName="ostore"
 				level="0.0"></biosim:O2Store>
+	<biosim:OGS moduleName="oxyspare1">
+
+				<biosim:powerConsumer inputs="SolarPowerBattery"
+					desiredFlowRates="0" maxFlowRates="0"></biosim:powerConsumer>
+				<biosim:potableWaterConsumer inputs="waterstore"
+					desiredFlowRates="5" maxFlowRates="5" />
+				<biosim:O2Producer desiredFlowRates="300" outputs="ostore"
+					maxFlowRates="300" />
+				<biosim:H2Producer desiredFlowRates="300" outputs="hstore"
+					maxFlowRates="300" />
+			</biosim:OGS>
 
 		</biosim:air>
 		<biosim:water>
