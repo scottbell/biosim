@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<biosim:biosim xmlns:biosim="http://www.traclabs.com/biosim"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.traclabs.com/biosim ../../../../schema/BiosimInitSchema.xsd ">
+	<biosim:Globals startPaused="true" />
+	<biosim:SimBioModules>
+		<biosim:water>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore1" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore2" level="100" >
+				<biosim:expFailureDecider lambda="0.0001" /></biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore3" level="100" >
+				<biosim:expFailureDecider lambda="0.0001" /></biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore4" level="100" >
+				<biosim:expFailureDecider lambda="0.0001" ></biosim:expFailureDecider></biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore5" level="100" >
+				<biosim:expFailureDecider lambda="0.0001" ></biosim:expFailureDecider></biosim:PotableWaterStore>
+			<biosim:WaterRS moduleName="WaterRS1">
+				<biosim:powerConsumer inputs="Battery1" desiredFlowRates="10"
+					maxFlowRates="10" />
+				<biosim:dirtyWaterConsumer inputs="dirtyWaterStore1" desiredFlowRates="10"
+					maxFlowRates="10" ></biosim:dirtyWaterConsumer>
+				<biosim:greyWaterConsumer inputs="greyWaterStore1" desiredFlowRates="10"
+					maxFlowRates="10" ></biosim:greyWaterConsumer>
+				<biosim:potableWaterProducer desiredFlowRates="10"
+					outputs="PotableWasteStore1" maxFlowRates="10" ></biosim:potableWaterProducer>
+			</biosim:WaterRS>
+			<biosim:WaterRS moduleName="WaterRS2">
+				<biosim:powerConsumer inputs="Battery2" desiredFlowRates="10"
+					maxFlowRates="10" />
+				<biosim:dirtyWaterConsumer inputs="dirtyWaterStore2" desiredFlowRates="10"
+					maxFlowRates="10" />
+				<biosim:greyWaterConsumer inputs="greyWaterStore2" desiredFlowRates="10"
+					maxFlowRates="10" />
+				<biosim:potableWaterProducer desiredFlowRates="10"
+					outputs="PotableWaterStore2" maxFlowRates="10" ></biosim:potableWaterProducer>
+			</biosim:WaterRS>
+			<biosim:WaterRS moduleName="WaterRS3">
+				<biosim:powerConsumer inputs="Battery3" desiredFlowRates="10"
+					maxFlowRates="10" />
+				<biosim:dirtyWaterConsumer inputs="dirtyWaterStore3" desiredFlowRates="10"
+					maxFlowRates="10" />
+				<biosim:greyWaterConsumer inputs="greyWaterStore3" desiredFlowRates="10"
+					maxFlowRates="10" />
+				<biosim:potableWaterProducer desiredFlowRates="10"
+					outputs="PotableWaterStore3" maxFlowRates="10" />
+			</biosim:WaterRS>
+			<biosim:WaterRS moduleName="WaterRS4">
+				<biosim:powerConsumer inputs="Battery4" desiredFlowRates="10"
+					maxFlowRates="10" />
+				<biosim:dirtyWaterConsumer inputs="dirtyWaterStore4" desiredFlowRates="10"
+					maxFlowRates="10" />
+				<biosim:greyWaterConsumer inputs="greyWaterStore4" desiredFlowRates="10"
+					maxFlowRates="10" />
+				<biosim:potableWaterProducer desiredFlowRates="10"
+					outputs="PotableWaterStore4" maxFlowRates="10" />
+			</biosim:WaterRS>
+			<biosim:WaterRS moduleName="WaterRS5">
+				<biosim:powerConsumer inputs="Battery5" desiredFlowRates="10"
+					maxFlowRates="10" />
+				<biosim:dirtyWaterConsumer inputs="dirtyWaterStore5" desiredFlowRates="10"
+					maxFlowRates="10" />
+				<biosim:greyWaterConsumer inputs="greyWaterStore5" desiredFlowRates="10"
+					maxFlowRates="10" />
+				<biosim:potableWaterProducer desiredFlowRates="10"
+					outputs="PotableWaterStore5" maxFlowRates="10" />
+			</biosim:WaterRS>
+			<biosim:DirtyWaterStore capacity="1000" moduleName="dirtyWaterStore1"
+				level="0.0">
+			</biosim:DirtyWaterStore>
+			<biosim:DirtyWaterStore capacity="1000" moduleName="dirtyWaterStore2"
+				level="0.0">
+			</biosim:DirtyWaterStore>
+			<biosim:DirtyWaterStore capacity="1000" moduleName="dirtyWaterStore3"
+				level="0.0">
+			</biosim:DirtyWaterStore>
+			<biosim:DirtyWaterStore capacity="1000" moduleName="dirtyWaterStore4"
+				level="0.0">
+			</biosim:DirtyWaterStore>
+			<biosim:DirtyWaterStore capacity="1000" moduleName="dirtyWaterStore5"
+				level="0.0">
+			</biosim:DirtyWaterStore>
+			<biosim:GreyWaterStore capacity="1000" moduleName="greyWaterStore1"
+				level="0.0">
+			</biosim:GreyWaterStore>
+			<biosim:GreyWaterStore capacity="1000" moduleName="greyWaterStore2"
+				level="0.0">
+			</biosim:GreyWaterStore>
+			<biosim:GreyWaterStore capacity="1000" moduleName="greyWaterStore3"
+				level="0.0">
+			</biosim:GreyWaterStore>
+			<biosim:GreyWaterStore capacity="1000" moduleName="greyWaterStore4"
+				level="0.0">
+			</biosim:GreyWaterStore>
+			<biosim:GreyWaterStore capacity="1000" moduleName="greyWaterStore5"
+				level="0.0">
+			</biosim:GreyWaterStore>
+		</biosim:water>
+		<biosim:power>
+			<biosim:PowerStore capacity="10000" moduleName="Battery1"
+				level="10000">
+			</biosim:PowerStore>
+			<biosim:PowerStore capacity="10000" moduleName="Battery2"
+				level="10000">
+			</biosim:PowerStore>
+			<biosim:PowerStore capacity="10000" moduleName="Battery3"
+				level="100000">
+			</biosim:PowerStore>
+			<biosim:PowerStore capacity="10000" moduleName="Battery4"
+				level="10000">
+			</biosim:PowerStore>
+			<biosim:PowerStore capacity="10000" moduleName="Battery5"
+				level="10000">
+			</biosim:PowerStore></biosim:power>
+	</biosim:SimBioModules>
+</biosim:biosim>
