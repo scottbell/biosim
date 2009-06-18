@@ -7,20 +7,20 @@
 		<biosim:water>
 			<biosim:PotableWaterStore capacity="100"
 				moduleName="PotableWaterStore1" level="100">
-				<biosim:expFailureDecider lambda="0.1" />
+				<biosim:expFailureDecider lambda="0.0001" />
 			</biosim:PotableWaterStore>
 			<biosim:PotableWaterStore capacity="100"
 				moduleName="PotableWaterStore2" level="100" >
-				<biosim:expFailureDecider lambda="0.1" /></biosim:PotableWaterStore>
+				<biosim:expFailureDecider lambda="0.0001" /></biosim:PotableWaterStore>
 			<biosim:PotableWaterStore capacity="100"
 				moduleName="PotableWaterStore3" level="100" >
-				<biosim:expFailureDecider lambda="0.1" /></biosim:PotableWaterStore>
+				<biosim:expFailureDecider lambda="0.0001" /></biosim:PotableWaterStore>
 			<biosim:PotableWaterStore capacity="100"
 				moduleName="PotableWaterStore4" level="100" >
-				<biosim:expFailureDecider lambda="0.1" /></biosim:PotableWaterStore>
+				<biosim:expFailureDecider lambda="0.0001" ></biosim:expFailureDecider></biosim:PotableWaterStore>
 			<biosim:PotableWaterStore capacity="100"
 				moduleName="PotableWaterStore5" level="100" >
-				<biosim:expFailureDecider lambda="0.1" ></biosim:expFailureDecider></biosim:PotableWaterStore>
+				<biosim:expFailureDecider lambda="0.0001" ></biosim:expFailureDecider></biosim:PotableWaterStore>
 		</biosim:water>
 	</biosim:SimBioModules>
 </biosim:biosim>
