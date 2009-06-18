@@ -2,6 +2,7 @@ package com.traclabs.biosim.client.control.ultra.scenario1;
 
 import java.io.IOException;
 
+import com.traclabs.biosim.client.control.ultra.SystemFailureController;
 import com.traclabs.biosim.client.util.BioHolder;
 
 /**
@@ -10,7 +11,7 @@ import com.traclabs.biosim.client.util.BioHolder;
 
 
 
-public class DirectController extends Scenario1Controller {
+public class DirectController extends SystemFailureController {
 	
 	private static final String CONFIGURATION_FILE = "reliability/ultra/scenario1/direct.biosim";
 

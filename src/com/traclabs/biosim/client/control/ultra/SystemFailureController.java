@@ -1,14 +1,13 @@
-package com.traclabs.biosim.client.control.ultra.scenario1;
+package com.traclabs.biosim.client.control.ultra;
 
 import java.io.IOException;
 import java.util.List;
 
-import com.traclabs.biosim.client.control.ultra.ScenarioController;
 import com.traclabs.biosim.idl.framework.BioModule;
 
-public abstract class Scenario1Controller extends ScenarioController {
+public abstract class SystemFailureController extends ScenarioController {
 
-	public Scenario1Controller(int numberOfRuns, String outputDirectoryPath)
+	public SystemFailureController(int numberOfRuns, String outputDirectoryPath)
 			throws IOException {
 		super(numberOfRuns, outputDirectoryPath);
 

@@ -2,6 +2,7 @@ package com.traclabs.biosim.client.control.ultra.scenario1;
 
 import java.io.IOException;
 
+import com.traclabs.biosim.client.control.ultra.SystemFailureController;
 import com.traclabs.biosim.client.util.BioHolder;
 
 
@@ -9,7 +10,7 @@ import com.traclabs.biosim.client.util.BioHolder;
  * @author Pritesh Patel
  */
 
-public class RegenerativeController extends Scenario1Controller {
+public class RegenerativeController extends SystemFailureController {
 
 
 	
