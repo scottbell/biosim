@@ -4,17 +4,18 @@ import java.io.IOException;
 
 import com.traclabs.biosim.client.util.BioHolder;
 
+
 /**
  * @author Pritesh Patel
  */
 
+public class RegenerativeController extends Scenario1Controller {
 
 
-public class DirectController extends Scenario1Controller {
 	
-	private static final String CONFIGURATION_FILE = "reliability/ultra/scenario1/direct.biosim";
+	private static final String CONFIGURATION_FILE = "reliability/ultra/scenario1/regenative.biosim";
 
-	public DirectController(int numberOfRuns, String outputDirectoryPath)
+	public RegenerativeController(int numberOfRuns, String outputDirectoryPath)
 			throws IOException {
 		super(numberOfRuns, outputDirectoryPath);
 		
@@ -24,9 +25,9 @@ public class DirectController extends Scenario1Controller {
 		DirectController myController = new DirectController(NUMBER_OF_RUNS,
 				DEFAULT_OUTPUT_DIRECTORY);
 		BioHolder holder = myController.collectReferences(CONFIGURATION_FILE);
-		myController.runSim(holder.thePotableWaterStores);
+		myController.runSim(holder.theWaterRSModules);
 
 	}
-
+	
 
 }
