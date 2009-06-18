@@ -1,4 +1,4 @@
-package com.traclabs.biosim.client.control.ultra;
+package com.traclabs.biosim.client.control.ultra.scenario1;
 
 import org.apache.log4j.Logger;
 
