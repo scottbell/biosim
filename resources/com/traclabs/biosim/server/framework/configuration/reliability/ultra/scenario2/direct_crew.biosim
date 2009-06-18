@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<biosim:biosim xmlns:biosim="http://www.traclabs.com/biosim"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.traclabs.com/biosim ../../../../schema/BiosimInitSchema.xsd ">
+	<biosim:Globals startPaused="true" />
+	<biosim:SimBioModules>
+		<biosim:water>
+			<biosim:PotableWaterStore capacity="100000"
+				moduleName="PotableWaterStore1" level="100000">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100000"
+				moduleName="PotableWaterStore2" level="100000" >
+				<biosim:expFailureDecider lambda="0.0001" ></biosim:expFailureDecider></biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100000"
+				moduleName="PotableWaterStore3" level="100000" >
+				<biosim:expFailureDecider lambda="0.0001" /></biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100000"
+				moduleName="PotableWaterStore4" level="100000" >
+				<biosim:expFailureDecider lambda="0.0001" ></biosim:expFailureDecider></biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100000"
+				moduleName="PotableWaterStore5" level="100000" >
+				<biosim:expFailureDecider lambda="0.0001" ></biosim:expFailureDecider></biosim:PotableWaterStore>
+			<biosim:DirtyWaterStore capacity="100000" moduleName="DirtyWasteStore1"
+				level="100000">
+			</biosim:DirtyWaterStore>
+			<biosim:GreyWaterStore capacity="100000" moduleName="GreyWaterStore1"
+				level="0.0">
+			</biosim:GreyWaterStore>
+		</biosim:water><biosim:environment>
+			<biosim:SimEnvironment moduleName="SimEnvironment1" initialVolume="1000000"></biosim:SimEnvironment></biosim:environment>
+		<biosim:food>
+			<biosim:FoodStore capacity="100000" level="100000"
+				moduleName="FoodStore1">
+			</biosim:FoodStore></biosim:food><biosim:waste>
+	<biosim:DryWasteStore capacity="100000" moduleName="DryWasteStore1" level="0.0"></biosim:DryWasteStore></biosim:waste><biosim:crew>
+			<biosim:CrewGroup moduleName="">
+				<biosim:potableWaterConsumer inputs="PortableWaterStore1 PortableWaterStore2 PortableWaterStore3 PortableWaterStore4 PortableWaterStore5"
+					desiredFlowRates="10 10 10 10 10" maxFlowRates="10 10 10 10 10" />
+				<biosim:airConsumer inputs="SimEnvironment1" desiredFlowRates="10"
+					maxFlowRates="10" ></biosim:airConsumer>
+				<biosim:foodConsumer inputs="FoodStore1" desiredFlowRates="10"
+					maxFlowRates="10" />
+				<biosim:dirtyWaterProducer desiredFlowRates="10"
+					outputs="dirtyWaterStore1" maxFlowRates="10" ></biosim:dirtyWaterProducer>
+				<biosim:greyWaterProducer desiredFlowRates="10" outputs="greyWaterStore1"
+					maxFlowRates="10" />
+				<biosim:airProducer desiredFlowRates="10" outputs="SimEnvironment1"
+					maxFlowRates="10" ></biosim:airProducer>
+				<biosim:dryWasteProducer desiredFlowRates="10" outputs="dryWasteStore1"
+					maxFlowRates="10" /><biosim:crewPerson age="115"
+					name="Gertrude Baines" sex="FEMALE" weight="75">
+					<biosim:schedule>
+						<biosim:activity intensity="0" name=""
+							length="0" />
+					</biosim:schedule>
+</biosim:crewPerson>
+			</biosim:CrewGroup></biosim:crew>
+		
+	</biosim:SimBioModules>
+</biosim:biosim>
