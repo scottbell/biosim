@@ -13,7 +13,7 @@ public class RegenerativeController extends Scenario1Controller {
 
 
 	
-	private static final String CONFIGURATION_FILE = "reliability/ultra/scenario1/regenative.biosim";
+	private static final String CONFIGURATION_FILE = "reliability/ultra/scenario1/regenerative.biosim";
 
 	public RegenerativeController(int numberOfRuns, String outputDirectoryPath)
 			throws IOException {
@@ -22,7 +22,7 @@ public class RegenerativeController extends Scenario1Controller {
 	}
 
 	public static void main(String[] args) throws IOException {
-		DirectController myController = new DirectController(NUMBER_OF_RUNS,
+		RegenerativeController myController = new RegenerativeController (NUMBER_OF_RUNS,
 				DEFAULT_OUTPUT_DIRECTORY);
 		BioHolder holder = myController.collectReferences(CONFIGURATION_FILE);
 		myController.runSim(holder.theWaterRSModules);
