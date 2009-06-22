@@ -8,6 +8,8 @@ import com.traclabs.biosim.idl.framework.BioModule;
 
 public abstract class CrewDeathController extends ScenarioController {
 
+	
+	
 	public CrewDeathController(int numberOfRuns, String outputDirectoryPath)
 			throws IOException {
 		super(numberOfRuns, outputDirectoryPath);
@@ -16,8 +18,19 @@ public abstract class CrewDeathController extends ScenarioController {
 
 	protected boolean endConditionMet(int systemsAllowedToFail, List modules) 
 	{
-	
-		return true;
+		boolean isCrewDead;
+		
+		if(myBioHolder.theCrewGroups.get(0).isDead())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+			
+				
+		
 	}
 
 }

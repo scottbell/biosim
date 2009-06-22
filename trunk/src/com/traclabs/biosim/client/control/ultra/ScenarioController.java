@@ -57,6 +57,8 @@ public abstract class ScenarioController {
 		myWriter = new BufferedWriter(new FileWriter(outputFile));
 		myWriter.write("Condition Type");
 		myWriter.write(LOG_DELIMETER);
+		myWriter.write("Systems Allowed To Fail");
+		myWriter.write(LOG_DELIMETER);
 		myWriter.write("Run");
 		myWriter.write(LOG_DELIMETER);
 		myWriter.write("Result");
@@ -84,13 +86,14 @@ public abstract class ScenarioController {
 	 * 
 	 * @throws IOException
 	 */
-	public void runSim(List modules) {
+	public void runSim(List modules, List groups) {
 		int numberofModules = modules.size();
-		for (int runNumber = 1; runNumber <= myNumberOfRuns; runNumber++) {
-			myLogger.info("Starting run " + runNumber);
-			for (int systemsAllowedToFail = 1; systemsAllowedToFail <= numberofModules; systemsAllowedToFail++) {
-				myLogger.info("Starting configuration " + systemsAllowedToFail
-						+ " of " + numberofModules);
+		for (int systemsAllowedToFail = 1; systemsAllowedToFail <= numberofModules; systemsAllowedToFail++) {
+			myLogger.info("Starting configuration " + systemsAllowedToFail
+					+ " of " + numberofModules);
+			
+			for (int runNumber = 1; runNumber <= myNumberOfRuns; runNumber++) {
+				myLogger.info("Starting run " + runNumber);
 				myBioDriver.setPauseSimulation(true);
 				myBioDriver.startSimulation();
 
@@ -101,11 +104,12 @@ public abstract class ScenarioController {
 
 				writeToLog(systemsAllowedToFail, numberofModules,
 						runNumber, myBioDriver.getTicks());
-				myLogger.info("Ended configuration " + systemsAllowedToFail
-						+ " of " + numberofModules);
+				
+				myLogger.info("Ended run " + runNumber + " on tick "
+						+ myBioDriver.getTicks());
 			}
-			myLogger.info("Ended run " + runNumber + " on tick "
-					+ myBioDriver.getTicks());
+			myLogger.info("Ended configuration " + systemsAllowedToFail
+					+ " of " + numberofModules);
 
 		}
 
@@ -133,6 +137,8 @@ public abstract class ScenarioController {
 			int runNumber, int ticks) {
 		try {
 			myWriter.write(systemsAllowedToFail + " of " + totalSystems);
+			myWriter.write(LOG_DELIMETER);
+			myWriter.write(systemsAllowedToFail);
 			myWriter.write(LOG_DELIMETER);
 			myWriter.write(runNumber + "");
 			myWriter.write(LOG_DELIMETER);
