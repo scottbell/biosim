@@ -26,7 +26,7 @@ public class RegenerativeController extends SystemFailureController {
 		RegenerativeController myController = new RegenerativeController (NUMBER_OF_RUNS,
 				DEFAULT_OUTPUT_DIRECTORY);
 		BioHolder holder = myController.collectReferences(CONFIGURATION_FILE);
-		myController.runSim(holder.theWaterRSModules);
+		//myController.runSim(holder.theWaterRSModules);
 
 	}
 	
