@@ -25,7 +25,7 @@ public class DirectController extends SystemFailureController {
 		DirectController myController = new DirectController(NUMBER_OF_RUNS,
 				DEFAULT_OUTPUT_DIRECTORY);
 		BioHolder holder = myController.collectReferences(CONFIGURATION_FILE);
-		myController.runSim(holder.thePotableWaterStores);
+		//myController.runSim(holder.thePotableWaterStores);
 
 	}
 
