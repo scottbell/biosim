@@ -9,27 +9,27 @@
 		<biosim:framework>
 			<biosim:Injector moduleName="O2InjectorK">
 				<biosim:O2Consumer inputs="O2Store1 O2Store2 O2Store3 O2Store4 O2Store5 O2Store6 O2Store7 O2Store8 O2Store9 O2Store10 O2Store11 O2Store12 O2Store13 O2Store14 O2Store15 O2Store16 O2Store17 O2Store18 O2Store19 O2Store20 O2Store21 O2Store22 O2Store23 O2Store24 O2Store25 O2Store26 O2Store27 O2Store28 O2Store29 O2Store30 O2Store31 O2Store32 O2Store33 O2Store34 O2Store35 O2Store36 O2Store37 O2Store38 O2Store39 O2Store40 O2Store41 O2Store42 O2Store43 O2Store44 O2Store45 O2Store46 O2Store47 O2Store48 O2Store49 O2Store50 O2Store51 O2Store52 O2Store53 O2Store54 O2Store55 O2Store56 O2Store57 O2Store58 O2Store59 O2Store60 O2Store61 O2Store62 O2Store63 O2Store64 O2Store65 O2Store66 O2Store67 O2Store68 O2Store69 O2Store70 O2Store71 O2Store72 O2Store73 O2Store74 O2Store75 O2Store76 O2Store77 O2Store78 O2Store79 O2Store80 O2Store81 O2Store82 O2Store83 O2Store84 O2Store85 O2Store86 O2Store87 O2Store88 O2Store89 O2Store90 O2Store91 O2Store92 O2Store93 O2Store94 O2Store95 O2Store96 O2Store97 O2Store98 O2Store99 O2Store100 "
-					desiredFlowRates="0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 " maxFlowRates="0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 "></biosim:O2Consumer>
-				<biosim:O2Producer desiredFlowRates="10"
-					outputs="SimEnvironment" maxFlowRates="10"></biosim:O2Producer>
+					desiredFlowRates="0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068" maxFlowRates="0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068 0.068"></biosim:O2Consumer>
+				<biosim:O2Producer desiredFlowRates="6.8"
+					outputs="SimEnvironment" maxFlowRates="6.8"></biosim:O2Producer>
 			</biosim:Injector>
 			<biosim:Injector moduleName="O2InjectorS">
 				<biosim:O2Consumer inputs="O2Store101 O2Store102"
-					desiredFlowRates="0.1 0.1" maxFlowRates="0.1 0.1"></biosim:O2Consumer>
-				<biosim:O2Producer desiredFlowRates="0.2"
-					outputs="SimEnvironment" maxFlowRates="0.2" />
+					desiredFlowRates="0.068 0.068" maxFlowRates="0.068 0.068"></biosim:O2Consumer>
+				<biosim:O2Producer desiredFlowRates="0.136"
+					outputs="SimEnvironment" maxFlowRates="0.136" />
 			</biosim:Injector>
 			<biosim:Injector moduleName="CO2Injector">
 				<biosim:CO2Consumer inputs="SimEnvironment"
-					desiredFlowRates="1" maxFlowRates="10" />
-				<biosim:CO2Producer desiredFlowRates="1" outputs="C02Store"
-					maxFlowRates="10" />
+					desiredFlowRates="10" maxFlowRates="50" />
+				<biosim:CO2Producer desiredFlowRates="10" outputs="C02Store"
+					maxFlowRates="50" />
 			</biosim:Injector>
 
 		</biosim:framework>
 		<biosim:power>
-			<biosim:PowerStore capacity="10000000" moduleName="PowerStore"
-				level="10000000">
+			<biosim:PowerStore capacity="1000000000" moduleName="PowerStore"
+				level="1000000000">
 			</biosim:PowerStore>
 			<biosim:PowerPS moduleName="PowerPS">
 				<biosim:powerProducer desiredFlowRates="1000000"
@@ -101,14 +101,8 @@
 				<biosim:crewPerson age="25" name="Tim Lincecum"
 					sex="MALE" weight="175">
 					<biosim:schedule>
-						<biosim:activity intensity="0" name="Sleeping"
-							length="8" />
-						<biosim:activity intensity="2" name="Consuming"
-							length="3"></biosim:activity>
-						<biosim:activity intensity="7" name="Exercising"
-							length="1"></biosim:activity>
-						<biosim:activity intensity="4" name="Working"
-							length="12"></biosim:activity>
+						<biosim:activity intensity="5" name="Sleeping"
+							length="24" />
 					</biosim:schedule>
 				</biosim:crewPerson>
 			</biosim:CrewGroup>
@@ -120,317 +114,317 @@
 		</biosim:waste>
 		<biosim:air>
 			<biosim:O2Store capacity="10000000" moduleName="O2Store1"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" />
 			</biosim:O2Store>
 			<biosim:O2Store capacity="10000000" moduleName="O2Store2"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 				<biosim:O2Store capacity="10000000" moduleName="O2Store3"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store4"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store5"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store6"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store7"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store8"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store9"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store10"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store11"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store12"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store13"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store14"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store15"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store16"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store17"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store18"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store19"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store20"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store21"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store22"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store23"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store24"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store25"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store26"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store27"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store28"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store29"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store30"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store31"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store32"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store33"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store34"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store35"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store36"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store37"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store38"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store39"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store40"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store41"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store42"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store43"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store44"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store45"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store46"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store47"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store48"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store49"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store50"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store51"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store52"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store53"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store54"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store55"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store56"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store57"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store58"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store59"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store60"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store61"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store62"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store63"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store64"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store65"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store66"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store67"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store68"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store69"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store70"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store71"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store72"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store73"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store74"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store75"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store76"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store77"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store78"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store79"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store80"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store81"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store82"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store83"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store84"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store85"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store86"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store87"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store88"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store89"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store90"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store91"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store92"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store93"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store94"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store95"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store96"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store97"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store98"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store99"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store100"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store101"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store102"
-				level="10000000">
+				level="100000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 			<biosim:CO2Store capacity="100000000" moduleName="C02Store"
 				level="0.0"></biosim:CO2Store>
 			<biosim:VCCR moduleName="VCCR" implementation="LINEAR">
 				<biosim:powerConsumer inputs="PowerStore"
-					desiredFlowRates="1000000" maxFlowRates="1000000">
+					desiredFlowRates="1000" maxFlowRates="1000000">
 				</biosim:powerConsumer>
 				<biosim:airConsumer inputs="SimEnvironment"
 					desiredFlowRates="1000" maxFlowRates="1500" />

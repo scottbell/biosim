@@ -14,10 +14,10 @@
 					outputs="SimEnvironment" maxFlowRates="10"></biosim:O2Producer>
 			</biosim:Injector>
 			<biosim:Injector moduleName="O2InjectorS">
-				<biosim:O2Consumer inputs="O2Store31 O2Store32"
-					desiredFlowRates="0.33 0.33" maxFlowRates="0.33 0.33"></biosim:O2Consumer>
-				<biosim:O2Producer desiredFlowRates="0.66"
-					outputs="SimEnvironment" maxFlowRates="0.66" />
+				<biosim:O2Consumer inputs="O2Store31"
+					desiredFlowRates="0.33" maxFlowRates="0.33"></biosim:O2Consumer>
+				<biosim:O2Producer desiredFlowRates="0.33"
+					outputs="SimEnvironment" maxFlowRates="0.33" />
 			</biosim:Injector>
 			<biosim:Injector moduleName="CO2Injector">
 				<biosim:CO2Consumer inputs="SimEnvironment"
@@ -211,9 +211,6 @@
 				level="10000000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store31"
-				level="10000000">
-				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
-	<biosim:O2Store capacity="10000000" moduleName="O2Store32"
 				level="10000000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 			<biosim:CO2Store capacity="100000000" moduleName="C02Store"

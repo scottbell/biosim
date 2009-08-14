@@ -9,27 +9,27 @@
 		<biosim:framework>
 			<biosim:Injector moduleName="O2InjectorK">
 				<biosim:O2Consumer inputs="O2Store1 O2Store2 O2Store3 O2Store4 O2Store5 O2Store6 O2Store7 O2Store8 O2Store9 O2Store10 O2Store11 O2Store12 O2Store13 O2Store14 O2Store15 O2Store16 O2Store17 O2Store18 O2Store19 O2Store20 O2Store21 O2Store22 O2Store23 O2Store24 O2Store25 O2Store26 O2Store27 O2Store28 O2Store29 O2Store30"
-					desiredFlowRates="0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33" maxFlowRates="0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33 0.33"></biosim:O2Consumer>
-				<biosim:O2Producer desiredFlowRates="10"
-					outputs="SimEnvironment" maxFlowRates="10"></biosim:O2Producer>
+					desiredFlowRates="0.227  0.227 0.227 0.227 0.227 0.227  0.227 0.227 0.227 0.227 0.227  0.227 0.227 0.227 0.227 0.227  0.227 0.227 0.227 0.227 0.227  0.227 0.227 0.227 0.227 0.227  0.227 0.227 0.227 0.227" maxFlowRates="0.227  0.227 0.227 0.227 0.227 0.227  0.227 0.227 0.227 0.227 0.227  0.227 0.227 0.227 0.227 0.227  0.227 0.227 0.227 0.227 0.227  0.227 0.227 0.227 0.227 0.227  0.227 0.227 0.227 0.227"></biosim:O2Consumer>
+				<biosim:O2Producer desiredFlowRates="6.8"
+					outputs="SimEnvironment" maxFlowRates="6.8"></biosim:O2Producer>
 			</biosim:Injector>
 			<biosim:Injector moduleName="O2InjectorS">
-				<biosim:O2Consumer inputs="O2Store31 O2Store32"
-					desiredFlowRates="0.33 0.33" maxFlowRates="0.33 0.33"></biosim:O2Consumer>
-				<biosim:O2Producer desiredFlowRates="0.66"
-					outputs="SimEnvironment" maxFlowRates="0.66" />
+				<biosim:O2Consumer inputs="O2Store31"
+					desiredFlowRates="0.227" maxFlowRates="0.227"></biosim:O2Consumer>
+				<biosim:O2Producer desiredFlowRates="0.227"
+					outputs="SimEnvironment" maxFlowRates="0.227" />
 			</biosim:Injector>
 			<biosim:Injector moduleName="CO2Injector">
 				<biosim:CO2Consumer inputs="SimEnvironment"
-					desiredFlowRates="1" maxFlowRates="10" />
-				<biosim:CO2Producer desiredFlowRates="1" outputs="C02Store"
-					maxFlowRates="10" />
+					desiredFlowRates="10" maxFlowRates="50" />
+				<biosim:CO2Producer desiredFlowRates="10" outputs="C02Store"
+					maxFlowRates="50" />
 			</biosim:Injector>
 
 		</biosim:framework>
 		<biosim:power>
-			<biosim:PowerStore capacity="10000000" moduleName="PowerStore"
-				level="10000000">
+			<biosim:PowerStore capacity="10000000000" moduleName="PowerStore"
+				level="10000000000">
 			</biosim:PowerStore>
 			<biosim:PowerPS moduleName="PowerPS">
 				<biosim:powerProducer desiredFlowRates="1000000"
@@ -101,14 +101,9 @@
 				<biosim:crewPerson age="25" name="Tim Lincecum"
 					sex="MALE" weight="175">
 					<biosim:schedule>
-						<biosim:activity intensity="0" name="Sleeping"
-							length="8" />
-						<biosim:activity intensity="2" name="Consuming"
-							length="3"></biosim:activity>
-						<biosim:activity intensity="7" name="Exercising"
-							length="1"></biosim:activity>
-						<biosim:activity intensity="4" name="Working"
-							length="12"></biosim:activity>
+						<biosim:activity intensity="5" name="Sleeping"
+							length="24" />
+					
 					</biosim:schedule>
 				</biosim:crewPerson>
 			</biosim:CrewGroup>
@@ -120,107 +115,104 @@
 		</biosim:waste>
 		<biosim:air>
 			<biosim:O2Store capacity="10000000" moduleName="O2Store1"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" />
 			</biosim:O2Store>
 			<biosim:O2Store capacity="10000000" moduleName="O2Store2"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 				<biosim:O2Store capacity="10000000" moduleName="O2Store3"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store4"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store5"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store6"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store7"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store8"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store9"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store10"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store11"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store12"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store13"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store14"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store15"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store16"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store17"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store18"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store19"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store20"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store21"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store22"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store23"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store24"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store25"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store26"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store27"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store28"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store29"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store30"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 		<biosim:O2Store capacity="10000000" moduleName="O2Store31"
-				level="10000000">
-				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
-	<biosim:O2Store capacity="10000000" moduleName="O2Store32"
-				level="10000000">
+				level="333333.3333">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 			<biosim:CO2Store capacity="100000000" moduleName="C02Store"
 				level="0.0"></biosim:CO2Store>
 			<biosim:VCCR moduleName="VCCR" implementation="LINEAR">
 				<biosim:powerConsumer inputs="PowerStore"
-					desiredFlowRates="1000000" maxFlowRates="1000000">
+					desiredFlowRates="1000" maxFlowRates="1000000">
 				</biosim:powerConsumer>
 				<biosim:airConsumer inputs="SimEnvironment"
 					desiredFlowRates="1000" maxFlowRates="1500" />
