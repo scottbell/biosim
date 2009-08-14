@@ -8,7 +8,7 @@
 	<biosim:SimBioModules>
 		<biosim:framework>
 			<biosim:Injector moduleName="O2InjectorK">
-				<biosim:O2Consumer inputs="O2Store1 O2Store2 O2Store3 O2Store4 O2Store5 O2Store6 O2Store7 O2Store8 O2Store9 O2Store10 O2Store11 O2Store12 O2Store13 O2Store14 O2Store15 O2Store16 O2Store17 O2Store18 O2Store19 O2Store20 O2Store21 O2Store22 O2Store23 O2Store24 O2Store25 O2Store26 O2Store27 O2Store28 O2Store29 O2Store30 O2Store31 O2Store32 O2Stor33 O2Store34 O2Store35 O2Store36 O2Store37 O2Store38 O2Store39 O2Store40 O2Store41 O2Store42 O2Store43 O2Store44 O2Store45 O2Store46 O2Store47 O2Store48 O2Store49 O2Store50 "
+				<biosim:O2Consumer inputs="O2Store1 O2Store2 O2Store3 O2Store4 O2Store5 O2Store6 O2Store7 O2Store8 O2Store9 O2Store10 O2Store11 O2Store12 O2Store13 O2Store14 O2Store15 O2Store16 O2Store17 O2Store18 O2Store19 O2Store20 O2Store21 O2Store22 O2Store23 O2Store24 O2Store25 O2Store26 O2Store27 O2Store28 O2Store29 O2Store30 O2Store31 O2Store32 O2Store33 O2Store34 O2Store35 O2Store36 O2Store37 O2Store38 O2Store39 O2Store40 O2Store41 O2Store42 O2Store43 O2Store44 O2Store45 O2Store46 O2Store47 O2Store48 O2Store49 O2Store50 "
 					desiredFlowRates="0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2" maxFlowRates="0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2"></biosim:O2Consumer>
 				<biosim:O2Producer desiredFlowRates="10"
 					outputs="SimEnvironment" maxFlowRates="10"></biosim:O2Producer>

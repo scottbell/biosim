@@ -14,22 +14,22 @@
 					outputs="SimEnvironment" maxFlowRates="10"></biosim:O2Producer>
 			</biosim:Injector>
 			<biosim:Injector moduleName="O2InjectorS">
-				<biosim:O2Consumer inputs="O2Store101 O2Store102"
-					desiredFlowRates="0.1 0.1" maxFlowRates="0.1 0.1"></biosim:O2Consumer>
-				<biosim:O2Producer desiredFlowRates="0.2"
-					outputs="SimEnvironment" maxFlowRates="0.2" />
+				<biosim:O2Consumer inputs="O2Store101"
+					desiredFlowRates="0.1" maxFlowRates="0.1"></biosim:O2Consumer>
+				<biosim:O2Producer desiredFlowRates="0.1"
+					outputs="SimEnvironment" maxFlowRates="0.1" />
 			</biosim:Injector>
 			<biosim:Injector moduleName="CO2Injector">
 				<biosim:CO2Consumer inputs="SimEnvironment"
-					desiredFlowRates="1" maxFlowRates="10" />
-				<biosim:CO2Producer desiredFlowRates="1" outputs="C02Store"
-					maxFlowRates="10" />
+					desiredFlowRates="10" maxFlowRates="50" />
+				<biosim:CO2Producer desiredFlowRates="10" outputs="C02Store"
+					maxFlowRates="50" />
 			</biosim:Injector>
 
 		</biosim:framework>
 		<biosim:power>
-			<biosim:PowerStore capacity="10000000" moduleName="PowerStore"
-				level="10000000">
+			<biosim:PowerStore capacity="1000000000" moduleName="PowerStore"
+				level="1000000000">
 			</biosim:PowerStore>
 			<biosim:PowerPS moduleName="PowerPS">
 				<biosim:powerProducer desiredFlowRates="1000000"
@@ -64,7 +64,7 @@
 		</biosim:food>
 		<biosim:environment>
 			<biosim:SimEnvironment moduleName="SimEnvironment"
-				initialVolume="40000">
+				initialVolume="1000">
 				<biosim:percentageInitialization
 					waterPercentage="0.01" nitrogenPercentage="0.659" otherPercentage="0.001"
 					o2Percentage="0.33" totalPressure="55" co2Percentage="0.0" />
@@ -101,14 +101,8 @@
 				<biosim:crewPerson age="25" name="Tim Lincecum"
 					sex="MALE" weight="175">
 					<biosim:schedule>
-						<biosim:activity intensity="0" name="Sleeping"
-							length="8" />
-						<biosim:activity intensity="2" name="Consuming"
-							length="3"></biosim:activity>
-						<biosim:activity intensity="7" name="Exercising"
-							length="1"></biosim:activity>
-						<biosim:activity intensity="4" name="Working"
-							length="12"></biosim:activity>
+						<biosim:activity intensity="5" name="Sleeping"
+							length="24" />
 					</biosim:schedule>
 				</biosim:crewPerson>
 			</biosim:CrewGroup>
@@ -423,14 +417,11 @@
 		<biosim:O2Store capacity="10000000" moduleName="O2Store101"
 				level="10000000">
 				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
-		<biosim:O2Store capacity="10000000" moduleName="O2Store102"
-				level="10000000">
-				<biosim:expFailureDecider lambda="0.0001" /></biosim:O2Store>
 			<biosim:CO2Store capacity="100000000" moduleName="C02Store"
 				level="0.0"></biosim:CO2Store>
 			<biosim:VCCR moduleName="VCCR" implementation="LINEAR">
 				<biosim:powerConsumer inputs="PowerStore"
-					desiredFlowRates="1000000" maxFlowRates="1000000">
+					desiredFlowRates="1000" maxFlowRates="1000000">
 				</biosim:powerConsumer>
 				<biosim:airConsumer inputs="SimEnvironment"
 					desiredFlowRates="1000" maxFlowRates="1500" />
