@@ -5,30 +5,7 @@
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
 	<Globals driverStutterLength="0"
 		crewsToWatch="Crew_Quarters_Group Galley_Group Labs_Group Maintenance_Group"
-		runTillCrewDeath="false" runTillN="300">
-		<nameServiceLocation>
-			<serverLocation hostname="localhost" port="8080"/>
-		</nameServiceLocation>
-		<!--
-			<log4jProperty
-			name="log4j.logger.com.traclabs.biosim.server.sensor.power"
-			value="DEBUG, dbAppender" />
-			<log4jProperty name="log4j.appender.dbAppender"
-			value="org.apache.log4j.jdbc.JDBCAppender" />
-			<log4jProperty name="log4j.appender.dbAppender.layout"
-			value="org.apache.log4j.PatternLayout" />
-			<log4jProperty
-			name="log4j.appender.dbAppender.layout.ConversionPattern"
-			value="%5p [%c] - %m%n" />
-			<log4jProperty name="log4j.appender.dbAppender.URL"
-			value="jdbc:mysql://localhost/biosim" />
-			<log4jProperty name="log4j.appender.dbAppender.user"
-			value="root"></log4jProperty>
-			<log4jProperty name="log4j.appender.dbAppender.password"
-			value="" />
-			<log4jProperty name="log4j.appender.dbAppender.sql"
-			value="INSERT INTO log (Message) VALUES ('%d - %c - %p - %m')" />
-		-->
+		runTillCrewDeath="true">
 	</Globals>
 	<SimBioModules>
 		<environment>
