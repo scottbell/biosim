@@ -1,22 +1,22 @@
-package com.traclabs.biosim.idl.simulation.power;
+package com.traclabs.biosim.idl.simulation.air;
 
 
 /**
- *	Generated from IDL interface "RPCM"
+ *	Generated from IDL interface "CDSR"
  *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
  */
 
-public class _RPCMStub
+public class _CDSRStub
 	extends org.omg.CORBA.portable.ObjectImpl
-	implements com.traclabs.biosim.idl.simulation.power.RPCM
+	implements com.traclabs.biosim.idl.simulation.air.CDSR
 {
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/power/RPCM:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/air/CDSR:1.0","IDL:com/traclabs/biosim/idl/simulation/air/CO2Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentConsumer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterConsumer:1.0"};
 	public String[] _ids()
 	{
 		return ids;
 	}
 
-	public final static java.lang.Class _opsClass = com.traclabs.biosim.idl.simulation.power.RPCMOperations.class;
+	public final static java.lang.Class _opsClass = com.traclabs.biosim.idl.simulation.air.CDSROperations.class;
 	public float getTickLength()
 	{
 		while(true)
@@ -47,56 +47,10 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getTickLength", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			float _result;			try
 			{
 			_result = _localServant.getTickLength();
-			}
-			finally
-			{
-				_servant_postinvoke(_so);
-			}
-			return _result;
-		}
-
-		}
-
-	}
-
-	public com.traclabs.biosim.idl.simulation.power.RPCMSwitchState getSwitchState()
-	{
-		while(true)
-		{
-		if(! this._is_local())
-		{
-			org.omg.CORBA.portable.InputStream _is = null;
-			try
-			{
-				org.omg.CORBA.portable.OutputStream _os = _request( "getSwitchState", true);
-				_is = _invoke(_os);
-				com.traclabs.biosim.idl.simulation.power.RPCMSwitchState _result = com.traclabs.biosim.idl.simulation.power.RPCMSwitchStateHelper.read(_is);
-				return _result;
-			}
-			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
-			catch( org.omg.CORBA.portable.ApplicationException _ax )
-			{
-				String _id = _ax.getId();
-				throw new RuntimeException("Unexpected exception " + _id );
-			}
-			finally
-			{
-				this._releaseReply(_is);
-			}
-		}
-		else
-		{
-			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getSwitchState", _opsClass );
-			if( _so == null )
-				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
-			com.traclabs.biosim.idl.simulation.power.RPCMSwitchState _result;			try
-			{
-			_result = _localServant.getSwitchState();
 			}
 			finally
 			{
@@ -139,7 +93,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "setLogLevel", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			try
 			{
 			_localServant.setLogLevel(pLogLevel);
@@ -185,7 +139,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "clearMalfunction", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			try
 			{
 			_localServant.clearMalfunction(id);
@@ -231,7 +185,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "isMalfunctioning", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			boolean _result;			try
 			{
 			_result = _localServant.isMalfunctioning();
@@ -276,7 +230,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "clearAllMalfunctions", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			try
 			{
 			_localServant.clearAllMalfunctions();
@@ -286,6 +240,52 @@ public class _RPCMStub
 				_servant_postinvoke(_so);
 			}
 			return;
+		}
+
+		}
+
+	}
+
+	public com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition getAirConsumerDefinition()
+	{
+		while(true)
+		{
+		if(! this._is_local())
+		{
+			org.omg.CORBA.portable.InputStream _is = null;
+			try
+			{
+				org.omg.CORBA.portable.OutputStream _os = _request( "getAirConsumerDefinition", true);
+				_is = _invoke(_os);
+				com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition _result = com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinitionHelper.read(_is);
+				return _result;
+			}
+			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
+			catch( org.omg.CORBA.portable.ApplicationException _ax )
+			{
+				String _id = _ax.getId();
+				throw new RuntimeException("Unexpected exception " + _id );
+			}
+			finally
+			{
+				this._releaseReply(_is);
+			}
+		}
+		else
+		{
+			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getAirConsumerDefinition", _opsClass );
+			if( _so == null )
+				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
+			CDSROperations _localServant = (CDSROperations)_so.servant;
+			com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition _result;			try
+			{
+			_result = _localServant.getAirConsumerDefinition();
+			}
+			finally
+			{
+				_servant_postinvoke(_so);
+			}
+			return _result;
 		}
 
 		}
@@ -322,7 +322,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "setEnableFailure", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			try
 			{
 			_localServant.setEnableFailure(pValue);
@@ -369,7 +369,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "randomFilter", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			float _result;			try
 			{
 			_result = _localServant.randomFilter(preFilteredValue);
@@ -414,7 +414,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "reset", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			try
 			{
 			_localServant.reset();
@@ -460,7 +460,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getMyTicks", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			int _result;			try
 			{
 			_result = _localServant.getMyTicks();
@@ -505,7 +505,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "maintain", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			try
 			{
 			_localServant.maintain();
@@ -551,7 +551,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getPowerConsumerDefinition", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition _result;			try
 			{
 			_result = _localServant.getPowerConsumerDefinition();
@@ -597,7 +597,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "doSomeRepairWork", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			try
 			{
 			_localServant.doSomeRepairWork(id);
@@ -643,10 +643,56 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getID", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			int _result;			try
 			{
 			_result = _localServant.getID();
+			}
+			finally
+			{
+				_servant_postinvoke(_so);
+			}
+			return _result;
+		}
+
+		}
+
+	}
+
+	public java.lang.String getModuleName()
+	{
+		while(true)
+		{
+		if(! this._is_local())
+		{
+			org.omg.CORBA.portable.InputStream _is = null;
+			try
+			{
+				org.omg.CORBA.portable.OutputStream _os = _request( "getModuleName", true);
+				_is = _invoke(_os);
+				java.lang.String _result = _is.read_string();
+				return _result;
+			}
+			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
+			catch( org.omg.CORBA.portable.ApplicationException _ax )
+			{
+				String _id = _ax.getId();
+				throw new RuntimeException("Unexpected exception " + _id );
+			}
+			finally
+			{
+				this._releaseReply(_is);
+			}
+		}
+		else
+		{
+			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getModuleName", _opsClass );
+			if( _so == null )
+				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
+			CDSROperations _localServant = (CDSROperations)_so.servant;
+			java.lang.String _result;			try
+			{
+			_result = _localServant.getModuleName();
 			}
 			finally
 			{
@@ -691,7 +737,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "scheduleMalfunction", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			try
 			{
 			_localServant.scheduleMalfunction(pIntensity,pLength,pTickToMalfunction);
@@ -701,98 +747,6 @@ public class _RPCMStub
 				_servant_postinvoke(_so);
 			}
 			return;
-		}
-
-		}
-
-	}
-
-	public java.lang.String getModuleName()
-	{
-		while(true)
-		{
-		if(! this._is_local())
-		{
-			org.omg.CORBA.portable.InputStream _is = null;
-			try
-			{
-				org.omg.CORBA.portable.OutputStream _os = _request( "getModuleName", true);
-				_is = _invoke(_os);
-				java.lang.String _result = _is.read_string();
-				return _result;
-			}
-			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
-			catch( org.omg.CORBA.portable.ApplicationException _ax )
-			{
-				String _id = _ax.getId();
-				throw new RuntimeException("Unexpected exception " + _id );
-			}
-			finally
-			{
-				this._releaseReply(_is);
-			}
-		}
-		else
-		{
-			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getModuleName", _opsClass );
-			if( _so == null )
-				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
-			java.lang.String _result;			try
-			{
-			_result = _localServant.getModuleName();
-			}
-			finally
-			{
-				_servant_postinvoke(_so);
-			}
-			return _result;
-		}
-
-		}
-
-	}
-
-	public com.traclabs.biosim.idl.simulation.power.RPCMArmedStatus getArmedStatus()
-	{
-		while(true)
-		{
-		if(! this._is_local())
-		{
-			org.omg.CORBA.portable.InputStream _is = null;
-			try
-			{
-				org.omg.CORBA.portable.OutputStream _os = _request( "getArmedStatus", true);
-				_is = _invoke(_os);
-				com.traclabs.biosim.idl.simulation.power.RPCMArmedStatus _result = com.traclabs.biosim.idl.simulation.power.RPCMArmedStatusHelper.read(_is);
-				return _result;
-			}
-			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
-			catch( org.omg.CORBA.portable.ApplicationException _ax )
-			{
-				String _id = _ax.getId();
-				throw new RuntimeException("Unexpected exception " + _id );
-			}
-			finally
-			{
-				this._releaseReply(_is);
-			}
-		}
-		else
-		{
-			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getArmedStatus", _opsClass );
-			if( _so == null )
-				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
-			com.traclabs.biosim.idl.simulation.power.RPCMArmedStatus _result;			try
-			{
-			_result = _localServant.getArmedStatus();
-			}
-			finally
-			{
-				_servant_postinvoke(_so);
-			}
-			return _result;
 		}
 
 		}
@@ -828,7 +782,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "tick", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			try
 			{
 			_localServant.tick();
@@ -838,6 +792,52 @@ public class _RPCMStub
 				_servant_postinvoke(_so);
 			}
 			return;
+		}
+
+		}
+
+	}
+
+	public com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition getAirProducerDefinition()
+	{
+		while(true)
+		{
+		if(! this._is_local())
+		{
+			org.omg.CORBA.portable.InputStream _is = null;
+			try
+			{
+				org.omg.CORBA.portable.OutputStream _os = _request( "getAirProducerDefinition", true);
+				_is = _invoke(_os);
+				com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition _result = com.traclabs.biosim.idl.simulation.environment.AirProducerDefinitionHelper.read(_is);
+				return _result;
+			}
+			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
+			catch( org.omg.CORBA.portable.ApplicationException _ax )
+			{
+				String _id = _ax.getId();
+				throw new RuntimeException("Unexpected exception " + _id );
+			}
+			finally
+			{
+				this._releaseReply(_is);
+			}
+		}
+		else
+		{
+			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getAirProducerDefinition", _opsClass );
+			if( _so == null )
+				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
+			CDSROperations _localServant = (CDSROperations)_so.servant;
+			com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition _result;			try
+			{
+			_result = _localServant.getAirProducerDefinition();
+			}
+			finally
+			{
+				_servant_postinvoke(_so);
+			}
+			return _result;
 		}
 
 		}
@@ -874,7 +874,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "fixMalfunction", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			try
 			{
 			_localServant.fixMalfunction(id);
@@ -920,7 +920,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getMalfunctionNames", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			java.lang.String[] _result;			try
 			{
 			_result = _localServant.getMalfunctionNames();
@@ -966,7 +966,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "setTickLength", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			try
 			{
 			_localServant.setTickLength(pInterval);
@@ -1012,7 +1012,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "isFailureEnabled", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			boolean _result;			try
 			{
 			_result = _localServant.isFailureEnabled();
@@ -1060,7 +1060,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "startMalfunction", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			com.traclabs.biosim.idl.framework.Malfunction _result;			try
 			{
 			_result = _localServant.startMalfunction(pIntensity,pLength);
@@ -1076,7 +1076,7 @@ public class _RPCMStub
 
 	}
 
-	public com.traclabs.biosim.idl.simulation.power.PowerProducerDefinition getPowerProducerDefinition()
+	public com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerDefinition getPotableWaterConsumerDefinition()
 	{
 		while(true)
 		{
@@ -1085,9 +1085,9 @@ public class _RPCMStub
 			org.omg.CORBA.portable.InputStream _is = null;
 			try
 			{
-				org.omg.CORBA.portable.OutputStream _os = _request( "getPowerProducerDefinition", true);
+				org.omg.CORBA.portable.OutputStream _os = _request( "getPotableWaterConsumerDefinition", true);
 				_is = _invoke(_os);
-				com.traclabs.biosim.idl.simulation.power.PowerProducerDefinition _result = com.traclabs.biosim.idl.simulation.power.PowerProducerDefinitionHelper.read(_is);
+				com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerDefinition _result = com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerDefinitionHelper.read(_is);
 				return _result;
 			}
 			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
@@ -1103,13 +1103,13 @@ public class _RPCMStub
 		}
 		else
 		{
-			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getPowerProducerDefinition", _opsClass );
+			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getPotableWaterConsumerDefinition", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
-			com.traclabs.biosim.idl.simulation.power.PowerProducerDefinition _result;			try
+			CDSROperations _localServant = (CDSROperations)_so.servant;
+			com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerDefinition _result;			try
 			{
-			_result = _localServant.getPowerProducerDefinition();
+			_result = _localServant.getPotableWaterConsumerDefinition();
 			}
 			finally
 			{
@@ -1151,7 +1151,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "log", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			try
 			{
 			_localServant.log();
@@ -1167,7 +1167,7 @@ public class _RPCMStub
 
 	}
 
-	public void setSwitchState(com.traclabs.biosim.idl.simulation.power.RPCMSwitchState state)
+	public com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinition getCO2ProducerDefinition()
 	{
 		while(true)
 		{
@@ -1176,10 +1176,10 @@ public class _RPCMStub
 			org.omg.CORBA.portable.InputStream _is = null;
 			try
 			{
-				org.omg.CORBA.portable.OutputStream _os = _request( "setSwitchState", true);
-				com.traclabs.biosim.idl.simulation.power.RPCMSwitchStateHelper.write(_os,state);
+				org.omg.CORBA.portable.OutputStream _os = _request( "getCO2ProducerDefinition", true);
 				_is = _invoke(_os);
-				return;
+				com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinition _result = com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinitionHelper.read(_is);
+				return _result;
 			}
 			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
 			catch( org.omg.CORBA.portable.ApplicationException _ax )
@@ -1194,19 +1194,19 @@ public class _RPCMStub
 		}
 		else
 		{
-			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "setSwitchState", _opsClass );
+			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getCO2ProducerDefinition", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
-			try
+			CDSROperations _localServant = (CDSROperations)_so.servant;
+			com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinition _result;			try
 			{
-			_localServant.setSwitchState(state);
+			_result = _localServant.getCO2ProducerDefinition();
 			}
 			finally
 			{
 				_servant_postinvoke(_so);
 			}
-			return;
+			return _result;
 		}
 
 		}
@@ -1243,7 +1243,7 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getMalfunctions", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			com.traclabs.biosim.idl.framework.Malfunction[] _result;			try
 			{
 			_result = _localServant.getMalfunctions();
@@ -1288,56 +1288,10 @@ public class _RPCMStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "fixAllMalfunctions", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
+			CDSROperations _localServant = (CDSROperations)_so.servant;
 			try
 			{
 			_localServant.fixAllMalfunctions();
-			}
-			finally
-			{
-				_servant_postinvoke(_so);
-			}
-			return;
-		}
-
-		}
-
-	}
-
-	public void setArmedStatus(com.traclabs.biosim.idl.simulation.power.RPCMArmedStatus state)
-	{
-		while(true)
-		{
-		if(! this._is_local())
-		{
-			org.omg.CORBA.portable.InputStream _is = null;
-			try
-			{
-				org.omg.CORBA.portable.OutputStream _os = _request( "setArmedStatus", true);
-				com.traclabs.biosim.idl.simulation.power.RPCMArmedStatusHelper.write(_os,state);
-				_is = _invoke(_os);
-				return;
-			}
-			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
-			catch( org.omg.CORBA.portable.ApplicationException _ax )
-			{
-				String _id = _ax.getId();
-				throw new RuntimeException("Unexpected exception " + _id );
-			}
-			finally
-			{
-				this._releaseReply(_is);
-			}
-		}
-		else
-		{
-			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "setArmedStatus", _opsClass );
-			if( _so == null )
-				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			RPCMOperations _localServant = (RPCMOperations)_so.servant;
-			try
-			{
-			_localServant.setArmedStatus(state);
 			}
 			finally
 			{

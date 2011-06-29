@@ -1,40 +1,40 @@
-package com.traclabs.biosim.idl.simulation.power;
+package com.traclabs.biosim.idl.simulation.air;
 
 import org.omg.PortableServer.POA;
 
 /**
- *	Generated from IDL interface "RPCM"
+ *	Generated from IDL interface "CDSR"
  *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
  */
 
-public class RPCMPOATie
-	extends RPCMPOA
+public class CDSRPOATie
+	extends CDSRPOA
 {
-	private RPCMOperations _delegate;
+	private CDSROperations _delegate;
 
 	private POA _poa;
-	public RPCMPOATie(RPCMOperations delegate)
+	public CDSRPOATie(CDSROperations delegate)
 	{
 		_delegate = delegate;
 	}
-	public RPCMPOATie(RPCMOperations delegate, POA poa)
+	public CDSRPOATie(CDSROperations delegate, POA poa)
 	{
 		_delegate = delegate;
 		_poa = poa;
 	}
-	public com.traclabs.biosim.idl.simulation.power.RPCM _this()
+	public com.traclabs.biosim.idl.simulation.air.CDSR _this()
 	{
-		return com.traclabs.biosim.idl.simulation.power.RPCMHelper.narrow(_this_object());
+		return com.traclabs.biosim.idl.simulation.air.CDSRHelper.narrow(_this_object());
 	}
-	public com.traclabs.biosim.idl.simulation.power.RPCM _this(org.omg.CORBA.ORB orb)
+	public com.traclabs.biosim.idl.simulation.air.CDSR _this(org.omg.CORBA.ORB orb)
 	{
-		return com.traclabs.biosim.idl.simulation.power.RPCMHelper.narrow(_this_object(orb));
+		return com.traclabs.biosim.idl.simulation.air.CDSRHelper.narrow(_this_object(orb));
 	}
-	public RPCMOperations _delegate()
+	public CDSROperations _delegate()
 	{
 		return _delegate;
 	}
-	public void _delegate(RPCMOperations delegate)
+	public void _delegate(CDSROperations delegate)
 	{
 		_delegate = delegate;
 	}
@@ -52,11 +52,6 @@ public class RPCMPOATie
 	public float getTickLength()
 	{
 		return _delegate.getTickLength();
-	}
-
-	public com.traclabs.biosim.idl.simulation.power.RPCMSwitchState getSwitchState()
-	{
-		return _delegate.getSwitchState();
 	}
 
 	public void setLogLevel(com.traclabs.biosim.idl.framework.LogLevel pLogLevel)
@@ -77,6 +72,11 @@ _delegate.clearMalfunction(id);
 	public void clearAllMalfunctions()
 	{
 _delegate.clearAllMalfunctions();
+	}
+
+	public com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition getAirConsumerDefinition()
+	{
+		return _delegate.getAirConsumerDefinition();
 	}
 
 	public void setEnableFailure(boolean pValue)
@@ -119,24 +119,24 @@ _delegate.doSomeRepairWork(id);
 		return _delegate.getID();
 	}
 
-	public void scheduleMalfunction(com.traclabs.biosim.idl.framework.MalfunctionIntensity pIntensity, com.traclabs.biosim.idl.framework.MalfunctionLength pLength, int pTickToMalfunction)
-	{
-_delegate.scheduleMalfunction(pIntensity,pLength,pTickToMalfunction);
-	}
-
 	public java.lang.String getModuleName()
 	{
 		return _delegate.getModuleName();
 	}
 
-	public com.traclabs.biosim.idl.simulation.power.RPCMArmedStatus getArmedStatus()
+	public void scheduleMalfunction(com.traclabs.biosim.idl.framework.MalfunctionIntensity pIntensity, com.traclabs.biosim.idl.framework.MalfunctionLength pLength, int pTickToMalfunction)
 	{
-		return _delegate.getArmedStatus();
+_delegate.scheduleMalfunction(pIntensity,pLength,pTickToMalfunction);
 	}
 
 	public void tick()
 	{
 _delegate.tick();
+	}
+
+	public com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition getAirProducerDefinition()
+	{
+		return _delegate.getAirProducerDefinition();
 	}
 
 	public void fixMalfunction(long id)
@@ -164,9 +164,9 @@ _delegate.setTickLength(pInterval);
 		return _delegate.startMalfunction(pIntensity,pLength);
 	}
 
-	public com.traclabs.biosim.idl.simulation.power.PowerProducerDefinition getPowerProducerDefinition()
+	public com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerDefinition getPotableWaterConsumerDefinition()
 	{
-		return _delegate.getPowerProducerDefinition();
+		return _delegate.getPotableWaterConsumerDefinition();
 	}
 
 	public void log()
@@ -174,9 +174,9 @@ _delegate.setTickLength(pInterval);
 _delegate.log();
 	}
 
-	public void setSwitchState(com.traclabs.biosim.idl.simulation.power.RPCMSwitchState state)
+	public com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinition getCO2ProducerDefinition()
 	{
-_delegate.setSwitchState(state);
+		return _delegate.getCO2ProducerDefinition();
 	}
 
 	public com.traclabs.biosim.idl.framework.Malfunction[] getMalfunctions()
@@ -187,11 +187,6 @@ _delegate.setSwitchState(state);
 	public void fixAllMalfunctions()
 	{
 _delegate.fixAllMalfunctions();
-	}
-
-	public void setArmedStatus(com.traclabs.biosim.idl.simulation.power.RPCMArmedStatus state)
-	{
-_delegate.setArmedStatus(state);
 	}
 
 }

@@ -11,13 +11,8 @@ public interface RPCMOperations
 {
 	/* constants */
 	/* operations  */
-	boolean isOvertripped();
-	boolean isUndertripped();
-	void overtrip();
-	void undertrip();
-	void clearTrips();
-	boolean[] getSwitchStatuses();
-	void setSwitches(boolean[] switchValues);
-	void setSwitch(int index, boolean switchValue);
-	void setInitialSwitches(boolean[] switchValues);
+	com.traclabs.biosim.idl.simulation.power.RPCMSwitchState getSwitchState();
+	com.traclabs.biosim.idl.simulation.power.RPCMArmedStatus getArmedStatus();
+	void setSwitchState(com.traclabs.biosim.idl.simulation.power.RPCMSwitchState state);
+	void setArmedStatus(com.traclabs.biosim.idl.simulation.power.RPCMArmedStatus state);
 }
