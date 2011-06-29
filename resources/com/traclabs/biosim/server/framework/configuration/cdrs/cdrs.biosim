@@ -11,7 +11,7 @@
 		<air>
 			<CO2Store capacity="1000" moduleName="CO2_Store" level="0"/>
 			<CDRS moduleName="CDRS">
-				<powerConsumer inputs="General_Power_Store" desiredFlowRates="10" maxFlowRates="10"/>
+				<powerConsumer inputs="CDRS_Air_Inlet_Power_Store CDRS_Air_Return_Power_Store CDRS_CO2_Isolation_Power_Store CDRS_CO2_Vent_Power_Store CDRS_Primary_Heater_Power_Store CDRS_Secondary_Heater_Power_Store" desiredFlowRates="100 100 100 100 100 100" maxFlowRates="100 100 100 100 100 100"/>
 				<potableWaterConsumer inputs="Potable_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
 				<airConsumer inputs="Crew_Quarters" desiredFlowRates="10" maxFlowRates="10" />
 				<airProducer outputs="Crew_Quarters" desiredFlowRates="10" maxFlowRates="10" />
@@ -25,6 +25,37 @@
 		</water>
 		<power>
 			<PowerStore capacity="100000" moduleName="General_Power_Store" level="100000"/>
+			<PowerStore capacity="100" moduleName="CDRS_Air_Inlet_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_Air_Return_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_CO2_Isolation_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_CO2_Vent_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_Primary_Heater_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_Secondary_Heater_Power_Store" level="100"/>
+			
+			<RPCM moduleName="Air_Inlet_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_Air_Inlet_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="Air_Return_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_Air_Return_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="CO2_Isolation_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_CO2_Isolation_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="CO2_Vent_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_CO2_Vent_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="Primary_Heater_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_Primary_Heater_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="Secondary_Heater_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_Secondary_Heater_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
 		</power>
 		<food>
 			<FoodStore capacity="10000" level="10000" moduleName="Food_Store"/>
