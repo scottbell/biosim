@@ -45,6 +45,9 @@ import com.traclabs.biosim.idl.simulation.air.PyrolizerPOATie;
 import com.traclabs.biosim.idl.simulation.air.VCCR;
 import com.traclabs.biosim.idl.simulation.air.VCCRHelper;
 import com.traclabs.biosim.idl.simulation.air.VCCRPOATie;
+import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSModule;
+import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSModuleHelper;
+import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSModulePOATie;
 import com.traclabs.biosim.idl.simulation.crew.Activity;
 import com.traclabs.biosim.idl.simulation.crew.ActivityHelper;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
@@ -153,6 +156,7 @@ import com.traclabs.biosim.server.simulation.air.OGSImpl;
 import com.traclabs.biosim.server.simulation.air.PyrolizerImpl;
 import com.traclabs.biosim.server.simulation.air.VCCRImpl;
 import com.traclabs.biosim.server.simulation.air.VCCRLinearImpl;
+import com.traclabs.biosim.server.simulation.air.cdrs.CDRSModuleImpl;
 import com.traclabs.biosim.server.simulation.crew.ActivityImpl;
 import com.traclabs.biosim.server.simulation.crew.CrewGroupImpl;
 import com.traclabs.biosim.server.simulation.crew.EVAActivityImpl;
@@ -807,6 +811,33 @@ public class SimulationInitializer {
 	/**
 	 * @param child
 	 */
+	private void createCDRS(Node node) {
+		String moduleName = BiosimInitializer.getModuleName(node);
+		if (BiosimInitializer.isCreatedLocally(node)) {
+			myLogger.debug("Creating CDRS with moduleName: " + moduleName);
+			CDRSModuleImpl myCDRSImpl = new CDRSModuleImpl(myID, moduleName);
+			BiosimInitializer.setupBioModule(myCDRSImpl, node);
+			BiosimServer.registerServer(new CDRSModulePOATie(myCDRSImpl), myCDRSImpl
+					.getModuleName(), myCDRSImpl.getID());
+		} else
+			BiosimInitializer.printRemoteWarningMessage(moduleName);
+
+	}
+
+	/**
+	 * @param child
+	 */
+	private void configureCDRS(Node node) {
+		CDRSModule myCDRS = CDRSModuleHelper.narrow(BiosimInitializer.getModule(myID,
+				BiosimInitializer.getModuleName(node)));
+		configureSimBioModule(myCDRS, node);
+		myActiveSimModules.add(myCDRS);
+
+	}
+
+	/**
+	 * @param child
+	 */
 	private void createOGS(Node node) {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
@@ -946,7 +977,12 @@ public class SimulationInitializer {
 						createVCCR(child);
 					else
 						configureVCCR(child);
-				} else if (childName.equals("O2Store")) {
+				} else if (childName.equals("CDRS")) {
+					if (firstPass)
+						createCDRS(child);
+					else
+						configureCDRS(child);
+				}  else if (childName.equals("O2Store")) {
 					if (firstPass)
 						createO2Store(child);
 					else

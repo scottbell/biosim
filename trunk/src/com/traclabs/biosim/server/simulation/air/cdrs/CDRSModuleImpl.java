@@ -38,9 +38,23 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
     private CO2ProducerDefinitionImpl myCO2ProducerDefinitionImpl;
 
     private float currentPowerConsumed = 0f;
-
-    private float currentCO2Consumed;
-
+    
+    private CDRSState myState = CDRSState.init;
+    private CDRSArmedStatus myArmedStatus = CDRSArmedStatus.not_armed;
+    private CDRSValveState myAirInletValveState = CDRSValveState.open;
+    private CDRSCommandStatus myAirInletValveArmedStatus = CDRSCommandStatus.enabled;
+    private CDRSValveState myAirReturnValveState = CDRSValveState.open;
+    private CDRSCommandStatus myAirReturnValveArmedStatus = CDRSCommandStatus.enabled;
+    private CDRSValveState myCO2IsolationValveState = CDRSValveState.open;
+    private CDRSCommandStatus myCO2IsolationValveArmedStatus = CDRSCommandStatus.enabled;
+    private CDRSValveState myCO2VentValveState = CDRSValveState.open;
+    private CDRSCommandStatus myCO2VentValveArmedStatus = CDRSCommandStatus.enabled;
+    private CDRSPowerState myWaterPumpState = CDRSPowerState.on;
+    private CDRSCommandStatus myWaterPumpArmedStatus = CDRSCommandStatus.enabled;
+    private CDRSPowerState myBlowerState = CDRSPowerState.on;
+    private CDRSCommandStatus myBlowerArmedStatus = CDRSCommandStatus.enabled;
+    private CDRSDayNightState myDayNightState = CDRSDayNightState.day;
+    
     public CDRSModuleImpl(int pID, String pName) {
         super(pID, pName);
         myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
@@ -65,6 +79,22 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
         myAirConsumerDefinitionImpl.reset();
         myAirProducerDefinitionImpl.reset();
         myCO2ProducerDefinitionImpl.reset();
+        
+        myState = CDRSState.init;
+        myArmedStatus = CDRSArmedStatus.not_armed;
+        myAirInletValveState = CDRSValveState.open;
+        myAirInletValveArmedStatus = CDRSCommandStatus.enabled;
+        myAirReturnValveState = CDRSValveState.open;
+        myAirReturnValveArmedStatus = CDRSCommandStatus.enabled;
+        myCO2IsolationValveState = CDRSValveState.open;
+        myCO2IsolationValveArmedStatus = CDRSCommandStatus.enabled;
+        myCO2VentValveState = CDRSValveState.open;
+        myCO2VentValveArmedStatus = CDRSCommandStatus.enabled;
+        myWaterPumpState = CDRSPowerState.on;
+        myWaterPumpArmedStatus = CDRSCommandStatus.enabled;
+        myBlowerState = CDRSPowerState.on;
+        myBlowerArmedStatus = CDRSCommandStatus.enabled;
+        myDayNightState = CDRSDayNightState.day;
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
@@ -88,153 +118,123 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setState(CDRSState state) {
-		// TODO Auto-generated method stub
-		
+		this.myState = state;
 	}
 
 	public void setArmedStatus(CDRSArmedStatus status) {
-		// TODO Auto-generated method stub
-		
+		this.myArmedStatus = status; 
 	}
 
 	public void setAirInletValveState(CDRSValveState state) {
-		// TODO Auto-generated method stub
-		
+		this.myAirInletValveState = state;
 	}
 
 	public void setAirInletValveArmedStatus(CDRSCommandStatus status) {
-		// TODO Auto-generated method stub
-		
+		this.myAirInletValveArmedStatus = status;
 	}
 
 	public void setAirReturnValveState(CDRSValveState state) {
-		// TODO Auto-generated method stub
-		
+		this.myAirReturnValveState = state;
 	}
 
 	public void setAirReturnValveArmedStatus(CDRSCommandStatus status) {
-		// TODO Auto-generated method stub
-		
+		this.myAirReturnValveArmedStatus = status;
 	}
 
 	public void setCO2IsolationValveState(CDRSValveState state) {
-		// TODO Auto-generated method stub
-		
+		this.myCO2IsolationValveState = state;
 	}
 
 	public void setCO2IsolationValveArmedStatus(CDRSCommandStatus status) {
-		// TODO Auto-generated method stub
-		
+		this.myCO2IsolationValveArmedStatus = status;
 	}
 
 	public void setCO2VentValveState(CDRSValveState state) {
-		// TODO Auto-generated method stub
-		
+		this.myCO2VentValveState = state;
 	}
 
 	public void setCO2VentValveArmedStatus(CDRSCommandStatus status) {
-		// TODO Auto-generated method stub
-		
+		this.myCO2VentValveArmedStatus = status;
 	}
 
 	public void setWaterPumpState(CDRSPowerState state) {
-		// TODO Auto-generated method stub
-		
+		this.myWaterPumpState = state;
 	}
 
 	public void setWaterPumpArmedStatus(CDRSCommandStatus status) {
-		// TODO Auto-generated method stub
-		
+		this.myWaterPumpArmedStatus = status;
 	}
 
 	public void setBlowerState(CDRSPowerState state) {
-		// TODO Auto-generated method stub
-		
+		this.myBlowerState = state;
 	}
 
 	public void setBlowerArmedStatus(CDRSCommandStatus status) {
-		// TODO Auto-generated method stub
-		
+		this.myBlowerArmedStatus = status;
 	}
 
-	public void setDayNightState(CDRSDayNightState status) {
-		// TODO Auto-generated method stub
-		
+	public void setDayNightState(CDRSDayNightState state) {
+		this.myDayNightState = state;
 	}
 
 	public CDRSState getState() {
-		// TODO Auto-generated method stub
-		return null;
+		return myState;
 	}
 
 	public CDRSArmedStatus getArmedStatus() {
-		// TODO Auto-generated method stub
-		return null;
+		return myArmedStatus;
 	}
 
 	public CDRSValveState getAirInletValveState() {
-		// TODO Auto-generated method stub
-		return null;
+		return myAirInletValveState;
 	}
 
 	public CDRSCommandStatus getAirInletValveArmedStatus() {
-		// TODO Auto-generated method stub
-		return null;
+		return myAirInletValveArmedStatus;
 	}
 
 	public CDRSValveState getAirReturnValveState() {
-		// TODO Auto-generated method stub
-		return null;
+		return myAirReturnValveState;
 	}
 
 	public CDRSCommandStatus getAirReturnValveArmedStatus() {
-		// TODO Auto-generated method stub
-		return null;
+		return myAirReturnValveArmedStatus;
 	}
 
 	public CDRSValveState getCO2IsolationValveState() {
-		// TODO Auto-generated method stub
-		return null;
+		return myCO2IsolationValveState;
 	}
 
 	public CDRSCommandStatus getCO2IsolationValveArmedStatus() {
-		// TODO Auto-generated method stub
-		return null;
+		return myCO2IsolationValveArmedStatus;
 	}
 
 	public CDRSValveState getCO2VentValveState() {
-		// TODO Auto-generated method stub
-		return null;
+		return myCO2VentValveState;
 	}
 
 	public CDRSCommandStatus getCO2VentValveArmedStatus() {
-		// TODO Auto-generated method stub
-		return null;
+		return myCO2VentValveArmedStatus;
 	}
 
 	public CDRSPowerState getWaterPumpState() {
-		// TODO Auto-generated method stub
-		return null;
+		return myWaterPumpState;
 	}
 
 	public CDRSCommandStatus getWaterPumpArmedStatus() {
-		// TODO Auto-generated method stub
-		return null;
+		return myWaterPumpArmedStatus;
 	}
 
 	public CDRSPowerState getBlowerState() {
-		// TODO Auto-generated method stub
-		return null;
+		return myBlowerState;
 	}
 
 	public CDRSCommandStatus getBlowerArmedStatus() {
-		// TODO Auto-generated method stub
-		return null;
+		return myBlowerArmedStatus;
 	}
 
 	public CDRSDayNightState getDayNightState() {
-		// TODO Auto-generated method stub
-		return null;
+		return myDayNightState;
 	}
 
 }
