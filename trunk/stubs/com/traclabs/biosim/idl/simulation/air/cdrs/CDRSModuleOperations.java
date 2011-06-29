@@ -41,4 +41,6 @@ public interface CDRSModuleOperations
 	com.traclabs.biosim.idl.simulation.air.cdrs.CDRSPowerState getBlowerState();
 	com.traclabs.biosim.idl.simulation.air.cdrs.CDRSCommandStatus getBlowerArmedStatus();
 	com.traclabs.biosim.idl.simulation.air.cdrs.CDRSDayNightState getDayNightState();
+	float getPrimaryHeatProduction();
+	float getSecondaryHeatProduction();
 }

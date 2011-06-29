@@ -735,7 +735,7 @@ module com{
 								void setBlowerState(in CDRSPowerState state);
 								void setBlowerArmedStatus(in CDRSCommandStatus status);
 								void setDayNightState(in CDRSDayNightState status);
-
+								
 								CDRSState getState();
 								CDRSArmedStatus getArmedStatus();
 								CDRSValveState getAirInletValveState();
@@ -751,6 +751,9 @@ module com{
 								CDRSPowerState getBlowerState();
 								CDRSCommandStatus getBlowerArmedStatus();
 								CDRSDayNightState getDayNightState();
+								
+								float getPrimaryHeatProduction();
+								float getSecondaryHeatProduction();
 							};						
 						};
                                         };

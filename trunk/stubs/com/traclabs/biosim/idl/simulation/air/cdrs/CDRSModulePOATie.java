@@ -84,6 +84,11 @@ _delegate.setCO2IsolationValveArmedStatus(status);
 		return _delegate.getAirReturnValveState();
 	}
 
+	public float getPrimaryHeatProduction()
+	{
+		return _delegate.getPrimaryHeatProduction();
+	}
+
 	public float getTickLength()
 	{
 		return _delegate.getTickLength();
@@ -232,6 +237,11 @@ _delegate.log();
 	public void maintain()
 	{
 _delegate.maintain();
+	}
+
+	public float getSecondaryHeatProduction()
+	{
+		return _delegate.getSecondaryHeatProduction();
 	}
 
 	public void setCO2VentValveArmedStatus(com.traclabs.biosim.idl.simulation.air.cdrs.CDRSCommandStatus status)
