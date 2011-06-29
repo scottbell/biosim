@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../style/table.xsl"?>
+<biosim xmlns="http://www.traclabs.com/biosim"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
+	<Globals driverStutterLength="0" crewsToWatch="Crew_Quarters_Group" runTillCrewDeath="true"/>
+	<SimBioModules>
+		<environment>
+			<SimEnvironment moduleName="Crew_Quarters" initialVolume="2700000"/>
+		</environment>
+		<air>
+			<CO2Store capacity="1000" moduleName="CO2_Store" level="0"/>
+		</air>
+		<water>
+			<PotableWaterStore capacity="10000" moduleName="Potable_Water_Store" level="10000"/>
+			<GreyWaterStore capacity="10000" moduleName="Grey_Water_Store" level="0"/>
+			<DirtyWaterStore capacity="10000" moduleName="Dirty_Water_Store" level="0"/>
+		</water>
+		<power>
+			<PowerStore capacity="100000" moduleName="General_Power_Store" level="100000"/>
+		</power>
+		<food>
+			<FoodStore capacity="10000" level="10000" moduleName="Food_Store"/>
+		</food>
+		<waste>
+			<DryWasteStore capacity="1000000" moduleName="Dry_Waste_Store" level="0"/>
+		</waste>
+		<crew>
+			<CrewGroup moduleName="Crew_Quarters_Group">
+				<potableWaterConsumer inputs="Potable_Water_Store"
+					desiredFlowRates="3" maxFlowRates="3">
+				</potableWaterConsumer>
+				<airConsumer inputs="Crew_Quarters" desiredFlowRates="0"
+					maxFlowRates="0" />
+				<foodConsumer inputs="Food_Store" desiredFlowRates="5"
+					maxFlowRates="5">
+				</foodConsumer>
+				<dirtyWaterProducer desiredFlowRates="100"
+					outputs="Dirty_Water_Store" maxFlowRates="100">
+				</dirtyWaterProducer>
+				<greyWaterProducer desiredFlowRates="100"
+					outputs="Grey_Water_Store" maxFlowRates="100" />
+				<airProducer desiredFlowRates="0"
+					outputs="Crew_Quarters" maxFlowRates="0" />
+				<dryWasteProducer desiredFlowRates="10"
+					outputs="Dry_Waste_Store" maxFlowRates="10">
+				</dryWasteProducer>
+				<crewPerson age="35" name="Buck Rogers" sex="MALE" weight="75">
+					<schedule>
+						<activity intensity="2" name="leisure" length="12" />
+						<activity intensity="0" name="sleep" length="8" />
+						<activity intensity="5" name="excercise" length="2" />
+					</schedule>
+				</crewPerson>
+			</CrewGroup>
+		</crew>
+	</SimBioModules>
+</biosim>
