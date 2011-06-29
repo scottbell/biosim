@@ -118,7 +118,8 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setState(CDRSState state) {
-		this.myState = state;
+		if (getArmedStatus() == CDRSArmedStatus.armed)
+			this.myState = state;
 	}
 
 	public void setArmedStatus(CDRSArmedStatus status) {
@@ -126,7 +127,8 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setAirInletValveState(CDRSValveState state) {
-		this.myAirInletValveState = state;
+		if (getAirInletValveArmedStatus() == CDRSCommandStatus.enabled)
+			this.myAirInletValveState = state;
 	}
 
 	public void setAirInletValveArmedStatus(CDRSCommandStatus status) {
@@ -134,7 +136,8 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setAirReturnValveState(CDRSValveState state) {
-		this.myAirReturnValveState = state;
+		if (getAirReturnValveArmedStatus() == CDRSCommandStatus.enabled)
+			this.myAirReturnValveState = state;
 	}
 
 	public void setAirReturnValveArmedStatus(CDRSCommandStatus status) {
@@ -142,7 +145,8 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setCO2IsolationValveState(CDRSValveState state) {
-		this.myCO2IsolationValveState = state;
+		if (getCO2IsolationValveArmedStatus() == CDRSCommandStatus.enabled)
+			this.myCO2IsolationValveState = state;
 	}
 
 	public void setCO2IsolationValveArmedStatus(CDRSCommandStatus status) {
@@ -150,7 +154,8 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setCO2VentValveState(CDRSValveState state) {
-		this.myCO2VentValveState = state;
+		if (getCO2VentValveArmedStatus() == CDRSCommandStatus.enabled)
+			this.myCO2VentValveState = state;
 	}
 
 	public void setCO2VentValveArmedStatus(CDRSCommandStatus status) {
@@ -158,7 +163,8 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setWaterPumpState(CDRSPowerState state) {
-		this.myWaterPumpState = state;
+		if (getWaterPumpArmedStatus() == CDRSCommandStatus.enabled)
+			this.myWaterPumpState = state;
 	}
 
 	public void setWaterPumpArmedStatus(CDRSCommandStatus status) {
@@ -166,7 +172,8 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setBlowerState(CDRSPowerState state) {
-		this.myBlowerState = state;
+		if (getBlowerArmedStatus() == CDRSCommandStatus.enabled)
+			this.myBlowerState = state;
 	}
 
 	public void setBlowerArmedStatus(CDRSCommandStatus status) {
