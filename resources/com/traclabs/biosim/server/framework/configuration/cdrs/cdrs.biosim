@@ -10,6 +10,13 @@
 		</environment>
 		<air>
 			<CO2Store capacity="1000" moduleName="CO2_Store" level="0"/>
+			<CDRS moduleName="CDRS">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="10" maxFlowRates="10"/>
+				<potableWaterConsumer inputs="Potable_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+				<airConsumer inputs="Crew_Quarters" desiredFlowRates="10" maxFlowRates="10" />
+				<airProducer outputs="Crew_Quarters" desiredFlowRates="10" maxFlowRates="10" />
+				<co2Producer outputs="CO2_Store" desiredFlowRates="10" maxFlowRates="10" />
+			</CDRS>
 		</air>
 		<water>
 			<PotableWaterStore capacity="10000" moduleName="Potable_Water_Store" level="10000"/>
