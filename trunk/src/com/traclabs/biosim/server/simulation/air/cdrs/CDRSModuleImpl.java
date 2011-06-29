@@ -55,6 +55,16 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
     private CDRSCommandStatus myBlowerArmedStatus = CDRSCommandStatus.enabled;
     private CDRSDayNightState myDayNightState = CDRSDayNightState.day;
     
+    private static final int AIR_INLET_VALVE_POWER_INDEX = 0;
+    private static final int AIR_RETURN_VALVE_POWER_INDEX = 1;
+    private static final int CO2_ISOLATION_VALVE_POWER_INDEX = 2;
+    private static final int CO2_VENT_VALVE_POWER_INDEX = 3;
+    private static final int CDRS_POWER_INDEX = 4;
+    private static final int PRIMARY_HEATER_POWER_INDEX = 5;
+    private static final int SECONDARY_HEATER_POWER_INDEX = 6;
+    private static final int WATER_PUMP_POWER_INDEX = 7;
+    private static final int BLOWER_POWER_INDEX = 8;
+    
     public CDRSModuleImpl(int pID, String pName) {
         super(pID, pName);
         myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
@@ -66,10 +76,23 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
     
     public void tick() {
         super.tick();
+        gatherPower();
     }
 
 
-    /**
+    private void gatherPower() {
+    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(AIR_INLET_VALVE_POWER_INDEX);
+    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(AIR_RETURN_VALVE_POWER_INDEX);
+    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(CO2_ISOLATION_VALVE_POWER_INDEX);
+    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(CO2_VENT_VALVE_POWER_INDEX);
+    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(CDRS_POWER_INDEX);
+    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(PRIMARY_HEATER_POWER_INDEX);
+    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(SECONDARY_HEATER_POWER_INDEX);
+    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(WATER_PUMP_POWER_INDEX);
+    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(BLOWER_POWER_INDEX);
+	}
+
+	/**
      * Resets production/consumption levels.
      */
     public void reset() {
@@ -118,8 +141,19 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setState(CDRSState state) {
-		if (getArmedStatus() == CDRSArmedStatus.armed)
-			this.myState = state;
+		if (getArmedStatus() == CDRSArmedStatus.armed){
+			this.myState = CDRSState.transitioning;
+			if (state == CDRSState.init)
+				transitionToInit();
+			else if (state == CDRSState.standby)
+				transitionToStandby();
+			else if (state == CDRSState.dual_bed)
+				transitionToDualBed();
+			else if (state == CDRSState.single_bed)
+				transitionToSingleBed();
+			else if (state == CDRSState.inactive)
+				transitionToInactive();
+		}
 	}
 
 	public void setArmedStatus(CDRSArmedStatus status) {
@@ -242,6 +276,37 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 
 	public CDRSDayNightState getDayNightState() {
 		return myDayNightState;
+	}
+	
+	private void transitionToInit() {
+		myBlowerState = CDRSPowerState.on;
+		myWaterPumpState = CDRSPowerState.on;
+		myAirConsumerDefinitionImpl.setDesiredFlowRate(myAirConsumerDefinitionImpl.getMaxFlowRate(0) / 2, 0);
+		myAirProducerDefinitionImpl.setDesiredFlowRate(myAirProducerDefinitionImpl.getMaxFlowRate(0) / 2, 0);
+		myPotableWaterConsumerDefinitionImpl.setDesiredFlowRate(myPotableWaterConsumerDefinitionImpl.getMaxFlowRate(0), 0);
+		myPowerConsumerDefinitionImpl.setDesiredFlowRate(myPowerConsumerDefinitionImpl.getMaxFlowRate(AIR_RETURN_VALVE_POWER_INDEX), AIR_RETURN_VALVE_POWER_INDEX);
+		myPowerConsumerDefinitionImpl.setDesiredFlowRate(myPowerConsumerDefinitionImpl.getMaxFlowRate(AIR_RETURN_VALVE_POWER_INDEX), AIR_RETURN_VALVE_POWER_INDEX);
+		
+	}
+
+	private void transitionToInactive() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void transitionToSingleBed() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void transitionToDualBed() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void transitionToStandby() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
