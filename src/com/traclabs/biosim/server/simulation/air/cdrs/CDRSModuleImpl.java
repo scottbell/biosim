@@ -36,8 +36,6 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
     private AirProducerDefinitionImpl myAirProducerDefinitionImpl;
 
     private CO2ProducerDefinitionImpl myCO2ProducerDefinitionImpl;
-
-    private float currentPowerConsumed = 0f;
     
     private CDRSState myState = CDRSState.init;
     private CDRSArmedStatus myArmedStatus = CDRSArmedStatus.not_armed;
@@ -64,6 +62,9 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
     private static final int SECONDARY_HEATER_POWER_INDEX = 6;
     private static final int WATER_PUMP_POWER_INDEX = 7;
     private static final int BLOWER_POWER_INDEX = 8;
+    
+    private float myPrimaryHeaterProduction = 0;
+    private float mySecondaryHeaterProduction = 0;
     
     public CDRSModuleImpl(int pID, String pName) {
         super(pID, pName);
@@ -118,6 +119,9 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
         myBlowerState = CDRSPowerState.on;
         myBlowerArmedStatus = CDRSCommandStatus.enabled;
         myDayNightState = CDRSDayNightState.day;
+
+        myPrimaryHeaterProduction = 0;
+        mySecondaryHeaterProduction = 0;
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
@@ -307,6 +311,14 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	private void transitionToStandby() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public float getPrimaryHeatProduction() {
+		return myPrimaryHeaterProduction;
+	}
+
+	public float getSecondaryHeatProduction() {
+		return mySecondaryHeaterProduction;
 	}
 
 }
