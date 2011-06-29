@@ -288,29 +288,42 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		myAirConsumerDefinitionImpl.setDesiredFlowRate(myAirConsumerDefinitionImpl.getMaxFlowRate(0) / 2, 0);
 		myAirProducerDefinitionImpl.setDesiredFlowRate(myAirProducerDefinitionImpl.getMaxFlowRate(0) / 2, 0);
 		myPotableWaterConsumerDefinitionImpl.setDesiredFlowRate(myPotableWaterConsumerDefinitionImpl.getMaxFlowRate(0), 0);
-		myPowerConsumerDefinitionImpl.setDesiredFlowRate(myPowerConsumerDefinitionImpl.getMaxFlowRate(AIR_RETURN_VALVE_POWER_INDEX), AIR_RETURN_VALVE_POWER_INDEX);
-		myPowerConsumerDefinitionImpl.setDesiredFlowRate(myPowerConsumerDefinitionImpl.getMaxFlowRate(AIR_RETURN_VALVE_POWER_INDEX), AIR_RETURN_VALVE_POWER_INDEX);
-		
+		myPrimaryHeaterProduction = 0;
+		mySecondaryHeaterProduction = 0;
+		myState = CDRSState.init;
 	}
 
 	private void transitionToInactive() {
-		// TODO Auto-generated method stub
-		
+		myBlowerState = CDRSPowerState.off;
+		myWaterPumpState = CDRSPowerState.off;
+		myAirConsumerDefinitionImpl.setDesiredFlowRate(0, 0);
+		myAirProducerDefinitionImpl.setDesiredFlowRate(0, 0);
+		myPotableWaterConsumerDefinitionImpl.setDesiredFlowRate(0, 0);
+		myPrimaryHeaterProduction = 0;
+		mySecondaryHeaterProduction = 0;
+		myState = CDRSState.inactive;
 	}
 
 	private void transitionToSingleBed() {
-		// TODO Auto-generated method stub
+		myBlowerState = CDRSPowerState.on;
+		myWaterPumpState = CDRSPowerState.on;
+		myAirConsumerDefinitionImpl.setDesiredFlowRate(myAirConsumerDefinitionImpl.getMaxFlowRate(0), 0);
+		myAirProducerDefinitionImpl.setDesiredFlowRate(myAirProducerDefinitionImpl.getMaxFlowRate(0), 0);
+		myPotableWaterConsumerDefinitionImpl.setDesiredFlowRate(myPotableWaterConsumerDefinitionImpl.getMaxFlowRate(0), 0);
 		
+		myState = CDRSState.single_bed;
 	}
 
 	private void transitionToDualBed() {
-		// TODO Auto-generated method stub
-		
+		myBlowerState = CDRSPowerState.on;
+		myWaterPumpState = CDRSPowerState.on;
+		myState = CDRSState.dual_bed;
 	}
 
 	private void transitionToStandby() {
-		// TODO Auto-generated method stub
-		
+		myBlowerState = CDRSPowerState.on;
+		myWaterPumpState = CDRSPowerState.on;
+		myState = CDRSState.standby;
 	}
 
 	public float getPrimaryHeatProduction() {
