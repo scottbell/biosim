@@ -15,6 +15,8 @@ module com{
                                                 interface PowerProducer;
                                                 interface PowerConsumerDefinition;
                                                 interface PowerProducerDefinition;
+                                                enum RPCMSwitchState {open, closed};
+                                                enum RPCMArmedStatus {enabled, inhibited};
                                         };
                                         module crew{
                                                 interface Activity;
@@ -65,6 +67,14 @@ module com{
                                                 interface NitrogenConsumerDefinition;
                                                 interface MethaneProducerDefinition;
                                                 interface MethaneConsumerDefinition;
+						module cdrs{
+                                                	enum CDRSState {init, standby, dual_bed, single_bed, transitioning, inactive};
+							enum CDRSArmedStatus {armed, in_progress, not_armed};
+							enum CDRSCommandStatus {enabled, inibited};
+							enum CDRSValveState{open, closed};
+							enum CDRSPowerState {on, off};
+							enum CDRSDayNightState {day, night};
+						};
                                         };
                                         module food{
                                                 interface Shelf;
@@ -600,19 +610,15 @@ module com{
                                                         void setInitialUpperPowerGeneration(in float pUpperPowerGenerationInWatts);
                                                 };
                                                 interface GenericPowerConsumer : framework::SimBioModule, power::PowerConsumer{
-                                                		float getPercentageOfPowerAskedDelivered();
-                                                		void setPowerRequired(in float pWatts);
+                                                	float getPercentageOfPowerAskedDelivered();
+                                                	void setPowerRequired(in float pWatts);
                                                 };
+
                                                 interface RPCM : framework::SimBioModule, power::PowerConsumer, power::PowerProducer{
-                                                		boolean isOvertripped();
-                                                		boolean isUndertripped();
-                                                		void overtrip();
-                                                		void undertrip();
-                                                		void clearTrips();
-                                                		BooleanList getSwitchStatuses();
-                                                		void setSwitches(in BooleanList switchValues);
-                                                		void setSwitch(in long index, in boolean switchValue);
-                                                		void setInitialSwitches(in BooleanList switchValues);
+                                                	RPCMSwitchState getSwitchState();
+							RPCMArmedStatus getArmedStatus();
+							void setSwitchState(in RPCMSwitchState state);
+							void setArmedStatus(in RPCMArmedStatus state);
                                                 };
                                                 interface PowerStore : framework::Store{
                                                 };
@@ -712,6 +718,41 @@ module com{
                                                 interface MethaneProducerDefinition : framework::StoreFlowRateControllable{
                                                         void setMethaneOutputs(in simulation::air::MethaneStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                                 };
+						module cdrs{	
+							interface CDRSModule : framework::SimBioModule, power::PowerConsumer, environment::AirConsumer, environment::AirProducer, air::CO2Producer, water::PotableWaterConsumer{
+								void setState(in CDRSState state);
+								void setArmedStatus(in CDRSArmedStatus status);
+								void setAirInletValveState(in CDRSValveState state);
+								void setAirInletValveArmedStatus(in CDRSCommandStatus status);
+								void setAirReturnValveState(in CDRSValveState state);
+								void setAirReturnValveArmedStatus(in CDRSCommandStatus status);
+								void setCO2IsolationValveState(in CDRSValveState state);
+								void setCO2IsolationValveArmedStatus(in CDRSCommandStatus status);
+								void setCO2VentValveState(in CDRSValveState state);
+								void setCO2VentValveArmedStatus(in CDRSCommandStatus status);
+								void setWaterPumpState(in CDRSPowerState state);
+								void setWaterPumpArmedStatus(in CDRSCommandStatus status);
+								void setBlowerState(in CDRSPowerState state);
+								void setBlowerArmedStatus(in CDRSCommandStatus status);
+								void setDayNightState(in CDRSDayNightState status);
+
+								CDRSState getState();
+								CDRSArmedStatus getArmedStatus();
+								CDRSValveState getAirInletValveState();
+								CDRSCommandStatus getAirInletValveArmedStatus();
+								CDRSValveState getAirReturnValveState();
+								CDRSCommandStatus getAirReturnValveArmedStatus();
+								CDRSValveState getCO2IsolationValveState();
+								CDRSCommandStatus getCO2IsolationValveArmedStatus();
+								CDRSValveState getCO2VentValveState();
+								CDRSCommandStatus getCO2VentValveArmedStatus();
+								CDRSPowerState getWaterPumpState();
+								CDRSCommandStatus getWaterPumpArmedStatus();
+								CDRSPowerState getBlowerState();
+								CDRSCommandStatus getBlowerArmedStatus();
+								CDRSDayNightState getDayNightState();
+							};						
+						};
                                         };
                                         module water{
                                                 interface WaterRS : framework::SimBioModule, power::PowerConsumer, water::GreyWaterConsumer, water::DirtyWaterConsumer, water::PotableWaterProducer{

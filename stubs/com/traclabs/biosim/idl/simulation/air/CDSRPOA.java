@@ -1,24 +1,24 @@
-package com.traclabs.biosim.idl.simulation.power;
+package com.traclabs.biosim.idl.simulation.air;
 
 /**
- *	Generated from IDL interface "RPCM"
+ *	Generated from IDL interface "CDSR"
  *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
  */
 
 
-public abstract class RPCMPOA
+public abstract class CDSRPOA
 	extends org.omg.PortableServer.Servant
-	implements org.omg.CORBA.portable.InvokeHandler, com.traclabs.biosim.idl.simulation.power.RPCMOperations
+	implements org.omg.CORBA.portable.InvokeHandler, com.traclabs.biosim.idl.simulation.air.CDSROperations
 {
 	static private final java.util.Hashtable m_opsHash = new java.util.Hashtable();
 	static
 	{
 		m_opsHash.put ( "getTickLength", new java.lang.Integer(0));
-		m_opsHash.put ( "getSwitchState", new java.lang.Integer(1));
-		m_opsHash.put ( "setLogLevel", new java.lang.Integer(2));
-		m_opsHash.put ( "clearMalfunction", new java.lang.Integer(3));
-		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(4));
-		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(5));
+		m_opsHash.put ( "setLogLevel", new java.lang.Integer(1));
+		m_opsHash.put ( "clearMalfunction", new java.lang.Integer(2));
+		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(3));
+		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(4));
+		m_opsHash.put ( "getAirConsumerDefinition", new java.lang.Integer(5));
 		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(6));
 		m_opsHash.put ( "randomFilter", new java.lang.Integer(7));
 		m_opsHash.put ( "reset", new java.lang.Integer(8));
@@ -27,30 +27,29 @@ public abstract class RPCMPOA
 		m_opsHash.put ( "getPowerConsumerDefinition", new java.lang.Integer(11));
 		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(12));
 		m_opsHash.put ( "getID", new java.lang.Integer(13));
-		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(14));
-		m_opsHash.put ( "getModuleName", new java.lang.Integer(15));
-		m_opsHash.put ( "getArmedStatus", new java.lang.Integer(16));
-		m_opsHash.put ( "tick", new java.lang.Integer(17));
+		m_opsHash.put ( "getModuleName", new java.lang.Integer(14));
+		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(15));
+		m_opsHash.put ( "tick", new java.lang.Integer(16));
+		m_opsHash.put ( "getAirProducerDefinition", new java.lang.Integer(17));
 		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(18));
 		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(19));
 		m_opsHash.put ( "setTickLength", new java.lang.Integer(20));
 		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(21));
 		m_opsHash.put ( "startMalfunction", new java.lang.Integer(22));
-		m_opsHash.put ( "getPowerProducerDefinition", new java.lang.Integer(23));
+		m_opsHash.put ( "getPotableWaterConsumerDefinition", new java.lang.Integer(23));
 		m_opsHash.put ( "log", new java.lang.Integer(24));
-		m_opsHash.put ( "setSwitchState", new java.lang.Integer(25));
+		m_opsHash.put ( "getCO2ProducerDefinition", new java.lang.Integer(25));
 		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(26));
 		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(27));
-		m_opsHash.put ( "setArmedStatus", new java.lang.Integer(28));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/power/RPCM:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
-	public com.traclabs.biosim.idl.simulation.power.RPCM _this()
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/air/CDSR:1.0","IDL:com/traclabs/biosim/idl/simulation/air/CO2Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentConsumer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterConsumer:1.0"};
+	public com.traclabs.biosim.idl.simulation.air.CDSR _this()
 	{
-		return com.traclabs.biosim.idl.simulation.power.RPCMHelper.narrow(_this_object());
+		return com.traclabs.biosim.idl.simulation.air.CDSRHelper.narrow(_this_object());
 	}
-	public com.traclabs.biosim.idl.simulation.power.RPCM _this(org.omg.CORBA.ORB orb)
+	public com.traclabs.biosim.idl.simulation.air.CDSR _this(org.omg.CORBA.ORB orb)
 	{
-		return com.traclabs.biosim.idl.simulation.power.RPCMHelper.narrow(_this_object(orb));
+		return com.traclabs.biosim.idl.simulation.air.CDSRHelper.narrow(_this_object(orb));
 	}
 	public org.omg.CORBA.portable.OutputStream _invoke(String method, org.omg.CORBA.portable.InputStream _input, org.omg.CORBA.portable.ResponseHandler handler)
 		throws org.omg.CORBA.SystemException
@@ -69,36 +68,36 @@ public abstract class RPCMPOA
 				_out.write_float(getTickLength());
 				break;
 			}
-			case 1: // getSwitchState
-			{
-				_out = handler.createReply();
-				com.traclabs.biosim.idl.simulation.power.RPCMSwitchStateHelper.write(_out,getSwitchState());
-				break;
-			}
-			case 2: // setLogLevel
+			case 1: // setLogLevel
 			{
 				com.traclabs.biosim.idl.framework.LogLevel _arg0=com.traclabs.biosim.idl.framework.LogLevelHelper.read(_input);
 				_out = handler.createReply();
 				setLogLevel(_arg0);
 				break;
 			}
-			case 3: // clearMalfunction
+			case 2: // clearMalfunction
 			{
 				long _arg0=_input.read_longlong();
 				_out = handler.createReply();
 				clearMalfunction(_arg0);
 				break;
 			}
-			case 4: // isMalfunctioning
+			case 3: // isMalfunctioning
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isMalfunctioning());
 				break;
 			}
-			case 5: // clearAllMalfunctions
+			case 4: // clearAllMalfunctions
 			{
 				_out = handler.createReply();
 				clearAllMalfunctions();
+				break;
+			}
+			case 5: // getAirConsumerDefinition
+			{
+				_out = handler.createReply();
+				com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinitionHelper.write(_out,getAirConsumerDefinition());
 				break;
 			}
 			case 6: // setEnableFailure
@@ -152,7 +151,13 @@ public abstract class RPCMPOA
 				_out.write_long(getID());
 				break;
 			}
-			case 14: // scheduleMalfunction
+			case 14: // getModuleName
+			{
+				_out = handler.createReply();
+				_out.write_string(getModuleName());
+				break;
+			}
+			case 15: // scheduleMalfunction
 			{
 				com.traclabs.biosim.idl.framework.MalfunctionIntensity _arg0=com.traclabs.biosim.idl.framework.MalfunctionIntensityHelper.read(_input);
 				com.traclabs.biosim.idl.framework.MalfunctionLength _arg1=com.traclabs.biosim.idl.framework.MalfunctionLengthHelper.read(_input);
@@ -161,22 +166,16 @@ public abstract class RPCMPOA
 				scheduleMalfunction(_arg0,_arg1,_arg2);
 				break;
 			}
-			case 15: // getModuleName
-			{
-				_out = handler.createReply();
-				_out.write_string(getModuleName());
-				break;
-			}
-			case 16: // getArmedStatus
-			{
-				_out = handler.createReply();
-				com.traclabs.biosim.idl.simulation.power.RPCMArmedStatusHelper.write(_out,getArmedStatus());
-				break;
-			}
-			case 17: // tick
+			case 16: // tick
 			{
 				_out = handler.createReply();
 				tick();
+				break;
+			}
+			case 17: // getAirProducerDefinition
+			{
+				_out = handler.createReply();
+				com.traclabs.biosim.idl.simulation.environment.AirProducerDefinitionHelper.write(_out,getAirProducerDefinition());
 				break;
 			}
 			case 18: // fixMalfunction
@@ -213,10 +212,10 @@ public abstract class RPCMPOA
 				com.traclabs.biosim.idl.framework.MalfunctionHelper.write(_out,startMalfunction(_arg0,_arg1));
 				break;
 			}
-			case 23: // getPowerProducerDefinition
+			case 23: // getPotableWaterConsumerDefinition
 			{
 				_out = handler.createReply();
-				com.traclabs.biosim.idl.simulation.power.PowerProducerDefinitionHelper.write(_out,getPowerProducerDefinition());
+				com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerDefinitionHelper.write(_out,getPotableWaterConsumerDefinition());
 				break;
 			}
 			case 24: // log
@@ -225,11 +224,10 @@ public abstract class RPCMPOA
 				log();
 				break;
 			}
-			case 25: // setSwitchState
+			case 25: // getCO2ProducerDefinition
 			{
-				com.traclabs.biosim.idl.simulation.power.RPCMSwitchState _arg0=com.traclabs.biosim.idl.simulation.power.RPCMSwitchStateHelper.read(_input);
 				_out = handler.createReply();
-				setSwitchState(_arg0);
+				com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinitionHelper.write(_out,getCO2ProducerDefinition());
 				break;
 			}
 			case 26: // getMalfunctions
@@ -242,13 +240,6 @@ public abstract class RPCMPOA
 			{
 				_out = handler.createReply();
 				fixAllMalfunctions();
-				break;
-			}
-			case 28: // setArmedStatus
-			{
-				com.traclabs.biosim.idl.simulation.power.RPCMArmedStatus _arg0=com.traclabs.biosim.idl.simulation.power.RPCMArmedStatusHelper.read(_input);
-				_out = handler.createReply();
-				setArmedStatus(_arg0);
 				break;
 			}
 		}

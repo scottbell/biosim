@@ -1749,7 +1749,6 @@ public class SimulationInitializer {
 		RPCM myRPCM = RPCMHelper.narrow(BiosimInitializer.getModule(myID,
 				BiosimInitializer.getModuleName(node)));
 		configureSimBioModule(myRPCM, node);
-		myRPCM.setInitialSwitches(getSwitchValues(node));
 		myActiveSimModules.add(myRPCM);
 	}
 
