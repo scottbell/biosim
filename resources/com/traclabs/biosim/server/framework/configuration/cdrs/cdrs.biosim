@@ -35,23 +35,19 @@
 		<crew>
 			<CrewGroup moduleName="Crew_Quarters_Group">
 				<potableWaterConsumer inputs="Potable_Water_Store"
-					desiredFlowRates="3" maxFlowRates="3">
-				</potableWaterConsumer>
+					desiredFlowRates="3" maxFlowRates="3"/>
 				<airConsumer inputs="Crew_Quarters" desiredFlowRates="0"
 					maxFlowRates="0" />
 				<foodConsumer inputs="Food_Store" desiredFlowRates="5"
-					maxFlowRates="5">
-				</foodConsumer>
+					maxFlowRates="5"/>
 				<dirtyWaterProducer desiredFlowRates="100"
-					outputs="Dirty_Water_Store" maxFlowRates="100">
-				</dirtyWaterProducer>
+					outputs="Dirty_Water_Store" maxFlowRates="100"/>
 				<greyWaterProducer desiredFlowRates="100"
 					outputs="Grey_Water_Store" maxFlowRates="100" />
 				<airProducer desiredFlowRates="0"
 					outputs="Crew_Quarters" maxFlowRates="0" />
 				<dryWasteProducer desiredFlowRates="10"
-					outputs="Dry_Waste_Store" maxFlowRates="10">
-				</dryWasteProducer>
+					outputs="Dry_Waste_Store" maxFlowRates="10"/>
 				<crewPerson age="35" name="Buck Rogers" sex="MALE" weight="75">
 					<schedule>
 						<activity intensity="2" name="leisure" length="12" />
