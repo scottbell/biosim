@@ -1,5 +1,7 @@
 package com.traclabs.biosim.client.simulation.air.cdrs;
 
+import java.awt.BorderLayout;
+
 import javax.swing.ImageIcon;
 import javax.swing.WindowConstants;
 
@@ -15,19 +17,23 @@ public class CDRSViewer extends TimedPanel {
 	private Logger myLogger;
 
 	private BioHolder myBioHolder;
+	
+	private LSSMPanel myLSSMPanel = new LSSMPanel();
 
 	public CDRSViewer() {
 		myLogger = Logger.getLogger(this.getClass());
 		myBioHolder = BioHolderInitializer.getBioHolder();
+		setLayout(new BorderLayout());
+		add(myLSSMPanel, BorderLayout.CENTER);
 	}
 
 	public static void main(String[] strings) {
 		OrbUtils.initializeLog();
 		CDRSViewer newViewer = new CDRSViewer();
-		BioFrame myFrame = new BioFrame("CDRS Viewer", false);
+		BioFrame myFrame = new BioFrame("LSSM", false);
 		myFrame.getContentPane().add(newViewer);
 		myFrame.pack();
-		myFrame.setSize(800, 600);
+		myFrame.setSize(640, 480);
 		myFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		ImageIcon airIcon = new ImageIcon(CDRSViewer.class
 				.getClassLoader().getResource("com/traclabs/biosim/client/air/air.png"));
@@ -37,7 +43,7 @@ public class CDRSViewer extends TimedPanel {
 
 	@Override
 	public void refresh() {
-		
+		myLSSMPanel.refresh();
 	}
 
 }
