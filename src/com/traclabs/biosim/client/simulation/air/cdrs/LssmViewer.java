@@ -13,14 +13,14 @@ import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.util.OrbUtils;
 
-public class CDRSViewer extends TimedPanel {
+public class LssmViewer extends TimedPanel {
 	private Logger myLogger;
 
 	private BioHolder myBioHolder;
 	
 	private LSSMPanel myLSSMPanel = new LSSMPanel();
 
-	public CDRSViewer() {
+	public LssmViewer() {
 		myLogger = Logger.getLogger(this.getClass());
 		myBioHolder = BioHolderInitializer.getBioHolder();
 		setLayout(new BorderLayout());
@@ -29,13 +29,13 @@ public class CDRSViewer extends TimedPanel {
 
 	public static void main(String[] strings) {
 		OrbUtils.initializeLog();
-		CDRSViewer newViewer = new CDRSViewer();
+		LssmViewer newViewer = new LssmViewer();
 		BioFrame myFrame = new BioFrame("LSSM", false);
 		myFrame.getContentPane().add(newViewer);
 		myFrame.pack();
 		myFrame.setSize(640, 480);
 		myFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		ImageIcon airIcon = new ImageIcon(CDRSViewer.class
+		ImageIcon airIcon = new ImageIcon(LssmViewer.class
 				.getClassLoader().getResource("com/traclabs/biosim/client/air/air.png"));
 		myFrame.setIconImage(airIcon.getImage());
 		myFrame.setVisible(true);
