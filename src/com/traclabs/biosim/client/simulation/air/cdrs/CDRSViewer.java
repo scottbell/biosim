@@ -6,12 +6,12 @@ import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
 
 import com.traclabs.biosim.client.framework.BioFrame;
-import com.traclabs.biosim.client.simulation.framework.SimulationPanel;
+import com.traclabs.biosim.client.framework.TimedPanel;
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 import com.traclabs.biosim.util.OrbUtils;
 
-public class CDRSViewer extends SimulationPanel {
+public class CDRSViewer extends TimedPanel {
 	private Logger myLogger;
 
 	private BioHolder myBioHolder;
@@ -19,11 +19,6 @@ public class CDRSViewer extends SimulationPanel {
 	public CDRSViewer() {
 		myLogger = Logger.getLogger(this.getClass());
 		myBioHolder = BioHolderInitializer.getBioHolder();
-	}
-
-	@Override
-	protected synchronized void refresh() {
-		// TODO Auto-generated method stub
 	}
 
 	public static void main(String[] strings) {
@@ -41,8 +36,8 @@ public class CDRSViewer extends SimulationPanel {
 	}
 
 	@Override
-	protected void reset() {
-		// TODO Auto-generated method stub
+	public void refresh() {
+		
 	}
 
 }
