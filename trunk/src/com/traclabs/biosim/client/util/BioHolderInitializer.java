@@ -100,6 +100,7 @@ import com.traclabs.biosim.idl.simulation.air.O2StoreHelper;
 import com.traclabs.biosim.idl.simulation.air.OGSHelper;
 import com.traclabs.biosim.idl.simulation.air.PyrolizerHelper;
 import com.traclabs.biosim.idl.simulation.air.VCCRHelper;
+import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSModuleHelper;
 import com.traclabs.biosim.idl.simulation.crew.CrewGroupHelper;
 import com.traclabs.biosim.idl.simulation.environment.DehumidifierHelper;
 import com.traclabs.biosim.idl.simulation.environment.FanHelper;
@@ -445,6 +446,11 @@ public class BioHolderInitializer {
 				.narrow(getModule(getModuleName(node))));
 	}
 
+	private static void fetchCDRS(Node node) {
+		myBioHolder.theCDRSModules.add(CDRSModuleHelper
+				.narrow(getModule(getModuleName(node))));
+	}
+
 	private static void crawlAirModules(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -456,6 +462,8 @@ public class BioHolderInitializer {
 					fetchAirRS(child);
 				else if (childName.equals("OGS"))
 					fetchOGS(child);
+				else if (childName.equals("CDRS"))
+					fetchCDRS(child);
 				else if (childName.equals("Pyrolizer"))
 					fetchPyrolizer(child);
 				else if (childName.equals("VCCR"))
