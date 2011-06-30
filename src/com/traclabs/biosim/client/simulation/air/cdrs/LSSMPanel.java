@@ -11,6 +11,7 @@ public class LSSMPanel extends GridButtonPanel {
 	private RpcmM6Panel myRpcmM6Panel = new RpcmM6Panel();
 	
 	public LSSMPanel(){
+		setName("LSSM");
 		GridLayout gridLayout = new GridLayout(2, 3);
 		setLayout(gridLayout);
 		addButton(myWaterRackPanel);

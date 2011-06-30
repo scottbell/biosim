@@ -27,6 +27,7 @@ public class ARRackPanel extends GridButtonPanel {
 		addButton(myRpcmM1Panel);
 		addButton(myRpcmMAPanel);
 		myPressureLabel.setText("LSSM Cabin Pressure: ");
+		add(myPressureLabel);
 		setPreferredSize(new Dimension(640, 480));
 	}
 
