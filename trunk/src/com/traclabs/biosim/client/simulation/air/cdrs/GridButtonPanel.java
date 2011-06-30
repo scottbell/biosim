@@ -4,8 +4,8 @@ import javax.swing.JButton;
 
 import com.traclabs.biosim.client.framework.UpdatablePanel;
 
-public class LssmPanel extends UpdatablePanel {
-	protected void addButton(LssmPanel panel) {
+public class GridButtonPanel extends UpdatablePanel {
+	protected void addButton(GridButtonPanel panel) {
 		JButton button = new JButton();
 		button.addActionListener(new LssmActionListener(panel));
 		button.setText(panel.getName());

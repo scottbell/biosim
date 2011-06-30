@@ -2,7 +2,7 @@ package com.traclabs.biosim.client.simulation.air.cdrs;
 
 import java.awt.GridLayout;
 
-public class LSSMPanel extends LssmPanel {
+public class LSSMPanel extends GridButtonPanel {
 	private WaterRackPanel myWaterRackPanel = new WaterRackPanel();
 	private ARRackPanel myARRackPanel = new ARRackPanel();
 	private TCSRackPanel myTCSRackPanel = new TCSRackPanel();

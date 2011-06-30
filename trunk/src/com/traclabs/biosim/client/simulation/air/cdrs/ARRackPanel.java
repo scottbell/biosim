@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
 
 
-public class ARRackPanel extends LssmPanel {
+public class ARRackPanel extends GridButtonPanel {
 	
 	private CDRSPanel myCDRSPanel = new CDRSPanel();
 	private MCAPanel myMCAPanel = new MCAPanel();
