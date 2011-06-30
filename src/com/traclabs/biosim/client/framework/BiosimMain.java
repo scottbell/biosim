@@ -17,6 +17,7 @@ import com.traclabs.biosim.client.control.TestController;
 import com.traclabs.biosim.client.framework.apollo13.Apollo13Viewer;
 import com.traclabs.biosim.client.sensor.framework.SensorGraphFrame;
 import com.traclabs.biosim.client.sensor.framework.SensorViewer;
+import com.traclabs.biosim.client.simulation.air.cdrs.CDRSViewer;
 import com.traclabs.biosim.client.simulation.environment.EnvironmentGraph;
 import com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisPanel;
 import com.traclabs.biosim.client.simulation.framework.SimDesktop;
@@ -65,6 +66,7 @@ public class BiosimMain {
 		boolean wantsToRunRepairController = false;
 		boolean wantsToRunSeriesController = false;
 		boolean wantsToRunTestController = false;
+		boolean wantsToRunCDRSViewer = false;
 		boolean wantsToRunGraph = false;
 		boolean wantsToRunEnvironment = false;
 		boolean unrealServerGiven = false;
@@ -88,8 +90,10 @@ public class BiosimMain {
 				wantsToRunGraph = true;
 			} else if (myArgs[i].equals("environment")) {
 				wantsToRunEnvironment = true;
-			}else if (myArgs[i].equals("apollo")) {
+			} else if (myArgs[i].equals("apollo")) {
 				wantsToRunApollo13Viewer = true;
+			} else if (myArgs[i].equals("cdrs")) {
+				wantsToRunCDRSViewer = true;
 			} else if (myArgs[i].equals("murder")) {
 				wantsToRunMurderController = true;
 			} else if (myArgs[i].equals("repair")) {
@@ -178,6 +182,8 @@ public class BiosimMain {
 			runSensorViewer();
 		else if (wantsToRunApollo13Viewer)
 			runApollo13Viewer();
+		else if (wantsToRunCDRSViewer)
+			runCDRSViewer();
 		else if (wantsToRunTestController)
 			runTestController();
 		else if (wantsToRunGraph)
@@ -309,6 +315,10 @@ public class BiosimMain {
 
 	private void runApollo13Viewer() {
 		Apollo13Viewer.main(new String[] {});
+	}
+
+	private void runCDRSViewer() {
+		CDRSViewer.main(new String[] {});
 	}
 
 	private void runMurderController() {
