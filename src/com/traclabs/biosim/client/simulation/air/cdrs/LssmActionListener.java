@@ -7,9 +7,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 public class LssmActionListener implements ActionListener {
-	private LssmPanel myPanel;
+	private GridButtonPanel myPanel;
 	
-	public LssmActionListener(LssmPanel panel) {
+	public LssmActionListener(GridButtonPanel panel) {
 		this.myPanel = panel;
 	}
 
