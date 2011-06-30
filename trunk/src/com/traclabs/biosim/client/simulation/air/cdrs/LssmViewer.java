@@ -39,6 +39,7 @@ public class LssmViewer extends TimedPanel {
 				.getClassLoader().getResource("com/traclabs/biosim/client/air/air.png"));
 		myFrame.setIconImage(airIcon.getImage());
 		myFrame.setVisible(true);
+		newViewer.visibilityChange(true);
 	}
 
 	@Override
