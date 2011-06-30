@@ -17,7 +17,7 @@ import com.traclabs.biosim.client.control.TestController;
 import com.traclabs.biosim.client.framework.apollo13.Apollo13Viewer;
 import com.traclabs.biosim.client.sensor.framework.SensorGraphFrame;
 import com.traclabs.biosim.client.sensor.framework.SensorViewer;
-import com.traclabs.biosim.client.simulation.air.cdrs.CDRSViewer;
+import com.traclabs.biosim.client.simulation.air.cdrs.LssmViewer;
 import com.traclabs.biosim.client.simulation.environment.EnvironmentGraph;
 import com.traclabs.biosim.client.simulation.food.photosynthesis.PhotosynthesisPanel;
 import com.traclabs.biosim.client.simulation.framework.SimDesktop;
@@ -318,7 +318,7 @@ public class BiosimMain {
 	}
 
 	private void runCDRSViewer() {
-		CDRSViewer.main(new String[] {});
+		LssmViewer.main(new String[] {});
 	}
 
 	private void runMurderController() {

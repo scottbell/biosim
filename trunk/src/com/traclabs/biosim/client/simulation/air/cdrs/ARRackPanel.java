@@ -10,7 +10,7 @@ import com.traclabs.biosim.client.util.BioHolderInitializer;
 
 public class ARRackPanel extends LssmPanel {
 	
-	private LssmPanel myCDRSPanel = new LssmPanel();
+	private CDRSPanel myCDRSPanel = new CDRSPanel();
 	private MCAPanel myMCAPanel = new MCAPanel();
 	private SmokeDetectorPanel mySmokeDetectorPanel = new SmokeDetectorPanel();
 	private RpcmM1Panel myRpcmM1Panel = new RpcmM1Panel();
