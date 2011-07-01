@@ -45,7 +45,9 @@ public class GridButtonPanel extends UpdatablePanel {
 	protected String getCDRSCommandStatus(CDRSCommandStatus status){
 		if (status == CDRSCommandStatus.enabled)
 			return "enabled";
-		else
+		else if (status == CDRSCommandStatus.inibited)
 			return "inhibited";
+		else
+			return "?";
 	}
 }
