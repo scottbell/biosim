@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSArmedStatus;
+import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSDayNightState;
 import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSState;
 
 public class CDRSDetailPanel extends GridButtonPanel {
@@ -126,8 +127,54 @@ public class CDRSDetailPanel extends GridButtonPanel {
 		constraints.gridx = 6;
 		constraints.gridy = 1;
 		add(stopButton, constraints);
+		
 
 		
+		JLabel dayNightLabel = new JLabel("Day/Night Indicator: ");
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+		add(dayNightLabel, constraints);
+		
+		StatusLabel dayNightStateLabel = new StatusLabel() {
+			public void refresh() {
+				setText(getDayNight(LssmViewer.getCDRSModule().getDayNightState()));
+			}
+		};
+		constraints.gridx = 1;
+		constraints.gridy = 2;
+		dayNightStateLabel.setBorder(BorderFactory.createEtchedBorder());
+		add(dayNightStateLabel, constraints);
+		addUpdateable(dayNightStateLabel);
+		
+		ActionListener dayListener = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LssmViewer.getCDRSModule().setDayNightState(CDRSDayNightState.day);
+			}
+		};
+		JButton dayButton = new JButton("Day");
+		dayButton.addActionListener(dayListener);
+		constraints.gridx = 2;
+		constraints.gridy = 2;
+		add(dayButton, constraints);
+		
+		ActionListener nightListener = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LssmViewer.getCDRSModule().setDayNightState(CDRSDayNightState.night);
+			}
+		};
+		JButton nightButton = new JButton("Night");
+		nightButton.addActionListener(nightListener);
+		constraints.gridx = 3;
+		constraints.gridy = 2;
+		add(nightButton, constraints);
+	}
+
+	private String getDayNight(CDRSDayNightState state) {
+		if (state == CDRSDayNightState.day)
+			return "day";
+		else if (state == CDRSDayNightState.night)
+			return "night";
+		return "?";
 	}
 
 	private String getCDRSState(CDRSState state) {
