@@ -1,8 +1,5 @@
 package com.traclabs.biosim.client.simulation.air.cdrs;
 
-import java.awt.Dimension;
-import java.awt.GridLayout;
-
 import javax.swing.JLabel;
 
 import com.traclabs.biosim.client.util.BioHolderInitializer;
@@ -19,16 +16,13 @@ public class ARRackPanel extends GridButtonPanel {
 	
 	public ARRackPanel(){
 		setName("AR Rack");
-		GridLayout gridLayout = new GridLayout(2, 3);
-		setLayout(gridLayout);
 		addButton(myCDRSPanel);
 		addButton(myMCAPanel);
 		addButton(mySmokeDetectorPanel);
 		addButton(myRpcmM1Panel);
 		addButton(myRpcmMAPanel);
 		myPressureLabel.setText("LSSM Cabin Pressure: ");
-		add(myPressureLabel);
-		setPreferredSize(new Dimension(640, 480));
+		addLabel(myPressureLabel);
 	}
 
 	@Override
