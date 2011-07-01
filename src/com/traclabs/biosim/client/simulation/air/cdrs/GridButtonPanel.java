@@ -8,6 +8,7 @@ import javax.swing.JButton;
 
 import com.traclabs.biosim.client.framework.UpdatablePanel;
 import com.traclabs.biosim.client.framework.Updateable;
+import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSCommandStatus;
 
 public class GridButtonPanel extends UpdatablePanel {
 	private List<Updateable> myUpdateableChildren = new ArrayList<Updateable>();
@@ -39,5 +40,12 @@ public class GridButtonPanel extends UpdatablePanel {
 	
 	protected void addUpdateable(Updateable child){
 		myUpdateableChildren.add(child);
+	}
+	
+	protected String getCDRSCommandStatus(CDRSCommandStatus status){
+		if (status == CDRSCommandStatus.enabled)
+			return "enabled";
+		else
+			return "inhibited";
 	}
 }

@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class LssmActionListener implements ActionListener {
@@ -25,6 +26,9 @@ public class LssmActionListener implements ActionListener {
 		frame.pack();
 		frame.setLocationByPlatform(false);
 		frame.setVisible(true);
+		ImageIcon airIcon = new ImageIcon(LssmViewer.class
+				.getClassLoader().getResource("com/traclabs/biosim/client/air/air.png"));
+		frame.setIconImage(airIcon.getImage());
 		lastFrame = frame;
 	}
 
