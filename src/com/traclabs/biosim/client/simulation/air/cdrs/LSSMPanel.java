@@ -1,6 +1,5 @@
 package com.traclabs.biosim.client.simulation.air.cdrs;
 
-import java.awt.GridLayout;
 
 public class LSSMPanel extends GridButtonPanel {
 	private WaterRackPanel myWaterRackPanel = new WaterRackPanel();
@@ -12,8 +11,6 @@ public class LSSMPanel extends GridButtonPanel {
 	
 	public LSSMPanel(){
 		setName("LSSM");
-		GridLayout gridLayout = new GridLayout(2, 3);
-		setLayout(gridLayout);
 		addButton(myWaterRackPanel);
 		addButton(myARRackPanel);
 		addButton(myTCSRackPanel);

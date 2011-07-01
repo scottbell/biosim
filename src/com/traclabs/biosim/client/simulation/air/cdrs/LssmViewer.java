@@ -33,7 +33,6 @@ public class LssmViewer extends TimedPanel {
 		BioFrame myFrame = new BioFrame("LSSM", false);
 		myFrame.getContentPane().add(newViewer);
 		myFrame.pack();
-		myFrame.setSize(640, 480);
 		myFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		ImageIcon airIcon = new ImageIcon(LssmViewer.class
 				.getClassLoader().getResource("com/traclabs/biosim/client/air/air.png"));
