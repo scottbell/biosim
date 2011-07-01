@@ -11,6 +11,7 @@ import com.traclabs.biosim.client.framework.BioFrame;
 import com.traclabs.biosim.client.framework.TimedPanel;
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSModule;
 import com.traclabs.biosim.util.OrbUtils;
 
 public class LssmViewer extends TimedPanel {
@@ -44,6 +45,10 @@ public class LssmViewer extends TimedPanel {
 	@Override
 	public void refresh() {
 		myLSSMPanel.refresh();
+	}
+	
+	public static CDRSModule getCDRSModule(){
+		return BioHolderInitializer.getBioHolder().theCDRSModules.get(0);
 	}
 
 }
