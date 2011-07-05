@@ -1,9 +1,9 @@
 package com.traclabs.biosim.client.simulation.air.cdrs;
 
 
-public class RpcmMAPanel extends GridButtonPanel {
+public class RpcmMAPanel extends RpcmPanel {
+	private static final String[] names = {"RPC 1", "RPC 7", "RPC 8"};
 	public RpcmMAPanel(){
-		setName("RPCM LSSMA41B4A A");
+		super("RPCM LSSM1B4A B1", 4, 7, names);
 	}
-
 }
