@@ -1,8 +1,8 @@
 package com.traclabs.biosim.client.simulation.air.cdrs;
 
 
-public class LSSMPanel extends GridButtonPanel {
-	public LSSMPanel(){
+public class LssmPanel extends GridButtonPanel {
+	public LssmPanel(){
 		setName("LSSM");
 		addButton(new WaterRackPanel());
 		addButton(new ARRackPanel());

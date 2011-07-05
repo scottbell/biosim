@@ -11,7 +11,11 @@ import com.traclabs.biosim.client.framework.BioFrame;
 import com.traclabs.biosim.client.framework.TimedPanel;
 import com.traclabs.biosim.client.util.BioHolder;
 import com.traclabs.biosim.client.util.BioHolderInitializer;
+import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSArmedStatus;
+import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSDayNightState;
 import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSModule;
+import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSPowerState;
+import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSState;
 import com.traclabs.biosim.util.OrbUtils;
 
 public class LssmViewer extends TimedPanel {
@@ -19,7 +23,7 @@ public class LssmViewer extends TimedPanel {
 
 	private BioHolder myBioHolder;
 	
-	private LSSMPanel myLSSMPanel = new LSSMPanel();
+	private LssmPanel myLSSMPanel = new LssmPanel();
 
 	public LssmViewer() {
 		myLogger = Logger.getLogger(this.getClass());
@@ -49,6 +53,46 @@ public class LssmViewer extends TimedPanel {
 	
 	public static CDRSModule getCDRSModule(){
 		return BioHolderInitializer.getBioHolder().theCDRSModules.get(0);
+	}
+	
+	public static String getArmedStatus(CDRSArmedStatus armedStatus) {
+		if (armedStatus == CDRSArmedStatus.armed)
+			return "armed";
+		else if (armedStatus == CDRSArmedStatus.not_armed)
+			return "not armed";
+		else if (armedStatus == CDRSArmedStatus.in_progress)
+			return "in progress";
+		return "?";
+	}
+	
+	public static  String getDayNight(CDRSDayNightState state) {
+		if (state == CDRSDayNightState.day)
+			return "day";
+		else if (state == CDRSDayNightState.night)
+			return "night";
+		return "?";
+	}
+
+	public static  String getCDRSState(CDRSState state) {
+		if (state == CDRSState.dual_bed)
+			return "dual bed";
+		else if (state == CDRSState.inactive)
+			return "off";
+		else if (state == CDRSState.single_bed)
+			return "single bed";
+		else if (state == CDRSState.init)
+			return "startup";
+		else if (state == CDRSState.standby)
+			return "standby";
+		return "?";
+	}
+	
+	public static String getPowerState(CDRSPowerState powerState) {
+		if (powerState == CDRSPowerState.off)
+			return "off";
+		else if (powerState == CDRSPowerState.on)
+			return "on";
+		return "?";
 	}
 
 }
