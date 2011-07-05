@@ -16,6 +16,7 @@ import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSDayNightState;
 import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSModule;
 import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSPowerState;
 import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSState;
+import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSValveState;
 import com.traclabs.biosim.util.OrbUtils;
 
 public class LssmViewer extends TimedPanel {
@@ -90,6 +91,14 @@ public class LssmViewer extends TimedPanel {
 			return "off";
 		else if (powerState == CDRSPowerState.on)
 			return "on";
+		return "?";
+	}
+
+	public static String getCDRSValveState(CDRSValveState valveState) {
+		if (valveState == CDRSValveState.open)
+			return "open";
+		else if (valveState == CDRSValveState.closed)
+			return "closed";
 		return "?";
 	}
 
