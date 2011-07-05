@@ -46,8 +46,8 @@ public abstract class RpcmPanel extends GridButtonPanel {
 
 		constraints.gridx = 3;
 		constraints.gridy = 0;
-		JLabel openCommandLabel = new JLabel("Command Enabled");
-		add(openCommandLabel, constraints);
+		JLabel commandEnabledLabel = new JLabel("Command Enabled");
+		add(commandEnabledLabel, constraints);
 		
 		for (int i = lowIndex; i < highIndex; i++){
 			RPCM currentRPCM = BioHolderInitializer.getBioHolder().theRPCMs.get(i);
