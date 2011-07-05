@@ -32,7 +32,7 @@ public class CDRSDetailPanel extends GridButtonPanel {
 		
 		StatusLabel statusLabel = new StatusLabel() {
 			public void refresh() {
-				setText(getArmedStatus(LssmViewer.getCDRSModule().getArmedStatus()));
+				setText(LssmViewer.getArmedStatus(LssmViewer.getCDRSModule().getArmedStatus()));
 			}
 		};
 		constraints.gridx = 1;
@@ -59,7 +59,7 @@ public class CDRSDetailPanel extends GridButtonPanel {
 		
 		StatusLabel stateLabel = new StatusLabel() {
 			public void refresh() {
-				setText(getCDRSState(LssmViewer.getCDRSModule().getState()));
+				setText(LssmViewer.getCDRSState(LssmViewer.getCDRSModule().getState()));
 			}
 		};
 		constraints.gridx = 1;
@@ -137,7 +137,7 @@ public class CDRSDetailPanel extends GridButtonPanel {
 		
 		StatusLabel dayNightStateLabel = new StatusLabel() {
 			public void refresh() {
-				setText(getDayNight(LssmViewer.getCDRSModule().getDayNightState()));
+				setText(LssmViewer.getDayNight(LssmViewer.getCDRSModule().getDayNightState()));
 			}
 		};
 		constraints.gridx = 1;
@@ -167,38 +167,6 @@ public class CDRSDetailPanel extends GridButtonPanel {
 		constraints.gridx = 3;
 		constraints.gridy = 2;
 		add(nightButton, constraints);
-	}
-
-	private String getDayNight(CDRSDayNightState state) {
-		if (state == CDRSDayNightState.day)
-			return "day";
-		else if (state == CDRSDayNightState.night)
-			return "night";
-		return "?";
-	}
-
-	private String getCDRSState(CDRSState state) {
-		if (state == CDRSState.dual_bed)
-			return "dual bed";
-		else if (state == CDRSState.inactive)
-			return "off";
-		else if (state == CDRSState.single_bed)
-			return "single bed";
-		else if (state == CDRSState.init)
-			return "startup";
-		else if (state == CDRSState.standby)
-			return "standby";
-		return "?";
-	}
-
-	private String getArmedStatus(CDRSArmedStatus armedStatus) {
-		if (armedStatus == CDRSArmedStatus.armed)
-			return "armed";
-		else if (armedStatus == CDRSArmedStatus.not_armed)
-			return "not armed";
-		else if (armedStatus == CDRSArmedStatus.in_progress)
-			return "in progress";
-		return "?";
 	}
 
 	private void addLine(String lineName, ActionListener enableListener, ActionListener inhibitListener, StatusLabel statusLabel) {
