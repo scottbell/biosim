@@ -142,7 +142,6 @@ public class CDRSDetailPanel extends GridButtonPanel {
 		};
 		constraints.gridx = 1;
 		constraints.gridy = 2;
-		dayNightStateLabel.setBorder(BorderFactory.createEtchedBorder());
 		add(dayNightStateLabel, constraints);
 		addUpdateable(dayNightStateLabel);
 		

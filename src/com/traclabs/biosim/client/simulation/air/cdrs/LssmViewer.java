@@ -20,9 +20,7 @@ import com.traclabs.biosim.util.OrbUtils;
 
 public class LssmViewer extends TimedPanel {
 	private Logger myLogger;
-
 	private BioHolder myBioHolder;
-	
 	private LssmPanel myLSSMPanel = new LssmPanel();
 
 	public LssmViewer() {
