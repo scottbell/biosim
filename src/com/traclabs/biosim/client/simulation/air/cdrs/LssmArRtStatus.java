@@ -18,6 +18,7 @@ public class LssmArRtStatus extends GridButtonPanel {
 		setLayout(layout);
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.weightx = 0.5;
+		constraints.weighty = 0.5;
 		constraints.fill = GridBagConstraints.BOTH;
 		
 		constraints.gridx = 0;
