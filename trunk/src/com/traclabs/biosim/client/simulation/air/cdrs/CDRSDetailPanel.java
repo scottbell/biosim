@@ -23,6 +23,7 @@ public class CDRSDetailPanel extends GridButtonPanel {
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.weightx = 0.5;
+		constraints.weighty = 0.5;
 		constraints.fill = GridBagConstraints.BOTH;
 		constraints.gridx = 0;
 		constraints.gridy = 0;
