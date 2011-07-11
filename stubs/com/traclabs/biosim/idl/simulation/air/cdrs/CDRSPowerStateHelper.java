@@ -11,7 +11,7 @@ public final class CDRSPowerStateHelper
 	{
 		if (_type == null)
 		{
-			_type = org.omg.CORBA.ORB.init().create_enum_tc(com.traclabs.biosim.idl.simulation.air.cdrs.CDRSPowerStateHelper.id(),"CDRSPowerState",new String[]{"on","off"});
+			_type = org.omg.CORBA.ORB.init().create_enum_tc(com.traclabs.biosim.idl.simulation.air.cdrs.CDRSPowerStateHelper.id(),"CDRSPowerState",new String[]{"off","on"});
 		}
 		return _type;
 	}
