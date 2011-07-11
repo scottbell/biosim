@@ -76,13 +76,15 @@ public class LssmViewer extends TimedPanel {
 		if (state == CDRSState.dual_bed)
 			return "dual bed";
 		else if (state == CDRSState.inactive)
-			return "off";
+			return "inactive";
 		else if (state == CDRSState.single_bed)
 			return "single bed";
 		else if (state == CDRSState.init)
-			return "startup";
+			return "init";
 		else if (state == CDRSState.standby)
 			return "standby";
+		else if (state == CDRSState.transitioning)
+			return "transitioning";
 		return "?";
 	}
 	
