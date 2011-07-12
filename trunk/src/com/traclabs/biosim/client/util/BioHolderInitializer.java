@@ -161,8 +161,7 @@ public class BioHolderInitializer {
 		try {
 			documentBuilderFactory.setAttribute(JAXP_SCHEMA_LANGUAGE,
 					W3C_XML_SCHEMA);
-			URL foundURL = BioHolderInitializer.class.getClassLoader()
-					.getResource(SCHEMA_LOCATION_VALUE);
+			URL foundURL = Thread.currentThread().getContextClassLoader().getResource(SCHEMA_LOCATION_VALUE);
 			if (foundURL != null) {
 				String urlString = foundURL.toString();
 				if (urlString.length() > 0)
