@@ -205,9 +205,31 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 
 	public void setState(CDRSState state) {
 		if (getArmedStatus() == CDRSArmedStatus.armed){
-			this.myState = CDRSState.transitioning;
-			myStateToTransition = state;
+			if (transitionAllowed(state)){
+				myState = CDRSState.transitioning;
+				myStateToTransition = state;
+				myArmedStatus = CDRSArmedStatus.not_armed;
+			}
 		}
+	}
+
+	private boolean transitionAllowed(CDRSState stateToTransition) {
+		if (myState == CDRSState.inactive){
+			return (stateToTransition == CDRSState.init);
+		}
+		else if (myState == CDRSState.init){
+			return ((stateToTransition == CDRSState.inactive) || (stateToTransition == CDRSState.standby));
+		}
+		else if (myState == CDRSState.standby){
+			return ((stateToTransition == CDRSState.inactive) || (stateToTransition == CDRSState.dual_bed)|| (stateToTransition == CDRSState.single_bed));
+		}
+		else if (myState == CDRSState.single_bed){
+			return (stateToTransition == CDRSState.inactive);
+		}
+		else if (myState == CDRSState.dual_bed){
+			return (stateToTransition == CDRSState.inactive);
+		}
+		return false;
 	}
 
 	public void setArmedStatus(CDRSArmedStatus status) {

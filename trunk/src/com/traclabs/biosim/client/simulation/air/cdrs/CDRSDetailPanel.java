@@ -72,7 +72,6 @@ public class CDRSDetailPanel extends GridButtonPanel {
 		ActionListener startupListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setState(CDRSState.init);
-				LssmViewer.getCDRSModule().setArmedStatus(CDRSArmedStatus.not_armed);
 			}
 		};
 		JButton startupButton = new JButton("Init");
@@ -84,7 +83,6 @@ public class CDRSDetailPanel extends GridButtonPanel {
 		ActionListener standbyListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setState(CDRSState.standby);
-				LssmViewer.getCDRSModule().setArmedStatus(CDRSArmedStatus.not_armed);
 			}
 		};
 		JButton standbyButton = new JButton("Standby");
@@ -96,7 +94,6 @@ public class CDRSDetailPanel extends GridButtonPanel {
 		ActionListener dualBedListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setState(CDRSState.dual_bed);
-				LssmViewer.getCDRSModule().setArmedStatus(CDRSArmedStatus.not_armed);
 			}
 		};
 		JButton dualBedButton = new JButton("Dual Bed Ops");
@@ -108,7 +105,6 @@ public class CDRSDetailPanel extends GridButtonPanel {
 		ActionListener singleBedListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setState(CDRSState.single_bed);
-				LssmViewer.getCDRSModule().setArmedStatus(CDRSArmedStatus.not_armed);
 			}
 		};
 		JButton singleBedButton = new JButton("Single Bed Ops");
@@ -120,7 +116,6 @@ public class CDRSDetailPanel extends GridButtonPanel {
 		ActionListener stopListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setState(CDRSState.inactive);
-				LssmViewer.getCDRSModule().setArmedStatus(CDRSArmedStatus.not_armed);
 			}
 		};
 		JButton stopButton = new JButton("Inactive");
