@@ -75,7 +75,7 @@ public class CDRSDetailPanel extends GridButtonPanel {
 				LssmViewer.getCDRSModule().setArmedStatus(CDRSArmedStatus.not_armed);
 			}
 		};
-		JButton startupButton = new JButton("Startup");
+		JButton startupButton = new JButton("Init");
 		startupButton.addActionListener(startupListener);
 		constraints.gridx = 2;
 		constraints.gridy = 1;
@@ -123,7 +123,7 @@ public class CDRSDetailPanel extends GridButtonPanel {
 				LssmViewer.getCDRSModule().setArmedStatus(CDRSArmedStatus.not_armed);
 			}
 		};
-		JButton stopButton = new JButton("Stop");
+		JButton stopButton = new JButton("Inactive");
 		stopButton.addActionListener(stopListener);
 		constraints.gridx = 6;
 		constraints.gridy = 1;

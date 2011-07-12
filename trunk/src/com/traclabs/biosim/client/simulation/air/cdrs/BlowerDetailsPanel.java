@@ -30,7 +30,7 @@ public class BlowerDetailsPanel extends GridButtonPanel {
 		add(flowRateName, constraints);
 		StatusLabel flowRateLabel = new StatusLabel() {
 			public void refresh() {
-				setText(LssmViewer.getCDRSModule().getAirConsumerDefinition().getActualFlowRate(0) + "");
+				setText(LssmViewer.getCDRSModule().getAirConsumerDefinition().getDesiredFlowRate(0) + "");
 			}
 		};
 		constraints.gridx = 1;
