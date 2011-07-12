@@ -65,6 +65,9 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
     
     private float myPrimaryHeaterProduction = 0;
     private float mySecondaryHeaterProduction = 0;
+    private CDRSState myStateToTransition = CDRSState.transitioning;
+    private final static int TICKS_TO_WAIT = 5;
+    private int myTicksWaited = 0;
     
     public CDRSModuleImpl(int pID, String pName) {
         super(pID, pName);
@@ -78,10 +81,30 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
     public void tick() {
         super.tick();
         gatherPower();
+        if (myStateToTransition != CDRSState.transitioning){
+        	myTicksWaited++;
+        	if (myTicksWaited >= TICKS_TO_WAIT)
+        		transitionState();
+        }
     }
 
 
-    private void gatherPower() {
+    private void transitionState() {
+    	if (myStateToTransition == CDRSState.init)
+			transitionToInit();
+		else if (myStateToTransition == CDRSState.standby)
+			transitionToStandby();
+		else if (myStateToTransition == CDRSState.dual_bed)
+			transitionToDualBed();
+		else if (myStateToTransition == CDRSState.single_bed)
+			transitionToSingleBed();
+		else if (myStateToTransition == CDRSState.inactive)
+			transitionToInactive();
+    	myTicksWaited = 0;
+    	myStateToTransition = CDRSState.transitioning;
+	}
+
+	private void gatherPower() {
     	myPowerConsumerDefinitionImpl.getMostResourceFromStore(AIR_INLET_VALVE_POWER_INDEX);
     	myPowerConsumerDefinitionImpl.getMostResourceFromStore(AIR_RETURN_VALVE_POWER_INDEX);
     	myPowerConsumerDefinitionImpl.getMostResourceFromStore(CO2_ISOLATION_VALVE_POWER_INDEX);
@@ -147,25 +170,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	public void setState(CDRSState state) {
 		if (getArmedStatus() == CDRSArmedStatus.armed){
 			this.myState = CDRSState.transitioning;
-			sleep(3000);
-			if (state == CDRSState.init)
-				transitionToInit();
-			else if (state == CDRSState.standby)
-				transitionToStandby();
-			else if (state == CDRSState.dual_bed)
-				transitionToDualBed();
-			else if (state == CDRSState.single_bed)
-				transitionToSingleBed();
-			else if (state == CDRSState.inactive)
-				transitionToInactive();
-		}
-	}
-
-	private void sleep(int time) {
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			myStateToTransition = state;
 		}
 	}
 
