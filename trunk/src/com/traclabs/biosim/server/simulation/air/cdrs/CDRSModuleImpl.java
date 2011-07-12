@@ -9,6 +9,7 @@ import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSModuleOperations;
 import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSPowerState;
 import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSState;
 import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSValveState;
+import com.traclabs.biosim.idl.simulation.environment.Air;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.environment.AirConsumerOperations;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition;
@@ -17,19 +18,24 @@ import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerOperations;
+import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerDefinition;
+import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerOperations;
 import com.traclabs.biosim.server.simulation.air.CO2ProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.environment.AirProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.water.PotableWaterProducerDefinitionImpl;
 
 public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperations, PowerConsumerOperations, AirConsumerOperations, AirProducerOperations, CO2ProducerOperations
-, PotableWaterConsumerOperations{
+, PotableWaterConsumerOperations, PotableWaterProducerOperations{
     //Consumers, Producers
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
 
     private PotableWaterConsumerDefinitionImpl myPotableWaterConsumerDefinitionImpl;
+
+    private PotableWaterProducerDefinitionImpl myPotableWaterProducerDefinitionImpl;
 
     private AirConsumerDefinitionImpl myAirConsumerDefinitionImpl;
 
@@ -65,6 +71,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
     
     private float myPrimaryHeaterProduction = 0;
     private float mySecondaryHeaterProduction = 0;
+    private static final float MAX_HEATER_PRODUCTION = 200;
     private CDRSState myStateToTransition = CDRSState.transitioning;
     private final static int TICKS_TO_WAIT = 5;
     private int myTicksWaited = 0;
@@ -73,6 +80,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
         super(pID, pName);
         myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
         myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl(this);
+        myPotableWaterProducerDefinitionImpl = new PotableWaterProducerDefinitionImpl(this);
         myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl(this);
         myAirProducerDefinitionImpl = new AirProducerDefinitionImpl(this);
         myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl(this);
@@ -81,6 +89,8 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
     public void tick() {
         super.tick();
         gatherPower();
+        gatherAir();
+        gatherWater();
         if (myStateToTransition != CDRSState.transitioning){
         	myTicksWaited++;
         	if (myTicksWaited >= TICKS_TO_WAIT)
@@ -88,8 +98,29 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
         }
     }
 
+    private void gatherWater() {
+		float waterGathered = myPotableWaterConsumerDefinitionImpl.getMostResourceFromStores();
+		myPotableWaterProducerDefinitionImpl.pushResourceToStores(waterGathered);
+	}
 
-    private void transitionState() {
+	private void gatherAir() {
+
+        Air airConsumed = myAirConsumerDefinitionImpl.getMostAirFromEnvironments();
+        float co2Produced = 0;
+        if (myState == CDRSState.dual_bed){
+        	co2Produced = airConsumed.co2Moles;
+        	airConsumed.co2Moles = 0;
+        }
+        else if (myState == CDRSState.single_bed){
+        	co2Produced = airConsumed.co2Moles / 2;
+        	airConsumed.co2Moles = co2Produced;
+        }
+        
+        myAirProducerDefinitionImpl.pushAirToEnvironment(airConsumed, 0);
+        myCO2ProducerDefinitionImpl.pushResourceToStores(co2Produced);
+	}
+
+	private void transitionState() {
     	if (myStateToTransition == CDRSState.init)
 			transitionToInit();
 		else if (myStateToTransition == CDRSState.standby)
@@ -123,6 +154,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
         super.reset();
         myPowerConsumerDefinitionImpl.reset();
         myPotableWaterConsumerDefinitionImpl.reset();
+        myPotableWaterProducerDefinitionImpl.reset();
         myAirConsumerDefinitionImpl.reset();
         myAirProducerDefinitionImpl.reset();
         myCO2ProducerDefinitionImpl.reset();
@@ -153,6 +185,10 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 
 	public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
 		return myPotableWaterConsumerDefinitionImpl.getCorbaObject();
+	}
+
+	public PotableWaterProducerDefinition getPotableWaterProducerDefinition() {
+		return myPotableWaterProducerDefinitionImpl.getCorbaObject();
 	}
 
 	public CO2ProducerDefinition getCO2ProducerDefinition() {
@@ -324,7 +360,8 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		myAirConsumerDefinitionImpl.setDesiredFlowRate(myAirConsumerDefinitionImpl.getMaxFlowRate(0), 0);
 		myAirProducerDefinitionImpl.setDesiredFlowRate(myAirProducerDefinitionImpl.getMaxFlowRate(0), 0);
 		myPotableWaterConsumerDefinitionImpl.setDesiredFlowRate(myPotableWaterConsumerDefinitionImpl.getMaxFlowRate(0), 0);
-		
+		myPrimaryHeaterProduction = MAX_HEATER_PRODUCTION * 0.5f;
+		mySecondaryHeaterProduction = 0;
 		myState = CDRSState.single_bed;
 	}
 
@@ -332,12 +369,22 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		myBlowerState = CDRSPowerState.on;
 		myWaterPumpState = CDRSPowerState.on;
 		myState = CDRSState.dual_bed;
+		myAirConsumerDefinitionImpl.setDesiredFlowRate(myAirConsumerDefinitionImpl.getMaxFlowRate(0), 0);
+		myAirProducerDefinitionImpl.setDesiredFlowRate(myAirProducerDefinitionImpl.getMaxFlowRate(0), 0);
+		myPotableWaterConsumerDefinitionImpl.setDesiredFlowRate(myPotableWaterConsumerDefinitionImpl.getMaxFlowRate(0), 0);
+		myPrimaryHeaterProduction = MAX_HEATER_PRODUCTION;
+		mySecondaryHeaterProduction = 0;
 	}
 
 	private void transitionToStandby() {
 		myBlowerState = CDRSPowerState.on;
 		myWaterPumpState = CDRSPowerState.on;
 		myState = CDRSState.standby;
+		myAirConsumerDefinitionImpl.setDesiredFlowRate(myAirConsumerDefinitionImpl.getMaxFlowRate(0), 0);
+		myAirProducerDefinitionImpl.setDesiredFlowRate(myAirProducerDefinitionImpl.getMaxFlowRate(0), 0);
+		myPrimaryHeaterProduction = MAX_HEATER_PRODUCTION * 0.25f;
+		myPotableWaterConsumerDefinitionImpl.setDesiredFlowRate(myPotableWaterConsumerDefinitionImpl.getMaxFlowRate(0), 0);
+		mySecondaryHeaterProduction = 0;
 	}
 
 	public float getPrimaryHeatProduction() {

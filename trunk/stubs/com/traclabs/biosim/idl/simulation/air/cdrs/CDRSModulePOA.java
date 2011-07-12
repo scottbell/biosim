@@ -37,44 +37,45 @@ public abstract class CDRSModulePOA
 		m_opsHash.put ( "setArmedStatus", new java.lang.Integer(21));
 		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(22));
 		m_opsHash.put ( "setAirReturnValveArmedStatus", new java.lang.Integer(23));
-		m_opsHash.put ( "getMyTicks", new java.lang.Integer(24));
-		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(25));
-		m_opsHash.put ( "getState", new java.lang.Integer(26));
-		m_opsHash.put ( "getAirInletValveArmedStatus", new java.lang.Integer(27));
-		m_opsHash.put ( "reset", new java.lang.Integer(28));
-		m_opsHash.put ( "setState", new java.lang.Integer(29));
-		m_opsHash.put ( "getModuleName", new java.lang.Integer(30));
-		m_opsHash.put ( "randomFilter", new java.lang.Integer(31));
-		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(32));
-		m_opsHash.put ( "getPotableWaterConsumerDefinition", new java.lang.Integer(33));
-		m_opsHash.put ( "log", new java.lang.Integer(34));
-		m_opsHash.put ( "getCO2IsolationValveState", new java.lang.Integer(35));
-		m_opsHash.put ( "getAirProducerDefinition", new java.lang.Integer(36));
-		m_opsHash.put ( "maintain", new java.lang.Integer(37));
-		m_opsHash.put ( "getSecondaryHeatProduction", new java.lang.Integer(38));
-		m_opsHash.put ( "setCO2VentValveArmedStatus", new java.lang.Integer(39));
-		m_opsHash.put ( "setAirReturnValveState", new java.lang.Integer(40));
-		m_opsHash.put ( "getCO2ProducerDefinition", new java.lang.Integer(41));
-		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(42));
-		m_opsHash.put ( "setDayNightState", new java.lang.Integer(43));
-		m_opsHash.put ( "getWaterPumpArmedStatus", new java.lang.Integer(44));
-		m_opsHash.put ( "getAirConsumerDefinition", new java.lang.Integer(45));
-		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(46));
-		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(47));
-		m_opsHash.put ( "getPowerConsumerDefinition", new java.lang.Integer(48));
-		m_opsHash.put ( "getArmedStatus", new java.lang.Integer(49));
-		m_opsHash.put ( "tick", new java.lang.Integer(50));
-		m_opsHash.put ( "setTickLength", new java.lang.Integer(51));
-		m_opsHash.put ( "getBlowerState", new java.lang.Integer(52));
-		m_opsHash.put ( "getCO2IsolationValveArmedStatus", new java.lang.Integer(53));
-		m_opsHash.put ( "setCO2VentValveState", new java.lang.Integer(54));
-		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(55));
-		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(56));
-		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(57));
-		m_opsHash.put ( "getDayNightState", new java.lang.Integer(58));
-		m_opsHash.put ( "setWaterPumpArmedStatus", new java.lang.Integer(59));
+		m_opsHash.put ( "getPotableWaterProducerDefinition", new java.lang.Integer(24));
+		m_opsHash.put ( "getMyTicks", new java.lang.Integer(25));
+		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(26));
+		m_opsHash.put ( "getState", new java.lang.Integer(27));
+		m_opsHash.put ( "getAirInletValveArmedStatus", new java.lang.Integer(28));
+		m_opsHash.put ( "reset", new java.lang.Integer(29));
+		m_opsHash.put ( "setState", new java.lang.Integer(30));
+		m_opsHash.put ( "getModuleName", new java.lang.Integer(31));
+		m_opsHash.put ( "randomFilter", new java.lang.Integer(32));
+		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(33));
+		m_opsHash.put ( "getPotableWaterConsumerDefinition", new java.lang.Integer(34));
+		m_opsHash.put ( "log", new java.lang.Integer(35));
+		m_opsHash.put ( "getCO2IsolationValveState", new java.lang.Integer(36));
+		m_opsHash.put ( "getAirProducerDefinition", new java.lang.Integer(37));
+		m_opsHash.put ( "maintain", new java.lang.Integer(38));
+		m_opsHash.put ( "getSecondaryHeatProduction", new java.lang.Integer(39));
+		m_opsHash.put ( "setCO2VentValveArmedStatus", new java.lang.Integer(40));
+		m_opsHash.put ( "setAirReturnValveState", new java.lang.Integer(41));
+		m_opsHash.put ( "getCO2ProducerDefinition", new java.lang.Integer(42));
+		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(43));
+		m_opsHash.put ( "setDayNightState", new java.lang.Integer(44));
+		m_opsHash.put ( "getWaterPumpArmedStatus", new java.lang.Integer(45));
+		m_opsHash.put ( "getAirConsumerDefinition", new java.lang.Integer(46));
+		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(47));
+		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(48));
+		m_opsHash.put ( "getPowerConsumerDefinition", new java.lang.Integer(49));
+		m_opsHash.put ( "getArmedStatus", new java.lang.Integer(50));
+		m_opsHash.put ( "tick", new java.lang.Integer(51));
+		m_opsHash.put ( "setTickLength", new java.lang.Integer(52));
+		m_opsHash.put ( "getBlowerState", new java.lang.Integer(53));
+		m_opsHash.put ( "getCO2IsolationValveArmedStatus", new java.lang.Integer(54));
+		m_opsHash.put ( "setCO2VentValveState", new java.lang.Integer(55));
+		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(56));
+		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(57));
+		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(58));
+		m_opsHash.put ( "getDayNightState", new java.lang.Integer(59));
+		m_opsHash.put ( "setWaterPumpArmedStatus", new java.lang.Integer(60));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/air/cdrs/CDRSModule:1.0","IDL:com/traclabs/biosim/idl/simulation/air/CO2Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentConsumer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterConsumer:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/air/cdrs/CDRSModule:1.0","IDL:com/traclabs/biosim/idl/simulation/air/CO2Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentConsumer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterConsumer:1.0"};
 	public com.traclabs.biosim.idl.simulation.air.cdrs.CDRSModule _this()
 	{
 		return com.traclabs.biosim.idl.simulation.air.cdrs.CDRSModuleHelper.narrow(_this_object());
@@ -252,214 +253,220 @@ public abstract class CDRSModulePOA
 				setAirReturnValveArmedStatus(_arg0);
 				break;
 			}
-			case 24: // getMyTicks
+			case 24: // getPotableWaterProducerDefinition
+			{
+				_out = handler.createReply();
+				com.traclabs.biosim.idl.simulation.water.PotableWaterProducerDefinitionHelper.write(_out,getPotableWaterProducerDefinition());
+				break;
+			}
+			case 25: // getMyTicks
 			{
 				_out = handler.createReply();
 				_out.write_long(getMyTicks());
 				break;
 			}
-			case 25: // getMalfunctions
+			case 26: // getMalfunctions
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.framework.MalfunctionListHelper.write(_out,getMalfunctions());
 				break;
 			}
-			case 26: // getState
+			case 27: // getState
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSStateHelper.write(_out,getState());
 				break;
 			}
-			case 27: // getAirInletValveArmedStatus
+			case 28: // getAirInletValveArmedStatus
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSCommandStatusHelper.write(_out,getAirInletValveArmedStatus());
 				break;
 			}
-			case 28: // reset
+			case 29: // reset
 			{
 				_out = handler.createReply();
 				reset();
 				break;
 			}
-			case 29: // setState
+			case 30: // setState
 			{
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSState _arg0=com.traclabs.biosim.idl.simulation.air.cdrs.CDRSStateHelper.read(_input);
 				_out = handler.createReply();
 				setState(_arg0);
 				break;
 			}
-			case 30: // getModuleName
+			case 31: // getModuleName
 			{
 				_out = handler.createReply();
 				_out.write_string(getModuleName());
 				break;
 			}
-			case 31: // randomFilter
+			case 32: // randomFilter
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				_out.write_float(randomFilter(_arg0));
 				break;
 			}
-			case 32: // isMalfunctioning
+			case 33: // isMalfunctioning
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isMalfunctioning());
 				break;
 			}
-			case 33: // getPotableWaterConsumerDefinition
+			case 34: // getPotableWaterConsumerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerDefinitionHelper.write(_out,getPotableWaterConsumerDefinition());
 				break;
 			}
-			case 34: // log
+			case 35: // log
 			{
 				_out = handler.createReply();
 				log();
 				break;
 			}
-			case 35: // getCO2IsolationValveState
+			case 36: // getCO2IsolationValveState
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSValveStateHelper.write(_out,getCO2IsolationValveState());
 				break;
 			}
-			case 36: // getAirProducerDefinition
+			case 37: // getAirProducerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.environment.AirProducerDefinitionHelper.write(_out,getAirProducerDefinition());
 				break;
 			}
-			case 37: // maintain
+			case 38: // maintain
 			{
 				_out = handler.createReply();
 				maintain();
 				break;
 			}
-			case 38: // getSecondaryHeatProduction
+			case 39: // getSecondaryHeatProduction
 			{
 				_out = handler.createReply();
 				_out.write_float(getSecondaryHeatProduction());
 				break;
 			}
-			case 39: // setCO2VentValveArmedStatus
+			case 40: // setCO2VentValveArmedStatus
 			{
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSCommandStatus _arg0=com.traclabs.biosim.idl.simulation.air.cdrs.CDRSCommandStatusHelper.read(_input);
 				_out = handler.createReply();
 				setCO2VentValveArmedStatus(_arg0);
 				break;
 			}
-			case 40: // setAirReturnValveState
+			case 41: // setAirReturnValveState
 			{
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSValveState _arg0=com.traclabs.biosim.idl.simulation.air.cdrs.CDRSValveStateHelper.read(_input);
 				_out = handler.createReply();
 				setAirReturnValveState(_arg0);
 				break;
 			}
-			case 41: // getCO2ProducerDefinition
+			case 42: // getCO2ProducerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinitionHelper.write(_out,getCO2ProducerDefinition());
 				break;
 			}
-			case 42: // doSomeRepairWork
+			case 43: // doSomeRepairWork
 			{
 				long _arg0=_input.read_longlong();
 				_out = handler.createReply();
 				doSomeRepairWork(_arg0);
 				break;
 			}
-			case 43: // setDayNightState
+			case 44: // setDayNightState
 			{
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSDayNightState _arg0=com.traclabs.biosim.idl.simulation.air.cdrs.CDRSDayNightStateHelper.read(_input);
 				_out = handler.createReply();
 				setDayNightState(_arg0);
 				break;
 			}
-			case 44: // getWaterPumpArmedStatus
+			case 45: // getWaterPumpArmedStatus
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSCommandStatusHelper.write(_out,getWaterPumpArmedStatus());
 				break;
 			}
-			case 45: // getAirConsumerDefinition
+			case 46: // getAirConsumerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinitionHelper.write(_out,getAirConsumerDefinition());
 				break;
 			}
-			case 46: // setEnableFailure
+			case 47: // setEnableFailure
 			{
 				boolean _arg0=_input.read_boolean();
 				_out = handler.createReply();
 				setEnableFailure(_arg0);
 				break;
 			}
-			case 47: // clearAllMalfunctions
+			case 48: // clearAllMalfunctions
 			{
 				_out = handler.createReply();
 				clearAllMalfunctions();
 				break;
 			}
-			case 48: // getPowerConsumerDefinition
+			case 49: // getPowerConsumerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinitionHelper.write(_out,getPowerConsumerDefinition());
 				break;
 			}
-			case 49: // getArmedStatus
+			case 50: // getArmedStatus
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSArmedStatusHelper.write(_out,getArmedStatus());
 				break;
 			}
-			case 50: // tick
+			case 51: // tick
 			{
 				_out = handler.createReply();
 				tick();
 				break;
 			}
-			case 51: // setTickLength
+			case 52: // setTickLength
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setTickLength(_arg0);
 				break;
 			}
-			case 52: // getBlowerState
+			case 53: // getBlowerState
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSPowerStateHelper.write(_out,getBlowerState());
 				break;
 			}
-			case 53: // getCO2IsolationValveArmedStatus
+			case 54: // getCO2IsolationValveArmedStatus
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSCommandStatusHelper.write(_out,getCO2IsolationValveArmedStatus());
 				break;
 			}
-			case 54: // setCO2VentValveState
+			case 55: // setCO2VentValveState
 			{
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSValveState _arg0=com.traclabs.biosim.idl.simulation.air.cdrs.CDRSValveStateHelper.read(_input);
 				_out = handler.createReply();
 				setCO2VentValveState(_arg0);
 				break;
 			}
-			case 55: // isFailureEnabled
+			case 56: // isFailureEnabled
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isFailureEnabled());
 				break;
 			}
-			case 56: // getMalfunctionNames
+			case 57: // getMalfunctionNames
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.StringListHelper.write(_out,getMalfunctionNames());
 				break;
 			}
-			case 57: // scheduleMalfunction
+			case 58: // scheduleMalfunction
 			{
 				com.traclabs.biosim.idl.framework.MalfunctionIntensity _arg0=com.traclabs.biosim.idl.framework.MalfunctionIntensityHelper.read(_input);
 				com.traclabs.biosim.idl.framework.MalfunctionLength _arg1=com.traclabs.biosim.idl.framework.MalfunctionLengthHelper.read(_input);
@@ -468,13 +475,13 @@ public abstract class CDRSModulePOA
 				scheduleMalfunction(_arg0,_arg1,_arg2);
 				break;
 			}
-			case 58: // getDayNightState
+			case 59: // getDayNightState
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSDayNightStateHelper.write(_out,getDayNightState());
 				break;
 			}
-			case 59: // setWaterPumpArmedStatus
+			case 60: // setWaterPumpArmedStatus
 			{
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSCommandStatus _arg0=com.traclabs.biosim.idl.simulation.air.cdrs.CDRSCommandStatusHelper.read(_input);
 				_out = handler.createReply();

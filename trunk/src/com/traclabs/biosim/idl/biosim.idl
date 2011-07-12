@@ -719,7 +719,7 @@ module com{
                                                         void setMethaneOutputs(in simulation::air::MethaneStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                                 };
 						module cdrs{	
-							interface CDRSModule : framework::SimBioModule, power::PowerConsumer, environment::AirConsumer, environment::AirProducer, air::CO2Producer, water::PotableWaterConsumer{
+							interface CDRSModule : framework::SimBioModule, power::PowerConsumer, environment::AirConsumer, environment::AirProducer, air::CO2Producer, water::PotableWaterConsumer, water::PotableWaterProducer{
 								void setState(in CDRSState state);
 								void setArmedStatus(in CDRSArmedStatus status);
 								void setAirInletValveState(in CDRSValveState state);

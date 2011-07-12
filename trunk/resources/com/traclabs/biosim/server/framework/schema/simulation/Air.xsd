@@ -24,9 +24,10 @@
 				<xsd:sequence>
 					<xsd:element maxOccurs="1" minOccurs="1" name="powerConsumer" type="PowerConsumerType"/>
 					<xsd:element maxOccurs="1" minOccurs="1" name="potableWaterConsumer" type="PotableWaterConsumerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="potableWaterProducer" type="PotableWaterProducerType"/>
 					<xsd:element maxOccurs="1" minOccurs="1" name="airConsumer" type="AirConsumerType"/>
 					<xsd:element maxOccurs="1" minOccurs="1" name="airProducer" type="AirProducerType"/>
-					<xsd:element maxOccurs="1" minOccurs="1" name="co2Producer" type="CO2ProducerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="CO2Producer" type="CO2ProducerType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
