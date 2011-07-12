@@ -25,7 +25,7 @@ public class WaterPumpDetailsPanel extends GridButtonPanel {
 		add(flowRateName, constraints); 
 		StatusLabel flowRateLabel = new StatusLabel() {
 			public void refresh() {
-				setText(LssmViewer.getCDRSModule().getPotableWaterConsumerDefinition().getActualFlowRate(0) + "");
+				setText(LssmViewer.getCDRSModule().getPotableWaterConsumerDefinition().getDesiredFlowRate(0) + "");
 			}
 		};
 		constraints.gridx = 1;
