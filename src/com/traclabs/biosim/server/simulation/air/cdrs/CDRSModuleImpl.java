@@ -147,6 +147,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	public void setState(CDRSState state) {
 		if (getArmedStatus() == CDRSArmedStatus.armed){
 			this.myState = CDRSState.transitioning;
+			sleep(3000);
 			if (state == CDRSState.init)
 				transitionToInit();
 			else if (state == CDRSState.standby)
@@ -157,6 +158,14 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 				transitionToSingleBed();
 			else if (state == CDRSState.inactive)
 				transitionToInactive();
+		}
+	}
+
+	private void sleep(int time) {
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
