@@ -13,9 +13,10 @@
 			<CDRS moduleName="CDRS">
 				<powerConsumer inputs="CDRS_Air_Inlet_Power_Store CDRS_Air_Return_Power_Store CDRS_CO2_Isolation_Power_Store CDRS_CO2_Vent_Power_Store CDRS_Primary_Heater_Power_Store CDRS_Secondary_Heater_Power_Store CDRS_Power_Store General_Power_Store General_Power_Store" desiredFlowRates="100 100 100 100 100 100 100 100 100" maxFlowRates="100 100 100 100 100 100 100 100 100"/>
 				<potableWaterConsumer inputs="Potable_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+				<potableWaterProducer outputs="Potable_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
 				<airConsumer inputs="Crew_Quarters" desiredFlowRates="10" maxFlowRates="10" />
 				<airProducer outputs="Crew_Quarters" desiredFlowRates="10" maxFlowRates="10" />
-				<co2Producer outputs="CO2_Store" desiredFlowRates="10" maxFlowRates="10" />
+				<CO2Producer outputs="CO2_Store" desiredFlowRates="10" maxFlowRates="10" />
 			</CDRS>
 		</air>
 		<water>
@@ -94,4 +95,17 @@
 			</CrewGroup>
 		</crew>
 	</SimBioModules>
+	<Sensors>
+		<air>
+			<CO2OutFlowRateSensor input="CDRS" moduleName="CDRS_CO2_Effluent_Sensor" index="0"/>
+		</air>
+		<environment>
+			<AirInFlowRateSensor input="CDRS" moduleName="CDRS_Air_Influent_Sensor" index="0"/>
+			<AirOutFlowRateSensor input="CDRS" moduleName="CDRS_Air_Effluent_Sensor" index="0"/>
+		</environment>
+		<water>
+			<PotableWaterInFlowRateSensor input="CDRS" moduleName="CDRS_Potable_Water_Influent_Sensor" index="0"/>
+			<PotableWaterOutFlowRateSensor input="CDRS" moduleName="CDRS_Potable_Water_Effluent_Sensor" index="0"/>
+		</water>
+	</Sensors>
 </biosim>

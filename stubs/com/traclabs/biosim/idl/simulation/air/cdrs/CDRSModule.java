@@ -6,6 +6,6 @@ package com.traclabs.biosim.idl.simulation.air.cdrs;
  */
 
 public interface CDRSModule
-	extends CDRSModuleOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity, com.traclabs.biosim.idl.simulation.framework.SimBioModule, com.traclabs.biosim.idl.simulation.power.PowerConsumer, com.traclabs.biosim.idl.simulation.environment.AirConsumer, com.traclabs.biosim.idl.simulation.environment.AirProducer, com.traclabs.biosim.idl.simulation.air.CO2Producer, com.traclabs.biosim.idl.simulation.water.PotableWaterConsumer
+	extends CDRSModuleOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity, com.traclabs.biosim.idl.simulation.framework.SimBioModule, com.traclabs.biosim.idl.simulation.power.PowerConsumer, com.traclabs.biosim.idl.simulation.environment.AirConsumer, com.traclabs.biosim.idl.simulation.environment.AirProducer, com.traclabs.biosim.idl.simulation.air.CO2Producer, com.traclabs.biosim.idl.simulation.water.PotableWaterConsumer, com.traclabs.biosim.idl.simulation.water.PotableWaterProducer
 {
 }

@@ -169,6 +169,11 @@ _delegate.fixMalfunction(id);
 _delegate.setAirReturnValveArmedStatus(status);
 	}
 
+	public com.traclabs.biosim.idl.simulation.water.PotableWaterProducerDefinition getPotableWaterProducerDefinition()
+	{
+		return _delegate.getPotableWaterProducerDefinition();
+	}
+
 	public int getMyTicks()
 	{
 		return _delegate.getMyTicks();
