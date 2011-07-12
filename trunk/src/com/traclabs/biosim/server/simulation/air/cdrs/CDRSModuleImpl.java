@@ -40,17 +40,17 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
     private CDRSState myState = CDRSState.init;
     private CDRSArmedStatus myArmedStatus = CDRSArmedStatus.not_armed;
     private CDRSValveState myAirInletValveState = CDRSValveState.open;
-    private CDRSCommandStatus myAirInletValveArmedStatus = CDRSCommandStatus.enabled;
+    private CDRSCommandStatus myAirInletValveEnabledStatus = CDRSCommandStatus.enabled;
     private CDRSValveState myAirReturnValveState = CDRSValveState.open;
-    private CDRSCommandStatus myAirReturnValveArmedStatus = CDRSCommandStatus.enabled;
+    private CDRSCommandStatus myAirReturnValveEnabledStatus = CDRSCommandStatus.enabled;
     private CDRSValveState myCO2IsolationValveState = CDRSValveState.open;
-    private CDRSCommandStatus myCO2IsolationValveArmedStatus = CDRSCommandStatus.enabled;
+    private CDRSCommandStatus myCO2IsolationValveEnabledStatus = CDRSCommandStatus.enabled;
     private CDRSValveState myCO2VentValveState = CDRSValveState.open;
-    private CDRSCommandStatus myCO2VentValveArmedStatus = CDRSCommandStatus.enabled;
+    private CDRSCommandStatus myCO2VentValveEnabledStatus = CDRSCommandStatus.enabled;
     private CDRSPowerState myWaterPumpState = CDRSPowerState.on;
-    private CDRSCommandStatus myWaterPumpArmedStatus = CDRSCommandStatus.enabled;
+    private CDRSCommandStatus myWaterPumpEnabledStatus = CDRSCommandStatus.enabled;
     private CDRSPowerState myBlowerState = CDRSPowerState.on;
-    private CDRSCommandStatus myBlowerArmedStatus = CDRSCommandStatus.enabled;
+    private CDRSCommandStatus myBlowerEnabledStatus = CDRSCommandStatus.enabled;
     private CDRSDayNightState myDayNightState = CDRSDayNightState.day;
     
     private static final int AIR_INLET_VALVE_POWER_INDEX = 0;
@@ -107,17 +107,17 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
         myState = CDRSState.init;
         myArmedStatus = CDRSArmedStatus.not_armed;
         myAirInletValveState = CDRSValveState.open;
-        myAirInletValveArmedStatus = CDRSCommandStatus.enabled;
+        myAirInletValveEnabledStatus = CDRSCommandStatus.enabled;
         myAirReturnValveState = CDRSValveState.open;
-        myAirReturnValveArmedStatus = CDRSCommandStatus.enabled;
+        myAirReturnValveEnabledStatus = CDRSCommandStatus.enabled;
         myCO2IsolationValveState = CDRSValveState.open;
-        myCO2IsolationValveArmedStatus = CDRSCommandStatus.enabled;
+        myCO2IsolationValveEnabledStatus = CDRSCommandStatus.enabled;
         myCO2VentValveState = CDRSValveState.open;
-        myCO2VentValveArmedStatus = CDRSCommandStatus.enabled;
+        myCO2VentValveEnabledStatus = CDRSCommandStatus.enabled;
         myWaterPumpState = CDRSPowerState.on;
-        myWaterPumpArmedStatus = CDRSCommandStatus.enabled;
+        myWaterPumpEnabledStatus = CDRSCommandStatus.enabled;
         myBlowerState = CDRSPowerState.on;
-        myBlowerArmedStatus = CDRSCommandStatus.enabled;
+        myBlowerEnabledStatus = CDRSCommandStatus.enabled;
         myDayNightState = CDRSDayNightState.day;
 
         myPrimaryHeaterProduction = 0;
@@ -170,7 +170,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setAirInletValveArmedStatus(CDRSCommandStatus status) {
-		this.myAirInletValveArmedStatus = status;
+		this.myAirInletValveEnabledStatus = status;
 	}
 
 	public void setAirReturnValveState(CDRSValveState state) {
@@ -179,7 +179,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setAirReturnValveArmedStatus(CDRSCommandStatus status) {
-		this.myAirReturnValveArmedStatus = status;
+		this.myAirReturnValveEnabledStatus = status;
 	}
 
 	public void setCO2IsolationValveState(CDRSValveState state) {
@@ -188,7 +188,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setCO2IsolationValveArmedStatus(CDRSCommandStatus status) {
-		this.myCO2IsolationValveArmedStatus = status;
+		this.myCO2IsolationValveEnabledStatus = status;
 	}
 
 	public void setCO2VentValveState(CDRSValveState state) {
@@ -197,7 +197,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setCO2VentValveArmedStatus(CDRSCommandStatus status) {
-		this.myCO2VentValveArmedStatus = status;
+		this.myCO2VentValveEnabledStatus = status;
 	}
 
 	public void setWaterPumpState(CDRSPowerState state) {
@@ -206,7 +206,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setWaterPumpArmedStatus(CDRSCommandStatus status) {
-		this.myWaterPumpArmedStatus = status;
+		this.myWaterPumpEnabledStatus = status;
 	}
 
 	public void setBlowerState(CDRSPowerState state) {
@@ -215,7 +215,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setBlowerArmedStatus(CDRSCommandStatus status) {
-		this.myBlowerArmedStatus = status;
+		this.myBlowerEnabledStatus = status;
 	}
 
 	public void setDayNightState(CDRSDayNightState state) {
@@ -235,7 +235,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public CDRSCommandStatus getAirInletValveArmedStatus() {
-		return myAirInletValveArmedStatus;
+		return myAirInletValveEnabledStatus;
 	}
 
 	public CDRSValveState getAirReturnValveState() {
@@ -243,7 +243,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public CDRSCommandStatus getAirReturnValveArmedStatus() {
-		return myAirReturnValveArmedStatus;
+		return myAirReturnValveEnabledStatus;
 	}
 
 	public CDRSValveState getCO2IsolationValveState() {
@@ -251,7 +251,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public CDRSCommandStatus getCO2IsolationValveArmedStatus() {
-		return myCO2IsolationValveArmedStatus;
+		return myCO2IsolationValveEnabledStatus;
 	}
 
 	public CDRSValveState getCO2VentValveState() {
@@ -259,7 +259,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public CDRSCommandStatus getCO2VentValveArmedStatus() {
-		return myCO2VentValveArmedStatus;
+		return myCO2VentValveEnabledStatus;
 	}
 
 	public CDRSPowerState getWaterPumpState() {
@@ -267,7 +267,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public CDRSCommandStatus getWaterPumpArmedStatus() {
-		return myWaterPumpArmedStatus;
+		return myWaterPumpEnabledStatus;
 	}
 
 	public CDRSPowerState getBlowerState() {
@@ -275,7 +275,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public CDRSCommandStatus getBlowerArmedStatus() {
-		return myBlowerArmedStatus;
+		return myBlowerEnabledStatus;
 	}
 
 	public CDRSDayNightState getDayNightState() {
