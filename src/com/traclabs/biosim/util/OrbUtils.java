@@ -398,7 +398,7 @@ public class OrbUtils {
     
     private static String findXmlInClasspath(String xmlLocation){
     	Logger.getLogger(OrbUtils.class).debug("Looking for "+xmlLocation+" in classpath");
-        URL foundURL = OrbUtils.class.getClassLoader().getResource(xmlLocation);
+        URL foundURL = Thread.currentThread().getContextClassLoader().getResource(xmlLocation);
         if (foundURL != null){
         	String urlString = foundURL.toString();
         	if (urlString.length() > 0)
