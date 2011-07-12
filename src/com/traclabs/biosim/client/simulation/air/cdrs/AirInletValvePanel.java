@@ -20,6 +20,8 @@ public class AirInletValvePanel extends GridButtonPanel {
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.weightx = 0.5;
 		constraints.weighty = 0.5;
+		constraints.ipadx = 3;
+		constraints.ipady = 3;
 		constraints.fill = GridBagConstraints.BOTH;
 		
 		JLabel valveStateName = new JLabel("Valve Position: ");
