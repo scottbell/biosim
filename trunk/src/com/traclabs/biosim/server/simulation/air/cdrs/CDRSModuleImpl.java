@@ -159,7 +159,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
         myAirProducerDefinitionImpl.reset();
         myCO2ProducerDefinitionImpl.reset();
         
-        myState = CDRSState.init;
+        myState = CDRSState.inactive;
         myArmedStatus = CDRSArmedStatus.not_armed;
         myAirInletValveState = CDRSValveState.open;
         myAirInletValveEnabledStatus = CDRSCommandStatus.enabled;
@@ -169,14 +169,15 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
         myCO2IsolationValveEnabledStatus = CDRSCommandStatus.enabled;
         myCO2VentValveState = CDRSValveState.open;
         myCO2VentValveEnabledStatus = CDRSCommandStatus.enabled;
-        myWaterPumpState = CDRSPowerState.on;
+        myWaterPumpState = CDRSPowerState.off;
         myWaterPumpEnabledStatus = CDRSCommandStatus.enabled;
-        myBlowerState = CDRSPowerState.on;
+        myBlowerState = CDRSPowerState.off;
         myBlowerEnabledStatus = CDRSCommandStatus.enabled;
         myDayNightState = CDRSDayNightState.day;
 
         myPrimaryHeaterProduction = 0;
         mySecondaryHeaterProduction = 0;
+        transitionToInactive();
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
