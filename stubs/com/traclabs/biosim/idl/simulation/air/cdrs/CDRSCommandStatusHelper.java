@@ -11,7 +11,7 @@ public final class CDRSCommandStatusHelper
 	{
 		if (_type == null)
 		{
-			_type = org.omg.CORBA.ORB.init().create_enum_tc(com.traclabs.biosim.idl.simulation.air.cdrs.CDRSCommandStatusHelper.id(),"CDRSCommandStatus",new String[]{"enabled","inibited"});
+			_type = org.omg.CORBA.ORB.init().create_enum_tc(com.traclabs.biosim.idl.simulation.air.cdrs.CDRSCommandStatusHelper.id(),"CDRSCommandStatus",new String[]{"inibited","enabled"});
 		}
 		return _type;
 	}

@@ -70,7 +70,7 @@ module com{
 						module cdrs{
                                                 	enum CDRSState {init, standby, dual_bed, single_bed, transitioning, inactive};
 							enum CDRSArmedStatus {armed, in_progress, not_armed};
-							enum CDRSCommandStatus {enabled, inibited};
+							enum CDRSCommandStatus {inibited, enabled};
 							enum CDRSValveState{open, closed};
 							enum CDRSPowerState {off, on};
 							enum CDRSDayNightState {day, night};
