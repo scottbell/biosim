@@ -73,7 +73,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
     private float mySecondaryHeaterProduction = 0;
     private static final float MAX_HEATER_PRODUCTION = 200;
     private CDRSState myStateToTransition = CDRSState.transitioning;
-    private final static int TICKS_TO_WAIT = 5;
+    private final static int TICKS_TO_WAIT = 20;
     private int myTicksWaited = 0;
     
     public CDRSModuleImpl(int pID, String pName) {
