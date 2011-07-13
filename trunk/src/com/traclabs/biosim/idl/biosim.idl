@@ -72,7 +72,7 @@ module com{
 							enum CDRSArmedStatus {armed, in_progress, not_armed};
 							enum CDRSCommandStatus {inibited, enabled};
 							enum CDRSValveState{open, closed};
-							enum CDRSPowerState {off, on};
+							enum CDRSPowerState {on, off};
 							enum CDRSDayNightState {day, night};
 						};
                                         };
