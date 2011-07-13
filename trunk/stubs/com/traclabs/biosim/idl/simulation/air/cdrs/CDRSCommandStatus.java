@@ -8,10 +8,10 @@ public final class CDRSCommandStatus
 	implements org.omg.CORBA.portable.IDLEntity
 {
 	private int value = -1;
-	public static final int _enabled = 0;
-	public static final CDRSCommandStatus enabled = new CDRSCommandStatus(_enabled);
-	public static final int _inibited = 1;
+	public static final int _inibited = 0;
 	public static final CDRSCommandStatus inibited = new CDRSCommandStatus(_inibited);
+	public static final int _enabled = 1;
+	public static final CDRSCommandStatus enabled = new CDRSCommandStatus(_enabled);
 	public int value()
 	{
 		return value;
@@ -19,8 +19,8 @@ public final class CDRSCommandStatus
 	public static CDRSCommandStatus from_int(int value)
 	{
 		switch (value) {
-			case _enabled: return enabled;
 			case _inibited: return inibited;
+			case _enabled: return enabled;
 			default: throw new org.omg.CORBA.BAD_PARAM();
 		}
 	}
