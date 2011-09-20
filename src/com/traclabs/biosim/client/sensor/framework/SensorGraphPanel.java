@@ -33,7 +33,6 @@ public class SensorGraphPanel extends Plot {
 		}
 		if (!started){
 			started = true;
-			repaint();
 		}
 		//move x axis
 		if (getXRange()[0] >= myBioDriver.getTicks()){
@@ -42,12 +41,11 @@ public class SensorGraphPanel extends Plot {
 			setXRange(myBioDriver.getTicks(), myBioDriver.getTicks() + TICKS_TO_KEEP);
 			setYRange(yRange[0], yRange[1]);
 			_yRangeGiven = false;
-			repaint();
 		}
 		else if (getXRange()[1] <= myBioDriver.getTicks()){
 			setXRange(myBioDriver.getTicks(), myBioDriver.getTicks() + TICKS_TO_KEEP);
-			repaint();
-		}repaint();
+		}
+		repaint();
 	}
 
 }
