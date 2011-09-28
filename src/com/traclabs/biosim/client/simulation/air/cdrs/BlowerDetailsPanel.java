@@ -30,7 +30,7 @@ public class BlowerDetailsPanel extends GridButtonPanel {
 		add(flowRateName, constraints);
 		StatusLabel flowRateLabel = new StatusLabel() {
 			public void refresh() {
-				setText(LssmViewer.getCDRSModule().getAirConsumerDefinition().getDesiredFlowRate(0) + "");
+				setText(LssmViewer.getCDRSModule().getAirConsumerDefinition().getActualFlowRate(0) + "");
 			}
 		};
 		constraints.gridx = 1;
@@ -74,7 +74,7 @@ public class BlowerDetailsPanel extends GridButtonPanel {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			String flowRateText = myFlowRateTextField.getSelectedText();
+			String flowRateText = myFlowRateTextField.getText();
 			float flowRate = Float.parseFloat(flowRateText);
 			LssmViewer.getCDRSModule().getAirConsumerDefinition().setDesiredFlowRate(flowRate, 0);
 		}
