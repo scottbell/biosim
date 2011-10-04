@@ -126,8 +126,6 @@ public class SimDesktop extends BioFrame {
 
     private JMenuItem myShowStochasticDisplayItem;
 
-    private JMenuItem myCDRSDisplayItem;
-
     //Various actions attributed to Buttons/MenuItems
     private Action myStartAction;
 
@@ -293,7 +291,7 @@ public class SimDesktop extends BioFrame {
         myShowStochasticDisplayItem = myNewMenu
                 .add(myShowStochasticDisplayAction);
         myShowStochasticDisplayItem.setMnemonic(KeyEvent.VK_I);
-        myCDRSDisplayItem = myNewMenu.add(myShowCdrsDisplayAction);
+        myNewMenu.add(myShowCdrsDisplayAction);
         myNewMenu.add(myShowSensorViewerAction);
         myNewMenu.add(myShowActuatorViewerAction);
         myNewMenu.add(myShowEnvironmentGraphAction);
