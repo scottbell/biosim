@@ -36,6 +36,7 @@ import com.traclabs.biosim.client.framework.StochasticPanel;
 import com.traclabs.biosim.client.framework.UpdatablePanel;
 import com.traclabs.biosim.client.sensor.framework.SensorViewer;
 import com.traclabs.biosim.client.simulation.air.AirPanel;
+import com.traclabs.biosim.client.simulation.air.cdrs.LssmViewer;
 import com.traclabs.biosim.client.simulation.crew.CrewPanel;
 import com.traclabs.biosim.client.simulation.environment.EnvironmentGraph;
 import com.traclabs.biosim.client.simulation.environment.EnvironmentPanel;
@@ -125,6 +126,8 @@ public class SimDesktop extends BioFrame {
 
     private JMenuItem myShowStochasticDisplayItem;
 
+    private JMenuItem myCDRSDisplayItem;
+
     //Various actions attributed to Buttons/MenuItems
     private Action myStartAction;
 
@@ -169,6 +172,8 @@ public class SimDesktop extends BioFrame {
     private Action myStackAction;
 
     private Action myLoopAction;
+    
+    private Action myShowCdrsDisplayAction;
 
     //Various icons used to display buttons
     private ImageIcon waterIcon;
@@ -253,6 +258,7 @@ public class SimDesktop extends BioFrame {
                 "Show Malfunction Controller");
         myShowStochasticDisplayAction = new ShowStochasticDisplayAction(
                 "Show Stochastic Controller");
+        myShowCdrsDisplayAction = new ShowCdrsDisplayAction("Show CDRS Display");
         myShowSensorViewerAction = new ShowSensorViewerAction(
                 "Show Sensor Viewer");
         myShowActuatorViewerAction = new ShowActuatorViewerAction("Show Actuator Viewer");
@@ -287,6 +293,7 @@ public class SimDesktop extends BioFrame {
         myShowStochasticDisplayItem = myNewMenu
                 .add(myShowStochasticDisplayAction);
         myShowStochasticDisplayItem.setMnemonic(KeyEvent.VK_I);
+        myCDRSDisplayItem = myNewMenu.add(myShowCdrsDisplayAction);
         myNewMenu.add(myShowSensorViewerAction);
         myNewMenu.add(myShowActuatorViewerAction);
         myNewMenu.add(myShowEnvironmentGraphAction);
@@ -725,6 +732,13 @@ public class SimDesktop extends BioFrame {
             newFrame.setSize(500, 350);
         }
     }
+    
+    private void displayCdrs() {
+        if (!tryExisitingInternalFrame("CDRS Display")) {
+            SimDesktopFrame newFrame = addInternalFrame("CDRS Display", new LssmViewer());
+            newFrame.setSize(500, 350);
+        }
+    }
 
     /**
      * Displays the Sensor Viewer panel with an internal frame inside this
@@ -922,6 +936,18 @@ public class SimDesktop extends BioFrame {
         public void actionPerformed(ActionEvent ae) {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             displayStochastic();
+            setCursor(Cursor.getDefaultCursor());
+        }
+    }
+    
+    private class ShowCdrsDisplayAction extends AbstractAction {
+        public ShowCdrsDisplayAction(String name) {
+            super(name);
+        }
+
+        public void actionPerformed(ActionEvent ae) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            displayCdrs();
             setCursor(Cursor.getDefaultCursor());
         }
     }
