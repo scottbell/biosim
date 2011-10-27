@@ -40,7 +40,7 @@ public class OrbUtils {
 
     private static Properties myCustomORBProperties;
     
-    private static final int STANDALONE_NAMESERVER_PORT = 16309;
+    private static final int STANDALONE_NAMESERVER_PORT = 16315;
     
     private static final int STANDALONE_SERVER_OA_PORT = 16310;
 
@@ -237,7 +237,7 @@ public class OrbUtils {
      */
     public static void sleepAwhile() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
         }
     }

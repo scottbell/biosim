@@ -40,10 +40,13 @@ public class BiosimStandalone {
     private int myDriverPause;
 
     public static void main(String args[]) {
-        ImageIcon marsIcon = new ImageIcon(BiosimStandalone.class
+    	String filename = "cdrs/cdrs.biosim";
+    	if (args.length > 0)
+    		filename = args[0];
+        ImageIcon moon = new ImageIcon(BiosimStandalone.class
                 .getClassLoader().getResource(
                         "com/traclabs/biosim/framework/moon.png"));
-        BiosimStandalone myBiosimStandalone = new BiosimStandalone(marsIcon, "BioSim: Advanced Life Support Simulation", "lunar/minihab.biosim", 500);
+        BiosimStandalone myBiosimStandalone = new BiosimStandalone(moon, "BioSim: Advanced Life Support Simulation", filename, 500);
         myBiosimStandalone.beginSimulation();
     }
     
@@ -84,7 +87,7 @@ public class BiosimStandalone {
         OrbUtils.sleepAwhile(5000);
         OrbUtils.initializeServerForStandalone();
         myServerThread.start();
-        OrbUtils.sleepAwhile(10000);
+        OrbUtils.sleepAwhile(4000);
         OrbUtils.initializeClientForStandalone();
         myClientThread.start();
     }
