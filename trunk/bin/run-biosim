@@ -52,7 +52,7 @@ logCLasspath="$devRootDir/lib/log4j/log4j.jar$separator$devRootDir/lib/log4j/com
 jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar"
 mysqlClasspath="$devRootDir/lib/mysql/mysql-jdbc.jar"
 jacoInvocation="$java_command -Xmx1000m -classpath $buildDir$separator$plotClasspath$separator$logCLasspath$separator$jacoClasspath$separator$resourceDir$separator$gefClasspath$separator$mysqlClasspath $openGLEnabled $biosimHome $jacoSingletonOrbClass $jacoOrbClass $jacoNameIOR"
-echo "	-starting biosim $jacoInvocation"
+echo "	-starting biosim"
 $jacoInvocation $mainName $@
 echo "*done invoking biosim"
 
