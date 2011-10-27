@@ -194,7 +194,7 @@ public class OrbUtils {
         } catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound e) {
         } catch (Exception e) {
             Logger.getLogger(OrbUtils.class).warn(
-                    "nameserver not found, polling again: ", e);
+                    "nameserver not found, polling again: " + e.getLocalizedMessage());
             myOrb = null;
             myRootPOA = null;
             myRootContext = null;
