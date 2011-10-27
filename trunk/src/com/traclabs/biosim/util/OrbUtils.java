@@ -115,7 +115,9 @@ public class OrbUtils {
             idContext = NamingContextExtHelper.narrow(myBiosimNamingContext
                     .resolve_str(Integer.toString(pID)));
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(OrbUtils.class).warn(
+                    "(id=" + pID + ") Had problems getting naming context:"
+                            + pID + " " + e);
         }
         return idContext;
     }
