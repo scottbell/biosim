@@ -11,31 +11,41 @@
 	<property name="resourceDir" location="resources" />
 	<property name="stubsDir" location="stubs" />
 	<property name="test.dir" location="test" />
+	
 	<!-- set server properties for this build -->
 	<property name="log4jDir" location="${lib}/log4j" />
+	
 	<!-- set client properties for this build -->
 	<property name="plotDir" location="${lib}/jfreechart" />
+	
 	<!-- set dist properties for this build -->
 	<property name="distDir" location="dist" />
 	<property name="distTmpDir" location="${distDir}/tmp" />
+	
 	<!-- set jnlp dist properties for this build -->
 	<property name="jnlpDistDir" location="${distDir}/jnlp" />
 	<property name="jnlpDistLibDir" location="${lib}/dist/jnlp" />
 	<property name="jnlpDistTmpDir" location="${tmpDir}/jnlp" />
+	
 	<!-- set javadoc properties for this build -->
 	<property name="javadocDir" location="${doc}/javadoc" />
+	
 	<!-- set users manual properties for this build -->
 	<property name="manualDir" location="${doc}/users_manual_files" />
 	<property name="manualTmpDir" location="${tmpDir}/users_manual" />
+	
 	<target name="init-build">
 		<mkdir dir="${buildDir}" />
 	</target>
+	
 	<target name="init-dist">
 		<mkdir dir="${distDir}" />
 	</target>
+	
 	<target name="init-tmp">
 		<mkdir dir="${tmpDir}" />
 	</target>
+	
 	<target name="stub-idl" depends="init-build,init-tmp"
 		description="stub the IDL file">
 		<mkdir dir="${stubsDir}" />
@@ -126,6 +136,7 @@
 			</classpath>
 		</javac>
 	</target>
+	
 	<target name="build-dist" depends="build-server,build-client,init-dist"
 		description="creates dist">
 		<mkdir dir="${distDir}" />
@@ -143,6 +154,7 @@
 			</fileset>
 		</jar>
 	</target>
+	
 	<target name="build-client-dist" depends="build-server,build-client,init-dist"
 		description="creates dist">
 		<mkdir dir="${distDir}" />
@@ -165,6 +177,7 @@
 			</fileset>
 		</jar>
 	</target>
+	
 	<target name="build-stubs-dist" depends="build-server,build-client,init-dist"
 		description="creates dist">
 		<mkdir dir="${distDir}" />
