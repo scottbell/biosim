@@ -1,7 +1,6 @@
 <project name="BioSim" default="build" basedir=".">
 	<description> Build file for BioSim by Scott Bell</description>
 	<!-- set global properties for this build -->
-	<!-- <property name="build.compiler" value="jikes" /> -->
 	<property name="src" location="src" />
 	<property name="doc" location="doc" />
 	<property name="buildDir" location="build" />
@@ -96,6 +95,7 @@
 			</classpath>
 		</javac>
 	</target>
+	
 	<target name="build-util" depends="" description="compile the util">
 		<echo message="Compling the util" />
 		<javac srcdir="${src}/com/traclabs/biosim/util" destdir="${buildDir}"
