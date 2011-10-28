@@ -195,6 +195,7 @@ public class OrbUtils {
         } catch (Exception e) {
             Logger.getLogger(OrbUtils.class).warn(
                     "nameserver not found, polling again: " + e.getLocalizedMessage());
+            myOrb.shutdown(false);
             myOrb = null;
             myRootPOA = null;
             myRootContext = null;
