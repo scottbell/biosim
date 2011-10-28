@@ -61,9 +61,11 @@
 			</classpath>
 		</javac>
 	</target>
+		
 	<target name="stub-and-compile-idl" depends="stub-idl,compile-stubs"
 		description="stub the IDL file">
 	</target>
+	
 	<target name="build-server" depends="stub-and-compile-idl,build-util"
 		description="compile the server">
 		<echo message="Compling the server" />
@@ -78,6 +80,7 @@
 			</classpath>
 		</javac>
 	</target>
+	
 	<target name="build-framework" depends="build-server"
 		description="compile the framework">
 		<echo message="Compling the framework" />
