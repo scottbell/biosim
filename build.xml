@@ -51,6 +51,7 @@
 			</classpath>
 		</java>
 	</target>
+	
 	<target name="compile-stubs" depends="init-build,init-tmp"
 		description="compiles the IDL stubs">
 		<echo message="Compiling stubs" />
