@@ -332,7 +332,7 @@
 	<target name="build-all" depends="docs, build-manual, build-dist"
 		description="compile biosim, create docs">
 	</target>
-	<target name="build" depends="build-server,build-client"
+	<target name="build" depends="build-server,build-client,build-framework"
 		description="builds biosim">
 	</target>
 	<target name="all" depends="clean-all,build-all" description="cleans then builds everything">
