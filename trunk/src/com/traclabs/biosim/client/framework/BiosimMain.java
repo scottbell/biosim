@@ -104,7 +104,7 @@ public class BiosimMain {
 				wantsToRunTestController = true;
 			} else if (myArgs[i].startsWith("-xml=")) {
 				try {
-					xmlFile = myArgs[i].split("=")[1];
+					xmlFile = getArgumentValue(myArgs[i]);
 				} catch (Exception e) {
 					myLogger.error("Problem parsing arguments on arg "
 							+ myArgs[i]);
@@ -120,7 +120,7 @@ public class BiosimMain {
 				}
 			} else if (myArgs[i].startsWith("-id=")) {
 				try {
-					myID = Integer.parseInt(myArgs[i].split("=")[1]);
+					myID = Integer.parseInt(getArgumentValue(myArgs[i]));
 				} catch (Exception e) {
 					myLogger.error("Problem parsing arguments on arg "
 							+ myArgs[i]);
@@ -138,7 +138,7 @@ public class BiosimMain {
 				try {
 					unrealServerGiven = true;
 					wantsToRunUnreal = true;
-					unrealServer = myArgs[i].split("=")[1];
+					unrealServer = getArgumentValue(myArgs[i]);
 				} catch (Exception e) {
 					myLogger.warn("Problem parsing arguments on arg "
 							+ myArgs[i]);
@@ -200,6 +200,10 @@ public class BiosimMain {
 			myLogger.info("Using default, starting GUI with server ID=" + myID);
 			runGUI();
 		}
+	}
+	
+	public static String getArgumentValue(String argument){
+		return argument.split("=")[1];
 	}
 
 	/**

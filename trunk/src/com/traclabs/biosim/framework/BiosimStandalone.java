@@ -41,8 +41,9 @@ public class BiosimStandalone {
 
     public static void main(String args[]) {
     	String filename = "cdrs/cdrs.biosim";
-    	if (args.length > 0)
-    		filename = args[0];
+    	if (args.length > 0){
+    		filename = BiosimMain.getArgumentValue(args[0]);
+    	}
         ImageIcon moon = new ImageIcon(BiosimStandalone.class
                 .getClassLoader().getResource(
                         "com/traclabs/biosim/framework/moon.png"));
