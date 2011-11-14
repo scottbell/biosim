@@ -10,6 +10,6 @@ set nameServicePort="16315"
 set jacoNameIOR="ORBInitRef.NameService=corbaloc::%nameServiceHost%:%nameServicePort%/NameService"
 set resourceDir="%BIOSIM_HOME%\resources"
 set jacoClasspath="%BIOSIM_HOME%\lib\jacorb\jacorb.jar;%BIOSIM_HOME%\lib\jacorb;%BIOSIM_HOME%\lib\jacorb\avalon-framework.jar;%BIOSIM_HOME%\lib\jacorb\logkit.jar"
-set logCLasspath="%BIOSIM_HOME%\lib\log4j\log4j.jar;%BIOSIM_HOME%\lib\mysql\mysql-jdbc.jar"
-java -Xmx1g -Xms500m -classpath %buildDir%;%resourceDir%;%logCLasspath%;%jacoClasspath% %machineTypeEnv% -D%jacoOrbClass% -D%jacoSingletonOrbClass% -D%jacoNameIOR% "%mainClass%" %*
+set logClasspath="%BIOSIM_HOME%\lib\log4j\log4j.jar;%BIOSIM_HOME%\lib\mysql\mysql-jdbc.jar"
+java -Xmx1g -Xms500m -classpath %buildDir%;%resourceDir%;%logClasspath%;%jacoClasspath% %machineTypeEnv% -D%jacoOrbClass% -D%jacoSingletonOrbClass% -D%jacoNameIOR% "%mainClass%" %*
 pause
