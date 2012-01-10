@@ -100,10 +100,10 @@ public class BiosimStandalone {
 
     private class ServerThread implements Runnable {
 		public void run() {
-            BiosimServer myBiosimServer = new BiosimServer(0, myDriverPause,
+			BiosimServer server = new BiosimServer(0, myDriverPause,
                     myXmlFilename);
-            myBiosimServer.addReadyListener(myReadyListener);
-            myBiosimServer.runServer("BiosimServer (id=0)");
+			server.addReadyListener(myReadyListener);
+			server.runServer("BiosimServer (id=0)");
         }
     }
 

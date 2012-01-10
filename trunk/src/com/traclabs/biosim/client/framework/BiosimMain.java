@@ -213,6 +213,7 @@ public class BiosimMain {
 		SimDesktop newDesktop = new SimDesktop();
 		newDesktop.setSize(1024, 768);
 		newDesktop.setVisible(true);
+		newDesktop.startSim();
 	}
 
 	/**

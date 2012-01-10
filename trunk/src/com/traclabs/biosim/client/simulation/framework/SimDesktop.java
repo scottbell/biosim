@@ -224,9 +224,13 @@ public class SimDesktop extends BioFrame {
     public SimDesktop() {
         myLogger = Logger.getLogger(this.getClass());
         myDriver = BioHolderInitializer.getBioHolder().theBioDriver;
-        myDriver.setPauseSimulation(false);
         myFrames = new Hashtable<String,SimDesktopFrame>();
         buildGUI();
+    }
+    
+    public void startSim(){
+    	if (!myDriver.isStarted())
+    		myDriver.startSimulation();
     }
 
     /**
