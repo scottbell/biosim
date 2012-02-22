@@ -335,7 +335,13 @@ module com{
                                                         boolean isPipe();                                                     
                                                         void setPipe(in boolean pPipe);
                                                 };
-                                                interface SimBioModule : idl::framework::BioModule{};
+						interface CommandListener{
+							void newCommandSent(in string commandName);				
+						};
+                                                interface SimBioModule : idl::framework::BioModule{
+							void notifyCommandSent(in string commandName);
+							void registerCommandListener(in CommandListener listener);
+						};
                                                 interface PassiveModule : SimBioModule{};
                                                 interface Accumulator : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, water::DirtyWaterConsumer, water::WaterConsumer, air::O2Consumer, air::CO2Consumer, air::NitrogenConsumer, environment::AirConsumer, food::BiomassConsumer, food::FoodConsumer, waste::DryWasteConsumer, power::PowerProducer, water::PotableWaterProducer, water::GreyWaterProducer, water::DirtyWaterProducer, air::O2Producer, air::CO2Producer, air::NitrogenProducer, environment::AirProducer, food::BiomassProducer, food::FoodProducer, waste::DryWasteProducer{};
                                                 interface Injector : framework::SimBioModule, power::PowerConsumer, water::PotableWaterConsumer, water::GreyWaterConsumer, water::DirtyWaterConsumer, water::WaterConsumer, air::O2Consumer, air::CO2Consumer, air::NitrogenConsumer, environment::AirConsumer, food::BiomassConsumer, food::FoodConsumer, waste::DryWasteConsumer, power::PowerProducer, water::PotableWaterProducer, water::GreyWaterProducer, water::DirtyWaterProducer, air::O2Producer, air::CO2Producer, air::NitrogenProducer, environment::AirProducer, food::BiomassProducer, food::FoodProducer, waste::DryWasteProducer{};
