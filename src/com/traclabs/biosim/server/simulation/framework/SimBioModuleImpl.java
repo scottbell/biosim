@@ -1,5 +1,6 @@
 package com.traclabs.biosim.server.simulation.framework;
 
+import com.traclabs.biosim.idl.simulation.framework.CommandListener;
 import com.traclabs.biosim.idl.simulation.framework.SimBioModuleOperations;
 import com.traclabs.biosim.server.framework.BioModuleImpl;
 
@@ -23,6 +24,13 @@ public abstract class SimBioModuleImpl extends BioModuleImpl implements
     protected SimBioModuleImpl(int pID, String pName) {
         super(pID, pName);
     }
+    
+	public void notifyCommandSent(String commandName){
+		
+	}
+	public void registerCommandListener(CommandListener listener){
+		
+	}
 
 }
 
