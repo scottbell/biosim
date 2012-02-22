@@ -3,6 +3,8 @@ package com.traclabs.biosim.server.simulation.framework;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.omg.CORBA.TRANSIENT;
+
 import com.traclabs.biosim.idl.simulation.framework.BioCommandListener;
 import com.traclabs.biosim.idl.simulation.framework.SimBioModuleOperations;
 import com.traclabs.biosim.server.framework.BioModuleImpl;
@@ -29,8 +31,19 @@ public abstract class SimBioModuleImpl extends BioModuleImpl implements SimBioMo
     }
     
 	public void notifyCommandSent(String commandName){
-		for (BioCommandListener listener : myListeners) {
-			listener.newCommandSent(commandName);
+		BioCommandListener currentListener = null;
+		try{
+			for (BioCommandListener listener : myListeners) {
+				currentListener = listener;
+				currentListener.newCommandSent(commandName);
+			}
+		}
+		catch (TRANSIENT e){
+			if (currentListener != null){
+				myListeners.remove(currentListener);
+				//try again
+				notifyCommandSent(commandName);
+			}
 		}
 	}
 	public void registerBioCommandListener(BioCommandListener listener){
