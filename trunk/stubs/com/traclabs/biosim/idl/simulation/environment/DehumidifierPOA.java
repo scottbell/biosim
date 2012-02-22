@@ -16,28 +16,30 @@ public abstract class DehumidifierPOA
 		m_opsHash.put ( "getTickLength", new java.lang.Integer(0));
 		m_opsHash.put ( "setLogLevel", new java.lang.Integer(1));
 		m_opsHash.put ( "clearMalfunction", new java.lang.Integer(2));
-		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(3));
-		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(4));
-		m_opsHash.put ( "getAirConsumerDefinition", new java.lang.Integer(5));
-		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(6));
-		m_opsHash.put ( "randomFilter", new java.lang.Integer(7));
-		m_opsHash.put ( "reset", new java.lang.Integer(8));
-		m_opsHash.put ( "getMyTicks", new java.lang.Integer(9));
-		m_opsHash.put ( "maintain", new java.lang.Integer(10));
-		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(11));
-		m_opsHash.put ( "getID", new java.lang.Integer(12));
-		m_opsHash.put ( "getModuleName", new java.lang.Integer(13));
-		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(14));
-		m_opsHash.put ( "tick", new java.lang.Integer(15));
-		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(16));
-		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(17));
-		m_opsHash.put ( "setTickLength", new java.lang.Integer(18));
-		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(19));
-		m_opsHash.put ( "getDirtyWaterProducerDefinition", new java.lang.Integer(20));
-		m_opsHash.put ( "startMalfunction", new java.lang.Integer(21));
-		m_opsHash.put ( "log", new java.lang.Integer(22));
-		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(23));
-		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(24));
+		m_opsHash.put ( "notifyCommandSent", new java.lang.Integer(3));
+		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(4));
+		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(5));
+		m_opsHash.put ( "getAirConsumerDefinition", new java.lang.Integer(6));
+		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(7));
+		m_opsHash.put ( "randomFilter", new java.lang.Integer(8));
+		m_opsHash.put ( "reset", new java.lang.Integer(9));
+		m_opsHash.put ( "getMyTicks", new java.lang.Integer(10));
+		m_opsHash.put ( "registerCommandListener", new java.lang.Integer(11));
+		m_opsHash.put ( "maintain", new java.lang.Integer(12));
+		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(13));
+		m_opsHash.put ( "getID", new java.lang.Integer(14));
+		m_opsHash.put ( "getModuleName", new java.lang.Integer(15));
+		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(16));
+		m_opsHash.put ( "tick", new java.lang.Integer(17));
+		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(18));
+		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(19));
+		m_opsHash.put ( "setTickLength", new java.lang.Integer(20));
+		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(21));
+		m_opsHash.put ( "getDirtyWaterProducerDefinition", new java.lang.Integer(22));
+		m_opsHash.put ( "startMalfunction", new java.lang.Integer(23));
+		m_opsHash.put ( "log", new java.lang.Integer(24));
+		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(25));
+		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(26));
 	}
 	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/environment/Dehumidifier:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/DirtyWaterProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentConsumer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
 	public com.traclabs.biosim.idl.simulation.environment.Dehumidifier _this()
@@ -79,76 +81,90 @@ public abstract class DehumidifierPOA
 				clearMalfunction(_arg0);
 				break;
 			}
-			case 3: // isMalfunctioning
+			case 3: // notifyCommandSent
+			{
+				java.lang.String _arg0=_input.read_string();
+				_out = handler.createReply();
+				notifyCommandSent(_arg0);
+				break;
+			}
+			case 4: // isMalfunctioning
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isMalfunctioning());
 				break;
 			}
-			case 4: // clearAllMalfunctions
+			case 5: // clearAllMalfunctions
 			{
 				_out = handler.createReply();
 				clearAllMalfunctions();
 				break;
 			}
-			case 5: // getAirConsumerDefinition
+			case 6: // getAirConsumerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinitionHelper.write(_out,getAirConsumerDefinition());
 				break;
 			}
-			case 6: // setEnableFailure
+			case 7: // setEnableFailure
 			{
 				boolean _arg0=_input.read_boolean();
 				_out = handler.createReply();
 				setEnableFailure(_arg0);
 				break;
 			}
-			case 7: // randomFilter
+			case 8: // randomFilter
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				_out.write_float(randomFilter(_arg0));
 				break;
 			}
-			case 8: // reset
+			case 9: // reset
 			{
 				_out = handler.createReply();
 				reset();
 				break;
 			}
-			case 9: // getMyTicks
+			case 10: // getMyTicks
 			{
 				_out = handler.createReply();
 				_out.write_long(getMyTicks());
 				break;
 			}
-			case 10: // maintain
+			case 11: // registerCommandListener
+			{
+				com.traclabs.biosim.idl.simulation.framework.CommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.CommandListenerHelper.read(_input);
+				_out = handler.createReply();
+				registerCommandListener(_arg0);
+				break;
+			}
+			case 12: // maintain
 			{
 				_out = handler.createReply();
 				maintain();
 				break;
 			}
-			case 11: // doSomeRepairWork
+			case 13: // doSomeRepairWork
 			{
 				long _arg0=_input.read_longlong();
 				_out = handler.createReply();
 				doSomeRepairWork(_arg0);
 				break;
 			}
-			case 12: // getID
+			case 14: // getID
 			{
 				_out = handler.createReply();
 				_out.write_long(getID());
 				break;
 			}
-			case 13: // getModuleName
+			case 15: // getModuleName
 			{
 				_out = handler.createReply();
 				_out.write_string(getModuleName());
 				break;
 			}
-			case 14: // scheduleMalfunction
+			case 16: // scheduleMalfunction
 			{
 				com.traclabs.biosim.idl.framework.MalfunctionIntensity _arg0=com.traclabs.biosim.idl.framework.MalfunctionIntensityHelper.read(_input);
 				com.traclabs.biosim.idl.framework.MalfunctionLength _arg1=com.traclabs.biosim.idl.framework.MalfunctionLengthHelper.read(_input);
@@ -157,45 +173,45 @@ public abstract class DehumidifierPOA
 				scheduleMalfunction(_arg0,_arg1,_arg2);
 				break;
 			}
-			case 15: // tick
+			case 17: // tick
 			{
 				_out = handler.createReply();
 				tick();
 				break;
 			}
-			case 16: // fixMalfunction
+			case 18: // fixMalfunction
 			{
 				long _arg0=_input.read_longlong();
 				_out = handler.createReply();
 				fixMalfunction(_arg0);
 				break;
 			}
-			case 17: // getMalfunctionNames
+			case 19: // getMalfunctionNames
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.StringListHelper.write(_out,getMalfunctionNames());
 				break;
 			}
-			case 18: // setTickLength
+			case 20: // setTickLength
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setTickLength(_arg0);
 				break;
 			}
-			case 19: // isFailureEnabled
+			case 21: // isFailureEnabled
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isFailureEnabled());
 				break;
 			}
-			case 20: // getDirtyWaterProducerDefinition
+			case 22: // getDirtyWaterProducerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.water.DirtyWaterProducerDefinitionHelper.write(_out,getDirtyWaterProducerDefinition());
 				break;
 			}
-			case 21: // startMalfunction
+			case 23: // startMalfunction
 			{
 				com.traclabs.biosim.idl.framework.MalfunctionIntensity _arg0=com.traclabs.biosim.idl.framework.MalfunctionIntensityHelper.read(_input);
 				com.traclabs.biosim.idl.framework.MalfunctionLength _arg1=com.traclabs.biosim.idl.framework.MalfunctionLengthHelper.read(_input);
@@ -203,19 +219,19 @@ public abstract class DehumidifierPOA
 				com.traclabs.biosim.idl.framework.MalfunctionHelper.write(_out,startMalfunction(_arg0,_arg1));
 				break;
 			}
-			case 22: // log
+			case 24: // log
 			{
 				_out = handler.createReply();
 				log();
 				break;
 			}
-			case 23: // getMalfunctions
+			case 25: // getMalfunctions
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.framework.MalfunctionListHelper.write(_out,getMalfunctions());
 				break;
 			}
-			case 24: // fixAllMalfunctions
+			case 26: // fixAllMalfunctions
 			{
 				_out = handler.createReply();
 				fixAllMalfunctions();

@@ -94,6 +94,11 @@ _delegate.setLogLevel(pLogLevel);
 		return _delegate.getDirtyWaterConsumerDefinition();
 	}
 
+	public void notifyCommandSent(java.lang.String commandName)
+	{
+_delegate.notifyCommandSent(commandName);
+	}
+
 	public com.traclabs.biosim.idl.simulation.food.BiomassProducerDefinition getBiomassProducerDefinition()
 	{
 		return _delegate.getBiomassProducerDefinition();
@@ -139,14 +144,19 @@ _delegate.fixMalfunction(id);
 		return _delegate.getMyTicks();
 	}
 
+	public com.traclabs.biosim.idl.simulation.food.BiomassConsumerDefinition getBiomassConsumerDefinition()
+	{
+		return _delegate.getBiomassConsumerDefinition();
+	}
+
 	public com.traclabs.biosim.idl.framework.Malfunction[] getMalfunctions()
 	{
 		return _delegate.getMalfunctions();
 	}
 
-	public com.traclabs.biosim.idl.simulation.food.BiomassConsumerDefinition getBiomassConsumerDefinition()
+	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
 	{
-		return _delegate.getBiomassConsumerDefinition();
+_delegate.registerCommandListener(listener);
 	}
 
 	public com.traclabs.biosim.idl.simulation.food.FoodConsumerDefinition getFoodConsumerDefinition()
@@ -229,14 +239,14 @@ _delegate.doSomeRepairWork(id);
 _delegate.setIndexOfEffluentStore(pIndexOfEffluentStore);
 	}
 
-	public void setEnableFailure(boolean pValue)
-	{
-_delegate.setEnableFailure(pValue);
-	}
-
 	public com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition getAirConsumerDefinition()
 	{
 		return _delegate.getAirConsumerDefinition();
+	}
+
+	public void setEnableFailure(boolean pValue)
+	{
+_delegate.setEnableFailure(pValue);
 	}
 
 	public void clearAllMalfunctions()

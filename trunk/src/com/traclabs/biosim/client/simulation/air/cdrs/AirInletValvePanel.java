@@ -44,6 +44,7 @@ public class AirInletValvePanel extends GridButtonPanel {
 		ActionListener openValveListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setAirInletValveState(CDRSValveState.open);
+				LssmViewer.sendCommand("airInletOpenCommand");
 			}
 		};
 		JButton openValveButton = new JButton("Open");
@@ -55,6 +56,7 @@ public class AirInletValvePanel extends GridButtonPanel {
 		ActionListener closeValveListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setAirInletValveState(CDRSValveState.closed);
+				LssmViewer.sendCommand("airInletCloseCommand");
 			}
 		};
 		JButton closeValveButton = new JButton("Close");

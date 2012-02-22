@@ -41,6 +41,7 @@ public class LssmArRtStatus extends GridButtonPanel {
 		enableBlowerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setBlowerArmedStatus(CDRSCommandStatus.enabled);
+				LssmViewer.sendCommand("blowerEnableCommand");
 			}
 		});
 		add(enableBlowerButton, constraints);
@@ -51,6 +52,7 @@ public class LssmArRtStatus extends GridButtonPanel {
 		inhibitBlowerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setBlowerArmedStatus(CDRSCommandStatus.inibited);
+				LssmViewer.sendCommand("blowerInhibitCommand");
 			}
 		});
 		add(inhibitBlowerButton, constraints);
@@ -75,6 +77,7 @@ public class LssmArRtStatus extends GridButtonPanel {
 		enablePumpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setWaterPumpArmedStatus(CDRSCommandStatus.enabled);
+				LssmViewer.sendCommand("waterPumpEnableCommand");
 			}
 		});
 		add(enablePumpButton, constraints);
@@ -85,6 +88,7 @@ public class LssmArRtStatus extends GridButtonPanel {
 		inhibitPumpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setWaterPumpArmedStatus(CDRSCommandStatus.inibited);
+				LssmViewer.sendCommand("waterPumpInhibitCommand");
 			}
 		});
 		add(inhibitPumpButton, constraints);

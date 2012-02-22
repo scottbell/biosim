@@ -94,6 +94,11 @@ _delegate.setLogLevel(pLogLevel);
 		return _delegate.startMalfunction(pIntensity,pLength);
 	}
 
+	public void notifyCommandSent(java.lang.String commandName)
+	{
+_delegate.notifyCommandSent(commandName);
+	}
+
 	public int getID()
 	{
 		return _delegate.getID();
@@ -152,6 +157,11 @@ _delegate.attachCrewPerson(pCrewPerson);
 	public com.traclabs.biosim.idl.framework.Malfunction[] getMalfunctions()
 	{
 		return _delegate.getMalfunctions();
+	}
+
+	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
+	{
+_delegate.registerCommandListener(listener);
 	}
 
 	public com.traclabs.biosim.idl.simulation.food.FoodConsumerDefinition getFoodConsumerDefinition()

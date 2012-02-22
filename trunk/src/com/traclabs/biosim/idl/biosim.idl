@@ -179,6 +179,7 @@ module com{
                                                 interface Consumer;
                                                 interface Producer;
                                                 interface StoreFlowRateControllable;
+						interface CommandListener;
                                         };
                                 };
                                 module framework{

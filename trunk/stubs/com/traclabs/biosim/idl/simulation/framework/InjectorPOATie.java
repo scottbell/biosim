@@ -89,6 +89,11 @@ _delegate.setLogLevel(pLogLevel);
 		return _delegate.getDirtyWaterConsumerDefinition();
 	}
 
+	public void notifyCommandSent(java.lang.String commandName)
+	{
+_delegate.notifyCommandSent(commandName);
+	}
+
 	public com.traclabs.biosim.idl.simulation.food.BiomassProducerDefinition getBiomassProducerDefinition()
 	{
 		return _delegate.getBiomassProducerDefinition();
@@ -144,19 +149,24 @@ _delegate.fixMalfunction(id);
 		return _delegate.getBiomassConsumerDefinition();
 	}
 
+	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
+	{
+_delegate.registerCommandListener(listener);
+	}
+
 	public com.traclabs.biosim.idl.simulation.food.FoodConsumerDefinition getFoodConsumerDefinition()
 	{
 		return _delegate.getFoodConsumerDefinition();
 	}
 
-	public void reset()
-	{
-_delegate.reset();
-	}
-
 	public com.traclabs.biosim.idl.simulation.waste.DryWasteConsumerDefinition getDryWasteConsumerDefinition()
 	{
 		return _delegate.getDryWasteConsumerDefinition();
+	}
+
+	public void reset()
+	{
+_delegate.reset();
 	}
 
 	public java.lang.String getModuleName()

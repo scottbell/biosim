@@ -114,6 +114,11 @@ _delegate.setInitialVolumeAtSeaLevel(pInitialVolume);
 		return _delegate.getTemperature();
 	}
 
+	public void notifyCommandSent(java.lang.String commandName)
+	{
+_delegate.notifyCommandSent(commandName);
+	}
+
 	public int getID()
 	{
 		return _delegate.getID();
@@ -142,6 +147,11 @@ _delegate.fixMalfunction(id);
 	public com.traclabs.biosim.idl.framework.Malfunction[] getMalfunctions()
 	{
 		return _delegate.getMalfunctions();
+	}
+
+	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
+	{
+_delegate.registerCommandListener(listener);
 	}
 
 	public com.traclabs.biosim.idl.simulation.environment.EnvironmentVaporStore getVaporStore()

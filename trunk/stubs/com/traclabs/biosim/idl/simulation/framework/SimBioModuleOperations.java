@@ -9,4 +9,8 @@ package com.traclabs.biosim.idl.simulation.framework;
 public interface SimBioModuleOperations
 	extends com.traclabs.biosim.idl.framework.BioModuleOperations
 {
+	/* constants */
+	/* operations  */
+	void notifyCommandSent(java.lang.String commandName);
+	void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener);
 }

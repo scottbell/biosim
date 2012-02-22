@@ -74,6 +74,11 @@ _delegate.setLogLevel(pLogLevel);
 		return _delegate.startMalfunction(pIntensity,pLength);
 	}
 
+	public void notifyCommandSent(java.lang.String commandName)
+	{
+_delegate.notifyCommandSent(commandName);
+	}
+
 	public com.traclabs.biosim.idl.simulation.food.BiomassProducerDefinition getBiomassProducerDefinition()
 	{
 		return _delegate.getBiomassProducerDefinition();
@@ -112,6 +117,11 @@ _delegate.fixMalfunction(id);
 	public com.traclabs.biosim.idl.framework.Malfunction[] getMalfunctions()
 	{
 		return _delegate.getMalfunctions();
+	}
+
+	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
+	{
+_delegate.registerCommandListener(listener);
 	}
 
 	public com.traclabs.biosim.idl.simulation.food.Shelf createNewShelf(com.traclabs.biosim.idl.simulation.food.PlantType pType, float pCropArea, int pStartTick)

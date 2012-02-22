@@ -64,6 +64,11 @@ _delegate.setLogLevel(pLogLevel);
 _delegate.clearMalfunction(id);
 	}
 
+	public void notifyCommandSent(java.lang.String commandName)
+	{
+_delegate.notifyCommandSent(commandName);
+	}
+
 	public boolean isMalfunctioning()
 	{
 		return _delegate.isMalfunctioning();
@@ -94,6 +99,11 @@ _delegate.reset();
 		return _delegate.getMyTicks();
 	}
 
+	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
+	{
+_delegate.registerCommandListener(listener);
+	}
+
 	public void maintain()
 	{
 _delegate.maintain();
@@ -114,6 +124,11 @@ _delegate.doSomeRepairWork(id);
 		return _delegate.getID();
 	}
 
+	public void scheduleMalfunction(com.traclabs.biosim.idl.framework.MalfunctionIntensity pIntensity, com.traclabs.biosim.idl.framework.MalfunctionLength pLength, int pTickToMalfunction)
+	{
+_delegate.scheduleMalfunction(pIntensity,pLength,pTickToMalfunction);
+	}
+
 	public java.lang.String getModuleName()
 	{
 		return _delegate.getModuleName();
@@ -122,11 +137,6 @@ _delegate.doSomeRepairWork(id);
 	public float getPercentageOfPowerAskedDelivered()
 	{
 		return _delegate.getPercentageOfPowerAskedDelivered();
-	}
-
-	public void scheduleMalfunction(com.traclabs.biosim.idl.framework.MalfunctionIntensity pIntensity, com.traclabs.biosim.idl.framework.MalfunctionLength pLength, int pTickToMalfunction)
-	{
-_delegate.scheduleMalfunction(pIntensity,pLength,pTickToMalfunction);
 	}
 
 	public void setPowerRequired(float pWatts)

@@ -22,36 +22,38 @@ public abstract class EnvironmentVaporStorePOA
 		m_opsHash.put ( "setLogLevel", new java.lang.Integer(6));
 		m_opsHash.put ( "startMalfunction", new java.lang.Integer(7));
 		m_opsHash.put ( "getCurrentCapacity", new java.lang.Integer(8));
-		m_opsHash.put ( "getID", new java.lang.Integer(9));
-		m_opsHash.put ( "setInitialCapacity", new java.lang.Integer(10));
-		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(11));
-		m_opsHash.put ( "getMyTicks", new java.lang.Integer(12));
-		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(13));
-		m_opsHash.put ( "getInitialCapacity", new java.lang.Integer(14));
-		m_opsHash.put ( "reset", new java.lang.Integer(15));
-		m_opsHash.put ( "getOverflow", new java.lang.Integer(16));
-		m_opsHash.put ( "take", new java.lang.Integer(17));
-		m_opsHash.put ( "getPercentageFilled", new java.lang.Integer(18));
-		m_opsHash.put ( "getModuleName", new java.lang.Integer(19));
-		m_opsHash.put ( "randomFilter", new java.lang.Integer(20));
-		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(21));
-		m_opsHash.put ( "getPressure", new java.lang.Integer(22));
-		m_opsHash.put ( "log", new java.lang.Integer(23));
-		m_opsHash.put ( "setInitialLevel", new java.lang.Integer(24));
-		m_opsHash.put ( "maintain", new java.lang.Integer(25));
-		m_opsHash.put ( "getCurrentLevel", new java.lang.Integer(26));
-		m_opsHash.put ( "setCurrentCapacity", new java.lang.Integer(27));
-		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(28));
-		m_opsHash.put ( "add", new java.lang.Integer(29));
-		m_opsHash.put ( "isPipe", new java.lang.Integer(30));
-		m_opsHash.put ( "getInitialLevel", new java.lang.Integer(31));
-		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(32));
-		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(33));
-		m_opsHash.put ( "tick", new java.lang.Integer(34));
-		m_opsHash.put ( "setTickLength", new java.lang.Integer(35));
-		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(36));
-		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(37));
-		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(38));
+		m_opsHash.put ( "notifyCommandSent", new java.lang.Integer(9));
+		m_opsHash.put ( "getID", new java.lang.Integer(10));
+		m_opsHash.put ( "setInitialCapacity", new java.lang.Integer(11));
+		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(12));
+		m_opsHash.put ( "getMyTicks", new java.lang.Integer(13));
+		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(14));
+		m_opsHash.put ( "getInitialCapacity", new java.lang.Integer(15));
+		m_opsHash.put ( "registerCommandListener", new java.lang.Integer(16));
+		m_opsHash.put ( "reset", new java.lang.Integer(17));
+		m_opsHash.put ( "getOverflow", new java.lang.Integer(18));
+		m_opsHash.put ( "take", new java.lang.Integer(19));
+		m_opsHash.put ( "getPercentageFilled", new java.lang.Integer(20));
+		m_opsHash.put ( "getModuleName", new java.lang.Integer(21));
+		m_opsHash.put ( "randomFilter", new java.lang.Integer(22));
+		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(23));
+		m_opsHash.put ( "getPressure", new java.lang.Integer(24));
+		m_opsHash.put ( "log", new java.lang.Integer(25));
+		m_opsHash.put ( "setInitialLevel", new java.lang.Integer(26));
+		m_opsHash.put ( "maintain", new java.lang.Integer(27));
+		m_opsHash.put ( "getCurrentLevel", new java.lang.Integer(28));
+		m_opsHash.put ( "setCurrentCapacity", new java.lang.Integer(29));
+		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(30));
+		m_opsHash.put ( "add", new java.lang.Integer(31));
+		m_opsHash.put ( "isPipe", new java.lang.Integer(32));
+		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(33));
+		m_opsHash.put ( "getInitialLevel", new java.lang.Integer(34));
+		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(35));
+		m_opsHash.put ( "tick", new java.lang.Integer(36));
+		m_opsHash.put ( "setTickLength", new java.lang.Integer(37));
+		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(38));
+		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(39));
+		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(40));
 	}
 	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentVaporStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentStore:1.0"};
 	public com.traclabs.biosim.idl.simulation.environment.EnvironmentVaporStore _this()
@@ -133,191 +135,205 @@ public abstract class EnvironmentVaporStorePOA
 				_out.write_float(getCurrentCapacity());
 				break;
 			}
-			case 9: // getID
+			case 9: // notifyCommandSent
+			{
+				java.lang.String _arg0=_input.read_string();
+				_out = handler.createReply();
+				notifyCommandSent(_arg0);
+				break;
+			}
+			case 10: // getID
 			{
 				_out = handler.createReply();
 				_out.write_long(getID());
 				break;
 			}
-			case 10: // setInitialCapacity
+			case 11: // setInitialCapacity
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setInitialCapacity(_arg0);
 				break;
 			}
-			case 11: // fixMalfunction
+			case 12: // fixMalfunction
 			{
 				long _arg0=_input.read_longlong();
 				_out = handler.createReply();
 				fixMalfunction(_arg0);
 				break;
 			}
-			case 12: // getMyTicks
+			case 13: // getMyTicks
 			{
 				_out = handler.createReply();
 				_out.write_long(getMyTicks());
 				break;
 			}
-			case 13: // getMalfunctions
+			case 14: // getMalfunctions
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.framework.MalfunctionListHelper.write(_out,getMalfunctions());
 				break;
 			}
-			case 14: // getInitialCapacity
+			case 15: // getInitialCapacity
 			{
 				_out = handler.createReply();
 				_out.write_float(getInitialCapacity());
 				break;
 			}
-			case 15: // reset
+			case 16: // registerCommandListener
+			{
+				com.traclabs.biosim.idl.simulation.framework.CommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.CommandListenerHelper.read(_input);
+				_out = handler.createReply();
+				registerCommandListener(_arg0);
+				break;
+			}
+			case 17: // reset
 			{
 				_out = handler.createReply();
 				reset();
 				break;
 			}
-			case 16: // getOverflow
+			case 18: // getOverflow
 			{
 				_out = handler.createReply();
 				_out.write_float(getOverflow());
 				break;
 			}
-			case 17: // take
+			case 19: // take
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				_out.write_float(take(_arg0));
 				break;
 			}
-			case 18: // getPercentageFilled
+			case 20: // getPercentageFilled
 			{
 				_out = handler.createReply();
 				_out.write_float(getPercentageFilled());
 				break;
 			}
-			case 19: // getModuleName
+			case 21: // getModuleName
 			{
 				_out = handler.createReply();
 				_out.write_string(getModuleName());
 				break;
 			}
-			case 20: // randomFilter
+			case 22: // randomFilter
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				_out.write_float(randomFilter(_arg0));
 				break;
 			}
-			case 21: // isMalfunctioning
+			case 23: // isMalfunctioning
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isMalfunctioning());
 				break;
 			}
-			case 22: // getPressure
+			case 24: // getPressure
 			{
 				_out = handler.createReply();
 				_out.write_float(getPressure());
 				break;
 			}
-			case 23: // log
+			case 25: // log
 			{
 				_out = handler.createReply();
 				log();
 				break;
 			}
-			case 24: // setInitialLevel
+			case 26: // setInitialLevel
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setInitialLevel(_arg0);
 				break;
 			}
-			case 25: // maintain
+			case 27: // maintain
 			{
 				_out = handler.createReply();
 				maintain();
 				break;
 			}
-			case 26: // getCurrentLevel
+			case 28: // getCurrentLevel
 			{
 				_out = handler.createReply();
 				_out.write_float(getCurrentLevel());
 				break;
 			}
-			case 27: // setCurrentCapacity
+			case 29: // setCurrentCapacity
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setCurrentCapacity(_arg0);
 				break;
 			}
-			case 28: // doSomeRepairWork
+			case 30: // doSomeRepairWork
 			{
 				long _arg0=_input.read_longlong();
 				_out = handler.createReply();
 				doSomeRepairWork(_arg0);
 				break;
 			}
-			case 29: // add
+			case 31: // add
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				_out.write_float(add(_arg0));
 				break;
 			}
-			case 30: // isPipe
+			case 32: // isPipe
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isPipe());
 				break;
 			}
-			case 31: // getInitialLevel
-			{
-				_out = handler.createReply();
-				_out.write_float(getInitialLevel());
-				break;
-			}
-			case 32: // setEnableFailure
+			case 33: // setEnableFailure
 			{
 				boolean _arg0=_input.read_boolean();
 				_out = handler.createReply();
 				setEnableFailure(_arg0);
 				break;
 			}
-			case 33: // clearAllMalfunctions
+			case 34: // getInitialLevel
+			{
+				_out = handler.createReply();
+				_out.write_float(getInitialLevel());
+				break;
+			}
+			case 35: // clearAllMalfunctions
 			{
 				_out = handler.createReply();
 				clearAllMalfunctions();
 				break;
 			}
-			case 34: // tick
+			case 36: // tick
 			{
 				_out = handler.createReply();
 				tick();
 				break;
 			}
-			case 35: // setTickLength
+			case 37: // setTickLength
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setTickLength(_arg0);
 				break;
 			}
-			case 36: // isFailureEnabled
+			case 38: // isFailureEnabled
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isFailureEnabled());
 				break;
 			}
-			case 37: // getMalfunctionNames
+			case 39: // getMalfunctionNames
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.StringListHelper.write(_out,getMalfunctionNames());
 				break;
 			}
-			case 38: // scheduleMalfunction
+			case 40: // scheduleMalfunction
 			{
 				com.traclabs.biosim.idl.framework.MalfunctionIntensity _arg0=com.traclabs.biosim.idl.framework.MalfunctionIntensityHelper.read(_input);
 				com.traclabs.biosim.idl.framework.MalfunctionLength _arg1=com.traclabs.biosim.idl.framework.MalfunctionLengthHelper.read(_input);

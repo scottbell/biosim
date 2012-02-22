@@ -104,4 +104,9 @@ public class LssmViewer extends TimedPanel {
 		return "?";
 	}
 
+	public static void sendCommand(String commandName) {
+		getCDRSModule().notifyCommandSent(commandName);
+			
+	}
+
 }
