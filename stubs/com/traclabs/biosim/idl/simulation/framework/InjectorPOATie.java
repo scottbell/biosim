@@ -149,11 +149,6 @@ _delegate.fixMalfunction(id);
 		return _delegate.getBiomassConsumerDefinition();
 	}
 
-	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
-	{
-_delegate.registerCommandListener(listener);
-	}
-
 	public com.traclabs.biosim.idl.simulation.food.FoodConsumerDefinition getFoodConsumerDefinition()
 	{
 		return _delegate.getFoodConsumerDefinition();
@@ -167,6 +162,11 @@ _delegate.registerCommandListener(listener);
 	public void reset()
 	{
 _delegate.reset();
+	}
+
+	public void registerBioCommandListener(com.traclabs.biosim.idl.simulation.framework.BioCommandListener listener)
+	{
+_delegate.registerBioCommandListener(listener);
 	}
 
 	public java.lang.String getModuleName()

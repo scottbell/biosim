@@ -159,11 +159,6 @@ _delegate.attachCrewPerson(pCrewPerson);
 		return _delegate.getMalfunctions();
 	}
 
-	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
-	{
-_delegate.registerCommandListener(listener);
-	}
-
 	public com.traclabs.biosim.idl.simulation.food.FoodConsumerDefinition getFoodConsumerDefinition()
 	{
 		return _delegate.getFoodConsumerDefinition();
@@ -172,6 +167,11 @@ _delegate.registerCommandListener(listener);
 	public void reset()
 	{
 _delegate.reset();
+	}
+
+	public void registerBioCommandListener(com.traclabs.biosim.idl.simulation.framework.BioCommandListener listener)
+	{
+_delegate.registerBioCommandListener(listener);
 	}
 
 	public float getCO2Produced()

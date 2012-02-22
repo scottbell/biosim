@@ -33,10 +33,10 @@ public abstract class AccumulatorPOA
 		m_opsHash.put ( "getMyTicks", new java.lang.Integer(17));
 		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(18));
 		m_opsHash.put ( "getBiomassConsumerDefinition", new java.lang.Integer(19));
-		m_opsHash.put ( "registerCommandListener", new java.lang.Integer(20));
-		m_opsHash.put ( "getFoodConsumerDefinition", new java.lang.Integer(21));
-		m_opsHash.put ( "getDryWasteConsumerDefinition", new java.lang.Integer(22));
-		m_opsHash.put ( "reset", new java.lang.Integer(23));
+		m_opsHash.put ( "getFoodConsumerDefinition", new java.lang.Integer(20));
+		m_opsHash.put ( "getDryWasteConsumerDefinition", new java.lang.Integer(21));
+		m_opsHash.put ( "reset", new java.lang.Integer(22));
+		m_opsHash.put ( "registerBioCommandListener", new java.lang.Integer(23));
 		m_opsHash.put ( "getModuleName", new java.lang.Integer(24));
 		m_opsHash.put ( "randomFilter", new java.lang.Integer(25));
 		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(26));
@@ -208,29 +208,29 @@ public abstract class AccumulatorPOA
 				com.traclabs.biosim.idl.simulation.food.BiomassConsumerDefinitionHelper.write(_out,getBiomassConsumerDefinition());
 				break;
 			}
-			case 20: // registerCommandListener
-			{
-				com.traclabs.biosim.idl.simulation.framework.CommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.CommandListenerHelper.read(_input);
-				_out = handler.createReply();
-				registerCommandListener(_arg0);
-				break;
-			}
-			case 21: // getFoodConsumerDefinition
+			case 20: // getFoodConsumerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.food.FoodConsumerDefinitionHelper.write(_out,getFoodConsumerDefinition());
 				break;
 			}
-			case 22: // getDryWasteConsumerDefinition
+			case 21: // getDryWasteConsumerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.waste.DryWasteConsumerDefinitionHelper.write(_out,getDryWasteConsumerDefinition());
 				break;
 			}
-			case 23: // reset
+			case 22: // reset
 			{
 				_out = handler.createReply();
 				reset();
+				break;
+			}
+			case 23: // registerBioCommandListener
+			{
+				com.traclabs.biosim.idl.simulation.framework.BioCommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.BioCommandListenerHelper.read(_input);
+				_out = handler.createReply();
+				registerBioCommandListener(_arg0);
 				break;
 			}
 			case 24: // getModuleName

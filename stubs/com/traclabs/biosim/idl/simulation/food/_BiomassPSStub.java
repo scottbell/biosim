@@ -660,52 +660,6 @@ public class _BiomassPSStub
 
 	}
 
-	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
-	{
-		while(true)
-		{
-		if(! this._is_local())
-		{
-			org.omg.CORBA.portable.InputStream _is = null;
-			try
-			{
-				org.omg.CORBA.portable.OutputStream _os = _request( "registerCommandListener", true);
-				com.traclabs.biosim.idl.simulation.framework.CommandListenerHelper.write(_os,listener);
-				_is = _invoke(_os);
-				return;
-			}
-			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
-			catch( org.omg.CORBA.portable.ApplicationException _ax )
-			{
-				String _id = _ax.getId();
-				throw new RuntimeException("Unexpected exception " + _id );
-			}
-			finally
-			{
-				this._releaseReply(_is);
-			}
-		}
-		else
-		{
-			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "registerCommandListener", _opsClass );
-			if( _so == null )
-				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			BiomassPSOperations _localServant = (BiomassPSOperations)_so.servant;
-			try
-			{
-			_localServant.registerCommandListener(listener);
-			}
-			finally
-			{
-				_servant_postinvoke(_so);
-			}
-			return;
-		}
-
-		}
-
-	}
-
 	public com.traclabs.biosim.idl.simulation.food.Shelf createNewShelf(com.traclabs.biosim.idl.simulation.food.PlantType pType, float pCropArea, int pStartTick)
 	{
 		while(true)
@@ -788,6 +742,52 @@ public class _BiomassPSStub
 			try
 			{
 			_localServant.reset();
+			}
+			finally
+			{
+				_servant_postinvoke(_so);
+			}
+			return;
+		}
+
+		}
+
+	}
+
+	public void registerBioCommandListener(com.traclabs.biosim.idl.simulation.framework.BioCommandListener listener)
+	{
+		while(true)
+		{
+		if(! this._is_local())
+		{
+			org.omg.CORBA.portable.InputStream _is = null;
+			try
+			{
+				org.omg.CORBA.portable.OutputStream _os = _request( "registerBioCommandListener", true);
+				com.traclabs.biosim.idl.simulation.framework.BioCommandListenerHelper.write(_os,listener);
+				_is = _invoke(_os);
+				return;
+			}
+			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
+			catch( org.omg.CORBA.portable.ApplicationException _ax )
+			{
+				String _id = _ax.getId();
+				throw new RuntimeException("Unexpected exception " + _id );
+			}
+			finally
+			{
+				this._releaseReply(_is);
+			}
+		}
+		else
+		{
+			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "registerBioCommandListener", _opsClass );
+			if( _so == null )
+				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
+			BiomassPSOperations _localServant = (BiomassPSOperations)_so.servant;
+			try
+			{
+			_localServant.registerBioCommandListener(listener);
 			}
 			finally
 			{

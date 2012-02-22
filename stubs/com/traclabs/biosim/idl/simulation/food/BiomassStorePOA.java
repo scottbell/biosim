@@ -30,8 +30,8 @@ public abstract class BiomassStorePOA
 		m_opsHash.put ( "getMyTicks", new java.lang.Integer(14));
 		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(15));
 		m_opsHash.put ( "getInitialCapacity", new java.lang.Integer(16));
-		m_opsHash.put ( "registerCommandListener", new java.lang.Integer(17));
-		m_opsHash.put ( "reset", new java.lang.Integer(18));
+		m_opsHash.put ( "reset", new java.lang.Integer(17));
+		m_opsHash.put ( "registerBioCommandListener", new java.lang.Integer(18));
 		m_opsHash.put ( "getOverflow", new java.lang.Integer(19));
 		m_opsHash.put ( "take", new java.lang.Integer(20));
 		m_opsHash.put ( "getPercentageFilled", new java.lang.Integer(21));
@@ -189,17 +189,17 @@ public abstract class BiomassStorePOA
 				_out.write_float(getInitialCapacity());
 				break;
 			}
-			case 17: // registerCommandListener
-			{
-				com.traclabs.biosim.idl.simulation.framework.CommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.CommandListenerHelper.read(_input);
-				_out = handler.createReply();
-				registerCommandListener(_arg0);
-				break;
-			}
-			case 18: // reset
+			case 17: // reset
 			{
 				_out = handler.createReply();
 				reset();
+				break;
+			}
+			case 18: // registerBioCommandListener
+			{
+				com.traclabs.biosim.idl.simulation.framework.BioCommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.BioCommandListenerHelper.read(_input);
+				_out = handler.createReply();
+				registerBioCommandListener(_arg0);
 				break;
 			}
 			case 19: // getOverflow

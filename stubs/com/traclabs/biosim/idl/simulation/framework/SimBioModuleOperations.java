@@ -12,5 +12,5 @@ public interface SimBioModuleOperations
 	/* constants */
 	/* operations  */
 	void notifyCommandSent(java.lang.String commandName);
-	void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener);
+	void registerBioCommandListener(com.traclabs.biosim.idl.simulation.framework.BioCommandListener listener);
 }

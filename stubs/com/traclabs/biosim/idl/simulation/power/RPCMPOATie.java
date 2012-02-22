@@ -54,6 +54,11 @@ public class RPCMPOATie
 		return _delegate.getTickLength();
 	}
 
+	public void registerBioCommandListener(com.traclabs.biosim.idl.simulation.framework.BioCommandListener listener)
+	{
+_delegate.registerBioCommandListener(listener);
+	}
+
 	public com.traclabs.biosim.idl.simulation.power.RPCMSwitchState getSwitchState()
 	{
 		return _delegate.getSwitchState();
@@ -102,11 +107,6 @@ _delegate.reset();
 	public int getMyTicks()
 	{
 		return _delegate.getMyTicks();
-	}
-
-	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
-	{
-_delegate.registerCommandListener(listener);
 	}
 
 	public void maintain()

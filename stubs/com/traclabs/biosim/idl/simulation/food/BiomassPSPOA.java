@@ -27,9 +27,9 @@ public abstract class BiomassPSPOA
 		m_opsHash.put ( "getGreyWaterConsumerDefinition", new java.lang.Integer(11));
 		m_opsHash.put ( "getMyTicks", new java.lang.Integer(12));
 		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(13));
-		m_opsHash.put ( "registerCommandListener", new java.lang.Integer(14));
-		m_opsHash.put ( "createNewShelf", new java.lang.Integer(15));
-		m_opsHash.put ( "reset", new java.lang.Integer(16));
+		m_opsHash.put ( "createNewShelf", new java.lang.Integer(14));
+		m_opsHash.put ( "reset", new java.lang.Integer(15));
+		m_opsHash.put ( "registerBioCommandListener", new java.lang.Integer(16));
 		m_opsHash.put ( "getModuleName", new java.lang.Integer(17));
 		m_opsHash.put ( "getShelves", new java.lang.Integer(18));
 		m_opsHash.put ( "randomFilter", new java.lang.Integer(19));
@@ -166,14 +166,7 @@ public abstract class BiomassPSPOA
 				com.traclabs.biosim.idl.framework.MalfunctionListHelper.write(_out,getMalfunctions());
 				break;
 			}
-			case 14: // registerCommandListener
-			{
-				com.traclabs.biosim.idl.simulation.framework.CommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.CommandListenerHelper.read(_input);
-				_out = handler.createReply();
-				registerCommandListener(_arg0);
-				break;
-			}
-			case 15: // createNewShelf
+			case 14: // createNewShelf
 			{
 				com.traclabs.biosim.idl.simulation.food.PlantType _arg0=com.traclabs.biosim.idl.simulation.food.PlantTypeHelper.read(_input);
 				float _arg1=_input.read_float();
@@ -182,10 +175,17 @@ public abstract class BiomassPSPOA
 				com.traclabs.biosim.idl.simulation.food.ShelfHelper.write(_out,createNewShelf(_arg0,_arg1,_arg2));
 				break;
 			}
-			case 16: // reset
+			case 15: // reset
 			{
 				_out = handler.createReply();
 				reset();
+				break;
+			}
+			case 16: // registerBioCommandListener
+			{
+				com.traclabs.biosim.idl.simulation.framework.BioCommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.BioCommandListenerHelper.read(_input);
+				_out = handler.createReply();
+				registerBioCommandListener(_arg0);
 				break;
 			}
 			case 17: // getModuleName

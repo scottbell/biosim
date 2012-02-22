@@ -59,6 +59,11 @@ public class PyrolizerPOATie
 		return _delegate.getTickLength();
 	}
 
+	public void registerBioCommandListener(com.traclabs.biosim.idl.simulation.framework.BioCommandListener listener)
+	{
+_delegate.registerBioCommandListener(listener);
+	}
+
 	public com.traclabs.biosim.idl.simulation.waste.DryWasteProducerDefinition getDryWasteProducerDefinition()
 	{
 		return _delegate.getDryWasteProducerDefinition();
@@ -107,11 +112,6 @@ _delegate.reset();
 	public int getMyTicks()
 	{
 		return _delegate.getMyTicks();
-	}
-
-	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
-	{
-_delegate.registerCommandListener(listener);
 	}
 
 	public void maintain()

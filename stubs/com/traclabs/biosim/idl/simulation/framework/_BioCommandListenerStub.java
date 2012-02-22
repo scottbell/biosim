@@ -2,21 +2,21 @@ package com.traclabs.biosim.idl.simulation.framework;
 
 
 /**
- *	Generated from IDL interface "CommandListener"
+ *	Generated from IDL interface "BioCommandListener"
  *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
  */
 
-public class _CommandListenerStub
+public class _BioCommandListenerStub
 	extends org.omg.CORBA.portable.ObjectImpl
-	implements com.traclabs.biosim.idl.simulation.framework.CommandListener
+	implements com.traclabs.biosim.idl.simulation.framework.BioCommandListener
 {
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/framework/CommandListener:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/framework/BioCommandListener:1.0"};
 	public String[] _ids()
 	{
 		return ids;
 	}
 
-	public final static java.lang.Class _opsClass = com.traclabs.biosim.idl.simulation.framework.CommandListenerOperations.class;
+	public final static java.lang.Class _opsClass = com.traclabs.biosim.idl.simulation.framework.BioCommandListenerOperations.class;
 	public void newCommandSent(java.lang.String commandName)
 	{
 		while(true)
@@ -47,7 +47,7 @@ public class _CommandListenerStub
 			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "newCommandSent", _opsClass );
 			if( _so == null )
 				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			CommandListenerOperations _localServant = (CommandListenerOperations)_so.servant;
+			BioCommandListenerOperations _localServant = (BioCommandListenerOperations)_so.servant;
 			try
 			{
 			_localServant.newCommandSent(commandName);

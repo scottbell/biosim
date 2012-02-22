@@ -3,7 +3,7 @@ package com.traclabs.biosim.server.simulation.framework;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.traclabs.biosim.idl.simulation.framework.CommandListener;
+import com.traclabs.biosim.idl.simulation.framework.BioCommandListener;
 import com.traclabs.biosim.idl.simulation.framework.SimBioModuleOperations;
 import com.traclabs.biosim.server.framework.BioModuleImpl;
 
@@ -14,7 +14,7 @@ import com.traclabs.biosim.server.framework.BioModuleImpl;
  */
 
 public abstract class SimBioModuleImpl extends BioModuleImpl implements SimBioModuleOperations {
-	private List<CommandListener> myListeners = new ArrayList<CommandListener>();
+	private List<BioCommandListener> myListeners = new ArrayList<BioCommandListener>();
 
     /**
      * Constructor to create a BioModule, should only be called by those
@@ -29,11 +29,11 @@ public abstract class SimBioModuleImpl extends BioModuleImpl implements SimBioMo
     }
     
 	public void notifyCommandSent(String commandName){
-		for (CommandListener listener : myListeners) {
+		for (BioCommandListener listener : myListeners) {
 			listener.newCommandSent(commandName);
 		}
 	}
-	public void registerCommandListener(CommandListener listener){
+	public void registerBioCommandListener(BioCommandListener listener){
 		myListeners.add(listener);
 	}
 
