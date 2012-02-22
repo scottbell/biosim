@@ -89,6 +89,11 @@ _delegate.setLogLevel(pLogLevel);
 		return _delegate.getCurrentCapacity();
 	}
 
+	public void notifyCommandSent(java.lang.String commandName)
+	{
+_delegate.notifyCommandSent(commandName);
+	}
+
 	public int getID()
 	{
 		return _delegate.getID();
@@ -122,6 +127,11 @@ _delegate.fixMalfunction(id);
 	public float getInitialCapacity()
 	{
 		return _delegate.getInitialCapacity();
+	}
+
+	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
+	{
+_delegate.registerCommandListener(listener);
 	}
 
 	public float addFoodMatterArray(com.traclabs.biosim.idl.simulation.food.FoodMatter[] pList)
@@ -214,6 +224,11 @@ _delegate.doSomeRepairWork(id);
 _delegate.clearAllMalfunctions();
 	}
 
+	public void setEnableFailure(boolean pValue)
+	{
+_delegate.setEnableFailure(pValue);
+	}
+
 	public float getInitialLevel()
 	{
 		return _delegate.getInitialLevel();
@@ -222,11 +237,6 @@ _delegate.clearAllMalfunctions();
 	public void setInitialFoodMatterLevel(com.traclabs.biosim.idl.simulation.food.FoodMatter pFoodMatter)
 	{
 _delegate.setInitialFoodMatterLevel(pFoodMatter);
-	}
-
-	public void setEnableFailure(boolean pValue)
-	{
-_delegate.setEnableFailure(pValue);
 	}
 
 	public void tick()

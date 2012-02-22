@@ -94,6 +94,11 @@ _delegate.setLogLevel(pLogLevel);
 		return _delegate.getCurrentCapacity();
 	}
 
+	public void notifyCommandSent(java.lang.String commandName)
+	{
+_delegate.notifyCommandSent(commandName);
+	}
+
 	public int getID()
 	{
 		return _delegate.getID();
@@ -122,6 +127,11 @@ _delegate.fixMalfunction(id);
 	public float getInitialCapacity()
 	{
 		return _delegate.getInitialCapacity();
+	}
+
+	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
+	{
+_delegate.registerCommandListener(listener);
 	}
 
 	public void reset()
@@ -204,6 +214,11 @@ _delegate.doSomeRepairWork(id);
 		return _delegate.isPipe();
 	}
 
+	public void clearAllMalfunctions()
+	{
+_delegate.clearAllMalfunctions();
+	}
+
 	public float getInitialLevel()
 	{
 		return _delegate.getInitialLevel();
@@ -212,11 +227,6 @@ _delegate.doSomeRepairWork(id);
 	public void setEnableFailure(boolean pValue)
 	{
 _delegate.setEnableFailure(pValue);
-	}
-
-	public void clearAllMalfunctions()
-	{
-_delegate.clearAllMalfunctions();
 	}
 
 	public void tick()

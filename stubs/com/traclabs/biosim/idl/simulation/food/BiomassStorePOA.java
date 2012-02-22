@@ -23,37 +23,39 @@ public abstract class BiomassStorePOA
 		m_opsHash.put ( "setLogLevel", new java.lang.Integer(7));
 		m_opsHash.put ( "startMalfunction", new java.lang.Integer(8));
 		m_opsHash.put ( "getCurrentCapacity", new java.lang.Integer(9));
-		m_opsHash.put ( "getID", new java.lang.Integer(10));
-		m_opsHash.put ( "setInitialCapacity", new java.lang.Integer(11));
-		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(12));
-		m_opsHash.put ( "getMyTicks", new java.lang.Integer(13));
-		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(14));
-		m_opsHash.put ( "getInitialCapacity", new java.lang.Integer(15));
-		m_opsHash.put ( "reset", new java.lang.Integer(16));
-		m_opsHash.put ( "getOverflow", new java.lang.Integer(17));
-		m_opsHash.put ( "take", new java.lang.Integer(18));
-		m_opsHash.put ( "getPercentageFilled", new java.lang.Integer(19));
-		m_opsHash.put ( "getModuleName", new java.lang.Integer(20));
-		m_opsHash.put ( "randomFilter", new java.lang.Integer(21));
-		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(22));
-		m_opsHash.put ( "log", new java.lang.Integer(23));
-		m_opsHash.put ( "setInitialLevel", new java.lang.Integer(24));
-		m_opsHash.put ( "maintain", new java.lang.Integer(25));
-		m_opsHash.put ( "setInitialBioMatterLevel", new java.lang.Integer(26));
-		m_opsHash.put ( "getCurrentLevel", new java.lang.Integer(27));
-		m_opsHash.put ( "setCurrentCapacity", new java.lang.Integer(28));
-		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(29));
-		m_opsHash.put ( "takeBioMatterMass", new java.lang.Integer(30));
-		m_opsHash.put ( "add", new java.lang.Integer(31));
-		m_opsHash.put ( "isPipe", new java.lang.Integer(32));
-		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(33));
-		m_opsHash.put ( "getInitialLevel", new java.lang.Integer(34));
-		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(35));
-		m_opsHash.put ( "tick", new java.lang.Integer(36));
-		m_opsHash.put ( "setTickLength", new java.lang.Integer(37));
-		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(38));
-		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(39));
-		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(40));
+		m_opsHash.put ( "notifyCommandSent", new java.lang.Integer(10));
+		m_opsHash.put ( "getID", new java.lang.Integer(11));
+		m_opsHash.put ( "setInitialCapacity", new java.lang.Integer(12));
+		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(13));
+		m_opsHash.put ( "getMyTicks", new java.lang.Integer(14));
+		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(15));
+		m_opsHash.put ( "getInitialCapacity", new java.lang.Integer(16));
+		m_opsHash.put ( "registerCommandListener", new java.lang.Integer(17));
+		m_opsHash.put ( "reset", new java.lang.Integer(18));
+		m_opsHash.put ( "getOverflow", new java.lang.Integer(19));
+		m_opsHash.put ( "take", new java.lang.Integer(20));
+		m_opsHash.put ( "getPercentageFilled", new java.lang.Integer(21));
+		m_opsHash.put ( "getModuleName", new java.lang.Integer(22));
+		m_opsHash.put ( "randomFilter", new java.lang.Integer(23));
+		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(24));
+		m_opsHash.put ( "log", new java.lang.Integer(25));
+		m_opsHash.put ( "setInitialLevel", new java.lang.Integer(26));
+		m_opsHash.put ( "maintain", new java.lang.Integer(27));
+		m_opsHash.put ( "setInitialBioMatterLevel", new java.lang.Integer(28));
+		m_opsHash.put ( "getCurrentLevel", new java.lang.Integer(29));
+		m_opsHash.put ( "setCurrentCapacity", new java.lang.Integer(30));
+		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(31));
+		m_opsHash.put ( "takeBioMatterMass", new java.lang.Integer(32));
+		m_opsHash.put ( "add", new java.lang.Integer(33));
+		m_opsHash.put ( "isPipe", new java.lang.Integer(34));
+		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(35));
+		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(36));
+		m_opsHash.put ( "getInitialLevel", new java.lang.Integer(37));
+		m_opsHash.put ( "tick", new java.lang.Integer(38));
+		m_opsHash.put ( "setTickLength", new java.lang.Integer(39));
+		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(40));
+		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(41));
+		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(42));
 	}
 	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/food/BiomassStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
 	public com.traclabs.biosim.idl.simulation.food.BiomassStore _this()
@@ -142,187 +144,201 @@ public abstract class BiomassStorePOA
 				_out.write_float(getCurrentCapacity());
 				break;
 			}
-			case 10: // getID
+			case 10: // notifyCommandSent
+			{
+				java.lang.String _arg0=_input.read_string();
+				_out = handler.createReply();
+				notifyCommandSent(_arg0);
+				break;
+			}
+			case 11: // getID
 			{
 				_out = handler.createReply();
 				_out.write_long(getID());
 				break;
 			}
-			case 11: // setInitialCapacity
+			case 12: // setInitialCapacity
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setInitialCapacity(_arg0);
 				break;
 			}
-			case 12: // fixMalfunction
+			case 13: // fixMalfunction
 			{
 				long _arg0=_input.read_longlong();
 				_out = handler.createReply();
 				fixMalfunction(_arg0);
 				break;
 			}
-			case 13: // getMyTicks
+			case 14: // getMyTicks
 			{
 				_out = handler.createReply();
 				_out.write_long(getMyTicks());
 				break;
 			}
-			case 14: // getMalfunctions
+			case 15: // getMalfunctions
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.framework.MalfunctionListHelper.write(_out,getMalfunctions());
 				break;
 			}
-			case 15: // getInitialCapacity
+			case 16: // getInitialCapacity
 			{
 				_out = handler.createReply();
 				_out.write_float(getInitialCapacity());
 				break;
 			}
-			case 16: // reset
+			case 17: // registerCommandListener
+			{
+				com.traclabs.biosim.idl.simulation.framework.CommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.CommandListenerHelper.read(_input);
+				_out = handler.createReply();
+				registerCommandListener(_arg0);
+				break;
+			}
+			case 18: // reset
 			{
 				_out = handler.createReply();
 				reset();
 				break;
 			}
-			case 17: // getOverflow
+			case 19: // getOverflow
 			{
 				_out = handler.createReply();
 				_out.write_float(getOverflow());
 				break;
 			}
-			case 18: // take
+			case 20: // take
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				_out.write_float(take(_arg0));
 				break;
 			}
-			case 19: // getPercentageFilled
+			case 21: // getPercentageFilled
 			{
 				_out = handler.createReply();
 				_out.write_float(getPercentageFilled());
 				break;
 			}
-			case 20: // getModuleName
+			case 22: // getModuleName
 			{
 				_out = handler.createReply();
 				_out.write_string(getModuleName());
 				break;
 			}
-			case 21: // randomFilter
+			case 23: // randomFilter
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				_out.write_float(randomFilter(_arg0));
 				break;
 			}
-			case 22: // isMalfunctioning
+			case 24: // isMalfunctioning
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isMalfunctioning());
 				break;
 			}
-			case 23: // log
+			case 25: // log
 			{
 				_out = handler.createReply();
 				log();
 				break;
 			}
-			case 24: // setInitialLevel
+			case 26: // setInitialLevel
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setInitialLevel(_arg0);
 				break;
 			}
-			case 25: // maintain
+			case 27: // maintain
 			{
 				_out = handler.createReply();
 				maintain();
 				break;
 			}
-			case 26: // setInitialBioMatterLevel
+			case 28: // setInitialBioMatterLevel
 			{
 				com.traclabs.biosim.idl.simulation.food.BioMatter _arg0=com.traclabs.biosim.idl.simulation.food.BioMatterHelper.read(_input);
 				_out = handler.createReply();
 				setInitialBioMatterLevel(_arg0);
 				break;
 			}
-			case 27: // getCurrentLevel
+			case 29: // getCurrentLevel
 			{
 				_out = handler.createReply();
 				_out.write_float(getCurrentLevel());
 				break;
 			}
-			case 28: // setCurrentCapacity
+			case 30: // setCurrentCapacity
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setCurrentCapacity(_arg0);
 				break;
 			}
-			case 29: // doSomeRepairWork
+			case 31: // doSomeRepairWork
 			{
 				long _arg0=_input.read_longlong();
 				_out = handler.createReply();
 				doSomeRepairWork(_arg0);
 				break;
 			}
-			case 30: // takeBioMatterMass
+			case 32: // takeBioMatterMass
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.food.BioMatterListHelper.write(_out,takeBioMatterMass(_arg0));
 				break;
 			}
-			case 31: // add
+			case 33: // add
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				_out.write_float(add(_arg0));
 				break;
 			}
-			case 32: // isPipe
+			case 34: // isPipe
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isPipe());
 				break;
 			}
-			case 33: // clearAllMalfunctions
+			case 35: // clearAllMalfunctions
 			{
 				_out = handler.createReply();
 				clearAllMalfunctions();
 				break;
 			}
-			case 34: // getInitialLevel
-			{
-				_out = handler.createReply();
-				_out.write_float(getInitialLevel());
-				break;
-			}
-			case 35: // setEnableFailure
+			case 36: // setEnableFailure
 			{
 				boolean _arg0=_input.read_boolean();
 				_out = handler.createReply();
 				setEnableFailure(_arg0);
 				break;
 			}
-			case 36: // tick
+			case 37: // getInitialLevel
+			{
+				_out = handler.createReply();
+				_out.write_float(getInitialLevel());
+				break;
+			}
+			case 38: // tick
 			{
 				_out = handler.createReply();
 				tick();
 				break;
 			}
-			case 37: // setTickLength
+			case 39: // setTickLength
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setTickLength(_arg0);
 				break;
 			}
-			case 38: // scheduleMalfunction
+			case 40: // scheduleMalfunction
 			{
 				com.traclabs.biosim.idl.framework.MalfunctionIntensity _arg0=com.traclabs.biosim.idl.framework.MalfunctionIntensityHelper.read(_input);
 				com.traclabs.biosim.idl.framework.MalfunctionLength _arg1=com.traclabs.biosim.idl.framework.MalfunctionLengthHelper.read(_input);
@@ -331,13 +347,13 @@ public abstract class BiomassStorePOA
 				scheduleMalfunction(_arg0,_arg1,_arg2);
 				break;
 			}
-			case 39: // getMalfunctionNames
+			case 41: // getMalfunctionNames
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.StringListHelper.write(_out,getMalfunctionNames());
 				break;
 			}
-			case 40: // isFailureEnabled
+			case 42: // isFailureEnabled
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isFailureEnabled());

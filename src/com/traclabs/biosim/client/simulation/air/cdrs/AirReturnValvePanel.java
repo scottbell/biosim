@@ -41,6 +41,7 @@ public class AirReturnValvePanel extends GridButtonPanel {
 		ActionListener openValveListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setAirReturnValveState(CDRSValveState.open);
+				LssmViewer.sendCommand("airReturnOpenCommand");
 			}
 		};
 		JButton openValveButton = new JButton("Open");
@@ -52,6 +53,7 @@ public class AirReturnValvePanel extends GridButtonPanel {
 		ActionListener closeValveListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setAirReturnValveState(CDRSValveState.closed);
+				LssmViewer.sendCommand("airReturnCloseCommand");
 			}
 		};
 		JButton closeValveButton = new JButton("Close");

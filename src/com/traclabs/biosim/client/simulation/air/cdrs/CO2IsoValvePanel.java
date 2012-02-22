@@ -42,6 +42,7 @@ public class CO2IsoValvePanel extends GridButtonPanel {
 		ActionListener openValveListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setCO2IsolationValveState(CDRSValveState.open);
+				LssmViewer.sendCommand("co2IsolationOpenCommand");
 			}
 		};
 		JButton openValveButton = new JButton("Open");
@@ -53,6 +54,7 @@ public class CO2IsoValvePanel extends GridButtonPanel {
 		ActionListener closeValveListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setCO2IsolationValveState(CDRSValveState.closed);
+				LssmViewer.sendCommand("co2IsolationCloseCommand");
 			}
 		};
 		JButton closeValveButton = new JButton("Close");

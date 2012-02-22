@@ -26,45 +26,47 @@ public abstract class SimEnvironmentPOA
 		m_opsHash.put ( "setInitialVolumeAtSeaLevel", new java.lang.Integer(10));
 		m_opsHash.put ( "getLeakRate", new java.lang.Integer(11));
 		m_opsHash.put ( "getTemperature", new java.lang.Integer(12));
-		m_opsHash.put ( "getID", new java.lang.Integer(13));
-		m_opsHash.put ( "setCurrentVolumeAtSeaLevel", new java.lang.Integer(14));
-		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(15));
-		m_opsHash.put ( "getInitialTotalPressure", new java.lang.Integer(16));
-		m_opsHash.put ( "getMyTicks", new java.lang.Integer(17));
-		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(18));
-		m_opsHash.put ( "getVaporStore", new java.lang.Integer(19));
-		m_opsHash.put ( "getInitialVolume", new java.lang.Integer(20));
-		m_opsHash.put ( "reset", new java.lang.Integer(21));
-		m_opsHash.put ( "getCurrentVolume", new java.lang.Integer(22));
-		m_opsHash.put ( "getRelativeHumidity", new java.lang.Integer(23));
-		m_opsHash.put ( "getModuleName", new java.lang.Integer(24));
-		m_opsHash.put ( "getMaxLumens", new java.lang.Integer(25));
-		m_opsHash.put ( "randomFilter", new java.lang.Integer(26));
-		m_opsHash.put ( "getAirlockVolume", new java.lang.Integer(27));
-		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(28));
-		m_opsHash.put ( "setHourOfDayStart", new java.lang.Integer(29));
-		m_opsHash.put ( "setInitialVolume", new java.lang.Integer(30));
-		m_opsHash.put ( "getO2Store", new java.lang.Integer(31));
-		m_opsHash.put ( "log", new java.lang.Integer(32));
-		m_opsHash.put ( "getTotalPressure", new java.lang.Integer(33));
-		m_opsHash.put ( "removeAirlockPercentage", new java.lang.Integer(34));
-		m_opsHash.put ( "maintain", new java.lang.Integer(35));
-		m_opsHash.put ( "getDayLength", new java.lang.Integer(36));
-		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(37));
-		m_opsHash.put ( "getDangerousOxygenThreshold", new java.lang.Integer(38));
-		m_opsHash.put ( "getWaterDensity", new java.lang.Integer(39));
-		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(40));
-		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(41));
-		m_opsHash.put ( "setMaxLumens", new java.lang.Integer(42));
-		m_opsHash.put ( "setDayLength", new java.lang.Integer(43));
-		m_opsHash.put ( "setDangerousOxygenThreshold", new java.lang.Integer(44));
-		m_opsHash.put ( "tick", new java.lang.Integer(45));
-		m_opsHash.put ( "getHourOfDayStart", new java.lang.Integer(46));
-		m_opsHash.put ( "setTickLength", new java.lang.Integer(47));
-		m_opsHash.put ( "getLightIntensity", new java.lang.Integer(48));
-		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(49));
-		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(50));
-		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(51));
+		m_opsHash.put ( "notifyCommandSent", new java.lang.Integer(13));
+		m_opsHash.put ( "getID", new java.lang.Integer(14));
+		m_opsHash.put ( "setCurrentVolumeAtSeaLevel", new java.lang.Integer(15));
+		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(16));
+		m_opsHash.put ( "getInitialTotalPressure", new java.lang.Integer(17));
+		m_opsHash.put ( "getMyTicks", new java.lang.Integer(18));
+		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(19));
+		m_opsHash.put ( "registerCommandListener", new java.lang.Integer(20));
+		m_opsHash.put ( "getVaporStore", new java.lang.Integer(21));
+		m_opsHash.put ( "getInitialVolume", new java.lang.Integer(22));
+		m_opsHash.put ( "reset", new java.lang.Integer(23));
+		m_opsHash.put ( "getCurrentVolume", new java.lang.Integer(24));
+		m_opsHash.put ( "getRelativeHumidity", new java.lang.Integer(25));
+		m_opsHash.put ( "getModuleName", new java.lang.Integer(26));
+		m_opsHash.put ( "getMaxLumens", new java.lang.Integer(27));
+		m_opsHash.put ( "randomFilter", new java.lang.Integer(28));
+		m_opsHash.put ( "getAirlockVolume", new java.lang.Integer(29));
+		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(30));
+		m_opsHash.put ( "setHourOfDayStart", new java.lang.Integer(31));
+		m_opsHash.put ( "setInitialVolume", new java.lang.Integer(32));
+		m_opsHash.put ( "getO2Store", new java.lang.Integer(33));
+		m_opsHash.put ( "log", new java.lang.Integer(34));
+		m_opsHash.put ( "getTotalPressure", new java.lang.Integer(35));
+		m_opsHash.put ( "removeAirlockPercentage", new java.lang.Integer(36));
+		m_opsHash.put ( "maintain", new java.lang.Integer(37));
+		m_opsHash.put ( "getDayLength", new java.lang.Integer(38));
+		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(39));
+		m_opsHash.put ( "getDangerousOxygenThreshold", new java.lang.Integer(40));
+		m_opsHash.put ( "getWaterDensity", new java.lang.Integer(41));
+		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(42));
+		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(43));
+		m_opsHash.put ( "setMaxLumens", new java.lang.Integer(44));
+		m_opsHash.put ( "setDayLength", new java.lang.Integer(45));
+		m_opsHash.put ( "setDangerousOxygenThreshold", new java.lang.Integer(46));
+		m_opsHash.put ( "tick", new java.lang.Integer(47));
+		m_opsHash.put ( "getHourOfDayStart", new java.lang.Integer(48));
+		m_opsHash.put ( "setTickLength", new java.lang.Integer(49));
+		m_opsHash.put ( "getLightIntensity", new java.lang.Integer(50));
+		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(51));
+		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(52));
+		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(53));
 	}
 	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/environment/SimEnvironment:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
 	public com.traclabs.biosim.idl.simulation.environment.SimEnvironment _this()
@@ -170,113 +172,127 @@ public abstract class SimEnvironmentPOA
 				_out.write_float(getTemperature());
 				break;
 			}
-			case 13: // getID
+			case 13: // notifyCommandSent
+			{
+				java.lang.String _arg0=_input.read_string();
+				_out = handler.createReply();
+				notifyCommandSent(_arg0);
+				break;
+			}
+			case 14: // getID
 			{
 				_out = handler.createReply();
 				_out.write_long(getID());
 				break;
 			}
-			case 14: // setCurrentVolumeAtSeaLevel
+			case 15: // setCurrentVolumeAtSeaLevel
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setCurrentVolumeAtSeaLevel(_arg0);
 				break;
 			}
-			case 15: // fixMalfunction
+			case 16: // fixMalfunction
 			{
 				long _arg0=_input.read_longlong();
 				_out = handler.createReply();
 				fixMalfunction(_arg0);
 				break;
 			}
-			case 16: // getInitialTotalPressure
+			case 17: // getInitialTotalPressure
 			{
 				_out = handler.createReply();
 				_out.write_float(getInitialTotalPressure());
 				break;
 			}
-			case 17: // getMyTicks
+			case 18: // getMyTicks
 			{
 				_out = handler.createReply();
 				_out.write_long(getMyTicks());
 				break;
 			}
-			case 18: // getMalfunctions
+			case 19: // getMalfunctions
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.framework.MalfunctionListHelper.write(_out,getMalfunctions());
 				break;
 			}
-			case 19: // getVaporStore
+			case 20: // registerCommandListener
+			{
+				com.traclabs.biosim.idl.simulation.framework.CommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.CommandListenerHelper.read(_input);
+				_out = handler.createReply();
+				registerCommandListener(_arg0);
+				break;
+			}
+			case 21: // getVaporStore
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.environment.EnvironmentVaporStoreHelper.write(_out,getVaporStore());
 				break;
 			}
-			case 20: // getInitialVolume
+			case 22: // getInitialVolume
 			{
 				_out = handler.createReply();
 				_out.write_float(getInitialVolume());
 				break;
 			}
-			case 21: // reset
+			case 23: // reset
 			{
 				_out = handler.createReply();
 				reset();
 				break;
 			}
-			case 22: // getCurrentVolume
+			case 24: // getCurrentVolume
 			{
 				_out = handler.createReply();
 				_out.write_float(getCurrentVolume());
 				break;
 			}
-			case 23: // getRelativeHumidity
+			case 25: // getRelativeHumidity
 			{
 				_out = handler.createReply();
 				_out.write_float(getRelativeHumidity());
 				break;
 			}
-			case 24: // getModuleName
+			case 26: // getModuleName
 			{
 				_out = handler.createReply();
 				_out.write_string(getModuleName());
 				break;
 			}
-			case 25: // getMaxLumens
+			case 27: // getMaxLumens
 			{
 				_out = handler.createReply();
 				_out.write_float(getMaxLumens());
 				break;
 			}
-			case 26: // randomFilter
+			case 28: // randomFilter
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				_out.write_float(randomFilter(_arg0));
 				break;
 			}
-			case 27: // getAirlockVolume
+			case 29: // getAirlockVolume
 			{
 				_out = handler.createReply();
 				_out.write_float(getAirlockVolume());
 				break;
 			}
-			case 28: // isMalfunctioning
+			case 30: // isMalfunctioning
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isMalfunctioning());
 				break;
 			}
-			case 29: // setHourOfDayStart
+			case 31: // setHourOfDayStart
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setHourOfDayStart(_arg0);
 				break;
 			}
-			case 30: // setInitialVolume
+			case 32: // setInitialVolume
 			{
 				float _arg0=_input.read_float();
 				float _arg1=_input.read_float();
@@ -288,134 +304,134 @@ public abstract class SimEnvironmentPOA
 				setInitialVolume(_arg0,_arg1,_arg2,_arg3,_arg4,_arg5);
 				break;
 			}
-			case 31: // getO2Store
+			case 33: // getO2Store
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.environment.EnvironmentO2StoreHelper.write(_out,getO2Store());
 				break;
 			}
-			case 32: // log
+			case 34: // log
 			{
 				_out = handler.createReply();
 				log();
 				break;
 			}
-			case 33: // getTotalPressure
+			case 35: // getTotalPressure
 			{
 				_out = handler.createReply();
 				_out.write_float(getTotalPressure());
 				break;
 			}
-			case 34: // removeAirlockPercentage
+			case 36: // removeAirlockPercentage
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				removeAirlockPercentage(_arg0);
 				break;
 			}
-			case 35: // maintain
+			case 37: // maintain
 			{
 				_out = handler.createReply();
 				maintain();
 				break;
 			}
-			case 36: // getDayLength
+			case 38: // getDayLength
 			{
 				_out = handler.createReply();
 				_out.write_float(getDayLength());
 				break;
 			}
-			case 37: // doSomeRepairWork
+			case 39: // doSomeRepairWork
 			{
 				long _arg0=_input.read_longlong();
 				_out = handler.createReply();
 				doSomeRepairWork(_arg0);
 				break;
 			}
-			case 38: // getDangerousOxygenThreshold
+			case 40: // getDangerousOxygenThreshold
 			{
 				_out = handler.createReply();
 				_out.write_float(getDangerousOxygenThreshold());
 				break;
 			}
-			case 39: // getWaterDensity
+			case 41: // getWaterDensity
 			{
 				_out = handler.createReply();
 				_out.write_float(getWaterDensity());
 				break;
 			}
-			case 40: // setEnableFailure
+			case 42: // setEnableFailure
 			{
 				boolean _arg0=_input.read_boolean();
 				_out = handler.createReply();
 				setEnableFailure(_arg0);
 				break;
 			}
-			case 41: // clearAllMalfunctions
+			case 43: // clearAllMalfunctions
 			{
 				_out = handler.createReply();
 				clearAllMalfunctions();
 				break;
 			}
-			case 42: // setMaxLumens
+			case 44: // setMaxLumens
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setMaxLumens(_arg0);
 				break;
 			}
-			case 43: // setDayLength
+			case 45: // setDayLength
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setDayLength(_arg0);
 				break;
 			}
-			case 44: // setDangerousOxygenThreshold
+			case 46: // setDangerousOxygenThreshold
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setDangerousOxygenThreshold(_arg0);
 				break;
 			}
-			case 45: // tick
+			case 47: // tick
 			{
 				_out = handler.createReply();
 				tick();
 				break;
 			}
-			case 46: // getHourOfDayStart
+			case 48: // getHourOfDayStart
 			{
 				_out = handler.createReply();
 				_out.write_float(getHourOfDayStart());
 				break;
 			}
-			case 47: // setTickLength
+			case 49: // setTickLength
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setTickLength(_arg0);
 				break;
 			}
-			case 48: // getLightIntensity
+			case 50: // getLightIntensity
 			{
 				_out = handler.createReply();
 				_out.write_float(getLightIntensity());
 				break;
 			}
-			case 49: // isFailureEnabled
+			case 51: // isFailureEnabled
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isFailureEnabled());
 				break;
 			}
-			case 50: // getMalfunctionNames
+			case 52: // getMalfunctionNames
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.StringListHelper.write(_out,getMalfunctionNames());
 				break;
 			}
-			case 51: // scheduleMalfunction
+			case 53: // scheduleMalfunction
 			{
 				com.traclabs.biosim.idl.framework.MalfunctionIntensity _arg0=com.traclabs.biosim.idl.framework.MalfunctionIntensityHelper.read(_input);
 				com.traclabs.biosim.idl.framework.MalfunctionLength _arg1=com.traclabs.biosim.idl.framework.MalfunctionLengthHelper.read(_input);

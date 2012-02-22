@@ -49,9 +49,19 @@ public class AirRSPOATie
 			return super._default_POA();
 		}
 	}
+	public void clearMalfunction(long id)
+	{
+_delegate.clearMalfunction(id);
+	}
+
 	public float getTickLength()
 	{
 		return _delegate.getTickLength();
+	}
+
+	public void fixAllMalfunctions()
+	{
+_delegate.fixAllMalfunctions();
 	}
 
 	public void setLogLevel(com.traclabs.biosim.idl.framework.LogLevel pLogLevel)
@@ -59,69 +69,14 @@ public class AirRSPOATie
 _delegate.setLogLevel(pLogLevel);
 	}
 
-	public void clearMalfunction(long id)
+	public com.traclabs.biosim.idl.framework.Malfunction startMalfunction(com.traclabs.biosim.idl.framework.MalfunctionIntensity pIntensity, com.traclabs.biosim.idl.framework.MalfunctionLength pLength)
 	{
-_delegate.clearMalfunction(id);
+		return _delegate.startMalfunction(pIntensity,pLength);
 	}
 
-	public com.traclabs.biosim.idl.simulation.air.O2ProducerDefinition getO2ProducerDefinition()
+	public void notifyCommandSent(java.lang.String commandName)
 	{
-		return _delegate.getO2ProducerDefinition();
-	}
-
-	public boolean isMalfunctioning()
-	{
-		return _delegate.isMalfunctioning();
-	}
-
-	public void clearAllMalfunctions()
-	{
-_delegate.clearAllMalfunctions();
-	}
-
-	public com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition getAirConsumerDefinition()
-	{
-		return _delegate.getAirConsumerDefinition();
-	}
-
-	public void setEnableFailure(boolean pValue)
-	{
-_delegate.setEnableFailure(pValue);
-	}
-
-	public float randomFilter(float preFilteredValue)
-	{
-		return _delegate.randomFilter(preFilteredValue);
-	}
-
-	public void reset()
-	{
-_delegate.reset();
-	}
-
-	public int getMyTicks()
-	{
-		return _delegate.getMyTicks();
-	}
-
-	public void maintain()
-	{
-_delegate.maintain();
-	}
-
-	public com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition getPowerConsumerDefinition()
-	{
-		return _delegate.getPowerConsumerDefinition();
-	}
-
-	public void doSomeRepairWork(long id)
-	{
-_delegate.doSomeRepairWork(id);
-	}
-
-	public int getID()
-	{
-		return _delegate.getID();
+_delegate.notifyCommandSent(commandName);
 	}
 
 	public com.traclabs.biosim.idl.simulation.air.H2ProducerDefinition getH2ProducerDefinition()
@@ -129,29 +84,9 @@ _delegate.doSomeRepairWork(id);
 		return _delegate.getH2ProducerDefinition();
 	}
 
-	public com.traclabs.biosim.idl.simulation.air.H2ConsumerDefinition getH2ConsumerDefinition()
+	public int getID()
 	{
-		return _delegate.getH2ConsumerDefinition();
-	}
-
-	public java.lang.String getModuleName()
-	{
-		return _delegate.getModuleName();
-	}
-
-	public void scheduleMalfunction(com.traclabs.biosim.idl.framework.MalfunctionIntensity pIntensity, com.traclabs.biosim.idl.framework.MalfunctionLength pLength, int pTickToMalfunction)
-	{
-_delegate.scheduleMalfunction(pIntensity,pLength,pTickToMalfunction);
-	}
-
-	public void tick()
-	{
-_delegate.tick();
-	}
-
-	public com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition getAirProducerDefinition()
-	{
-		return _delegate.getAirProducerDefinition();
+		return _delegate.getID();
 	}
 
 	public void fixMalfunction(long id)
@@ -159,29 +94,49 @@ _delegate.tick();
 _delegate.fixMalfunction(id);
 	}
 
-	public java.lang.String[] getMalfunctionNames()
-	{
-		return _delegate.getMalfunctionNames();
-	}
-
-	public void setTickLength(float pInterval)
-	{
-_delegate.setTickLength(pInterval);
-	}
-
 	public com.traclabs.biosim.idl.simulation.water.PotableWaterProducerDefinition getPotableWaterProducerDefinition()
 	{
 		return _delegate.getPotableWaterProducerDefinition();
 	}
 
-	public boolean isFailureEnabled()
+	public int getMyTicks()
 	{
-		return _delegate.isFailureEnabled();
+		return _delegate.getMyTicks();
 	}
 
-	public com.traclabs.biosim.idl.framework.Malfunction startMalfunction(com.traclabs.biosim.idl.framework.MalfunctionIntensity pIntensity, com.traclabs.biosim.idl.framework.MalfunctionLength pLength)
+	public com.traclabs.biosim.idl.framework.Malfunction[] getMalfunctions()
 	{
-		return _delegate.startMalfunction(pIntensity,pLength);
+		return _delegate.getMalfunctions();
+	}
+
+	public com.traclabs.biosim.idl.simulation.air.H2ConsumerDefinition getH2ConsumerDefinition()
+	{
+		return _delegate.getH2ConsumerDefinition();
+	}
+
+	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
+	{
+_delegate.registerCommandListener(listener);
+	}
+
+	public void reset()
+	{
+_delegate.reset();
+	}
+
+	public java.lang.String getModuleName()
+	{
+		return _delegate.getModuleName();
+	}
+
+	public float randomFilter(float preFilteredValue)
+	{
+		return _delegate.randomFilter(preFilteredValue);
+	}
+
+	public boolean isMalfunctioning()
+	{
+		return _delegate.isMalfunctioning();
 	}
 
 	public com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerDefinition getPotableWaterConsumerDefinition()
@@ -194,14 +149,24 @@ _delegate.setTickLength(pInterval);
 _delegate.log();
 	}
 
+	public com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition getAirProducerDefinition()
+	{
+		return _delegate.getAirProducerDefinition();
+	}
+
+	public void maintain()
+	{
+_delegate.maintain();
+	}
+
+	public com.traclabs.biosim.idl.simulation.air.O2ProducerDefinition getO2ProducerDefinition()
+	{
+		return _delegate.getO2ProducerDefinition();
+	}
+
 	public com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinition getCO2ProducerDefinition()
 	{
 		return _delegate.getCO2ProducerDefinition();
-	}
-
-	public com.traclabs.biosim.idl.simulation.air.CO2ConsumerDefinition getCO2ConsumerDefinition()
-	{
-		return _delegate.getCO2ConsumerDefinition();
 	}
 
 	public com.traclabs.biosim.idl.simulation.air.MethaneProducerDefinition getMethaneProducerDefinition()
@@ -209,14 +174,59 @@ _delegate.log();
 		return _delegate.getMethaneProducerDefinition();
 	}
 
-	public com.traclabs.biosim.idl.framework.Malfunction[] getMalfunctions()
+	public void doSomeRepairWork(long id)
 	{
-		return _delegate.getMalfunctions();
+_delegate.doSomeRepairWork(id);
 	}
 
-	public void fixAllMalfunctions()
+	public void setEnableFailure(boolean pValue)
 	{
-_delegate.fixAllMalfunctions();
+_delegate.setEnableFailure(pValue);
+	}
+
+	public com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition getAirConsumerDefinition()
+	{
+		return _delegate.getAirConsumerDefinition();
+	}
+
+	public void clearAllMalfunctions()
+	{
+_delegate.clearAllMalfunctions();
+	}
+
+	public com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition getPowerConsumerDefinition()
+	{
+		return _delegate.getPowerConsumerDefinition();
+	}
+
+	public void tick()
+	{
+_delegate.tick();
+	}
+
+	public void setTickLength(float pInterval)
+	{
+_delegate.setTickLength(pInterval);
+	}
+
+	public com.traclabs.biosim.idl.simulation.air.CO2ConsumerDefinition getCO2ConsumerDefinition()
+	{
+		return _delegate.getCO2ConsumerDefinition();
+	}
+
+	public boolean isFailureEnabled()
+	{
+		return _delegate.isFailureEnabled();
+	}
+
+	public java.lang.String[] getMalfunctionNames()
+	{
+		return _delegate.getMalfunctionNames();
+	}
+
+	public void scheduleMalfunction(com.traclabs.biosim.idl.framework.MalfunctionIntensity pIntensity, com.traclabs.biosim.idl.framework.MalfunctionLength pLength, int pTickToMalfunction)
+	{
+_delegate.scheduleMalfunction(pIntensity,pLength,pTickToMalfunction);
 	}
 
 }

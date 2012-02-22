@@ -77,6 +77,7 @@ public class BlowerDetailsPanel extends GridButtonPanel {
 			String flowRateText = myFlowRateTextField.getText();
 			float flowRate = Float.parseFloat(flowRateText);
 			LssmViewer.getCDRSModule().getAirConsumerDefinition().setDesiredFlowRate(flowRate, 0);
+			LssmViewer.sendCommand("lssmCdrsBlowerSpeed");
 		}
 
 	}

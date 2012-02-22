@@ -22,11 +22,13 @@ public class CDRSValveRTPanel extends GridButtonPanel {
 		ActionListener ventEnable = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setCO2VentValveArmedStatus(CDRSCommandStatus.enabled);
+				LssmViewer.sendCommand("co2VentEnableCommand");
 			}
 		};
 		ActionListener ventInhibit = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setCO2VentValveArmedStatus(CDRSCommandStatus.inibited);
+				LssmViewer.sendCommand("co2VentInhibitCommand");
 			}
 		};
 		StatusLabel ventStatusLabel = new StatusLabel() {
@@ -39,11 +41,13 @@ public class CDRSValveRTPanel extends GridButtonPanel {
 		ActionListener isoEnable = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setCO2IsolationValveArmedStatus(CDRSCommandStatus.enabled);
+				LssmViewer.sendCommand("co2IsolationEnableCommand");
 			}
 		};
 		ActionListener isoInhibit = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setCO2IsolationValveArmedStatus(CDRSCommandStatus.inibited);
+				LssmViewer.sendCommand("co2IsolationInhibitCommand");
 			}
 		};
 		StatusLabel isoStatusLabel = new StatusLabel() {
@@ -56,11 +60,13 @@ public class CDRSValveRTPanel extends GridButtonPanel {
 		ActionListener airInletEnable = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setAirInletValveArmedStatus(CDRSCommandStatus.enabled);
+				LssmViewer.sendCommand("airInletEnableCommand");
 			}
 		};
 		ActionListener airInletInhibit = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setAirInletValveArmedStatus(CDRSCommandStatus.inibited);
+				LssmViewer.sendCommand("airInletInhibitCommand");
 			}
 		};
 		StatusLabel airInletStatusLabel = new StatusLabel() {
@@ -73,11 +79,13 @@ public class CDRSValveRTPanel extends GridButtonPanel {
 		ActionListener airReturnEnable = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setAirReturnValveArmedStatus(CDRSCommandStatus.enabled);
+				LssmViewer.sendCommand("airReturnEnableCommand");
 			}
 		};
 		ActionListener airReturnInhibit = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LssmViewer.getCDRSModule().setAirReturnValveArmedStatus(CDRSCommandStatus.inibited);
+				LssmViewer.sendCommand("airReturnInhibitCommand");
 			}
 		};
 		StatusLabel airReturnStatusLabel = new StatusLabel() {

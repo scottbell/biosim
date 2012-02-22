@@ -64,6 +64,11 @@ _delegate.setLogLevel(pLogLevel);
 _delegate.clearMalfunction(id);
 	}
 
+	public void notifyCommandSent(java.lang.String commandName)
+	{
+_delegate.notifyCommandSent(commandName);
+	}
+
 	public com.traclabs.biosim.idl.simulation.air.O2ProducerDefinition getO2ProducerDefinition()
 	{
 		return _delegate.getO2ProducerDefinition();
@@ -97,6 +102,11 @@ _delegate.reset();
 	public int getMyTicks()
 	{
 		return _delegate.getMyTicks();
+	}
+
+	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
+	{
+_delegate.registerCommandListener(listener);
 	}
 
 	public void maintain()
