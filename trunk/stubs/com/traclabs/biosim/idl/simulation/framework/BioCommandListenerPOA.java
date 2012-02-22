@@ -1,28 +1,28 @@
 package com.traclabs.biosim.idl.simulation.framework;
 
 /**
- *	Generated from IDL interface "CommandListener"
+ *	Generated from IDL interface "BioCommandListener"
  *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
  */
 
 
-public abstract class CommandListenerPOA
+public abstract class BioCommandListenerPOA
 	extends org.omg.PortableServer.Servant
-	implements org.omg.CORBA.portable.InvokeHandler, com.traclabs.biosim.idl.simulation.framework.CommandListenerOperations
+	implements org.omg.CORBA.portable.InvokeHandler, com.traclabs.biosim.idl.simulation.framework.BioCommandListenerOperations
 {
 	static private final java.util.Hashtable m_opsHash = new java.util.Hashtable();
 	static
 	{
 		m_opsHash.put ( "newCommandSent", new java.lang.Integer(0));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/framework/CommandListener:1.0"};
-	public com.traclabs.biosim.idl.simulation.framework.CommandListener _this()
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/framework/BioCommandListener:1.0"};
+	public com.traclabs.biosim.idl.simulation.framework.BioCommandListener _this()
 	{
-		return com.traclabs.biosim.idl.simulation.framework.CommandListenerHelper.narrow(_this_object());
+		return com.traclabs.biosim.idl.simulation.framework.BioCommandListenerHelper.narrow(_this_object());
 	}
-	public com.traclabs.biosim.idl.simulation.framework.CommandListener _this(org.omg.CORBA.ORB orb)
+	public com.traclabs.biosim.idl.simulation.framework.BioCommandListener _this(org.omg.CORBA.ORB orb)
 	{
-		return com.traclabs.biosim.idl.simulation.framework.CommandListenerHelper.narrow(_this_object(orb));
+		return com.traclabs.biosim.idl.simulation.framework.BioCommandListenerHelper.narrow(_this_object(orb));
 	}
 	public org.omg.CORBA.portable.OutputStream _invoke(String method, org.omg.CORBA.portable.InputStream _input, org.omg.CORBA.portable.ResponseHandler handler)
 		throws org.omg.CORBA.SystemException

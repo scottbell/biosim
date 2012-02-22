@@ -54,6 +54,11 @@ public class FanPOATie
 		return _delegate.getTickLength();
 	}
 
+	public void registerBioCommandListener(com.traclabs.biosim.idl.simulation.framework.BioCommandListener listener)
+	{
+_delegate.registerBioCommandListener(listener);
+	}
+
 	public void setLogLevel(com.traclabs.biosim.idl.framework.LogLevel pLogLevel)
 	{
 _delegate.setLogLevel(pLogLevel);
@@ -102,11 +107,6 @@ _delegate.reset();
 	public int getMyTicks()
 	{
 		return _delegate.getMyTicks();
-	}
-
-	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
-	{
-_delegate.registerCommandListener(listener);
 	}
 
 	public void maintain()

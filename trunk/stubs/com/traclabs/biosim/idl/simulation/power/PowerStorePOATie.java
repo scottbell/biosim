@@ -124,14 +124,14 @@ _delegate.fixMalfunction(id);
 		return _delegate.getInitialCapacity();
 	}
 
-	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
-	{
-_delegate.registerCommandListener(listener);
-	}
-
 	public void reset()
 	{
 _delegate.reset();
+	}
+
+	public void registerBioCommandListener(com.traclabs.biosim.idl.simulation.framework.BioCommandListener listener)
+	{
+_delegate.registerBioCommandListener(listener);
 	}
 
 	public float getOverflow()

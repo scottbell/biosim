@@ -26,8 +26,8 @@ public abstract class AirRSPOA
 		m_opsHash.put ( "getMyTicks", new java.lang.Integer(10));
 		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(11));
 		m_opsHash.put ( "getH2ConsumerDefinition", new java.lang.Integer(12));
-		m_opsHash.put ( "registerCommandListener", new java.lang.Integer(13));
-		m_opsHash.put ( "reset", new java.lang.Integer(14));
+		m_opsHash.put ( "reset", new java.lang.Integer(13));
+		m_opsHash.put ( "registerBioCommandListener", new java.lang.Integer(14));
 		m_opsHash.put ( "getModuleName", new java.lang.Integer(15));
 		m_opsHash.put ( "randomFilter", new java.lang.Integer(16));
 		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(17));
@@ -154,17 +154,17 @@ public abstract class AirRSPOA
 				com.traclabs.biosim.idl.simulation.air.H2ConsumerDefinitionHelper.write(_out,getH2ConsumerDefinition());
 				break;
 			}
-			case 13: // registerCommandListener
-			{
-				com.traclabs.biosim.idl.simulation.framework.CommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.CommandListenerHelper.read(_input);
-				_out = handler.createReply();
-				registerCommandListener(_arg0);
-				break;
-			}
-			case 14: // reset
+			case 13: // reset
 			{
 				_out = handler.createReply();
 				reset();
+				break;
+			}
+			case 14: // registerBioCommandListener
+			{
+				com.traclabs.biosim.idl.simulation.framework.BioCommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.BioCommandListenerHelper.read(_input);
+				_out = handler.createReply();
+				registerBioCommandListener(_arg0);
 				break;
 			}
 			case 15: // getModuleName

@@ -189,11 +189,6 @@ _delegate.setAirReturnValveArmedStatus(status);
 		return _delegate.getMalfunctions();
 	}
 
-	public void registerCommandListener(com.traclabs.biosim.idl.simulation.framework.CommandListener listener)
-	{
-_delegate.registerCommandListener(listener);
-	}
-
 	public com.traclabs.biosim.idl.simulation.air.cdrs.CDRSState getState()
 	{
 		return _delegate.getState();
@@ -212,6 +207,11 @@ _delegate.reset();
 	public void setState(com.traclabs.biosim.idl.simulation.air.cdrs.CDRSState state)
 	{
 _delegate.setState(state);
+	}
+
+	public void registerBioCommandListener(com.traclabs.biosim.idl.simulation.framework.BioCommandListener listener)
+	{
+_delegate.registerBioCommandListener(listener);
 	}
 
 	public java.lang.String getModuleName()

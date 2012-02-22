@@ -15,17 +15,17 @@ public abstract class PyrolizerPOA
 	{
 		m_opsHash.put ( "getMethaneConsumerDefinition", new java.lang.Integer(0));
 		m_opsHash.put ( "getTickLength", new java.lang.Integer(1));
-		m_opsHash.put ( "getDryWasteProducerDefinition", new java.lang.Integer(2));
-		m_opsHash.put ( "setLogLevel", new java.lang.Integer(3));
-		m_opsHash.put ( "clearMalfunction", new java.lang.Integer(4));
-		m_opsHash.put ( "notifyCommandSent", new java.lang.Integer(5));
-		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(6));
-		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(7));
-		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(8));
-		m_opsHash.put ( "randomFilter", new java.lang.Integer(9));
-		m_opsHash.put ( "reset", new java.lang.Integer(10));
-		m_opsHash.put ( "getMyTicks", new java.lang.Integer(11));
-		m_opsHash.put ( "registerCommandListener", new java.lang.Integer(12));
+		m_opsHash.put ( "registerBioCommandListener", new java.lang.Integer(2));
+		m_opsHash.put ( "getDryWasteProducerDefinition", new java.lang.Integer(3));
+		m_opsHash.put ( "setLogLevel", new java.lang.Integer(4));
+		m_opsHash.put ( "clearMalfunction", new java.lang.Integer(5));
+		m_opsHash.put ( "notifyCommandSent", new java.lang.Integer(6));
+		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(7));
+		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(8));
+		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(9));
+		m_opsHash.put ( "randomFilter", new java.lang.Integer(10));
+		m_opsHash.put ( "reset", new java.lang.Integer(11));
+		m_opsHash.put ( "getMyTicks", new java.lang.Integer(12));
 		m_opsHash.put ( "maintain", new java.lang.Integer(13));
 		m_opsHash.put ( "getPowerConsumerDefinition", new java.lang.Integer(14));
 		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(15));
@@ -75,76 +75,76 @@ public abstract class PyrolizerPOA
 				_out.write_float(getTickLength());
 				break;
 			}
-			case 2: // getDryWasteProducerDefinition
+			case 2: // registerBioCommandListener
+			{
+				com.traclabs.biosim.idl.simulation.framework.BioCommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.BioCommandListenerHelper.read(_input);
+				_out = handler.createReply();
+				registerBioCommandListener(_arg0);
+				break;
+			}
+			case 3: // getDryWasteProducerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.waste.DryWasteProducerDefinitionHelper.write(_out,getDryWasteProducerDefinition());
 				break;
 			}
-			case 3: // setLogLevel
+			case 4: // setLogLevel
 			{
 				com.traclabs.biosim.idl.framework.LogLevel _arg0=com.traclabs.biosim.idl.framework.LogLevelHelper.read(_input);
 				_out = handler.createReply();
 				setLogLevel(_arg0);
 				break;
 			}
-			case 4: // clearMalfunction
+			case 5: // clearMalfunction
 			{
 				long _arg0=_input.read_longlong();
 				_out = handler.createReply();
 				clearMalfunction(_arg0);
 				break;
 			}
-			case 5: // notifyCommandSent
+			case 6: // notifyCommandSent
 			{
 				java.lang.String _arg0=_input.read_string();
 				_out = handler.createReply();
 				notifyCommandSent(_arg0);
 				break;
 			}
-			case 6: // isMalfunctioning
+			case 7: // isMalfunctioning
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isMalfunctioning());
 				break;
 			}
-			case 7: // clearAllMalfunctions
+			case 8: // clearAllMalfunctions
 			{
 				_out = handler.createReply();
 				clearAllMalfunctions();
 				break;
 			}
-			case 8: // setEnableFailure
+			case 9: // setEnableFailure
 			{
 				boolean _arg0=_input.read_boolean();
 				_out = handler.createReply();
 				setEnableFailure(_arg0);
 				break;
 			}
-			case 9: // randomFilter
+			case 10: // randomFilter
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				_out.write_float(randomFilter(_arg0));
 				break;
 			}
-			case 10: // reset
+			case 11: // reset
 			{
 				_out = handler.createReply();
 				reset();
 				break;
 			}
-			case 11: // getMyTicks
+			case 12: // getMyTicks
 			{
 				_out = handler.createReply();
 				_out.write_long(getMyTicks());
-				break;
-			}
-			case 12: // registerCommandListener
-			{
-				com.traclabs.biosim.idl.simulation.framework.CommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.CommandListenerHelper.read(_input);
-				_out = handler.createReply();
-				registerCommandListener(_arg0);
 				break;
 			}
 			case 13: // maintain

@@ -41,11 +41,11 @@ public abstract class CDRSModulePOA
 		m_opsHash.put ( "getPotableWaterProducerDefinition", new java.lang.Integer(25));
 		m_opsHash.put ( "getMyTicks", new java.lang.Integer(26));
 		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(27));
-		m_opsHash.put ( "registerCommandListener", new java.lang.Integer(28));
-		m_opsHash.put ( "getState", new java.lang.Integer(29));
-		m_opsHash.put ( "getAirInletValveArmedStatus", new java.lang.Integer(30));
-		m_opsHash.put ( "reset", new java.lang.Integer(31));
-		m_opsHash.put ( "setState", new java.lang.Integer(32));
+		m_opsHash.put ( "getState", new java.lang.Integer(28));
+		m_opsHash.put ( "getAirInletValveArmedStatus", new java.lang.Integer(29));
+		m_opsHash.put ( "reset", new java.lang.Integer(30));
+		m_opsHash.put ( "setState", new java.lang.Integer(31));
+		m_opsHash.put ( "registerBioCommandListener", new java.lang.Integer(32));
 		m_opsHash.put ( "getModuleName", new java.lang.Integer(33));
 		m_opsHash.put ( "randomFilter", new java.lang.Integer(34));
 		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(35));
@@ -280,36 +280,36 @@ public abstract class CDRSModulePOA
 				com.traclabs.biosim.idl.framework.MalfunctionListHelper.write(_out,getMalfunctions());
 				break;
 			}
-			case 28: // registerCommandListener
-			{
-				com.traclabs.biosim.idl.simulation.framework.CommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.CommandListenerHelper.read(_input);
-				_out = handler.createReply();
-				registerCommandListener(_arg0);
-				break;
-			}
-			case 29: // getState
+			case 28: // getState
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSStateHelper.write(_out,getState());
 				break;
 			}
-			case 30: // getAirInletValveArmedStatus
+			case 29: // getAirInletValveArmedStatus
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSCommandStatusHelper.write(_out,getAirInletValveArmedStatus());
 				break;
 			}
-			case 31: // reset
+			case 30: // reset
 			{
 				_out = handler.createReply();
 				reset();
 				break;
 			}
-			case 32: // setState
+			case 31: // setState
 			{
 				com.traclabs.biosim.idl.simulation.air.cdrs.CDRSState _arg0=com.traclabs.biosim.idl.simulation.air.cdrs.CDRSStateHelper.read(_input);
 				_out = handler.createReply();
 				setState(_arg0);
+				break;
+			}
+			case 32: // registerBioCommandListener
+			{
+				com.traclabs.biosim.idl.simulation.framework.BioCommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.BioCommandListenerHelper.read(_input);
+				_out = handler.createReply();
+				registerBioCommandListener(_arg0);
 				break;
 			}
 			case 33: // getModuleName
