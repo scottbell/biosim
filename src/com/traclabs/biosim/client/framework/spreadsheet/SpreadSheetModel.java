@@ -6,7 +6,6 @@ import javax.swing.table.AbstractTableModel;
  * This class specifies the data format for the SpreadSheet JTable
  * 
  * @version 1.0 July-2002
- * @author Thierry Manfé
  */
 class SpreadSheetModel extends AbstractTableModel {
 

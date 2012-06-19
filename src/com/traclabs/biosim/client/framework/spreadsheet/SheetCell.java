@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
  * This class specifies the cell format.
  * 
  * @version 1.0 July-2002
- * @author Thierry Manfé
  */
 class SheetCell {
 

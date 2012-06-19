@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
  * This class implements a popup-menu used to customize cell appearance.
  * 
  * @version 1.0 July-2002
- * @author Thierry Manfé
  */
 class CellMenu extends JPopupMenu implements ActionListener {
 
