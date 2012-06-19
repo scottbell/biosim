@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
  * computes its associated value.
  * 
  * @version 1.0 July-2002
- * @author Thierry Manfé
  ******************************************************************************/
 class Interpreter {
 
