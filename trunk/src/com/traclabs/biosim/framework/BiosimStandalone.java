@@ -40,7 +40,7 @@ public class BiosimStandalone {
     private int myDriverPause;
 
     public static void main(String args[]) {
-    	String filename = "cdrs/cdrs.biosim";
+    	String filename = "default.biosim";
     	if (args.length > 0){
     		filename = BiosimMain.getArgumentValue(args[0]);
     	}
