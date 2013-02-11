@@ -5,7 +5,8 @@
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
 	<Globals driverStutterLength="0"
 		crewsToWatch="Crew_Quarters_Group Galley_Group Labs_Group Maintenance_Group"
-		runTillCrewDeath="true">
+		runTillCrewDeath="true"
+		startPaused="false">
 	</Globals>
 	<SimBioModules>
 		<environment>
