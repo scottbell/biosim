@@ -44,8 +44,8 @@ public class SimCommandLine {
     
     public BioDriver getDriver(){
     	if (myDriver == null)
-    		findDriver();
-    	return getDriver();
+    		myDriver = findDriver();
+    	return myDriver;
     }
 
     private BioDriver findDriver() {
