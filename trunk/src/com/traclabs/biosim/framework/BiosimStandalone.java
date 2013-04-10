@@ -91,9 +91,11 @@ public class BiosimStandalone {
     }
 
     public void beginSimulation() {
-        myFrame.getContentPane().setCursor(
+    	if (myFrame != null){
+    		myFrame.getContentPane().setCursor(
                 Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        myFrame.setVisible(true);
+    		myFrame.setVisible(true);
+    	}
         OrbUtils.startStandaloneNameServer();
         OrbUtils.sleepAwhile(5000);
         OrbUtils.initializeServerForStandalone();
@@ -126,8 +128,10 @@ public class BiosimStandalone {
 
     public class ReadyListener implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
-            myFrame.getContentPane().setCursor(Cursor.getDefaultCursor());
-            myFrame.dispose();
+        	if (myFrame != null){
+        		myFrame.getContentPane().setCursor(Cursor.getDefaultCursor());
+        		myFrame.dispose();
+        	}
         }
     }
     
