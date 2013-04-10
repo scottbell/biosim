@@ -27,7 +27,7 @@ public class SimCommandLine {
     }
 
     public void runCommandLine() {
-        myDriver = grabDriver();
+    	getDriver();
         BufferedReader userInputReader = new BufferedReader(
                 new InputStreamReader(System.in));
         while (true) {
@@ -41,8 +41,14 @@ public class SimCommandLine {
             }
         }
     }
+    
+    public BioDriver getDriver(){
+    	if (myDriver == null)
+    		findDriver();
+    	return getDriver();
+    }
 
-    private BioDriver grabDriver() {
+    private BioDriver findDriver() {
         BioDriver driverToReturn = null;
         while (driverToReturn == null) {
             try {

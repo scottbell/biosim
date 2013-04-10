@@ -51,12 +51,22 @@ public class BiosimStandalone {
         myBiosimStandalone.beginSimulation();
     }
     
-    public BiosimStandalone(ImageIcon splashIcon, String splashText, String xmlFilename, int driverPause){
+    public BiosimStandalone(String xmlFilename, int driverPause){
     	myDriverPause = driverPause;
     	myXmlFilename = xmlFilename;
         myServerThread = new Thread(new ServerThread());
         myClientThread = new Thread(new ClientThread());
-        myProgressBar = new JProgressBar();
+    }
+    
+    
+    public BiosimStandalone(ImageIcon splashIcon, String splashText, String xmlFilename, int driverPause){
+    	this(xmlFilename, driverPause);
+        startSpash(splashIcon, splashText);
+    }
+    
+
+    private void startSpash(ImageIcon splashIcon, String splashText) {
+    	myProgressBar = new JProgressBar();
         myProgressBar.setIndeterminate(true);
         myFrame = new JFrame("BioSim Loader");
         myFrame.getContentPane().setLayout(new BorderLayout());
@@ -102,7 +112,8 @@ public class BiosimStandalone {
 		public void run() {
 			BiosimServer server = new BiosimServer(0, myDriverPause,
                     myXmlFilename);
-			server.addReadyListener(myReadyListener);
+			if (myReadyListener != null)
+				server.addReadyListener(myReadyListener);
 			server.runServer("BiosimServer (id=0)");
         }
     }
