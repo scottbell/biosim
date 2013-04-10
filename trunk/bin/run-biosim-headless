@@ -40,9 +40,7 @@ case $machineType in
 	*)separator=":";echo "		-assuming Unix machine type";;
 esac
 machineTypeEnv="-DMACHINE_TYPE=$machineType"
-####################
-# CLIENTS START	   #
-####################
+
 buildDir="$devRootDir/build"
 mainName="com.traclabs.biosim.framework.HeadlessStandalone"
 resourceDir="$devRootDir/resources"
