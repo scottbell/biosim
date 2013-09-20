@@ -1,0 +1,47 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim"
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<xsd:complexType name="ActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:attribute name="output" type="xsd:string" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FlowRateActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="ActuatorType">
+				<xsd:attribute name="index" type="xsd:nonNegativeInteger" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<!-- Framework actuator declarations -->
+	<xsd:complexType name="InfluentValveActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="ActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="EffluentValveActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="ActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FrameworkActuatorsType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="InfluentValveActuator"
+					type="InfluentValveActuatorType"/>
+				<xsd:element name="EffluentValveActuator"
+					type="EffluentValveActuatorType"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

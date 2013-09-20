@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<biosim:biosim xmlns:biosim="http://www.traclabs.com/biosim"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.traclabs.com/biosim ../../../../schema/BiosimInitSchema.xsd ">
+	<biosim:Globals startPaused="true"/>
+		
+		<biosim:SimBioModules>
+		<biosim:framework>
+			<biosim:Injector moduleName="O2InjectorK">
+				<biosim:O2Consumer inputs="O2Store1 "
+					desiredFlowRates="10" maxFlowRates="10"></biosim:O2Consumer>
+				<biosim:O2Producer desiredFlowRates="10"
+					outputs="SimEnvironment" maxFlowRates="10"></biosim:O2Producer>
+			</biosim:Injector>
+			<biosim:Injector moduleName="CO2Injector">
+				<biosim:CO2Consumer inputs="SimEnvironment"
+					desiredFlowRates="1" maxFlowRates="10" />
+				<biosim:CO2Producer desiredFlowRates="1" outputs="C02Store"
+					maxFlowRates="10" />
+			</biosim:Injector>
+		</biosim:framework>
+		<biosim:power>
+			<biosim:PowerStore capacity="10000000" moduleName="PowerStore"
+				level="10000000">
+			</biosim:PowerStore>
+			<biosim:PowerPS moduleName="PowerPS">
+				<biosim:powerProducer desiredFlowRates="1000000"
+					outputs="PowerStore" maxFlowRates="1000000" />
+			</biosim:PowerPS>
+		</biosim:power>
+		<biosim:water>
+			<biosim:WaterRS moduleName="WaterRS">
+				<biosim:powerConsumer inputs="PowerStore"
+					desiredFlowRates="5" maxFlowRates="100"></biosim:powerConsumer>
+				<biosim:dirtyWaterConsumer inputs="DirtyWaterStore"
+					desiredFlowRates="40" maxFlowRates="50"></biosim:dirtyWaterConsumer>
+				<biosim:greyWaterConsumer inputs="GreyWaterStore"
+					desiredFlowRates="40" maxFlowRates="50"></biosim:greyWaterConsumer>
+				<biosim:potableWaterProducer
+					desiredFlowRates="10000" outputs="PotableWaterStore" maxFlowRates="10000"></biosim:potableWaterProducer>
+			</biosim:WaterRS>
+			<biosim:DirtyWaterStore capacity="1000"
+				moduleName="DirtyWaterStore" level="0.0">
+			</biosim:DirtyWaterStore>
+			<biosim:GreyWaterStore capacity="1000"
+				moduleName="GreyWaterStore" level="0.0">
+			</biosim:GreyWaterStore>
+			<biosim:PotableWaterStore capacity="15000"
+				moduleName="PotableWaterStore" level="15000">
+			</biosim:PotableWaterStore>
+		</biosim:water>
+		<biosim:food>
+			<biosim:FoodStore capacity="100000000000" level="100000000000"
+				moduleName="FoodStore">
+			</biosim:FoodStore>
+		</biosim:food>
+		<biosim:environment>
+			<biosim:SimEnvironment moduleName="SimEnvironment"
+				initialVolume="40000">
+				<biosim:percentageInitialization
+					waterPercentage="0.01" nitrogenPercentage="0.659" otherPercentage="0.001"
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0.0" />
+			</biosim:SimEnvironment>
+			<biosim:Dehumidifier moduleName="Dehumid">
+				<biosim:airConsumer inputs="SimEnvironment"
+					desiredFlowRates="1000" maxFlowRates="1000"></biosim:airConsumer>
+				<biosim:dirtyWaterProducer
+					desiredFlowRates="1000" outputs="DirtyWaterStore" maxFlowRates="1000" />
+			</biosim:Dehumidifier>
+			<biosim:Dehumidifier moduleName="Dehumid1">
+				<biosim:airConsumer inputs="SimEnvironment"
+					desiredFlowRates="1000" maxFlowRates="1000"></biosim:airConsumer>
+				<biosim:dirtyWaterProducer
+					desiredFlowRates="1000" outputs="DirtyWaterStore" maxFlowRates="1000" />
+			</biosim:Dehumidifier>
+		</biosim:environment>
+		<biosim:crew>
+			<biosim:CrewGroup moduleName="CrewGroup">
+				<biosim:potableWaterConsumer inputs="PotableWaterStore"
+					desiredFlowRates="5" maxFlowRates="10"></biosim:potableWaterConsumer>
+				<biosim:airConsumer inputs="SimEnvironment"
+					desiredFlowRates="10" maxFlowRates="10"></biosim:airConsumer>
+				<biosim:foodConsumer inputs="FoodStore"
+					desiredFlowRates="1000" maxFlowRates="1000"></biosim:foodConsumer>
+				<biosim:dirtyWaterProducer
+					desiredFlowRates="100" outputs="DirtyWaterStore" maxFlowRates="150" />
+				<biosim:greyWaterProducer desiredFlowRates="100"
+					outputs="GreyWaterStore" maxFlowRates="150" />
+				<biosim:airProducer desiredFlowRates="0"
+					outputs="SimEnvironment" maxFlowRates="100" />
+				<biosim:dryWasteProducer desiredFlowRates="100"
+					outputs="DryWasteStore" maxFlowRates="100" />
+				<biosim:crewPerson age="25" name="Tim Lincecum"
+					sex="MALE" weight="175">
+					<biosim:schedule>
+						<biosim:activity intensity="0" name="Sleeping"
+							length="8" />
+						<biosim:activity intensity="2" name="Consuming"
+							length="3"></biosim:activity>
+						<biosim:activity intensity="7" name="Exercising"
+							length="1"></biosim:activity>
+						<biosim:activity intensity="4" name="Working"
+							length="12"></biosim:activity>
+					</biosim:schedule>
+				</biosim:crewPerson>
+			</biosim:CrewGroup>
+		</biosim:crew>
+		<biosim:waste>
+			<biosim:DryWasteStore capacity="100000"
+				moduleName="DryWasteStore" level="0.0">
+			</biosim:DryWasteStore>
+		</biosim:waste>
+		<biosim:air>
+			<biosim:O2Store capacity="10000000" moduleName="O2Store1"
+				level="1000">
+			</biosim:O2Store>
+			<biosim:CO2Store capacity="100000000" moduleName="C02Store"
+				level="0.0"></biosim:CO2Store>
+			<biosim:VCCR moduleName="VCCR" implementation="LINEAR">
+				<biosim:powerConsumer inputs="PowerStore"
+					desiredFlowRates="1000000" maxFlowRates="1000000">
+				</biosim:powerConsumer>
+				<biosim:airConsumer inputs="SimEnvironment"
+					desiredFlowRates="1000" maxFlowRates="1500" />
+				<biosim:airProducer desiredFlowRates="1000"
+					outputs="SimEnvironment" maxFlowRates="1500">
+				</biosim:airProducer>
+				<biosim:CO2Producer desiredFlowRates="1000"
+					outputs="C02Store" maxFlowRates="1500">
+				</biosim:CO2Producer>
+			</biosim:VCCR>
+			<biosim:OGS moduleName="OGS1">
+				<biosim:expFailureDecider lamda="0.0001" />
+				<biosim:powerConsumer inputs="PowerStore" desiredFlowRates="1000"
+					maxFlowRates="10000" />
+				<biosim:potableWaterConsumer inputs="PotableWaterStore"
+					desiredFlowRates="10" maxFlowRates="100" />
+				<biosim:O2Producer desiredFlowRates="3.33" outputs="O2Store1"
+					maxFlowRates="3.33" ></biosim:O2Producer>
+				<biosim:H2Producer desiredFlowRates="1" outputs="H2Store"
+					maxFlowRates="100" />
+			</biosim:OGS>
+<biosim:OGS moduleName="OGS2">
+				<biosim:expFailureDecider lamda="0.0001" />
+				<biosim:powerConsumer inputs="PowerStore" desiredFlowRates="1000"
+					maxFlowRates="10000" />
+				<biosim:potableWaterConsumer inputs="PotableWaterStore"
+					desiredFlowRates="10" maxFlowRates="100" />
+				<biosim:O2Producer desiredFlowRates="3.33" outputs="O2Store1"
+					maxFlowRates="3.33" ></biosim:O2Producer>
+				<biosim:H2Producer desiredFlowRates="1" outputs="H2Store"
+					maxFlowRates="100" />
+			</biosim:OGS>
+<biosim:OGS moduleName="OGS3">
+				<biosim:expFailureDecider lamda="0.0001" />
+				<biosim:powerConsumer inputs="PowerStore" desiredFlowRates="1000"
+					maxFlowRates="10000" />
+				<biosim:potableWaterConsumer inputs="PotableWaterStore"
+					desiredFlowRates="10" maxFlowRates="100" />
+				<biosim:O2Producer desiredFlowRates="3.33" outputs="O2Store1"
+					maxFlowRates="3.33" ></biosim:O2Producer>
+				<biosim:H2Producer desiredFlowRates="1" outputs="H2Store"
+					maxFlowRates="100" />
+			</biosim:OGS>
+<biosim:OGS moduleName="OGS4">
+				<biosim:expFailureDecider lamda="0.0001" />
+				<biosim:powerConsumer inputs="PowerStore" desiredFlowRates="1000"
+					maxFlowRates="10000" />
+				<biosim:potableWaterConsumer inputs="PotableWaterStore"
+					desiredFlowRates="10" maxFlowRates="100" />
+				<biosim:O2Producer desiredFlowRates="3.33" outputs="O2Store1"
+					maxFlowRates="3.33" ></biosim:O2Producer>
+				<biosim:H2Producer desiredFlowRates="1" outputs="H2Store"
+					maxFlowRates="100" />
+			</biosim:OGS>
+			<biosim:H2Store capacity="100000000" moduleName="H2Store" level="0.0"></biosim:H2Store>
+		</biosim:air>
+		
+	</biosim:SimBioModules>
+
+
+</biosim:biosim>

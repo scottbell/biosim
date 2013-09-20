@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../style/table.xsl"?>
+<biosim xmlns="http://www.traclabs.com/biosim"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
+	<Globals driverStutterLength="500" crewsToWatch="Crew_Quarters_Group" runTillCrewDeath="false"> 
+		<nameServiceLocation>
+			<serverLocation hostname="localhost" port="16315"/>
+		</nameServiceLocation>
+	</Globals>
+	<SimBioModules>
+		<environment>
+			<SimEnvironment moduleName="Crew_Quarters"
+				initialVolume="2700000">
+				<percentageInitialization waterPercentage="0.01"
+					nitrogenPercentage="0.659" otherPercentage="0.001"
+					o2Percentage="0.33" totalPressure="101" co2Percentage="0" />
+			</SimEnvironment>
+			<SimEnvironment moduleName="Airlock" initialVolume="100000">
+				<percentageInitialization waterPercentage="0.01"
+					nitrogenPercentage="0.659" otherPercentage="0.001"
+					o2Percentage="0.33" totalPressure="55" co2Percentage="0" />
+			</SimEnvironment>
+			<Dehumidifier moduleName="Main_Dehumidifier">
+				<airConsumer inputs="Crew_Quarters"
+					desiredFlowRates="1000" maxFlowRates="1000"/>
+				<dirtyWaterProducer desiredFlowRates="1000"
+					outputs="Dirty_Water_Store" maxFlowRates="1000" />
+			</Dehumidifier>
+		</environment>
+		<air>
+			<NitrogenStore capacity="100000"
+				moduleName="Nitrogen_Store" level="100000">
+			</NitrogenStore>
+			<VCCR moduleName="Main_VCCR">
+				<powerConsumer inputs="General_Power_Store"
+					desiredFlowRates="2000" maxFlowRates="2000"/>
+				<airConsumer inputs="Crew_Quarters"
+					desiredFlowRates="10000" maxFlowRates="10000"/>
+				<airProducer desiredFlowRates="10000"
+					outputs="Crew_Quarters" maxFlowRates="10000" />
+				<CO2Producer desiredFlowRates="10000" outputs="CO2_Store"
+					maxFlowRates="10000"/>
+			</VCCR>
+			<OGS moduleName="OGS">
+				<powerConsumer inputs="General_Power_Store"
+					desiredFlowRates="1000" maxFlowRates="1000" />
+				<potableWaterConsumer inputs="Potable_Water_Store"
+					desiredFlowRates="10" maxFlowRates="10" />
+				<O2Producer desiredFlowRates="1000" outputs="O2_Store"
+					maxFlowRates="1000"/>
+				<H2Producer desiredFlowRates="1000" outputs="H2_Store"
+					maxFlowRates="1000"/>
+			</OGS>
+			<O2Store capacity="100000" moduleName="O2_Store"
+				level="100000"/>
+			<H2Store capacity="100000" moduleName="H2_Store" level="2000"/>
+			<CO2Store capacity="100000" moduleName="CO2_Store"
+				level="2000"/>
+			<CRS moduleName="CRS">
+				<powerConsumer inputs="General_Power_Store"
+					desiredFlowRates="100" maxFlowRates="100" />
+				<CO2Consumer inputs="CO2_Store" desiredFlowRates="100"
+					maxFlowRates="100" />
+				<H2Consumer inputs="H2_Store" desiredFlowRates="100"
+					maxFlowRates="100" />
+				<potableWaterProducer desiredFlowRates="100"
+					outputs="Potable_Water_Store" maxFlowRates="100" />
+				<methaneProducer desiredFlowRates="100"
+					outputs="Methane_Store" maxFlowRates="100"/>
+			</CRS>
+			<MethaneStore capacity="100000" moduleName="Methane_Store"
+				level="2000"/>
+			<Pyrolizer moduleName="Pyrolizer">
+				<powerConsumer inputs="General_Power_Store"
+					desiredFlowRates="100" maxFlowRates="100" />
+				<methaneConsumer inputs="Methane_Store"
+					desiredFlowRates="100" maxFlowRates="100" />
+				<H2Producer desiredFlowRates="100" outputs="H2_Store"
+					maxFlowRates="100" />
+				<dryWasteProducer desiredFlowRates="100"
+					outputs="Dry_Waste_Store" maxFlowRates="100" />
+			</Pyrolizer>
+		</air>
+		<framework>
+			<Injector moduleName="Crew_Quarters_Oxygen_Injector">
+				<O2Consumer inputs="O2_Store" desiredFlowRates="3.3"
+					maxFlowRates="3.3"/>
+				<O2Producer desiredFlowRates="3.3"
+					outputs="Crew_Quarters" maxFlowRates="3.3"/>
+			</Injector>
+			<Injector moduleName="Airlock_Oxygen_Injector">
+				<O2Consumer inputs="O2_Store" desiredFlowRates="0"
+					maxFlowRates="50"/>
+				<O2Producer desiredFlowRates="50"
+					outputs="Airlock" maxFlowRates="50"/>
+			</Injector>
+			<Accumulator moduleName="Airlock_Vent">
+				<airConsumer inputs="Airlock" desiredFlowRates="0"
+					maxFlowRates="50" />
+			</Accumulator>
+			<Injector moduleName="Airlock_Nitrogen_Injector">
+				<nitrogenConsumer inputs="Nitrogen_Store" desiredFlowRates="0"
+					maxFlowRates="50" />
+				<nitrogenProducer
+					desiredFlowRates="50" outputs="Airlock" maxFlowRates="50" />
+			</Injector>
+		</framework>
+		<water>
+			<WaterRS moduleName="Water_Distiller"
+				implementation="LINEAR">
+				<powerConsumer inputs="General_Power_Store"
+					desiredFlowRates="1000" maxFlowRates="1000"/>
+				<dirtyWaterConsumer inputs="Dirty_Water_Store"
+					desiredFlowRates="10" maxFlowRates="10"/>
+				<greyWaterConsumer inputs="Grey_Water_Store"
+					desiredFlowRates="10" maxFlowRates="10" />
+				<potableWaterProducer desiredFlowRates="1000"
+					outputs="Potable_Water_Store" maxFlowRates="1000" />
+			</WaterRS>
+			<DirtyWaterStore capacity="1000"
+				moduleName="Dirty_Water_Store" level="0"/>
+			<GreyWaterStore capacity="1000"
+				moduleName="Grey_Water_Store" level="0"/>
+			<PotableWaterStore capacity="1000"
+				moduleName="Potable_Water_Store" level="1000"/>
+		</water>
+		<power>
+			<PowerStore capacity="100000"
+				moduleName="General_Power_Store" level="100000"/>
+			<PowerPS moduleName="General_Power_Producer"
+				generationType="NUCLEAR" upperPowerGeneration="500000">
+				<powerProducer desiredFlowRates="1000000"
+					outputs="General_Power_Store" maxFlowRates="1000000" />
+			</PowerPS>
+		</power>
+		<food>
+			<FoodStore capacity="10000" level="10000"
+				moduleName="Food_Store"/>
+		</food>
+		<waste>
+			<DryWasteStore capacity="1000000"
+				moduleName="Dry_Waste_Store" level="0"/>
+		</waste>
+		<crew>
+			<CrewGroup moduleName="Crew_Quarters_Group">
+				<potableWaterConsumer inputs="Potable_Water_Store"
+					desiredFlowRates="3" maxFlowRates="3"/>
+				<airConsumer inputs="Crew_Quarters" desiredFlowRates="0"
+					maxFlowRates="0" />
+				<foodConsumer inputs="Food_Store" desiredFlowRates="5"
+					maxFlowRates="5"/>
+				<dirtyWaterProducer desiredFlowRates="100"
+					outputs="Dirty_Water_Store" maxFlowRates="100"/>
+				<greyWaterProducer desiredFlowRates="100"
+					outputs="Grey_Water_Store" maxFlowRates="100" />
+				<airProducer desiredFlowRates="0"
+					outputs="Crew_Quarters" maxFlowRates="0" />
+				<dryWasteProducer desiredFlowRates="10"
+					outputs="Dry_Waste_Store" maxFlowRates="10"/>
+				<crewPerson age="35" name="Buck Rogers" sex="MALE"
+					weight="75">
+					<schedule>
+						<activity intensity="2" name="ruminating" length="12" />
+						<activity intensity="0" name="sleep" length="10" />
+						<activity intensity="5" name="excercise" length="2" />
+					</schedule>
+				</crewPerson>
+			</CrewGroup>
+		</crew>
+	</SimBioModules>
+	<Sensors>
+		<power>
+			<PowerInFlowRateSensor input="Main_VCCR"
+				moduleName="MainVccrPowerSensor" index="0" logLevel="INFO"
+				isBionetEnabled="false"/>
+		</power>
+		<air>
+			<CO2OutFlowRateSensor input="Main_VCCR" moduleName="MainVccrCo2OutSensor" index="0" isBionetEnabled="false"/>
+		</air>
+		<environment>
+			<AirInFlowRateSensor input="Main_VCCR" moduleName="MainVccrAirInSensor" index="0" isBionetEnabled="false"/>
+			<AirOutFlowRateSensor input="Main_VCCR" moduleName="MainVccrAirOutSensor" index="0" isBionetEnabled="false"/>
+			<TotalPressureSensor input="Airlock" moduleName="Airlock_Total_Pressure"/>
+			<GasPressureSensor input="Airlock" moduleName="Airlock_O2_Pressure" gasType="O2"/>
+			<GasPressureSensor input="Airlock" moduleName="Airlock_Nitrogen_Pressure" gasType="NITROGEN"/>
+		</environment>
+		<framework>
+			<TimeSensor input="" moduleName="Time" />
+		</framework>
+	</Sensors>
+	<Actuators>
+		<air>
+			<O2InFlowRateActuator output="Airlock_Oxygen_Injector" moduleName="Airlock_Oxygen_Injector_Actuator" index="0"/>
+			<NitrogenInFlowRateActuator output="Airlock_Nitrogen_Injector" moduleName="Airlock_Nitrogen_Injector_Actuator" index="0"/>
+		</air>
+		<environment>
+			<AirInFlowRateActuator output="Airlock_Vent" moduleName="Airlock_Vent_Actuator" index="0"/>
+		</environment>
+	</Actuators>
+</biosim>

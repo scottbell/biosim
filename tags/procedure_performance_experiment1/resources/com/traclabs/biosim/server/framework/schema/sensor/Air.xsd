@@ -1,0 +1,110 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim"
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<xsd:simpleType name="GasType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="O2"/>
+			<xsd:enumeration value="CO2"/>
+			<xsd:enumeration value="NITROGEN"/>
+			<xsd:enumeration value="VAPOR"/>
+			<xsd:enumeration value="OTHER"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="CO2InFlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CO2OutFlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="H2InFlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="H2OutFlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NitrogenInFlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NitrogenOutFlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MethaneInFlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MethaneOutFlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="O2InFlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="O2OutFlowRateSensorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateSensorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="AirSensorsType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="CO2InFlowRateSensor"
+					type="CO2InFlowRateSensorType"/>
+				<xsd:element name="CO2OutFlowRateSensor"
+					type="CO2OutFlowRateSensorType"/>
+				<xsd:element name="O2InFlowRateSensor"
+					type="O2InFlowRateSensorType"/>
+				<xsd:element name="O2OutFlowRateSensor"
+					type="O2OutFlowRateSensorType"/>
+				<xsd:element name="H2InFlowRateSensor"
+					type="H2InFlowRateSensorType"/>
+				<xsd:element name="H2OutFlowRateSensor"
+					type="H2OutFlowRateSensorType"/>
+				<xsd:element name="NitrogenInFlowRateSensor"
+					type="NitrogenInFlowRateSensorType"/>
+				<xsd:element name="NitrogenOutFlowRateSensor"
+					type="NitrogenOutFlowRateSensorType"/>
+				<xsd:element name="MethaneOutFlowRateSensor"
+					type="MethaneOutFlowRateSensorType"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,83 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim"
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<xsd:complexType name="SimEnvironmentType">
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:choice minOccurs="0" maxOccurs="1">
+					<xsd:element name="moleInitialization"
+						type="MoleInitializationType" />
+					<xsd:element name="percentageInitialization"
+						type="PercentageInitializationType" />
+				</xsd:choice>
+				<xsd:attribute name="initialVolume"
+					type="nonNegativeFloat" use="required" />
+				<xsd:attribute name="leakRate" type="nonNegativeFloat"
+					default="0" />
+				<xsd:attribute name="dayLength" type="nonNegativeFloat"
+					default="24" />
+				<xsd:attribute name="hourOfDayStart"
+					type="nonNegativeFloat" default="0" />
+				<xsd:attribute name="maxLumens" type="nonNegativeFloat"
+					default="50000" />
+				<xsd:attribute name="airlockVolume"
+					type="nonNegativeFloat" default="3.7" />
+				<xsd:attribute name="dangerousOxygenThreshold"
+					type="percentageFloat" default="1.0" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MoleInitializationType">
+		<xsd:attribute name="initialCO2Moles" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="initialO2Moles" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="initialOtherMoles" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="initialWaterMoles" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="initialNitrogenMoles" type="nonNegativeFloat" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PercentageInitializationType">
+		<xsd:attribute name="totalPressure" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="co2Percentage" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="o2Percentage" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="otherPercentage" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="waterPercentage" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="nitrogenPercentage" type="nonNegativeFloat" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DehumidifierType">
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element name="airConsumer" type="AirConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="dirtyWaterProducer"
+							type="DirtyWaterProducerType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FanType">
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element name="airConsumer" type="AirConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="powerConsumer" type="PowerConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="airProducer" type="AirProducerType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="EnvironmentSimBioModulesType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="SimEnvironment" type="SimEnvironmentType"/>
+				<xsd:element name="Dehumidifier" type="DehumidifierType"/>
+				<xsd:element name="Fan" type="FanType"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

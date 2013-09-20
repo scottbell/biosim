@@ -1,0 +1,75 @@
+#!/bin/bash
+
+echo "*running client"
+echo "	-initializing"
+case $1 in
+	"-ga") userSelect=$2;idSelect=$3;iorHome=$GA_HOME;;
+	*) userSelect=$1;idSelect="$2";iorHome=$BIOSIM_HOME;;
+esac
+devRootDir=$BIOSIM_HOME
+nameServiceHost="localhost"
+nameServicePort="16315"
+jacoOrbClass="-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB"
+jacoSingletonOrbClass="-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton"
+biosimHome="-DBIOSIM_HOME=$BIOSIM_HOME"
+currentDir=`pwd`
+if [ -z "$devRootDir" ]
+then
+	cd ..
+	devRootDir=`pwd`
+	cd $currentDir
+	echo "		-assuming BIOSIM_HOME is $devRootDir"
+fi
+java_command=$JAVA_HOME/bin/java
+if [ -z "$JAVA_HOME" ]
+then
+	echo "		-JAVA_HOME not set, assuming java and javac are in path..."
+	java_command="java"
+fi
+JACORB_HOME="$devRootDir/lib/jacorb"
+jacoNameIOR="-DORBInitRef.NameService=corbaloc::$nameServiceHost:$nameServicePort/NameService"
+separator=":"
+machineType=`uname -s`
+winName="CYGWIN"
+linuxName="Linux"
+macName="Darwin"
+case $machineType in
+	*$winName*) separator=";";echo "		-machine type is $winName(windows)";;
+	*$linuxName*) separator=":";echo "		-machine type is $linuxName";;
+	*$macName*) separator=":";echo "		-machine type is $macName(macintosh)";;
+	*)separator=":";echo "		-assuming Unix machine type";;
+esac
+machineTypeEnv="-DMACHINE_TYPE=$machineType"
+####################
+# CLIENTS START	   #
+####################
+buildDir="$devRootDir/build"
+mainName="com.traclabs.biosim.client.framework.BiosimMain"
+malfunctionName="com.traclabs.biosim.client.framework.MalfunctionPanel"
+stochasticName="com.traclabs.biosim.client.framework.StochasticPanel"
+sensorName="com.traclabs.biosim.client.sensor.framework.SensorViewer"
+testName="TestBiosim"
+resourceDir="$devRootDir/resources"
+plotClasspath="$devRootDir/lib/jfreechart/jcommon.jar$separator$devRootDir/lib/jfreechart/jfreechart.jar$separator$devRootDir/lib/ptolemy/plot.jar"
+gefClasspath="$devRootDir/lib/gef/gef.jar"
+logCLasspath="$devRootDir/lib/log4j/log4j.jar$separator$devRootDir/lib/log4j/commons-logging.jar"
+jacoClasspath="$JACORB_HOME/jacorb.jar$separator$JACORB_HOME$separator$JACORB_HOME/avalon-framework.jar$separator$JACORB_HOME/logkit.jar"
+mysqlClasspath="$devRootDir/lib/mysql/mysql-jdbc.jar"
+jacoInvocation="$java_command -Xmx1000m -classpath $buildDir$separator$plotClasspath$separator$logCLasspath$separator$jacoClasspath$separator$resourceDir$separator$gefClasspath$separator$mysqlClasspath $openGLEnabled $biosimHome $jacoSingletonOrbClass $jacoOrbClass $jacoNameIOR"
+echo "	-starting client"
+help="-?"
+logviewer="logviewer"
+malfunction="malfunction"
+stochastic="stochastic"
+sensor="sensor"
+case $userSelect in
+	$malfunction) echo "			 -starting $userSelect";$jacoInvocation $malfunctionName $@;;
+	$stochastic) echo "			 -starting $userSelect";$jacoInvocation $stochasticName $@;;
+	$sensor) echo "			 -starting $userSelect";$jacoInvocation $sensorName $@;;
+	$help) echo "Usage: run-client.sh (-ga) (-debug) [console, gui, malfunction, stochastic, controller, unreal]";;
+	*) echo "			 -starting $userSelect";$jacoInvocation $mainName $@;;
+esac
+echo "*done invoking clients"
+
+
+

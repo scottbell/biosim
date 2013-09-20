@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<biosim:biosim xmlns:biosim="http://www.traclabs.com/biosim"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.traclabs.com/biosim ../../../../schema/BiosimInitSchema.xsd ">
+	<biosim:Globals startPaused="true" />
+	<biosim:SimBioModules>
+		<biosim:water>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore1" level="100">
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore2" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore3" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore4" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore5" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore6" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore7" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore8" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore9" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore10" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore11" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore12" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore13" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore14" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore15" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore16" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore17" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore18" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore19" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore20" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore21" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore22" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore23" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore24" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore25" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore26" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore27" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore28" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore29" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore30" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore31" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore32" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore33" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore34" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore35" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore36" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore37" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore38" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore39" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore40" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore41" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore42" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore43" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore44" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore45" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore46" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore47" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore48" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore49" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore50" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore51" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore52" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore53" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore54" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore55" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore56" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore57" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore58" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore59" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore60" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>\
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore61" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore62" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore63" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore64" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore65" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore66" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore67" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore68" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore69" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore70" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore71" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore72" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore73" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore74" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore75" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore76" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore77" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore78" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore79" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore80" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore81" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore82" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore83" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore84" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore85" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore86" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore87" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore88" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore89" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore90" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore91" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore92" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore93" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore94" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore95" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore96" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore97" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore98" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore99" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore100" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+				<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore101" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			<biosim:PotableWaterStore capacity="100"
+				moduleName="PotableWaterStore102" level="100">
+				<biosim:expFailureDecider lambda="0.0001" />
+			</biosim:PotableWaterStore>
+			
+			
+			
+		
+			
+			
+		</biosim:water>
+	</biosim:SimBioModules>
+</biosim:biosim>

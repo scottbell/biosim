@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<biosim xmlns="http://www.traclabs.com/biosim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
+	<Globals runTillCrewDeath="true" crewsToWatch="CrewGroup">
+	</Globals>
+	<SimBioModules>
+        <air>
+            <CO2Store capacity="2000" level="2000" moduleName="CO2Store">
+            	<expFailureDecider lambda="0.0033" /></CO2Store>
+            <VCCR moduleName="VCCR" logLevel="DEBUG">
+            	<expFailureDecider lambda="0.001" />
+            	<powerConsumer desiredFlowRates="1000"
+            		maxFlowRates="1000" inputs="PowerStore"/>
+            	<airConsumer desiredFlowRates="1000.0"
+            		inputs="SimEnvironment" maxFlowRates="1000.0" />
+            	<airProducer desiredFlowRates="1000.0"
+            		maxFlowRates="1000.0" outputs="SimEnvironment"/>
+            	<CO2Producer desiredFlowRates="1000.0"
+            		maxFlowRates="1000.0" outputs="CO2Store" />
+            </VCCR>
+            <O2Store capacity="100000.0" level="100000.0" moduleName="O2Store">
+            	<expFailureDecider lambda="0.0033" ></expFailureDecider></O2Store>
+            <OGS moduleName="OGS" logLevel="DEBUG">
+            	<expFailureDecider lambda="0.0027" />
+            	<powerConsumer desiredFlowRates="1000"
+            		maxFlowRates="1000" inputs="PowerStore" />
+            	<potableWaterConsumer desiredFlowRates="1000.0"
+            		inputs="PotableWaterStore" maxFlowRates="1000.0"/>
+            	<O2Producer desiredFlowRates="1000.0"
+            		maxFlowRates="1000.0" outputs="O2Store"/>
+            	<H2Producer desiredFlowRates="1000.0"
+            		maxFlowRates="1000.0" outputs="H2Store" />
+            </OGS>
+            <H2Store capacity="100000.0" level="100000.0" moduleName="H2Store">
+            	<expFailureDecider lambda="0.0033" ></expFailureDecider></H2Store>
+        </air>
+        <crew>
+			<CrewGroup moduleName="CrewGroup" isDeathEnabled="false">
+				<potableWaterConsumer desiredFlowRates="1000.0"
+					inputs="PotableWaterStore" maxFlowRates="1000.0" />
+				<airConsumer desiredFlowRates="1000.0"
+					inputs="SimEnvironment" maxFlowRates="1000.0"/>
+				<foodConsumer desiredFlowRates="1000.0"
+					inputs="FoodStore" maxFlowRates="1000.0"/>
+				<dirtyWaterProducer desiredFlowRates="1000.0"
+					maxFlowRates="1000.0" outputs="DirtyWaterStore" />
+				<greyWaterProducer desiredFlowRates="1000.0"
+					maxFlowRates="1000.0" outputs="GreyWaterStore"/>
+				<airProducer desiredFlowRates="1000.0"
+					maxFlowRates="1000.0" outputs="SimEnvironment" />
+				<dryWasteProducer desiredFlowRates="1000.0"
+					maxFlowRates="1000.0" outputs="DryWasteStore" />
+				<crewPerson name="Bob Roberts" age="35" weight="70"
+					sex="MALE">
+					<schedule>
+						<activity name="sleep" length="8" intensity="1" />
+						<activity name="hygiene" length="1"
+							intensity="2" />
+						<activity name="exercise" length="1"
+							intensity="5" />
+						<activity name="eating" length="1"
+							intensity="2" />
+						<activity name="mission" length="9"
+							intensity="3" />
+						<activity name="health" length="1"
+							intensity="2" />
+						<activity name="maintenance" length="1"
+							intensity="2" />
+						<activity name="leisure" length="2"
+							intensity="2" />
+					</schedule>
+				</crewPerson>
+			</CrewGroup>
+        </crew>
+        <environment>
+            <SimEnvironment moduleName="SimEnvironment" initialVolume="20000000"/>
+        </environment>
+        <food>
+            <FoodStore capacity="1000000.0" level="1000000.0" moduleName="FoodStore">
+            	<normalFailureDecider logmean="300" logsd="5" />
+            </FoodStore>
+        </food>
+        <framework>
+            <Injector moduleName="Injector" logLevel="DEBUG">
+            	<expFailureDecider lambda="0.001"></expFailureDecider>
+            	<O2Consumer desiredFlowRates="100.0" inputs="O2Store"
+            		maxFlowRates="100.0"/>
+            	<O2Producer desiredFlowRates="1000.0"
+            		maxFlowRates="1000.0" outputs="SimEnvironment" />
+            </Injector>
+        </framework>
+		<power>
+			<PowerStore level="1000000" capacity="1000000" moduleName="PowerStore">
+				<expFailureDecider lambda="0.0033" /></PowerStore>
+		</power>
+        <waste>
+            <DryWasteStore capacity="10000.0" level="10000.0" moduleName="DryWasteStore">
+            	<expFailureDecider lambda="0.0033" /></DryWasteStore>
+        </waste>
+        <water>
+            <PotableWaterStore capacity="1.0E7" level="1.0E7"
+            	moduleName="PotableWaterStore">
+            	<expFailureDecider lambda="0.0033" />
+            </PotableWaterStore>
+            <WaterRS moduleName="WaterRS" logLevel="DEBUG">
+            	<normalFailureDecider logmean="450" logsd="5" />
+            	<powerConsumer desiredFlowRates="1000"
+            		maxFlowRates="1000" inputs="PowerStore" />
+            	<dirtyWaterConsumer desiredFlowRates="1000.0"
+            		inputs="DirtyWaterStore" maxFlowRates="1000.0" />
+            	<greyWaterConsumer desiredFlowRates="1000.0"
+            		inputs="GreyWaterStore" maxFlowRates="1000.0" />
+            	<potableWaterProducer desiredFlowRates="1000.0"
+            		maxFlowRates="1000.0" outputs="PotableWaterStore" />
+            </WaterRS>
+            <DirtyWaterStore capacity="1000000.0" level="1000000.0" moduleName="DirtyWaterStore">
+            	<expFailureDecider lambda="0.0033" /></DirtyWaterStore>
+            <GreyWaterStore capacity="1000000.0" level="1000000.0" moduleName="GreyWaterStore">
+            	<expFailureDecider lambda="0.0033" /></GreyWaterStore>
+        </water>
+    </SimBioModules>
+    <Sensors>
+		<environment>
+			<GasPressureSensor input="SimEnvironment"
+				moduleName="O2PressureSensor" gasType="O2">
+			</GasPressureSensor>
+			<GasPressureSensor input="SimEnvironment"
+				moduleName="CO2PressureSensor" gasType="CO2">
+			</GasPressureSensor>
+			<GasPressureSensor input="SimEnvironment"
+				moduleName="NitrogenPressureSensor" gasType="NITROGEN">
+			</GasPressureSensor>
+			<GasPressureSensor input="SimEnvironment"
+				moduleName="VaporPressureSensor" gasType="VAPOR">
+			</GasPressureSensor>
+		</environment>
+		<air>
+			<H2OutFlowRateSensor input="OGS" moduleName="OGS_H2OutFlowRateSensor" index="0"
+				logLevel="DEBUG">
+			</H2OutFlowRateSensor>
+			<CO2OutFlowRateSensor input="VCCR"
+				moduleName="VCCR_CO2ProducerFlowRateSensor" index="0"
+				logLevel="DEBUG">
+			</CO2OutFlowRateSensor>
+			<O2InFlowRateSensor input="Injector"
+				moduleName="Injector_O2ConsumerRateSensor" index="0"
+				logLevel="DEBUG">
+			</O2InFlowRateSensor>
+			<O2OutFlowRateSensor input="Injector" moduleName="Injector_O2ProducerRateSensor" index="0"
+				logLevel="INFO">
+			</O2OutFlowRateSensor>
+			<O2OutFlowRateSensor input="OGS" moduleName="OGS_O2OutFlowRateSensor" index="0"
+				logLevel="DEBUG">
+			</O2OutFlowRateSensor></air>
+		<power>
+			<PowerInFlowRateSensor input="OGS" moduleName="OGS_PowerConsumerRateSensor" index="0"
+				logLevel="DEBUG">
+			</PowerInFlowRateSensor>
+			<PowerInFlowRateSensor input="VCCR"
+				moduleName="VCCR_PowerConsumerRateSensor" index="0"
+				logLevel="DEBUG">
+			</PowerInFlowRateSensor>
+			<PowerInFlowRateSensor input="WaterRS"
+				moduleName="WaterRS_PowerConsumerRateSensor" index="0"
+				logLevel="DEBUG">
+			</PowerInFlowRateSensor></power>
+		<water>
+			<PotableWaterInFlowRateSensor input="OGS" moduleName="OGS_PortableWaterInFlowRateSensor"
+				index="0" logLevel="DEBUG">
+			</PotableWaterInFlowRateSensor>
+			<DirtyWaterInFlowRateSensor input="WaterRS" moduleName="WaterRS_DirtyWaterConsumerRateSensor" index="0"
+				logLevel="DEBUG">
+			</DirtyWaterInFlowRateSensor>
+			<GreyWaterInFlowRateSensor input="WaterRS" moduleName="WaterRS_GreyWaterConsumerRateSensor" index="0"
+				logLevel="DEBUG">
+			</GreyWaterInFlowRateSensor>
+			<PotableWaterOutFlowRateSensor input="WaterRS" moduleName="WaterRS_PortableWaterProducerRateSensor"
+				index="0" logLevel="DEBUG">
+			</PotableWaterOutFlowRateSensor></water>
+    </Sensors>
+</biosim>

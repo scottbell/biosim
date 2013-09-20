@@ -1,0 +1,106 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim"
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<!-- Special BiomassPS specific declarations -->
+	<xsd:complexType name="ShelfType">
+		<xsd:attribute name="cropType" type="CropType" use="required"/>
+		<xsd:attribute name="cropArea" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="startTick" type="xsd:nonNegativeInteger" default="0"/>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="CropType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="DRY_BEAN"/>
+			<xsd:enumeration value="LETTUCE"/>
+			<xsd:enumeration value="PEANUT"/>
+			<xsd:enumeration value="RICE"/>
+			<xsd:enumeration value="SOYBEAN"/>
+			<xsd:enumeration value="SWEET_POTATO"/>
+			<xsd:enumeration value="TOMATO"/>
+			<xsd:enumeration value="WHEAT"/>
+			<xsd:enumeration value="WHITE_POTATO"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="FoodStoreType">
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+				<xsd:attribute name="waterContent" type="nonNegativeFloat"
+					default="5"/>
+				<xsd:attribute name="cropType" type="CropType" default="WHEAT"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="BiomassStoreType">
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+				<xsd:attribute name="inedibleFraction" type="percentageFloat"
+					default="0.25"/>
+				<xsd:attribute name="edibleWaterContent" type="nonNegativeFloat"
+					default="5"/>
+				<xsd:attribute name="inedibleWaterContent" type="nonNegativeFloat"
+					default="5"/>
+				<xsd:attribute name="cropType" type="CropType" default="WHEAT"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="BiomassPSType">
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+						<xsd:element name="shelf" type="ShelfType" minOccurs="0"
+							maxOccurs="unbounded"/>
+						<xsd:element name="powerConsumer"
+							type="PowerConsumerType" minOccurs="1" maxOccurs="1"/>
+						<xsd:element name="potableWaterConsumer"
+							type="PotableWaterConsumerType" minOccurs="1" maxOccurs="1"/>
+						<xsd:element name="greyWaterConsumer"
+							type="GreyWaterConsumerType" minOccurs="1" maxOccurs="1"/>
+						<xsd:element name="airConsumer" type="AirConsumerType" minOccurs="1" maxOccurs="1"/>
+						<xsd:element name="dirtyWaterProducer"
+							type="DirtyWaterProducerType" minOccurs="1" maxOccurs="1"/>
+						<xsd:element name="biomassProducer"
+							type="BiomassProducerType" minOccurs="1" maxOccurs="1"/>
+						<xsd:element name="airProducer" type="AirProducerType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+				<xsd:attribute name="autoHarvestAndReplant" type="xsd:boolean"
+					default="true"/>
+				<xsd:attribute name="isDeathEnabled" type="xsd:boolean" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FoodProcessorType">
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+						<xsd:element name="powerConsumer"
+							type="PowerConsumerType" minOccurs="1" maxOccurs="1"/>
+						<xsd:element name="biomassConsumer"
+							type="BiomassConsumerType" minOccurs="1" maxOccurs="1"/>
+						<xsd:element name="foodProducer" type="FoodProducerType" minOccurs="1" maxOccurs="1"/>
+						<xsd:element name="dryWasteProducer"
+							type="DryWasteProducerType" minOccurs="1" maxOccurs="1"/>
+						<xsd:element name="waterProducer"
+							type="WaterProducerType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FoodSimBioModulesType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="FoodProcessor" type="FoodProcessorType"/>
+				<xsd:element name="BiomassPS" type="BiomassPSType"/>
+				<xsd:element name="BiomassStore" type="BiomassStoreType"/>
+				<xsd:element name="FoodStore" type="FoodStoreType"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+</xsd:schema>

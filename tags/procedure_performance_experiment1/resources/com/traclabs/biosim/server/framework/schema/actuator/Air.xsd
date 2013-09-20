@@ -1,0 +1,102 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim"
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<xsd:complexType name="CO2InFlowRateActuatorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CO2OutFlowRateActuatorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="H2InFlowRateActuatorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="H2OutFlowRateActuatorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="O2InFlowRateActuatorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="O2OutFlowRateActuatorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NitrogenInFlowRateActuatorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NitrogenOutFlowRateActuatorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MethaneInFlowRateActuatorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MethaneOutFlowRateActuatorType">
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="AirActuatorsType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="CO2InFlowRateActuator"
+					type="CO2InFlowRateActuatorType"/>
+				<xsd:element name="CO2OutFlowRateActuator"
+					type="CO2OutFlowRateActuatorType"/>
+				<xsd:element name="O2InFlowRateActuator"
+					type="O2InFlowRateActuatorType"/>
+				<xsd:element name="O2OutFlowRateActuator"
+					type="O2OutFlowRateActuatorType"/>
+				<xsd:element name="H2InFlowRateActuator"
+					type="H2InFlowRateActuatorType"/>
+				<xsd:element name="H2OutFlowRateActuator"
+					type="H2OutFlowRateActuatorType"/>
+				<xsd:element name="NitrogenInFlowRateActuator"
+					type="NitrogenInFlowRateActuatorType"/>
+				<xsd:element name="NitrogenOutFlowRateActuator"
+					type="NitrogenOutFlowRateActuatorType"/>
+				<xsd:element name="MethaneInFlowRateActuator"
+					type="MethaneInFlowRateActuatorType"/>
+				<xsd:element name="MethaneOutFlowRateActuator"
+					type="MethaneOutFlowRateActuatorType"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../style/table.xsl"?>
+<biosim xmlns="http://www.traclabs.com/biosim"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
+	<Globals driverStutterLength="500" crewsToWatch="Crew_Quarters_Group" runTillCrewDeath="false"  tickLength="0.002" startPaused="false"/>
+	<SimBioModules>
+		<environment>
+			<SimEnvironment moduleName="Crew_Quarters" initialVolume="2700000"/>
+		</environment>
+		<air>
+			<CO2Store capacity="1000" moduleName="CO2_Store" level="0"/>
+			<CDRS moduleName="CDRS">
+				<normalStochasticFilter deviation="0.005"/>
+				<powerConsumer inputs="CDRS_Air_Inlet_Power_Store CDRS_Air_Return_Power_Store CDRS_CO2_Isolation_Power_Store CDRS_CO2_Vent_Power_Store CDRS_Primary_Heater_Power_Store CDRS_Secondary_Heater_Power_Store CDRS_Power_Store General_Power_Store General_Power_Store" desiredFlowRates="100 100 100 100 100 100 100 100 100" maxFlowRates="100 100 100 100 100 100 100 100 100"/>
+				<potableWaterConsumer inputs="Potable_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+				<potableWaterProducer outputs="Potable_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+				<airConsumer inputs="Crew_Quarters" desiredFlowRates="10" maxFlowRates="10"/>
+				<airProducer outputs="Crew_Quarters" desiredFlowRates="10" maxFlowRates="10" />
+				<CO2Producer outputs="CO2_Store" desiredFlowRates="10" maxFlowRates="10" />
+			</CDRS>
+		</air>
+		<water>
+			<PotableWaterStore capacity="10000" moduleName="Potable_Water_Store" level="10000"/>
+			<GreyWaterStore capacity="10000" moduleName="Grey_Water_Store" level="0"/>
+			<DirtyWaterStore capacity="10000" moduleName="Dirty_Water_Store" level="0"/>
+		</water>
+		<power>
+			<PowerStore capacity="100000" moduleName="General_Power_Store" level="100000"/>
+			<PowerStore capacity="100" moduleName="CDRS_Air_Inlet_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_Air_Return_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_CO2_Isolation_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_CO2_Vent_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_Primary_Heater_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_Secondary_Heater_Power_Store" level="100"/>
+			
+			<RPCM moduleName="Air_Inlet_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_Air_Inlet_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="Air_Return_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_Air_Return_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="CO2_Isolation_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_CO2_Isolation_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="CO2_Vent_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_CO2_Vent_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="CDRS_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="Primary_Heater_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_Primary_Heater_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="Secondary_Heater_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_Secondary_Heater_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+		</power>
+		<food>
+			<FoodStore capacity="10000" level="10000" moduleName="Food_Store"/>
+		</food>
+		<waste>
+			<DryWasteStore capacity="1000000" moduleName="Dry_Waste_Store" level="0"/>
+		</waste>
+		<crew>
+			<CrewGroup moduleName="Crew_Quarters_Group">
+				<potableWaterConsumer inputs="Potable_Water_Store"
+					desiredFlowRates="3" maxFlowRates="3"/>
+				<airConsumer inputs="Crew_Quarters" desiredFlowRates="0"
+					maxFlowRates="0" />
+				<foodConsumer inputs="Food_Store" desiredFlowRates="5"
+					maxFlowRates="5"/>
+				<dirtyWaterProducer desiredFlowRates="100"
+					outputs="Dirty_Water_Store" maxFlowRates="100"/>
+				<greyWaterProducer desiredFlowRates="100"
+					outputs="Grey_Water_Store" maxFlowRates="100" />
+				<airProducer desiredFlowRates="0"
+					outputs="Crew_Quarters" maxFlowRates="0" />
+				<dryWasteProducer desiredFlowRates="10"
+					outputs="Dry_Waste_Store" maxFlowRates="10"/>
+				<crewPerson age="35" name="Buck Rogers" sex="MALE" weight="75">
+					<schedule>
+						<activity intensity="2" name="leisure" length="12" />
+						<activity intensity="0" name="sleep" length="8" />
+						<activity intensity="5" name="excercise" length="2" />
+					</schedule>
+				</crewPerson>
+			</CrewGroup>
+		</crew>
+	</SimBioModules>
+	<Sensors>
+		<air>
+			<CO2OutFlowRateSensor input="CDRS" moduleName="CDRS_CO2_Effluent_Sensor" index="0"/>
+		</air>
+		<environment>
+			<AirInFlowRateSensor input="CDRS" moduleName="CDRS_Air_Influent_Sensor" index="0"/>
+			<AirOutFlowRateSensor input="CDRS" moduleName="CDRS_Air_Effluent_Sensor" index="0"/>
+		</environment>
+		<water>
+			<PotableWaterInFlowRateSensor input="CDRS" moduleName="CDRS_Potable_Water_Influent_Sensor" index="0"/>
+			<PotableWaterOutFlowRateSensor input="CDRS" moduleName="CDRS_Potable_Water_Effluent_Sensor" index="0"/>
+		</water>
+	</Sensors>
+</biosim>

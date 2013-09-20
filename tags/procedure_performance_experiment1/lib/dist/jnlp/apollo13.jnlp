@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!-- JNLP File for photosynthesis model -->
+
+<!-- If you're seeing this in your web browser, you probably need to
+     download and install the Sun JRE from http://java.sun.com/getjava -->
+
+<jnlp spec="1.0+" codebase="http://www.traclabs.com/biosim/jnlp" href="apollo13.jnlp">
+  <information>
+    <title>Apollo 13 Simulation</title>
+    <vendor>TRACLabs and NASA Johnson Space Center</vendor>
+    <homepage href="http://www.traclabs.com/biosim"/>
+    <description kind="short">An Apollo 13 simulation.</description>
+    <description>An Apollo 13 simulation at the time of malfunction.</description>
+	<icon href="biosim.gif"/>
+	<offline-allowed/>
+  </information>
+  <security>
+    <all-permissions/>
+  </security>
+	<resources>
+		<j2se version="1.5+" href="http://java.sun.com/products/autodl/j2se"/>
+		<jar href="biosim.jar"/>
+		<property name="org.omg.CORBA.ORBClass" value="org.jacorb.orb.ORB"/>
+		<property name="org.omg.CORBA.ORBSingletonClass" 
+			value="org.jacorb.orb.ORBSingleton"/>
+	</resources>
+  <application-desc main-class="com.traclabs.biosim.framework.Apollo13Standalone"/>
+</jnlp>

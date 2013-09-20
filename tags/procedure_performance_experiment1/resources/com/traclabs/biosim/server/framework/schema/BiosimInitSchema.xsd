@@ -1,0 +1,33 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim" 
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">BioSim Initialization Schema</xsd:documentation>
+	</xsd:annotation>
+	
+	<xsd:include schemaLocation="framework/Framework.xsd"/>
+	<xsd:include schemaLocation="simulation/SimBioModule.xsd"/>
+	<xsd:include schemaLocation="actuator/Actuator.xsd"/>
+	<xsd:include schemaLocation="sensor/Sensor.xsd"/>
+	
+	<xsd:complexType name="BioSimType">
+		<xsd:sequence>
+			<xsd:element name="Globals" type="GlobalsType"/>
+			<xsd:element name="SimBioModules" type="SimBioModulesType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="Sensors" type="SensorsType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="Actuators" type="ActuatorsType" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>     
+	</xsd:complexType>
+	
+	<!-- Top level element declaration -->	
+	<xsd:element name="biosim" type="BioSimType">
+		<xsd:unique name="nameIsKey">
+			<xsd:selector xpath=".//*"/>
+			<xsd:field xpath="@moduleName"/>
+		</xsd:unique>
+	</xsd:element>
+	
+</xsd:schema>
+

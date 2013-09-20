@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema elementFormDefault="qualified" targetNamespace="http://www.traclabs.com/biosim" xmlns="http://www.traclabs.com/biosim" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	
+	<!-- Special AirRS specific declarations -->
+	<xsd:simpleType name="AirRSOperationMode">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="FULL"/>
+			<xsd:enumeration value="OFF"/>
+			<xsd:enumeration value="LESS"/>
+			<xsd:enumeration value="MOST"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<!-- Special VCCR specific declarations -->
+	<xsd:simpleType name="VCCRImplementationType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="DETAILED"/>
+			<xsd:enumeration value="LINEAR"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="CDRSType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element maxOccurs="1" minOccurs="1" name="powerConsumer" type="PowerConsumerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="potableWaterConsumer" type="PotableWaterConsumerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="potableWaterProducer" type="PotableWaterProducerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="airConsumer" type="AirConsumerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="airProducer" type="AirProducerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="CO2Producer" type="CO2ProducerType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="OGSType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element maxOccurs="1" minOccurs="1" name="powerConsumer" type="PowerConsumerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="potableWaterConsumer" type="PotableWaterConsumerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="O2Producer" type="O2ProducerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="H2Producer" type="H2ProducerType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	
+	<xsd:complexType name="PyrolizerType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element maxOccurs="1" minOccurs="1" name="powerConsumer" type="PowerConsumerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="methaneConsumer" type="MethaneConsumerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="H2Producer" type="H2ProducerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="dryWasteProducer" type="DryWasteProducerType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CRSType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element maxOccurs="1" minOccurs="1" name="powerConsumer" type="PowerConsumerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="CO2Consumer" type="CO2ConsumerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="H2Consumer" type="H2ConsumerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="potableWaterProducer" type="PotableWaterProducerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="methaneProducer" type="MethaneProducerType"/>
+					
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="VCCRType">  
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element maxOccurs="1" minOccurs="1" name="powerConsumer" type="PowerConsumerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="airConsumer" type="AirConsumerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="airProducer" type="AirProducerType"/>
+					<xsd:element maxOccurs="1" minOccurs="1" name="CO2Producer" type="CO2ProducerType"/>
+				</xsd:sequence>
+				<xsd:attribute default="LINEAR" name="implementation" type="VCCRImplementationType"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="O2StoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CO2StoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="H2StoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="NitrogenStoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MethaneStoreType">  
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="AirSimBioModulesType">
+		<xsd:sequence>
+			<xsd:choice maxOccurs="unbounded" minOccurs="0">
+				<xsd:element name="OGS" type="OGSType"/>
+				<xsd:element name="CDRS" type="CDRSType"/>
+				<xsd:element name="CRS" type="CRSType"/>
+				<xsd:element name="VCCR" type="VCCRType"/>
+				<xsd:element name="Pyrolizer" type="PyrolizerType"/>
+				<xsd:element name="O2Store" type="O2StoreType"/>
+				<xsd:element name="CO2Store" type="CO2StoreType"/>
+				<xsd:element name="H2Store" type="H2StoreType"/>
+				<xsd:element name="NitrogenStore" type="NitrogenStoreType"/>
+				<xsd:element name="MethaneStore" type="NitrogenStoreType"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

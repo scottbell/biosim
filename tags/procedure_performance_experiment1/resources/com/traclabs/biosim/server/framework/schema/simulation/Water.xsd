@@ -1,0 +1,81 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim"
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<!-- Special WaterRS specific declarations -->
+	<xsd:simpleType name="WaterRSImplementationType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="NORMAL"/>
+			<xsd:enumeration value="LINEAR"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="WaterRSOperationMode">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="FULL"/>
+			<xsd:enumeration value="OFF"/>
+			<xsd:enumeration value="GREY_WATER_ONLY"/>
+			<xsd:enumeration value="PARTIAL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="PotableWaterStoreType">
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="DirtyWaterStoreType">
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="WaterStoreType">
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="GreyWaterStoreType">
+		<xsd:complexContent>
+			<xsd:extension base="Store">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="WaterRSType">
+		<xsd:complexContent>
+			<xsd:extension base="BioModuleType">
+				<xsd:sequence>
+					<xsd:element name="powerConsumer"
+							type="PowerConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="dirtyWaterConsumer"
+							type="DirtyWaterConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="greyWaterConsumer"
+							type="GreyWaterConsumerType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="potableWaterProducer"
+							type="PotableWaterProducerType" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+				<xsd:attribute name="implementation"
+					type="WaterRSImplementationType" default="LINEAR"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="WaterSimBioModulesType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="WaterRS" type="WaterRSType"/>
+				<xsd:element name="PotableWaterStore"
+					type="PotableWaterStoreType"/>
+				<xsd:element name="GreyWaterStore" type="GreyWaterStoreType"/>
+				<xsd:element name="DirtyWaterStore" type="DirtyWaterStoreType"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,74 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.traclabs.com/biosim"
+	targetNamespace="http://www.traclabs.com/biosim"
+	elementFormDefault="qualified">
+	
+	<xsd:complexType name="ShelfActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="ActuatorType">
+				<xsd:attribute name="shelfIndex" type="xsd:nonNegativeInteger" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<!-- Food actuator declarations -->
+	<xsd:complexType name="BiomassInFlowRateActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="BiomassOutFlowRateActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FoodInFlowRateActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FoodOutFlowRateActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="FlowRateActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PlantingActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="ShelfActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="HarvestingActuatorType">  
+		<xsd:complexContent>
+			<xsd:extension base="ShelfActuatorType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FoodActuatorsType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="BiomassInFlowRateActuator"
+					type="BiomassInFlowRateActuatorType"/>
+				<xsd:element name="BiomassOutFlowRateActuator"
+					type="BiomassOutFlowRateActuatorType"/>
+				<xsd:element name="FoodInFlowRateActuator"
+					type="FoodInFlowRateActuatorType"/>
+				<xsd:element name="FoodOutFlowRateActuator"
+					type="FoodOutFlowRateActuatorType"/>
+				<xsd:element name="HarvestingActuator"
+					type="HarvestingActuatorType"/>
+				<xsd:element name="PlantingActuator" type="PlantingActuatorType"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>
