@@ -49,6 +49,7 @@ public class StateMachinePowerPS extends PowerPSImpl {
 			final String power = is.readLine();
 			myLogger.debug("Server responded with available power " + power);
 			availablePower = Float.parseFloat(power);
+			ios.close();
 		} catch (final IOException e) {
 			myLogger.error("Error connecting to server at " + m_serverName + ":" + m_port + " - " + e);
 		}
