@@ -86,6 +86,7 @@ public class SimpleController implements BiosimController{
 		myBioDriver.setPauseSimulation(true);
 		myBioDriver.startSimulation();
 		myLogger.info("Controller starting run");
+		stepSim();
 		while (!endConditionMet())
 			stepSim();
 		//if we get here, the end condition has been met
@@ -98,7 +99,7 @@ public class SimpleController implements BiosimController{
 	 */
 	private boolean endConditionMet() {
 		float oxygenPercentage = myO2ConcentrationSensor.getValue();
-		return (oxygenPercentage < 0.10);
+		return (oxygenPercentage < 0.18);
 	}
 
 	/**
