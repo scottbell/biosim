@@ -282,6 +282,7 @@ public class BiosimMain {
 
 	private void runSimpleController() {
 		SimpleController myController = new SimpleController();
+		myController.collectReferences();
 		myController.runSim();
 	}
 
