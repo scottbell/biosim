@@ -99,7 +99,7 @@ public class SimpleController implements BiosimController{
 	 */
 	private boolean endConditionMet() {
 		float oxygenPercentage = myO2ConcentrationSensor.getValue();
-		return (oxygenPercentage < 0.18);
+		return (oxygenPercentage < 0.183);
 	}
 
 	/**
