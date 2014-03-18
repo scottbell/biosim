@@ -46,6 +46,8 @@ public class BioDriverImpl extends BioDriverPOA {
 	// How long BioDriver should pause between ticks
 	private int myDriverStutterLength;
 
+	private boolean exitWhenFinished = false;
+
 	// The ID of this instance of BioSim
 	private int myID;
 
@@ -148,6 +150,11 @@ public class BioDriverImpl extends BioDriverPOA {
 	public synchronized void setRunTillCrewDeath(boolean pRunTillDead) {
 		runTillCrewDeath = pRunTillDead;
 	}
+
+	public synchronized void setExitWhenFinished(boolean exitWhenFinished) {
+		this.exitWhenFinished = exitWhenFinished;
+	}
+
 
 	/**
 	 * Simulation runs till all the crew dies if true.
@@ -408,6 +415,8 @@ public class BioDriverImpl extends BioDriverPOA {
 		simulationStarted = false;
 		myLogger.info("BioDriverImpl" + myID + ": simulation ended on tick "
 				+ ticksGoneBy);
+		if (exitWhenFinished)
+			System.exit(0);
 	}
 
 	/**

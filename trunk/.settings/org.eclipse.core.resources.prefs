@@ -1,6 +1,8 @@
-#Wed Jun 29 15:57:38 CDT 2011
 eclipse.preferences.version=1
 encoding//resources/com/traclabs/biosim/server/framework/schema/BiosimInitSchema.xsd=UTF8
+encoding//resources/com/traclabs/biosim/server/framework/schema/framework/Framework.xsd=UTF8
 encoding//resources/com/traclabs/biosim/server/framework/schema/sensor/Framework.xsd=UTF8
-encoding//resources/com/traclabs/biosim/server/framework/schema/simulation/Crew.xsd=UTF8
 encoding//resources/com/traclabs/biosim/server/framework/schema/simulation/Air.xsd=UTF8
+encoding//resources/com/traclabs/biosim/server/framework/schema/simulation/Crew.xsd=UTF8
+encoding//resources/com/traclabs/biosim/server/framework/schema/simulation/Power.xsd=UTF8
+encoding//resources/com/traclabs/biosim/server/framework/schema/simulation/SimBioModule.xsd=UTF8

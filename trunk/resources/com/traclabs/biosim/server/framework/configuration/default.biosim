@@ -6,7 +6,7 @@
 	<Globals driverStutterLength="0"
 		crewsToWatch="Crew_Quarters_Group Galley_Group Labs_Group Maintenance_Group"
 		runTillCrewDeath="true"
-		startPaused="false">
+		startPaused="false" exitWhenFinished="true">
 	</Globals>
 	<SimBioModules>
 		<environment>

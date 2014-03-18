@@ -222,6 +222,8 @@ public class BiosimInitializer {
 						"startPaused").getNodeValue().equals("true"));
 				myBioDriverImpl.setRunTillCrewDeath(node.getAttributes().getNamedItem(
 						"runTillCrewDeath").getNodeValue().equals("true"));
+				myBioDriverImpl.setExitWhenFinished(node.getAttributes().getNamedItem(
+						"exitWhenFinished").getNodeValue().equals("true"));
 				myBioDriverImpl.setRunTillPlantDeath(node.getAttributes()
 						.getNamedItem("runTillPlantDeath").getNodeValue()
 						.equals("true"));
