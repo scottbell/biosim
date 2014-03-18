@@ -1,38 +1,32 @@
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns="http://www.traclabs.com/biosim" 
-	targetNamespace="http://www.traclabs.com/biosim"
-	elementFormDefault="qualified">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="http://www.traclabs.com/biosim" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.traclabs.com/biosim">
 	
 	<!-- Module declarations -->
 	<xsd:complexType name="BioModuleType">
 		<xsd:sequence>
-			<xsd:element name="malfunction" type="MalfunctionType"
-				minOccurs="0" maxOccurs="1" />
-			<xsd:choice minOccurs="0" maxOccurs="1">
-					<xsd:element name="cauchyFailureDecider" type="CauchyFailureDeciderType" />
-					<xsd:element name="expFailureDecider" type="ExpFailureDeciderType" />
-					<xsd:element name="logisticFailureDecider" type="LogisticFailureDeciderType" />
-					<xsd:element name="lognormalFailureDecider" type="LognormalFailureDeciderType" />
-					<xsd:element name="normalFailureDecider" type="NormalFailureDeciderType" />
-					<xsd:element name="uniformFailureDecider" type="UniformFailureDeciderType" />
-					<xsd:element name="weibull2FailureDecider" type="Weibull2FailureDeciderType" />
-					<xsd:element name="weibull3FailureDecider" type="Weibull3FailureDeciderType" />
+			<xsd:element maxOccurs="1" minOccurs="0" name="malfunction" type="MalfunctionType"/>
+			<xsd:choice maxOccurs="1" minOccurs="0">
+					<xsd:element name="cauchyFailureDecider" type="CauchyFailureDeciderType"/>
+					<xsd:element name="expFailureDecider" type="ExpFailureDeciderType"/>
+					<xsd:element name="logisticFailureDecider" type="LogisticFailureDeciderType"/>
+					<xsd:element name="lognormalFailureDecider" type="LognormalFailureDeciderType"/>
+					<xsd:element name="normalFailureDecider" type="NormalFailureDeciderType"/>
+					<xsd:element name="uniformFailureDecider" type="UniformFailureDeciderType"/>
+					<xsd:element name="weibull2FailureDecider" type="Weibull2FailureDeciderType"/>
+					<xsd:element name="weibull3FailureDecider" type="Weibull3FailureDeciderType"/>
 			</xsd:choice>
-			<xsd:choice minOccurs="0" maxOccurs="1">
-					<xsd:element name="normalStochasticFilter" type="NormalStochasticFilterType" />
+			<xsd:choice maxOccurs="1" minOccurs="0">
+					<xsd:element name="normalStochasticFilter" type="NormalStochasticFilterType"/>
 			</xsd:choice>
 		</xsd:sequence>
-		<xsd:attribute name="moduleName" type="xsd:string"
-			use="required" />
-		<xsd:attribute name="createLocally" type="xsd:boolean"
-			default="true" />
-		<xsd:attribute name="logLevel" type="LogLevelType"
-			default="INFO" />
-		<xsd:attribute name="isBionetEnabled" type="xsd:boolean" default="false" />
+		<xsd:attribute name="moduleName" type="xsd:string" use="required"/>
+		<xsd:attribute default="true" name="createLocally" type="xsd:boolean"/>
+		<xsd:attribute default="INFO" name="logLevel" type="LogLevelType"/>
+		<xsd:attribute default="false" name="isBionetEnabled" type="xsd:boolean"/>
 	</xsd:complexType>
 
 	<xsd:complexType name="StochasticFilterType">
-		<xsd:attribute name="isFilterEnabled" type="xsd:boolean" default="true"/>
+		<xsd:attribute default="true" name="isFilterEnabled" type="xsd:boolean"/>
 	</xsd:complexType>
 	
 	<xsd:complexType name="NormalStochasticFilterType">  
@@ -44,7 +38,7 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="FailureDeciderType">
-		<xsd:attribute name="isFailureEnabled" type="xsd:boolean" default="true"/>
+		<xsd:attribute default="true" name="isFailureEnabled" type="xsd:boolean"/>
 	</xsd:complexType>
 	
 	<xsd:complexType name="CauchyFailureDeciderType">  
@@ -135,30 +129,31 @@
 	
 	<xsd:complexType name="NameServiceLocationType">
 		<xsd:sequence>
-			<xsd:choice minOccurs="1" maxOccurs="1">
-					<xsd:element name="fileLocation" type="FileLocationType" />
-					<xsd:element name="serverLocation" type="ServerLocationType" />
+			<xsd:choice maxOccurs="1" minOccurs="1">
+					<xsd:element name="fileLocation" type="FileLocationType"/>
+					<xsd:element name="serverLocation" type="ServerLocationType"/>
 			</xsd:choice>
 		</xsd:sequence>
 	</xsd:complexType>
 	
 	<xsd:complexType name="GlobalsType">
 		<xsd:sequence>
-			<xsd:element name="comment" type="xsd:string" minOccurs="0" maxOccurs="1"/>	
-			<xsd:element name="author" type="xsd:string" minOccurs="0" maxOccurs="1"/>	
-			<xsd:element name="log4jProperty" type="Log4jPropertyType" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element name="nameServiceLocation" type="NameServiceLocationType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="comment" type="xsd:string"/>	
+			<xsd:element maxOccurs="1" minOccurs="0" name="author" type="xsd:string"/>	
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="log4jProperty" type="Log4jPropertyType"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="nameServiceLocation" type="NameServiceLocationType"/>
 		</xsd:sequence>
-		<xsd:attribute name="startPaused" type="xsd:boolean" default="true"/>
-		<xsd:attribute name="runTillN" type="xsd:nonNegativeInteger" default="0"/>
-		<xsd:attribute name="runTillCrewDeath" type="xsd:boolean" default="true"/>
-		<xsd:attribute name="runTillPlantDeath" type="xsd:boolean" default="false"/>
+		<xsd:attribute default="true" name="startPaused" type="xsd:boolean"/>
+		<xsd:attribute default="0" name="runTillN" type="xsd:nonNegativeInteger"/>
+		<xsd:attribute default="true" name="runTillCrewDeath" type="xsd:boolean"/>
+		<xsd:attribute default="false" name="runTillPlantDeath" type="xsd:boolean"/>
 		<xsd:attribute name="crewsToWatch" type="stringList" use="optional"/>
-		<xsd:attribute name="plantsToWatch" type="stringList" use="optional"/>
-		<xsd:attribute name="driverStutterLength" type="xsd:integer" default="-1"/>     
-		<xsd:attribute name="isLooping" type="xsd:boolean" default="false"/>
-		<xsd:attribute name="stochasticIntensity" type="StochasticIntensityType" default="NONE_STOCH"/>
-		<xsd:attribute name="tickLength" type="nonNegativeFloat" default="1"/>
+		<xsd:attribute name="plantsToWatch" type="stringList" use="optional"/>    
+		<xsd:attribute default="false" name="exitWhenFinished" type="xsd:boolean"/>
+		<xsd:attribute default="-1" name="driverStutterLength" type="xsd:integer"/>     
+		<xsd:attribute default="false" name="isLooping" type="xsd:boolean"/>
+		<xsd:attribute default="NONE_STOCH" name="stochasticIntensity" type="StochasticIntensityType"/>
+		<xsd:attribute default="1" name="tickLength" type="nonNegativeFloat"/>
 	</xsd:complexType>
 	
 	<xsd:simpleType name="floatList">
