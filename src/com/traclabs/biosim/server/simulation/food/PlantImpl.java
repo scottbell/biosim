@@ -237,6 +237,7 @@ public abstract class PlantImpl extends PlantPOA {
         BioMatter newBioMatter = new BioMatter(myCurrentTotalWetBiomass,
                 inedibleFraction, myCurrentWaterInsideEdibleBiomass,
                 myCurrentWaterInsideInedibleBiomass, getPlantType());
+        myLogger.info("harvested: " + newBioMatter.mass + " kg of " + getPlantTypeString() + ", of which " + newBioMatter.inedibleFraction * 100 + "% is inedible");
         reset();
         return newBioMatter;
     }
