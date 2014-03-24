@@ -184,12 +184,10 @@ public abstract class PlantImpl extends PlantPOA {
         myAge = 0;
         hasDied = false;
         canopyClosed = false;
-        myAveragePPF = getInitialPPFValue();
         myTotalPPF = 0f;
         myNumberOfPPFReadings = 0;
         myAverageWaterNeeded = 0f;
         myTotalWaterNeeded = 0f;
-        myAverageCO2Concentration = getInitialCO2Value();
         myTotalCO2Concentration = 0f;
         myNumberOfCO2ConcentrationReadings = 0;
         myCurrentWaterInsideInedibleBiomass = 0f;
@@ -212,6 +210,10 @@ public abstract class PlantImpl extends PlantPOA {
         myPPFFractionAbsorbed = 0f;
         myProductionRate = 1f;
         myMolesOfCO2Inhaled = 0f;
+        myCanopyClosurePPFValues = new Vector<Float>(getTAInitialValue());
+        myCanopyClosureCO2Values = new Vector<Float>(getTAInitialValue());
+        myAveragePPF = getInitialPPFValue();
+        myAverageCO2Concentration = getInitialCO2Value();
     }
 
     public void tick() {
@@ -220,6 +222,25 @@ public abstract class PlantImpl extends PlantPOA {
             growBiomass();
             myTotalWaterNeeded += myWaterNeeded;
             myAverageWaterNeeded = myTotalWaterNeeded / myAge;
+            healthCheck();
+        }
+    }
+    
+    private void healthCheck(){
+        if (myWaterNeeded < myWaterLevel){
+            myLogger.warn("Not enough water, asked for "+myWaterNeeded + " and received " + myWaterLevel);
+         }
+        if (myAveragePPF > DANGEROUS_HEAT_LEVEL){
+           myLogger.warn("Average PPF too high at "+myAveragePPF + " (should be " + DANGEROUS_HEAT_LEVEL +")");
+        }
+        if (myAverageCO2Concentration < CO2_RATIO_LOW){
+            myLogger.warn("Average CO2 too low at "+myAverageCO2Concentration + " (should be " + CO2_RATIO_LOW +")");
+        }
+        if (myAverageCO2Concentration > CO2_RATIO_HIGH){
+            myLogger.warn("Average CO2 too high at "+myAverageCO2Concentration + " (should be " + CO2_RATIO_HIGH +")");
+        }
+        if (myAverageCO2Concentration > CO2_RATIO_HIGH){
+            myLogger.warn("Average CO2 too high at "+myAverageCO2Concentration + " (should be " + CO2_RATIO_HIGH +")");
         }
     }
 
@@ -510,10 +531,10 @@ public abstract class PlantImpl extends PlantPOA {
         float dryIncoporatedWaterUptake = calculateDryIncoporatedWaterUptake(
                 dailyCanopyTranspirationRate, wetIncoporatedWaterUptake);
         //myLogger.debug("dailyCanopyTranspirationRate:" + dailyCanopyTranspirationRate);
-        myLogger
-                .debug("wetIncoporatedWaterUptake:" + wetIncoporatedWaterUptake);
-        myLogger
-                .debug("dryIncoporatedWaterUptake:" + dryIncoporatedWaterUptake);
+        //myLogger
+        //        .debug("wetIncoporatedWaterUptake:" + wetIncoporatedWaterUptake);
+        //myLogger
+        //        .debug("dryIncoporatedWaterUptake:" + dryIncoporatedWaterUptake);
         float waterUptake = ((dailyCanopyTranspirationRate / 24f)
                 + wetIncoporatedWaterUptake + dryIncoporatedWaterUptake);
         return waterUptake;
