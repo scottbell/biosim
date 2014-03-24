@@ -227,11 +227,14 @@ public abstract class PlantImpl extends PlantPOA {
     }
     
     private void healthCheck(){
-        if (myWaterNeeded < myWaterLevel){
+        if (myWaterNeeded + 1 < myWaterLevel){
             myLogger.warn("Not enough water, asked for "+myWaterNeeded + " and received " + myWaterLevel);
          }
+        if (myAveragePPF + 1 < getPPFNeeded()){
+            myLogger.warn("Average light too low at "+myAveragePPF + " (should be " + getPPFNeeded() +")");
+         }
         if (myAveragePPF > DANGEROUS_HEAT_LEVEL){
-           myLogger.warn("Average PPF too high at "+myAveragePPF + " (should be " + DANGEROUS_HEAT_LEVEL +")");
+           myLogger.warn("Average light too high at "+myAveragePPF + " (should be " + DANGEROUS_HEAT_LEVEL +")");
         }
         if (myAverageCO2Concentration < CO2_RATIO_LOW){
             myLogger.warn("Average CO2 too low at "+myAverageCO2Concentration + " (should be " + CO2_RATIO_LOW +")");
