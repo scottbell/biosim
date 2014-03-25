@@ -221,5 +221,13 @@ public class BiomassStoreImpl extends StoreImpl implements
         if (currentLevel > 0)
             currentBiomassItems.add(myOriginalMatter);
     }
+    
+    @Override
+    public void log() {
+    	super.log();
+    	if (myLogger.isDebugEnabled()){
+    		myLogger.debug("water content of store=" + calculateWaterContentInStore());
+    	}
+    }
 
 }
