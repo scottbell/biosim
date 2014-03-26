@@ -690,19 +690,19 @@ public class CrewPersonImpl extends BaseCrewPersonImpl {
 			kill();
 			myLogger.info(getName() + " has died from starvation on tick "
 					+ getCurrentCrewGroup().getMyTicks() + " (risk was "
-					+ numFormat.format(calorieRiskReturn * 100) + "%)");
+					+ calorieRiskReturn * 100 + "%)");
 		} else if (waterRiskReturn > randomNumber) {
 			kill();
 			myLogger.info(getName() + " has died from thirst on tick "
 					+ getCurrentCrewGroup().getMyTicks() + " (risk was "
-					+ numFormat.format(waterRiskReturn * 100) + "%)");
+					+ waterRiskReturn * 100 + "%)");
 		} else if (oxygenLowRiskReturn > randomNumber) {
 			kill();
 			SimEnvironment[] myAirInputs = getCurrentCrewGroup()
 					.getAirConsumerDefinition().getEnvironments();
 			myLogger.info(getName() + " has died from lack of oxygen on tick "
 					+ getCurrentCrewGroup().getMyTicks() + " (risk was "
-					+ numFormat.format(oxygenLowRiskReturn * 100) + "%)");
+					+ oxygenLowRiskReturn * 100 + "%)");
 			logEnvironmentConditions();
 		} else if (oxygenHighRiskReturn > randomNumber) {
 			kill();
@@ -711,7 +711,7 @@ public class CrewPersonImpl extends BaseCrewPersonImpl {
 			myLogger.info(getName()
 					+ " has died from oxygen flammability on tick "
 					+ getCurrentCrewGroup().getMyTicks() + " (risk was "
-					+ numFormat.format(oxygenHighRiskReturn * 100) + "%)");
+					+ oxygenHighRiskReturn * 100 + "%)");
 			logEnvironmentConditions();
 		} else if (CO2RiskReturn > randomNumber) {
 			kill();
@@ -719,7 +719,7 @@ public class CrewPersonImpl extends BaseCrewPersonImpl {
 					.getAirConsumerDefinition().getEnvironments();
 			myLogger.info(getName() + " has died from CO2 poisoning on tick "
 					+ getCurrentCrewGroup().getMyTicks() + " (risk was "
-					+ numFormat.format(CO2RiskReturn * 100) + "%)");
+					+ CO2RiskReturn * 100 + "%)");
 
 		}
 	}

@@ -184,8 +184,11 @@ public class ShelfImpl extends ShelfPOA {
             if (myCrop.readyForHarvest() || myCrop.isDead()) {
             	float age = myCrop.getDaysOfGrowth();
                 BioMatter biomassProduced = myCrop.harvest();
+            	float inedible = biomassProduced.inedibleFraction;
+            	if (Float.isNaN(inedible))
+            		inedible = 0;
                 myLogger.info("ShelfImpl: Harvested " + biomassProduced.mass
-                        + "kg of " + myCrop.getPlantTypeString() + " ("+ biomassProduced.inedibleFraction +" inedible) after " +age+ " days of growth on tick " + myBiomassPSImpl.getMyTicks());
+                        + "kg of " + myCrop.getPlantTypeString() + " ("+ inedible * 100 +"% inedible) after " +age+ " days of growth on tick " + myBiomassPSImpl.getMyTicks());
                 myBiomassPSImpl
                         .getBiomassProducerDefinitionImpl()
                         .pushFractionalResourceToBiomassStore(biomassProduced,
