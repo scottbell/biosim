@@ -294,7 +294,7 @@
 					<schedule>
 						<activity intensity="2" name="mission"
 							length="4" />
-						<activity intensity="2" name="ruminating"
+						<activity intensity="2" name="rumination"
 							length="8" />
 						<activity intensity="0" name="sleep" length="8" />
 						<activity intensity="5" name="exercise"
@@ -325,12 +325,12 @@
 				<crewPerson age="35" name="Wilma Deering" sex="FEMALE"
 					weight="55">
 					<schedule>
-						<activity intensity="2" name="ruminating"
+						<activity intensity="2" name="rumination"
 							length="12" />
 						<activity intensity="0" name="sleep" length="8" />
-						<activity intensity="5" name="excercise"
+						<activity intensity="5" name="exercise"
 							length="2" />
-						<activity intensity="5" name="excercise"
+						<activity intensity="5" name="exercise"
 							length="2" /><activity intensity="4" name="EVA"
 							length="2" xsi:type="EVAActivityType" evaCrewGroup="EVA_Crew_Group" />
 					</schedule>
@@ -358,10 +358,10 @@
 				<crewPerson age="35" name="Tim O'Connor" sex="MALE"
 					weight="72">
 					<schedule>
-						<activity intensity="2" name="ruminating"
+						<activity intensity="2" name="rumination"
 							length="12" />
 						<activity intensity="0" name="sleep" length="8" />
-						<activity intensity="5" name="excercise"
+						<activity intensity="5" name="exercise"
 							length="2" />
 					</schedule>
 				</crewPerson>
@@ -388,10 +388,10 @@
 				<crewPerson age="35" name="Kane" sex="MALE"
 					weight="77">
 					<schedule>
-						<activity intensity="2" name="ruminating"
+						<activity intensity="2" name="rumination"
 							length="12" />
 						<activity intensity="0" name="sleep" length="8" />
-						<activity intensity="5" name="excercise"
+						<activity intensity="5" name="exercise"
 							length="2" />
 					</schedule>
 				</crewPerson>
