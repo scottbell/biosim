@@ -266,10 +266,11 @@ public abstract class BaseCrewPersonImpl extends CrewPersonPOA {
 	}
 
 	/**
-	 * If the crew memeber has been performing the current activity long enough,
+	 * If the crew member has been performing the current activity long enough,
 	 * the new scheduled activity is assigned.
 	 */
 	private void advanceActivity() {
+        checkForMeaningfulActivity();
 		if (myTimeActivityPerformed >= myCurrentActivity.getTimeLength()) {
 			myCurrentActivityIndex++;
 			if (myCurrentActivityIndex >= (mySchedule
@@ -355,15 +356,14 @@ public abstract class BaseCrewPersonImpl extends CrewPersonPOA {
      * later)
      */
     protected void checkForMeaningfulActivity() {
-        myLogger.debug("Checking to see if " + myCurrentActivity.getName()
-                + " is a meaningful activity");
-        if (myCurrentActivity instanceof RepairActivity) {
+		String activityName = getCurrentActivity().getName();
+        if (activityName.equals("repair")) {
             RepairActivity repairActivity = (RepairActivity) (myCurrentActivity);
             repairModule(repairActivity.getModuleNameToRepair(), repairActivity
                     .getMalfunctionIDToRepair());
-        } else if (myCurrentActivity instanceof EVAActivity) {
+        } else if (activityName.equals("eva")) {
             handleEVA((EVAActivity) (myCurrentActivity));
-        } else if (myCurrentActivity instanceof MaitenanceActivity) {
+        } else if (activityName.equals("maitenance")) {
             MaitenanceActivity maitenanceActivity = (MaitenanceActivity) (myCurrentActivity);
             maintainModule(maitenanceActivity.getModuleNameToMaintain());
         }
