@@ -313,13 +313,14 @@ public class CrewPersonImpl extends BaseCrewPersonImpl {
 
 	protected void checkForMeaningfulActivity() {
 		super.checkForMeaningfulActivity();
-		if (getCurrentActivity().getName().equals("mission")) {
+		String activityName = getCurrentActivity().getName();
+		if (activityName.equals("mission")) {
 			addProductivity();
-		} else if (getCurrentActivity().getName().startsWith("sleep")
-				|| getCurrentActivity().getName().startsWith("sick")) {
+		} else if (activityName.startsWith("sleep")
+				|| activityName.startsWith("sick")) {
 			sleepBuffer.add(SLEEP_RECOVERY_RATE
 					* getCurrentCrewGroup().getTickLength());
-		} else if (getCurrentActivity().getName().equals("leisure")) {
+		} else if (activityName.equals("leisure")) {
 			leisureBuffer.add(LEISURE_RECOVERY_RATE
 					* getCurrentCrewGroup().getTickLength());
 		}

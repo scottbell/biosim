@@ -292,10 +292,12 @@
 				<crewPerson age="35" name="Buck Rogers" sex="MALE"
 					weight="75">
 					<schedule>
+						<activity intensity="2" name="mission"
+							length="4" />
 						<activity intensity="2" name="ruminating"
-							length="12" />
+							length="8" />
 						<activity intensity="0" name="sleep" length="8" />
-						<activity intensity="5" name="excercise"
+						<activity intensity="5" name="exercise"
 							length="2" /><activity intensity="4" name="EVA"
 							length="2" xsi:type="EVAActivityType" evaCrewGroup="EVA_Crew_Group" />
 					</schedule>
