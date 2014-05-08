@@ -361,7 +361,7 @@ public abstract class BaseCrewPersonImpl extends CrewPersonPOA {
             RepairActivity repairActivity = (RepairActivity) (myCurrentActivity);
             repairModule(repairActivity.getModuleNameToRepair(), repairActivity
                     .getMalfunctionIDToRepair());
-        } else if (activityName.equals("eva")) {
+        } else if (activityName.equals("EVA")) {
             handleEVA((EVAActivity) (myCurrentActivity));
         } else if (activityName.equals("maitenance")) {
             MaitenanceActivity maitenanceActivity = (MaitenanceActivity) (myCurrentActivity);
