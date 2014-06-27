@@ -137,10 +137,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 
 	private void gatherPower() {
     	float cdrsPower = myPowerConsumerDefinitionImpl.getMostResourceFromStore(CDRS_POWER_INDEX);
-    	if (cdrsPower == 0){
-			transitionToInactive();
-			return;
-    	}
+    	//fix cdrs
     	myPowerConsumerDefinitionImpl.getMostResourceFromStore(AIR_INLET_VALVE_POWER_INDEX);
     	myPowerConsumerDefinitionImpl.getMostResourceFromStore(AIR_RETURN_VALVE_POWER_INDEX);
     	myPowerConsumerDefinitionImpl.getMostResourceFromStore(CO2_ISOLATION_VALVE_POWER_INDEX);
