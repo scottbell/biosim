@@ -194,9 +194,24 @@ _delegate.setCurrentCapacity(metricAmount);
 _delegate.doSomeRepairWork(id);
 	}
 
+	public float getCurrentTemperature()
+	{
+		return _delegate.getCurrentTemperature();
+	}
+
 	public float add(float metricAmount)
 	{
 		return _delegate.add(metricAmount);
+	}
+
+	public float addWaterWithTemperature(float mass, float temperature)
+	{
+		return _delegate.addWaterWithTemperature(mass,temperature);
+	}
+
+	public void setInitialWaterTemperature(float temperature)
+	{
+_delegate.setInitialWaterTemperature(temperature);
 	}
 
 	public boolean isPipe()
@@ -204,9 +219,9 @@ _delegate.doSomeRepairWork(id);
 		return _delegate.isPipe();
 	}
 
-	public float getInitialLevel()
+	public void clearAllMalfunctions()
 	{
-		return _delegate.getInitialLevel();
+_delegate.clearAllMalfunctions();
 	}
 
 	public void setEnableFailure(boolean pValue)
@@ -214,9 +229,9 @@ _delegate.doSomeRepairWork(id);
 _delegate.setEnableFailure(pValue);
 	}
 
-	public void clearAllMalfunctions()
+	public float getInitialLevel()
 	{
-_delegate.clearAllMalfunctions();
+		return _delegate.getInitialLevel();
 	}
 
 	public void tick()

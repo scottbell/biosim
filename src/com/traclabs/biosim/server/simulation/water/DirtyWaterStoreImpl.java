@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.water;
 
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterStoreOperations;
-import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 
 /**
  * The Dirty Water Store Implementation. Takes dirty water from the crew members
@@ -10,7 +9,7 @@ import com.traclabs.biosim.server.simulation.framework.StoreImpl;
  * @author Scott Bell
  */
 
-public class DirtyWaterStoreImpl extends StoreImpl implements
+public class DirtyWaterStoreImpl extends WaterStoreImpl implements
         DirtyWaterStoreOperations {
     public DirtyWaterStoreImpl(int pID, String pName) {
         super(pID, pName);

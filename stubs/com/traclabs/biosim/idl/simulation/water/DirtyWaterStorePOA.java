@@ -42,16 +42,19 @@ public abstract class DirtyWaterStorePOA
 		m_opsHash.put ( "getCurrentLevel", new java.lang.Integer(26));
 		m_opsHash.put ( "setCurrentCapacity", new java.lang.Integer(27));
 		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(28));
-		m_opsHash.put ( "add", new java.lang.Integer(29));
-		m_opsHash.put ( "isPipe", new java.lang.Integer(30));
-		m_opsHash.put ( "getInitialLevel", new java.lang.Integer(31));
-		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(32));
-		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(33));
-		m_opsHash.put ( "tick", new java.lang.Integer(34));
-		m_opsHash.put ( "setTickLength", new java.lang.Integer(35));
-		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(36));
-		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(37));
-		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(38));
+		m_opsHash.put ( "getCurrentTemperature", new java.lang.Integer(29));
+		m_opsHash.put ( "add", new java.lang.Integer(30));
+		m_opsHash.put ( "addWaterWithTemperature", new java.lang.Integer(31));
+		m_opsHash.put ( "setInitialWaterTemperature", new java.lang.Integer(32));
+		m_opsHash.put ( "isPipe", new java.lang.Integer(33));
+		m_opsHash.put ( "getInitialLevel", new java.lang.Integer(34));
+		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(35));
+		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(36));
+		m_opsHash.put ( "tick", new java.lang.Integer(37));
+		m_opsHash.put ( "setTickLength", new java.lang.Integer(38));
+		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(39));
+		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(40));
+		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(41));
 	}
 	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/DirtyWaterStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/simulation/water/WaterStore:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
 	public com.traclabs.biosim.idl.simulation.water.DirtyWaterStore _this()
@@ -262,64 +265,85 @@ public abstract class DirtyWaterStorePOA
 				doSomeRepairWork(_arg0);
 				break;
 			}
-			case 29: // add
+			case 29: // getCurrentTemperature
+			{
+				_out = handler.createReply();
+				_out.write_float(getCurrentTemperature());
+				break;
+			}
+			case 30: // add
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				_out.write_float(add(_arg0));
 				break;
 			}
-			case 30: // isPipe
+			case 31: // addWaterWithTemperature
+			{
+				float _arg0=_input.read_float();
+				float _arg1=_input.read_float();
+				_out = handler.createReply();
+				_out.write_float(addWaterWithTemperature(_arg0,_arg1));
+				break;
+			}
+			case 32: // setInitialWaterTemperature
+			{
+				float _arg0=_input.read_float();
+				_out = handler.createReply();
+				setInitialWaterTemperature(_arg0);
+				break;
+			}
+			case 33: // isPipe
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isPipe());
 				break;
 			}
-			case 31: // getInitialLevel
+			case 34: // getInitialLevel
 			{
 				_out = handler.createReply();
 				_out.write_float(getInitialLevel());
 				break;
 			}
-			case 32: // setEnableFailure
+			case 35: // setEnableFailure
 			{
 				boolean _arg0=_input.read_boolean();
 				_out = handler.createReply();
 				setEnableFailure(_arg0);
 				break;
 			}
-			case 33: // clearAllMalfunctions
+			case 36: // clearAllMalfunctions
 			{
 				_out = handler.createReply();
 				clearAllMalfunctions();
 				break;
 			}
-			case 34: // tick
+			case 37: // tick
 			{
 				_out = handler.createReply();
 				tick();
 				break;
 			}
-			case 35: // setTickLength
+			case 38: // setTickLength
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setTickLength(_arg0);
 				break;
 			}
-			case 36: // isFailureEnabled
+			case 39: // isFailureEnabled
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isFailureEnabled());
 				break;
 			}
-			case 37: // getMalfunctionNames
+			case 40: // getMalfunctionNames
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.StringListHelper.write(_out,getMalfunctionNames());
 				break;
 			}
-			case 38: // scheduleMalfunction
+			case 41: // scheduleMalfunction
 			{
 				com.traclabs.biosim.idl.framework.MalfunctionIntensity _arg0=com.traclabs.biosim.idl.framework.MalfunctionIntensityHelper.read(_input);
 				com.traclabs.biosim.idl.framework.MalfunctionLength _arg1=com.traclabs.biosim.idl.framework.MalfunctionLengthHelper.read(_input);

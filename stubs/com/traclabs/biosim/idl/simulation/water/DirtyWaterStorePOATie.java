@@ -194,9 +194,24 @@ _delegate.setCurrentCapacity(metricAmount);
 _delegate.doSomeRepairWork(id);
 	}
 
+	public float getCurrentTemperature()
+	{
+		return _delegate.getCurrentTemperature();
+	}
+
 	public float add(float metricAmount)
 	{
 		return _delegate.add(metricAmount);
+	}
+
+	public float addWaterWithTemperature(float mass, float temperature)
+	{
+		return _delegate.addWaterWithTemperature(mass,temperature);
+	}
+
+	public void setInitialWaterTemperature(float temperature)
+	{
+_delegate.setInitialWaterTemperature(temperature);
 	}
 
 	public boolean isPipe()
