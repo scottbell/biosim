@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.water;
 
 import com.traclabs.biosim.idl.simulation.water.GreyWaterStoreOperations;
-import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 
 /**
  * The Grey Water Store Implementation. Takes dirty water from the crew members
@@ -11,7 +10,7 @@ import com.traclabs.biosim.server.simulation.framework.StoreImpl;
  * @author Scott Bell
  */
 
-public class GreyWaterStoreImpl extends StoreImpl implements
+public class GreyWaterStoreImpl extends WaterStoreImpl implements
         GreyWaterStoreOperations {
     public GreyWaterStoreImpl(int pID, String pName) {
         super(pID, pName);

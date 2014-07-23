@@ -770,6 +770,9 @@ module com{
                                                         //WaterRSOperationMode getOpertationMode();
                                                 };
                                                 interface WaterStore : framework::Store{
+                                                        void setInitialWaterTemperature(in float temperature);
+                                                        float addWaterWithTemperature(in float mass, in float temperature);
+                                                        float getCurrentTemperature();
                                                 };
                                                 interface PotableWaterStore : WaterStore{
                                                 };
