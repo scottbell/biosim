@@ -121,7 +121,6 @@ import com.traclabs.biosim.idl.simulation.power.PowerPS;
 import com.traclabs.biosim.idl.simulation.power.PowerStore;
 import com.traclabs.biosim.idl.simulation.power.RPCM;
 import com.traclabs.biosim.idl.simulation.thermal.IATCS;
-import com.traclabs.biosim.idl.simulation.thermal.IFHX;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteStore;
 import com.traclabs.biosim.idl.simulation.waste.Incinerator;
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
@@ -216,8 +215,6 @@ public class BioHolder {
     public List<DryWasteStore> theDryWasteStores = new Vector<DryWasteStore>();
     
     //Thermal
-    public List<IFHX> theIFHXs = new Vector<IFHX>();
-
     public List<IATCS> theIATCSs = new Vector<IATCS>();
 
     //Water
@@ -520,7 +517,6 @@ public class BioHolder {
         theSimModules.addAll(theDryWasteStores);
         //Thermal
         theSimModules.addAll(theIATCSs);
-        theSimModules.addAll(theIFHXs);
         //Water
         theSimModules.addAll(theWaterRSModules);
         theSimModules.addAll(thePotableWaterStores);
@@ -683,7 +679,6 @@ public class BioHolder {
         theDryWasteStores.clear();
         //Waste
         theIATCSs.clear();
-        theIFHXs.clear();
         //Water
         theWaterRSModules.clear();
         thePotableWaterStores.clear();
