@@ -114,6 +114,12 @@ import com.traclabs.biosim.idl.simulation.power.PowerStorePOATie;
 import com.traclabs.biosim.idl.simulation.power.RPCM;
 import com.traclabs.biosim.idl.simulation.power.RPCMHelper;
 import com.traclabs.biosim.idl.simulation.power.RPCMPOATie;
+import com.traclabs.biosim.idl.simulation.thermal.IATCS;
+import com.traclabs.biosim.idl.simulation.thermal.IATCSHelper;
+import com.traclabs.biosim.idl.simulation.thermal.IATCSPOATie;
+import com.traclabs.biosim.idl.simulation.thermal.IFHX;
+import com.traclabs.biosim.idl.simulation.thermal.IFHXHelper;
+import com.traclabs.biosim.idl.simulation.thermal.IFHXPOATie;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteConsumer;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteProducer;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteStore;
@@ -175,6 +181,7 @@ import com.traclabs.biosim.server.simulation.power.PowerStoreImpl;
 import com.traclabs.biosim.server.simulation.power.RPCMImpl;
 import com.traclabs.biosim.server.simulation.power.SolarPowerPS;
 import com.traclabs.biosim.server.simulation.power.StateMachinePowerPS;
+import com.traclabs.biosim.server.simulation.thermal.IATCSImpl;
 import com.traclabs.biosim.server.simulation.waste.DryWasteStoreImpl;
 import com.traclabs.biosim.server.simulation.waste.IncineratorImpl;
 import com.traclabs.biosim.server.simulation.water.DirtyWaterStoreImpl;
@@ -231,6 +238,8 @@ public class SimulationInitializer {
 					crawlWaterModules(child, firstPass);
 				} else if (childName.equals("waste")) {
 					crawlWasteModules(child, firstPass);
+				} else if (childName.equals("thermal")) {
+					crawlThermalModules(child, firstPass);
 				}
 			}
 			child = child.getNextSibling();
@@ -1989,6 +1998,50 @@ public class SimulationInitializer {
 		configureSimBioModule(myIncinerator, node);
 		myActiveSimModules.add(myIncinerator);
 	}
+	
+	private void createIFHX(Node node) {
+		String moduleName = BiosimInitializer.getModuleName(node);
+		if (BiosimInitializer.isCreatedLocally(node)) {
+			myLogger.debug("Creating IFHX with moduleName: "
+					+ moduleName);
+			IFHXImpl myIFHXImpl = new IFHXImpl(myID,
+					moduleName);
+			BiosimInitializer.setupBioModule(myIFHXImpl, node);
+			BiosimServer.registerServer(
+					new IFHXPOATie(myIFHXImpl), myIFHXImpl
+							.getModuleName(), myIFHXImpl.getID());
+		} else
+			BiosimInitializer.printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureIFHX(Node node) {
+		IFHX myIFHX = IFHXHelper.narrow(BiosimInitializer
+				.getModule(myID, BiosimInitializer.getModuleName(node)));
+		configureSimBioModule(myIFHX, node);
+		myActiveSimModules.add(myIFHX);
+	}
+	
+	private void createIATCS(Node node) {
+		String moduleName = BiosimInitializer.getModuleName(node);
+		if (BiosimInitializer.isCreatedLocally(node)) {
+			myLogger.debug("Creating IATCS with moduleName: "
+					+ moduleName);
+			IATCSImpl myIATCSImpl = new IATCSImpl(myID,
+					moduleName);
+			BiosimInitializer.setupBioModule(myIATCSImpl, node);
+			BiosimServer.registerServer(
+					new IATCSPOATie(myIATCSImpl), myIATCSImpl
+							.getModuleName(), myIATCSImpl.getID());
+		} else
+			BiosimInitializer.printRemoteWarningMessage(moduleName);
+	}
+
+	private void configureIATCS(Node node) {
+		IATCS myIATCS = IATCSHelper.narrow(BiosimInitializer
+				.getModule(myID, BiosimInitializer.getModuleName(node)));
+		configureSimBioModule(myIATCS, node);
+		myActiveSimModules.add(myIATCS);
+	}
 
 	private void createDryWasteStore(Node node) {
 		String moduleName = BiosimInitializer.getModuleName(node);
@@ -2018,6 +2071,31 @@ public class SimulationInitializer {
 				} else if (childName.equals("DryWasteStore")) {
 					if (firstPass)
 						createDryWasteStore(child);
+					else
+						myPassiveSimModules
+								.add(DryWasteStoreHelper
+										.narrow(BiosimInitializer.getModule(
+												myID, BiosimInitializer
+														.getModuleName(child))));
+				}
+			}
+			child = child.getNextSibling();
+		}
+	}
+	
+	private void crawlThermalModules(Node node, boolean firstPass) {
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getLocalName();
+			if (childName != null) {
+				if (childName.equals("IFHX")) {
+					if (firstPass)
+						createIFHX(child);
+					else
+						configureIncinerator(child);
+				} else if (childName.equals("IATCS")) {
+					if (firstPass)
+						createIATCS(child);
 					else
 						myPassiveSimModules
 								.add(DryWasteStoreHelper

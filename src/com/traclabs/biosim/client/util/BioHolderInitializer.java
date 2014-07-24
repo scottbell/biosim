@@ -117,6 +117,8 @@ import com.traclabs.biosim.idl.simulation.power.GenericPowerConsumerHelper;
 import com.traclabs.biosim.idl.simulation.power.PowerPSHelper;
 import com.traclabs.biosim.idl.simulation.power.PowerStoreHelper;
 import com.traclabs.biosim.idl.simulation.power.RPCMHelper;
+import com.traclabs.biosim.idl.simulation.thermal.IATCSHelper;
+import com.traclabs.biosim.idl.simulation.thermal.IFHXHelper;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteStoreHelper;
 import com.traclabs.biosim.idl.simulation.waste.IncineratorHelper;
 import com.traclabs.biosim.idl.simulation.water.DirtyWaterStoreHelper;
@@ -387,6 +389,8 @@ public class BioHolderInitializer {
 					crawlWaterModules(child);
 				else if (childName.equals("waste"))
 					crawlWasteModules(child);
+				else if (childName.equals("thermal"))
+					crawlThermalModules(child);
 			}
 			child = child.getNextSibling();
 		}
@@ -697,6 +701,16 @@ public class BioHolderInitializer {
 				.narrow(getModule(getModuleName(node))));
 	}
 
+	private static void fetchIATCS(Node node) {
+		myBioHolder.theIATCSs.add(IATCSHelper
+				.narrow(getModule(getModuleName(node))));
+	}
+
+	private static void fetchIFHX(Node node) {
+		myBioHolder.theIFHXs.add(IFHXHelper
+				.narrow(getModule(getModuleName(node))));
+	}
+
 	private static void crawlWasteModules(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -706,6 +720,20 @@ public class BioHolderInitializer {
 					fetchIncinerator(child);
 				else if (childName.equals("DryWasteStore"))
 					fetchDryWasteStore(child);
+			}
+			child = child.getNextSibling();
+		}
+	}
+
+	private static void crawlThermalModules(Node node) {
+		Node child = node.getFirstChild();
+		while (child != null) {
+			String childName = child.getLocalName();
+			if (childName != null) {
+				if (childName.equals("IFHX"))
+					fetchIFHX(child);
+				else if (childName.equals("IATCS"))
+					fetchIATCS(child);
 			}
 			child = child.getNextSibling();
 		}
