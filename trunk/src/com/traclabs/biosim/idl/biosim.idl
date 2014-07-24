@@ -18,6 +18,15 @@ module com{
                                                 enum RPCMSwitchState {open, closed};
                                                 enum RPCMArmedStatus {enabled, inhibited};
                                         };
+                                        module thermal{
+                                                interface IATCS;
+                                                interface IFHX;
+                                                
+                                                enum IATCSState {idle, operational, armed, transitioning};
+												enum IATCSActivation {inProgress, notInProgress};
+												enum SoftwareStatus {shutdown, softwareArmed, running};
+												enum PPAPumpSpeedStatus {pumpArmed, notArmed};
+                                        };
                                         module crew{
                                                 interface Activity;
                                                 interface CrewPerson;
@@ -67,14 +76,14 @@ module com{
                                                 interface NitrogenConsumerDefinition;
                                                 interface MethaneProducerDefinition;
                                                 interface MethaneConsumerDefinition;
-						module cdrs{
-                                                	enum CDRSState {init, standby, dual_bed, single_bed, transitioning, inactive};
-							enum CDRSArmedStatus {armed, in_progress, not_armed};
-							enum CDRSCommandStatus {inibited, enabled};
-							enum CDRSValveState{open, closed};
-							enum CDRSPowerState {on, off};
-							enum CDRSDayNightState {day, night};
-						};
+											module cdrs{
+                                                enum CDRSState {init, standby, dual_bed, single_bed, transitioning, inactive};
+												enum CDRSArmedStatus {armed, in_progress, not_armed};
+												enum CDRSCommandStatus {inhibited, enabled};
+												enum CDRSValveState{open, closed};
+												enum CDRSPowerState {on, off};
+												enum CDRSDayNightState {day, night};
+											};
                                         };
                                         module food{
                                                 interface Shelf;
@@ -845,6 +854,12 @@ module com{
                                                 };
                                                 interface DryWasteProducerDefinition : framework::StoreFlowRateControllable{
                                                         void setDryWasteOutputs(in simulation::waste::DryWasteStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
+                                                };
+                                        };
+                                        module thermal{
+                                                interface IATCS : framework::SimBioModule, power::PowerConsumer, water::GreyWaterConsumer, water::GreyWaterProducer{
+                                                };
+                                                interface IFHX : framework::SimBioModule, power::PowerConsumer, water::GreyWaterConsumer, water::GreyWaterProducer{
                                                 };
                                         };
                                 };
