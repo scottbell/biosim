@@ -27,7 +27,7 @@ public class CDRSValveRTPanel extends GridButtonPanel {
 		};
 		ActionListener ventInhibit = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LssmViewer.getCDRSModule().setCO2VentValveArmedStatus(CDRSCommandStatus.inibited);
+				LssmViewer.getCDRSModule().setCO2VentValveArmedStatus(CDRSCommandStatus.inhibited);
 				LssmViewer.sendCommand("co2VentInhibitCommand");
 			}
 		};
@@ -46,7 +46,7 @@ public class CDRSValveRTPanel extends GridButtonPanel {
 		};
 		ActionListener isoInhibit = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LssmViewer.getCDRSModule().setCO2IsolationValveArmedStatus(CDRSCommandStatus.inibited);
+				LssmViewer.getCDRSModule().setCO2IsolationValveArmedStatus(CDRSCommandStatus.inhibited);
 				LssmViewer.sendCommand("co2IsolationInhibitCommand");
 			}
 		};
@@ -65,7 +65,7 @@ public class CDRSValveRTPanel extends GridButtonPanel {
 		};
 		ActionListener airInletInhibit = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LssmViewer.getCDRSModule().setAirInletValveArmedStatus(CDRSCommandStatus.inibited);
+				LssmViewer.getCDRSModule().setAirInletValveArmedStatus(CDRSCommandStatus.inhibited);
 				LssmViewer.sendCommand("airInletInhibitCommand");
 			}
 		};
@@ -84,7 +84,7 @@ public class CDRSValveRTPanel extends GridButtonPanel {
 		};
 		ActionListener airReturnInhibit = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LssmViewer.getCDRSModule().setAirReturnValveArmedStatus(CDRSCommandStatus.inibited);
+				LssmViewer.getCDRSModule().setAirReturnValveArmedStatus(CDRSCommandStatus.inhibited);
 				LssmViewer.sendCommand("airReturnInhibitCommand");
 			}
 		};
