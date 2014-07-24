@@ -26,23 +26,22 @@ public abstract class IFHXPOA
 		m_opsHash.put ( "reset", new java.lang.Integer(10));
 		m_opsHash.put ( "getMyTicks", new java.lang.Integer(11));
 		m_opsHash.put ( "maintain", new java.lang.Integer(12));
-		m_opsHash.put ( "getPowerConsumerDefinition", new java.lang.Integer(13));
-		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(14));
-		m_opsHash.put ( "getID", new java.lang.Integer(15));
-		m_opsHash.put ( "getModuleName", new java.lang.Integer(16));
-		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(17));
-		m_opsHash.put ( "tick", new java.lang.Integer(18));
-		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(19));
-		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(20));
-		m_opsHash.put ( "setTickLength", new java.lang.Integer(21));
-		m_opsHash.put ( "getGreyWaterConsumerDefinition", new java.lang.Integer(22));
-		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(23));
-		m_opsHash.put ( "startMalfunction", new java.lang.Integer(24));
-		m_opsHash.put ( "log", new java.lang.Integer(25));
-		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(26));
-		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(27));
+		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(13));
+		m_opsHash.put ( "getID", new java.lang.Integer(14));
+		m_opsHash.put ( "getModuleName", new java.lang.Integer(15));
+		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(16));
+		m_opsHash.put ( "tick", new java.lang.Integer(17));
+		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(18));
+		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(19));
+		m_opsHash.put ( "setTickLength", new java.lang.Integer(20));
+		m_opsHash.put ( "getGreyWaterConsumerDefinition", new java.lang.Integer(21));
+		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(22));
+		m_opsHash.put ( "startMalfunction", new java.lang.Integer(23));
+		m_opsHash.put ( "log", new java.lang.Integer(24));
+		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(25));
+		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(26));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/thermal/IFHX:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterProducer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/thermal/IFHX:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterProducer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
 	public com.traclabs.biosim.idl.simulation.thermal.IFHX _this()
 	{
 		return com.traclabs.biosim.idl.simulation.thermal.IFHXHelper.narrow(_this_object());
@@ -146,32 +145,26 @@ public abstract class IFHXPOA
 				maintain();
 				break;
 			}
-			case 13: // getPowerConsumerDefinition
-			{
-				_out = handler.createReply();
-				com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinitionHelper.write(_out,getPowerConsumerDefinition());
-				break;
-			}
-			case 14: // doSomeRepairWork
+			case 13: // doSomeRepairWork
 			{
 				long _arg0=_input.read_longlong();
 				_out = handler.createReply();
 				doSomeRepairWork(_arg0);
 				break;
 			}
-			case 15: // getID
+			case 14: // getID
 			{
 				_out = handler.createReply();
 				_out.write_long(getID());
 				break;
 			}
-			case 16: // getModuleName
+			case 15: // getModuleName
 			{
 				_out = handler.createReply();
 				_out.write_string(getModuleName());
 				break;
 			}
-			case 17: // scheduleMalfunction
+			case 16: // scheduleMalfunction
 			{
 				com.traclabs.biosim.idl.framework.MalfunctionIntensity _arg0=com.traclabs.biosim.idl.framework.MalfunctionIntensityHelper.read(_input);
 				com.traclabs.biosim.idl.framework.MalfunctionLength _arg1=com.traclabs.biosim.idl.framework.MalfunctionLengthHelper.read(_input);
@@ -180,45 +173,45 @@ public abstract class IFHXPOA
 				scheduleMalfunction(_arg0,_arg1,_arg2);
 				break;
 			}
-			case 18: // tick
+			case 17: // tick
 			{
 				_out = handler.createReply();
 				tick();
 				break;
 			}
-			case 19: // fixMalfunction
+			case 18: // fixMalfunction
 			{
 				long _arg0=_input.read_longlong();
 				_out = handler.createReply();
 				fixMalfunction(_arg0);
 				break;
 			}
-			case 20: // getMalfunctionNames
+			case 19: // getMalfunctionNames
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.StringListHelper.write(_out,getMalfunctionNames());
 				break;
 			}
-			case 21: // setTickLength
+			case 20: // setTickLength
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setTickLength(_arg0);
 				break;
 			}
-			case 22: // getGreyWaterConsumerDefinition
+			case 21: // getGreyWaterConsumerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerDefinitionHelper.write(_out,getGreyWaterConsumerDefinition());
 				break;
 			}
-			case 23: // isFailureEnabled
+			case 22: // isFailureEnabled
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isFailureEnabled());
 				break;
 			}
-			case 24: // startMalfunction
+			case 23: // startMalfunction
 			{
 				com.traclabs.biosim.idl.framework.MalfunctionIntensity _arg0=com.traclabs.biosim.idl.framework.MalfunctionIntensityHelper.read(_input);
 				com.traclabs.biosim.idl.framework.MalfunctionLength _arg1=com.traclabs.biosim.idl.framework.MalfunctionLengthHelper.read(_input);
@@ -226,19 +219,19 @@ public abstract class IFHXPOA
 				com.traclabs.biosim.idl.framework.MalfunctionHelper.write(_out,startMalfunction(_arg0,_arg1));
 				break;
 			}
-			case 25: // log
+			case 24: // log
 			{
 				_out = handler.createReply();
 				log();
 				break;
 			}
-			case 26: // getMalfunctions
+			case 25: // getMalfunctions
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.framework.MalfunctionListHelper.write(_out,getMalfunctions());
 				break;
 			}
-			case 27: // fixAllMalfunctions
+			case 26: // fixAllMalfunctions
 			{
 				_out = handler.createReply();
 				fixAllMalfunctions();

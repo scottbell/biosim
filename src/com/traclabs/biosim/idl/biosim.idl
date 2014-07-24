@@ -859,7 +859,7 @@ module com{
                                         module thermal{
                                                 interface IATCS : framework::SimBioModule, power::PowerConsumer, water::GreyWaterConsumer, water::GreyWaterProducer{
                                                 };
-                                                interface IFHX : framework::SimBioModule, power::PowerConsumer, water::GreyWaterConsumer, water::GreyWaterProducer{
+                                                interface IFHX : framework::SimBioModule, water::GreyWaterConsumer, water::GreyWaterProducer{
                                                 };
                                         };
                                 };

@@ -12,6 +12,7 @@
 	<xsd:include schemaLocation="Environment.xsd"/>
 	<xsd:include schemaLocation="Water.xsd"/>
 	<xsd:include schemaLocation="Waste.xsd"/>
+	<xsd:include schemaLocation="Thermal.xsd"/>
 	
 	<xsd:complexType name="SimBioModulesType">
 		<xsd:all>
@@ -22,6 +23,7 @@
 			<xsd:element name="power" type="PowerSimBioModulesType" minOccurs="0" maxOccurs="1"/>
 			<xsd:element name="water" type="WaterSimBioModulesType" minOccurs="0" maxOccurs="1"/>
 			<xsd:element name="waste" type="WasteSimBioModulesType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="thermal" type="ThermalSimBioModulesType" minOccurs="0" maxOccurs="1"/>
 			<xsd:element name="framework" type="FrameworkSimBioModulesType" minOccurs="0" maxOccurs="1"/>
 		</xsd:all>     
 	</xsd:complexType>

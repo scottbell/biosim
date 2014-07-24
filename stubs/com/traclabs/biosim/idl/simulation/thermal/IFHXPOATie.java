@@ -114,11 +114,6 @@ _delegate.reset();
 _delegate.maintain();
 	}
 
-	public com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition getPowerConsumerDefinition()
-	{
-		return _delegate.getPowerConsumerDefinition();
-	}
-
 	public void doSomeRepairWork(long id)
 	{
 _delegate.doSomeRepairWork(id);
