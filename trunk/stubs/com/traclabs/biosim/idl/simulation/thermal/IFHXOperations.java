@@ -7,6 +7,6 @@ package com.traclabs.biosim.idl.simulation.thermal;
 
 
 public interface IFHXOperations
-	extends com.traclabs.biosim.idl.simulation.framework.SimBioModuleOperations , com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations , com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerOperations , com.traclabs.biosim.idl.simulation.water.GreyWaterProducerOperations
+	extends com.traclabs.biosim.idl.simulation.framework.SimBioModuleOperations , com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerOperations , com.traclabs.biosim.idl.simulation.water.GreyWaterProducerOperations
 {
 }
