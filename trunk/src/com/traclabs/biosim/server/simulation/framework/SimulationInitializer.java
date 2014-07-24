@@ -117,9 +117,6 @@ import com.traclabs.biosim.idl.simulation.power.RPCMPOATie;
 import com.traclabs.biosim.idl.simulation.thermal.IATCS;
 import com.traclabs.biosim.idl.simulation.thermal.IATCSHelper;
 import com.traclabs.biosim.idl.simulation.thermal.IATCSPOATie;
-import com.traclabs.biosim.idl.simulation.thermal.IFHX;
-import com.traclabs.biosim.idl.simulation.thermal.IFHXHelper;
-import com.traclabs.biosim.idl.simulation.thermal.IFHXPOATie;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteConsumer;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteProducer;
 import com.traclabs.biosim.idl.simulation.waste.DryWasteStore;
@@ -1999,28 +1996,6 @@ public class SimulationInitializer {
 		myActiveSimModules.add(myIncinerator);
 	}
 	
-	private void createIFHX(Node node) {
-		String moduleName = BiosimInitializer.getModuleName(node);
-		if (BiosimInitializer.isCreatedLocally(node)) {
-			myLogger.debug("Creating IFHX with moduleName: "
-					+ moduleName);
-			IFHXImpl myIFHXImpl = new IFHXImpl(myID,
-					moduleName);
-			BiosimInitializer.setupBioModule(myIFHXImpl, node);
-			BiosimServer.registerServer(
-					new IFHXPOATie(myIFHXImpl), myIFHXImpl
-							.getModuleName(), myIFHXImpl.getID());
-		} else
-			BiosimInitializer.printRemoteWarningMessage(moduleName);
-	}
-
-	private void configureIFHX(Node node) {
-		IFHX myIFHX = IFHXHelper.narrow(BiosimInitializer
-				.getModule(myID, BiosimInitializer.getModuleName(node)));
-		configureSimBioModule(myIFHX, node);
-		myActiveSimModules.add(myIFHX);
-	}
-	
 	private void createIATCS(Node node) {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
@@ -2088,20 +2063,11 @@ public class SimulationInitializer {
 		while (child != null) {
 			String childName = child.getLocalName();
 			if (childName != null) {
-				if (childName.equals("IFHX")) {
-					if (firstPass)
-						createIFHX(child);
-					else
-						configureIncinerator(child);
-				} else if (childName.equals("IATCS")) {
+				if (childName.equals("IATCS")) {
 					if (firstPass)
 						createIATCS(child);
 					else
-						myPassiveSimModules
-								.add(DryWasteStoreHelper
-										.narrow(BiosimInitializer.getModule(
-												myID, BiosimInitializer
-														.getModuleName(child))));
+						configureIATCS(child);
 				}
 			}
 			child = child.getNextSibling();
