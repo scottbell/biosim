@@ -51,7 +51,7 @@ public class LssmArRtStatus extends GridButtonPanel {
 		JButton inhibitBlowerButton = new JButton("Inhibit");
 		inhibitBlowerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LssmViewer.getCDRSModule().setBlowerArmedStatus(CDRSCommandStatus.inibited);
+				LssmViewer.getCDRSModule().setBlowerArmedStatus(CDRSCommandStatus.inhibited);
 				LssmViewer.sendCommand("blowerInhibitCommand");
 			}
 		});
@@ -87,7 +87,7 @@ public class LssmArRtStatus extends GridButtonPanel {
 		JButton inhibitPumpButton = new JButton("Inhibit");
 		inhibitPumpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LssmViewer.getCDRSModule().setWaterPumpArmedStatus(CDRSCommandStatus.inibited);
+				LssmViewer.getCDRSModule().setWaterPumpArmedStatus(CDRSCommandStatus.inhibited);
 				LssmViewer.sendCommand("waterPumpInhibitCommand");
 			}
 		});
