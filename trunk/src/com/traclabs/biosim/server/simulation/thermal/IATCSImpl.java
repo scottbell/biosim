@@ -8,6 +8,7 @@ import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.idl.simulation.thermal.IATCSOperations;
+import com.traclabs.biosim.idl.simulation.thermal.IATCSState;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerOperations;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterProducerDefinition;
@@ -26,6 +27,7 @@ import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinitionIm
 public class IATCSImpl extends SimBioModuleImpl implements
         IATCSOperations, PowerConsumerOperations,
         GreyWaterConsumerOperations, GreyWaterProducerOperations {
+	private IATCSState iatcsState = IATCSState.idle;
     //Consumers, Producers
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
 
@@ -43,8 +45,7 @@ public class IATCSImpl extends SimBioModuleImpl implements
     //The power consumed (in watts) by the IATCS at the current tick
     private float currentPowerConsumed = 0f;
 
-    //References to the servers the IATCS takes/puts resources (like
-    // power, dryWaste, etc)
+    //References to the servers the IATCS takes/puts resources
     private float myProductionRate = 1f;
 
     public IATCSImpl(int pID, String pName) {
@@ -178,4 +179,14 @@ public class IATCSImpl extends SimBioModuleImpl implements
         myLogger.debug("has_enough_power=" + hasEnoughPower);
         myLogger.debug("current_power_consumed=" + currentPowerConsumed);
     }
+    
+    private boolean transitionAllowed(IATCSState stateToTransition) {
+		if (iatcsState == IATCSState.idle){
+			return (stateToTransition == IATCSState.operational);
+		}
+		else if (iatcsState == IATCSState.operational){
+			return (stateToTransition == IATCSState.idle);
+		}
+		return false;
+	}
 }
