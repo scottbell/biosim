@@ -97,12 +97,6 @@ import com.traclabs.biosim.idl.actuator.water.PotableWaterInFlowRateActuatorPOAT
 import com.traclabs.biosim.idl.actuator.water.PotableWaterOutFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.water.PotableWaterOutFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.water.PotableWaterOutFlowRateActuatorPOATie;
-import com.traclabs.biosim.idl.actuator.water.WaterInFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.water.WaterInFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.water.WaterInFlowRateActuatorPOATie;
-import com.traclabs.biosim.idl.actuator.water.WaterOutFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.water.WaterOutFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.water.WaterOutFlowRateActuatorPOATie;
 import com.traclabs.biosim.idl.simulation.air.CO2ConsumerHelper;
 import com.traclabs.biosim.idl.simulation.air.CO2ProducerHelper;
 import com.traclabs.biosim.idl.simulation.air.H2ConsumerHelper;
@@ -132,8 +126,6 @@ import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerHelper;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterProducerHelper;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerHelper;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerHelper;
-import com.traclabs.biosim.idl.simulation.water.WaterConsumerHelper;
-import com.traclabs.biosim.idl.simulation.water.WaterProducerHelper;
 import com.traclabs.biosim.server.actuator.air.CO2InFlowRateActuatorImpl;
 import com.traclabs.biosim.server.actuator.air.CO2OutFlowRateActuatorImpl;
 import com.traclabs.biosim.server.actuator.air.H2InFlowRateActuatorImpl;
@@ -162,8 +154,6 @@ import com.traclabs.biosim.server.actuator.water.GreyWaterInFlowRateActuatorImpl
 import com.traclabs.biosim.server.actuator.water.GreyWaterOutFlowRateActuatorImpl;
 import com.traclabs.biosim.server.actuator.water.PotableWaterInFlowRateActuatorImpl;
 import com.traclabs.biosim.server.actuator.water.PotableWaterOutFlowRateActuatorImpl;
-import com.traclabs.biosim.server.actuator.water.WaterInFlowRateActuatorImpl;
-import com.traclabs.biosim.server.actuator.water.WaterOutFlowRateActuatorImpl;
 import com.traclabs.biosim.server.framework.BiosimInitializer;
 import com.traclabs.biosim.server.framework.BiosimServer;
 
@@ -1117,61 +1107,6 @@ public class ActuatorInitializer {
 		myActuators.add(myDirtyWaterOutFlowRateActuator);
 	}
 
-	private void createWaterInFlowRateActuator(Node node) {
-		String moduleName = BiosimInitializer.getModuleName(node);
-		if (BiosimInitializer.isCreatedLocally(node)) {
-			myLogger.debug("Creating WaterInFlowRateActuator with moduleName: "
-					+ moduleName);
-			WaterInFlowRateActuatorImpl myWaterInFlowRateActuatorImpl = new WaterInFlowRateActuatorImpl(
-					myID, moduleName);
-			BiosimInitializer.setupBioModule(myWaterInFlowRateActuatorImpl,
-					node);
-			BiosimServer.registerServer(new WaterInFlowRateActuatorPOATie(
-					myWaterInFlowRateActuatorImpl),
-					myWaterInFlowRateActuatorImpl.getModuleName(),
-					myWaterInFlowRateActuatorImpl.getID());
-		} else
-			BiosimInitializer.printRemoteWarningMessage(moduleName);
-	}
-
-	private void configureWaterInFlowRateActuator(Node node) {
-		WaterInFlowRateActuator myWaterInFlowRateActuator = WaterInFlowRateActuatorHelper
-				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
-						.getModuleName(node)));
-		myWaterInFlowRateActuator.setOutput(
-				WaterConsumerHelper.narrow(BiosimInitializer.getModule(myID,
-						getOutputName(node))), getFlowRateIndex(node));
-		myActuators.add(myWaterInFlowRateActuator);
-	}
-
-	private void createWaterOutFlowRateActuator(Node node) {
-		String moduleName = BiosimInitializer.getModuleName(node);
-		if (BiosimInitializer.isCreatedLocally(node)) {
-			myLogger
-					.debug("Creating WaterOutFlowRateActuator with moduleName: "
-							+ moduleName);
-			WaterOutFlowRateActuatorImpl myWaterOutFlowRateActuatorImpl = new WaterOutFlowRateActuatorImpl(
-					myID, moduleName);
-			BiosimInitializer.setupBioModule(myWaterOutFlowRateActuatorImpl,
-					node);
-			BiosimServer.registerServer(new WaterOutFlowRateActuatorPOATie(
-					myWaterOutFlowRateActuatorImpl),
-					myWaterOutFlowRateActuatorImpl.getModuleName(),
-					myWaterOutFlowRateActuatorImpl.getID());
-		} else
-			BiosimInitializer.printRemoteWarningMessage(moduleName);
-	}
-
-	private void configureWaterOutFlowRateActuator(Node node) {
-		WaterOutFlowRateActuator myWaterOutFlowRateActuator = WaterOutFlowRateActuatorHelper
-				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
-						.getModuleName(node)));
-		myWaterOutFlowRateActuator.setOutput(
-				WaterProducerHelper.narrow(BiosimInitializer.getModule(myID,
-						getOutputName(node))), getFlowRateIndex(node));
-		myActuators.add(myWaterOutFlowRateActuator);
-	}
-
 	private void crawlWaterActuators(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1207,16 +1142,6 @@ public class ActuatorInitializer {
 						createDirtyWaterOutFlowRateActuator(child);
 					else
 						configureDirtyWaterOutFlowRateActuator(child);
-				} else if (childName.equals("WaterInFlowRateActuator")) {
-					if (firstPass)
-						createWaterInFlowRateActuator(child);
-					else
-						configureWaterInFlowRateActuator(child);
-				} else if (childName.equals("WaterOutFlowRateActuator")) {
-					if (firstPass)
-						createWaterOutFlowRateActuator(child);
-					else
-						configureWaterOutFlowRateActuator(child);
 				}
 			}
 			child = child.getNextSibling();

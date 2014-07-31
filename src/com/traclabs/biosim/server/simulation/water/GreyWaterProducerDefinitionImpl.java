@@ -5,7 +5,6 @@ import com.traclabs.biosim.idl.simulation.water.GreyWaterProducerDefinitionOpera
 import com.traclabs.biosim.idl.simulation.water.GreyWaterProducerDefinitionPOATie;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
 import com.traclabs.biosim.server.framework.BioModuleImpl;
-import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
@@ -13,7 +12,7 @@ import com.traclabs.biosim.util.OrbUtils;
  */
 
 public class GreyWaterProducerDefinitionImpl extends
-        StoreFlowRateControllableImpl implements
+        WaterProducerDefinitionImpl implements
         GreyWaterProducerDefinitionOperations {
     private GreyWaterProducerDefinition myGreyWaterProducerDefinition;
 

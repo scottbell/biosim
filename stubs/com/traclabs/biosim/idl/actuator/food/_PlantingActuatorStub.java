@@ -10,7 +10,7 @@ public class _PlantingActuatorStub
 	extends org.omg.CORBA.portable.ObjectImpl
 	implements com.traclabs.biosim.idl.actuator.food.PlantingActuator
 {
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/actuator/food/PlantingActuator:1.0","IDL:com/traclabs/biosim/idl/actuator/food/ShelfActuator:1.0","IDL:com/traclabs/biosim/idl/actuator/framework/GenericActuator:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/actuator/food/PlantingActuator:1.0","IDL:com/traclabs/biosim/idl/actuator/food/ShelfActuator:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/actuator/framework/GenericActuator:1.0"};
 	public String[] _ids()
 	{
 		return ids;

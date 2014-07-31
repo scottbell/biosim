@@ -64,11 +64,6 @@ _delegate.setStore(pStore,index);
 _delegate.setInitialStores(pStores);
 	}
 
-	public void setWaterInputs(com.traclabs.biosim.idl.simulation.water.WaterStore[] sources, float[] maxFlowRates, float[] desiredFlowRates)
-	{
-_delegate.setWaterInputs(sources,maxFlowRates,desiredFlowRates);
-	}
-
 	public float[] getActualFlowRates()
 	{
 		return _delegate.getActualFlowRates();
@@ -134,14 +129,14 @@ _delegate.setInitialMaxFlowRates(flowrates);
 		return _delegate.getDesiredFlowRates();
 	}
 
-	public boolean connectsTo(com.traclabs.biosim.idl.simulation.framework.Store pStore)
-	{
-		return _delegate.connectsTo(pStore);
-	}
-
 	public float getTotalMaxFlowRate()
 	{
 		return _delegate.getTotalMaxFlowRate();
+	}
+
+	public boolean connectsTo(com.traclabs.biosim.idl.simulation.framework.Store pStore)
+	{
+		return _delegate.connectsTo(pStore);
 	}
 
 	public void setMaxFlowRate(float value, int index)

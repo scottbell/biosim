@@ -124,11 +124,6 @@ _delegate.setInitialMaxFlowRates(flowrates);
 		return _delegate.getAveragePercentageFull();
 	}
 
-	public float[] getDesiredFlowRates()
-	{
-		return _delegate.getDesiredFlowRates();
-	}
-
 	public boolean connectsTo(com.traclabs.biosim.idl.simulation.framework.Store pStore)
 	{
 		return _delegate.connectsTo(pStore);
@@ -137,6 +132,11 @@ _delegate.setInitialMaxFlowRates(flowrates);
 	public float getTotalMaxFlowRate()
 	{
 		return _delegate.getTotalMaxFlowRate();
+	}
+
+	public float[] getDesiredFlowRates()
+	{
+		return _delegate.getDesiredFlowRates();
 	}
 
 	public void setDirtyWaterInputs(com.traclabs.biosim.idl.simulation.water.DirtyWaterStore[] sources, float[] maxFlowRates, float[] desiredFlowRates)

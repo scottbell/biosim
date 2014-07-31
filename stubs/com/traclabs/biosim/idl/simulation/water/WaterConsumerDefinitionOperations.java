@@ -9,7 +9,4 @@ package com.traclabs.biosim.idl.simulation.water;
 public interface WaterConsumerDefinitionOperations
 	extends com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOperations
 {
-	/* constants */
-	/* operations  */
-	void setWaterInputs(com.traclabs.biosim.idl.simulation.water.WaterStore[] sources, float[] maxFlowRates, float[] desiredFlowRates);
 }

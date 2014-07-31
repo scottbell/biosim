@@ -219,11 +219,6 @@ _delegate.maintain();
 		return _delegate.getCO2ProducerDefinition();
 	}
 
-	public com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinition getWaterConsumerDefinition()
-	{
-		return _delegate.getWaterConsumerDefinition();
-	}
-
 	public void doSomeRepairWork(long id)
 	{
 _delegate.doSomeRepairWork(id);

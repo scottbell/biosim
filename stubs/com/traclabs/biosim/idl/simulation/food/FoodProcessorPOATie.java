@@ -164,11 +164,6 @@ _delegate.fixMalfunction(id);
 		return _delegate.getMalfunctionNames();
 	}
 
-	public com.traclabs.biosim.idl.simulation.water.WaterProducerDefinition getWaterProducerDefinition()
-	{
-		return _delegate.getWaterProducerDefinition();
-	}
-
 	public float getBiomassConsumed()
 	{
 		return _delegate.getBiomassConsumed();

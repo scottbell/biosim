@@ -133,12 +133,6 @@ import com.traclabs.biosim.idl.sensor.water.PotableWaterInFlowRateSensorPOATie;
 import com.traclabs.biosim.idl.sensor.water.PotableWaterOutFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.water.PotableWaterOutFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.water.PotableWaterOutFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.water.WaterInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.water.WaterInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.water.WaterInFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.water.WaterOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.water.WaterOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.water.WaterOutFlowRateSensorPOATie;
 import com.traclabs.biosim.idl.simulation.air.CO2ConsumerHelper;
 import com.traclabs.biosim.idl.simulation.air.CO2ProducerHelper;
 import com.traclabs.biosim.idl.simulation.air.H2ConsumerHelper;
@@ -174,8 +168,6 @@ import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerHelper;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterProducerHelper;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerHelper;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerHelper;
-import com.traclabs.biosim.idl.simulation.water.WaterConsumerHelper;
-import com.traclabs.biosim.idl.simulation.water.WaterProducerHelper;
 import com.traclabs.biosim.server.framework.BiosimInitializer;
 import com.traclabs.biosim.server.framework.BiosimServer;
 import com.traclabs.biosim.server.sensor.air.CO2InFlowRateSensorImpl;
@@ -215,8 +207,6 @@ import com.traclabs.biosim.server.sensor.water.GreyWaterInFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.water.GreyWaterOutFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.water.PotableWaterInFlowRateSensorImpl;
 import com.traclabs.biosim.server.sensor.water.PotableWaterOutFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.water.WaterInFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.water.WaterOutFlowRateSensorImpl;
 import com.traclabs.biosim.util.XMLUtils;
 
 /**
@@ -1608,57 +1598,6 @@ public class SensorInitializer {
 		mySensors.add(myDirtyWaterOutFlowRateSensor);
 	}
 
-	private void createWaterInFlowRateSensor(Node node) {
-		String moduleName = BiosimInitializer.getModuleName(node);
-		if (BiosimInitializer.isCreatedLocally(node)) {
-			myLogger.debug("Creating WaterInFlowRateSensor with moduleName: "
-					+ moduleName);
-			WaterInFlowRateSensorImpl myWaterInFlowRateSensorImpl = new WaterInFlowRateSensorImpl(
-					myID, moduleName);
-			BiosimInitializer.setupBioModule(myWaterInFlowRateSensorImpl, node);
-			BiosimServer.registerServer(new WaterInFlowRateSensorPOATie(
-					myWaterInFlowRateSensorImpl), myWaterInFlowRateSensorImpl
-					.getModuleName(), myWaterInFlowRateSensorImpl.getID());
-		} else
-			BiosimInitializer.printRemoteWarningMessage(moduleName);
-	}
-
-	private void configureWaterInFlowRateSensor(Node node) {
-		WaterInFlowRateSensor myWaterInFlowRateSensor = WaterInFlowRateSensorHelper
-				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
-						.getModuleName(node)));
-		myWaterInFlowRateSensor.setInput(
-				WaterConsumerHelper.narrow(BiosimInitializer.getModule(myID,
-						getInputName(node))), getFlowRateIndex(node));
-		mySensors.add(myWaterInFlowRateSensor);
-	}
-
-	private void createWaterOutFlowRateSensor(Node node) {
-		String moduleName = BiosimInitializer.getModuleName(node);
-		if (BiosimInitializer.isCreatedLocally(node)) {
-			myLogger.debug("Creating WaterOutFlowRateSensor with moduleName: "
-					+ moduleName);
-			WaterOutFlowRateSensorImpl myWaterOutFlowRateSensorImpl = new WaterOutFlowRateSensorImpl(
-					myID, moduleName);
-			BiosimInitializer
-					.setupBioModule(myWaterOutFlowRateSensorImpl, node);
-			BiosimServer.registerServer(new WaterOutFlowRateSensorPOATie(
-					myWaterOutFlowRateSensorImpl), myWaterOutFlowRateSensorImpl
-					.getModuleName(), myWaterOutFlowRateSensorImpl.getID());
-		} else
-			BiosimInitializer.printRemoteWarningMessage(moduleName);
-	}
-
-	private void configureWaterOutFlowRateSensor(Node node) {
-		WaterOutFlowRateSensor myWaterOutFlowRateSensor = WaterOutFlowRateSensorHelper
-				.narrow(BiosimInitializer.getModule(myID, BiosimInitializer
-						.getModuleName(node)));
-		myWaterOutFlowRateSensor.setInput(
-				WaterProducerHelper.narrow(BiosimInitializer.getModule(myID,
-						getInputName(node))), getFlowRateIndex(node));
-		mySensors.add(myWaterOutFlowRateSensor);
-	}
-
 	private void crawlWaterSensors(Node node, boolean firstPass) {
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1694,16 +1633,6 @@ public class SensorInitializer {
 						createDirtyWaterOutFlowRateSensor(child);
 					else
 						configureDirtyWaterOutFlowRateSensor(child);
-				} else if (childName.equals("WaterInFlowRateSensor")) {
-					if (firstPass)
-						createWaterInFlowRateSensor(child);
-					else
-						configureWaterInFlowRateSensor(child);
-				} else if (childName.equals("WaterOutFlowRateSensor")) {
-					if (firstPass)
-						createWaterOutFlowRateSensor(child);
-					else
-						configureWaterOutFlowRateSensor(child);
 				}
 			}
 			child = child.getNextSibling();

@@ -36,20 +36,19 @@ public abstract class FoodProcessorPOA
 		m_opsHash.put ( "getBiomassConsumerDefinition", new java.lang.Integer(20));
 		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(21));
 		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(22));
-		m_opsHash.put ( "getWaterProducerDefinition", new java.lang.Integer(23));
-		m_opsHash.put ( "getBiomassConsumed", new java.lang.Integer(24));
-		m_opsHash.put ( "setTickLength", new java.lang.Integer(25));
-		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(26));
-		m_opsHash.put ( "startMalfunction", new java.lang.Integer(27));
-		m_opsHash.put ( "getFoodProduced", new java.lang.Integer(28));
-		m_opsHash.put ( "hasPower", new java.lang.Integer(29));
-		m_opsHash.put ( "hasBiomass", new java.lang.Integer(30));
-		m_opsHash.put ( "log", new java.lang.Integer(31));
-		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(32));
-		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(33));
-		m_opsHash.put ( "getPowerConsumed", new java.lang.Integer(34));
+		m_opsHash.put ( "getBiomassConsumed", new java.lang.Integer(23));
+		m_opsHash.put ( "setTickLength", new java.lang.Integer(24));
+		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(25));
+		m_opsHash.put ( "startMalfunction", new java.lang.Integer(26));
+		m_opsHash.put ( "getFoodProduced", new java.lang.Integer(27));
+		m_opsHash.put ( "hasPower", new java.lang.Integer(28));
+		m_opsHash.put ( "hasBiomass", new java.lang.Integer(29));
+		m_opsHash.put ( "log", new java.lang.Integer(30));
+		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(31));
+		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(32));
+		m_opsHash.put ( "getPowerConsumed", new java.lang.Integer(33));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/food/FoodProcessor:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/BiomassConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/FoodProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/waste/DryWasteProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/WaterProducer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/food/FoodProcessor:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/water/WaterProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/BiomassConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/waste/DryWasteProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/FoodProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0"};
 	public com.traclabs.biosim.idl.simulation.food.FoodProcessor _this()
 	{
 		return com.traclabs.biosim.idl.simulation.food.FoodProcessorHelper.narrow(_this_object());
@@ -218,32 +217,26 @@ public abstract class FoodProcessorPOA
 				com.traclabs.biosim.idl.StringListHelper.write(_out,getMalfunctionNames());
 				break;
 			}
-			case 23: // getWaterProducerDefinition
-			{
-				_out = handler.createReply();
-				com.traclabs.biosim.idl.simulation.water.WaterProducerDefinitionHelper.write(_out,getWaterProducerDefinition());
-				break;
-			}
-			case 24: // getBiomassConsumed
+			case 23: // getBiomassConsumed
 			{
 				_out = handler.createReply();
 				_out.write_float(getBiomassConsumed());
 				break;
 			}
-			case 25: // setTickLength
+			case 24: // setTickLength
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setTickLength(_arg0);
 				break;
 			}
-			case 26: // isFailureEnabled
+			case 25: // isFailureEnabled
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isFailureEnabled());
 				break;
 			}
-			case 27: // startMalfunction
+			case 26: // startMalfunction
 			{
 				com.traclabs.biosim.idl.framework.MalfunctionIntensity _arg0=com.traclabs.biosim.idl.framework.MalfunctionIntensityHelper.read(_input);
 				com.traclabs.biosim.idl.framework.MalfunctionLength _arg1=com.traclabs.biosim.idl.framework.MalfunctionLengthHelper.read(_input);
@@ -251,43 +244,43 @@ public abstract class FoodProcessorPOA
 				com.traclabs.biosim.idl.framework.MalfunctionHelper.write(_out,startMalfunction(_arg0,_arg1));
 				break;
 			}
-			case 28: // getFoodProduced
+			case 27: // getFoodProduced
 			{
 				_out = handler.createReply();
 				_out.write_float(getFoodProduced());
 				break;
 			}
-			case 29: // hasPower
+			case 28: // hasPower
 			{
 				_out = handler.createReply();
 				_out.write_boolean(hasPower());
 				break;
 			}
-			case 30: // hasBiomass
+			case 29: // hasBiomass
 			{
 				_out = handler.createReply();
 				_out.write_boolean(hasBiomass());
 				break;
 			}
-			case 31: // log
+			case 30: // log
 			{
 				_out = handler.createReply();
 				log();
 				break;
 			}
-			case 32: // getMalfunctions
+			case 31: // getMalfunctions
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.framework.MalfunctionListHelper.write(_out,getMalfunctions());
 				break;
 			}
-			case 33: // fixAllMalfunctions
+			case 32: // fixAllMalfunctions
 			{
 				_out = handler.createReply();
 				fixAllMalfunctions();
 				break;
 			}
-			case 34: // getPowerConsumed
+			case 33: // getPowerConsumed
 			{
 				_out = handler.createReply();
 				_out.write_float(getPowerConsumed());

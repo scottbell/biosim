@@ -10,7 +10,7 @@ public class _WaterProducerDefinitionStub
 	extends org.omg.CORBA.portable.ObjectImpl
 	implements com.traclabs.biosim.idl.simulation.water.WaterProducerDefinition
 {
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/WaterProducerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/WaterProducerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0"};
 	public String[] _ids()
 	{
 		return ids;
@@ -374,54 +374,6 @@ public class _WaterProducerDefinitionStub
 			try
 			{
 			_localServant.setInitialDesiredFlowRates(flowrates);
-			}
-			finally
-			{
-				_servant_postinvoke(_so);
-			}
-			return;
-		}
-
-		}
-
-	}
-
-	public void setWaterOutputs(com.traclabs.biosim.idl.simulation.water.WaterStore[] destinations, float[] maxFlowRates, float[] desiredFlowRates)
-	{
-		while(true)
-		{
-		if(! this._is_local())
-		{
-			org.omg.CORBA.portable.InputStream _is = null;
-			try
-			{
-				org.omg.CORBA.portable.OutputStream _os = _request( "setWaterOutputs", true);
-				com.traclabs.biosim.idl.simulation.water.WaterStoreListHelper.write(_os,destinations);
-				com.traclabs.biosim.idl.FloatListHelper.write(_os,maxFlowRates);
-				com.traclabs.biosim.idl.FloatListHelper.write(_os,desiredFlowRates);
-				_is = _invoke(_os);
-				return;
-			}
-			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
-			catch( org.omg.CORBA.portable.ApplicationException _ax )
-			{
-				String _id = _ax.getId();
-				throw new RuntimeException("Unexpected exception " + _id );
-			}
-			finally
-			{
-				this._releaseReply(_is);
-			}
-		}
-		else
-		{
-			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "setWaterOutputs", _opsClass );
-			if( _so == null )
-				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			WaterProducerDefinitionOperations _localServant = (WaterProducerDefinitionOperations)_so.servant;
-			try
-			{
-			_localServant.setWaterOutputs(destinations,maxFlowRates,desiredFlowRates);
 			}
 			finally
 			{
@@ -805,6 +757,52 @@ public class _WaterProducerDefinitionStub
 
 	}
 
+	public float getTotalMaxFlowRate()
+	{
+		while(true)
+		{
+		if(! this._is_local())
+		{
+			org.omg.CORBA.portable.InputStream _is = null;
+			try
+			{
+				org.omg.CORBA.portable.OutputStream _os = _request( "getTotalMaxFlowRate", true);
+				_is = _invoke(_os);
+				float _result = _is.read_float();
+				return _result;
+			}
+			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
+			catch( org.omg.CORBA.portable.ApplicationException _ax )
+			{
+				String _id = _ax.getId();
+				throw new RuntimeException("Unexpected exception " + _id );
+			}
+			finally
+			{
+				this._releaseReply(_is);
+			}
+		}
+		else
+		{
+			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getTotalMaxFlowRate", _opsClass );
+			if( _so == null )
+				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
+			WaterProducerDefinitionOperations _localServant = (WaterProducerDefinitionOperations)_so.servant;
+			float _result;			try
+			{
+			_result = _localServant.getTotalMaxFlowRate();
+			}
+			finally
+			{
+				_servant_postinvoke(_so);
+			}
+			return _result;
+		}
+
+		}
+
+	}
+
 	public boolean connectsTo(com.traclabs.biosim.idl.simulation.framework.Store pStore)
 	{
 		while(true)
@@ -840,52 +838,6 @@ public class _WaterProducerDefinitionStub
 			boolean _result;			try
 			{
 			_result = _localServant.connectsTo(pStore);
-			}
-			finally
-			{
-				_servant_postinvoke(_so);
-			}
-			return _result;
-		}
-
-		}
-
-	}
-
-	public float getTotalMaxFlowRate()
-	{
-		while(true)
-		{
-		if(! this._is_local())
-		{
-			org.omg.CORBA.portable.InputStream _is = null;
-			try
-			{
-				org.omg.CORBA.portable.OutputStream _os = _request( "getTotalMaxFlowRate", true);
-				_is = _invoke(_os);
-				float _result = _is.read_float();
-				return _result;
-			}
-			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
-			catch( org.omg.CORBA.portable.ApplicationException _ax )
-			{
-				String _id = _ax.getId();
-				throw new RuntimeException("Unexpected exception " + _id );
-			}
-			finally
-			{
-				this._releaseReply(_is);
-			}
-		}
-		else
-		{
-			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getTotalMaxFlowRate", _opsClass );
-			if( _so == null )
-				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			WaterProducerDefinitionOperations _localServant = (WaterProducerDefinitionOperations)_so.servant;
-			float _result;			try
-			{
-			_result = _localServant.getTotalMaxFlowRate();
 			}
 			finally
 			{

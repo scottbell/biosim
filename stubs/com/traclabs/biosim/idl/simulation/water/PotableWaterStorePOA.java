@@ -56,7 +56,7 @@ public abstract class PotableWaterStorePOA
 		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(40));
 		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(41));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/simulation/water/WaterStore:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/water/WaterStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0"};
 	public com.traclabs.biosim.idl.simulation.water.PotableWaterStore _this()
 	{
 		return com.traclabs.biosim.idl.simulation.water.PotableWaterStoreHelper.narrow(_this_object());

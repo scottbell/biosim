@@ -788,17 +788,18 @@ module com{
                                                 };
                                                 interface DirtyWaterStore : WaterStore{
                                                 };
-                                                interface PotableWaterConsumer : framework::Consumer{
+                                                interface WaterConsumer : framework::Consumer{
+                                                };
+                                                interface PotableWaterConsumer : WaterConsumer{
                                                         PotableWaterConsumerDefinition getPotableWaterConsumerDefinition();
                                                 };
-                                                interface GreyWaterConsumer : framework::Consumer{
+                                                interface GreyWaterConsumer : WaterConsumer{
                                                         GreyWaterConsumerDefinition getGreyWaterConsumerDefinition();
                                                 };
-                                                interface DirtyWaterConsumer : framework::Consumer{
+                                                interface DirtyWaterConsumer : WaterConsumer{
                                                         DirtyWaterConsumerDefinition getDirtyWaterConsumerDefinition();
                                                 };
-                                                interface WaterConsumer : framework::Consumer{
-                                                        WaterConsumerDefinition getWaterConsumerDefinition();
+                                                interface WaterProducer : framework::Producer{
                                                 };
                                                 interface PotableWaterProducer : framework::Producer{
                                                         PotableWaterProducerDefinition getPotableWaterProducerDefinition();
@@ -809,32 +810,27 @@ module com{
                                                 interface DirtyWaterProducer : framework::Producer{
                                                         DirtyWaterProducerDefinition getDirtyWaterProducerDefinition();
                                                 };
-                                                interface WaterProducer : framework::Producer{
-                                                        WaterProducerDefinition getWaterProducerDefinition();
-                                                };
-                                                interface PotableWaterConsumerDefinition : framework::StoreFlowRateControllable{
+                                                interface PotableWaterConsumerDefinition : WaterConsumerDefinition{
                                                         void setPotableWaterInputs(in simulation::water::PotableWaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                                 };
-                                                interface GreyWaterConsumerDefinition : framework::StoreFlowRateControllable{
+                                                interface GreyWaterConsumerDefinition : WaterConsumerDefinition{
                                                         void setGreyWaterInputs(in simulation::water::GreyWaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                                 };
-                                                interface DirtyWaterConsumerDefinition : framework::StoreFlowRateControllable{
+                                                interface DirtyWaterConsumerDefinition : WaterConsumerDefinition{
                                                         void setDirtyWaterInputs(in simulation::water::DirtyWaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                                 };
                                                 interface WaterConsumerDefinition : framework::StoreFlowRateControllable{
-                                                        void setWaterInputs(in simulation::water::WaterStoreList sources, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                                 };
-                                                interface PotableWaterProducerDefinition : framework::StoreFlowRateControllable{
+                                                interface PotableWaterProducerDefinition : WaterProducerDefinition{
                                                         void setPotableWaterOutputs(in simulation::water::PotableWaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                                 };
-                                                interface GreyWaterProducerDefinition : framework::StoreFlowRateControllable{
+                                                interface GreyWaterProducerDefinition : WaterProducerDefinition{
                                                         void setGreyWaterOutputs(in simulation::water::GreyWaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                                 };
-                                                interface DirtyWaterProducerDefinition : framework::StoreFlowRateControllable{
+                                                interface DirtyWaterProducerDefinition : WaterProducerDefinition{
                                                         void setDirtyWaterOutputs(in simulation::water::DirtyWaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                                 };
                                                 interface WaterProducerDefinition : framework::StoreFlowRateControllable{
-                                                        void setWaterOutputs(in simulation::water::WaterStoreList destinations, in FloatList maxFlowRates, in FloatList desiredFlowRates);
                                                 };
                                         };
                                         module waste{

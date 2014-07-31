@@ -140,13 +140,9 @@ import com.traclabs.biosim.idl.simulation.water.PotableWaterProducer;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStoreHelper;
 import com.traclabs.biosim.idl.simulation.water.PotableWaterStorePOATie;
-import com.traclabs.biosim.idl.simulation.water.WaterConsumer;
-import com.traclabs.biosim.idl.simulation.water.WaterProducer;
 import com.traclabs.biosim.idl.simulation.water.WaterRS;
 import com.traclabs.biosim.idl.simulation.water.WaterRSHelper;
 import com.traclabs.biosim.idl.simulation.water.WaterRSPOATie;
-import com.traclabs.biosim.idl.simulation.water.WaterStore;
-import com.traclabs.biosim.idl.simulation.water.WaterStoreHelper;
 import com.traclabs.biosim.server.framework.BiosimInitializer;
 import com.traclabs.biosim.server.framework.BiosimServer;
 import com.traclabs.biosim.server.simulation.air.CO2StoreImpl;
@@ -404,15 +400,6 @@ public class SimulationInitializer {
 							.setDirtyWaterInputs(inputs,
 									getMaxFlowRates(child),
 									getDesiredFlowRates(child));
-				} else if (childName.equals("waterConsumer")) {
-					WaterConsumer myWaterConsumer = (WaterConsumer) (pModule);
-					BioModule[] modules = getInputs(child);
-					WaterStore[] inputs = new WaterStore[modules.length];
-					for (int i = 0; i < modules.length; i++)
-						inputs[i] = WaterStoreHelper.narrow(modules[i]);
-					myWaterConsumer.getWaterConsumerDefinition()
-							.setWaterInputs(inputs, getMaxFlowRates(child),
-									getDesiredFlowRates(child));
 				} else if (childName.equals("airConsumer")) {
 					AirConsumer myAirConsumer = (AirConsumer) (pModule);
 					BioModule[] modules = getInputs(child);
@@ -556,15 +543,6 @@ public class SimulationInitializer {
 					myDirtyWaterProducer.getDirtyWaterProducerDefinition()
 							.setDirtyWaterOutputs(outputs,
 									getMaxFlowRates(child),
-									getDesiredFlowRates(child));
-				} else if (childName.equals("waterProducer")) {
-					WaterProducer myWaterProducer = (WaterProducer) (pModule);
-					BioModule[] modules = getOutputs(child);
-					WaterStore[] outputs = new WaterStore[modules.length];
-					for (int i = 0; i < modules.length; i++)
-						outputs[i] = WaterStoreHelper.narrow(modules[i]);
-					myWaterProducer.getWaterProducerDefinition()
-							.setWaterOutputs(outputs, getMaxFlowRates(child),
 									getDesiredFlowRates(child));
 				} else if (childName.equals("airProducer")) {
 					AirProducer myAirProducer = (AirProducer) (pModule);

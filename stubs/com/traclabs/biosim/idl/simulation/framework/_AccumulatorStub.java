@@ -10,7 +10,7 @@ public class _AccumulatorStub
 	extends org.omg.CORBA.portable.ObjectImpl
 	implements com.traclabs.biosim.idl.simulation.framework.Accumulator
 {
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/framework/Accumulator:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/waste/DryWasteConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirProducer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/air/O2Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/DirtyWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/DirtyWaterProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/waste/DryWasteProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/CO2Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/CO2Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/BiomassConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/NitrogenConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/FoodProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/WaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/FoodConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/NitrogenProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/O2Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/BiomassProducer:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/framework/Accumulator:1.0","IDL:com/traclabs/biosim/idl/simulation/food/BiomassConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/waste/DryWasteProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/water/WaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/DirtyWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/NitrogenConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/CO2Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/O2Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/waste/DryWasteConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/BiomassProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/FoodProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/O2Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/NitrogenProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/DirtyWaterProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterProducer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/air/CO2Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/FoodConsumer:1.0"};
 	public String[] _ids()
 	{
 		return ids;
@@ -1568,52 +1568,6 @@ public class _AccumulatorStub
 			com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinition _result;			try
 			{
 			_result = _localServant.getCO2ProducerDefinition();
-			}
-			finally
-			{
-				_servant_postinvoke(_so);
-			}
-			return _result;
-		}
-
-		}
-
-	}
-
-	public com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinition getWaterConsumerDefinition()
-	{
-		while(true)
-		{
-		if(! this._is_local())
-		{
-			org.omg.CORBA.portable.InputStream _is = null;
-			try
-			{
-				org.omg.CORBA.portable.OutputStream _os = _request( "getWaterConsumerDefinition", true);
-				_is = _invoke(_os);
-				com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinition _result = com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinitionHelper.read(_is);
-				return _result;
-			}
-			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
-			catch( org.omg.CORBA.portable.ApplicationException _ax )
-			{
-				String _id = _ax.getId();
-				throw new RuntimeException("Unexpected exception " + _id );
-			}
-			finally
-			{
-				this._releaseReply(_is);
-			}
-		}
-		else
-		{
-			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getWaterConsumerDefinition", _opsClass );
-			if( _so == null )
-				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			AccumulatorOperations _localServant = (AccumulatorOperations)_so.servant;
-			com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinition _result;			try
-			{
-			_result = _localServant.getWaterConsumerDefinition();
 			}
 			finally
 			{

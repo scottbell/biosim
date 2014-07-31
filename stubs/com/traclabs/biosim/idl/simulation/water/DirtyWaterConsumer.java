@@ -6,6 +6,6 @@ package com.traclabs.biosim.idl.simulation.water;
  */
 
 public interface DirtyWaterConsumer
-	extends DirtyWaterConsumerOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity, com.traclabs.biosim.idl.simulation.framework.Consumer
+	extends DirtyWaterConsumerOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity, com.traclabs.biosim.idl.simulation.water.WaterConsumer
 {
 }

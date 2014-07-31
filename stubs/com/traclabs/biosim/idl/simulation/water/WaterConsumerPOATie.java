@@ -139,11 +139,6 @@ _delegate.fixMalfunction(id);
 _delegate.setTickLength(pInterval);
 	}
 
-	public com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinition getWaterConsumerDefinition()
-	{
-		return _delegate.getWaterConsumerDefinition();
-	}
-
 	public boolean isFailureEnabled()
 	{
 		return _delegate.isFailureEnabled();

@@ -6,6 +6,6 @@ package com.traclabs.biosim.idl.simulation.water;
  */
 
 public interface PotableWaterProducerDefinition
-	extends PotableWaterProducerDefinitionOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity, com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllable
+	extends PotableWaterProducerDefinitionOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity, com.traclabs.biosim.idl.simulation.water.WaterProducerDefinition
 {
 }

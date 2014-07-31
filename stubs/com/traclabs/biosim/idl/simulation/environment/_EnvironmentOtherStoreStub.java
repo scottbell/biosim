@@ -10,7 +10,7 @@ public class _EnvironmentOtherStoreStub
 	extends org.omg.CORBA.portable.ObjectImpl
 	implements com.traclabs.biosim.idl.simulation.environment.EnvironmentOtherStore
 {
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentOtherStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentStore:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentOtherStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0"};
 	public String[] _ids()
 	{
 		return ids;

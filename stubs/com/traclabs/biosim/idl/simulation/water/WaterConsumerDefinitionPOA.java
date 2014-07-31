@@ -16,27 +16,26 @@ public abstract class WaterConsumerDefinitionPOA
 		m_opsHash.put ( "getPercentageFull", new java.lang.Integer(0));
 		m_opsHash.put ( "setStore", new java.lang.Integer(1));
 		m_opsHash.put ( "setInitialStores", new java.lang.Integer(2));
-		m_opsHash.put ( "setWaterInputs", new java.lang.Integer(3));
-		m_opsHash.put ( "getActualFlowRates", new java.lang.Integer(4));
-		m_opsHash.put ( "getStores", new java.lang.Integer(5));
-		m_opsHash.put ( "getMaxFlowRates", new java.lang.Integer(6));
-		m_opsHash.put ( "reset", new java.lang.Integer(7));
-		m_opsHash.put ( "setInitialDesiredFlowRates", new java.lang.Integer(8));
-		m_opsHash.put ( "setDesiredFlowRate", new java.lang.Integer(9));
-		m_opsHash.put ( "getTotalActualFlowRate", new java.lang.Integer(10));
-		m_opsHash.put ( "setInitialActualFlowRates", new java.lang.Integer(11));
-		m_opsHash.put ( "getActualFlowRate", new java.lang.Integer(12));
-		m_opsHash.put ( "setInitialMaxFlowRates", new java.lang.Integer(13));
-		m_opsHash.put ( "getMaxFlowRate", new java.lang.Integer(14));
-		m_opsHash.put ( "getAveragePercentageFull", new java.lang.Integer(15));
-		m_opsHash.put ( "getDesiredFlowRates", new java.lang.Integer(16));
+		m_opsHash.put ( "getActualFlowRates", new java.lang.Integer(3));
+		m_opsHash.put ( "getStores", new java.lang.Integer(4));
+		m_opsHash.put ( "getMaxFlowRates", new java.lang.Integer(5));
+		m_opsHash.put ( "reset", new java.lang.Integer(6));
+		m_opsHash.put ( "setInitialDesiredFlowRates", new java.lang.Integer(7));
+		m_opsHash.put ( "setDesiredFlowRate", new java.lang.Integer(8));
+		m_opsHash.put ( "getTotalActualFlowRate", new java.lang.Integer(9));
+		m_opsHash.put ( "setInitialActualFlowRates", new java.lang.Integer(10));
+		m_opsHash.put ( "getActualFlowRate", new java.lang.Integer(11));
+		m_opsHash.put ( "setInitialMaxFlowRates", new java.lang.Integer(12));
+		m_opsHash.put ( "getMaxFlowRate", new java.lang.Integer(13));
+		m_opsHash.put ( "getAveragePercentageFull", new java.lang.Integer(14));
+		m_opsHash.put ( "getDesiredFlowRates", new java.lang.Integer(15));
+		m_opsHash.put ( "getTotalMaxFlowRate", new java.lang.Integer(16));
 		m_opsHash.put ( "connectsTo", new java.lang.Integer(17));
-		m_opsHash.put ( "getTotalMaxFlowRate", new java.lang.Integer(18));
-		m_opsHash.put ( "setMaxFlowRate", new java.lang.Integer(19));
-		m_opsHash.put ( "getDesiredFlowRate", new java.lang.Integer(20));
-		m_opsHash.put ( "getTotalDesiredFlowRate", new java.lang.Integer(21));
+		m_opsHash.put ( "setMaxFlowRate", new java.lang.Integer(18));
+		m_opsHash.put ( "getDesiredFlowRate", new java.lang.Integer(19));
+		m_opsHash.put ( "getTotalDesiredFlowRate", new java.lang.Integer(20));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/WaterConsumerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/WaterConsumerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0"};
 	public com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinition _this()
 	{
 		return com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinitionHelper.narrow(_this_object());
@@ -78,47 +77,38 @@ public abstract class WaterConsumerDefinitionPOA
 				setInitialStores(_arg0);
 				break;
 			}
-			case 3: // setWaterInputs
-			{
-				com.traclabs.biosim.idl.simulation.water.WaterStore[] _arg0=com.traclabs.biosim.idl.simulation.water.WaterStoreListHelper.read(_input);
-				float[] _arg1=com.traclabs.biosim.idl.FloatListHelper.read(_input);
-				float[] _arg2=com.traclabs.biosim.idl.FloatListHelper.read(_input);
-				_out = handler.createReply();
-				setWaterInputs(_arg0,_arg1,_arg2);
-				break;
-			}
-			case 4: // getActualFlowRates
+			case 3: // getActualFlowRates
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.FloatListHelper.write(_out,getActualFlowRates());
 				break;
 			}
-			case 5: // getStores
+			case 4: // getStores
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.framework.StoreListHelper.write(_out,getStores());
 				break;
 			}
-			case 6: // getMaxFlowRates
+			case 5: // getMaxFlowRates
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.FloatListHelper.write(_out,getMaxFlowRates());
 				break;
 			}
-			case 7: // reset
+			case 6: // reset
 			{
 				_out = handler.createReply();
 				reset();
 				break;
 			}
-			case 8: // setInitialDesiredFlowRates
+			case 7: // setInitialDesiredFlowRates
 			{
 				float[] _arg0=com.traclabs.biosim.idl.FloatListHelper.read(_input);
 				_out = handler.createReply();
 				setInitialDesiredFlowRates(_arg0);
 				break;
 			}
-			case 9: // setDesiredFlowRate
+			case 8: // setDesiredFlowRate
 			{
 				float _arg0=_input.read_float();
 				int _arg1=_input.read_long();
@@ -126,50 +116,56 @@ public abstract class WaterConsumerDefinitionPOA
 				setDesiredFlowRate(_arg0,_arg1);
 				break;
 			}
-			case 10: // getTotalActualFlowRate
+			case 9: // getTotalActualFlowRate
 			{
 				_out = handler.createReply();
 				_out.write_float(getTotalActualFlowRate());
 				break;
 			}
-			case 11: // setInitialActualFlowRates
+			case 10: // setInitialActualFlowRates
 			{
 				float[] _arg0=com.traclabs.biosim.idl.FloatListHelper.read(_input);
 				_out = handler.createReply();
 				setInitialActualFlowRates(_arg0);
 				break;
 			}
-			case 12: // getActualFlowRate
+			case 11: // getActualFlowRate
 			{
 				int _arg0=_input.read_long();
 				_out = handler.createReply();
 				_out.write_float(getActualFlowRate(_arg0));
 				break;
 			}
-			case 13: // setInitialMaxFlowRates
+			case 12: // setInitialMaxFlowRates
 			{
 				float[] _arg0=com.traclabs.biosim.idl.FloatListHelper.read(_input);
 				_out = handler.createReply();
 				setInitialMaxFlowRates(_arg0);
 				break;
 			}
-			case 14: // getMaxFlowRate
+			case 13: // getMaxFlowRate
 			{
 				int _arg0=_input.read_long();
 				_out = handler.createReply();
 				_out.write_float(getMaxFlowRate(_arg0));
 				break;
 			}
-			case 15: // getAveragePercentageFull
+			case 14: // getAveragePercentageFull
 			{
 				_out = handler.createReply();
 				_out.write_float(getAveragePercentageFull());
 				break;
 			}
-			case 16: // getDesiredFlowRates
+			case 15: // getDesiredFlowRates
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.FloatListHelper.write(_out,getDesiredFlowRates());
+				break;
+			}
+			case 16: // getTotalMaxFlowRate
+			{
+				_out = handler.createReply();
+				_out.write_float(getTotalMaxFlowRate());
 				break;
 			}
 			case 17: // connectsTo
@@ -179,13 +175,7 @@ public abstract class WaterConsumerDefinitionPOA
 				_out.write_boolean(connectsTo(_arg0));
 				break;
 			}
-			case 18: // getTotalMaxFlowRate
-			{
-				_out = handler.createReply();
-				_out.write_float(getTotalMaxFlowRate());
-				break;
-			}
-			case 19: // setMaxFlowRate
+			case 18: // setMaxFlowRate
 			{
 				float _arg0=_input.read_float();
 				int _arg1=_input.read_long();
@@ -193,14 +183,14 @@ public abstract class WaterConsumerDefinitionPOA
 				setMaxFlowRate(_arg0,_arg1);
 				break;
 			}
-			case 20: // getDesiredFlowRate
+			case 19: // getDesiredFlowRate
 			{
 				int _arg0=_input.read_long();
 				_out = handler.createReply();
 				_out.write_float(getDesiredFlowRate(_arg0));
 				break;
 			}
-			case 21: // getTotalDesiredFlowRate
+			case 20: // getTotalDesiredFlowRate
 			{
 				_out = handler.createReply();
 				_out.write_float(getTotalDesiredFlowRate());
