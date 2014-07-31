@@ -13,8 +13,8 @@
 			<CDRS moduleName="CDRS">
 				<normalStochasticFilter deviation="0.005"/>
 				<powerConsumer inputs="CDRS_Air_Inlet_Power_Store CDRS_Air_Return_Power_Store CDRS_CO2_Isolation_Power_Store CDRS_CO2_Vent_Power_Store CDRS_Primary_Heater_Power_Store CDRS_Secondary_Heater_Power_Store CDRS_Power_Store General_Power_Store General_Power_Store" desiredFlowRates="100 100 100 100 100 100 100 100 100" maxFlowRates="100 100 100 100 100 100 100 100 100"/>
-				<potableWaterConsumer inputs="Potable_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
-				<potableWaterProducer outputs="Potable_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+				<greyWaterConsumer inputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+				<greyWaterProducer outputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
 				<airConsumer inputs="Crew_Quarters" desiredFlowRates="10" maxFlowRates="10"/>
 				<airProducer outputs="Crew_Quarters" desiredFlowRates="10" maxFlowRates="10" />
 				<CO2Producer outputs="CO2_Store" desiredFlowRates="10" maxFlowRates="10" />
@@ -22,7 +22,7 @@
 		</air>
 		<water>
 			<PotableWaterStore capacity="10000" moduleName="Potable_Water_Store" level="10000"/>
-			<GreyWaterStore capacity="10000" moduleName="Grey_Water_Store" level="0"/>
+			<GreyWaterStore capacity="10000" moduleName="Grey_Water_Store" level="10000"/>
 			<DirtyWaterStore capacity="10000" moduleName="Dirty_Water_Store" level="0"/>
 		</water>
 		<power>
@@ -34,6 +34,10 @@
 			<PowerStore capacity="100" moduleName="CDRS_Power_Store" level="100"/>
 			<PowerStore capacity="100" moduleName="CDRS_Primary_Heater_Power_Store" level="100"/>
 			<PowerStore capacity="100" moduleName="CDRS_Secondary_Heater_Power_Store" level="100"/>
+			
+			<PowerStore capacity="100" moduleName="IATCS_SFCA_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="IATCS_PPA_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="IATCS_TWMV_Power_Store" level="100"/>
 			
 			<RPCM moduleName="Air_Inlet_RPCM">
 				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
@@ -63,10 +67,31 @@
 				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
 				<powerProducer outputs="CDRS_Secondary_Heater_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
 			</RPCM>
+			
+			<RPCM moduleName="IATCS_SFCA_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="IATCS_SFCA_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="IATCS_PPA_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="IATCS_PPA_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="IATCS_TWMV_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="IATCS_TWMV_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
 		</power>
 		<food>
 			<FoodStore capacity="10000" level="10000" moduleName="Food_Store"/>
 		</food>
+		<thermal>
+			<IATCS moduleName="IATCS">
+				<normalStochasticFilter deviation="0.005"/>
+				<powerConsumer inputs="IATCS_SFCA_Power_Store IATCS_PPA_Power_Store IATCS_TWMV_Power_Store" desiredFlowRates="100 100 100" maxFlowRates="100 100 100"/>
+				<greyWaterConsumer inputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+				<greyWaterProducer outputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+			</IATCS>
+		</thermal>
 		<waste>
 			<DryWasteStore capacity="1000000" moduleName="Dry_Waste_Store" level="0"/>
 		</waste>
@@ -105,8 +130,8 @@
 			<AirOutFlowRateSensor input="CDRS" moduleName="CDRS_Air_Effluent_Sensor" index="0"/>
 		</environment>
 		<water>
-			<PotableWaterInFlowRateSensor input="CDRS" moduleName="CDRS_Potable_Water_Influent_Sensor" index="0"/>
-			<PotableWaterOutFlowRateSensor input="CDRS" moduleName="CDRS_Potable_Water_Effluent_Sensor" index="0"/>
+			<GreyWaterInFlowRateSensor input="CDRS" moduleName="CDRS_Grey_Water_Influent_Sensor" index="0"/>
+			<GreyWaterOutFlowRateSensor input="CDRS" moduleName="CDRS_Grey_Water_Effluent_Sensor" index="0"/>
 		</water>
 	</Sensors>
 </biosim>

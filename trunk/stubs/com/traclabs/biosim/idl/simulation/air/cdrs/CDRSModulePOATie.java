@@ -109,6 +109,11 @@ _delegate.setLogLevel(pLogLevel);
 		return _delegate.getCO2VentValveArmedStatus();
 	}
 
+	public com.traclabs.biosim.idl.simulation.water.GreyWaterProducerDefinition getGreyWaterProducerDefinition()
+	{
+		return _delegate.getGreyWaterProducerDefinition();
+	}
+
 	public com.traclabs.biosim.idl.framework.Malfunction startMalfunction(com.traclabs.biosim.idl.framework.MalfunctionIntensity pIntensity, com.traclabs.biosim.idl.framework.MalfunctionLength pLength)
 	{
 		return _delegate.startMalfunction(pIntensity,pLength);
@@ -174,9 +179,9 @@ _delegate.fixMalfunction(id);
 _delegate.setAirReturnValveArmedStatus(status);
 	}
 
-	public com.traclabs.biosim.idl.simulation.water.PotableWaterProducerDefinition getPotableWaterProducerDefinition()
+	public com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerDefinition getGreyWaterConsumerDefinition()
 	{
-		return _delegate.getPotableWaterProducerDefinition();
+		return _delegate.getGreyWaterConsumerDefinition();
 	}
 
 	public int getMyTicks()
@@ -227,11 +232,6 @@ _delegate.registerBioCommandListener(listener);
 	public boolean isMalfunctioning()
 	{
 		return _delegate.isMalfunctioning();
-	}
-
-	public com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerDefinition getPotableWaterConsumerDefinition()
-	{
-		return _delegate.getPotableWaterConsumerDefinition();
 	}
 
 	public void log()

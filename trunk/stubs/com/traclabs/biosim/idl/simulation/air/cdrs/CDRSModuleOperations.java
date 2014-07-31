@@ -7,7 +7,7 @@ package com.traclabs.biosim.idl.simulation.air.cdrs;
 
 
 public interface CDRSModuleOperations
-	extends com.traclabs.biosim.idl.simulation.framework.SimBioModuleOperations , com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations , com.traclabs.biosim.idl.simulation.environment.AirConsumerOperations , com.traclabs.biosim.idl.simulation.environment.AirProducerOperations , com.traclabs.biosim.idl.simulation.air.CO2ProducerOperations , com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerOperations , com.traclabs.biosim.idl.simulation.water.PotableWaterProducerOperations
+	extends com.traclabs.biosim.idl.simulation.framework.SimBioModuleOperations , com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations , com.traclabs.biosim.idl.simulation.environment.AirConsumerOperations , com.traclabs.biosim.idl.simulation.environment.AirProducerOperations , com.traclabs.biosim.idl.simulation.air.CO2ProducerOperations , com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerOperations , com.traclabs.biosim.idl.simulation.water.GreyWaterProducerOperations
 {
 	/* constants */
 	/* operations  */

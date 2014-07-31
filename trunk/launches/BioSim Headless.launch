@@ -8,7 +8,7 @@
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.traclabs.biosim.framework.HeadlessStandalone"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-xml=default.biosim"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-xml=cdrs.biosim"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="BIOSIM"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-DORBInitRef.NameService=corbaloc::localhost:16315/NameService&#10;-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB&#10;-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton"/>
 </launchConfiguration>

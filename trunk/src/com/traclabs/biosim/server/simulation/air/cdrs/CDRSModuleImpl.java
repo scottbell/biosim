@@ -16,26 +16,26 @@ import com.traclabs.biosim.idl.simulation.environment.AirProducerDefinition;
 import com.traclabs.biosim.idl.simulation.environment.AirProducerOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
-import com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerDefinition;
-import com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerOperations;
-import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerDefinition;
-import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerOperations;
+import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerDefinition;
+import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerOperations;
+import com.traclabs.biosim.idl.simulation.water.GreyWaterProducerDefinition;
+import com.traclabs.biosim.idl.simulation.water.GreyWaterProducerOperations;
 import com.traclabs.biosim.server.simulation.air.CO2ProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.environment.AirProducerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinitionImpl;
-import com.traclabs.biosim.server.simulation.water.PotableWaterProducerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerDefinitionImpl;
+import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinitionImpl;
 
 public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperations, PowerConsumerOperations, AirConsumerOperations, AirProducerOperations, CO2ProducerOperations
-, PotableWaterConsumerOperations, PotableWaterProducerOperations{
+, GreyWaterConsumerOperations, GreyWaterProducerOperations{
     //Consumers, Producers
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
 
-    private PotableWaterConsumerDefinitionImpl myPotableWaterConsumerDefinitionImpl;
+    private GreyWaterConsumerDefinitionImpl myGreyWaterConsumerDefinitionImpl;
 
-    private PotableWaterProducerDefinitionImpl myPotableWaterProducerDefinitionImpl;
+    private GreyWaterProducerDefinitionImpl myGreyWaterProducerDefinitionImpl;
 
     private AirConsumerDefinitionImpl myAirConsumerDefinitionImpl;
 
@@ -79,8 +79,8 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
     public CDRSModuleImpl(int pID, String pName) {
         super(pID, pName);
         myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
-        myPotableWaterConsumerDefinitionImpl = new PotableWaterConsumerDefinitionImpl(this);
-        myPotableWaterProducerDefinitionImpl = new PotableWaterProducerDefinitionImpl(this);
+        myGreyWaterConsumerDefinitionImpl = new GreyWaterConsumerDefinitionImpl(this);
+        myGreyWaterProducerDefinitionImpl = new GreyWaterProducerDefinitionImpl(this);
         myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl(this);
         myAirProducerDefinitionImpl = new AirProducerDefinitionImpl(this);
         myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl(this);
@@ -99,8 +99,8 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
     }
 
     private void gatherWater() {
-		float waterGathered = myPotableWaterConsumerDefinitionImpl.getMostResourceFromStores();
-		myPotableWaterProducerDefinitionImpl.pushResourceToStores(waterGathered);
+		float waterGathered = myGreyWaterConsumerDefinitionImpl.getMostResourceFromStores();
+		myGreyWaterProducerDefinitionImpl.pushResourceToStores(waterGathered);
 	}
 
 	private void gatherAir() {
@@ -154,8 +154,8 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
     public void reset() {
         super.reset();
         myPowerConsumerDefinitionImpl.reset();
-        myPotableWaterConsumerDefinitionImpl.reset();
-        myPotableWaterProducerDefinitionImpl.reset();
+        myGreyWaterConsumerDefinitionImpl.reset();
+        myGreyWaterProducerDefinitionImpl.reset();
         myAirConsumerDefinitionImpl.reset();
         myAirProducerDefinitionImpl.reset();
         myCO2ProducerDefinitionImpl.reset();
@@ -185,12 +185,12 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
         return myPowerConsumerDefinitionImpl.getCorbaObject();
     }
 
-	public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
-		return myPotableWaterConsumerDefinitionImpl.getCorbaObject();
+	public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
+		return myGreyWaterConsumerDefinitionImpl.getCorbaObject();
 	}
 
-	public PotableWaterProducerDefinition getPotableWaterProducerDefinition() {
-		return myPotableWaterProducerDefinitionImpl.getCorbaObject();
+	public GreyWaterProducerDefinition getGreyWaterProducerDefinition() {
+		return myGreyWaterProducerDefinitionImpl.getCorbaObject();
 	}
 
 	public CO2ProducerDefinition getCO2ProducerDefinition() {
@@ -361,7 +361,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		myWaterPumpState = CDRSPowerState.on;
 		myAirConsumerDefinitionImpl.setDesiredFlowRate(myAirConsumerDefinitionImpl.getMaxFlowRate(0) / 2, 0);
 		myAirProducerDefinitionImpl.setDesiredFlowRate(myAirProducerDefinitionImpl.getMaxFlowRate(0) / 2, 0);
-		myPotableWaterConsumerDefinitionImpl.setDesiredFlowRate(myPotableWaterConsumerDefinitionImpl.getMaxFlowRate(0), 0);
+		myGreyWaterConsumerDefinitionImpl.setDesiredFlowRate(myGreyWaterConsumerDefinitionImpl.getMaxFlowRate(0), 0);
 		myPrimaryHeaterProduction = 0;
 		mySecondaryHeaterProduction = 0;
 		myState = CDRSState.init;
@@ -372,7 +372,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		myWaterPumpState = CDRSPowerState.off;
 		myAirConsumerDefinitionImpl.setDesiredFlowRate(0, 0);
 		myAirProducerDefinitionImpl.setDesiredFlowRate(0, 0);
-		myPotableWaterConsumerDefinitionImpl.setDesiredFlowRate(0, 0);
+		myGreyWaterConsumerDefinitionImpl.setDesiredFlowRate(0, 0);
 		myPrimaryHeaterProduction = 0;
 		mySecondaryHeaterProduction = 0;
 		myState = CDRSState.inactive;
@@ -383,7 +383,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		myWaterPumpState = CDRSPowerState.on;
 		myAirConsumerDefinitionImpl.setDesiredFlowRate(myAirConsumerDefinitionImpl.getMaxFlowRate(0), 0);
 		myAirProducerDefinitionImpl.setDesiredFlowRate(myAirProducerDefinitionImpl.getMaxFlowRate(0), 0);
-		myPotableWaterConsumerDefinitionImpl.setDesiredFlowRate(myPotableWaterConsumerDefinitionImpl.getMaxFlowRate(0), 0);
+		myGreyWaterConsumerDefinitionImpl.setDesiredFlowRate(myGreyWaterConsumerDefinitionImpl.getMaxFlowRate(0), 0);
 		myPrimaryHeaterProduction = MAX_HEATER_PRODUCTION * 0.5f;
 		mySecondaryHeaterProduction = 0;
 		myState = CDRSState.single_bed;
@@ -395,7 +395,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		myState = CDRSState.dual_bed;
 		myAirConsumerDefinitionImpl.setDesiredFlowRate(myAirConsumerDefinitionImpl.getMaxFlowRate(0), 0);
 		myAirProducerDefinitionImpl.setDesiredFlowRate(myAirProducerDefinitionImpl.getMaxFlowRate(0), 0);
-		myPotableWaterConsumerDefinitionImpl.setDesiredFlowRate(myPotableWaterConsumerDefinitionImpl.getMaxFlowRate(0), 0);
+		myGreyWaterConsumerDefinitionImpl.setDesiredFlowRate(myGreyWaterConsumerDefinitionImpl.getMaxFlowRate(0), 0);
 		myPrimaryHeaterProduction = MAX_HEATER_PRODUCTION;
 		mySecondaryHeaterProduction = 0;
 	}
@@ -407,7 +407,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		myAirConsumerDefinitionImpl.setDesiredFlowRate(myAirConsumerDefinitionImpl.getMaxFlowRate(0), 0);
 		myAirProducerDefinitionImpl.setDesiredFlowRate(myAirProducerDefinitionImpl.getMaxFlowRate(0), 0);
 		myPrimaryHeaterProduction = MAX_HEATER_PRODUCTION * 0.25f;
-		myPotableWaterConsumerDefinitionImpl.setDesiredFlowRate(myPotableWaterConsumerDefinitionImpl.getMaxFlowRate(0), 0);
+		myGreyWaterConsumerDefinitionImpl.setDesiredFlowRate(myGreyWaterConsumerDefinitionImpl.getMaxFlowRate(0), 0);
 		mySecondaryHeaterProduction = 0;
 	}
 
