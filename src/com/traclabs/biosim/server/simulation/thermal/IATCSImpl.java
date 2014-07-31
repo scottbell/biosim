@@ -9,6 +9,7 @@ import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.idl.simulation.thermal.IATCSOperations;
 import com.traclabs.biosim.idl.simulation.thermal.IATCSState;
+import com.traclabs.biosim.idl.simulation.thermal.SoftwareStatus;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerOperations;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterProducerDefinition;
@@ -28,6 +29,7 @@ public class IATCSImpl extends SimBioModuleImpl implements
         IATCSOperations, PowerConsumerOperations,
         GreyWaterConsumerOperations, GreyWaterProducerOperations {
 	private IATCSState iatcsState = IATCSState.idle;
+	private SoftwareStatus softwareStatus = SoftwareStatus.shutdown;
     //Consumers, Producers
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
 
@@ -47,6 +49,10 @@ public class IATCSImpl extends SimBioModuleImpl implements
 
     //References to the servers the IATCS takes/puts resources
     private float myProductionRate = 1f;
+    
+    private IATCSState stateToTransition = IATCSState.transitioning;
+    private final static int TICKS_TO_WAIT = 20;
+    private int ticksWaited = 0;
 
     public IATCSImpl(int pID, String pName) {
         super(pID, pName);
@@ -156,6 +162,11 @@ public class IATCSImpl extends SimBioModuleImpl implements
     public void tick() {
         super.tick();
         consumeResources();
+        if (iatcsState != IATCSState.transitioning){
+        	ticksWaited++;
+        	if (ticksWaited >= TICKS_TO_WAIT)
+        		transitionState();
+        }
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
@@ -180,13 +191,42 @@ public class IATCSImpl extends SimBioModuleImpl implements
         myLogger.debug("current_power_consumed=" + currentPowerConsumed);
     }
     
+    public void setState(IATCSState state) {
+		if (getSoftwareStatus() == SoftwareStatus.softwareArmed){
+			if (transitionAllowed(state)){
+				iatcsState = IATCSState.transitioning;
+			}
+		}
+	}
+
+	public SoftwareStatus getSoftwareStatus() {
+		return softwareStatus;
+	}
+    
     private boolean transitionAllowed(IATCSState stateToTransition) {
 		if (iatcsState == IATCSState.idle){
 			return (stateToTransition == IATCSState.operational);
 		}
-		else if (iatcsState == IATCSState.operational){
+		else if ((iatcsState == IATCSState.operational) && (softwareStatus == SoftwareStatus.softwareArmed)){
 			return (stateToTransition == IATCSState.idle);
 		}
 		return false;
+	}
+    
+    private void transitionState() {
+    	if (stateToTransition == IATCSState.idle)
+			transitionToIdle();
+		else if (stateToTransition == IATCSState.operational)
+			transitionToOperational();
+    	ticksWaited = 0;
+    	stateToTransition = IATCSState.transitioning;
+	}
+    
+    private void transitionToIdle() {
+		iatcsState = IATCSState.idle;
+	}
+    
+    private void transitionToOperational() {
+		iatcsState = IATCSState.operational;
 	}
 }

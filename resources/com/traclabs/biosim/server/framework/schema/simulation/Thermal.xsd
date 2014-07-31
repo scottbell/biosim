@@ -15,22 +15,10 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	
-	<xsd:complexType name="IFHXType">  
-		<xsd:complexContent>
-			<xsd:extension base="BioModuleType">
-				<xsd:sequence>
-					<xsd:element name="greyWaterConsumer" type="GreyWaterConsumerType" minOccurs="1" maxOccurs="1"/>
-					<xsd:element name="greyWaterProducer" type="GreyWaterProducerType" minOccurs="1" maxOccurs="1"/>
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
-	
 	<xsd:complexType name="ThermalSimBioModulesType">
 		<xsd:sequence>
 			<xsd:choice minOccurs="0" maxOccurs="unbounded">
 				<xsd:element name="IATCS" type="IATCSType"/>
-				<xsd:element name="IFHX" type="IFHXType"/>
 			</xsd:choice>
 		</xsd:sequence>
 	</xsd:complexType>
