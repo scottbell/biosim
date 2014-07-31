@@ -31,12 +31,11 @@ public abstract class WaterConsumerPOA
 		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(15));
 		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(16));
 		m_opsHash.put ( "setTickLength", new java.lang.Integer(17));
-		m_opsHash.put ( "getWaterConsumerDefinition", new java.lang.Integer(18));
-		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(19));
-		m_opsHash.put ( "startMalfunction", new java.lang.Integer(20));
-		m_opsHash.put ( "log", new java.lang.Integer(21));
-		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(22));
-		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(23));
+		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(18));
+		m_opsHash.put ( "startMalfunction", new java.lang.Integer(19));
+		m_opsHash.put ( "log", new java.lang.Integer(20));
+		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(21));
+		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(22));
 	}
 	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/WaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
 	public com.traclabs.biosim.idl.simulation.water.WaterConsumer _this()
@@ -176,19 +175,13 @@ public abstract class WaterConsumerPOA
 				setTickLength(_arg0);
 				break;
 			}
-			case 18: // getWaterConsumerDefinition
-			{
-				_out = handler.createReply();
-				com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinitionHelper.write(_out,getWaterConsumerDefinition());
-				break;
-			}
-			case 19: // isFailureEnabled
+			case 18: // isFailureEnabled
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isFailureEnabled());
 				break;
 			}
-			case 20: // startMalfunction
+			case 19: // startMalfunction
 			{
 				com.traclabs.biosim.idl.framework.MalfunctionIntensity _arg0=com.traclabs.biosim.idl.framework.MalfunctionIntensityHelper.read(_input);
 				com.traclabs.biosim.idl.framework.MalfunctionLength _arg1=com.traclabs.biosim.idl.framework.MalfunctionLengthHelper.read(_input);
@@ -196,19 +189,19 @@ public abstract class WaterConsumerPOA
 				com.traclabs.biosim.idl.framework.MalfunctionHelper.write(_out,startMalfunction(_arg0,_arg1));
 				break;
 			}
-			case 21: // log
+			case 20: // log
 			{
 				_out = handler.createReply();
 				log();
 				break;
 			}
-			case 22: // getMalfunctions
+			case 21: // getMalfunctions
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.framework.MalfunctionListHelper.write(_out,getMalfunctions());
 				break;
 			}
-			case 23: // fixAllMalfunctions
+			case 22: // fixAllMalfunctions
 			{
 				_out = handler.createReply();
 				fixAllMalfunctions();

@@ -47,22 +47,21 @@ public abstract class AccumulatorPOA
 		m_opsHash.put ( "getPowerProducerDefinition", new java.lang.Integer(31));
 		m_opsHash.put ( "getO2ProducerDefinition", new java.lang.Integer(32));
 		m_opsHash.put ( "getCO2ProducerDefinition", new java.lang.Integer(33));
-		m_opsHash.put ( "getWaterConsumerDefinition", new java.lang.Integer(34));
-		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(35));
-		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(36));
-		m_opsHash.put ( "getAirConsumerDefinition", new java.lang.Integer(37));
-		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(38));
-		m_opsHash.put ( "getPowerConsumerDefinition", new java.lang.Integer(39));
-		m_opsHash.put ( "getO2ConsumerDefinition", new java.lang.Integer(40));
-		m_opsHash.put ( "tick", new java.lang.Integer(41));
-		m_opsHash.put ( "setTickLength", new java.lang.Integer(42));
-		m_opsHash.put ( "getDirtyWaterProducerDefinition", new java.lang.Integer(43));
-		m_opsHash.put ( "getCO2ConsumerDefinition", new java.lang.Integer(44));
-		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(45));
-		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(46));
-		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(47));
+		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(34));
+		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(35));
+		m_opsHash.put ( "getAirConsumerDefinition", new java.lang.Integer(36));
+		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(37));
+		m_opsHash.put ( "getPowerConsumerDefinition", new java.lang.Integer(38));
+		m_opsHash.put ( "getO2ConsumerDefinition", new java.lang.Integer(39));
+		m_opsHash.put ( "tick", new java.lang.Integer(40));
+		m_opsHash.put ( "setTickLength", new java.lang.Integer(41));
+		m_opsHash.put ( "getDirtyWaterProducerDefinition", new java.lang.Integer(42));
+		m_opsHash.put ( "getCO2ConsumerDefinition", new java.lang.Integer(43));
+		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(44));
+		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(45));
+		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(46));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/framework/Accumulator:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/waste/DryWasteConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirProducer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/air/O2Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/DirtyWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/DirtyWaterProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/waste/DryWasteProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/CO2Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/CO2Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/BiomassConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/NitrogenConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/FoodProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/WaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/FoodConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/NitrogenProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/O2Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/BiomassProducer:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/framework/Accumulator:1.0","IDL:com/traclabs/biosim/idl/simulation/food/BiomassConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/waste/DryWasteProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/water/WaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/DirtyWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/NitrogenConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/CO2Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/AirProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/O2Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/waste/DryWasteConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/BiomassProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/FoodProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/O2Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/air/NitrogenProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/DirtyWaterProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterProducer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/air/CO2Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/food/FoodConsumer:1.0"};
 	public com.traclabs.biosim.idl.simulation.framework.Accumulator _this()
 	{
 		return com.traclabs.biosim.idl.simulation.framework.AccumulatorHelper.narrow(_this_object());
@@ -294,88 +293,82 @@ public abstract class AccumulatorPOA
 				com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinitionHelper.write(_out,getCO2ProducerDefinition());
 				break;
 			}
-			case 34: // getWaterConsumerDefinition
-			{
-				_out = handler.createReply();
-				com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinitionHelper.write(_out,getWaterConsumerDefinition());
-				break;
-			}
-			case 35: // doSomeRepairWork
+			case 34: // doSomeRepairWork
 			{
 				long _arg0=_input.read_longlong();
 				_out = handler.createReply();
 				doSomeRepairWork(_arg0);
 				break;
 			}
-			case 36: // setEnableFailure
+			case 35: // setEnableFailure
 			{
 				boolean _arg0=_input.read_boolean();
 				_out = handler.createReply();
 				setEnableFailure(_arg0);
 				break;
 			}
-			case 37: // getAirConsumerDefinition
+			case 36: // getAirConsumerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinitionHelper.write(_out,getAirConsumerDefinition());
 				break;
 			}
-			case 38: // clearAllMalfunctions
+			case 37: // clearAllMalfunctions
 			{
 				_out = handler.createReply();
 				clearAllMalfunctions();
 				break;
 			}
-			case 39: // getPowerConsumerDefinition
+			case 38: // getPowerConsumerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinitionHelper.write(_out,getPowerConsumerDefinition());
 				break;
 			}
-			case 40: // getO2ConsumerDefinition
+			case 39: // getO2ConsumerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.air.O2ConsumerDefinitionHelper.write(_out,getO2ConsumerDefinition());
 				break;
 			}
-			case 41: // tick
+			case 40: // tick
 			{
 				_out = handler.createReply();
 				tick();
 				break;
 			}
-			case 42: // setTickLength
+			case 41: // setTickLength
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setTickLength(_arg0);
 				break;
 			}
-			case 43: // getDirtyWaterProducerDefinition
+			case 42: // getDirtyWaterProducerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.water.DirtyWaterProducerDefinitionHelper.write(_out,getDirtyWaterProducerDefinition());
 				break;
 			}
-			case 44: // getCO2ConsumerDefinition
+			case 43: // getCO2ConsumerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.air.CO2ConsumerDefinitionHelper.write(_out,getCO2ConsumerDefinition());
 				break;
 			}
-			case 45: // isFailureEnabled
+			case 44: // isFailureEnabled
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isFailureEnabled());
 				break;
 			}
-			case 46: // getMalfunctionNames
+			case 45: // getMalfunctionNames
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.StringListHelper.write(_out,getMalfunctionNames());
 				break;
 			}
-			case 47: // scheduleMalfunction
+			case 46: // scheduleMalfunction
 			{
 				com.traclabs.biosim.idl.framework.MalfunctionIntensity _arg0=com.traclabs.biosim.idl.framework.MalfunctionIntensityHelper.read(_input);
 				com.traclabs.biosim.idl.framework.MalfunctionLength _arg1=com.traclabs.biosim.idl.framework.MalfunctionLengthHelper.read(_input);

@@ -9,7 +9,4 @@ package com.traclabs.biosim.idl.simulation.water;
 public interface WaterProducerOperations
 	extends com.traclabs.biosim.idl.simulation.framework.ProducerOperations
 {
-	/* constants */
-	/* operations  */
-	com.traclabs.biosim.idl.simulation.water.WaterProducerDefinition getWaterProducerDefinition();
 }

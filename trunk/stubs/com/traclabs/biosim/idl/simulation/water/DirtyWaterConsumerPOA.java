@@ -35,10 +35,10 @@ public abstract class DirtyWaterConsumerPOA
 		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(19));
 		m_opsHash.put ( "startMalfunction", new java.lang.Integer(20));
 		m_opsHash.put ( "log", new java.lang.Integer(21));
-		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(22));
-		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(23));
+		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(22));
+		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(23));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/DirtyWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/DirtyWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/WaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
 	public com.traclabs.biosim.idl.simulation.water.DirtyWaterConsumer _this()
 	{
 		return com.traclabs.biosim.idl.simulation.water.DirtyWaterConsumerHelper.narrow(_this_object());
@@ -202,16 +202,16 @@ public abstract class DirtyWaterConsumerPOA
 				log();
 				break;
 			}
-			case 22: // getMalfunctions
-			{
-				_out = handler.createReply();
-				com.traclabs.biosim.idl.framework.MalfunctionListHelper.write(_out,getMalfunctions());
-				break;
-			}
-			case 23: // fixAllMalfunctions
+			case 22: // fixAllMalfunctions
 			{
 				_out = handler.createReply();
 				fixAllMalfunctions();
+				break;
+			}
+			case 23: // getMalfunctions
+			{
+				_out = handler.createReply();
+				com.traclabs.biosim.idl.framework.MalfunctionListHelper.write(_out,getMalfunctions());
 				break;
 			}
 		}

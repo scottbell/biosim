@@ -10,7 +10,7 @@ public class _GreyWaterConsumerDefinitionStub
 	extends org.omg.CORBA.portable.ObjectImpl
 	implements com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerDefinition
 {
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterConsumerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterConsumerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/water/WaterConsumerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0"};
 	public String[] _ids()
 	{
 		return ids;
@@ -759,52 +759,6 @@ public class _GreyWaterConsumerDefinitionStub
 
 	}
 
-	public float[] getDesiredFlowRates()
-	{
-		while(true)
-		{
-		if(! this._is_local())
-		{
-			org.omg.CORBA.portable.InputStream _is = null;
-			try
-			{
-				org.omg.CORBA.portable.OutputStream _os = _request( "getDesiredFlowRates", true);
-				_is = _invoke(_os);
-				float[] _result = com.traclabs.biosim.idl.FloatListHelper.read(_is);
-				return _result;
-			}
-			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
-			catch( org.omg.CORBA.portable.ApplicationException _ax )
-			{
-				String _id = _ax.getId();
-				throw new RuntimeException("Unexpected exception " + _id );
-			}
-			finally
-			{
-				this._releaseReply(_is);
-			}
-		}
-		else
-		{
-			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getDesiredFlowRates", _opsClass );
-			if( _so == null )
-				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			GreyWaterConsumerDefinitionOperations _localServant = (GreyWaterConsumerDefinitionOperations)_so.servant;
-			float[] _result;			try
-			{
-			_result = _localServant.getDesiredFlowRates();
-			}
-			finally
-			{
-				_servant_postinvoke(_so);
-			}
-			return _result;
-		}
-
-		}
-
-	}
-
 	public boolean connectsTo(com.traclabs.biosim.idl.simulation.framework.Store pStore)
 	{
 		while(true)
@@ -886,6 +840,52 @@ public class _GreyWaterConsumerDefinitionStub
 			float _result;			try
 			{
 			_result = _localServant.getTotalMaxFlowRate();
+			}
+			finally
+			{
+				_servant_postinvoke(_so);
+			}
+			return _result;
+		}
+
+		}
+
+	}
+
+	public float[] getDesiredFlowRates()
+	{
+		while(true)
+		{
+		if(! this._is_local())
+		{
+			org.omg.CORBA.portable.InputStream _is = null;
+			try
+			{
+				org.omg.CORBA.portable.OutputStream _os = _request( "getDesiredFlowRates", true);
+				_is = _invoke(_os);
+				float[] _result = com.traclabs.biosim.idl.FloatListHelper.read(_is);
+				return _result;
+			}
+			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
+			catch( org.omg.CORBA.portable.ApplicationException _ax )
+			{
+				String _id = _ax.getId();
+				throw new RuntimeException("Unexpected exception " + _id );
+			}
+			finally
+			{
+				this._releaseReply(_is);
+			}
+		}
+		else
+		{
+			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getDesiredFlowRates", _opsClass );
+			if( _so == null )
+				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
+			GreyWaterConsumerDefinitionOperations _localServant = (GreyWaterConsumerDefinitionOperations)_so.servant;
+			float[] _result;			try
+			{
+			_result = _localServant.getDesiredFlowRates();
 			}
 			finally
 			{

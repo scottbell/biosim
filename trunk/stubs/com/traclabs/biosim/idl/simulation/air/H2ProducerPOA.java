@@ -38,7 +38,7 @@ public abstract class H2ProducerPOA
 		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(22));
 		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(23));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/air/H2Producer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/air/H2Producer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0"};
 	public com.traclabs.biosim.idl.simulation.air.H2Producer _this()
 	{
 		return com.traclabs.biosim.idl.simulation.air.H2ProducerHelper.narrow(_this_object());

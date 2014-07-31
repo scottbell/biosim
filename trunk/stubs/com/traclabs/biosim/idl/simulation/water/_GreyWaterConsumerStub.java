@@ -10,7 +10,7 @@ public class _GreyWaterConsumerStub
 	extends org.omg.CORBA.portable.ObjectImpl
 	implements com.traclabs.biosim.idl.simulation.water.GreyWaterConsumer
 {
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/WaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
 	public String[] _ids()
 	{
 		return ids;
@@ -1029,6 +1029,51 @@ public class _GreyWaterConsumerStub
 
 	}
 
+	public void fixAllMalfunctions()
+	{
+		while(true)
+		{
+		if(! this._is_local())
+		{
+			org.omg.CORBA.portable.InputStream _is = null;
+			try
+			{
+				org.omg.CORBA.portable.OutputStream _os = _request( "fixAllMalfunctions", true);
+				_is = _invoke(_os);
+				return;
+			}
+			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
+			catch( org.omg.CORBA.portable.ApplicationException _ax )
+			{
+				String _id = _ax.getId();
+				throw new RuntimeException("Unexpected exception " + _id );
+			}
+			finally
+			{
+				this._releaseReply(_is);
+			}
+		}
+		else
+		{
+			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "fixAllMalfunctions", _opsClass );
+			if( _so == null )
+				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
+			GreyWaterConsumerOperations _localServant = (GreyWaterConsumerOperations)_so.servant;
+			try
+			{
+			_localServant.fixAllMalfunctions();
+			}
+			finally
+			{
+				_servant_postinvoke(_so);
+			}
+			return;
+		}
+
+		}
+
+	}
+
 	public com.traclabs.biosim.idl.framework.Malfunction[] getMalfunctions()
 	{
 		while(true)
@@ -1069,51 +1114,6 @@ public class _GreyWaterConsumerStub
 				_servant_postinvoke(_so);
 			}
 			return _result;
-		}
-
-		}
-
-	}
-
-	public void fixAllMalfunctions()
-	{
-		while(true)
-		{
-		if(! this._is_local())
-		{
-			org.omg.CORBA.portable.InputStream _is = null;
-			try
-			{
-				org.omg.CORBA.portable.OutputStream _os = _request( "fixAllMalfunctions", true);
-				_is = _invoke(_os);
-				return;
-			}
-			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
-			catch( org.omg.CORBA.portable.ApplicationException _ax )
-			{
-				String _id = _ax.getId();
-				throw new RuntimeException("Unexpected exception " + _id );
-			}
-			finally
-			{
-				this._releaseReply(_is);
-			}
-		}
-		else
-		{
-			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "fixAllMalfunctions", _opsClass );
-			if( _so == null )
-				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			GreyWaterConsumerOperations _localServant = (GreyWaterConsumerOperations)_so.servant;
-			try
-			{
-			_localServant.fixAllMalfunctions();
-			}
-			finally
-			{
-				_servant_postinvoke(_so);
-			}
-			return;
 		}
 
 		}

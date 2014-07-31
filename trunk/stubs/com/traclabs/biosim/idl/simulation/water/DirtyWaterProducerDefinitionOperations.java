@@ -7,7 +7,7 @@ package com.traclabs.biosim.idl.simulation.water;
 
 
 public interface DirtyWaterProducerDefinitionOperations
-	extends com.traclabs.biosim.idl.simulation.framework.StoreFlowRateControllableOperations
+	extends com.traclabs.biosim.idl.simulation.water.WaterProducerDefinitionOperations
 {
 	/* constants */
 	/* operations  */

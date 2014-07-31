@@ -224,11 +224,6 @@ _delegate.maintain();
 		return _delegate.getCO2ProducerDefinition();
 	}
 
-	public com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinition getWaterConsumerDefinition()
-	{
-		return _delegate.getWaterConsumerDefinition();
-	}
-
 	public void doSomeRepairWork(long id)
 	{
 _delegate.doSomeRepairWork(id);
@@ -239,14 +234,14 @@ _delegate.doSomeRepairWork(id);
 _delegate.setIndexOfEffluentStore(pIndexOfEffluentStore);
 	}
 
-	public com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition getAirConsumerDefinition()
-	{
-		return _delegate.getAirConsumerDefinition();
-	}
-
 	public void setEnableFailure(boolean pValue)
 	{
 _delegate.setEnableFailure(pValue);
+	}
+
+	public com.traclabs.biosim.idl.simulation.environment.AirConsumerDefinition getAirConsumerDefinition()
+	{
+		return _delegate.getAirConsumerDefinition();
 	}
 
 	public void clearAllMalfunctions()

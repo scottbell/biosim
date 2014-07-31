@@ -9,7 +9,4 @@ package com.traclabs.biosim.idl.simulation.water;
 public interface WaterConsumerOperations
 	extends com.traclabs.biosim.idl.simulation.framework.ConsumerOperations
 {
-	/* constants */
-	/* operations  */
-	com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinition getWaterConsumerDefinition();
 }

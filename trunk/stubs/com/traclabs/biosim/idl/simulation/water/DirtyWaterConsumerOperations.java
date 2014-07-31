@@ -7,7 +7,7 @@ package com.traclabs.biosim.idl.simulation.water;
 
 
 public interface DirtyWaterConsumerOperations
-	extends com.traclabs.biosim.idl.simulation.framework.ConsumerOperations
+	extends com.traclabs.biosim.idl.simulation.water.WaterConsumerOperations
 {
 	/* constants */
 	/* operations  */

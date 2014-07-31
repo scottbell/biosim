@@ -159,14 +159,14 @@ _delegate.setTickLength(pInterval);
 _delegate.log();
 	}
 
-	public com.traclabs.biosim.idl.framework.Malfunction[] getMalfunctions()
-	{
-		return _delegate.getMalfunctions();
-	}
-
 	public void fixAllMalfunctions()
 	{
 _delegate.fixAllMalfunctions();
+	}
+
+	public com.traclabs.biosim.idl.framework.Malfunction[] getMalfunctions()
+	{
+		return _delegate.getMalfunctions();
 	}
 
 }

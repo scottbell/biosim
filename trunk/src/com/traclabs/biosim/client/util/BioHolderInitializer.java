@@ -43,8 +43,6 @@ import com.traclabs.biosim.idl.actuator.water.GreyWaterInFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.water.GreyWaterOutFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.water.PotableWaterInFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.actuator.water.PotableWaterOutFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.water.WaterInFlowRateActuatorHelper;
-import com.traclabs.biosim.idl.actuator.water.WaterOutFlowRateActuatorHelper;
 import com.traclabs.biosim.idl.framework.BioDriverHelper;
 import com.traclabs.biosim.idl.sensor.air.CO2InFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.air.CO2OutFlowRateSensorHelper;
@@ -88,8 +86,6 @@ import com.traclabs.biosim.idl.sensor.water.GreyWaterInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.water.GreyWaterOutFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.water.PotableWaterInFlowRateSensorHelper;
 import com.traclabs.biosim.idl.sensor.water.PotableWaterOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.water.WaterInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.water.WaterOutFlowRateSensorHelper;
 import com.traclabs.biosim.idl.simulation.air.AirRSHelper;
 import com.traclabs.biosim.idl.simulation.air.CO2StoreHelper;
 import com.traclabs.biosim.idl.simulation.air.CRSHelper;
@@ -1110,17 +1106,6 @@ public class BioHolderInitializer {
 				.add(DirtyWaterOutFlowRateSensorHelper
 						.narrow(getModule(getModuleName(node))));
 	}
-
-	private static void fetchWaterInFlowRateSensor(Node node) {
-		myBioHolder.theWaterInFlowRateSensors.add(WaterInFlowRateSensorHelper
-				.narrow(getModule(getModuleName(node))));
-	}
-
-	private static void fetchWaterOutFlowRateSensor(Node node) {
-		myBioHolder.theWaterOutFlowRateSensors.add(WaterOutFlowRateSensorHelper
-				.narrow(getModule(getModuleName(node))));
-	}
-
 	private static void crawlWaterSensors(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1138,10 +1123,6 @@ public class BioHolderInitializer {
 					fetchDirtyWaterInFlowRateSensor(child);
 				else if (childName.equals("DirtyWaterOutFlowRateSensor"))
 					fetchDirtyWaterOutFlowRateSensor(child);
-				else if (childName.equals("WaterInFlowRateSensor"))
-					fetchWaterInFlowRateSensor(child);
-				else if (childName.equals("WaterOutFlowRateSensor"))
-					fetchWaterOutFlowRateSensor(child);
 			}
 			child = child.getNextSibling();
 		}
@@ -1455,18 +1436,6 @@ public class BioHolderInitializer {
 						.narrow(getModule(getModuleName(node))));
 	}
 
-	private static void fetchWaterInFlowRateActuator(Node node) {
-		myBioHolder.theWaterInFlowRateActuators
-				.add(WaterInFlowRateActuatorHelper
-						.narrow(getModule(getModuleName(node))));
-	}
-
-	private static void fetchWaterOutFlowRateActuator(Node node) {
-		myBioHolder.theWaterOutFlowRateActuators
-				.add(WaterOutFlowRateActuatorHelper
-						.narrow(getModule(getModuleName(node))));
-	}
-
 	private static void crawlWaterActuators(Node node) {
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -1484,10 +1453,6 @@ public class BioHolderInitializer {
 					fetchDirtyWaterInFlowRateActuator(child);
 				else if (childName.equals("DirtyWaterOutFlowRateActuator"))
 					fetchDirtyWaterOutFlowRateActuator(child);
-				else if (childName.equals("WaterInFlowRateActuator"))
-					fetchWaterInFlowRateActuator(child);
-				else if (childName.equals("WaterOutFlowRateActuator"))
-					fetchWaterOutFlowRateActuator(child);
 			}
 			child = child.getNextSibling();
 		}

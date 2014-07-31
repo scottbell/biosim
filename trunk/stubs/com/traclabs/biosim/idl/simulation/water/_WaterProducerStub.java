@@ -10,7 +10,7 @@ public class _WaterProducerStub
 	extends org.omg.CORBA.portable.ObjectImpl
 	implements com.traclabs.biosim.idl.simulation.water.WaterProducer
 {
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/WaterProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/WaterProducer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0"};
 	public String[] _ids()
 	{
 		return ids;
@@ -786,52 +786,6 @@ public class _WaterProducerStub
 			java.lang.String[] _result;			try
 			{
 			_result = _localServant.getMalfunctionNames();
-			}
-			finally
-			{
-				_servant_postinvoke(_so);
-			}
-			return _result;
-		}
-
-		}
-
-	}
-
-	public com.traclabs.biosim.idl.simulation.water.WaterProducerDefinition getWaterProducerDefinition()
-	{
-		while(true)
-		{
-		if(! this._is_local())
-		{
-			org.omg.CORBA.portable.InputStream _is = null;
-			try
-			{
-				org.omg.CORBA.portable.OutputStream _os = _request( "getWaterProducerDefinition", true);
-				_is = _invoke(_os);
-				com.traclabs.biosim.idl.simulation.water.WaterProducerDefinition _result = com.traclabs.biosim.idl.simulation.water.WaterProducerDefinitionHelper.read(_is);
-				return _result;
-			}
-			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
-			catch( org.omg.CORBA.portable.ApplicationException _ax )
-			{
-				String _id = _ax.getId();
-				throw new RuntimeException("Unexpected exception " + _id );
-			}
-			finally
-			{
-				this._releaseReply(_is);
-			}
-		}
-		else
-		{
-			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getWaterProducerDefinition", _opsClass );
-			if( _so == null )
-				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			WaterProducerOperations _localServant = (WaterProducerOperations)_so.servant;
-			com.traclabs.biosim.idl.simulation.water.WaterProducerDefinition _result;			try
-			{
-			_result = _localServant.getWaterProducerDefinition();
 			}
 			finally
 			{

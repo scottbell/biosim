@@ -29,14 +29,14 @@ public abstract class PotableWaterProducerDefinitionPOA
 		m_opsHash.put ( "getMaxFlowRate", new java.lang.Integer(13));
 		m_opsHash.put ( "getAveragePercentageFull", new java.lang.Integer(14));
 		m_opsHash.put ( "setPotableWaterOutputs", new java.lang.Integer(15));
-		m_opsHash.put ( "getDesiredFlowRates", new java.lang.Integer(16));
-		m_opsHash.put ( "connectsTo", new java.lang.Integer(17));
-		m_opsHash.put ( "getTotalMaxFlowRate", new java.lang.Integer(18));
+		m_opsHash.put ( "connectsTo", new java.lang.Integer(16));
+		m_opsHash.put ( "getTotalMaxFlowRate", new java.lang.Integer(17));
+		m_opsHash.put ( "getDesiredFlowRates", new java.lang.Integer(18));
 		m_opsHash.put ( "setMaxFlowRate", new java.lang.Integer(19));
 		m_opsHash.put ( "getDesiredFlowRate", new java.lang.Integer(20));
 		m_opsHash.put ( "getTotalDesiredFlowRate", new java.lang.Integer(21));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterProducerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/PotableWaterProducerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/water/WaterProducerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0"};
 	public com.traclabs.biosim.idl.simulation.water.PotableWaterProducerDefinition _this()
 	{
 		return com.traclabs.biosim.idl.simulation.water.PotableWaterProducerDefinitionHelper.narrow(_this_object());
@@ -166,23 +166,23 @@ public abstract class PotableWaterProducerDefinitionPOA
 				setPotableWaterOutputs(_arg0,_arg1,_arg2);
 				break;
 			}
-			case 16: // getDesiredFlowRates
-			{
-				_out = handler.createReply();
-				com.traclabs.biosim.idl.FloatListHelper.write(_out,getDesiredFlowRates());
-				break;
-			}
-			case 17: // connectsTo
+			case 16: // connectsTo
 			{
 				com.traclabs.biosim.idl.simulation.framework.Store _arg0=com.traclabs.biosim.idl.simulation.framework.StoreHelper.read(_input);
 				_out = handler.createReply();
 				_out.write_boolean(connectsTo(_arg0));
 				break;
 			}
-			case 18: // getTotalMaxFlowRate
+			case 17: // getTotalMaxFlowRate
 			{
 				_out = handler.createReply();
 				_out.write_float(getTotalMaxFlowRate());
+				break;
+			}
+			case 18: // getDesiredFlowRates
+			{
+				_out = handler.createReply();
+				com.traclabs.biosim.idl.FloatListHelper.write(_out,getDesiredFlowRates());
 				break;
 			}
 			case 19: // setMaxFlowRate

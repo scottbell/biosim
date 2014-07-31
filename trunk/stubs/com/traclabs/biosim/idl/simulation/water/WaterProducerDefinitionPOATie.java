@@ -89,11 +89,6 @@ _delegate.reset();
 _delegate.setInitialDesiredFlowRates(flowrates);
 	}
 
-	public void setWaterOutputs(com.traclabs.biosim.idl.simulation.water.WaterStore[] destinations, float[] maxFlowRates, float[] desiredFlowRates)
-	{
-_delegate.setWaterOutputs(destinations,maxFlowRates,desiredFlowRates);
-	}
-
 	public void setDesiredFlowRate(float value, int index)
 	{
 _delegate.setDesiredFlowRate(value,index);
@@ -134,14 +129,14 @@ _delegate.setInitialMaxFlowRates(flowrates);
 		return _delegate.getDesiredFlowRates();
 	}
 
-	public boolean connectsTo(com.traclabs.biosim.idl.simulation.framework.Store pStore)
-	{
-		return _delegate.connectsTo(pStore);
-	}
-
 	public float getTotalMaxFlowRate()
 	{
 		return _delegate.getTotalMaxFlowRate();
+	}
+
+	public boolean connectsTo(com.traclabs.biosim.idl.simulation.framework.Store pStore)
+	{
+		return _delegate.connectsTo(pStore);
 	}
 
 	public void setMaxFlowRate(float value, int index)

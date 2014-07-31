@@ -134,11 +134,6 @@ _delegate.fixMalfunction(id);
 		return _delegate.getMalfunctionNames();
 	}
 
-	public com.traclabs.biosim.idl.simulation.water.WaterProducerDefinition getWaterProducerDefinition()
-	{
-		return _delegate.getWaterProducerDefinition();
-	}
-
 	public void setTickLength(float pInterval)
 	{
 _delegate.setTickLength(pInterval);

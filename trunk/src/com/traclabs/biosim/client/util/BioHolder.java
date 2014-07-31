@@ -40,8 +40,6 @@ import com.traclabs.biosim.idl.actuator.water.GreyWaterInFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.water.GreyWaterOutFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.water.PotableWaterInFlowRateActuator;
 import com.traclabs.biosim.idl.actuator.water.PotableWaterOutFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.water.WaterInFlowRateActuator;
-import com.traclabs.biosim.idl.actuator.water.WaterOutFlowRateActuator;
 import com.traclabs.biosim.idl.framework.BioDriver;
 import com.traclabs.biosim.idl.framework.BioModule;
 import com.traclabs.biosim.idl.sensor.air.CO2InFlowRateSensor;
@@ -88,8 +86,6 @@ import com.traclabs.biosim.idl.sensor.water.GreyWaterInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.water.GreyWaterOutFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.water.PotableWaterInFlowRateSensor;
 import com.traclabs.biosim.idl.sensor.water.PotableWaterOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.water.WaterInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.water.WaterOutFlowRateSensor;
 import com.traclabs.biosim.idl.simulation.air.AirRS;
 import com.traclabs.biosim.idl.simulation.air.CO2Store;
 import com.traclabs.biosim.idl.simulation.air.CRS;
@@ -318,10 +314,6 @@ public class BioHolder {
 
     public List<DirtyWaterOutFlowRateSensor> theDirtyWaterOutFlowRateSensors = new Vector<DirtyWaterOutFlowRateSensor>();
 
-    public List<WaterInFlowRateSensor> theWaterInFlowRateSensors = new Vector<WaterInFlowRateSensor>();
-
-    public List<WaterOutFlowRateSensor> theWaterOutFlowRateSensors = new Vector<WaterOutFlowRateSensor>();
-
     //Actuators
     //Air
     public List<CO2InFlowRateActuator> theCO2InFlowRateActuators = new Vector<CO2InFlowRateActuator>();
@@ -389,10 +381,6 @@ public class BioHolder {
     public List<DirtyWaterInFlowRateActuator> theDirtyWaterInFlowRateActuators = new Vector<DirtyWaterInFlowRateActuator>();
 
     public List<DirtyWaterOutFlowRateActuator> theDirtyWaterOutFlowRateActuators = new Vector<DirtyWaterOutFlowRateActuator>();
-
-    public List<WaterInFlowRateActuator> theWaterInFlowRateActuators = new Vector<WaterInFlowRateActuator>();
-
-    public List<WaterOutFlowRateActuator> theWaterOutFlowRateActuators = new Vector<WaterOutFlowRateActuator>();
 
     protected BioHolder() {
     }
@@ -573,8 +561,6 @@ public class BioHolder {
         theSensors.addAll(theGreyWaterOutFlowRateSensors);
         theSensors.addAll(theDirtyWaterInFlowRateSensors);
         theSensors.addAll(theDirtyWaterOutFlowRateSensors);
-        theSensors.addAll(theWaterInFlowRateSensors);
-        theSensors.addAll(theWaterOutFlowRateSensors);
         //Actuators
         //Air
         theActuators.addAll(theCO2InFlowRateActuators);
@@ -613,8 +599,6 @@ public class BioHolder {
         theActuators.addAll(theGreyWaterOutFlowRateActuators);
         theActuators.addAll(theDirtyWaterInFlowRateActuators);
         theActuators.addAll(theDirtyWaterOutFlowRateActuators);
-        theActuators.addAll(theWaterInFlowRateActuators);
-        theActuators.addAll(theWaterOutFlowRateActuators);
 
         theModules.addAll(theSimModules);
         theModules.addAll(theSensors);
@@ -733,8 +717,6 @@ public class BioHolder {
         theGreyWaterOutFlowRateSensors.clear();
         theDirtyWaterInFlowRateSensors.clear();
         theDirtyWaterOutFlowRateSensors.clear();
-        theWaterInFlowRateSensors.clear();
-        theWaterOutFlowRateSensors.clear();
         //Actuators
         //Air
         theCO2InFlowRateActuators.clear();
@@ -773,7 +755,5 @@ public class BioHolder {
         theGreyWaterOutFlowRateActuators.clear();
         theDirtyWaterInFlowRateActuators.clear();
         theDirtyWaterOutFlowRateActuators.clear();
-        theWaterInFlowRateActuators.clear();
-        theWaterOutFlowRateActuators.clear();
     }
 }
