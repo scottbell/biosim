@@ -118,13 +118,23 @@ public class IATCSImpl extends SimBioModuleImpl implements
         else
             hasEnoughPower = true;
     }
+    
+    private void gatherWater() {
+ 		float waterGathered = myGreyWaterConsumerDefinitionImpl.getMostResourceFromStores();
+ 		if ((getIATCSState() == IATCSState.operational)){
+ 			myGreyWaterProducerDefinitionImpl.pushResourceToStores(waterGathered, 10f);
+ 		}
+ 		else{
+ 			myGreyWaterProducerDefinitionImpl.pushResourceToStores(waterGathered);
+ 		}
+ 	}
 
     /**
      * Attempts to consume resource (power and dryWaste) for IATCS
      */
     private void consumeResources() {
         gatherPower();
-        
+        gatherWater();
     }
 
     private void setProductionRate(float pProductionRate) {
@@ -190,6 +200,10 @@ public class IATCSImpl extends SimBioModuleImpl implements
         myLogger.debug("has_enough_power=" + hasEnoughPower);
         myLogger.debug("current_power_consumed=" + currentPowerConsumed);
     }
+    
+    public IATCSState getIATCSState() {
+		return iatcsState;
+	}
     
     public void setState(IATCSState state) {
 		if (getSoftwareStatus() == SoftwareStatus.softwareArmed){

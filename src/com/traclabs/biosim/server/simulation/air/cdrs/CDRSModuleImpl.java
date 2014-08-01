@@ -100,8 +100,12 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 
     private void gatherWater() {
 		float waterGathered = myGreyWaterConsumerDefinitionImpl.getMostResourceFromStores();
-		if ((getState() == CDRSState.init) || (getState() == CDRSState.inactive) || (getState() == CDRSState.transitioning))
+		if ((getState() == CDRSState.init) || (getState() == CDRSState.inactive) || (getState() == CDRSState.transitioning)){
 			myGreyWaterProducerDefinitionImpl.pushResourceToStores(waterGathered, 22f);
+		}
+		else{
+			myGreyWaterProducerDefinitionImpl.pushResourceToStores(waterGathered, 30f);
+		}
 	}
 
 	private void gatherAir() {
