@@ -10,7 +10,7 @@ public class _FoodProducerDefinitionStub
 	extends org.omg.CORBA.portable.ObjectImpl
 	implements com.traclabs.biosim.idl.simulation.food.FoodProducerDefinition
 {
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/food/FoodProducerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/food/FoodProducerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0"};
 	public String[] _ids()
 	{
 		return ids;

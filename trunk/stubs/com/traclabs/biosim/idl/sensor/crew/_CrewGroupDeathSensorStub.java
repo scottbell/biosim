@@ -10,7 +10,7 @@ public class _CrewGroupDeathSensorStub
 	extends org.omg.CORBA.portable.ObjectImpl
 	implements com.traclabs.biosim.idl.sensor.crew.CrewGroupDeathSensor
 {
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/sensor/crew/CrewGroupDeathSensor:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/GenericSensor:1.0","IDL:com/traclabs/biosim/idl/sensor/crew/CrewGroupSensor:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/sensor/crew/CrewGroupDeathSensor:1.0","IDL:com/traclabs/biosim/idl/sensor/crew/CrewGroupSensor:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/GenericSensor:1.0"};
 	public String[] _ids()
 	{
 		return ids;

@@ -35,7 +35,7 @@ public abstract class WaterConsumerDefinitionPOA
 		m_opsHash.put ( "getDesiredFlowRate", new java.lang.Integer(19));
 		m_opsHash.put ( "getTotalDesiredFlowRate", new java.lang.Integer(20));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/WaterConsumerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/water/WaterConsumerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0"};
 	public com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinition _this()
 	{
 		return com.traclabs.biosim.idl.simulation.water.WaterConsumerDefinitionHelper.narrow(_this_object());

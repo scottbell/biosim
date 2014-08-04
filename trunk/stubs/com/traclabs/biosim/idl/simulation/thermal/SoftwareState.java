@@ -1,24 +1,24 @@
 package com.traclabs.biosim.idl.simulation.thermal;
 /**
- *	Generated from IDL definition of enum "SoftwareStatus"
+ *	Generated from IDL definition of enum "SoftwareState"
  *	@author JacORB IDL compiler 
  */
 
-public final class SoftwareStatus
+public final class SoftwareState
 	implements org.omg.CORBA.portable.IDLEntity
 {
 	private int value = -1;
 	public static final int _shutdown = 0;
-	public static final SoftwareStatus shutdown = new SoftwareStatus(_shutdown);
+	public static final SoftwareState shutdown = new SoftwareState(_shutdown);
 	public static final int _softwareArmed = 1;
-	public static final SoftwareStatus softwareArmed = new SoftwareStatus(_softwareArmed);
+	public static final SoftwareState softwareArmed = new SoftwareState(_softwareArmed);
 	public static final int _running = 2;
-	public static final SoftwareStatus running = new SoftwareStatus(_running);
+	public static final SoftwareState running = new SoftwareState(_running);
 	public int value()
 	{
 		return value;
 	}
-	public static SoftwareStatus from_int(int value)
+	public static SoftwareState from_int(int value)
 	{
 		switch (value) {
 			case _shutdown: return shutdown;
@@ -27,7 +27,7 @@ public final class SoftwareStatus
 			default: throw new org.omg.CORBA.BAD_PARAM();
 		}
 	}
-	protected SoftwareStatus(int i)
+	protected SoftwareState(int i)
 	{
 		value = i;
 	}

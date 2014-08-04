@@ -53,7 +53,7 @@ public abstract class O2StorePOA
 		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(37));
 		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(38));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/air/O2Store:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/air/O2Store:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
 	public com.traclabs.biosim.idl.simulation.air.O2Store _this()
 	{
 		return com.traclabs.biosim.idl.simulation.air.O2StoreHelper.narrow(_this_object());

@@ -36,7 +36,7 @@ public abstract class BiomassConsumerDefinitionPOA
 		m_opsHash.put ( "getDesiredFlowRate", new java.lang.Integer(20));
 		m_opsHash.put ( "getTotalDesiredFlowRate", new java.lang.Integer(21));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/food/BiomassConsumerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/food/BiomassConsumerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0"};
 	public com.traclabs.biosim.idl.simulation.food.BiomassConsumerDefinition _this()
 	{
 		return com.traclabs.biosim.idl.simulation.food.BiomassConsumerDefinitionHelper.narrow(_this_object());
