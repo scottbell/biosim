@@ -43,7 +43,7 @@ public abstract class TotalMolesSensorPOA
 		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(27));
 		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(28));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/sensor/environment/TotalMolesSensor:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/GenericSensor:1.0","IDL:com/traclabs/biosim/idl/sensor/environment/EnvironmentSensor:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/sensor/environment/TotalMolesSensor:1.0","IDL:com/traclabs/biosim/idl/sensor/environment/EnvironmentSensor:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/GenericSensor:1.0"};
 	public com.traclabs.biosim.idl.sensor.environment.TotalMolesSensor _this()
 	{
 		return com.traclabs.biosim.idl.sensor.environment.TotalMolesSensorHelper.narrow(_this_object());

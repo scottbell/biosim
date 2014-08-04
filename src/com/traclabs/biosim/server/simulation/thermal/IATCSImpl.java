@@ -7,13 +7,20 @@ import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
 import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
+import com.traclabs.biosim.idl.simulation.thermal.IATCSActivation;
 import com.traclabs.biosim.idl.simulation.thermal.IATCSOperations;
 import com.traclabs.biosim.idl.simulation.thermal.IATCSState;
-import com.traclabs.biosim.idl.simulation.thermal.SoftwareStatus;
+import com.traclabs.biosim.idl.simulation.thermal.IFHXBypassState;
+import com.traclabs.biosim.idl.simulation.thermal.IFHXValveCommandStatus;
+import com.traclabs.biosim.idl.simulation.thermal.IFHXValveState;
+import com.traclabs.biosim.idl.simulation.thermal.PPAPumpSpeedStatus;
+import com.traclabs.biosim.idl.simulation.thermal.SoftwareState;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerOperations;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterProducerDefinition;
 import com.traclabs.biosim.idl.simulation.water.GreyWaterProducerOperations;
+import com.traclabs.biosim.idl.simulation.water.WaterStore;
+import com.traclabs.biosim.idl.simulation.water.WaterStoreHelper;
 import com.traclabs.biosim.server.simulation.framework.SimBioModuleImpl;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinitionImpl;
 import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerDefinitionImpl;
@@ -28,8 +35,6 @@ import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinitionIm
 public class IATCSImpl extends SimBioModuleImpl implements
         IATCSOperations, PowerConsumerOperations,
         GreyWaterConsumerOperations, GreyWaterProducerOperations {
-	private IATCSState iatcsState = IATCSState.idle;
-	private SoftwareStatus softwareStatus = SoftwareStatus.shutdown;
     //Consumers, Producers
     private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
 
@@ -53,6 +58,21 @@ public class IATCSImpl extends SimBioModuleImpl implements
     private IATCSState stateToTransition = IATCSState.transitioning;
     private final static int TICKS_TO_WAIT = 20;
     private int ticksWaited = 0;
+    
+	private IATCSState iatcsState = IATCSState.idle;
+	private IATCSActivation activateState = IATCSActivation.notInProgress;
+	private SoftwareState iatcsSoftwareState = SoftwareState.shutdown;
+	private SoftwareState twvmSoftwareState = SoftwareState.shutdown;
+	private PPAPumpSpeedStatus ppaPumpSpeedCommandStatus = PPAPumpSpeedStatus.notArmed;
+	private float pumpSpeed = 0; //rpm
+    
+    private IFHXBypassState bypassValveState = IFHXBypassState.bypass;
+    private IFHXValveCommandStatus bypassValveCommandStatus = IFHXValveCommandStatus.inhibited;
+    
+    private IFHXValveState isloationValveState = IFHXValveState.closed;
+    private IFHXValveCommandStatus isolationValveCommandStatus = IFHXValveCommandStatus.inhibited;
+    
+    private SoftwareState heaterSoftwareState = SoftwareState.shutdown;
 
     public IATCSImpl(int pID, String pName) {
         super(pID, pName);
@@ -125,7 +145,11 @@ public class IATCSImpl extends SimBioModuleImpl implements
  			myGreyWaterProducerDefinitionImpl.pushResourceToStores(waterGathered, 10f);
  		}
  		else{
- 			myGreyWaterProducerDefinitionImpl.pushResourceToStores(waterGathered);
+ 			if (myGreyWaterConsumerDefinitionImpl.getStores().length > 0){
+ 				WaterStore inputWaterStore = WaterStoreHelper.narrow(myGreyWaterConsumerDefinitionImpl.getStores()[0]);
+ 				float inputTemperature = inputWaterStore.getCurrentTemperature();
+ 				myGreyWaterProducerDefinitionImpl.pushResourceToStores(waterGathered, inputTemperature);
+ 			}
  		}
  	}
 
@@ -206,22 +230,22 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
     
     public void setState(IATCSState state) {
-		if (getSoftwareStatus() == SoftwareStatus.softwareArmed){
+		if (getIATCSSoftwareState() == SoftwareState.softwareArmed){
 			if (transitionAllowed(state)){
 				iatcsState = IATCSState.transitioning;
 			}
 		}
 	}
 
-	public SoftwareStatus getSoftwareStatus() {
-		return softwareStatus;
+	public SoftwareState getIATCSSoftwareState() {
+		return iatcsSoftwareState;
 	}
     
     private boolean transitionAllowed(IATCSState stateToTransition) {
 		if (iatcsState == IATCSState.idle){
 			return (stateToTransition == IATCSState.operational);
 		}
-		else if ((iatcsState == IATCSState.operational) && (softwareStatus == SoftwareStatus.softwareArmed)){
+		else if ((iatcsState == IATCSState.operational) && (iatcsSoftwareState == SoftwareState.softwareArmed)){
 			return (stateToTransition == IATCSState.idle);
 		}
 		return false;

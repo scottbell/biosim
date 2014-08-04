@@ -44,7 +44,7 @@ public abstract class WaterRSActuatorPOA
 		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(28));
 		m_opsHash.put ( "setOutput", new java.lang.Integer(29));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/actuator/water/WaterRSActuator:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/actuator/framework/GenericActuator:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/actuator/water/WaterRSActuator:1.0","IDL:com/traclabs/biosim/idl/actuator/framework/GenericActuator:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
 	public com.traclabs.biosim.idl.actuator.water.WaterRSActuator _this()
 	{
 		return com.traclabs.biosim.idl.actuator.water.WaterRSActuatorHelper.narrow(_this_object());

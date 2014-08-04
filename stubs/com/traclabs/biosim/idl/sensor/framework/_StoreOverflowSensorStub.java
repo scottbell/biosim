@@ -10,7 +10,7 @@ public class _StoreOverflowSensorStub
 	extends org.omg.CORBA.portable.ObjectImpl
 	implements com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensor
 {
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/sensor/framework/StoreOverflowSensor:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/GenericSensor:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/StoreSensor:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/sensor/framework/StoreOverflowSensor:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/StoreSensor:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/GenericSensor:1.0"};
 	public String[] _ids()
 	{
 		return ids;

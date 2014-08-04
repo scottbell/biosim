@@ -10,7 +10,7 @@ public class _CO2ConsumerDefinitionStub
 	extends org.omg.CORBA.portable.ObjectImpl
 	implements com.traclabs.biosim.idl.simulation.air.CO2ConsumerDefinition
 {
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/air/CO2ConsumerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/air/CO2ConsumerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0"};
 	public String[] _ids()
 	{
 		return ids;

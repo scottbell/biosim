@@ -57,7 +57,7 @@ public abstract class BiomassStorePOA
 		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(41));
 		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(42));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/food/BiomassStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/food/BiomassStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
 	public com.traclabs.biosim.idl.simulation.food.BiomassStore _this()
 	{
 		return com.traclabs.biosim.idl.simulation.food.BiomassStoreHelper.narrow(_this_object());

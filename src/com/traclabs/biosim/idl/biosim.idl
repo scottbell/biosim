@@ -23,8 +23,11 @@ module com{
                                                 
                                                 enum IATCSState {idle, operational, armed, transitioning};
 												enum IATCSActivation {inProgress, notInProgress};
-												enum SoftwareStatus {shutdown, softwareArmed, running};
+												enum SoftwareState {shutdown, softwareArmed, running};
 												enum PPAPumpSpeedStatus {pumpArmed, notArmed};
+												enum IFHXValveCommandStatus {enabled, inhibited};
+												enum IFHXBypassState {bypass, flowthrough};
+												enum IFHXValveState {open, closed};
                                         };
                                         module crew{
                                                 interface Activity;

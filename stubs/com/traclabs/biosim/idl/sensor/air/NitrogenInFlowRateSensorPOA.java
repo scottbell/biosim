@@ -44,7 +44,7 @@ public abstract class NitrogenInFlowRateSensorPOA
 		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(28));
 		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(29));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/sensor/air/NitrogenInFlowRateSensor:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/GenericSensor:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/sensor/air/NitrogenInFlowRateSensor:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/GenericSensor:1.0"};
 	public com.traclabs.biosim.idl.sensor.air.NitrogenInFlowRateSensor _this()
 	{
 		return com.traclabs.biosim.idl.sensor.air.NitrogenInFlowRateSensorHelper.narrow(_this_object());
