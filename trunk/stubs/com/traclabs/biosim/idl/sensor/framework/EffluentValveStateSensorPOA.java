@@ -43,7 +43,7 @@ public abstract class EffluentValveStateSensorPOA
 		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(27));
 		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(28));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/sensor/framework/EffluentValveStateSensor:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/EffluentValveSensor:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/GenericSensor:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/sensor/framework/EffluentValveStateSensor:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/EffluentValveSensor:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/GenericSensor:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
 	public com.traclabs.biosim.idl.sensor.framework.EffluentValveStateSensor _this()
 	{
 		return com.traclabs.biosim.idl.sensor.framework.EffluentValveStateSensorHelper.narrow(_this_object());

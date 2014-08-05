@@ -65,7 +65,7 @@
 	<target name="compile-stubs" depends="init-build,init-tmp"
 		description="compiles the IDL stubs">
 		<echo message="Compiling stubs" />
-		<javac srcdir="${stubsDir}" destdir="${buildDir}" fork="yes"
+		<javac target="1.6" source="1.6" srcdir="${stubsDir}" destdir="${buildDir}" fork="yes"
 			memoryMaximumSize="256m" nowarn="yes" debug="on">
 			<classpath>
 				<pathelement location="${jacorbDir}/jacorb.jar" />
@@ -80,7 +80,7 @@
 	<target name="build-server" depends="stub-and-compile-idl,build-util"
 		description="compile the server">
 		<echo message="Compling the server" />
-		<javac srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}"
+		<javac target="1.6" source="1.6" srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}"
 			nowarn="yes" failonerror="yes" debug="on">
 			<classpath>
 				<pathelement location="${src}" />
@@ -95,7 +95,7 @@
 	<target name="build-framework" depends="build-server"
 		description="compile the framework">
 		<echo message="Compling the framework" />
-		<javac srcdir="${src}/com/traclabs/biosim/framework" destdir="${buildDir}"
+		<javac target="1.6" source="1.6" srcdir="${src}/com/traclabs/biosim/framework" destdir="${buildDir}"
 			nowarn="yes" failonerror="yes" debug="on">
 			<classpath>
 				<pathelement location="${src}" />
@@ -109,7 +109,7 @@
 	
 	<target name="build-util" depends="" description="compile the util">
 		<echo message="Compling the util" />
-		<javac srcdir="${src}/com/traclabs/biosim/util" destdir="${buildDir}"
+		<javac target="1.6" source="1.6" srcdir="${src}/com/traclabs/biosim/util" destdir="${buildDir}"
 			nowarn="yes" failonerror="yes" debug="on">
 			<classpath>
 				<pathelement location="${src}" />
@@ -123,7 +123,7 @@
 	<target name="build-client" depends="stub-and-compile-idl"
 		description="compile the client">
 		<echo message="Compling the client" />
-		<javac srcdir="${src}/com/traclabs/biosim/client" destdir="${buildDir}"
+		<javac target="1.6" source="1.6" srcdir="${src}/com/traclabs/biosim/client" destdir="${buildDir}"
 			nowarn="yes" failonerror="yes" debug="on">
 			<classpath>
 				<pathelement location="${src}" />
@@ -362,7 +362,7 @@
 	<target name="update-and-rebuild-and-test-and-dist" depends="update,rebuild,test,build-dist"
 		description="update from subversion and rebuilds" />
 	<target name="test" depends="build">
-		<javac srcdir="${test.dir}" destdir="${buildDir}"
+		<javac target="1.6" source="1.6" srcdir="${test.dir}" destdir="${buildDir}"
 			memoryMaximumSize="256m" fork="yes" debug="on">
 			<classpath>
 				<pathelement location="${buildDir}" />

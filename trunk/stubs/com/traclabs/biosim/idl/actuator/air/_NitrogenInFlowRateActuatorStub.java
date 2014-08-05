@@ -10,7 +10,7 @@ public class _NitrogenInFlowRateActuatorStub
 	extends org.omg.CORBA.portable.ObjectImpl
 	implements com.traclabs.biosim.idl.actuator.air.NitrogenInFlowRateActuator
 {
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/actuator/air/NitrogenInFlowRateActuator:1.0","IDL:com/traclabs/biosim/idl/actuator/framework/GenericActuator:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/actuator/air/NitrogenInFlowRateActuator:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/actuator/framework/GenericActuator:1.0"};
 	public String[] _ids()
 	{
 		return ids;

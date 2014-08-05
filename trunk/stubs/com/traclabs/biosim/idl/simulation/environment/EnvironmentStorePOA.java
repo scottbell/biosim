@@ -55,7 +55,7 @@ public abstract class EnvironmentStorePOA
 		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(39));
 		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(40));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0"};
 	public com.traclabs.biosim.idl.simulation.environment.EnvironmentStore _this()
 	{
 		return com.traclabs.biosim.idl.simulation.environment.EnvironmentStoreHelper.narrow(_this_object());

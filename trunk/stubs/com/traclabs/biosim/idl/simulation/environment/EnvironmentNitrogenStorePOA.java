@@ -55,7 +55,7 @@ public abstract class EnvironmentNitrogenStorePOA
 		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(39));
 		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(40));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentNitrogenStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/air/NitrogenStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentStore:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentNitrogenStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/environment/EnvironmentStore:1.0","IDL:com/traclabs/biosim/idl/simulation/air/NitrogenStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0"};
 	public com.traclabs.biosim.idl.simulation.environment.EnvironmentNitrogenStore _this()
 	{
 		return com.traclabs.biosim.idl.simulation.environment.EnvironmentNitrogenStoreHelper.narrow(_this_object());

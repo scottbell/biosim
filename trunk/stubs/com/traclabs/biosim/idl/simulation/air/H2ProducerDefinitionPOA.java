@@ -36,7 +36,7 @@ public abstract class H2ProducerDefinitionPOA
 		m_opsHash.put ( "getDesiredFlowRate", new java.lang.Integer(20));
 		m_opsHash.put ( "getTotalDesiredFlowRate", new java.lang.Integer(21));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/air/H2ProducerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/air/H2ProducerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0"};
 	public com.traclabs.biosim.idl.simulation.air.H2ProducerDefinition _this()
 	{
 		return com.traclabs.biosim.idl.simulation.air.H2ProducerDefinitionHelper.narrow(_this_object());
