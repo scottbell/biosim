@@ -158,8 +158,12 @@ public class IATCSImpl extends SimBioModuleImpl implements
     }
     
     private void gatherWater() {
+    	if ((getIsloationValveState() == IFHXValveState.closed) && (getBypassValveState() == IFHXBypassState.flowthrough)){
+    		//water can't get to heat exchange
+    		return;
+    	}
  		float waterGathered = myGreyWaterConsumerDefinitionImpl.getMostResourceFromStores();
- 		if ((getIatcsState() == IATCSState.operational)){
+ 		if ((getIatcsState() == IATCSState.operational) && (getBypassValveState() == IFHXBypassState.flowthrough) && (getIsloationValveState() == IFHXValveState.open)){
  			myGreyWaterProducerDefinitionImpl.pushResourceToStores(waterGathered, 10f);
  		}
  		else{
@@ -176,7 +180,8 @@ public class IATCSImpl extends SimBioModuleImpl implements
      */
     private void consumeResources() {
         gatherPower();
-        gatherWater();
+        if (hasEnoughPower)
+        	gatherWater();
     }
 
     private void setProductionRate(float pProductionRate) {
@@ -263,11 +268,19 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
     
     private void transitionToIdle() {
+    	pumpSpeed = 0f;
+    	activateState = IATCSActivation.inProgress;
 		iatcsState = IATCSState.idle;
+		iatcsSoftwareState = SoftwareState.shutdown;
+		twvmSoftwareState = SoftwareState.shutdown;
 	}
     
     private void transitionToOperational() {
+		pumpSpeed = 9250;
+    	activateState = IATCSActivation.notInProgress;
 		iatcsState = IATCSState.operational;
+		iatcsSoftwareState = SoftwareState.running;
+		twvmSoftwareState = SoftwareState.running;
 	}
     
     public IATCSState getIatcsState() {
@@ -320,8 +333,10 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 
 	public void setPumpSpeed(float pumpSpeed) {
-		if (ppaPumpSpeedCommandStatus == PPAPumpSpeedStatus.pumpArmed)
+		if (ppaPumpSpeedCommandStatus == PPAPumpSpeedStatus.pumpArmed){
 			this.pumpSpeed = pumpSpeed;
+			ppaPumpSpeedCommandStatus = PPAPumpSpeedStatus.notArmed;
+		}
 	}
 
 	public IFHXBypassState getBypassValveState() {
@@ -362,7 +377,9 @@ public class IATCSImpl extends SimBioModuleImpl implements
 		return heaterSoftwareState;
 	}
 
-	public void setHeaterSoftwareState(SoftwareState heaterSoftwareState) {
-		this.heaterSoftwareState = heaterSoftwareState;
+	public void setHeaterSoftwareState(SoftwareState newHeaterSoftwareState) {
+		if ((heaterSoftwareState == SoftwareState.softwareArmed) || (newHeaterSoftwareState == SoftwareState.softwareArmed)){
+			this.heaterSoftwareState = newHeaterSoftwareState;
+		}
 	}
 }
