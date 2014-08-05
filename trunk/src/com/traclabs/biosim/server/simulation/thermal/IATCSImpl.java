@@ -62,6 +62,8 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	private IATCSState iatcsState = IATCSState.idle;
 	private IATCSActivation activateState = IATCSActivation.notInProgress;
 	private SoftwareState iatcsSoftwareState = SoftwareState.shutdown;
+	
+
 	private SoftwareState twvmSoftwareState = SoftwareState.shutdown;
 	private PPAPumpSpeedStatus ppaPumpSpeedCommandStatus = PPAPumpSpeedStatus.notArmed;
 	private float pumpSpeed = 0; //rpm
@@ -102,6 +104,22 @@ public class IATCSImpl extends SimBioModuleImpl implements
         myPowerConsumerDefinitionImpl.reset();
         myGreyWaterConsumerDefinitionImpl.reset();
         myGreyWaterProducerDefinitionImpl.reset();
+        hasEnoughPower = false;
+        currentPowerConsumed = 0f;
+        myProductionRate = 1f;
+        stateToTransition = IATCSState.transitioning;
+        ticksWaited = 0;
+    	iatcsState = IATCSState.idle;
+    	activateState = IATCSActivation.notInProgress;
+    	iatcsSoftwareState = SoftwareState.shutdown;
+    	twvmSoftwareState = SoftwareState.shutdown;
+    	ppaPumpSpeedCommandStatus = PPAPumpSpeedStatus.notArmed;
+    	pumpSpeed = 0;
+        bypassValveState = IFHXBypassState.bypass;
+        bypassValveCommandStatus = IFHXValveCommandStatus.inhibited;
+        isloationValveState = IFHXValveState.closed;
+        isolationValveCommandStatus = IFHXValveCommandStatus.inhibited;
+        heaterSoftwareState = SoftwareState.shutdown;
     }
 
     /**
@@ -141,7 +159,7 @@ public class IATCSImpl extends SimBioModuleImpl implements
     
     private void gatherWater() {
  		float waterGathered = myGreyWaterConsumerDefinitionImpl.getMostResourceFromStores();
- 		if ((getIATCSState() == IATCSState.operational)){
+ 		if ((getIatcsState() == IATCSState.operational)){
  			myGreyWaterProducerDefinitionImpl.pushResourceToStores(waterGathered, 10f);
  		}
  		else{
@@ -225,22 +243,6 @@ public class IATCSImpl extends SimBioModuleImpl implements
         myLogger.debug("current_power_consumed=" + currentPowerConsumed);
     }
     
-    public IATCSState getIATCSState() {
-		return iatcsState;
-	}
-    
-    public void setState(IATCSState state) {
-		if (getIATCSSoftwareState() == SoftwareState.softwareArmed){
-			if (transitionAllowed(state)){
-				iatcsState = IATCSState.transitioning;
-			}
-		}
-	}
-
-	public SoftwareState getIATCSSoftwareState() {
-		return iatcsSoftwareState;
-	}
-    
     private boolean transitionAllowed(IATCSState stateToTransition) {
 		if (iatcsState == IATCSState.idle){
 			return (stateToTransition == IATCSState.operational);
@@ -266,5 +268,101 @@ public class IATCSImpl extends SimBioModuleImpl implements
     
     private void transitionToOperational() {
 		iatcsState = IATCSState.operational;
+	}
+    
+    public IATCSState getIatcsState() {
+		return iatcsState;
+	}
+
+	public void setIatcsState(IATCSState state) {
+		if (getIatcsSoftwareState() == SoftwareState.softwareArmed){
+			if (transitionAllowed(state)){
+				this.iatcsState = IATCSState.transitioning;
+			}
+		}
+		this.iatcsState = state;
+	}
+
+	public IATCSActivation getActivateState() {
+		return activateState;
+	}
+
+	public void setActivateState(IATCSActivation activateState) {
+		this.activateState = activateState;
+	}
+
+	public SoftwareState getIatcsSoftwareState() {
+		return iatcsSoftwareState;
+	}
+
+	public void setIatcsSoftwareState(SoftwareState iatcsSoftwareState) {
+		this.iatcsSoftwareState = iatcsSoftwareState;
+	}
+
+	public SoftwareState getTwvmSoftwareState() {
+		return twvmSoftwareState;
+	}
+
+	public void setTwvmSoftwareState(SoftwareState twvmSoftwareState) {
+		this.twvmSoftwareState = twvmSoftwareState;
+	}
+
+	public PPAPumpSpeedStatus getPpaPumpSpeedCommandStatus() {
+		return ppaPumpSpeedCommandStatus;
+	}
+
+	public void setPpaPumpSpeedCommandStatus(PPAPumpSpeedStatus ppaPumpSpeedCommandStatus) {
+		this.ppaPumpSpeedCommandStatus = ppaPumpSpeedCommandStatus;
+	}
+
+	public float getPumpSpeed() {
+		return pumpSpeed;
+	}
+
+	public void setPumpSpeed(float pumpSpeed) {
+		if (ppaPumpSpeedCommandStatus == PPAPumpSpeedStatus.pumpArmed)
+			this.pumpSpeed = pumpSpeed;
+	}
+
+	public IFHXBypassState getBypassValveState() {
+		return bypassValveState;
+	}
+
+	public void setBypassValveState(IFHXBypassState bypassValveState) {
+		if (bypassValveCommandStatus == IFHXValveCommandStatus.enabled)
+			this.bypassValveState = bypassValveState;
+	}
+
+	public IFHXValveCommandStatus getBypassValveCommandStatus() {
+		return bypassValveCommandStatus;
+	}
+
+	public void setBypassValveCommandStatus(IFHXValveCommandStatus bypassValveCommandStatus) {
+		this.bypassValveCommandStatus = bypassValveCommandStatus;
+	}
+
+	public IFHXValveState getIsloationValveState() {
+		return isloationValveState;
+	}
+
+	public void setIsloationValveState(IFHXValveState isloationValveState) {
+		if (isolationValveCommandStatus == IFHXValveCommandStatus.enabled)
+			this.isloationValveState = isloationValveState;
+	}
+
+	public IFHXValveCommandStatus getIsolationValveCommandStatus() {
+		return isolationValveCommandStatus;
+	}
+
+	public void setIsolationValveCommandStatus(IFHXValveCommandStatus isolationValveCommandStatus) {
+		this.isolationValveCommandStatus = isolationValveCommandStatus;
+	}
+
+	public SoftwareState getHeaterSoftwareState() {
+		return heaterSoftwareState;
+	}
+
+	public void setHeaterSoftwareState(SoftwareState heaterSoftwareState) {
+		this.heaterSoftwareState = heaterSoftwareState;
 	}
 }
