@@ -41,7 +41,7 @@ public abstract class TimeSensorPOA
 		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(25));
 		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(26));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/sensor/framework/TimeSensor:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/GenericSensor:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/sensor/framework/TimeSensor:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/GenericSensor:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
 	public com.traclabs.biosim.idl.sensor.framework.TimeSensor _this()
 	{
 		return com.traclabs.biosim.idl.sensor.framework.TimeSensorHelper.narrow(_this_object());

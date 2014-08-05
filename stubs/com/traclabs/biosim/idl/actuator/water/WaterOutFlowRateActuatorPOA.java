@@ -45,7 +45,7 @@ public abstract class WaterOutFlowRateActuatorPOA
 		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(29));
 		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(30));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/actuator/water/WaterOutFlowRateActuator:1.0","IDL:com/traclabs/biosim/idl/actuator/framework/GenericActuator:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/actuator/water/WaterOutFlowRateActuator:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/actuator/framework/GenericActuator:1.0"};
 	public com.traclabs.biosim.idl.actuator.water.WaterOutFlowRateActuator _this()
 	{
 		return com.traclabs.biosim.idl.actuator.water.WaterOutFlowRateActuatorHelper.narrow(_this_object());

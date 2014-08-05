@@ -37,7 +37,7 @@ public abstract class StoreEnvironmentProducerPOA
 		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(21));
 		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(22));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/environment/StoreEnvironmentProducer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/environment/StoreEnvironmentProducer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0"};
 	public com.traclabs.biosim.idl.simulation.environment.StoreEnvironmentProducer _this()
 	{
 		return com.traclabs.biosim.idl.simulation.environment.StoreEnvironmentProducerHelper.narrow(_this_object());
