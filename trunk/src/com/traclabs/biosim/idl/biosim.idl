@@ -856,6 +856,28 @@ module com{
                                         };
                                         module thermal{
                                                 interface IATCS : framework::SimBioModule, power::PowerConsumer, water::GreyWaterConsumer, water::GreyWaterProducer{
+                                                            IATCSState getIatcsState();
+                                                            void setIatcsState(in IATCSState state);
+                                                            IATCSActivation getActivateState();
+                                                            void setActivateState(in IATCSActivation activateState);
+                                                            SoftwareState getIatcsSoftwareState();
+                                                            void setIatcsSoftwareState(in SoftwareState iatcsSoftwareState);
+                                                            SoftwareState getTwvmSoftwareState();
+                                                            void setTwvmSoftwareState(in SoftwareState twvmSoftwareState);
+                                                            PPAPumpSpeedStatus getPpaPumpSpeedCommandStatus();
+                                                            void setPpaPumpSpeedCommandStatus(in PPAPumpSpeedStatus ppaPumpSpeedCommandStatus);
+                                                            float getPumpSpeed();
+                                                            void setPumpSpeed(in float pumpSpeed);
+                                                            IFHXBypassState getBypassValveState();
+                                                            void setBypassValveState(in IFHXBypassState bypassValveState);
+                                                            IFHXValveCommandStatus getBypassValveCommandStatus();
+                                                            void setBypassValveCommandStatus(in IFHXValveCommandStatus bypassValveCommandStatus);
+                                                            IFHXValveState getIsloationValveState();
+                                                            void setIsloationValveState(in IFHXValveState isloationValveState);
+                                                            IFHXValveCommandStatus getIsolationValveCommandStatus();
+                                                            void setIsolationValveCommandStatus(in IFHXValveCommandStatus isolationValveCommandStatus);
+                                                            SoftwareState getHeaterSoftwareState();
+                                                            void setHeaterSoftwareState(in SoftwareState newHeaterSoftwareState);
                                                 };
                                         };
                                 };
