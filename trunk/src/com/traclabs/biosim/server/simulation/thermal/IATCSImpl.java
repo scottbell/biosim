@@ -74,7 +74,7 @@ public class IATCSImpl extends SimBioModuleImpl implements
     private IFHXValveState isloationValveState = IFHXValveState.closed;
     private IFHXValveCommandStatus isolationValveCommandStatus = IFHXValveCommandStatus.inhibited;
     
-    private SoftwareState heaterSoftwareState = SoftwareState.shutdown;
+    private SoftwareState heaterSoftwareState = SoftwareState.running;
 
     public IATCSImpl(int pID, String pName) {
         super(pID, pName);
