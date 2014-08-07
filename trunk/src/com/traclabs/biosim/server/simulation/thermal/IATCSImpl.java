@@ -61,7 +61,6 @@ public class IATCSImpl extends SimBioModuleImpl implements
     
 	private IATCSState iatcsState = IATCSState.idle;
 	private IATCSActivation activateState = IATCSActivation.notInProgress;
-	private SoftwareState iatcsSoftwareState = SoftwareState.shutdown;
 	
 
 	private SoftwareState twvmSoftwareState = SoftwareState.shutdown;
@@ -111,7 +110,6 @@ public class IATCSImpl extends SimBioModuleImpl implements
         ticksWaited = 0;
     	iatcsState = IATCSState.idle;
     	activateState = IATCSActivation.notInProgress;
-    	iatcsSoftwareState = SoftwareState.shutdown;
     	twvmSoftwareState = SoftwareState.shutdown;
     	ppaPumpSpeedCommandStatus = PPAPumpSpeedStatus.notArmed;
     	pumpSpeed = 0;
@@ -252,7 +250,10 @@ public class IATCSImpl extends SimBioModuleImpl implements
 		if (iatcsState == IATCSState.idle){
 			return (state == IATCSState.operational);
 		}
-		else if ((iatcsState == IATCSState.operational) && (iatcsSoftwareState == SoftwareState.softwareArmed)){
+		else if (iatcsState == IATCSState.operational){
+			return (state == IATCSState.armed);
+		}
+		else if (iatcsState == IATCSState.armed){
 			return (state == IATCSState.idle);
 		}
 		return false;
@@ -271,7 +272,6 @@ public class IATCSImpl extends SimBioModuleImpl implements
     	pumpSpeed = 0f;
     	activateState = IATCSActivation.inProgress;
 		iatcsState = IATCSState.idle;
-		iatcsSoftwareState = SoftwareState.shutdown;
 		twvmSoftwareState = SoftwareState.shutdown;
 	}
     
@@ -279,7 +279,6 @@ public class IATCSImpl extends SimBioModuleImpl implements
 		pumpSpeed = 9250;
     	activateState = IATCSActivation.notInProgress;
 		iatcsState = IATCSState.operational;
-		iatcsSoftwareState = SoftwareState.running;
 		twvmSoftwareState = SoftwareState.running;
 	}
     
@@ -289,8 +288,14 @@ public class IATCSImpl extends SimBioModuleImpl implements
 
 	public void setIatcsState(IATCSState state) {
 		if (transitionAllowed(state)){
-			this.iatcsState = IATCSState.transitioning;
-			stateToTransition = state;
+			if (state == IATCSState.armed){
+				iatcsState = state;
+			}
+			else{
+				this.iatcsState = IATCSState.transitioning;
+				stateToTransition = state;
+				transitionState();
+			}
 		}
 	}
 
@@ -300,14 +305,6 @@ public class IATCSImpl extends SimBioModuleImpl implements
 
 	public void setActivateState(IATCSActivation activateState) {
 		this.activateState = activateState;
-	}
-
-	public SoftwareState getIatcsSoftwareState() {
-		return iatcsSoftwareState;
-	}
-
-	public void setIatcsSoftwareState(SoftwareState iatcsSoftwareState) {
-		this.iatcsSoftwareState = iatcsSoftwareState;
 	}
 
 	public SoftwareState getTwvmSoftwareState() {
