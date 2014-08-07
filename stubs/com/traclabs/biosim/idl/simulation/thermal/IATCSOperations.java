@@ -15,8 +15,6 @@ public interface IATCSOperations
 	void setIatcsState(com.traclabs.biosim.idl.simulation.thermal.IATCSState state);
 	com.traclabs.biosim.idl.simulation.thermal.IATCSActivation getActivateState();
 	void setActivateState(com.traclabs.biosim.idl.simulation.thermal.IATCSActivation activateState);
-	com.traclabs.biosim.idl.simulation.thermal.SoftwareState getIatcsSoftwareState();
-	void setIatcsSoftwareState(com.traclabs.biosim.idl.simulation.thermal.SoftwareState iatcsSoftwareState);
 	com.traclabs.biosim.idl.simulation.thermal.SoftwareState getTwvmSoftwareState();
 	void setTwvmSoftwareState(com.traclabs.biosim.idl.simulation.thermal.SoftwareState twvmSoftwareState);
 	com.traclabs.biosim.idl.simulation.thermal.PPAPumpSpeedStatus getPpaPumpSpeedCommandStatus();

@@ -524,52 +524,6 @@ public class _IATCSStub
 
 	}
 
-	public void setIatcsSoftwareState(com.traclabs.biosim.idl.simulation.thermal.SoftwareState iatcsSoftwareState)
-	{
-		while(true)
-		{
-		if(! this._is_local())
-		{
-			org.omg.CORBA.portable.InputStream _is = null;
-			try
-			{
-				org.omg.CORBA.portable.OutputStream _os = _request( "setIatcsSoftwareState", true);
-				com.traclabs.biosim.idl.simulation.thermal.SoftwareStateHelper.write(_os,iatcsSoftwareState);
-				_is = _invoke(_os);
-				return;
-			}
-			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
-			catch( org.omg.CORBA.portable.ApplicationException _ax )
-			{
-				String _id = _ax.getId();
-				throw new RuntimeException("Unexpected exception " + _id );
-			}
-			finally
-			{
-				this._releaseReply(_is);
-			}
-		}
-		else
-		{
-			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "setIatcsSoftwareState", _opsClass );
-			if( _so == null )
-				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			IATCSOperations _localServant = (IATCSOperations)_so.servant;
-			try
-			{
-			_localServant.setIatcsSoftwareState(iatcsSoftwareState);
-			}
-			finally
-			{
-				_servant_postinvoke(_so);
-			}
-			return;
-		}
-
-		}
-
-	}
-
 	public void fixMalfunction(long id)
 	{
 		while(true)
@@ -1121,52 +1075,6 @@ public class _IATCSStub
 
 	}
 
-	public java.lang.String getModuleName()
-	{
-		while(true)
-		{
-		if(! this._is_local())
-		{
-			org.omg.CORBA.portable.InputStream _is = null;
-			try
-			{
-				org.omg.CORBA.portable.OutputStream _os = _request( "getModuleName", true);
-				_is = _invoke(_os);
-				java.lang.String _result = _is.read_string();
-				return _result;
-			}
-			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
-			catch( org.omg.CORBA.portable.ApplicationException _ax )
-			{
-				String _id = _ax.getId();
-				throw new RuntimeException("Unexpected exception " + _id );
-			}
-			finally
-			{
-				this._releaseReply(_is);
-			}
-		}
-		else
-		{
-			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getModuleName", _opsClass );
-			if( _so == null )
-				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			IATCSOperations _localServant = (IATCSOperations)_so.servant;
-			java.lang.String _result;			try
-			{
-			_result = _localServant.getModuleName();
-			}
-			finally
-			{
-				_servant_postinvoke(_so);
-			}
-			return _result;
-		}
-
-		}
-
-	}
-
 	public void setBypassValveState(com.traclabs.biosim.idl.simulation.thermal.IFHXBypassState bypassValveState)
 	{
 		while(true)
@@ -1207,6 +1115,52 @@ public class _IATCSStub
 				_servant_postinvoke(_so);
 			}
 			return;
+		}
+
+		}
+
+	}
+
+	public java.lang.String getModuleName()
+	{
+		while(true)
+		{
+		if(! this._is_local())
+		{
+			org.omg.CORBA.portable.InputStream _is = null;
+			try
+			{
+				org.omg.CORBA.portable.OutputStream _os = _request( "getModuleName", true);
+				_is = _invoke(_os);
+				java.lang.String _result = _is.read_string();
+				return _result;
+			}
+			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
+			catch( org.omg.CORBA.portable.ApplicationException _ax )
+			{
+				String _id = _ax.getId();
+				throw new RuntimeException("Unexpected exception " + _id );
+			}
+			finally
+			{
+				this._releaseReply(_is);
+			}
+		}
+		else
+		{
+			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getModuleName", _opsClass );
+			if( _so == null )
+				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
+			IATCSOperations _localServant = (IATCSOperations)_so.servant;
+			java.lang.String _result;			try
+			{
+			_result = _localServant.getModuleName();
+			}
+			finally
+			{
+				_servant_postinvoke(_so);
+			}
+			return _result;
 		}
 
 		}
@@ -1574,52 +1528,6 @@ public class _IATCSStub
 				_servant_postinvoke(_so);
 			}
 			return;
-		}
-
-		}
-
-	}
-
-	public com.traclabs.biosim.idl.simulation.thermal.SoftwareState getIatcsSoftwareState()
-	{
-		while(true)
-		{
-		if(! this._is_local())
-		{
-			org.omg.CORBA.portable.InputStream _is = null;
-			try
-			{
-				org.omg.CORBA.portable.OutputStream _os = _request( "getIatcsSoftwareState", true);
-				_is = _invoke(_os);
-				com.traclabs.biosim.idl.simulation.thermal.SoftwareState _result = com.traclabs.biosim.idl.simulation.thermal.SoftwareStateHelper.read(_is);
-				return _result;
-			}
-			catch( org.omg.CORBA.portable.RemarshalException _rx ){}
-			catch( org.omg.CORBA.portable.ApplicationException _ax )
-			{
-				String _id = _ax.getId();
-				throw new RuntimeException("Unexpected exception " + _id );
-			}
-			finally
-			{
-				this._releaseReply(_is);
-			}
-		}
-		else
-		{
-			org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke( "getIatcsSoftwareState", _opsClass );
-			if( _so == null )
-				throw new org.omg.CORBA.UNKNOWN("local invocations not supported!");
-			IATCSOperations _localServant = (IATCSOperations)_so.servant;
-			com.traclabs.biosim.idl.simulation.thermal.SoftwareState _result;			try
-			{
-			_result = _localServant.getIatcsSoftwareState();
-			}
-			finally
-			{
-				_servant_postinvoke(_so);
-			}
-			return _result;
 		}
 
 		}
