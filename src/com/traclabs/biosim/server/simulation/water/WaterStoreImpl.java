@@ -31,14 +31,10 @@ public class WaterStoreImpl extends StoreImpl implements WaterStoreOperations {
 		float oldVolume = getCurrentLevel();
 		float oldTemperature = getCurrentTemperature();
 		float amountAdded = super.add(newWaterVolume);
-		if (temperature == 0){
-			System.out.println("Temperature 0!");
-		}
 		if (amountAdded > 0){
 			float calculatedTemperature = ((oldVolume * oldTemperature) + (newWaterVolume * newWaterTemperature)) / (oldVolume + newWaterVolume);
 			this.temperature = calculatedTemperature;
 		}
-		System.out.println("temperature is: "+ temperature);
 		return amountAdded;
 	}
 
