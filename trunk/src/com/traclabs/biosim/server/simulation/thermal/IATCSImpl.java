@@ -288,12 +288,10 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 
 	public void setIatcsState(IATCSState state) {
-		if (getIatcsSoftwareState() == SoftwareState.softwareArmed){
-			if (transitionAllowed(state)){
-				this.iatcsState = IATCSState.transitioning;
-			}
+		if (transitionAllowed(stateToTransition)){
+			this.iatcsState = IATCSState.transitioning;
+			stateToTransition = state;
 		}
-		this.iatcsState = state;
 	}
 
 	public IATCSActivation getActivateState() {
