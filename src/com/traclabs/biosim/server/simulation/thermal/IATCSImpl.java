@@ -248,12 +248,12 @@ public class IATCSImpl extends SimBioModuleImpl implements
         myLogger.debug("current_power_consumed=" + currentPowerConsumed);
     }
     
-    private boolean transitionAllowed(IATCSState stateToTransition) {
+    private boolean transitionAllowed(IATCSState state) {
 		if (iatcsState == IATCSState.idle){
-			return (stateToTransition == IATCSState.operational);
+			return (state == IATCSState.operational);
 		}
 		else if ((iatcsState == IATCSState.operational) && (iatcsSoftwareState == SoftwareState.softwareArmed)){
-			return (stateToTransition == IATCSState.idle);
+			return (state == IATCSState.idle);
 		}
 		return false;
 	}
@@ -288,7 +288,7 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 
 	public void setIatcsState(IATCSState state) {
-		if (transitionAllowed(stateToTransition)){
+		if (transitionAllowed(state)){
 			this.iatcsState = IATCSState.transitioning;
 			stateToTransition = state;
 		}
