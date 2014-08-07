@@ -860,6 +860,8 @@ module com{
                                                             void setIatcsState(in IATCSState state);
                                                             IATCSActivation getActivateState();
                                                             void setActivateState(in IATCSActivation activateState);
+                                                            SoftwareState getSfcaSoftwareState();
+                                                            void setSfcaSoftwareState(in SoftwareState sfcaSoftwareState);
                                                             SoftwareState getTwvmSoftwareState();
                                                             void setTwvmSoftwareState(in SoftwareState twvmSoftwareState);
                                                             PPAPumpSpeedStatus getPpaPumpSpeedCommandStatus();

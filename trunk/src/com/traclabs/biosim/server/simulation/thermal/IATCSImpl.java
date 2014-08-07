@@ -60,9 +60,10 @@ public class IATCSImpl extends SimBioModuleImpl implements
     private int ticksWaited = 0;
     
 	private IATCSState iatcsState = IATCSState.idle;
-	private IATCSActivation activateState = IATCSActivation.notInProgress;
+	private IATCSActivation activateState = IATCSActivation.inProgress;
 	
 
+	private SoftwareState sfcaSoftwareState = SoftwareState.shutdown;
 	private SoftwareState twvmSoftwareState = SoftwareState.shutdown;
 	private PPAPumpSpeedStatus ppaPumpSpeedCommandStatus = PPAPumpSpeedStatus.notArmed;
 	private float pumpSpeed = 0; //rpm
@@ -109,15 +110,16 @@ public class IATCSImpl extends SimBioModuleImpl implements
         stateToTransition = IATCSState.transitioning;
         ticksWaited = 0;
     	iatcsState = IATCSState.idle;
-    	activateState = IATCSActivation.notInProgress;
+    	activateState = IATCSActivation.inProgress;
     	twvmSoftwareState = SoftwareState.shutdown;
+    	sfcaSoftwareState = SoftwareState.shutdown;
     	ppaPumpSpeedCommandStatus = PPAPumpSpeedStatus.notArmed;
     	pumpSpeed = 0;
         bypassValveState = IFHXBypassState.bypass;
         bypassValveCommandStatus = IFHXValveCommandStatus.inhibited;
         isloationValveState = IFHXValveState.closed;
         isolationValveCommandStatus = IFHXValveCommandStatus.inhibited;
-        heaterSoftwareState = SoftwareState.shutdown;
+        heaterSoftwareState = SoftwareState.running;
     }
 
     /**
@@ -217,7 +219,7 @@ public class IATCSImpl extends SimBioModuleImpl implements
     public void tick() {
         super.tick();
         consumeResources();
-        if (iatcsState != IATCSState.transitioning){
+        if (iatcsState == IATCSState.transitioning){
         	ticksWaited++;
         	if (ticksWaited >= TICKS_TO_WAIT)
         		transitionState();
@@ -273,6 +275,7 @@ public class IATCSImpl extends SimBioModuleImpl implements
     	activateState = IATCSActivation.inProgress;
 		iatcsState = IATCSState.idle;
 		twvmSoftwareState = SoftwareState.shutdown;
+		sfcaSoftwareState = SoftwareState.shutdown;
 	}
     
     private void transitionToOperational() {
@@ -280,6 +283,7 @@ public class IATCSImpl extends SimBioModuleImpl implements
     	activateState = IATCSActivation.notInProgress;
 		iatcsState = IATCSState.operational;
 		twvmSoftwareState = SoftwareState.running;
+		sfcaSoftwareState = SoftwareState.running;
 	}
     
     public IATCSState getIatcsState() {
@@ -294,7 +298,6 @@ public class IATCSImpl extends SimBioModuleImpl implements
 			else{
 				this.iatcsState = IATCSState.transitioning;
 				stateToTransition = state;
-				transitionState();
 			}
 		}
 	}
@@ -313,6 +316,14 @@ public class IATCSImpl extends SimBioModuleImpl implements
 
 	public void setTwvmSoftwareState(SoftwareState twvmSoftwareState) {
 		this.twvmSoftwareState = twvmSoftwareState;
+	}
+
+	public SoftwareState getSfcaSoftwareState() {
+		return sfcaSoftwareState;
+	}
+
+	public void setSfcaSoftwareState(SoftwareState sfcaSoftwareState) {
+		this.sfcaSoftwareState = sfcaSoftwareState;
 	}
 
 	public PPAPumpSpeedStatus getPpaPumpSpeedCommandStatus() {

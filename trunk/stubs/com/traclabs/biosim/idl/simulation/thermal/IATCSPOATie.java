@@ -154,6 +154,11 @@ _delegate.setBypassValveCommandStatus(bypassValveCommandStatus);
 		return _delegate.getMalfunctions();
 	}
 
+	public com.traclabs.biosim.idl.simulation.thermal.SoftwareState getSfcaSoftwareState()
+	{
+		return _delegate.getSfcaSoftwareState();
+	}
+
 	public void reset()
 	{
 _delegate.reset();
@@ -164,14 +169,14 @@ _delegate.reset();
 _delegate.registerBioCommandListener(listener);
 	}
 
-	public void setBypassValveState(com.traclabs.biosim.idl.simulation.thermal.IFHXBypassState bypassValveState)
-	{
-_delegate.setBypassValveState(bypassValveState);
-	}
-
 	public java.lang.String getModuleName()
 	{
 		return _delegate.getModuleName();
+	}
+
+	public void setBypassValveState(com.traclabs.biosim.idl.simulation.thermal.IFHXBypassState bypassValveState)
+	{
+_delegate.setBypassValveState(bypassValveState);
 	}
 
 	public void setHeaterSoftwareState(com.traclabs.biosim.idl.simulation.thermal.SoftwareState newHeaterSoftwareState)
@@ -222,6 +227,11 @@ _delegate.maintain();
 	public void setIsolationValveCommandStatus(com.traclabs.biosim.idl.simulation.thermal.IFHXValveCommandStatus isolationValveCommandStatus)
 	{
 _delegate.setIsolationValveCommandStatus(isolationValveCommandStatus);
+	}
+
+	public void setSfcaSoftwareState(com.traclabs.biosim.idl.simulation.thermal.SoftwareState sfcaSoftwareState)
+	{
+_delegate.setSfcaSoftwareState(sfcaSoftwareState);
 	}
 
 	public com.traclabs.biosim.idl.simulation.thermal.SoftwareState getHeaterSoftwareState()
