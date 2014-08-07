@@ -5,7 +5,7 @@ import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 
 public class WaterStoreImpl extends StoreImpl implements WaterStoreOperations {
 	private float intialTemperature = 22f;
-	private float temperature = 22f;
+	private float temperature = intialTemperature;
 	
 	public WaterStoreImpl(int pID, String pName) {
 		super (pID, pName);
@@ -27,17 +27,18 @@ public class WaterStoreImpl extends StoreImpl implements WaterStoreOperations {
 		this.temperature = intialTemperature;
 	}
 
-	public float addWaterWithTemperature(float newWater, float newWaterTemperature) {
-		float oldLevel = getCurrentLevel();
-		float amountAdded = super.add(newWater);
+	public float addWaterWithTemperature(float newWaterVolume, float newWaterTemperature) {
+		float oldVolume = getCurrentLevel();
+		float oldTemperature = getCurrentTemperature();
+		float amountAdded = super.add(newWaterVolume);
+		if (temperature == 0){
+			System.out.println("Temperature 0!");
+		}
 		if (amountAdded > 0){
-			float oldWeight = 0;
-			if (oldLevel > 0)
-				oldWeight = 1 / (amountAdded / oldLevel);
-			float newWeight = 1 - oldWeight;
-			float calculatedTemperature = (oldWeight * temperature) + (newWeight * newWaterTemperature);
+			float calculatedTemperature = ((oldVolume * oldTemperature) + (newWaterVolume * newWaterTemperature)) / (oldVolume + newWaterVolume);
 			this.temperature = calculatedTemperature;
 		}
+		System.out.println("temperature is: "+ temperature);
 		return amountAdded;
 	}
 
