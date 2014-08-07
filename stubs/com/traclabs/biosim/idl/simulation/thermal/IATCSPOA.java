@@ -34,33 +34,35 @@ public abstract class IATCSPOA
 		m_opsHash.put ( "setBypassValveCommandStatus", new java.lang.Integer(18));
 		m_opsHash.put ( "getBypassValveState", new java.lang.Integer(19));
 		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(20));
-		m_opsHash.put ( "reset", new java.lang.Integer(21));
-		m_opsHash.put ( "registerBioCommandListener", new java.lang.Integer(22));
-		m_opsHash.put ( "setBypassValveState", new java.lang.Integer(23));
+		m_opsHash.put ( "getSfcaSoftwareState", new java.lang.Integer(21));
+		m_opsHash.put ( "reset", new java.lang.Integer(22));
+		m_opsHash.put ( "registerBioCommandListener", new java.lang.Integer(23));
 		m_opsHash.put ( "getModuleName", new java.lang.Integer(24));
-		m_opsHash.put ( "setHeaterSoftwareState", new java.lang.Integer(25));
-		m_opsHash.put ( "randomFilter", new java.lang.Integer(26));
-		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(27));
-		m_opsHash.put ( "log", new java.lang.Integer(28));
-		m_opsHash.put ( "setActivateState", new java.lang.Integer(29));
-		m_opsHash.put ( "setTwvmSoftwareState", new java.lang.Integer(30));
-		m_opsHash.put ( "getPumpSpeed", new java.lang.Integer(31));
-		m_opsHash.put ( "maintain", new java.lang.Integer(32));
-		m_opsHash.put ( "getBypassValveCommandStatus", new java.lang.Integer(33));
-		m_opsHash.put ( "setIsolationValveCommandStatus", new java.lang.Integer(34));
-		m_opsHash.put ( "getHeaterSoftwareState", new java.lang.Integer(35));
-		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(36));
-		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(37));
-		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(38));
-		m_opsHash.put ( "getPowerConsumerDefinition", new java.lang.Integer(39));
-		m_opsHash.put ( "tick", new java.lang.Integer(40));
-		m_opsHash.put ( "setTickLength", new java.lang.Integer(41));
-		m_opsHash.put ( "getIatcsState", new java.lang.Integer(42));
-		m_opsHash.put ( "getIsloationValveState", new java.lang.Integer(43));
-		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(44));
-		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(45));
-		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(46));
-		m_opsHash.put ( "getTwvmSoftwareState", new java.lang.Integer(47));
+		m_opsHash.put ( "setBypassValveState", new java.lang.Integer(25));
+		m_opsHash.put ( "setHeaterSoftwareState", new java.lang.Integer(26));
+		m_opsHash.put ( "randomFilter", new java.lang.Integer(27));
+		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(28));
+		m_opsHash.put ( "log", new java.lang.Integer(29));
+		m_opsHash.put ( "setActivateState", new java.lang.Integer(30));
+		m_opsHash.put ( "setTwvmSoftwareState", new java.lang.Integer(31));
+		m_opsHash.put ( "getPumpSpeed", new java.lang.Integer(32));
+		m_opsHash.put ( "maintain", new java.lang.Integer(33));
+		m_opsHash.put ( "getBypassValveCommandStatus", new java.lang.Integer(34));
+		m_opsHash.put ( "setIsolationValveCommandStatus", new java.lang.Integer(35));
+		m_opsHash.put ( "setSfcaSoftwareState", new java.lang.Integer(36));
+		m_opsHash.put ( "getHeaterSoftwareState", new java.lang.Integer(37));
+		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(38));
+		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(39));
+		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(40));
+		m_opsHash.put ( "getPowerConsumerDefinition", new java.lang.Integer(41));
+		m_opsHash.put ( "tick", new java.lang.Integer(42));
+		m_opsHash.put ( "setTickLength", new java.lang.Integer(43));
+		m_opsHash.put ( "getIatcsState", new java.lang.Integer(44));
+		m_opsHash.put ( "getIsloationValveState", new java.lang.Integer(45));
+		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(46));
+		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(47));
+		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(48));
+		m_opsHash.put ( "getTwvmSoftwareState", new java.lang.Integer(49));
 	}
 	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/thermal/IATCS:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/water/WaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterProducer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0"};
 	public com.traclabs.biosim.idl.simulation.thermal.IATCS _this()
@@ -219,24 +221,23 @@ public abstract class IATCSPOA
 				com.traclabs.biosim.idl.framework.MalfunctionListHelper.write(_out,getMalfunctions());
 				break;
 			}
-			case 21: // reset
+			case 21: // getSfcaSoftwareState
+			{
+				_out = handler.createReply();
+				com.traclabs.biosim.idl.simulation.thermal.SoftwareStateHelper.write(_out,getSfcaSoftwareState());
+				break;
+			}
+			case 22: // reset
 			{
 				_out = handler.createReply();
 				reset();
 				break;
 			}
-			case 22: // registerBioCommandListener
+			case 23: // registerBioCommandListener
 			{
 				com.traclabs.biosim.idl.simulation.framework.BioCommandListener _arg0=com.traclabs.biosim.idl.simulation.framework.BioCommandListenerHelper.read(_input);
 				_out = handler.createReply();
 				registerBioCommandListener(_arg0);
-				break;
-			}
-			case 23: // setBypassValveState
-			{
-				com.traclabs.biosim.idl.simulation.thermal.IFHXBypassState _arg0=com.traclabs.biosim.idl.simulation.thermal.IFHXBypassStateHelper.read(_input);
-				_out = handler.createReply();
-				setBypassValveState(_arg0);
 				break;
 			}
 			case 24: // getModuleName
@@ -245,141 +246,155 @@ public abstract class IATCSPOA
 				_out.write_string(getModuleName());
 				break;
 			}
-			case 25: // setHeaterSoftwareState
+			case 25: // setBypassValveState
+			{
+				com.traclabs.biosim.idl.simulation.thermal.IFHXBypassState _arg0=com.traclabs.biosim.idl.simulation.thermal.IFHXBypassStateHelper.read(_input);
+				_out = handler.createReply();
+				setBypassValveState(_arg0);
+				break;
+			}
+			case 26: // setHeaterSoftwareState
 			{
 				com.traclabs.biosim.idl.simulation.thermal.SoftwareState _arg0=com.traclabs.biosim.idl.simulation.thermal.SoftwareStateHelper.read(_input);
 				_out = handler.createReply();
 				setHeaterSoftwareState(_arg0);
 				break;
 			}
-			case 26: // randomFilter
+			case 27: // randomFilter
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				_out.write_float(randomFilter(_arg0));
 				break;
 			}
-			case 27: // isMalfunctioning
+			case 28: // isMalfunctioning
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isMalfunctioning());
 				break;
 			}
-			case 28: // log
+			case 29: // log
 			{
 				_out = handler.createReply();
 				log();
 				break;
 			}
-			case 29: // setActivateState
+			case 30: // setActivateState
 			{
 				com.traclabs.biosim.idl.simulation.thermal.IATCSActivation _arg0=com.traclabs.biosim.idl.simulation.thermal.IATCSActivationHelper.read(_input);
 				_out = handler.createReply();
 				setActivateState(_arg0);
 				break;
 			}
-			case 30: // setTwvmSoftwareState
+			case 31: // setTwvmSoftwareState
 			{
 				com.traclabs.biosim.idl.simulation.thermal.SoftwareState _arg0=com.traclabs.biosim.idl.simulation.thermal.SoftwareStateHelper.read(_input);
 				_out = handler.createReply();
 				setTwvmSoftwareState(_arg0);
 				break;
 			}
-			case 31: // getPumpSpeed
+			case 32: // getPumpSpeed
 			{
 				_out = handler.createReply();
 				_out.write_float(getPumpSpeed());
 				break;
 			}
-			case 32: // maintain
+			case 33: // maintain
 			{
 				_out = handler.createReply();
 				maintain();
 				break;
 			}
-			case 33: // getBypassValveCommandStatus
+			case 34: // getBypassValveCommandStatus
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.thermal.IFHXValveCommandStatusHelper.write(_out,getBypassValveCommandStatus());
 				break;
 			}
-			case 34: // setIsolationValveCommandStatus
+			case 35: // setIsolationValveCommandStatus
 			{
 				com.traclabs.biosim.idl.simulation.thermal.IFHXValveCommandStatus _arg0=com.traclabs.biosim.idl.simulation.thermal.IFHXValveCommandStatusHelper.read(_input);
 				_out = handler.createReply();
 				setIsolationValveCommandStatus(_arg0);
 				break;
 			}
-			case 35: // getHeaterSoftwareState
+			case 36: // setSfcaSoftwareState
+			{
+				com.traclabs.biosim.idl.simulation.thermal.SoftwareState _arg0=com.traclabs.biosim.idl.simulation.thermal.SoftwareStateHelper.read(_input);
+				_out = handler.createReply();
+				setSfcaSoftwareState(_arg0);
+				break;
+			}
+			case 37: // getHeaterSoftwareState
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.thermal.SoftwareStateHelper.write(_out,getHeaterSoftwareState());
 				break;
 			}
-			case 36: // doSomeRepairWork
+			case 38: // doSomeRepairWork
 			{
 				long _arg0=_input.read_longlong();
 				_out = handler.createReply();
 				doSomeRepairWork(_arg0);
 				break;
 			}
-			case 37: // setEnableFailure
+			case 39: // setEnableFailure
 			{
 				boolean _arg0=_input.read_boolean();
 				_out = handler.createReply();
 				setEnableFailure(_arg0);
 				break;
 			}
-			case 38: // clearAllMalfunctions
+			case 40: // clearAllMalfunctions
 			{
 				_out = handler.createReply();
 				clearAllMalfunctions();
 				break;
 			}
-			case 39: // getPowerConsumerDefinition
+			case 41: // getPowerConsumerDefinition
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinitionHelper.write(_out,getPowerConsumerDefinition());
 				break;
 			}
-			case 40: // tick
+			case 42: // tick
 			{
 				_out = handler.createReply();
 				tick();
 				break;
 			}
-			case 41: // setTickLength
+			case 43: // setTickLength
 			{
 				float _arg0=_input.read_float();
 				_out = handler.createReply();
 				setTickLength(_arg0);
 				break;
 			}
-			case 42: // getIatcsState
+			case 44: // getIatcsState
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.thermal.IATCSStateHelper.write(_out,getIatcsState());
 				break;
 			}
-			case 43: // getIsloationValveState
+			case 45: // getIsloationValveState
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.thermal.IFHXValveStateHelper.write(_out,getIsloationValveState());
 				break;
 			}
-			case 44: // isFailureEnabled
+			case 46: // isFailureEnabled
 			{
 				_out = handler.createReply();
 				_out.write_boolean(isFailureEnabled());
 				break;
 			}
-			case 45: // getMalfunctionNames
+			case 47: // getMalfunctionNames
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.StringListHelper.write(_out,getMalfunctionNames());
 				break;
 			}
-			case 46: // scheduleMalfunction
+			case 48: // scheduleMalfunction
 			{
 				com.traclabs.biosim.idl.framework.MalfunctionIntensity _arg0=com.traclabs.biosim.idl.framework.MalfunctionIntensityHelper.read(_input);
 				com.traclabs.biosim.idl.framework.MalfunctionLength _arg1=com.traclabs.biosim.idl.framework.MalfunctionLengthHelper.read(_input);
@@ -388,7 +403,7 @@ public abstract class IATCSPOA
 				scheduleMalfunction(_arg0,_arg1,_arg2);
 				break;
 			}
-			case 47: // getTwvmSoftwareState
+			case 49: // getTwvmSoftwareState
 			{
 				_out = handler.createReply();
 				com.traclabs.biosim.idl.simulation.thermal.SoftwareStateHelper.write(_out,getTwvmSoftwareState());
