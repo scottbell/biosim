@@ -44,7 +44,7 @@ public class IATCSImpl extends SimBioModuleImpl implements
 
     //During any given tick, this much power is needed for the IATCS
     // to run at all
-    private static final float POWER_NEEDED_BASE = 0;
+    private static final float POWER_NEEDED_BASE = 100;
 
     //Flag to determine if the IATCS has enough power to function
     private boolean hasEnoughPower = false;
