@@ -34,7 +34,9 @@
 			<PowerStore capacity="100" moduleName="CDRS_Power_Store" level="100"/>
 			<PowerStore capacity="100" moduleName="CDRS_Primary_Heater_Power_Store" level="100"/>
 			<PowerStore capacity="100" moduleName="CDRS_Secondary_Heater_Power_Store" level="100"/>
-			
+			<PowerPS moduleName="Nuclear_Source" generationType="NUCLEAR">
+				<powerProducer desiredFlowRates="3000" outputs="General_Power_Store" maxFlowRates="3000" />
+			</PowerPS>
 			<PowerStore capacity="100" moduleName="IATCS_SFCA_Power_Store" level="100"/>
 			<PowerStore capacity="100" moduleName="IATCS_PPA_Power_Store" level="100"/>
 			<PowerStore capacity="100" moduleName="IATCS_TWMV_Power_Store" level="100"/>

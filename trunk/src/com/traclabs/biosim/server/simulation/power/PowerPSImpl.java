@@ -26,9 +26,9 @@ public abstract class PowerPSImpl extends SimBioModuleImpl implements
     //The power produced (in watts) by the Power PS at the current tick
     float currentPowerProduced = 0f;
 
-    private float currentUpperPowerGeneration = 500f;
+    private float currentUpperPowerGeneration = 10000f;
 
-    private float initialUpperPowerGeneration = 500f;
+    private float initialUpperPowerGeneration = 10000f;
 
     //Consumers, Producers
     private PowerProducerDefinitionImpl myPowerProducerDefinitionImpl;
