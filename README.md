@@ -1,5 +1,5 @@
 # BioSim
-
+BioSim is a research project being developed at NASA Johnson Space Center. The objective is to create a portable simulation of a typical integrated advanced life support system in a typical mission scenario with malfunctions and perturbations.
 ## Building
 Download the <a href="http://java.sun.com/getjava">Java Runtime Environment</a> necessary to run BioSim (version 1.5 or greater).
 
