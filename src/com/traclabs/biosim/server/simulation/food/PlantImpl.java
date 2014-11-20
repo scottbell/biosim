@@ -496,7 +496,7 @@ public abstract class PlantImpl extends PlantPOA {
         carbonUseEfficiency24 = getCarbonUseEfficiency24();
         float dailyCarbonGain = calculateDailyCarbonGain();
         if (myAge % 24 == 0)
-            totalCO2MolesConsumed += (dailyCarbonGain / 24f);
+            myLogger.debug(getDaysOfGrowth() + "\t" + dailyCarbonGain);
         float cropGrowthRate = molecularWeightOfCarbon
                 * (dailyCarbonGain / getBCF());
         myCurrentDryBiomass += (cropGrowthRate / 1000 / 24f
