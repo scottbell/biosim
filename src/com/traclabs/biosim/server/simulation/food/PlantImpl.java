@@ -619,8 +619,7 @@ public abstract class PlantImpl extends PlantPOA {
         totalWaterLitersTranspired += litersOfWaterProduced;
         //myLogger.debug("totalWaterLitersTranspired:" + totalWaterLitersTranspired);
         //consumedWaterBuffer.take(litersOfWaterProduced);
-        //1/1000 liters per milliter, 1 gram per millilters, 8.016 grams per
-        // mole
+        // 1/1000 liters per milliter, 1 gram per millilter, 18.015 grams per mole
         float molesOfWaterProduced = waterLitersToMoles(litersOfWaterProduced);
         float molesOfWaterAdded = myShelfImpl.getBiomassPSImpl()
                 .getAirProducerDefinition().getEnvironments()[0]
