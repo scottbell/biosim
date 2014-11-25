@@ -79,8 +79,6 @@ public abstract class PlantImpl extends PlantPOA {
 
     private float totalCO2GramsConsumed = 0f;
 
-    private float totalCO2MolesConsumed = 0f;
-
     private float totalWaterLitersTranspired = 0f;
 
     private float myTimeTillCanopyClosure = 0f;
@@ -230,7 +228,6 @@ public abstract class PlantImpl extends PlantPOA {
         carbonUseEfficiency24 = 0f;
         totalO2GramsProduced = 0f;
         totalCO2GramsConsumed = 0f;
-        totalCO2MolesConsumed = 0f;
         totalWaterLitersTranspired = 0f;
         myTimeTillCanopyClosure = 0f;
         
@@ -498,7 +495,6 @@ public abstract class PlantImpl extends PlantPOA {
         if (myAge % 24 == 0){
         	myLogger.debug(getDaysOfGrowth() + "\t" + dailyCarbonGain);
         }
-        totalCO2MolesConsumed += (dailyCarbonGain / 24f);
         float cropGrowthRate = molecularWeightOfCarbon
                 * (dailyCarbonGain / getBCF());
         //in kilograms per hour
