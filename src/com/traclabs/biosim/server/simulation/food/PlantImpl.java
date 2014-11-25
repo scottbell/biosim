@@ -492,6 +492,18 @@ public abstract class PlantImpl extends PlantPOA {
         CQY = calculateCQY();
         carbonUseEfficiency24 = getCarbonUseEfficiency24();
         float dailyCarbonGain = calculateDailyCarbonGain();
+        // Check for sufficient CO2 & scale dailyCarbonGain as necessary
+        // Actual CO2 use may later be reduced even further by waterFraction
+        float molesOfCO2Needed = dailyCarbonGain * myShelfImpl.getCropAreaUsed() / 24f;
+        float molesOfCO2Available = myShelfImpl.getBiomassPSImpl().getAirConsumerDefinition()
+                                    .getEnvironments()[0].getCO2Store().getCurrentLevel();
+        float CO2Fraction = 1f;
+        if (molesOfCO2Needed > 0)
+            CO2Fraction = molesOfCO2Available / molesOfCO2Needed;
+        if (CO2Fraction < 1) {
+            //myLogger.debug("CO2Fraction = " + CO2Fraction);
+            dailyCarbonGain *= CO2Fraction;
+        }
         if (myAge % 24 == 0){
         	myLogger.debug(getDaysOfGrowth() + "\t" + dailyCarbonGain);
         }
