@@ -546,8 +546,8 @@ public abstract class PlantImpl extends PlantPOA {
 
         if (waterFraction < 1f) {
             myCurrentDryBiomass -= (1f - waterFraction)
-                    * (cropGrowthRate / 1000 / 24f * myShelfImpl
-                            .getCropAreaUsed());
+                    * (cropGrowthRate / 1000 / 24f
+                    * myShelfImpl.getCropAreaUsed() * myProductionRate);
             if (getDaysOfGrowth() > getTimeAtOrganFormation())
                 myCurrentEdibleDryBiomass -= (1f - waterFraction)
                         * (cropGrowthRate / 1000 / 24f
