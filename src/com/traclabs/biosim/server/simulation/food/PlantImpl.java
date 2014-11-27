@@ -515,7 +515,8 @@ public abstract class PlantImpl extends PlantPOA {
         
         if (getDaysOfGrowth() > getTimeAtOrganFormation())
             myCurrentEdibleDryBiomass += (cropGrowthRate / 1000 / 24f
-                    * myShelfImpl.getCropAreaUsed() * getProtectedFractionOfEdibleBiomass());
+                * myShelfImpl.getCropAreaUsed() * getProtectedFractionOfEdibleBiomass()
+                * myProductionRate);
         myCurrentWaterInsideEdibleBiomass = myCurrentEdibleDryBiomass
                 * getProtectedEdibleFreshBasisWaterContent()
                 / (1f - getProtectedEdibleFreshBasisWaterContent());
@@ -550,8 +551,9 @@ public abstract class PlantImpl extends PlantPOA {
                     * myShelfImpl.getCropAreaUsed() * myProductionRate);
             if (getDaysOfGrowth() > getTimeAtOrganFormation())
                 myCurrentEdibleDryBiomass -= (1f - waterFraction)
-                        * (cropGrowthRate / 1000 / 24f
-                                * myShelfImpl.getCropAreaUsed() * getProtectedFractionOfEdibleBiomass());
+                    * (cropGrowthRate / 1000 / 24f
+                    * myShelfImpl.getCropAreaUsed() * getProtectedFractionOfEdibleBiomass()
+                    * myProductionRate);
             //myLogger.debug("myCurrentDryBiomass:" + myCurrentDryBiomass);
             //myLogger.debug("myCurrentEdibleDryBiomass:" + myCurrentEdibleDryBiomass);
 
