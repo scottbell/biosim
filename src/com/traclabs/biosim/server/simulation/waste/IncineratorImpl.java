@@ -266,18 +266,18 @@ public class IncineratorImpl extends SimBioModuleImpl implements
             Malfunction currentMalfunction = (Malfunction) (iter.next());
             if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
-                    productionRate *= 0.50;
+                    productionRate *= 0.50; // 50% reduction
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                    productionRate *= 0.25;
+                    productionRate *= 0.75; // 25% reduction
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                    productionRate *= 0.10;
+                    productionRate *= 0.90; // 10% reduction
             } else if (currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF) {
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
-                    productionRate *= 0.50;
+                    productionRate *= 0.50; // 50% reduction
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                    productionRate *= 0.25;
+                    productionRate *= 0.75; // 25% reduction
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                    productionRate *= 0.10;
+                    productionRate *= 0.90; // 10% reduction
             }
         }
         setProductionRate(productionRate);
