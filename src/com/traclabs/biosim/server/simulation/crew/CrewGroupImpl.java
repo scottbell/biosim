@@ -79,8 +79,6 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     // as they perform activities
     private Map<String, CrewPerson> crewPeople;
 
-    private float healthyPercentage = 1f;
-
     private Random myRandom = new MersenneTwister();
     
     private boolean myDeathEnabled = true;
@@ -286,22 +284,22 @@ public class CrewGroupImpl extends SimBioModuleImpl implements
     }
 
     protected void performMalfunctions() {
-        healthyPercentage = 1f;
-    	for (Malfunction currentMalfunction : myMalfunctions.values()){
-    		if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
+        float healthyPercentage = 1f;
+        for (Malfunction currentMalfunction : myMalfunctions.values()){
+                if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
-                    healthyPercentage *= 0.50;
+                    healthyPercentage *= 0.50; // 50% reduction
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                    healthyPercentage *= 0.25;
+                    healthyPercentage *= 0.75; // 25% reduction
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                    healthyPercentage *= 0.10;
+                    healthyPercentage *= 0.90; // 10% reduction
             } else if (currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF) {
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
-                    healthyPercentage *= 0.50;
+                    healthyPercentage *= 0.50; // 50% reduction
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                    healthyPercentage *= 0.25;
+                    healthyPercentage *= 0.75; // 25% reduction
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                    healthyPercentage *= 0.10;
+                    healthyPercentage *= 0.90; // 10% reduction
             }
             currentMalfunction.setPerformed(true);
         }
