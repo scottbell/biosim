@@ -288,9 +288,9 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
                     currentVolume = 0f;
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                    currentVolume *= 0.50f; // 50% reduction
+                    currentVolume *= 0.25f; // 75% reduction
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                    currentVolume *= 0.75f; // 25% reduction
+                    currentVolume *= 0.50f; // 50% reduction
                 myO2StoreImpl.setCurrentLevel(O2percentage * currentVolume);
                 myCO2StoreImpl.setCurrentLevel(CO2percentage * currentVolume);
                 myOtherStoreImpl.setCurrentLevel(otherPercentage * currentVolume);
