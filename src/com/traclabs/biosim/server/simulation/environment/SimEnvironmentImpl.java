@@ -78,7 +78,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
 
     /**
      * Creates a SimEnvironment (with a currentVolume of 100000 liters) and
-     * resets the gas levels to correct percantages of sea level air
+     * resets the gas levels to correct percentages of sea level air
      */
     public SimEnvironmentImpl(int pID, String pName) {
         this(pID, 100000, pName);
@@ -97,7 +97,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
 
     /**
      * Creates a SimEnvironment with a set initial currentVolume and resets the
-     * gas levels to correct percantages of sea level air.
+     * gas levels to correct percentages of sea level air.
      * 
      * @param pInitialVolume
      *            the initial currentVolume of the environment in liters
@@ -145,8 +145,8 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     	myOtherStore = otherTie._this(OrbUtils.getORB());
 	}
 
-	/**
-     * Resets gas levels to correct percantages of sea level air
+    /**
+     * Resets gas levels to correct percentages of sea level air
      */
     public void reset() {
         super.reset();
@@ -282,7 +282,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
                 }
                 float volumeScalingFactor = 1.0f;
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
-                    volumeScalingFactor = 0f;
+                    volumeScalingFactor = 0f; // complete loss of pressurized volume
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
                     volumeScalingFactor = 0.25f; // 75% reduction
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
@@ -451,8 +451,8 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     	myVaporStoreImpl.setInitialLevel(pInitialWaterMoles);
     	myNitrogenStoreImpl.setInitialLevel(pInitialNitrogenMoles);
 	}
-	
-	/**
+
+    /**
      * Retrieves the the total level of gas in the environment (in moles)
      * 
      * @return retrieves the the total level of gas in the environment (in
@@ -463,17 +463,6 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
         for (EnvironmentStoreImpl store : myEnvironmentStores)
         	totalMoles += store.getCurrentLevel();
         return totalMoles;
-    }
-    
-    /**
-     * Retrieves the the total level of gas in the environment (in moles)
-     * 
-     * @return retrieves the the total level of gas in the environment (in
-     *         moles)
-     */
-    private void setTotalMoles(float pLevel) {
-        for (EnvironmentStoreImpl store : myEnvironmentStores)
-        	store.setCurrentLevel(pLevel);
     }
 
     /**
