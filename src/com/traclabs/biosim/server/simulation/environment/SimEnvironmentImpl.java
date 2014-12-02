@@ -276,26 +276,20 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
                     && (!currentMalfunction.hasPerformed())) {
                 if (currentVolume <= 0) {
                     for (EnvironmentStoreImpl store : myEnvironmentStores)
-                    	store.setCurrentLevel(0);
+                        store.setCurrentLevel(0);
                     currentMalfunction.setPerformed(true);
                     return;
                 }
-                float O2percentage = myO2StoreImpl.getCurrentLevel() / getTotalMoles();
-                float CO2percentage = myCO2StoreImpl.getCurrentLevel()  / getTotalMoles();
-                float otherPercentage = myOtherStoreImpl.getCurrentLevel()  / getTotalMoles();
-                float waterPercentage = myVaporStoreImpl.getCurrentLevel()  / getTotalMoles();
-                float nitrogenPercentage = myNitrogenStoreImpl.getCurrentLevel()  / getTotalMoles();
+                float volumeScalingFactor = 1.0f;
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
-                    currentVolume = 0f;
+                    volumeScalingFactor = 0f;
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                    currentVolume *= 0.25f; // 75% reduction
+                    volumeScalingFactor = 0.25f; // 75% reduction
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                    currentVolume *= 0.50f; // 50% reduction
-                myO2StoreImpl.setCurrentLevel(O2percentage * currentVolume);
-                myCO2StoreImpl.setCurrentLevel(CO2percentage * currentVolume);
-                myOtherStoreImpl.setCurrentLevel(otherPercentage * currentVolume);
-                myVaporStoreImpl.setCurrentLevel(waterPercentage * currentVolume);
-                myNitrogenStoreImpl.setCurrentLevel(nitrogenPercentage * currentVolume);
+                    volumeScalingFactor = 0.50f; // 50% reduction
+                currentVolume *= volumeScalingFactor;
+                for (EnvironmentStoreImpl store : myEnvironmentStores)
+                    store.setCurrentLevel(store.getCurrentLevel() * volumeScalingFactor);
                 currentMalfunction.setPerformed(true);
             }
         }
