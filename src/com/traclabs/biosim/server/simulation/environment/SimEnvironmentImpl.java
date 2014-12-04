@@ -78,7 +78,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
 
     /**
      * Creates a SimEnvironment (with a currentVolume of 100000 liters) and
-     * resets the gas levels to correct percentages of sea level air
+     * sets the gas levels to correct percentages of sea level air
      */
     public SimEnvironmentImpl(int pID, String pName) {
         this(pID, 100000, pName);
@@ -96,7 +96,7 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
     }
 
     /**
-     * Creates a SimEnvironment with a set initial currentVolume and resets the
+     * Creates a SimEnvironment with a set initial currentVolume and sets the
      * gas levels to correct percentages of sea level air.
      * 
      * @param pInitialVolume
@@ -146,7 +146,8 @@ public class SimEnvironmentImpl extends PassiveModuleImpl implements
 	}
 
     /**
-     * Resets gas levels to correct percentages of sea level air
+     * Resets environment volume and gas levels and percentages
+     * to initial values
      */
     public void reset() {
         super.reset();
