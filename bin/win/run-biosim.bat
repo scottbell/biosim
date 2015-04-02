@@ -1,5 +1,7 @@
 @echo off
 @echo starting biosim
+IF [%BIOSIM_HOME%] == [] (set BIOSIM_HOME="..\..")
+echo BIOSIM_HOME to set to %BIOSIM_HOME%
 set mainClass=com.traclabs.biosim.framework.BiosimStandalone
 set buildDir="%BIOSIM_HOME%\build"
 set jacoOrbClass=org.omg.CORBA.ORBClass=org.jacorb.orb.ORB
