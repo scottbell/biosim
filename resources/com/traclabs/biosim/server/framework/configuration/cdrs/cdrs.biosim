@@ -19,9 +19,9 @@
 				<powerConsumer inputs="CDRS_Air_Inlet_Power_Store CDRS_Air_Return_Power_Store CDRS_CO2_Isolation_Power_Store CDRS_CO2_Vent_Power_Store CDRS_Primary_Heater_Power_Store CDRS_Secondary_Heater_Power_Store CDRS_Power_Store General_Power_Store General_Power_Store" desiredFlowRates="100 100 100 100 100 100 100 100 100" maxFlowRates="100 100 100 100 100 100 100 100 100"/>
 				<greyWaterConsumer inputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
 				<greyWaterProducer outputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
-				<airConsumer inputs="Crew_Quarters" desiredFlowRates="10" maxFlowRates="10"/>
-				<airProducer outputs="Crew_Quarters" desiredFlowRates="10" maxFlowRates="10"/>
-				<CO2Producer outputs="CO2_Store" desiredFlowRates="10" maxFlowRates="10"/>
+				<airConsumer inputs="Crew_Quarters" desiredFlowRates="1000" maxFlowRates="1000"/>
+				<airProducer outputs="Crew_Quarters" desiredFlowRates="1000" maxFlowRates="1000"/>
+				<CO2Producer outputs="CO2_Store" desiredFlowRates="1000" maxFlowRates="1000"/>
 			</CDRS>
 			<OGS moduleName="OGS">
 				<powerConsumer inputs="General_Power_Store" desiredFlowRates="1000" maxFlowRates="1000"/>
@@ -140,6 +140,7 @@
 		<environment>
 			<AirInFlowRateSensor input="CDRS" moduleName="CDRS_Air_Influent_Sensor" index="0"/>
 			<AirOutFlowRateSensor input="CDRS" moduleName="CDRS_Air_Effluent_Sensor" index="0"/>
+			<GasConcentrationSensor input="Crew_Quarters" moduleName="Co2GasConcentrationSensor" gasType="CO2"/>
 		</environment>
 		<water>
 			<GreyWaterInFlowRateSensor input="CDRS" moduleName="CDRS_Grey_Water_Influent_Sensor" index="0"/>
