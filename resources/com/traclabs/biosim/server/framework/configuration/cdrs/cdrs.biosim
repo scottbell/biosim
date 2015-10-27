@@ -3,22 +3,32 @@
 <biosim xmlns="http://www.traclabs.com/biosim"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
-	<Globals driverStutterLength="500" crewsToWatch="Crew_Quarters_Group" runTillCrewDeath="false"  tickLength="0.002" startPaused="false"/>
+	<Globals driverStutterLength="500" crewsToWatch="Crew_Quarters_Group" runTillCrewDeath="false"  tickLength="1" startPaused="false"/>
 	<SimBioModules>
 		<environment>
 			<SimEnvironment moduleName="Crew_Quarters" initialVolume="2700000"/>
 		</environment>
 		<air>
+			<MethaneStore capacity="0" moduleName="MethaneStore" level="0"/>
+			<NitrogenStore capacity="0" moduleName="NitrogenStore" level="0"/>
 			<CO2Store capacity="1000" moduleName="CO2_Store" level="0"/>
+			<H2Store capacity="10000" moduleName="H2_Store" level="0"/>
+			<O2Store capacity="10000" moduleName="O2_Store" level="1000"/>
 			<CDRS moduleName="CDRS">
 				<normalStochasticFilter deviation="0.005"/>
 				<powerConsumer inputs="CDRS_Air_Inlet_Power_Store CDRS_Air_Return_Power_Store CDRS_CO2_Isolation_Power_Store CDRS_CO2_Vent_Power_Store CDRS_Primary_Heater_Power_Store CDRS_Secondary_Heater_Power_Store CDRS_Power_Store General_Power_Store General_Power_Store" desiredFlowRates="100 100 100 100 100 100 100 100 100" maxFlowRates="100 100 100 100 100 100 100 100 100"/>
 				<greyWaterConsumer inputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
 				<greyWaterProducer outputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
-				<airConsumer inputs="Crew_Quarters" desiredFlowRates="10" maxFlowRates="10"/>
-				<airProducer outputs="Crew_Quarters" desiredFlowRates="10" maxFlowRates="10" />
-				<CO2Producer outputs="CO2_Store" desiredFlowRates="10" maxFlowRates="10" />
+				<airConsumer inputs="Crew_Quarters" desiredFlowRates="1000" maxFlowRates="1000"/>
+				<airProducer outputs="Crew_Quarters" desiredFlowRates="1000" maxFlowRates="1000"/>
+				<CO2Producer outputs="CO2_Store" desiredFlowRates="1000" maxFlowRates="1000"/>
 			</CDRS>
+			<OGS moduleName="OGS">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="1000" maxFlowRates="1000"/>
+				<potableWaterConsumer inputs="Potable_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+				<O2Producer desiredFlowRates="1000" outputs="O2_Store" maxFlowRates="1000"/>
+				<H2Producer desiredFlowRates="1000" outputs="H2_Store" maxFlowRates="1000"/>
+			</OGS>
 		</air>
 		<water>
 			<PotableWaterStore capacity="10000" moduleName="Potable_Water_Store" level="10000"/>
@@ -130,6 +140,7 @@
 		<environment>
 			<AirInFlowRateSensor input="CDRS" moduleName="CDRS_Air_Influent_Sensor" index="0"/>
 			<AirOutFlowRateSensor input="CDRS" moduleName="CDRS_Air_Effluent_Sensor" index="0"/>
+			<GasConcentrationSensor input="Crew_Quarters" moduleName="Co2GasConcentrationSensor" gasType="CO2"/>
 		</environment>
 		<water>
 			<GreyWaterInFlowRateSensor input="CDRS" moduleName="CDRS_Grey_Water_Influent_Sensor" index="0"/>
