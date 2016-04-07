@@ -3,7 +3,7 @@
 <biosim xmlns="http://www.traclabs.com/biosim"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
-	<Globals driverStutterLength="500" runTillCrewDeath="false"  tickLength="1" startPaused="false"/>
+	<Globals driverStutterLength="500" runTillCrewDeath="false"  tickLength="0.01" startPaused="false"/>
 	<SimBioModules>
 		<environment>
 			<SimEnvironment moduleName="Crew_Quarters" initialVolume="2700000">
