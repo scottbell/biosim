@@ -1,0 +1,184 @@
+README.dev.notes
+20160505
+Jim Kramer, jkramer3@traclabs.com
+
+This README consists of notes made during the process of familiarizing
+myself with the biosim software, ultimately with an eye on modifying
+functionality.
+
+**** Background
+
+Useful terms, abbreviation expansions:
+CDRS: Carbon Dioxide Removal System
+ATCS: Active Thermal Control System
+RPC (or RPCM): Remote Power Control Module
+SFCA: System Flow Control Assembly
+PPA: Pump Package Assembly
+TWMV: Three Way Mixing Valve
+IFHX: InterFace Heat eXchanger
+
+Configuration files found in subdirectories of:
+- resources/com/traclabs/biosim/server/framework/configuration
+In particular, using 'cdrs/cdrs.biosim' for reference.
+
+Useful diagram for CDRS: doc/cdrs/cdrs-schematic.pdf
+But note: does the schematic match the 'cdrs/cdrs.biosim' configuration?
+Looks like RPCMs match...
+
+Useful diagram for ATCS: doc/cdrs/atcs-schematic.pdf
+My understanding is that the ATCS diagram has superceded the CDRS diagram,
+IF there are differences (ATCS was a modification/addition/refinement of
+the original setup).
+
+**** Biosim/PRIDE interface
+
+Perhaps the worst (read: severely lacking) aspect of using Biosim as the
+backend system for PRIDE procedures is that there is a total disconnect
+between the Biosim system representation used by PRIDE and Biosim itself.
+That is, PRIDE's biosim sysrep is an OWL ontology (knowledge base in XML
+format, maintained using PRONTOE), but there is no automatable methodology
+that links the ontology contents to Biosim's classes and/or configuration
+files. Worse yet, there is no simple definition or mapping between them;
+one has to examine the source code of PAX's biosim telemetry/command
+classes, tracing individual items back to some combination of the biosim
+configuration and ontology used.
+
+For example, PAX recognizes the command 'RPCMAARPC1CC' (originating from
+a PRIDE procedure), which 'closes' the CDRS power RPCM switch. The member
+variable in PAX is hard coded as 'myBioHolder.theRPCMs.get(4)', where
+'4' is the index into the BioHolder's 'theRPCMs' list (item #5). Indices
+are established in the biosim configuration file; the 5th 'RPCM' entry
+in the 'cdrs.biosim' is:
+
+<RPCM moduleName="CDRS_RPCM">
+	<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+	<powerProducer outputs="CDRS_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+</RPCM>
+
+What's desperately needed here is a utility that reads in a biosim
+configuration file to produce a mapping to members of a Biosim client's
+BioHolder object (the CORBA communication channel between the sim server
+and some client software), then maps those items to specific items in
+the PRIDE ontology. The former seems doable to me, as it's just a
+matter of accurate bookkeeping; I'm not sure if the latter is even
+possible without a knowledgable expert performing the mapping.
+
+I suppose that's me at this point; perhaps I could/should (manually)
+create a mapping file that can be read in at PAX startup linking the
+(currently hard-coded) PAX-recognized ontology items to the BioHolder
+objects, with the BioHolder object identifiers coming from the Biosim
+configuration file. Good grief. But wait: biosim has a defined schema
+(i.e., set of '.xsd' files that define objects). That should provide
+the fodder for the configuration file <-> BioHolder mapping.
+
+**** Operations
+
+Program tracing:
+Execution relies on a 'driver'; see 'tick()' method in
+src/com/traclabs/biosim/server/framework/BioDriverImpl.java
+- iterates through modules, calling each one's 'tick()' method
+  in order:
+  - acutators
+  - activeSimModules
+  - passiveSimModules
+  - prioritySimModules
+  - sensors
+
+Types of 'PowerModules':
+  - PowerPS (always PowerProducer?)
+  - PowerStore (can be either PowerProducer or PowerConsumer?)
+  - RPCM (connect PowerProducer and PowerConsumer)
+  - GenericPowerConsumer (always PowerConsumer?)
+
+The RPCM class is in 'src/com/traclabs/biosim/server/simulation/power/RPCMImpl.java'
+RPCMs are classified as 'activeSimModules' and connect PowerProducers
+with PowerConsumers. On a 'tick', the required amount of power is
+'gathered' from the list of PowerConsumers; if enough power is available,
+that amount is then distributed to the PowerProducers. Each RPCM in the
+CDRS setup has a single producer (the 'General Store' in each case) and
+a single consumer.
+
+RPCMs have a switch (that is either open or closed) that can only undergo
+a state change when the switch has been armed. A switch that is 'open'
+cannot gather power.
+
+Task at hand is to modify the CDRS and ATCS commands and components to
+depend on their RPCM state.
+Q: are the RPCMs accessible (directly) from within the CDRS/ATCS modules?
+
+Exploration:
+The ATCS class is in 'src/com/traclabs/biosim/server/simulation/thermal/IATCSImpl.java'
+An ATCS has the following (private) members for operation:
+- PowerConsumerDefinitionImpl
+- GreyWaterConsumerDefinitionImpl
+- GreyWaterProducerDefinitionImpl
+In a single 'tick', the ATCS calls 'gatherPower()' and 'gatherWater()':
+- gatherPower: gets Power from store
+- gatherWater:
+  - checks IFHXValveState and IFHXBypassState for water flow
+  - checks IatcsState=='operational' and BypassValveState=='flowthrough' and IsolationValveState=='open'
+    - pushes water to resources
+  - else checks any GreyWaterStore exists
+    - gets water, gets water temperature, pushes water/temp to resource
+
+In the 'cdrs.biosim' configuration file, there are two sections (a 'section'
+defines a SimModule) of concern for the ATCS: 1) thermal and 2) power. The
+thermal section appears as follows:
+
+<thermal>
+	<IATCS moduleName="IATCS">
+		<normalStochasticFilter deviation="0.005"/>
+		<powerConsumer inputs="IATCS_SFCA_Power_Store IATCS_PPA_Power_Store IATCS_TWMV_Power_Store" desiredFlowRates="100 100 100" maxFlowRates="100 100 100"/>
+		<greyWaterConsumer inputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+		<greyWaterProducer outputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+	</IATCS>
+</thermal>
+
+Note that there are three (3) 'inputs' listed in the 'powerConsumer' tag.
+The 'power' section contains subsections associated with the inputs (in
+addition to other items); the relevant items appear as follows:
+
+<power>
+	...
+	<PowerStore capacity="100" moduleName="IATCS_SFCA_Power_Store" level="100"/>
+	<PowerStore capacity="100" moduleName="IATCS_PPA_Power_Store" level="100"/>
+	<PowerStore capacity="100" moduleName="IATCS_TWMV_Power_Store" level="100"/>
+	...
+	<RPCM moduleName="IATCS_SFCA_RPCM">
+		<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+		<powerProducer outputs="IATCS_SFCA_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+	</RPCM>
+	<RPCM moduleName="IATCS_PPA_RPCM">
+		<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+		<powerProducer outputs="IATCS_PPA_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+	</RPCM>
+	<RPCM moduleName="IATCS_TWMV_RPCM">
+		<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+		<powerProducer outputs="IATCS_TWMV_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+	</RPCM>
+</power>
+
+Q: it's not clear to me that an RPCm is *necessarily* linked to a power
+store...is it? (Specifically, the 3 RPCMs associated with the 3 power
+stores needed by the thermal system.)
+A: No. Power definitions ('PowerStoreType', 'PowerPSType', 'RPCMType',
+'GenericPowerConsumerType', and 'PowerSimBioModulesType') are found in
+'.../server/framework/schema/simulation/Power.xsd'. Note that 'RPCMType'
+is independent of the others.
+
+Q: Furthermore, it's not clear to me that the ATCS system *explicitly*
+depends on the associated RPCMs. That is, are there actual ATCS commands
+(and telemetry) separate and distinct from the ATCS sub-systems?
+A: Scott say, "Don't do it. Biosim design is intentionally power-source
+agnostic/ignorant. It goes against the design philosophy."
+
+Example(s):
+Ontology ATCS command (obtained from PAX): 'node3IATCSCmd'
+Effect: sets the IATCS state (operational or idle)
+BioHolder method call: 'iatcs.setIatcsState(IATCSState.X)'
+Detail (from biosim's 'IATCSImpl' class):
+- if 'transitionAllowed(state)' method
+  - if 'state' is 'armed' accept (set the state)
+  - otherwise, set state to 'transitioning', set 'stateToTransition' to 'state')
+
+
