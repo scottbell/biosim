@@ -69,7 +69,192 @@ create a mapping file that can be read in at PAX startup linking the
 objects, with the BioHolder object identifiers coming from the Biosim
 configuration file. Good grief. But wait: biosim has a defined schema
 (i.e., set of '.xsd' files that define objects). That should provide
-the fodder for the configuration file <-> BioHolder mapping.
+the fodder for the configuration file <-> BioHolder mapping. In the
+meantime, selected items from the ontology<->PAX<->BioHolder<->biosim
+mapping follows:
+
+## TCS (labITCS, node2ITCS, node3_IATCS)
+# NOTE: PAX 'iatcs.setPpaPumpSpeedCommandStatus' unreachable due to
+#       incorrect commandID of 'node3SFCACmd' (what is correct ID?)
+node3_IATCS_ArmShutDownCommand                node3IATCSarmShutdownCmd
+node3_IATCS_Command                           node3IATCSCmd
+node3_IATCSStatus                             ND3IATCSST
+node3_iatcs_activation                        ND3IATCSACT
+node3_IATCS_input_water_temp                  ND3IATCSIWT
+node3_IATCS_output_water_temp                 ND3IATCSOWT
+node3_IATCSppa
+node3_IATCSppa_speed                          ND3IATCSPPASP
+node3_IATCSsfca
+node3_IATCStwmv
+node3_IsolationValveControlAvailableEnaCommand node3ISOEna
+node3_IsolationValvePositionCommand            node3ISOV
+node3_PPA_ArmPumpSpeedCommand
+node3_SFCASwArmShutDownCommand
+node3_SFCA_Command                            node3SFCACmd
+node3_TWMV_SwSCommand
+node3_ifhx_bypassvalvecntlavail               ND3IFHXBPVCA
+node3_ifhx_bypassvalveposition                ND3IFHXPBVPOS
+node3_ifhx_heater
+node3_ifhx_heater_ssw                         ND3IFHXHTRSSW
+node3_ifhx_isolationvalvecntlavail            ND3IFHXIVCA
+node3_ifhx_isolationvalveposition             ND3IFHXISOVPOS
+node3_ppapumpspeedcommand
+node3_sfca_sw_status                          ND3SFCAST
+node3_twmv_sw_status                          ND3TWMVSWST
+node3ltl_bypass
+node3ltl_isolation
+node3_Heater_SwCommand                        node3HtrSWCmd
+                                              node3BPEna
+node3_ByPassValveFlowThruEnaCommand           node3BPVTTEnaCmd
+node3_ByPassValvePositionCommand              node3BPCmd
+node3_ByPassValveBypassEnaCommand             node3BPVBPEnaCmd
+
+## RpcmLssmA41B4AA_RPC_1 (CDRS RPCM):
+-RpcmLssmA41B4AA_RPC_1_PositionCmd
+-RpcmLssmA41B4AA_RPC_1_TripStatus
+RpcmLssmA41B4AA_RPC_1_InhStatus      RPCMAARPC1IS
+RpcmLssmA41B4AA_RPC_1_InhibitCmd     <...>         myCDRSPowerRPCM.setArmedStatus   * ^
+RpcmLssmA41B4AA_RPC_1_InhibitStatus  <...>         myCDRSPowerRPCM.getArmedStatus() * ^
+RpcmLssmA41B4AA_RPC_1_PositionStatus RPCMAARPC1PS  myCDRSPowerRPCM.getSwitchState() * ^
+RpcmLssmA41B4AA_RPC_1_CloseCmd       RPCMAARPC1CC  myCDRSPowerRPCM.setSwitchState   * ^
+RpcmLssmA41B4AA_RPC_1_CloseEnaCmd    RPCMAARPC1CEC myCDRSPowerRPCM.setArmedStatus   * ^
+RpcmLssmA41B4AA_RPC_1_CloseInhCmd    RPCMAARPC1CIC myCDRSPowerRPCM.setArmedStatus   * ^
+RpcmLssmA41B4AA_RPC_1_CloseInhStatus RPCMAARPC1CIS myCDRSPowerRPCM.getArmedStatus() * ^
+RpcmLssmA41B4AA_RPC_1_OpenCmd        RPCMAARPC1OC  myCDRSPowerRPCM.setSwitchState   * ^
+RpcmLssmA41B4AA_RPC_1_OpenInhStatus  RPCMAARPC1OIS myCDRSPowerRPCM.getArmedStatus() * ^
+*: myBioHolder.theRPCMs.get(4)
+^: <RPCM moduleName="CDRS_RPCM">
+     <powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+     <powerProducer outputs="CDRS_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+   </RPCM>
+
+## RpcmLssmA41B4AA_RPC_2 (IATCS SFCA RPCM):
+-RpcmLssmA41B4AA_RPC_2_TripStatus
+-RpcmLssmA41B4AA_RPC_2_InhStatus     RPCMAARPC2IS
+-RpcmLssmA41B4AA_RPC_2_CloseCmd      RPCMAARPC2CC
+-RpcmLssmA41B4AA_RPC_2_CloseEnaCmd   RPCMAARPC2CEC
+-RpcmLssmA41B4AA_RPC_2_CloseInhCmd   RPCMAARPC2CIC
+-RpcmLssmA41B4AA_RPC_2_OpenCmd       RPCMAARPC2OC
+RpcmLssmA41B4AA_RPC_2_PositionCmd    <...>         iatcsRPCM1.setSwitchState   * ^
+RpcmLssmA41B4AA_RPC_2_InhibitCmd     <...>         iatcsRPCM1.setArmedStatus   * ^
+RpcmLssmA41B4AA_RPC_2_InhibitStatus  <...>         iatcsRPCM1.getArmedStatus() * ^
+RpcmLssmA41B4AA_RPC_2_PositionStatus RPCMAARPC2PS  iatcsRPCM1.getSwitchState() * ^
+*: myBioHolder.theRPCMs.get(7)
+^: <RPCM moduleName="IATCS_SFCA_RPCM">
+     <powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+     <powerProducer outputs="IATCS_SFCA_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+   </RPCM>
+
+## RpcmLssmA41B4AA_RPC_3 (IATCS PPA RPCM):
+-RpcmLssmA41B4AA_RPC_3_TripStatus
+-RpcmLssmA41B4AA_RPC_3_InhStatus     RPCMAARPC3IS
+-RpcmLssmA41B4AA_RPC_3_CloseCmd      RPCMAARPC3CC
+-RpcmLssmA41B4AA_RPC_3_CloseEnaCmd   RPCMAARPC3CEC
+-RpcmLssmA41B4AA_RPC_3_CloseInhCmd   RPCMAARPC3CIC
+-RpcmLssmA41B4AA_RPC_3_OpenCmd       RPCMAARPC3OC
+-RpcmLssmA41B4AA_RPC_3_PositionCmd    <...>         
+-RpcmLssmA41B4AA_RPC_3_InhibitCmd     <...>         
+RpcmLssmA41B4AA_RPC_3_InhibitStatus  <...>         iatcsRPCM2.getArmedStatus() * ^
+RpcmLssmA41B4AA_RPC_3_PositionStatus RPCMAARPC3PS  iatcsRPCM2.getSwitchState() * ^
+*: myBioHolder.theRPCMs.get(8)
+^: <RPCM moduleName="IATCS_PPA_RPCM">
+     <powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+     <powerProducer outputs="IATCS_PPA_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+   </RPCM>
+
+## RpcmLssmA41B4AA_RPC_4 (IATCS TWMV RPCM):
+-RpcmLssmA41B4AA_RPC_4_TripStatus
+-RpcmLssmA41B4AA_RPC_4_InhStatus     RPCMAARPC4IS
+-RpcmLssmA41B4AA_RPC_4_CloseCmd      RPCMAARPC4CC
+-RpcmLssmA41B4AA_RPC_4_CloseEnaCmd   RPCMAARPC4CEC
+-RpcmLssmA41B4AA_RPC_4_CloseInhCmd   RPCMAARPC4CIC
+-RpcmLssmA41B4AA_RPC_4_OpenCmd       RPCMAARPC4OC
+RpcmLssmA41B4AA_RPC_4_PositionCmd    <...>         iatcsRPCM3.setSwitchState   * ^
+RpcmLssmA41B4AA_RPC_4_InhibitCmd     <...>         iatcsRPCM3.setArmedStatus   * ^
+RpcmLssmA41B4AA_RPC_4_InhibitStatus  <...>         iatcsRPCM3.getArmedStatus() * ^
+RpcmLssmA41B4AA_RPC_4_PositionStatus RPCMAARPC4PS  iatcsRPCM3.getSwitchState() * ^
+*: myBioHolder.theRPCMs.get(9)
+^: <RPCM moduleName="IATCS_TWMV_RPCM">
+     <powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+     <powerProducer outputs="IATCS_TWMV_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+   </RPCM>
+
+## RpcmLssm1B4AB1_RPC_1 (CDRS Air Inlet RPCM):
+-RpcmLssm1B4AB1_RPC_1_TripStatus
+-RpcmLssm1B4AB1_RPC_1_InhStatus     RPCMABRPC1IS
+RpcmLssm1B4AB1_RPC_1_CloseInhStatus RPCMABRPC1CIS myAirInletRPCM.getArmedStatus() * ^
+RpcmLssm1B4AB1_RPC_1_CloseEnaCmd    RPCMABRPC1CEC myAirInletRPCM.setArmedStatus   * ^
+RpcmLssm1B4AB1_RPC_1_CloseInhCmd    RPCMABRPC1CIC myAirInletRPCM.setArmedStatus   * ^
+RpcmLssm1B4AB1_RPC_1_OpenCmd        RPCMABRPC1OC  myAirInletRPCM.setSwitchState   * ^
+RpcmLssm1B4AB1_RPC_1_CloseCmd       RPCMABRPC1CC  myAirInletRPCM.setSwitchState   * ^
+RpcmLssm1B4AB1_RPC_1_InhibitCmd     <...>         myAirInletRPCM.setArmedStatus   * ^
+RpcmLssm1B4AB1_RPC_1_PositionCmd    <...>         myAirInletRPCM.setSwitchState   * ^
+RpcmLssm1B4AB1_RPC_1_InhibitStatus  <...>         myAirInletRPCM.getArmedStatus() * ^
+RpcmLssm1B4AB1_RPC_1_OpenInhStatus  RPCMABRPC1OIS myAirInletRPCM.getArmedStatus() * ^
+RpcmLssm1B4AB1_RPC_1_PositionStatus RPCMAARPC1PS  myAirInletRPCM.getSwitchState() * ^
+*: myBioHolder.theRPCMs.get(0)
+^: <RPCM moduleName="Air_Inlet_RPCM">
+     <powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+     <powerProducer outputs="CDRS_Air_Inlet_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+   </RPCM>
+
+## RpcmLssm1B4AB1_RPC_2 (CDRS Air Return RPCM):
+-RpcmLssm1B4AB1_RPC_2_TripStatus
+-RpcmLssm1B4AB1_RPC_2_InhStatus     RPCMABRPC2IS
+RpcmLssm1B4AB1_RPC_2_CloseInhStatus RPCMABRPC2CIS myAirReturnRPCM.getArmedStatus() * ^
+RpcmLssm1B4AB1_RPC_2_CloseEnaCmd    RPCMABRPC2CEC myAirReturnRPCM.setArmedStatus   * ^
+RpcmLssm1B4AB1_RPC_2_CloseInhCmd    RPCMABRPC2CIC myAirReturnRPCM.setArmedStatus   * ^
+RpcmLssm1B4AB1_RPC_2_OpenCmd        RPCMABRPC2OC  myAirReturnRPCM.setSwitchState   * ^
+RpcmLssm1B4AB1_RPC_2_CloseCmd       RPCMABRPC2CC  myAirReturnRPCM.setSwitchState   * ^
+RpcmLssm1B4AB1_RPC_2_InhibitCmd     <...>         myAirReturnRPCM.setArmedStatus   * ^
+RpcmLssm1B4AB1_RPC_2_PositionCmd    <...>         myAirReturnRPCM.setSwitchState   * ^
+RpcmLssm1B4AB1_RPC_2_InhibitStatus  <...>         myAirReturnRPCM.getArmedStatus() * ^
+RpcmLssm1B4AB1_RPC_2_OpenInhStatus  RPCMABRPC2OIS myAirReturnRPCM.getArmedStatus() * ^
+RpcmLssm1B4AB1_RPC_2_PositionStatus RPCMABRPC2PS  myAirReturnRPCM.getSwitchState() * ^
+*: myBioHolder.theRPCMs.get(1)
+^: <RPCM moduleName="Air_Return_RPCM">
+     <powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+     <powerProducer outputs="CDRS_Air_Return_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+   </RPCM>
+
+## RpcmLssm1B4AB1_RPC_3 (CDRS CO2 Isolation RPCM):
+-RpcmLssm1B4AB1_RPC_3_TripStatus
+-RpcmLssm1B4AB1_RPC_3_InhStatus     RPCMABRPC3IS
+RpcmLssm1B4AB1_RPC_3_CloseInhStatus RPCMABRPC3CIS myCO2IsolationRPCM.getArmedStatus() * ^
+RpcmLssm1B4AB1_RPC_3_CloseEnaCmd    RPCMABRPC3CEC myCO2IsolationRPCM.setArmedStatus   * ^
+RpcmLssm1B4AB1_RPC_3_CloseInhCmd    RPCMABRPC3CIC myCO2IsolationRPCM.setArmedStatus   * ^
+RpcmLssm1B4AB1_RPC_3_OpenCmd        RPCMABRPC3OC  myCO2IsolationRPCM.setSwitchState   * ^
+RpcmLssm1B4AB1_RPC_3_CloseCmd       RPCMABRPC3CC  myCO2IsolationRPCM.setSwitchState   * ^
+RpcmLssm1B4AB1_RPC_3_InhibitCmd     <...>         myCO2IsolationRPCM.setArmedStatus   * ^
+RpcmLssm1B4AB1_RPC_3_PositionCmd    <...>         myCO2IsolationRPCM.setSwitchState   * ^
+RpcmLssm1B4AB1_RPC_3_InhibitStatus  <...>         myCO2IsolationRPCM.getArmedStatus() * ^
+RpcmLssm1B4AB1_RPC_3_OpenInhStatus  RPCMABRPC3OIS myCO2IsolationRPCM.getArmedStatus() * ^
+RpcmLssm1B4AB1_RPC_3_PositionStatus RPCMABRPC3PS  myCO2IsolationRPCM.getSwitchState() * ^
+*: myBioHolder.theRPCMs.get(2)
+^: <RPCM moduleName="CO2_Isolation_RPCM">
+     <powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+     <powerProducer outputs="CDRS_CO2_Isolation_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+   </RPCM>
+
+## RpcmLssm1B4AB1_RPC_4 (CDRS CO2 Vent RPCM):
+-RpcmLssm1B4AB1_RPC_4_TripStatus
+-RpcmLssm1B4AB1_RPC_4_InhStatus     RPCMABRPC4IS
+RpcmLssm1B4AB1_RPC_4_CloseInhStatus RPCMABRPC4CIS myCO2VentRPCM.getArmedStatus() * ^
+RpcmLssm1B4AB1_RPC_4_CloseEnaCmd    RPCMABRPC4CEC myCO2VentRPCM.setArmedStatus   * ^
+RpcmLssm1B4AB1_RPC_4_CloseInhCmd    RPCMABRPC4CIC myCO2VentRPCM.setArmedStatus   * ^
+RpcmLssm1B4AB1_RPC_4_OpenCmd        RPCMABRPC4OC  myCO2VentRPCM.setSwitchState   * ^
+RpcmLssm1B4AB1_RPC_4_CloseCmd       RPCMABRPC4CC  myCO2VentRPCM.setSwitchState   * ^
+RpcmLssm1B4AB1_RPC_4_InhibitCmd     <...>         myCO2VentRPCM.setArmedStatus   * ^
+RpcmLssm1B4AB1_RPC_4_PositionCmd    <...>         myCO2VentRPCM.setSwitchState   * ^
+RpcmLssm1B4AB1_RPC_4_InhibitStatus  <...>         myCO2VentRPCM.getArmedStatus() * ^
+RpcmLssm1B4AB1_RPC_4_OpenInhStatus  RPCMABRPC4OIS myCO2VentRPCM.getArmedStatus() * ^
+RpcmLssm1B4AB1_RPC_4_PositionStatus RPCMABRPC4PS  myCO2VentRPCM.getSwitchState() * ^
+*: myBioHolder.theRPCMs.get(3)
+^: <RPCM moduleName="CO2_Vent_RPCM">
+     <powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+     <powerProducer outputs="CDRS_CO2_Vent_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+   </RPCM>
+
 
 **** Operations
 
