@@ -30,75 +30,94 @@ import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinitionIm
 
 public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperations, PowerConsumerOperations, AirConsumerOperations, AirProducerOperations, CO2ProducerOperations
 , GreyWaterConsumerOperations, GreyWaterProducerOperations{
-    //Consumers, Producers
-    private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
+	//Consumers, Producers
+	private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
 
-    private GreyWaterConsumerDefinitionImpl myGreyWaterConsumerDefinitionImpl;
+	private GreyWaterConsumerDefinitionImpl myGreyWaterConsumerDefinitionImpl;
 
-    private GreyWaterProducerDefinitionImpl myGreyWaterProducerDefinitionImpl;
+	private GreyWaterProducerDefinitionImpl myGreyWaterProducerDefinitionImpl;
 
-    private AirConsumerDefinitionImpl myAirConsumerDefinitionImpl;
+	private AirConsumerDefinitionImpl myAirConsumerDefinitionImpl;
 
-    private AirProducerDefinitionImpl myAirProducerDefinitionImpl;
+	private AirProducerDefinitionImpl myAirProducerDefinitionImpl;
 
-    private CO2ProducerDefinitionImpl myCO2ProducerDefinitionImpl;
-    
-    private CDRSState myState = CDRSState.inactive;
-    private CDRSArmedStatus myArmedStatus = CDRSArmedStatus.not_armed;
-    private CDRSValveState myAirInletValveState = CDRSValveState.open;
-    private CDRSCommandStatus myAirInletValveEnabledStatus = CDRSCommandStatus.enabled;
-    private CDRSValveState myAirReturnValveState = CDRSValveState.open;
-    private CDRSCommandStatus myAirReturnValveEnabledStatus = CDRSCommandStatus.enabled;
-    private CDRSValveState myCO2IsolationValveState = CDRSValveState.open;
-    private CDRSCommandStatus myCO2IsolationValveEnabledStatus = CDRSCommandStatus.enabled;
-    private CDRSValveState myCO2VentValveState = CDRSValveState.open;
-    private CDRSCommandStatus myCO2VentValveEnabledStatus = CDRSCommandStatus.enabled;
-    private CDRSPowerState myWaterPumpState = CDRSPowerState.off;
-    private CDRSCommandStatus myWaterPumpEnabledStatus = CDRSCommandStatus.enabled;
-    private CDRSPowerState myBlowerState = CDRSPowerState.off;
-    private CDRSCommandStatus myBlowerEnabledStatus = CDRSCommandStatus.enabled;
-    private CDRSDayNightState myDayNightState = CDRSDayNightState.day;
-    
-    private static final int AIR_INLET_VALVE_POWER_INDEX = 0;
-    private static final int AIR_RETURN_VALVE_POWER_INDEX = 1;
-    private static final int CO2_ISOLATION_VALVE_POWER_INDEX = 2;
-    private static final int CO2_VENT_VALVE_POWER_INDEX = 3;
-    private static final int CDRS_POWER_INDEX = 4;
-    private static final int PRIMARY_HEATER_POWER_INDEX = 5;
-    private static final int SECONDARY_HEATER_POWER_INDEX = 6;
-    private static final int WATER_PUMP_POWER_INDEX = 7;
-    private static final int BLOWER_POWER_INDEX = 8;
-    
-    private float myPrimaryHeaterProduction = 0;
-    private float mySecondaryHeaterProduction = 0;
-    private static final float MAX_HEATER_PRODUCTION = 200;
-    private CDRSState myStateToTransition = CDRSState.transitioning;
-    private final static int TICKS_TO_WAIT = 20;
-    private int myTicksWaited = 0;
-    
-    public CDRSModuleImpl(int pID, String pName) {
-        super(pID, pName);
-        myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
-        myGreyWaterConsumerDefinitionImpl = new GreyWaterConsumerDefinitionImpl(this);
-        myGreyWaterProducerDefinitionImpl = new GreyWaterProducerDefinitionImpl(this);
-        myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl(this);
-        myAirProducerDefinitionImpl = new AirProducerDefinitionImpl(this);
-        myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl(this);
-    }
-    
-    public void tick() {
-        super.tick();
-        gatherPower();
-        gatherAir();
-        gatherWater();
-        if (myStateToTransition != CDRSState.transitioning){
-        	myTicksWaited++;
-        	if (myTicksWaited >= TICKS_TO_WAIT)
-        		transitionState();
-        }
-    }
-
-    private void gatherWater() {
+	private CO2ProducerDefinitionImpl myCO2ProducerDefinitionImpl;
+	
+	private CDRSState myState = CDRSState.inactive;
+	private CDRSArmedStatus myArmedStatus = CDRSArmedStatus.not_armed;
+	private CDRSValveState myAirInletValveState = CDRSValveState.open;
+	private CDRSCommandStatus myAirInletValveEnabledStatus = CDRSCommandStatus.enabled;
+	private CDRSValveState myAirReturnValveState = CDRSValveState.open;
+	private CDRSCommandStatus myAirReturnValveEnabledStatus = CDRSCommandStatus.enabled;
+	private CDRSValveState myCO2IsolationValveState = CDRSValveState.open;
+	private CDRSCommandStatus myCO2IsolationValveEnabledStatus = CDRSCommandStatus.enabled;
+	private CDRSValveState myCO2VentValveState = CDRSValveState.open;
+	private CDRSCommandStatus myCO2VentValveEnabledStatus = CDRSCommandStatus.enabled;
+	private CDRSPowerState myWaterPumpState = CDRSPowerState.off;
+	private CDRSCommandStatus myWaterPumpEnabledStatus = CDRSCommandStatus.enabled;
+	private CDRSPowerState myBlowerState = CDRSPowerState.off;
+	private CDRSCommandStatus myBlowerEnabledStatus = CDRSCommandStatus.enabled;
+	private CDRSDayNightState myDayNightState = CDRSDayNightState.day;
+	
+	// flags to determine if the CDRS has enough power to function
+	private boolean hasPowerAirInlet = false;
+	private boolean hasPowerAirReturn = false;
+	private boolean hasPowerCo2Isolation = false;
+	private boolean hasPowerCo2Vent = false;
+	private boolean hasPowerCdrs = false;
+	
+	// TODO: these indices are wrong?! cdrs.biosim says:
+	// <powerConsumer inputs="CDRS_Air_Inlet_Power_Store
+	//                        CDRS_Air_Return_Power_Store 
+	//                        CDRS_CO2_Isolation_Power_Store 
+	//                        CDRS_CO2_Vent_Power_Store 
+	//                        CDRS_Primary_Heater_Power_Store 
+	//                        CDRS_Secondary_Heater_Power_Store 
+	//                        CDRS_Power_Store 
+	//                        General_Power_Store 
+	//                        General_Power_Store"
+	//                 desiredFlowRates="100 100 100 100 100 100 100 100 100"
+	//                 maxFlowRates="100 100 100 100 100 100 100 100 100"/>
+	private static final int AIR_INLET_VALVE_POWER_INDEX = 0;
+	private static final int AIR_RETURN_VALVE_POWER_INDEX = 1;
+	private static final int CO2_ISOLATION_VALVE_POWER_INDEX = 2;
+	private static final int CO2_VENT_VALVE_POWER_INDEX = 3;
+	private static final int CDRS_POWER_INDEX = 4;
+	private static final int PRIMARY_HEATER_POWER_INDEX = 5;
+	private static final int SECONDARY_HEATER_POWER_INDEX = 6;
+	private static final int WATER_PUMP_POWER_INDEX = 7;
+	private static final int BLOWER_POWER_INDEX = 8;
+	
+	private float myPrimaryHeaterProduction = 0;
+	private float mySecondaryHeaterProduction = 0;
+	private static final float MAX_HEATER_PRODUCTION = 200;
+	private CDRSState myStateToTransition = CDRSState.transitioning;
+	private final static int TICKS_TO_WAIT = 20;
+	private int myTicksWaited = 0;
+	
+	public CDRSModuleImpl(int pID, String pName) {
+		super(pID, pName);
+		myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
+		myGreyWaterConsumerDefinitionImpl = new GreyWaterConsumerDefinitionImpl(this);
+		myGreyWaterProducerDefinitionImpl = new GreyWaterProducerDefinitionImpl(this);
+		myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl(this);
+		myAirProducerDefinitionImpl = new AirProducerDefinitionImpl(this);
+		myCO2ProducerDefinitionImpl = new CO2ProducerDefinitionImpl(this);
+	}
+	
+	public void tick() {
+		super.tick();
+		gatherPower();
+		gatherAir();
+		gatherWater();
+		if (myStateToTransition != CDRSState.transitioning){
+			myTicksWaited++;
+			if (myTicksWaited >= TICKS_TO_WAIT)
+				transitionState();
+		}
+	}
+	
+	private void gatherWater() {
 		float waterGathered = myGreyWaterConsumerDefinitionImpl.getMostResourceFromStores();
 		if ((getState() == CDRSState.init) || (getState() == CDRSState.inactive) || (getState() == CDRSState.transitioning)){
 			myGreyWaterProducerDefinitionImpl.pushResourceToStores(waterGathered, 22f);
@@ -109,23 +128,23 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	private void gatherAir() {
-        Air airConsumed = myAirConsumerDefinitionImpl.getMostAirFromEnvironments();
-        float co2Produced = 0;
-        if (myState == CDRSState.dual_bed){
-        	co2Produced = airConsumed.co2Moles;
-        	airConsumed.co2Moles = 0;
-        }
-        else if (myState == CDRSState.single_bed){
-        	co2Produced = airConsumed.co2Moles / 2;
-        	airConsumed.co2Moles = co2Produced;
-        }
-        
-        myAirProducerDefinitionImpl.pushAirToEnvironment(airConsumed, 0);
-        myCO2ProducerDefinitionImpl.pushResourceToStores(co2Produced);
+		Air airConsumed = myAirConsumerDefinitionImpl.getMostAirFromEnvironments();
+		float co2Produced = 0;
+		if (myState == CDRSState.dual_bed){
+			co2Produced = airConsumed.co2Moles;
+			airConsumed.co2Moles = 0;
+		}
+		else if (myState == CDRSState.single_bed){
+			co2Produced = airConsumed.co2Moles / 2;
+			airConsumed.co2Moles = co2Produced;
+		}
+		
+		myAirProducerDefinitionImpl.pushAirToEnvironment(airConsumed, 0);
+		myCO2ProducerDefinitionImpl.pushResourceToStores(co2Produced);
 	}
 
 	private void transitionState() {
-    	if (myStateToTransition == CDRSState.init)
+		if (myStateToTransition == CDRSState.init)
 			transitionToInit();
 		else if (myStateToTransition == CDRSState.standby)
 			transitionToStandby();
@@ -135,23 +154,93 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 			transitionToSingleBed();
 		else if (myStateToTransition == CDRSState.inactive)
 			transitionToInactive();
-    	myTicksWaited = 0;
-    	myStateToTransition = CDRSState.transitioning;
+		myTicksWaited = 0;
+		myStateToTransition = CDRSState.transitioning;
 	}
-
+	
 	private void gatherPower() {
-    	float cdrsPower = myPowerConsumerDefinitionImpl.getMostResourceFromStore(CDRS_POWER_INDEX);
-    	//fix cdrs
-    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(AIR_INLET_VALVE_POWER_INDEX);
-    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(AIR_RETURN_VALVE_POWER_INDEX);
-    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(CO2_ISOLATION_VALVE_POWER_INDEX);
-    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(CO2_VENT_VALVE_POWER_INDEX);
-    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(PRIMARY_HEATER_POWER_INDEX);
-    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(SECONDARY_HEATER_POWER_INDEX);
-    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(WATER_PUMP_POWER_INDEX);
-    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(BLOWER_POWER_INDEX);
+		// sparse method, expect to add check for enough power in the future
+		//float powerNeeded = ;
+		float powerAvailable = setPowerAvailability();
+		powerAvailable += myPowerConsumerDefinitionImpl.getMostResourceFromStore(PRIMARY_HEATER_POWER_INDEX);
+		powerAvailable += myPowerConsumerDefinitionImpl.getMostResourceFromStore(SECONDARY_HEATER_POWER_INDEX);
+		//currentPowerConsumed = powerAvailable;
 	}
-
+	
+	/** Check power availability for particular power sources, reacting if
+	 * supply is insufficient, then recording unavailability. Reactions to
+	 * insufficient power must be handled prior to recording, as the flags
+	 * are used to prevent associated commands. */
+	private float setPowerAvailability() {
+		float powerAvailable = 0; // running total
+		// air inlet power
+		float powerAirInlet = myPowerConsumerDefinitionImpl.getMostResourceFromStore(AIR_INLET_VALVE_POWER_INDEX);
+		if (powerAirInlet < myPowerConsumerDefinitionImpl.getDesiredFlowRate(AIR_INLET_VALVE_POWER_INDEX)) {
+			hasPowerAirInlet = false;
+		} else {
+			hasPowerAirInlet = true;
+		}
+		powerAvailable += powerAirInlet;
+		
+		// air return power
+		float powerAirReturn = myPowerConsumerDefinitionImpl.getMostResourceFromStore(AIR_RETURN_VALVE_POWER_INDEX);
+		if (powerAirReturn < myPowerConsumerDefinitionImpl.getDesiredFlowRate(AIR_RETURN_VALVE_POWER_INDEX)) {
+			hasPowerAirReturn = false;
+		} else {
+			hasPowerAirReturn = true;
+		}
+		powerAvailable += powerAirReturn;
+		
+		// co2 isolation power
+		float powerCo2Isolation = myPowerConsumerDefinitionImpl.getMostResourceFromStore(CO2_ISOLATION_VALVE_POWER_INDEX);
+		if (powerCo2Isolation < myPowerConsumerDefinitionImpl.getDesiredFlowRate(CO2_ISOLATION_VALVE_POWER_INDEX)) {
+			hasPowerCo2Isolation = false;
+		} else {
+			hasPowerCo2Isolation = true;
+		}
+		powerAvailable += powerCo2Isolation;
+		
+		// co2 vent power
+		float powerCo2Vent = myPowerConsumerDefinitionImpl.getMostResourceFromStore(CO2_VENT_VALVE_POWER_INDEX);
+		if (powerCo2Vent < myPowerConsumerDefinitionImpl.getDesiredFlowRate(CO2_VENT_VALVE_POWER_INDEX)) {
+			hasPowerCo2Vent = false;
+		} else {
+			hasPowerCo2Vent = true;
+		}
+		powerAvailable += powerCo2Vent;
+		
+		// cdrs power
+		float powerCdrs = myPowerConsumerDefinitionImpl.getMostResourceFromStore(CDRS_POWER_INDEX);
+		if (powerCdrs < myPowerConsumerDefinitionImpl.getDesiredFlowRate(CDRS_POWER_INDEX)) {
+			myArmedStatus = CDRSArmedStatus.armed;
+			setState(CDRSState.inactive);
+			hasPowerCdrs = false;
+		} else {
+			hasPowerCdrs = true;
+		}
+		powerAvailable += powerCdrs;
+		
+		// water pump power
+		float powerWaterPump = myPowerConsumerDefinitionImpl.getMostResourceFromStore(WATER_PUMP_POWER_INDEX);
+		if (powerWaterPump < myPowerConsumerDefinitionImpl.getDesiredFlowRate(WATER_PUMP_POWER_INDEX)) {
+			setWaterPumpState(CDRSPowerState.off);
+			hasPowerWaterPump = false;
+		} else {
+			hasPowerWaterPump = true;
+		}
+		powerAvailable += powerWaterPump;
+		
+		float powerBlower = myPowerConsumerDefinitionImpl.getMostResourceFromStore(BLOWER_POWER_INDEX);
+		if (powerBlower < myPowerConsumerDefinitionImpl.getDesiredFlowRate(BLOWER_POWER_INDEX)) {
+			setBlowerState(CDRSPowerState.off);
+			hasPowerBlower = false;
+		} else {
+			hasPowerBlower = true;
+		}
+		powerAvailable += powerBlower;
+		return powerAvailable;
+	}
+	
 	/**
      * Resets production/consumption levels.
      */
@@ -210,6 +299,9 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setState(CDRSState state) {
+		if (!hasPowerCdrs) {
+			return;
+		}
 		if (getArmedStatus() == CDRSArmedStatus.armed){
 			if (transitionAllowed(state)){
 				myState = CDRSState.transitioning;
@@ -239,42 +331,69 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setArmedStatus(CDRSArmedStatus status) {
+		if (!hasPowerCdrs) {
+			return;
+		}
 		this.myArmedStatus = status; 
 	}
 
 	public void setAirInletValveState(CDRSValveState state) {
+		if (!hasPowerAirInlet) {
+			return;
+		}
 		if (getAirInletValveArmedStatus() == CDRSCommandStatus.enabled)
 			this.myAirInletValveState = state;
 	}
 
 	public void setAirInletValveArmedStatus(CDRSCommandStatus status) {
+		if (!hasPowerAirInlet) {
+			return;
+		}
 		this.myAirInletValveEnabledStatus = status;
 	}
 
 	public void setAirReturnValveState(CDRSValveState state) {
+		if (!hasPowerAirReturn) {
+			return;
+		}
 		if (getAirReturnValveArmedStatus() == CDRSCommandStatus.enabled)
 			this.myAirReturnValveState = state;
 	}
 
 	public void setAirReturnValveArmedStatus(CDRSCommandStatus status) {
+		if (!hasPowerAirReturn) {
+			return;
+		}
 		this.myAirReturnValveEnabledStatus = status;
 	}
 
 	public void setCO2IsolationValveState(CDRSValveState state) {
+		if (!hasPowerCo2Isolation) {
+			return;
+		}
 		if (getCO2IsolationValveArmedStatus() == CDRSCommandStatus.enabled)
 			this.myCO2IsolationValveState = state;
 	}
 
 	public void setCO2IsolationValveArmedStatus(CDRSCommandStatus status) {
+		if (!hasPowerCo2Isolation) {
+			return;
+		}
 		this.myCO2IsolationValveEnabledStatus = status;
 	}
 
 	public void setCO2VentValveState(CDRSValveState state) {
+		if (!hasPowerCo2Vent) {
+			return;
+		}
 		if (getCO2VentValveArmedStatus() == CDRSCommandStatus.enabled)
 			this.myCO2VentValveState = state;
 	}
 
 	public void setCO2VentValveArmedStatus(CDRSCommandStatus status) {
+		if (!hasPowerCo2Vent) {
+			return;
+		}
 		this.myCO2VentValveEnabledStatus = status;
 	}
 
@@ -284,6 +403,9 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setWaterPumpArmedStatus(CDRSCommandStatus status) {
+		if (!hasPowerCdrs) {
+			return;
+		}
 		this.myWaterPumpEnabledStatus = status;
 	}
 
@@ -293,10 +415,16 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setBlowerArmedStatus(CDRSCommandStatus status) {
+		if (!hasPowerCdrs) {
+			return;
+		}
 		this.myBlowerEnabledStatus = status;
 	}
 
 	public void setDayNightState(CDRSDayNightState state) {
+		if (!hasPowerCdrs) {
+			return;
+		}
 		this.myDayNightState = state;
 	}
 

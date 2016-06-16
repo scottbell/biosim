@@ -71,43 +71,336 @@ configuration file. Good grief. But wait: biosim has a defined schema
 (i.e., set of '.xsd' files that define objects). That should provide
 the fodder for the configuration file <-> BioHolder mapping. In the
 meantime, selected items from the ontology<->PAX<->BioHolder<->biosim
-mapping follows:
+mapping can be found below (see '**** Mappings' section).
+
+**** Operations
+
+Program tracing:
+Execution relies on a 'driver'; see 'tick()' method in
+src/com/traclabs/biosim/server/framework/BioDriverImpl.java
+- iterates through modules, calling each one's 'tick()' method
+  in order:
+  - acutators
+  - activeSimModules
+  - passiveSimModules
+  - prioritySimModules
+  - sensors
+
+Types of 'PowerModules':
+  - PowerPS (always PowerProducer?)
+  - PowerStore (can be either PowerProducer or PowerConsumer?)
+  - RPCM (connect PowerProducer and PowerConsumer)
+  - GenericPowerConsumer (always PowerConsumer?)
+
+The RPCM class is in 'src/com/traclabs/biosim/server/simulation/power/RPCMImpl.java'
+RPCMs are classified as 'activeSimModules' and connect PowerProducers
+with PowerConsumers. On a 'tick', the required amount of power is
+'gathered' from the list of PowerConsumers; if enough power is available,
+that amount is then distributed to the PowerProducers. Each RPCM in the
+CDRS setup has a single producer (the 'General Store' in each case) and
+a single consumer.
+
+RPCMs have a switch (that is either open or closed) that can only undergo
+a state change when the switch has been armed. A switch that is 'open'
+cannot gather power.
+
+Task at hand is to modify the CDRS and ATCS commands and components to
+depend on their RPCM state.
+Q: are the RPCMs accessible (directly) from within the CDRS/ATCS modules?
+
+Exploration:
+The ATCS class is in 'src/com/traclabs/biosim/server/simulation/thermal/IATCSImpl.java'
+An ATCS has the following (private) members for operation:
+- PowerConsumerDefinitionImpl
+- GreyWaterConsumerDefinitionImpl
+- GreyWaterProducerDefinitionImpl
+In a single 'tick', the ATCS calls 'gatherPower()' and 'gatherWater()':
+- gatherPower: gets Power from store
+- gatherWater:
+  - checks IFHXValveState and IFHXBypassState for water flow
+  - checks IatcsState=='operational' and BypassValveState=='flowthrough' and IsolationValveState=='open'
+    - pushes water to resources
+  - else checks any GreyWaterStore exists
+    - gets water, gets water temperature, pushes water/temp to resource
+
+In the 'cdrs.biosim' configuration file, there are two sections (a 'section'
+defines a SimModule) of concern for the ATCS: 1) thermal and 2) power. The
+thermal section appears as follows:
+
+<thermal>
+	<IATCS moduleName="IATCS">
+		<normalStochasticFilter deviation="0.005"/>
+		<powerConsumer inputs="IATCS_SFCA_Power_Store IATCS_PPA_Power_Store IATCS_TWMV_Power_Store" desiredFlowRates="100 100 100" maxFlowRates="100 100 100"/>
+		<greyWaterConsumer inputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+		<greyWaterProducer outputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+	</IATCS>
+</thermal>
+
+Note that there are three (3) 'inputs' listed in the 'powerConsumer' tag.
+The 'power' section contains subsections associated with the inputs (in
+addition to other items); the relevant items appear as follows:
+
+<power>
+	...
+	<PowerStore capacity="100" moduleName="IATCS_SFCA_Power_Store" level="100"/>
+	<PowerStore capacity="100" moduleName="IATCS_PPA_Power_Store" level="100"/>
+	<PowerStore capacity="100" moduleName="IATCS_TWMV_Power_Store" level="100"/>
+	...
+	<RPCM moduleName="IATCS_SFCA_RPCM">
+		<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+		<powerProducer outputs="IATCS_SFCA_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+	</RPCM>
+	<RPCM moduleName="IATCS_PPA_RPCM">
+		<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+		<powerProducer outputs="IATCS_PPA_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+	</RPCM>
+	<RPCM moduleName="IATCS_TWMV_RPCM">
+		<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+		<powerProducer outputs="IATCS_TWMV_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+	</RPCM>
+</power>
+
+For IATCS, the 'gatherPower()' method relies on obtaining the requisite
+amount of power from 'myPowerConsumerDefinitionImpl.getResourceFromStores',
+utilizing the PowerConsumerDefinitionImpl (PCD) member. PCD subclasses
+'StoreFlowRateControllableImpl' (SFRC), which also provides the method:
+  getMostResourceFromStore(int indexOfStore)
+Note: superclass of SFRC has 'getFlowRateCardinality()', returns # of 'flows'.
+
+
+Q: it's not clear to me that an RPCm is *necessarily* linked to a power
+store...is it? (Specifically, the 3 RPCMs associated with the 3 power
+stores needed by the thermal system.)
+A: No. Power definitions ('PowerStoreType', 'PowerPSType', 'RPCMType',
+'GenericPowerConsumerType', and 'PowerSimBioModulesType') are found in
+'.../server/framework/schema/simulation/Power.xsd'. Note that 'RPCMType'
+is independent of the others.
+
+Q: Furthermore, it's not clear to me that the ATCS system *explicitly*
+depends on the associated RPCMs. That is, are there actual ATCS commands
+(and telemetry) separate and distinct from the ATCS sub-systems?
+A: Scott say, "Don't do it. Biosim design is intentionally power-source
+agnostic/ignorant. It goes against the design philosophy."
+
+Example(s):
+Ontology ATCS command (obtained from PAX): 'node3IATCSCmd'
+Effect: sets the IATCS state (operational or idle)
+BioHolder method call: 'iatcs.setIatcsState(IATCSState.X)'
+Detail (from biosim's 'IATCSImpl' class):
+- if 'transitionAllowed(state)' method
+  - if 'state' is 'armed' accept (set the state)
+  - otherwise, set state to 'transitioning', set 'stateToTransition' to 'state')
+
+
+**** Restatement of modification request
+see: biosim-power-dependency-models.pdf (4 pages; 2 CDRS, 2 ATCS)
+Q for Scott: when off, is there power fluctuation from consumer (e.g.,
+  noise just above/below zero)?
+CDRS (p1): actuators change only if RPC is closed
+1. The following CDRSModuleImpl methods (i.e., commands) can only operate
+IF powerConsumer(CDRS_POWER_INDEX) can supply non-zero power (otherwise,
+either the RPC is open, power exhausted, or source is non-existent)
+  a. setWaterPumpArmedStatus
+  b. setBlowerArmedStatus
+  c. setDayNightState (NOTE: not in ontology?!)
+  d. setArmedStatus
+  e. setState
+
+* NOTE: slide links RPC1 and CO2 Vent, but model links RPC1 to Air Inlet
+*       and RPC4 to CO2 Vent
+2. Following CDRSModuleImpl methods (i.e., commands) can only operate
+IF powerConsumer(CO2_VENT_VALVE_POWER_INDEX) can supply non-zero power
+(otherwise, either the RPC is open, power exhausted, or source is non-existent)
+  a. setCO2VentValveState
+  b. setCO2VentValveArmedStatus
+
+* NOTE: slide links RPC2 and CO2 Isolation, but model links RPC2 to Air Return
+*       and RPC3 to CO2 Isolation
+3. Following CDRSModuleImpl methods (i.e., commands) can only operate
+IF powerConsumer(CO2_ISOLATION_VALVE_POWER_INDEX) can supply non-zero power
+(otherwise, either the RPC is open, power exhausted, or source is non-existent)
+  a. setCO2IsolationValveState
+  b. setCO2IsolationValveArmedStatus
+
+* NOTE: slide links RPC3 and Air Return, but model links RPC3 to CO2 Isolation
+*       and RPC2 to Air Return
+4. Following CDRSModuleImpl methods (i.e., commands) can only operate
+IF powerConsumer(AIR_RETURN_VALVE_POWER_INDEX) can supply non-zero power
+(otherwise, either the RPC is open, power exhausted, or source is non-existent)
+  a. setAirReturnValveState
+  b. setAirReturnValveArmedStatus
+
+* NOTE: slide links RPC4 and Air Inlet, but model links RPC4 to CO2 Vent
+*       and RPC1 to Air Inlet
+4. Following CDRSModuleImpl methods (i.e., commands) can only operate
+IF powerConsumer(AIR_INLET_VALVE_POWER_INDEX) can supply non-zero power
+(otherwise, either the RPC is open, power exhausted, or source is non-existent)
+  a. setAirInletValveState
+  b. setAirInletValveArmedStatus
+
+
+CDRS (p2): components should turn off on power loss
+* NOTE: spec reads 'power withdrawn from CDRS, blower, and water pump';
+* I'm taking that as 'powerConsumer(CDRS_POWER_INDEX)'
+1. IF powerConsumer(CDRS_POWER_INDEX) supplies zero power (i.e.,
+either the RPC is open, power exhausted, or source is non-existent)
+shutdown the following components:
+  a. Water Pump: setWaterPumpState(CDRSPowerState.off); may need to
+     setWaterPumpArmedStatus(CDRSCommandStatus.enabled)
+  b. Blower: NOTE: 'setBlowerState' NOT IN PAX!
+     setBlowerState(CDRSPowerState.off); may need to
+     setBlowerArmedStatus(CDRSCommandStatus.enabled)
+  c. CDRS: setState(CDRSState.inactive); may need to
+     setArmedStatus(CDRSArmedStatus.armed)
+2. IF any of the following supply zero power, the associated
+valve commands don't work (don't fail open or fail closed):
+  a. CVV: powerConsumer(CO2_VENT_VALVE_POWER_INDEX) -> setCO2VentValveState
+  b. CIV: powerConsumer(CO2_ISOLATION_VALVE_POWER_INDEX) -> setCO2IsolationValveState
+  c. ARV: powerConsumer(AIR_RETURN_VALVE_POWER_INDEX) -> setAirReturnValveState
+  d. AIV: powerConsumer(AIR_INLET_VALVE_POWER_INDEX) -> setAirInletValveState
+
+
+ATCS (p3): commands only work if RPC is closed
+1. The following IATCSImpl methods (i.e., commands) can only operate
+IF powerConsumer(SFCA_POWER_INDEX) can supply non-zero power (otherwise,
+either the RPC is open, power exhausted, or source is non-existent)
+  a. setIatcsState (NOTE: same methods, using
+  b. setIatcsState        different parameters)
+
+2. The following IATCSImpl methods (i.e., commands) can only operate
+IF powerConsumer(PPA_POWER_INDEX) can supply non-zero power (otherwise,
+either the RPC is open, power exhausted, or source is non-existent)
+  a. setHeaterSoftwareState
+
+3. The following IATCSImpl methods (i.e., commands) can only operate
+IF powerConsumer(TWMV_POWER_INDEX) can supply non-zero power (otherwise,
+either the RPC is open, power exhausted, or source is non-existent)
+  a. setIsloationValveState
+  b. setBypassValveState
+
+
+ATCS (p4): components should turn off on power loss
+1. IF powerConsumer(SFCA_POWER_INDEX) supplies zero power (i.e.,
+either the RPC is open, power exhausted, or source is non-existent)
+shutdown the following components:
+  a. ATCS shutdown
+  b. SFCA shutdown
+  c. PPA speed sensor -> 0 (shutdown?)
+
+2. IF powerConsumer(PPA_POWER_INDEX) supplies zero power (i.e.,
+either the RPC is open, power exhausted, or source is non-existent)
+shutdown the following components:
+  a. setHeaterSoftwareState(SoftwareState.shutdown)
+
+3. IF following supplies zero power, the associated
+valve commands don't work (don't fail open or fail closed):
+  a. IFHX Bypass Valve: powerConsumer(TWMV_POWER_INDEX) -> setBypassValveState
+  b. IFHX Isolation Valve: powerConsumer(TWMV_POWER_INDEX) -> setIsolationValveState
+
+
+
+
+
+**** Mappings
+The following are selected items from the ontology<->PAX<->BioHolder<->biosim
+mapping. Specifically, the CDRS, IATCS, and related RPCMs as currently used in
+the BioSim cdrs configuration.
+
+## CDRS (CDRS_LSSMB1)
+CDRS_CabinCO2                          cabinCO2                   simEnvironment.getCO2Store().getPressure()
+CDRS_DayNightState                     cdrsDayNightState          myCDRSModule.getDayNightState()
+CDRS_Air_Effluent_Sensor               CDRSairEff                 myAirOutFlowRateSensor.getValue()
+CDRS_Air_Influent_Sensor               CDRSairInf                 myAirInFlowRateSensor.getValue()
+CDRS_CO2_Effluent_Sensor               CDRSco2Eff                 myCO2OutFlowRateSensor.getValue()
+CDRS_Grey_Water_Effluent_Sensor        CDRSgwEff                  myGreyWaterOutFlowRateSensor.getValue()
+CDRS_Grey_Water_Influent_Sensor        CDRSgwInf                  myGreyWaterInFlowRateSensor.getValue()
+CDRS_LSSMB1state                       CDRSTLM2                   myCDRSModule.getState()
+CDRS_LSSMB1Status                      CDRSTLM1                   myCDRSModule.getArmedStatus()
+lssmCdrsArmCommand                     cdrsArmCommand             myCDRSModule.setArmedStatus
+lssmCdrsInitCommand                    cdrsInitCommand            myCDRSModule.setState
+lssmCdrsStandbyCommand                 cdrsStandbyCommand         myCDRSModule.setState
+lssmCdrsSingleBedCommand               cdrsSingleBedCommand       myCDRSModule.setState
+lssmCdrsDoubleBedCommand               cdrsDoubleBedCommand       myCDRSModule.setState
+lssmCdrsInactiveCommand                cdrsInactiveCommand        myCDRSModule.setState
+CDRSblowerLSSMB1                       blowerEnableCommand        myCDRSModule.setBlowerArmedStatus
+CDRSblowerLSSMB1                       blowerInhibitCommand       myCDRSModule.setBlowerArmedStatus
+CDRSblowerLSSMB1                       blowerOnCommand
+CDRSblowerLSSMB1                       blowerSpeedCommand
+CDRSblowerLSSMB1                       blowerOffCommand
+CDRSblowerLSSMB1                       blowerSpeedTelemetry
+CDRSblowerLSSMB1RTStatusCmdStatus      BLOWTLM1                   myCDRSModule.getBlowerArmedStatus()
+CDRSblowerLSSMB1State                  BLOWTLM2                   myCDRSModule.getBlowerState()
+CDRSprimaryHeaterLSSMB1state           PHEATTLM1                  myPrimaryHeaterRPCM.getSwitchState()
+CDRSsecondaryHeaterLSSMB1state         SHEATTLM1                  myPrimaryHeaterRPCM.getSwitchState()
+CDRSwaterPumpLSSMB1                    waterPumpOffCommand        myCDRSModule.setWaterPumpState
+CDRSwaterPumpLSSMB1                    waterPumpOnCommand         myCDRSModule.setWaterPumpState
+CDRSwaterPumpLSSMB1                    waterPumpEnableCommand     myCDRSModule.setWaterPumpArmedStatus
+CDRSwaterPumpLSSMB1                    waterPumpInhibitCommand    myCDRSModule.setWaterPumpArmedStatus
+CDRSwaterPumpLSSMB1RTstatusCmdStatus   WPUMPTLM1                  myCDRSModule.getWaterPumpArmedStatus()
+CDRSwaterPumpLSSMB1state               WPUMPTLM2                  myCDRSModule.getWaterPumpState()
+                                       AIRINTLM                   myCDRSModule.getAirInletValveState()
+CdrsAirInletValve                      airInletEnableCommand      myCDRSModule.setAirInletValveArmedStatus
+CdrsAirInletValve                      airInletOpenCommand        myCDRSModule.setAirInletValveState
+CdrsAirInletValve                      airInletInhibitCommand     myCDRSModule.setAirInletValveArmedStatus
+CdrsAirInletValve                      airInletCloseCommand       myCDRSModule.setAirInletValveState
+CdrsAirInletValvePosition              AIRINTLM2                  myCDRSModule.getAirInletValveState()
+CdrsAirInletValveRTstatusCmdStatus     AIRINTLM1                  myCDRSModule.getAirInletValveArmedStatus()
+CdrsAirReturnValve                     airReturnEnableCommand     myCDRSModule.setAirReturnValveArmedStatus
+CdrsAirReturnValve                     airReturnOpenCommand       myCDRSModule.setAirReturnValveState
+CdrsAirReturnValve                     airReturnInhibitCommand    myCDRSModule.setAirReturnValveArmedStatus
+CdrsAirReturnValve                     airReturnCloseCommand      myCDRSModule.setAirReturnValveState
+CdrsAirReturnValvePosition             AIROUTTLM2                 myCDRSModule.getAirReturnValveState()
+CdrsAirReturnValveRTstatusCmdStatus    AIROUTTLM1                 myCDRSModule.getAirReturnValveArmedStatus()
+CdrsCO2isolationValvePosition          CIVTLM2                    myCDRSModule.getCO2IsolationValveState()
+CdrsCO2isolationValveRTstatusCmdStatus CIVTLM1                    myCDRSModule.getCO2IsolationValveArmedStatus()
+CdrsCO2ventValvePosition               CVVTLM2                    myCDRSModule.getCO2VentValveState()
+CdrsCO2ventValveRTstatusCmdStatus      CVVTLM1                    myCDRSModule.getCO2VentValveArmedStatus()
+blowerSpeedTelemetry                   BlowerSpeed                myCDRSModule.getAirConsumerDefinition().getActualFlowRate
+CO2ventEnableCommand                   co2VentEnableCommand       myCDRSModule.setCO2VentValveArmedStatus
+CO2ventInhibitCommand                  co2VentInhibitCommand      myCDRSModule.setCO2VentValveArmedStatus
+CO2ventOpenCommand                     co2VentOpenCommand         myCDRSModule.setCO2VentValveState
+CO2ventCloseCommand                    co2VentCloseCommand        myCDRSModule.setCO2VentValveState
+CO2isolationEnableCommand              co2IsolationEnableCommand  myCDRSModule.setCO2IsolationValveArmedStatus
+CO2isolationInhibitCommand             co2IsolationInhibitCommand myCDRSModule.setCO2IsolationValveArmedStatus
+CO2isolationCloseCommand               co2IsolationCloseCommand   myCDRSModule.setCO2IsolationValveState
+CO2isolationOpenCommand                co2IsolationOpenCommand    myCDRSModule.setCO2IsolationValveState
+
 
 ## TCS (labITCS, node2ITCS, node3_IATCS)
 # NOTE: PAX 'iatcs.setPpaPumpSpeedCommandStatus' unreachable due to
 #       incorrect commandID of 'node3SFCACmd' (what is correct ID?)
-node3_IATCS_ArmShutDownCommand                node3IATCSarmShutdownCmd
-node3_IATCS_Command                           node3IATCSCmd
-node3_IATCSStatus                             ND3IATCSST
-node3_iatcs_activation                        ND3IATCSACT
-node3_IATCS_input_water_temp                  ND3IATCSIWT
-node3_IATCS_output_water_temp                 ND3IATCSOWT
-node3_IATCSppa
-node3_IATCSppa_speed                          ND3IATCSPPASP
-node3_IATCSsfca
-node3_IATCStwmv
-node3_IsolationValveControlAvailableEnaCommand node3ISOEna
-node3_IsolationValvePositionCommand            node3ISOV
-node3_PPA_ArmPumpSpeedCommand
-node3_SFCASwArmShutDownCommand
-node3_SFCA_Command                            node3SFCACmd
-node3_TWMV_SwSCommand
-node3_ifhx_bypassvalvecntlavail               ND3IFHXBPVCA
-node3_ifhx_bypassvalveposition                ND3IFHXPBVPOS
-node3_ifhx_heater
-node3_ifhx_heater_ssw                         ND3IFHXHTRSSW
-node3_ifhx_isolationvalvecntlavail            ND3IFHXIVCA
-node3_ifhx_isolationvalveposition             ND3IFHXISOVPOS
-node3_ppapumpspeedcommand
-node3_sfca_sw_status                          ND3SFCAST
-node3_twmv_sw_status                          ND3TWMVSWST
-node3ltl_bypass
-node3ltl_isolation
-node3_Heater_SwCommand                        node3HtrSWCmd
-                                              node3BPEna
-node3_ByPassValveFlowThruEnaCommand           node3BPVTTEnaCmd
-node3_ByPassValvePositionCommand              node3BPCmd
-node3_ByPassValveBypassEnaCommand             node3BPVBPEnaCmd
+-node3_IATCSppa
+-node3_IATCSsfca
+-node3_IATCStwmv
+-node3_PPA_ArmPumpSpeedCommand
+-node3_SFCASwArmShutDownCommand
+-node3_TWMV_SwSCommand
+-node3_ifhx_heater
+-node3_ppapumpspeedcommand
+-node3ltl_bypass
+-node3ltl_isolation
+-                                              node3BPEna               iatcs.setBypassValveCommandStatus
+node3_IATCS_ArmShutDownCommand                 node3IATCSarmShutdownCmd iatcs.setIatcsState
+node3_IATCS_Command                            node3IATCSCmd            iatcs.setIatcsState
+node3_IATCSStatus                              ND3IATCSST               iatcs.getIatcsState()
+node3_iatcs_activation                         ND3IATCSACT              iatcs.getActivateState()
+node3_IATCS_input_water_temp                   ND3IATCSIWT              inputWaterStore.getCurrentTemperature()
+node3_IATCS_output_water_temp                  ND3IATCSOWT              outputWaterStore.getCurrentTemperature()
+node3_IATCSppa_speed                           ND3IATCSPPASP            iatcs.getPumpSpeed()
+node3_IsolationValveControlAvailableEnaCommand node3ISOEna              iatcs.setIsolationValveCommandStatus
+node3_IsolationValvePositionCommand            node3ISOV                iatcs.setIsloationValveState
+node3_SFCA_Command                             node3SFCACmd             iatcs.setSfcaSoftwareState
+node3_ifhx_bypassvalvecntlavail                ND3IFHXBPVCA             iatcs.getBypassValveCommandStatus()
+node3_ifhx_bypassvalveposition                 ND3IFHXPBVPOS            iatcs.getBypassValveState()
+node3_ifhx_heater_ssw                          ND3IFHXHTRSSW            iatcs.getHeaterSoftwareState()
+node3_ifhx_isolationvalvecntlavail             ND3IFHXIVCA              iatcs.getIsolationValveCommandStatus()
+node3_ifhx_isolationvalveposition              ND3IFHXISOVPOS           iatcs.getIsloationValveState()
+node3_sfca_sw_status                           ND3SFCAST                iatcs.getSfcaSoftwareState()
+node3_twmv_sw_status                           ND3TWMVSWST              iatcs.getTwvmSoftwareState()
+node3_Heater_SwCommand                         node3HtrSWCmd            iatcs.setHeaterSoftwareState
+node3_ByPassValveFlowThruEnaCommand            node3BPVTTEnaCmd         iatcs.setBypassValveCommandStatus
+node3_ByPassValvePositionCommand               node3BPCmd               iatcs.setBypassValveState
+node3_ByPassValveBypassEnaCommand              node3BPVBPEnaCmd         iatcs.setBypassValveCommandStatus
 
 ## RpcmLssmA41B4AA_RPC_1 (CDRS RPCM):
 -RpcmLssmA41B4AA_RPC_1_PositionCmd
@@ -127,6 +420,8 @@ RpcmLssmA41B4AA_RPC_1_OpenInhStatus  RPCMAARPC1OIS myCDRSPowerRPCM.getArmedStatu
      <powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
      <powerProducer outputs="CDRS_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
    </RPCM>
+
+## RpcmLssmA41B4AA_RPC_1 (CDRS  RPCM):
 
 ## RpcmLssmA41B4AA_RPC_2 (IATCS SFCA RPCM):
 -RpcmLssmA41B4AA_RPC_2_TripStatus
@@ -152,8 +447,8 @@ RpcmLssmA41B4AA_RPC_2_PositionStatus RPCMAARPC2PS  iatcsRPCM1.getSwitchState() *
 -RpcmLssmA41B4AA_RPC_3_CloseEnaCmd   RPCMAARPC3CEC
 -RpcmLssmA41B4AA_RPC_3_CloseInhCmd   RPCMAARPC3CIC
 -RpcmLssmA41B4AA_RPC_3_OpenCmd       RPCMAARPC3OC
--RpcmLssmA41B4AA_RPC_3_PositionCmd    <...>         
--RpcmLssmA41B4AA_RPC_3_InhibitCmd     <...>         
+-RpcmLssmA41B4AA_RPC_3_PositionCmd   <...>         
+-RpcmLssmA41B4AA_RPC_3_InhibitCmd    <...>         
 RpcmLssmA41B4AA_RPC_3_InhibitStatus  <...>         iatcsRPCM2.getArmedStatus() * ^
 RpcmLssmA41B4AA_RPC_3_PositionStatus RPCMAARPC3PS  iatcsRPCM2.getSwitchState() * ^
 *: myBioHolder.theRPCMs.get(8)
@@ -255,115 +550,5 @@ RpcmLssm1B4AB1_RPC_4_PositionStatus RPCMABRPC4PS  myCO2VentRPCM.getSwitchState()
      <powerProducer outputs="CDRS_CO2_Vent_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
    </RPCM>
 
-
-**** Operations
-
-Program tracing:
-Execution relies on a 'driver'; see 'tick()' method in
-src/com/traclabs/biosim/server/framework/BioDriverImpl.java
-- iterates through modules, calling each one's 'tick()' method
-  in order:
-  - acutators
-  - activeSimModules
-  - passiveSimModules
-  - prioritySimModules
-  - sensors
-
-Types of 'PowerModules':
-  - PowerPS (always PowerProducer?)
-  - PowerStore (can be either PowerProducer or PowerConsumer?)
-  - RPCM (connect PowerProducer and PowerConsumer)
-  - GenericPowerConsumer (always PowerConsumer?)
-
-The RPCM class is in 'src/com/traclabs/biosim/server/simulation/power/RPCMImpl.java'
-RPCMs are classified as 'activeSimModules' and connect PowerProducers
-with PowerConsumers. On a 'tick', the required amount of power is
-'gathered' from the list of PowerConsumers; if enough power is available,
-that amount is then distributed to the PowerProducers. Each RPCM in the
-CDRS setup has a single producer (the 'General Store' in each case) and
-a single consumer.
-
-RPCMs have a switch (that is either open or closed) that can only undergo
-a state change when the switch has been armed. A switch that is 'open'
-cannot gather power.
-
-Task at hand is to modify the CDRS and ATCS commands and components to
-depend on their RPCM state.
-Q: are the RPCMs accessible (directly) from within the CDRS/ATCS modules?
-
-Exploration:
-The ATCS class is in 'src/com/traclabs/biosim/server/simulation/thermal/IATCSImpl.java'
-An ATCS has the following (private) members for operation:
-- PowerConsumerDefinitionImpl
-- GreyWaterConsumerDefinitionImpl
-- GreyWaterProducerDefinitionImpl
-In a single 'tick', the ATCS calls 'gatherPower()' and 'gatherWater()':
-- gatherPower: gets Power from store
-- gatherWater:
-  - checks IFHXValveState and IFHXBypassState for water flow
-  - checks IatcsState=='operational' and BypassValveState=='flowthrough' and IsolationValveState=='open'
-    - pushes water to resources
-  - else checks any GreyWaterStore exists
-    - gets water, gets water temperature, pushes water/temp to resource
-
-In the 'cdrs.biosim' configuration file, there are two sections (a 'section'
-defines a SimModule) of concern for the ATCS: 1) thermal and 2) power. The
-thermal section appears as follows:
-
-<thermal>
-	<IATCS moduleName="IATCS">
-		<normalStochasticFilter deviation="0.005"/>
-		<powerConsumer inputs="IATCS_SFCA_Power_Store IATCS_PPA_Power_Store IATCS_TWMV_Power_Store" desiredFlowRates="100 100 100" maxFlowRates="100 100 100"/>
-		<greyWaterConsumer inputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
-		<greyWaterProducer outputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
-	</IATCS>
-</thermal>
-
-Note that there are three (3) 'inputs' listed in the 'powerConsumer' tag.
-The 'power' section contains subsections associated with the inputs (in
-addition to other items); the relevant items appear as follows:
-
-<power>
-	...
-	<PowerStore capacity="100" moduleName="IATCS_SFCA_Power_Store" level="100"/>
-	<PowerStore capacity="100" moduleName="IATCS_PPA_Power_Store" level="100"/>
-	<PowerStore capacity="100" moduleName="IATCS_TWMV_Power_Store" level="100"/>
-	...
-	<RPCM moduleName="IATCS_SFCA_RPCM">
-		<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
-		<powerProducer outputs="IATCS_SFCA_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
-	</RPCM>
-	<RPCM moduleName="IATCS_PPA_RPCM">
-		<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
-		<powerProducer outputs="IATCS_PPA_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
-	</RPCM>
-	<RPCM moduleName="IATCS_TWMV_RPCM">
-		<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
-		<powerProducer outputs="IATCS_TWMV_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
-	</RPCM>
-</power>
-
-Q: it's not clear to me that an RPCm is *necessarily* linked to a power
-store...is it? (Specifically, the 3 RPCMs associated with the 3 power
-stores needed by the thermal system.)
-A: No. Power definitions ('PowerStoreType', 'PowerPSType', 'RPCMType',
-'GenericPowerConsumerType', and 'PowerSimBioModulesType') are found in
-'.../server/framework/schema/simulation/Power.xsd'. Note that 'RPCMType'
-is independent of the others.
-
-Q: Furthermore, it's not clear to me that the ATCS system *explicitly*
-depends on the associated RPCMs. That is, are there actual ATCS commands
-(and telemetry) separate and distinct from the ATCS sub-systems?
-A: Scott say, "Don't do it. Biosim design is intentionally power-source
-agnostic/ignorant. It goes against the design philosophy."
-
-Example(s):
-Ontology ATCS command (obtained from PAX): 'node3IATCSCmd'
-Effect: sets the IATCS state (operational or idle)
-BioHolder method call: 'iatcs.setIatcsState(IATCSState.X)'
-Detail (from biosim's 'IATCSImpl' class):
-- if 'transitionAllowed(state)' method
-  - if 'state' is 'armed' accept (set the state)
-  - otherwise, set state to 'transitioning', set 'stateToTransition' to 'state')
 
 
