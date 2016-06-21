@@ -35,37 +35,38 @@ import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinitionIm
 public class IATCSImpl extends SimBioModuleImpl implements
         IATCSOperations, PowerConsumerOperations,
         GreyWaterConsumerOperations, GreyWaterProducerOperations {
-    //Consumers, Producers
-    private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
-
-    private GreyWaterConsumerDefinitionImpl myGreyWaterConsumerDefinitionImpl;
-
-    private GreyWaterProducerDefinitionImpl myGreyWaterProducerDefinitionImpl;
-
-    //During any given tick, this much power is needed for the IATCS
-    // to run at all
-    private static final float POWER_NEEDED_BASE = 100;
-
-    //Flag to determine if the IATCS has enough power to function
-    private boolean hasEnoughPower = false;
-    private boolean hasPowerSfca = false;
-    private boolean hasPowerPpa  = false;
-    private boolean hasPowerTwmv = false;
-
-    //The power consumed (in watts) by the IATCS at the current tick
-    private float currentPowerConsumed = 0f;
-
-    //References to the servers the IATCS takes/puts resources
-    private static final int SFCA_POWER_INDEX = 0;
-    private static final int PPA_POWER_INDEX = 1;
-    private static final int TWMV_POWER_INDEX = 2;
-
-    private float myProductionRate = 1f;
-    
-    private IATCSState stateToTransition = IATCSState.transitioning;
-    private final static int TICKS_TO_WAIT = 20;
-    private int ticksWaited = 0;
-    
+	//Consumers, Producers
+	private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
+	
+	private GreyWaterConsumerDefinitionImpl myGreyWaterConsumerDefinitionImpl;
+	
+	private GreyWaterProducerDefinitionImpl myGreyWaterProducerDefinitionImpl;
+	
+	//During any given tick, this much power is needed for the IATCS
+	// to run at all (sum of desired flows for each power source)
+	private static final float POWER_NEEDED_BASE = 300;
+	private static final float POWER_DESIRED_MULTIPLIER = 0.9f;
+	
+	//Flag to determine if the IATCS has enough power to function
+	private boolean hasEnoughPower = false;
+	private boolean hasPowerSfca = false;
+	private boolean hasPowerPpa  = false;
+	private boolean hasPowerTwmv = false;
+	
+	//The power consumed (in watts) by the IATCS at the current tick
+	private float currentPowerConsumed = 0f;
+	
+	//References to the servers the IATCS takes/puts resources
+	private static final int SFCA_POWER_INDEX = 0;
+	private static final int PPA_POWER_INDEX = 1;
+	private static final int TWMV_POWER_INDEX = 2;
+	
+	private float myProductionRate = 1f;
+	
+	private IATCSState stateToTransition = IATCSState.transitioning;
+	private final static int TICKS_TO_WAIT = 20;
+	private int ticksWaited = 0;
+	
 	private IATCSState iatcsState = IATCSState.idle;
 	private IATCSActivation activateState = IATCSActivation.inProgress;
 	
@@ -131,17 +132,17 @@ public class IATCSImpl extends SimBioModuleImpl implements
 		isolationValveCommandStatus = IFHXValveCommandStatus.inhibited;
 		heaterSoftwareState = SoftwareState.running;
 	}
-
-    /**
-     * Returns the power consumed (in watts) by the IATCS during the
-     * current tick
-     * 
-     * @return the power consumed (in watts) by the IATCS during the
-     *         current tick
-     */
-    public float getPowerConsumed() {
-        return currentPowerConsumed;
-    }
+	
+	/**
+	 * Returns the power consumed (in watts) by the IATCS during the
+	 * current tick
+	 * 
+	 * @return the power consumed (in watts) by the IATCS during the
+	 *         current tick
+	 */
+	public float getPowerConsumed() {
+		return currentPowerConsumed;
+	}
 	
 	/**
 	 * Checks whether IATCS has enough power or not
@@ -157,27 +158,42 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	 * is no longer supplied. */
 	private float setPowerAvailability() {
 		float powerSfca = myPowerConsumerDefinitionImpl.getMostResourceFromStore(SFCA_POWER_INDEX);
-		if (powerSfca < myPowerConsumerDefinitionImpl.getDesiredFlowRate(SFCA_POWER_INDEX)) {
+		if (powerSfca <
+		       (POWER_DESIRED_MULTIPLIER * myPowerConsumerDefinitionImpl.getDesiredFlowRate(SFCA_POWER_INDEX))) {
 			// loss of sfca power; immediately go to idle, which will also shutdown items
+			if (hasPowerSfca)
+				myLogger.debug("powerSfca="+ powerSfca +", changing hasPowerSfca=false");
 			stateToTransition = IATCSState.idle;
 			transitionToIdle();
 			ticksWaited = 0;
 			hasPowerSfca = false;
 		} else {
+			if (!hasPowerSfca)
+				myLogger.debug("powerSfca="+ powerSfca +", changing hasPowerSfca=true");
 			hasPowerSfca = true;
 		}
 		float powerPpa = myPowerConsumerDefinitionImpl.getMostResourceFromStore(PPA_POWER_INDEX);
-		if (powerPpa >= myPowerConsumerDefinitionImpl.getDesiredFlowRate(PPA_POWER_INDEX)) {
+		if (powerPpa <
+		       (POWER_DESIRED_MULTIPLIER * myPowerConsumerDefinitionImpl.getDesiredFlowRate(PPA_POWER_INDEX))) {
 			// loss of ppa power; immediately shutdown heater software
+			if (hasPowerPpa)
+				myLogger.debug("powerPpa="+ powerPpa +", changing hasPowerPpa=false");
 			heaterSoftwareState = SoftwareState.shutdown;
 			hasPowerPpa = false;
 		} else {
+			if (!hasPowerPpa)
+				myLogger.debug("powerPpa="+ powerPpa +", changing hasPowerPpa=true");
 			hasPowerPpa = true;
 		}
 		float powerTwmv = myPowerConsumerDefinitionImpl.getMostResourceFromStore(TWMV_POWER_INDEX);
-		if (powerTwmv >= myPowerConsumerDefinitionImpl.getDesiredFlowRate(TWMV_POWER_INDEX)) {
+		if (powerTwmv <
+		       (POWER_DESIRED_MULTIPLIER * myPowerConsumerDefinitionImpl.getDesiredFlowRate(TWMV_POWER_INDEX))) {
+			if (hasPowerTwmv)
+				myLogger.debug("powerTwmv="+ powerTwmv +", changing hasPowerTwmv=false");
 			hasPowerTwmv = false;
 		} else {
+			if (!hasPowerTwmv)
+				myLogger.debug("powerTwmv="+ powerTwmv +", changing hasPowerTwmv=true");
 			hasPowerTwmv = true;
 		}
 		return (powerSfca + powerPpa + powerTwmv);
@@ -189,13 +205,12 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	 */
 	private void gatherPower() {
 		float powerNeeded = POWER_NEEDED_BASE * getTickLength();
-		//currentPowerConsumed = myPowerConsumerDefinitionImpl
-		//        .getResourceFromStores(powerNeeded);
 		currentPowerConsumed = setPowerAvailability();
-		if (currentPowerConsumed < powerNeeded)
+		if (currentPowerConsumed < powerNeeded) {
 			hasEnoughPower = false;
-		else
+		} else {
 			hasEnoughPower = true;
+		}
 	}
 	
 	private void gatherWater() {
@@ -409,6 +424,9 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 
 	public void setBypassValveCommandStatus(IFHXValveCommandStatus bypassValveCommandStatus) {
+		if (!hasPowerTwmv) {
+			return;
+		}
 		this.bypassValveCommandStatus = bypassValveCommandStatus;
 	}
 
@@ -429,6 +447,9 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 
 	public void setIsolationValveCommandStatus(IFHXValveCommandStatus isolationValveCommandStatus) {
+		if (!hasPowerTwmv) {
+			return;
+		}
 		this.isolationValveCommandStatus = isolationValveCommandStatus;
 	}
 
