@@ -123,7 +123,7 @@
 					outputs="Crew_Quarters" maxFlowRates="0" />
 				<dryWasteProducer desiredFlowRates="10"
 					outputs="Dry_Waste_Store" maxFlowRates="10"/>
-				<crewPerson age="35" name="Buck Rogers" sex="MALE" weight="75">
+				<crewPerson age="35" name="Roy Rogers" sex="MALE" weight="75">
 					<schedule>
 						<activity intensity="2" name="leisure" length="12" />
 						<activity intensity="0" name="sleep" length="8" />

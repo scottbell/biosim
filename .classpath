@@ -16,5 +16,24 @@
 	<classpathentry kind="lib" path="lib/mysql/mysql-jdbc.jar"/>
 	<classpathentry kind="lib" path="lib/ptolemy/plot.jar" sourcepath="/net/home/scott/workspace/ptplot"/>
 	<classpathentry kind="lib" path="lib/jacorb"/>
+	<classpathentry kind="lib" path="lib/web/aopalliance-repackaged-2.4.0-b10.jar"/>
+	<classpathentry kind="lib" path="lib/web/grizzly-framework-2.3.16.jar"/>
+	<classpathentry kind="lib" path="lib/web/grizzly-http-2.3.16.jar"/>
+	<classpathentry kind="lib" path="lib/web/grizzly-http-server-2.3.16.jar"/>
+	<classpathentry kind="lib" path="lib/web/hk2-api-2.4.0-b10.jar"/>
+	<classpathentry kind="lib" path="lib/web/hk2-locator-2.4.0-b10.jar"/>
+	<classpathentry kind="lib" path="lib/web/hk2-utils-2.4.0-b10.jar"/>
+	<classpathentry kind="lib" path="lib/web/javassist-3.18.1-GA.jar"/>
+	<classpathentry kind="lib" path="lib/web/javax.annotation-api-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/web/javax.inject-2.4.0-b10.jar"/>
+	<classpathentry kind="lib" path="lib/web/javax.ws.rs-api-2.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/web/jersey-client-2.17.jar"/>
+	<classpathentry kind="lib" path="lib/web/jersey-common-2.17.jar"/>
+	<classpathentry kind="lib" path="lib/web/jersey-container-grizzly2-http-2.17.jar"/>
+	<classpathentry kind="lib" path="lib/web/jersey-guava-2.17.jar"/>
+	<classpathentry kind="lib" path="lib/web/jersey-media-jaxb-2.17.jar"/>
+	<classpathentry kind="lib" path="lib/web/jersey-server-2.17.jar"/>
+	<classpathentry kind="lib" path="lib/web/osgi-resource-locator-1.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/web/validation-api-1.1.0.Final.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

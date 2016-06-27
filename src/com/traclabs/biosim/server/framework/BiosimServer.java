@@ -2,10 +2,11 @@ package com.traclabs.biosim.server.framework;
 
 import org.apache.log4j.Logger;
 
+import com.traclabs.biosim.server.webserver.BiosimWebInterface;
 import com.traclabs.biosim.util.CommandLineUtils;
 import com.traclabs.biosim.util.OrbUtils;
 
-
+import com.traclabs.biosim.server.webserver.CustomerService;
 /**
  * The Biosim Server. Creates an instance of each module (AirRS, FoodProcessor,
  * WaterRS, etc..) and binds them to the nameserver.
@@ -28,7 +29,9 @@ public class BiosimServer extends GenericServer {
         myLogger.info("Loading init file: " + rawFileLocation);
         BiosimInitializer myInitializer = new BiosimInitializer(id);
         myInitializer.parseFile(rawFileLocation);
-    }
+        BiosimWebInterface webserver = new BiosimWebInterface(myInitializer);
+        CustomerService testCS = new CustomerService(17);
+        }
     
     public BioDriverImpl getBioDriverImpl(){
     	return myBioDriverImpl;
