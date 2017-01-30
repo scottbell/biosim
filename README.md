@@ -4,7 +4,7 @@ BioSim is a research project being developed at NASA Johnson Space Center. The o
 Currently the simulation is written entirely in Java for the sake of portability, maintenance, and development.
 Each component, however, uses CORBA for communication and so any language with an ORB can interface with the simulation.  We have tested the simulation on Windows, Linux and Mac platforms. Also provided is a user interface showing the internals of the simulation and a logging facility.
 ## Building
-Download the <a href="http://java.sun.com/getjava">Java Runtime Environment</a> necessary to run BioSim (version 1.5 or greater).
+Download the <a href="http://java.sun.com/getjava">Java Runtime Environment</a> necessary to run BioSim (version 1.8 or greater).
 
 Checkout the source code from GitHub.
 
