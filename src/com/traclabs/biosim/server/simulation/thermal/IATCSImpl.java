@@ -35,30 +35,38 @@ import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinitionIm
 public class IATCSImpl extends SimBioModuleImpl implements
         IATCSOperations, PowerConsumerOperations,
         GreyWaterConsumerOperations, GreyWaterProducerOperations {
-    //Consumers, Producers
-    private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
-
-    private GreyWaterConsumerDefinitionImpl myGreyWaterConsumerDefinitionImpl;
-
-    private GreyWaterProducerDefinitionImpl myGreyWaterProducerDefinitionImpl;
-
-    //During any given tick, this much power is needed for the IATCS
-    // to run at all
-    private static final float POWER_NEEDED_BASE = 100;
-
-    //Flag to determine if the IATCS has enough power to function
-    private boolean hasEnoughPower = false;
-
-    //The power consumed (in watts) by the IATCS at the current tick
-    private float currentPowerConsumed = 0f;
-
-    //References to the servers the IATCS takes/puts resources
-    private float myProductionRate = 1f;
-    
-    private IATCSState stateToTransition = IATCSState.transitioning;
-    private final static int TICKS_TO_WAIT = 20;
-    private int ticksWaited = 0;
-    
+	//Consumers, Producers
+	private PowerConsumerDefinitionImpl myPowerConsumerDefinitionImpl;
+	
+	private GreyWaterConsumerDefinitionImpl myGreyWaterConsumerDefinitionImpl;
+	
+	private GreyWaterProducerDefinitionImpl myGreyWaterProducerDefinitionImpl;
+	
+	//During any given tick, this much power is needed for the IATCS
+	// to run at all (sum of desired flows for each power source)
+	private static final float POWER_NEEDED_BASE = 300;
+	private static final float POWER_DESIRED_MULTIPLIER = 0.9f;
+	
+	//Flag to determine if the IATCS has enough power to function
+	private boolean hasEnoughPower = false;
+	private boolean hasPowerSfca = false;
+	private boolean hasPowerPpa  = false;
+	private boolean hasPowerTwmv = false;
+	
+	//The power consumed (in watts) by the IATCS at the current tick
+	private float currentPowerConsumed = 0f;
+	
+	//References to the servers the IATCS takes/puts resources
+	private static final int SFCA_POWER_INDEX = 0;
+	private static final int PPA_POWER_INDEX = 1;
+	private static final int TWMV_POWER_INDEX = 2;
+	
+	private float myProductionRate = 1f;
+	
+	private IATCSState stateToTransition = IATCSState.transitioning;
+	private final static int TICKS_TO_WAIT = 20;
+	private int ticksWaited = 0;
+	
 	private IATCSState iatcsState = IATCSState.idle;
 	private IATCSActivation activateState = IATCSActivation.inProgress;
 	
@@ -94,74 +102,122 @@ public class IATCSImpl extends SimBioModuleImpl implements
     public GreyWaterProducerDefinition getGreyWaterProducerDefinition() {
         return myGreyWaterProducerDefinitionImpl.getCorbaObject();
     }
-
-    /**
-     * Resets production/consumption levels
-     */
-    public void reset() {
-        super.reset();
-        currentPowerConsumed = 0f;
-        myPowerConsumerDefinitionImpl.reset();
-        myGreyWaterConsumerDefinitionImpl.reset();
-        myGreyWaterProducerDefinitionImpl.reset();
-        hasEnoughPower = false;
-        currentPowerConsumed = 0f;
-        myProductionRate = 1f;
-        stateToTransition = IATCSState.transitioning;
-        ticksWaited = 0;
-    	iatcsState = IATCSState.idle;
-    	activateState = IATCSActivation.inProgress;
-    	twvmSoftwareState = SoftwareState.shutdown;
-    	sfcaSoftwareState = SoftwareState.shutdown;
-    	ppaPumpSpeedCommandStatus = PPAPumpSpeedStatus.notArmed;
-    	pumpSpeed = 0;
-        bypassValveState = IFHXBypassState.bypass;
-        bypassValveCommandStatus = IFHXValveCommandStatus.inhibited;
-        isloationValveState = IFHXValveState.closed;
-        isolationValveCommandStatus = IFHXValveCommandStatus.inhibited;
-        heaterSoftwareState = SoftwareState.running;
-    }
-
-    /**
-     * Returns the power consumed (in watts) by the IATCS during the
-     * current tick
-     * 
-     * @return the power consumed (in watts) by the IATCS during the
-     *         current tick
-     */
-    public float getPowerConsumed() {
-        return currentPowerConsumed;
-    }
-
-    /**
-     * Checks whether IATCS has enough power or not
-     * 
-     * @return <code>true</code> if the IATCS has enough power,
-     *         <code>false</code> if not.
-     */
-    public boolean hasPower() {
-        return hasEnoughPower;
-    }
-
-    /**
-     * Attempts to collect enough power from the Power PS to run the IATCS
-     * for one tick.
-     */
-    private void gatherPower() {
-    	float powerNeeded = POWER_NEEDED_BASE * getTickLength();
-        currentPowerConsumed = myPowerConsumerDefinitionImpl
-                .getResourceFromStores(powerNeeded);
-        if (currentPowerConsumed < powerNeeded)
-            hasEnoughPower = false;
-        else
-            hasEnoughPower = true;
-    }
-    
-    private void gatherWater() {
-    	if ((getIsloationValveState() == IFHXValveState.closed) && (getBypassValveState() == IFHXBypassState.flowthrough)){
-    		//water can't get to heat exchange
-    		return;
-    	}
+	
+	/**
+	 * Resets production/consumption levels
+	 */
+	public void reset() {
+		super.reset();
+		currentPowerConsumed = 0f;
+		myPowerConsumerDefinitionImpl.reset();
+		myGreyWaterConsumerDefinitionImpl.reset();
+		myGreyWaterProducerDefinitionImpl.reset();
+		hasEnoughPower = false;
+		hasPowerSfca = false;
+		hasPowerPpa  = false;
+		hasPowerTwmv = false;
+		currentPowerConsumed = 0f;
+		myProductionRate = 1f;
+		stateToTransition = IATCSState.transitioning;
+		ticksWaited = 0;
+		iatcsState = IATCSState.idle;
+		activateState = IATCSActivation.inProgress;
+		twvmSoftwareState = SoftwareState.shutdown;
+		sfcaSoftwareState = SoftwareState.shutdown;
+		ppaPumpSpeedCommandStatus = PPAPumpSpeedStatus.notArmed;
+		pumpSpeed = 0;
+		bypassValveState = IFHXBypassState.bypass;
+		bypassValveCommandStatus = IFHXValveCommandStatus.inhibited;
+		isloationValveState = IFHXValveState.closed;
+		isolationValveCommandStatus = IFHXValveCommandStatus.inhibited;
+		heaterSoftwareState = SoftwareState.running;
+	}
+	
+	/**
+	 * Returns the power consumed (in watts) by the IATCS during the
+	 * current tick
+	 * 
+	 * @return the power consumed (in watts) by the IATCS during the
+	 *         current tick
+	 */
+	public float getPowerConsumed() {
+		return currentPowerConsumed;
+	}
+	
+	/**
+	 * Checks whether IATCS has enough power or not
+	 * 
+	 * @return <code>true</code> if the IATCS has enough power,
+	 *         <code>false</code> if not.
+	 */
+	public boolean hasPower() {
+		return hasEnoughPower;
+	}
+	
+	/** Check for individual power resource availability, reacting if power
+	 * is no longer supplied. */
+	private float setPowerAvailability() {
+		float powerSfca = myPowerConsumerDefinitionImpl.getMostResourceFromStore(SFCA_POWER_INDEX);
+		if (powerSfca <
+		       (POWER_DESIRED_MULTIPLIER * myPowerConsumerDefinitionImpl.getDesiredFlowRate(SFCA_POWER_INDEX))) {
+			// loss of sfca power; immediately go to idle, which will also shutdown items
+			if (hasPowerSfca)
+				myLogger.debug("powerSfca="+ powerSfca +", changing hasPowerSfca=false");
+			stateToTransition = IATCSState.idle;
+			transitionToIdle();
+			ticksWaited = 0;
+			hasPowerSfca = false;
+		} else {
+			if (!hasPowerSfca)
+				myLogger.debug("powerSfca="+ powerSfca +", changing hasPowerSfca=true");
+			hasPowerSfca = true;
+		}
+		float powerPpa = myPowerConsumerDefinitionImpl.getMostResourceFromStore(PPA_POWER_INDEX);
+		if (powerPpa <
+		       (POWER_DESIRED_MULTIPLIER * myPowerConsumerDefinitionImpl.getDesiredFlowRate(PPA_POWER_INDEX))) {
+			// loss of ppa power; immediately shutdown heater software
+			if (hasPowerPpa)
+				myLogger.debug("powerPpa="+ powerPpa +", changing hasPowerPpa=false");
+			heaterSoftwareState = SoftwareState.shutdown;
+			hasPowerPpa = false;
+		} else {
+			if (!hasPowerPpa)
+				myLogger.debug("powerPpa="+ powerPpa +", changing hasPowerPpa=true");
+			hasPowerPpa = true;
+		}
+		float powerTwmv = myPowerConsumerDefinitionImpl.getMostResourceFromStore(TWMV_POWER_INDEX);
+		if (powerTwmv <
+		       (POWER_DESIRED_MULTIPLIER * myPowerConsumerDefinitionImpl.getDesiredFlowRate(TWMV_POWER_INDEX))) {
+			if (hasPowerTwmv)
+				myLogger.debug("powerTwmv="+ powerTwmv +", changing hasPowerTwmv=false");
+			hasPowerTwmv = false;
+		} else {
+			if (!hasPowerTwmv)
+				myLogger.debug("powerTwmv="+ powerTwmv +", changing hasPowerTwmv=true");
+			hasPowerTwmv = true;
+		}
+		return (powerSfca + powerPpa + powerTwmv);
+	}
+	
+	/**
+	 * Attempts to collect enough power from the Power PS to run the IATCS
+	 * for one tick.
+	 */
+	private void gatherPower() {
+		float powerNeeded = POWER_NEEDED_BASE * getTickLength();
+		currentPowerConsumed = setPowerAvailability();
+		if (currentPowerConsumed < powerNeeded) {
+			hasEnoughPower = false;
+		} else {
+			hasEnoughPower = true;
+		}
+	}
+	
+	private void gatherWater() {
+		if ((getIsloationValveState() == IFHXValveState.closed) && (getBypassValveState() == IFHXBypassState.flowthrough)){
+			//water can't get to heat exchange
+			return;
+		}
  		float waterGathered = myGreyWaterConsumerDefinitionImpl.getMostResourceFromStores();
  		if ((getIatcsState() == IATCSState.operational) && (getBypassValveState() == IFHXBypassState.flowthrough) && (getIsloationValveState() == IFHXValveState.open)){
  			myGreyWaterProducerDefinitionImpl.pushResourceToStores(waterGathered, 10f);
@@ -174,81 +230,84 @@ public class IATCSImpl extends SimBioModuleImpl implements
  			}
  		}
  	}
-
-    /**
-     * Attempts to consume resource (power and dryWaste) for IATCS
-     */
-    private void consumeResources() {
-        gatherPower();
-        if (hasEnoughPower)
-        	gatherWater();
-    }
-
-    private void setProductionRate(float pProductionRate) {
-        myProductionRate = pProductionRate;
-    }
-
-    protected void performMalfunctions() {
-        float productionRate = 1f;
-        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
-            Malfunction currentMalfunction = (Malfunction) (iter.next());
-            if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
-                if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
-                    productionRate *= 0.50; // 50% reduction
-                else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                    productionRate *= 0.75; // 25% reduction
-                else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                    productionRate *= 0.90; // 10% reduction
-            } else if (currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF) {
-                if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
-                    productionRate *= 0.50; // 50% reduction
-                else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                    productionRate *= 0.75; // 25% reduction
-                else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                    productionRate *= 0.90; // 10% reduction
-            }
-        }
-        setProductionRate(productionRate);
-    }
-
-    /**
-     * When ticked, the IATCS does the following: 1) attempts to collect
-     * references to various server (if not already done). 2) consumes power and
-     * dryWaste. 3) creates food (if possible)
-     */
-    public void tick() {
-        super.tick();
-        consumeResources();
-        if (iatcsState == IATCSState.transitioning){
-        	ticksWaited++;
-        	if (ticksWaited >= TICKS_TO_WAIT)
-        		transitionState();
-        }
-    }
-
-    protected String getMalfunctionName(MalfunctionIntensity pIntensity,
-            MalfunctionLength pLength) {
-        StringBuffer returnBuffer = new StringBuffer();
-        if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
-            returnBuffer.append("Severe ");
-        else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
-            returnBuffer.append("Medium ");
-        else if (pIntensity == MalfunctionIntensity.LOW_MALF)
-            returnBuffer.append("Low ");
-        if (pLength == MalfunctionLength.TEMPORARY_MALF)
-            returnBuffer.append("Production Rate Decrease (Temporary)");
-        else if (pLength == MalfunctionLength.PERMANENT_MALF)
-            returnBuffer.append("Production Rate Decrease (Permanent)");
-        return returnBuffer.toString();
-    }
-
-    public void log() {
-        myLogger.debug("power_needed=" + POWER_NEEDED_BASE);
-        myLogger.debug("has_enough_power=" + hasEnoughPower);
-        myLogger.debug("current_power_consumed=" + currentPowerConsumed);
-    }
-    
-    private boolean transitionAllowed(IATCSState state) {
+	
+	/**
+	 * Attempts to consume resource (power and dryWaste) for IATCS
+	 */
+	private void consumeResources() {
+		gatherPower();
+		if (hasEnoughPower)
+			gatherWater();
+	}
+	
+	private void setProductionRate(float pProductionRate) {
+		myProductionRate = pProductionRate;
+	}
+	
+	protected void performMalfunctions() {
+		float productionRate = 1f;
+		for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
+			Malfunction currentMalfunction = (Malfunction) (iter.next());
+			if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
+				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
+					productionRate *= 0.50; // 50% reduction
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+					productionRate *= 0.75; // 25% reduction
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+					productionRate *= 0.90; // 10% reduction
+			} else if (currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF) {
+				if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
+					productionRate *= 0.50; // 50% reduction
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
+					productionRate *= 0.75; // 25% reduction
+				else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
+					productionRate *= 0.90; // 10% reduction
+			}
+		}
+		setProductionRate(productionRate);
+	}
+	
+	/**
+	 * When ticked, the IATCS does the following: 1) attempts to collect
+	 * references to various server (if not already done). 2) consumes power and
+	 * dryWaste. 3) creates food (if possible)
+	 */
+	public void tick() {
+		super.tick();
+		consumeResources();
+		if (iatcsState == IATCSState.transitioning){
+			ticksWaited++;
+			if (ticksWaited >= TICKS_TO_WAIT)
+				transitionState();
+		}
+	}
+	
+	protected String getMalfunctionName(MalfunctionIntensity pIntensity,
+	                                    MalfunctionLength pLength) {
+		StringBuffer returnBuffer = new StringBuffer();
+		if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
+			returnBuffer.append("Severe ");
+		else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
+			returnBuffer.append("Medium ");
+		else if (pIntensity == MalfunctionIntensity.LOW_MALF)
+			returnBuffer.append("Low ");
+		if (pLength == MalfunctionLength.TEMPORARY_MALF)
+			returnBuffer.append("Production Rate Decrease (Temporary)");
+		else if (pLength == MalfunctionLength.PERMANENT_MALF)
+			returnBuffer.append("Production Rate Decrease (Permanent)");
+		return returnBuffer.toString();
+	}
+	
+	public void log() {
+		myLogger.debug("power_needed=" + POWER_NEEDED_BASE);
+		myLogger.debug("has_enough_power=" + hasEnoughPower);
+		myLogger.debug("has_power_sfca=" + hasPowerSfca);
+		myLogger.debug("has_power_ppa=" + hasPowerPpa);
+		myLogger.debug("has_power_sfca=" + hasPowerTwmv);
+		myLogger.debug("current_power_consumed=" + currentPowerConsumed);
+	}
+	
+	private boolean transitionAllowed(IATCSState state) {
 		if (iatcsState == IATCSState.idle){
 			return (state == IATCSState.operational);
 		}
@@ -260,37 +319,40 @@ public class IATCSImpl extends SimBioModuleImpl implements
 		}
 		return false;
 	}
-    
-    private void transitionState() {
-    	if (stateToTransition == IATCSState.idle)
+	
+	private void transitionState() {
+		if (stateToTransition == IATCSState.idle)
 			transitionToIdle();
 		else if (stateToTransition == IATCSState.operational)
 			transitionToOperational();
-    	ticksWaited = 0;
-    	stateToTransition = IATCSState.transitioning;
+		ticksWaited = 0;
+		stateToTransition = IATCSState.transitioning;
 	}
-    
-    private void transitionToIdle() {
-    	pumpSpeed = 0f;
-    	activateState = IATCSActivation.inProgress;
+	
+	private void transitionToIdle() {
+		pumpSpeed = 0f;
+		activateState = IATCSActivation.inProgress;
 		iatcsState = IATCSState.idle;
 		twvmSoftwareState = SoftwareState.shutdown;
 		sfcaSoftwareState = SoftwareState.shutdown;
 	}
-    
-    private void transitionToOperational() {
+	
+	private void transitionToOperational() {
 		pumpSpeed = 9250;
-    	activateState = IATCSActivation.notInProgress;
+		activateState = IATCSActivation.notInProgress;
 		iatcsState = IATCSState.operational;
 		twvmSoftwareState = SoftwareState.running;
 		sfcaSoftwareState = SoftwareState.running;
 	}
-    
-    public IATCSState getIatcsState() {
+	
+	public IATCSState getIatcsState() {
 		return iatcsState;
 	}
 
 	public void setIatcsState(IATCSState state) {
+		if (!hasPowerSfca) {
+			return;
+		}
 		if (transitionAllowed(state)){
 			if (state == IATCSState.armed){
 				iatcsState = state;
@@ -350,6 +412,9 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 
 	public void setBypassValveState(IFHXBypassState bypassValveState) {
+		if (!hasPowerTwmv) {
+			return;
+		}
 		if (bypassValveCommandStatus == IFHXValveCommandStatus.enabled)
 			this.bypassValveState = bypassValveState;
 	}
@@ -359,6 +424,9 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 
 	public void setBypassValveCommandStatus(IFHXValveCommandStatus bypassValveCommandStatus) {
+		if (!hasPowerTwmv) {
+			return;
+		}
 		this.bypassValveCommandStatus = bypassValveCommandStatus;
 	}
 
@@ -367,6 +435,9 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 
 	public void setIsloationValveState(IFHXValveState isloationValveState) {
+		if (!hasPowerTwmv) {
+			return;
+		}
 		if (isolationValveCommandStatus == IFHXValveCommandStatus.enabled)
 			this.isloationValveState = isloationValveState;
 	}
@@ -376,6 +447,9 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 
 	public void setIsolationValveCommandStatus(IFHXValveCommandStatus isolationValveCommandStatus) {
+		if (!hasPowerTwmv) {
+			return;
+		}
 		this.isolationValveCommandStatus = isolationValveCommandStatus;
 	}
 
@@ -384,6 +458,9 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 
 	public void setHeaterSoftwareState(SoftwareState newHeaterSoftwareState) {
+	    if (!hasPowerPpa) {
+			return;
+		}
 		if ((heaterSoftwareState == SoftwareState.softwareArmed) || (newHeaterSoftwareState == SoftwareState.softwareArmed)){
 			this.heaterSoftwareState = newHeaterSoftwareState;
 		}
