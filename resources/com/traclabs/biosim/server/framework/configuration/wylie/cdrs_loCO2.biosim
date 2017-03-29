@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../style/table.xsl"?>
+<biosim xmlns="http://www.traclabs.com/biosim"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
+	<Globals driverStutterLength="500" crewsToWatch="Crew_Quarters_Group" runTillCrewDeath="false"  tickLength="1" startPaused="false"/>
+	<SimBioModules>
+		<environment>
+			<!-- percentage values derived from defaults in SimEnvironment code, set to:  -->
+			<!-- o2: 0.185, c02: 0.001158416, other: 0, water: 0.0218910, n2: 0.791950584 -->
+			<!-- note that in defaults, nitrogen is used to fill 'extra' volume; my       -->
+			<!-- changes here to the co2 percentage will inversely affect n2 levels       -->
+			<SimEnvironment moduleName="Crew_Quarters" initialVolume="2700000">
+				<percentageInitialization
+					o2Percentage="0.185" co2Percentage="0.005"
+					otherPercentage="0.0" waterPercentage="0.022"
+					nitrogenPercentage="0.788" totalPressure="101"/>
+			</SimEnvironment>
+		</environment>
+		<air>
+			<MethaneStore capacity="0" moduleName="MethaneStore" level="0"/>
+			<NitrogenStore capacity="0" moduleName="NitrogenStore" level="0"/>
+			<CO2Store capacity="1000" moduleName="CO2_Store" level="0"/>
+			<H2Store capacity="10000" moduleName="H2_Store" level="0"/>
+			<O2Store capacity="10000" moduleName="O2_Store" level="1000"/>
+			<CDRS moduleName="CDRS">
+				<normalStochasticFilter deviation="0.005"/>
+				<powerConsumer inputs="CDRS_Air_Inlet_Power_Store CDRS_Air_Return_Power_Store CDRS_CO2_Isolation_Power_Store CDRS_CO2_Vent_Power_Store CDRS_Power_Store CDRS_Primary_Heater_Power_Store CDRS_Secondary_Heater_Power_Store General_Power_Store General_Power_Store" desiredFlowRates="100 100 100 100 100 100 100 100 100" maxFlowRates="100 100 100 100 100 100 100 100 100"/>
+				<greyWaterConsumer inputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+				<greyWaterProducer outputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+				<airConsumer inputs="Crew_Quarters" desiredFlowRates="1000" maxFlowRates="1000"/>
+				<airProducer outputs="Crew_Quarters" desiredFlowRates="1000" maxFlowRates="1000"/>
+				<CO2Producer outputs="CO2_Store" desiredFlowRates="1000" maxFlowRates="1000"/>
+			</CDRS>
+			<OGS moduleName="OGS">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="1000" maxFlowRates="1000"/>
+				<potableWaterConsumer inputs="Potable_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+				<O2Producer desiredFlowRates="1000" outputs="O2_Store" maxFlowRates="1000"/>
+				<H2Producer desiredFlowRates="1000" outputs="H2_Store" maxFlowRates="1000"/>
+			</OGS>
+		</air>
+		<water>
+			<PotableWaterStore capacity="10000" moduleName="Potable_Water_Store" level="10000"/>
+			<GreyWaterStore capacity="10000" moduleName="Grey_Water_Store" level="10000"/>
+			<DirtyWaterStore capacity="10000" moduleName="Dirty_Water_Store" level="0"/>
+		</water>
+		<power>
+			<PowerStore capacity="100000" moduleName="General_Power_Store" level="100000"/>
+			<PowerStore capacity="100" moduleName="CDRS_Air_Inlet_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_Air_Return_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_CO2_Isolation_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_CO2_Vent_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_Primary_Heater_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="CDRS_Secondary_Heater_Power_Store" level="100"/>
+			<PowerPS moduleName="Nuclear_Source" generationType="NUCLEAR">
+				<powerProducer desiredFlowRates="3000" outputs="General_Power_Store" maxFlowRates="3000" />
+			</PowerPS>
+			<PowerStore capacity="100" moduleName="IATCS_SFCA_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="IATCS_PPA_Power_Store" level="100"/>
+			<PowerStore capacity="100" moduleName="IATCS_TWMV_Power_Store" level="100"/>
+			
+			<RPCM moduleName="Air_Inlet_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_Air_Inlet_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="Air_Return_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_Air_Return_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="CO2_Isolation_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_CO2_Isolation_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="CO2_Vent_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_CO2_Vent_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="CDRS_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="Primary_Heater_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_Primary_Heater_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="Secondary_Heater_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="CDRS_Secondary_Heater_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			
+			<RPCM moduleName="IATCS_SFCA_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="IATCS_SFCA_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="IATCS_PPA_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="IATCS_PPA_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+			<RPCM moduleName="IATCS_TWMV_RPCM">
+				<powerConsumer inputs="General_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+				<powerProducer outputs="IATCS_TWMV_Power_Store" desiredFlowRates="100" maxFlowRates="100"/>
+			</RPCM>
+		</power>
+		<food>
+			<FoodStore capacity="10000" level="10000" moduleName="Food_Store"/>
+		</food>
+		<thermal>
+			<IATCS moduleName="IATCS">
+				<normalStochasticFilter deviation="0.005"/>
+				<powerConsumer inputs="IATCS_SFCA_Power_Store IATCS_PPA_Power_Store IATCS_TWMV_Power_Store" desiredFlowRates="100 100 100" maxFlowRates="100 100 100"/>
+				<greyWaterConsumer inputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+				<greyWaterProducer outputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
+			</IATCS>
+		</thermal>
+		<waste>
+			<DryWasteStore capacity="1000000" moduleName="Dry_Waste_Store" level="0"/>
+		</waste>
+		<crew>
+			<CrewGroup moduleName="Crew_Quarters_Group">
+				<potableWaterConsumer inputs="Potable_Water_Store"
+					desiredFlowRates="3" maxFlowRates="3"/>
+				<airConsumer inputs="Crew_Quarters" desiredFlowRates="0"
+					maxFlowRates="0" />
+				<foodConsumer inputs="Food_Store" desiredFlowRates="5"
+					maxFlowRates="5"/>
+				<dirtyWaterProducer desiredFlowRates="100"
+					outputs="Dirty_Water_Store" maxFlowRates="100"/>
+				<greyWaterProducer desiredFlowRates="100"
+					outputs="Grey_Water_Store" maxFlowRates="100" />
+				<airProducer desiredFlowRates="0"
+					outputs="Crew_Quarters" maxFlowRates="0" />
+				<dryWasteProducer desiredFlowRates="10"
+					outputs="Dry_Waste_Store" maxFlowRates="10"/>
+				<crewPerson age="35" name="Buck Rogers" sex="MALE" weight="75">
+					<schedule>
+						<activity intensity="2" name="leisure" length="12" />
+						<activity intensity="0" name="sleep" length="8" />
+						<activity intensity="5" name="excercise" length="2" />
+					</schedule>
+				</crewPerson>
+			</CrewGroup>
+		</crew>
+	</SimBioModules>
+	<Sensors>
+		<air>
+			<CO2OutFlowRateSensor input="CDRS" moduleName="CDRS_CO2_Effluent_Sensor" index="0"/>
+		</air>
+		<environment>
+			<AirInFlowRateSensor input="CDRS" moduleName="CDRS_Air_Influent_Sensor" index="0"/>
+			<AirOutFlowRateSensor input="CDRS" moduleName="CDRS_Air_Effluent_Sensor" index="0"/>
+			<GasConcentrationSensor input="Crew_Quarters" moduleName="Co2GasConcentrationSensor" gasType="CO2"/>
+		</environment>
+		<water>
+			<GreyWaterInFlowRateSensor input="CDRS" moduleName="CDRS_Grey_Water_Influent_Sensor" index="0"/>
+			<GreyWaterOutFlowRateSensor input="CDRS" moduleName="CDRS_Grey_Water_Effluent_Sensor" index="0"/>
+		</water>
+	</Sensors>
+</biosim>
