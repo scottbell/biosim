@@ -16,7 +16,7 @@
 			<O2Store capacity="10000" moduleName="O2_Store" level="1000"/>
 			<CDRS moduleName="CDRS">
 				<normalStochasticFilter deviation="0.005"/>
-				<powerConsumer inputs="CDRS_Air_Inlet_Power_Store CDRS_Air_Return_Power_Store CDRS_CO2_Isolation_Power_Store CDRS_CO2_Vent_Power_Store CDRS_Power_Store CDRS_Primary_Heater_Power_Store CDRS_Secondary_Heater_Power_Store General_Power_Store General_Power_Store" desiredFlowRates="100 100 100 100 100 100 100 100 100" maxFlowRates="100 100 100 100 100 100 100 100 100"/>
+				<powerConsumer inputs="CDRS_Air_Inlet_Power_Store CDRS_Air_Return_Power_Store CDRS_CO2_Isolation_Power_Store CDRS_CO2_Vent_Power_Store CDRS_Primary_Heater_Power_Store CDRS_Secondary_Heater_Power_Store CDRS_Power_Store General_Power_Store General_Power_Store" desiredFlowRates="100 100 100 100 100 100 100 100 100" maxFlowRates="100 100 100 100 100 100 100 100 100"/>
 				<greyWaterConsumer inputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
 				<greyWaterProducer outputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
 				<airConsumer inputs="Crew_Quarters" desiredFlowRates="1000" maxFlowRates="1000"/>
