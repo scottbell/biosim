@@ -4,7 +4,7 @@ import com.traclabs.biosim.idl.simulation.water.WaterStoreOperations;
 import com.traclabs.biosim.server.simulation.framework.StoreImpl;
 
 public class WaterStoreImpl extends StoreImpl implements WaterStoreOperations {
-	private float intialTemperature = 21f;
+	private float intialTemperature = 20.1f;
 	private float temperature = intialTemperature;
 	
 	public WaterStoreImpl(int pID, String pName) {

@@ -6,16 +6,30 @@
 	<Globals driverStutterLength="500" crewsToWatch="Crew_Quarters_Group" runTillCrewDeath="false"  tickLength="1" startPaused="false"/>
 	<SimBioModules>
 		<environment>
-			<!-- percentage values derived from defaults in SimEnvironment code, set to:  -->
-			<!-- o2: 0.185, c02: 0.001158416, other: 0, water: 0.0218910, n2: 0.791950584 -->
+			<!-- mole values derived from defaults in SimEnvironment code, calculated as: -->
+			<!--     moles of X = initial volume * 0.04115 * <hard-coded % of X>          -->
+			<!-- o2: 0.185, co2: 0.001158416, other: 0, water: 0.0218910, n2: 0.791950584 -->
+			<!--        using *HALF* the default co2 value for 'lo' configuration!        -->
 			<!-- note that in defaults, nitrogen is used to fill 'extra' volume; my       -->
 			<!-- changes here to the co2 percentage will inversely affect n2 levels       -->
+			<SimEnvironment moduleName="Crew_Quarters" initialVolume="2700000">
+				<moleInitialization
+					initialCO2Moles="64.35280604" initialO2Moles="20554.425"
+					initialWaterMoles="2432.199555" initialOtherMoles="0.0"
+					initialNitrogenMoles="2676949.022548961"/>
+			</SimEnvironment>
+			<!-- percentage values derived from defaults in SimEnvironment code, set to:  -->
+			<!-- o2: 0.185, co2: 0.001158416, other: 0, water: 0.0218910, n2: 0.791950584 -->
+			<!-- note that in defaults, nitrogen is used to fill 'extra' volume; my       -->
+			<!-- changes here to the co2 percentage will inversely affect n2 levels       -->
+			<!--
 			<SimEnvironment moduleName="Crew_Quarters" initialVolume="2700000">
 				<percentageInitialization
 					o2Percentage="0.185" co2Percentage="0.005"
 					otherPercentage="0.0" waterPercentage="0.022"
 					nitrogenPercentage="0.788" totalPressure="101"/>
 			</SimEnvironment>
+			-->
 		</environment>
 		<air>
 			<MethaneStore capacity="0" moduleName="MethaneStore" level="0"/>
