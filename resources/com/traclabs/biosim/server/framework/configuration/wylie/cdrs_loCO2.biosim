@@ -14,9 +14,9 @@
 			<!-- changes here to the co2 percentage will inversely affect n2 levels       -->
 			<SimEnvironment moduleName="Crew_Quarters" initialVolume="2700000">
 				<moleInitialization
-					initialCO2Moles="64.35280604" initialO2Moles="20554.425"
+					initialCO2Moles="40.0" initialO2Moles="20554.0"
 					initialWaterMoles="2432.199555" initialOtherMoles="0.0"
-					initialNitrogenMoles="2676949.022548961"/>
+					initialNitrogenMoles="90511.0"/>
 			</SimEnvironment>
 			<!-- percentage values derived from defaults in SimEnvironment code, set to:  -->
 			<!-- o2: 0.185, co2: 0.001158416, other: 0, water: 0.0218910, n2: 0.791950584 -->
