@@ -42,24 +42,42 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	
 	private GreyWaterProducerDefinitionImpl myGreyWaterProducerDefinitionImpl;
 	
-	//During any given tick, this much power is needed for the IATCS
-	// to run at all (sum of desired flows for each power source)
-	private static final float POWER_NEEDED_BASE = 300;
-	private static final float POWER_DESIRED_MULTIPLIER = 0.9f;
-	
-	//Flag to determine if the IATCS has enough power to function
-	private boolean hasEnoughPower = false;
-	private boolean hasPowerSfca = false;
-	private boolean hasPowerPpa  = false;
-	private boolean hasPowerTwmv = false;
-	
-	//The power consumed (in watts) by the IATCS at the current tick
+	/** The power consumed (in watts) by the IATCS at the current tick. */
 	private float currentPowerConsumed = 0f;
 	
-	//References to the servers the IATCS takes/puts resources
-	private static final int SFCA_POWER_INDEX = 0;
-	private static final int PPA_POWER_INDEX = 1;
-	private static final int TWMV_POWER_INDEX = 2;
+	/** Flag to determine if the IATCS has enough power to function. */
+	private boolean hasEnoughPower = false;
+
+	/** During any given tick, this much power is needed for the IATCS
+	 * to run at all (sum of desired flows for each power source). Initial
+	 * setting of 300 assumes 3 items in the PowerIndex enum, each with a
+	 * desired flow rate of 100. */
+	private float powerNeededBase = 300f;
+	
+	/** Fudge factor for acceptable power. */
+	private static final float POWER_DESIRED_MULTIPLIER = 0.9f;
+	
+	/** Array to keep track of whether enough power is flowing in the
+	 * system to operate a particular piece of equipment. */
+	private boolean myHasPower[] = new boolean[PowerIndex.values().length];
+	//private boolean hasPowerSfca = false;
+	//private boolean hasPowerPpa  = false;
+	//private boolean hasPowerTwmv = false;
+	
+	/** Mapping of human-readable name to array indices for powerConsumer
+	 * inputs (as found in the biosim configuration file). Note that this
+	 * enumeration is used for gathering power, setting the base power-needed
+	 * value, and recording whether a particular power source HAS power.
+	 * Only items that actually contribute to operation should be included. */
+	private enum PowerIndex {
+		SFCA_POWER(0),
+		PPA_POWER(1),
+		TWMV_POWER(2);
+		
+		private final int ix;
+		PowerIndex(int index) { ix = index; }
+		int index() { return ix; }
+	}
 	
 	private float myProductionRate = 1f;
 	
@@ -86,6 +104,8 @@ public class IATCSImpl extends SimBioModuleImpl implements
 
     public IATCSImpl(int pID, String pName) {
         super(pID, pName);
+        // note: cannot set powerNeededBase until fully initialized;
+        // rather, done as part of the 'reset' method
         myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
         myGreyWaterConsumerDefinitionImpl = new GreyWaterConsumerDefinitionImpl(this);
         myGreyWaterProducerDefinitionImpl = new GreyWaterProducerDefinitionImpl(this);
@@ -112,11 +132,13 @@ public class IATCSImpl extends SimBioModuleImpl implements
 		myPowerConsumerDefinitionImpl.reset();
 		myGreyWaterConsumerDefinitionImpl.reset();
 		myGreyWaterProducerDefinitionImpl.reset();
+		
+		powerNeededBase = getPowerNeeded();
 		hasEnoughPower = false;
-		hasPowerSfca = false;
-		hasPowerPpa  = false;
-		hasPowerTwmv = false;
-		currentPowerConsumed = 0f;
+		for (int i=0; i<PowerIndex.values().length; i++) {
+			myHasPower[i] = false;
+		}
+		
 		myProductionRate = 1f;
 		stateToTransition = IATCSState.transitioning;
 		ticksWaited = 0;
@@ -154,9 +176,44 @@ public class IATCSImpl extends SimBioModuleImpl implements
 		return hasEnoughPower;
 	}
 	
+	private float getPowerNeeded() {
+		System.out.println("ATCS power sources:");
+		float needed = 0.0f, fudged;
+		for (PowerIndex item : PowerIndex.values()) {
+			int ix = item.index();
+			float desired = myPowerConsumerDefinitionImpl.getDesiredFlowRate(ix);
+			needed += desired;
+			System.out.println("   "+ item +": config index="+ ix +", desired flow="+ desired);
+		}
+		fudged = needed * POWER_DESIRED_MULTIPLIER;
+		System.out.println("Total power needed for ATCS: "+ needed +" (with fudge factor, "+ fudged +")");
+		return fudged;
+	}
+		
 	/** Check for individual power resource availability, reacting if power
 	 * is no longer supplied. */
 	private float setPowerAvailability() {
+		float powerAvailable = 0.0f; // running total
+		float powerItem[] = new float[PowerIndex.values().length];
+		for (PowerIndex item : PowerIndex.values()) {
+			int ix = item.index(), ord = item.ordinal();
+			powerItem[ord] = myPowerConsumerDefinitionImpl.getMostResourceFromStore(ix);
+			float desired = myPowerConsumerDefinitionImpl.getDesiredFlowRate(ix);
+			if (powerItem[ord] < (desired * POWER_DESIRED_MULTIPLIER)) {
+				// special handling on power loss for certain items
+				if (item == PowerIndex.SFCA_POWER) {
+					sfcaPowerLoss();
+				} else if (item == PowerIndex.PPA_POWER) {
+					ppaPowerLoss();
+				}
+				myHasPower[ord] = false;
+			} else {
+				myHasPower[ord] = true;
+			}
+			powerAvailable += powerItem[ord];
+		}
+		return powerAvailable;
+		/* TODO: REMOVE THIS CODE ONCE REPLACEMENT CODE ABOVE CONFIRMED/TESTED
 		float powerSfca = myPowerConsumerDefinitionImpl.getMostResourceFromStore(SFCA_POWER_INDEX);
 		if (powerSfca <
 		       (POWER_DESIRED_MULTIPLIER * myPowerConsumerDefinitionImpl.getDesiredFlowRate(SFCA_POWER_INDEX))) {
@@ -197,6 +254,20 @@ public class IATCSImpl extends SimBioModuleImpl implements
 			hasPowerTwmv = true;
 		}
 		return (powerSfca + powerPpa + powerTwmv);
+		*/
+	}
+	
+	private void sfcaPowerLoss() {
+		// loss of sfca power; immediately go to idle, with the
+		// side-effect of also shutting down other items
+		stateToTransition = IATCSState.idle;
+		transitionToIdle();
+		ticksWaited = 0;
+	}
+	
+	private void ppaPowerLoss() {
+		// loss of ppa power; immediately shutdown heater software
+		heaterSoftwareState = SoftwareState.shutdown;
 	}
 	
 	/**
@@ -204,7 +275,8 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	 * for one tick.
 	 */
 	private void gatherPower() {
-		float powerNeeded = POWER_NEEDED_BASE * getTickLength();
+		// assumes 'reset' has been run to set powerNeededBase value
+		float powerNeeded = powerNeededBase * POWER_DESIRED_MULTIPLIER * getTickLength();
 		currentPowerConsumed = setPowerAvailability();
 		if (currentPowerConsumed < powerNeeded) {
 			hasEnoughPower = false;
@@ -299,11 +371,11 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 	
 	public void log() {
-		myLogger.debug("power_needed=" + POWER_NEEDED_BASE);
+		myLogger.debug("power_needed=" + powerNeededBase);
 		myLogger.debug("has_enough_power=" + hasEnoughPower);
-		myLogger.debug("has_power_sfca=" + hasPowerSfca);
-		myLogger.debug("has_power_ppa=" + hasPowerPpa);
-		myLogger.debug("has_power_sfca=" + hasPowerTwmv);
+		for (PowerIndex item : PowerIndex.values()) {
+			myLogger.debug(item +"="+ myHasPower[item.ordinal()]);
+		}
 		myLogger.debug("current_power_consumed=" + currentPowerConsumed);
 	}
 	
@@ -350,7 +422,8 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 
 	public void setIatcsState(IATCSState state) {
-		if (!hasPowerSfca) {
+		if (!myHasPower[PowerIndex.SFCA_POWER.ordinal()]) {
+		//if (!hasPowerSfca) {
 			return;
 		}
 		if (transitionAllowed(state)){
@@ -412,7 +485,8 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 
 	public void setBypassValveState(IFHXBypassState bypassValveState) {
-		if (!hasPowerTwmv) {
+		if (!myHasPower[PowerIndex.TWMV_POWER.ordinal()]) {
+		//if (!hasPowerTwmv) {
 			return;
 		}
 		if (bypassValveCommandStatus == IFHXValveCommandStatus.enabled)
@@ -424,7 +498,8 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 
 	public void setBypassValveCommandStatus(IFHXValveCommandStatus bypassValveCommandStatus) {
-		if (!hasPowerTwmv) {
+		if (!myHasPower[PowerIndex.TWMV_POWER.ordinal()]) {
+		//if (!hasPowerTwmv) {
 			return;
 		}
 		this.bypassValveCommandStatus = bypassValveCommandStatus;
@@ -435,7 +510,8 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 
 	public void setIsloationValveState(IFHXValveState isloationValveState) {
-		if (!hasPowerTwmv) {
+		if (!myHasPower[PowerIndex.TWMV_POWER.ordinal()]) {
+		//if (!hasPowerTwmv) {
 			return;
 		}
 		if (isolationValveCommandStatus == IFHXValveCommandStatus.enabled)
@@ -447,7 +523,8 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 
 	public void setIsolationValveCommandStatus(IFHXValveCommandStatus isolationValveCommandStatus) {
-		if (!hasPowerTwmv) {
+		if (!myHasPower[PowerIndex.TWMV_POWER.ordinal()]) {
+		//if (!hasPowerTwmv) {
 			return;
 		}
 		this.isolationValveCommandStatus = isolationValveCommandStatus;
@@ -458,7 +535,8 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	}
 
 	public void setHeaterSoftwareState(SoftwareState newHeaterSoftwareState) {
-	    if (!hasPowerPpa) {
+		if (!myHasPower[PowerIndex.PPA_POWER.ordinal()]) {
+	   // if (!hasPowerPpa) {
 			return;
 		}
 		if ((heaterSoftwareState == SoftwareState.softwareArmed) || (newHeaterSoftwareState == SoftwareState.softwareArmed)){

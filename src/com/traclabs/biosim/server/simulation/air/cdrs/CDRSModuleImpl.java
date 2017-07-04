@@ -59,38 +59,32 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	private CDRSCommandStatus myBlowerEnabledStatus = CDRSCommandStatus.enabled;
 	private CDRSDayNightState myDayNightState = CDRSDayNightState.day;
 	
-    // During any given tick, this much power is needed for the CDRS
-    // to run at all (sum of desired flows for each included power source)
-    //private static final float POWER_NEEDED_BASE = 900;
-	 private float powerNeededBase = 700f;
-	 private static final float POWER_DESIRED_MULTIPLIER = 0.9f;
-
-	//The power consumed (in watts) by the CDRS at the current tick
+	/** The power consumed (in watts) by the CDRS at the current tick. */
 	private float currentPowerConsumed = 0f;
 	
-	// flags to determine if the CDRS has enough power to function
+	/** Flag to determine if the CDRS has enough power to function. */
 	private boolean hasEnoughPower = false;
-	//private boolean hasPowerAirInlet = false;
-	//private boolean hasPowerAirReturn = false;
-	//private boolean hasPowerCo2Isolation = false;
-	//private boolean hasPowerCo2Vent = false;
-	//private boolean hasPowerCdrs = false;
-	//private boolean hasPowerWaterPump = false;
-	//private boolean hasPowerBlower = false;
-	
-	//private static final int AIR_INLET_VALVE_POWER_INDEX = 0;
-	//private static final int AIR_RETURN_VALVE_POWER_INDEX = 1;
-	//private static final int CO2_ISOLATION_VALVE_POWER_INDEX = 2;
-	//private static final int CO2_VENT_VALVE_POWER_INDEX = 3;
-	//private static final int CDRS_POWER_INDEX = 4;
-	//private static final int PRIMARY_HEATER_POWER_INDEX = 5;
-	//private static final int SECONDARY_HEATER_POWER_INDEX = 6;
-	//private static final int WATER_PUMP_POWER_INDEX = 7;
-	//private static final int BLOWER_POWER_INDEX = 8;
-	/** Mapping of human-readable name to array indices for powerConsumer inputs
-	 * (as found in the biosim configuration file). Note that this enumeration is
-	 * used for gathering power, setting the base power-needed value, and recording
-	 * whether a particular power source HAS power. */
+
+    /** During any given tick, this much power is needed for the CDRS to
+	  * run at all (sum of desired flows for each included power source).
+	  * Initial setting of 700 assumes 7 items in the PowerIndex enum,
+	  * each with desired flow rate of 100. */
+	 private float powerNeededBase = 700f;
+
+	 /** Fudge factor for acceptable power. */
+	 private static final float POWER_DESIRED_MULTIPLIER = 0.9f;
+
+	/** Array to keep track of whether enough power is flowing in the
+	 * system to operate a particular piece of equipment. */
+	private boolean myHasPower[] = new boolean[PowerIndex.values().length];
+
+	/** Mapping of human-readable name to array indices for powerConsumer
+	 * inputs (as found in the biosim configuration file). Note that this
+	 * enumeration is used for gathering power, setting the base power-needed
+	 * value, and recording whether a particular power source HAS power.
+	 * Only items that actually contribute to operation should be included;
+	 * since the heaters are not considered in the power calculations, they
+	 * are not included. */
 	private enum PowerIndex {
 		AIR_INLET_VALVE_POWER(0),
 		AIR_RETURN_VALVE_POWER(1),
@@ -106,7 +100,6 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		PowerIndex(int index) { ix = index; }
 		int index() { return ix; }
 	}
-	private boolean myHasPower[] = new boolean[PowerIndex.values().length];
 	
 	private float myPrimaryHeaterProduction = 0;
 	private float mySecondaryHeaterProduction = 0;
@@ -117,8 +110,9 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	
 	public CDRSModuleImpl(int pID, String pName) {
 		super(pID, pName);
+		// note: cannot set powerNeededBase until fully initialized;
+		// rather, done as part of the 'reset' method
 		myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
-		//powerNeededBase = getPowerNeeded();
 		myGreyWaterConsumerDefinitionImpl = new GreyWaterConsumerDefinitionImpl(this);
 		myGreyWaterProducerDefinitionImpl = new GreyWaterProducerDefinitionImpl(this);
 		myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl(this);
@@ -132,8 +126,9 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		if (hasEnoughPower) {
 			gatherAir();
 			gatherWater();
-		} else if (myState == CDRSState.dual_bed) {
-			System.err.println("CDRS: NOT ENOUGH POWER FOR dual_bed!");
+		//} else if (myState == CDRSState.dual_bed ||
+		//           myState == CDRSState.single_bed) {
+		//	System.err.println("CDRS: NOT ENOUGH POWER FOR operation!");
 		}
 		if (myStateToTransition != CDRSState.transitioning){
 			myTicksWaited++;
@@ -184,6 +179,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 	
 	private void gatherPower() {
+		// assumes 'reset' has been run to set powerNeededBase value
 		float powerNeeded = powerNeededBase * POWER_DESIRED_MULTIPLIER * getTickLength();
 		float powerAvailable = setPowerAvailability();
 		currentPowerConsumed = powerAvailable;
@@ -195,12 +191,17 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 	
 	private float getPowerNeeded() {
-		float needed = 0.0f;
+		System.out.println("CDRS power sources:");
+		float needed = 0.0f, fudged;
 		for (PowerIndex item : PowerIndex.values()) {
-			float desired = myPowerConsumerDefinitionImpl.getDesiredFlowRate(item.index());
-			needed += POWER_DESIRED_MULTIPLIER * desired;
+			int ix = item.index();
+			float desired = myPowerConsumerDefinitionImpl.getDesiredFlowRate(ix);
+			needed += desired;
+			System.out.println("   "+ item +": config index="+ ix +", desired flow="+ desired);
 		}
-		return needed;
+		fudged = needed * POWER_DESIRED_MULTIPLIER;
+		System.out.println("Total power needed for CDRS: "+ needed +" (with fudge factor, "+ fudged +")");
+		return fudged;
 	}
 		
 	/** Check power availability for particular power sources, reacting if
@@ -215,10 +216,10 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 			powerItem[ord] = myPowerConsumerDefinitionImpl.getMostResourceFromStore(ix);
 			float desired = myPowerConsumerDefinitionImpl.getDesiredFlowRate(ix);
 			myHasPower[ord] = (powerItem[ord] >= POWER_DESIRED_MULTIPLIER * desired);
-			powerAvailable += desired;
+			powerAvailable += powerItem[ord];
 		}
 		return powerAvailable;
-		/*
+		/* TODO: REMOVE THIS CODE ONCE REPLACEMENT CODE ABOVE CONFIRMED/TESTED
 		// air inlet power
 		float powerAirInlet = myPowerConsumerDefinitionImpl.getMostResourceFromStore(AIR_INLET_VALVE_POWER_INDEX);
 		if (powerAirInlet <
@@ -310,25 +311,17 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		super.reset();
 		currentPowerConsumed = 0f;
 		myPowerConsumerDefinitionImpl.reset();
-		powerNeededBase = getPowerNeeded();
 		myGreyWaterConsumerDefinitionImpl.reset();
 		myGreyWaterProducerDefinitionImpl.reset();
 		myAirConsumerDefinitionImpl.reset();
 		myAirProducerDefinitionImpl.reset();
 		myCO2ProducerDefinitionImpl.reset();
 		
+		powerNeededBase = getPowerNeeded();
+		hasEnoughPower = false;
 		for (int i=0; i<PowerIndex.values().length; i++) {
 			myHasPower[i] = false;
 		}
-		//hasEnoughPower = false;
-		//hasPowerAirInlet = false;
-		//hasPowerAirReturn = false;
-		//hasPowerCo2Isolation = false;
-		//hasPowerCo2Vent = false;
-		//hasPowerCdrs = false;
-		//hasPowerWaterPump = false;
-		//hasPowerBlower = false;
-		currentPowerConsumed = 0f;
 		
 		myState = CDRSState.inactive;
 		myArmedStatus = CDRSArmedStatus.not_armed;
@@ -397,7 +390,6 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 	
 	public void setState(CDRSState state) {
-		//if (!hasPowerCdrs) {
 		if (!myHasPower[PowerIndex.CDRS_POWER.ordinal()]) {
 			return;
 		}
