@@ -16,6 +16,12 @@
 			<O2Store capacity="10000" moduleName="O2_Store" level="1000"/>
 			<CDRS moduleName="CDRS">
 				<normalStochasticFilter deviation="0.005"/>
+				<!-- NOTE: power needed for CDRS operation is 90% of the total of the -->
+				<!-- desired flow rates of 7 of the power stores listed here (air     -->
+				<!-- inlet, air return, CO2 iso, CO2 vent, CDRS power, water, and     -->
+				<!-- blower, where water and blower are associated with the last 2    -->
+				<!-- items, both general store; the primary and secondary heaters'    -->
+				<!-- power is not factored into operational power needs).             -->
 				<powerConsumer inputs="CDRS_Air_Inlet_Power_Store CDRS_Air_Return_Power_Store CDRS_CO2_Isolation_Power_Store CDRS_CO2_Vent_Power_Store CDRS_Power_Store CDRS_Primary_Heater_Power_Store CDRS_Secondary_Heater_Power_Store General_Power_Store General_Power_Store" desiredFlowRates="100 100 100 100 100 100 100 100 100" maxFlowRates="100 100 100 100 100 100 100 100 100"/>
 				<greyWaterConsumer inputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
 				<greyWaterProducer outputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>

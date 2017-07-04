@@ -59,33 +59,54 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	private CDRSCommandStatus myBlowerEnabledStatus = CDRSCommandStatus.enabled;
 	private CDRSDayNightState myDayNightState = CDRSDayNightState.day;
 	
-    //During any given tick, this much power is needed for the CDRS
-    // to run at all (sum of desired flows for each power source)
-    private static final float POWER_NEEDED_BASE = 900;
+    // During any given tick, this much power is needed for the CDRS
+    // to run at all (sum of desired flows for each included power source)
+    //private static final float POWER_NEEDED_BASE = 900;
+	 private float powerNeededBase = 700f;
 	 private static final float POWER_DESIRED_MULTIPLIER = 0.9f;
 
-	// flags to determine if the CDRS has enough power to function
-	private boolean hasEnoughPower = false;
-	private boolean hasPowerAirInlet = false;
-	private boolean hasPowerAirReturn = false;
-	private boolean hasPowerCo2Isolation = false;
-	private boolean hasPowerCo2Vent = false;
-	private boolean hasPowerCdrs = false;
-	private boolean hasPowerWaterPump = false;
-	private boolean hasPowerBlower = false;
-	
 	//The power consumed (in watts) by the CDRS at the current tick
 	private float currentPowerConsumed = 0f;
 	
-	private static final int AIR_INLET_VALVE_POWER_INDEX = 0;
-	private static final int AIR_RETURN_VALVE_POWER_INDEX = 1;
-	private static final int CO2_ISOLATION_VALVE_POWER_INDEX = 2;
-	private static final int CO2_VENT_VALVE_POWER_INDEX = 3;
-	private static final int CDRS_POWER_INDEX = 4;
-	private static final int PRIMARY_HEATER_POWER_INDEX = 5;
-	private static final int SECONDARY_HEATER_POWER_INDEX = 6;
-	private static final int WATER_PUMP_POWER_INDEX = 7;
-	private static final int BLOWER_POWER_INDEX = 8;
+	// flags to determine if the CDRS has enough power to function
+	private boolean hasEnoughPower = false;
+	//private boolean hasPowerAirInlet = false;
+	//private boolean hasPowerAirReturn = false;
+	//private boolean hasPowerCo2Isolation = false;
+	//private boolean hasPowerCo2Vent = false;
+	//private boolean hasPowerCdrs = false;
+	//private boolean hasPowerWaterPump = false;
+	//private boolean hasPowerBlower = false;
+	
+	//private static final int AIR_INLET_VALVE_POWER_INDEX = 0;
+	//private static final int AIR_RETURN_VALVE_POWER_INDEX = 1;
+	//private static final int CO2_ISOLATION_VALVE_POWER_INDEX = 2;
+	//private static final int CO2_VENT_VALVE_POWER_INDEX = 3;
+	//private static final int CDRS_POWER_INDEX = 4;
+	//private static final int PRIMARY_HEATER_POWER_INDEX = 5;
+	//private static final int SECONDARY_HEATER_POWER_INDEX = 6;
+	//private static final int WATER_PUMP_POWER_INDEX = 7;
+	//private static final int BLOWER_POWER_INDEX = 8;
+	/** Mapping of human-readable name to array indices for powerConsumer inputs
+	 * (as found in the biosim configuration file). Note that this enumeration is
+	 * used for gathering power, setting the base power-needed value, and recording
+	 * whether a particular power source HAS power. */
+	private enum PowerIndex {
+		AIR_INLET_VALVE_POWER(0),
+		AIR_RETURN_VALVE_POWER(1),
+		CO2_ISOLATION_VALVE_POWER(2),
+		CO2_VENT_VALVE_POWER(3),
+		CDRS_POWER(4),
+		//PRIMARY_HEATER_POWER(5),
+		//SECONDARY_HEATER_POWER(6),
+		WATER_PUMP_POWER(7),
+		BLOWER_POWER(8);
+		
+		private final int ix;
+		PowerIndex(int index) { ix = index; }
+		int index() { return ix; }
+	}
+	private boolean myHasPower[] = new boolean[PowerIndex.values().length];
 	
 	private float myPrimaryHeaterProduction = 0;
 	private float mySecondaryHeaterProduction = 0;
@@ -97,6 +118,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	public CDRSModuleImpl(int pID, String pName) {
 		super(pID, pName);
 		myPowerConsumerDefinitionImpl = new PowerConsumerDefinitionImpl(this);
+		//powerNeededBase = getPowerNeeded();
 		myGreyWaterConsumerDefinitionImpl = new GreyWaterConsumerDefinitionImpl(this);
 		myGreyWaterProducerDefinitionImpl = new GreyWaterProducerDefinitionImpl(this);
 		myAirConsumerDefinitionImpl = new AirConsumerDefinitionImpl(this);
@@ -110,6 +132,8 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		if (hasEnoughPower) {
 			gatherAir();
 			gatherWater();
+		} else if (myState == CDRSState.dual_bed) {
+			System.err.println("CDRS: NOT ENOUGH POWER FOR dual_bed!");
 		}
 		if (myStateToTransition != CDRSState.transitioning){
 			myTicksWaited++;
@@ -160,7 +184,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 	
 	private void gatherPower() {
-		float powerNeeded = POWER_NEEDED_BASE * getTickLength();
+		float powerNeeded = powerNeededBase * POWER_DESIRED_MULTIPLIER * getTickLength();
 		float powerAvailable = setPowerAvailability();
 		currentPowerConsumed = powerAvailable;
 		if (currentPowerConsumed < powerNeeded) {
@@ -170,12 +194,31 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		}
 	}
 	
+	private float getPowerNeeded() {
+		float needed = 0.0f;
+		for (PowerIndex item : PowerIndex.values()) {
+			float desired = myPowerConsumerDefinitionImpl.getDesiredFlowRate(item.index());
+			needed += POWER_DESIRED_MULTIPLIER * desired;
+		}
+		return needed;
+	}
+		
 	/** Check power availability for particular power sources, reacting if
 	 * supply is insufficient, then recording unavailability. Reactions to
 	 * insufficient power must be handled prior to recording, as the flags
 	 * are used to prevent associated commands. */
 	private float setPowerAvailability() {
-		float powerAvailable = 0; // running total
+		float powerAvailable = 0.0f; // running total
+		float powerItem[] = new float[PowerIndex.values().length];
+		for (PowerIndex item : PowerIndex.values()) {
+			int ix = item.index(), ord = item.ordinal();
+			powerItem[ord] = myPowerConsumerDefinitionImpl.getMostResourceFromStore(ix);
+			float desired = myPowerConsumerDefinitionImpl.getDesiredFlowRate(ix);
+			myHasPower[ord] = (powerItem[ord] >= POWER_DESIRED_MULTIPLIER * desired);
+			powerAvailable += desired;
+		}
+		return powerAvailable;
+		/*
 		// air inlet power
 		float powerAirInlet = myPowerConsumerDefinitionImpl.getMostResourceFromStore(AIR_INLET_VALVE_POWER_INDEX);
 		if (powerAirInlet <
@@ -184,6 +227,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		} else {
 			hasPowerAirInlet = true;
 		}
+		System.out.println("CDRS: powerAirInlet="+ powerAirInlet +" (hasPowerAirInlet="+ hasPowerAirInlet +")");
 		powerAvailable += powerAirInlet;
 		
 		// air return power
@@ -194,6 +238,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		} else {
 			hasPowerAirReturn = true;
 		}
+		System.out.println("CDRS: powerAirReturn="+ powerAirReturn +" (hasPowerAirReturn="+ hasPowerAirReturn +")");
 		powerAvailable += powerAirReturn;
 		
 		// co2 isolation power
@@ -204,6 +249,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		} else {
 			hasPowerCo2Isolation = true;
 		}
+		System.out.println("CDRS: powerCo2Isolation="+ powerCo2Isolation +" (hasPowerCo2Isolation="+ hasPowerCo2Isolation +")");
 		powerAvailable += powerCo2Isolation;
 		
 		// co2 vent power
@@ -214,6 +260,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		} else {
 			hasPowerCo2Vent = true;
 		}
+		System.out.println("CDRS: powerCo2Vent="+ powerCo2Vent +" (hasPowerCo2Vent="+ hasPowerCo2Vent +")");
 		powerAvailable += powerCo2Vent;
 		
 		// cdrs power
@@ -227,6 +274,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		} else {
 			hasPowerCdrs = true;
 		}
+		System.out.println("CDRS: powerCdrs="+ powerCdrs +" (hasPowerCdrs="+ hasPowerCdrs +")");
 		powerAvailable += powerCdrs;
 		
 		// water pump power
@@ -238,6 +286,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		} else {
 			hasPowerWaterPump = true;
 		}
+		System.out.println("CDRS: powerWaterPump="+ powerWaterPump +" (hasPowerWaterPump="+ hasPowerWaterPump +")");
 		powerAvailable += powerWaterPump;
 		
 		float powerBlower = myPowerConsumerDefinitionImpl.getMostResourceFromStore(BLOWER_POWER_INDEX);
@@ -248,8 +297,10 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		} else {
 			hasPowerBlower = true;
 		}
+		System.out.println("CDRS: powerBlower="+ powerBlower +" (hasPowerBlower="+ hasPowerBlower +")");
 		powerAvailable += powerBlower;
 		return powerAvailable;
+		*/
 	}
 	
 	/**
@@ -259,19 +310,24 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		super.reset();
 		currentPowerConsumed = 0f;
 		myPowerConsumerDefinitionImpl.reset();
+		powerNeededBase = getPowerNeeded();
 		myGreyWaterConsumerDefinitionImpl.reset();
 		myGreyWaterProducerDefinitionImpl.reset();
 		myAirConsumerDefinitionImpl.reset();
 		myAirProducerDefinitionImpl.reset();
 		myCO2ProducerDefinitionImpl.reset();
-		hasEnoughPower = false;
-		hasPowerAirInlet = false;
-		hasPowerAirReturn = false;
-		hasPowerCo2Isolation = false;
-		hasPowerCo2Vent = false;
-		hasPowerCdrs = false;
-		hasPowerWaterPump = false;
-		hasPowerBlower = false;
+		
+		for (int i=0; i<PowerIndex.values().length; i++) {
+			myHasPower[i] = false;
+		}
+		//hasEnoughPower = false;
+		//hasPowerAirInlet = false;
+		//hasPowerAirReturn = false;
+		//hasPowerCo2Isolation = false;
+		//hasPowerCo2Vent = false;
+		//hasPowerCdrs = false;
+		//hasPowerWaterPump = false;
+		//hasPowerBlower = false;
 		currentPowerConsumed = 0f;
 		
 		myState = CDRSState.inactive;
@@ -341,7 +397,8 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 	
 	public void setState(CDRSState state) {
-		if (!hasPowerCdrs) {
+		//if (!hasPowerCdrs) {
+		if (!myHasPower[PowerIndex.CDRS_POWER.ordinal()]) {
 			return;
 		}
 		if (getArmedStatus() == CDRSArmedStatus.armed){
@@ -373,14 +430,16 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setArmedStatus(CDRSArmedStatus status) {
-		if (!hasPowerCdrs) {
+		//if (!hasPowerCdrs) {
+		if (!myHasPower[PowerIndex.CDRS_POWER.ordinal()]) {
 			return;
 		}
 		this.myArmedStatus = status; 
 	}
 
 	public void setAirInletValveState(CDRSValveState state) {
-		if (!hasPowerAirInlet) {
+		//if (!hasPowerAirInlet) {
+		if (!myHasPower[PowerIndex.AIR_INLET_VALVE_POWER.ordinal()]) {
 			return;
 		}
 		if (getAirInletValveArmedStatus() == CDRSCommandStatus.enabled)
@@ -388,14 +447,16 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setAirInletValveArmedStatus(CDRSCommandStatus status) {
-		if (!hasPowerAirInlet) {
+		//if (!hasPowerAirInlet) {
+		if (!myHasPower[PowerIndex.AIR_INLET_VALVE_POWER.ordinal()]) {
 			return;
 		}
 		this.myAirInletValveEnabledStatus = status;
 	}
 
 	public void setAirReturnValveState(CDRSValveState state) {
-		if (!hasPowerAirReturn) {
+		//if (!hasPowerAirReturn) {
+		if (!myHasPower[PowerIndex.AIR_RETURN_VALVE_POWER.ordinal()]) {
 			return;
 		}
 		if (getAirReturnValveArmedStatus() == CDRSCommandStatus.enabled)
@@ -403,14 +464,16 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setAirReturnValveArmedStatus(CDRSCommandStatus status) {
-		if (!hasPowerAirReturn) {
+		//if (!hasPowerAirReturn) {
+		if (!myHasPower[PowerIndex.AIR_RETURN_VALVE_POWER.ordinal()]) {
 			return;
 		}
 		this.myAirReturnValveEnabledStatus = status;
 	}
 
 	public void setCO2IsolationValveState(CDRSValveState state) {
-		if (!hasPowerCo2Isolation) {
+		//if (!hasPowerCo2Isolation) {
+		if (!myHasPower[PowerIndex.CO2_ISOLATION_VALVE_POWER.ordinal()]) {
 			return;
 		}
 		if (getCO2IsolationValveArmedStatus() == CDRSCommandStatus.enabled)
@@ -418,14 +481,16 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setCO2IsolationValveArmedStatus(CDRSCommandStatus status) {
-		if (!hasPowerCo2Isolation) {
+		//if (!hasPowerCo2Isolation) {
+		if (!myHasPower[PowerIndex.CO2_ISOLATION_VALVE_POWER.ordinal()]) {
 			return;
 		}
 		this.myCO2IsolationValveEnabledStatus = status;
 	}
 
 	public void setCO2VentValveState(CDRSValveState state) {
-		if (!hasPowerCo2Vent) {
+		//if (!hasPowerCo2Vent) {
+		if (!myHasPower[PowerIndex.CO2_VENT_VALVE_POWER.ordinal()]) {
 			return;
 		}
 		if (getCO2VentValveArmedStatus() == CDRSCommandStatus.enabled)
@@ -433,7 +498,8 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setCO2VentValveArmedStatus(CDRSCommandStatus status) {
-		if (!hasPowerCo2Vent) {
+		//if (!hasPowerCo2Vent) {
+		if (!myHasPower[PowerIndex.CO2_VENT_VALVE_POWER.ordinal()]) {
 			return;
 		}
 		this.myCO2VentValveEnabledStatus = status;
@@ -445,7 +511,8 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setWaterPumpArmedStatus(CDRSCommandStatus status) {
-		if (!hasPowerCdrs) {
+		//if (!hasPowerCdrs) {
+		if (!myHasPower[PowerIndex.CDRS_POWER.ordinal()]) {
 			return;
 		}
 		this.myWaterPumpEnabledStatus = status;
@@ -457,14 +524,16 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	}
 
 	public void setBlowerArmedStatus(CDRSCommandStatus status) {
-		if (!hasPowerCdrs) {
+		//if (!hasPowerCdrs) {
+		if (!myHasPower[PowerIndex.CDRS_POWER.ordinal()]) {
 			return;
 		}
 		this.myBlowerEnabledStatus = status;
 	}
 
 	public void setDayNightState(CDRSDayNightState state) {
-		if (!hasPowerCdrs) {
+		//if (!hasPowerCdrs) {
+		if (!myHasPower[PowerIndex.CDRS_POWER.ordinal()]) {
 			return;
 		}
 		this.myDayNightState = state;
