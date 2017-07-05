@@ -86,19 +86,24 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	 * since the heaters are not considered in the power calculations, they
 	 * are not included. */
 	private enum PowerIndex {
-		AIR_INLET_VALVE_POWER(0),
-		AIR_RETURN_VALVE_POWER(1),
-		CO2_ISOLATION_VALVE_POWER(2),
-		CO2_VENT_VALVE_POWER(3),
-		CDRS_POWER(4),
-		//PRIMARY_HEATER_POWER(5),
-		//SECONDARY_HEATER_POWER(6),
-		WATER_PUMP_POWER(7),
-		BLOWER_POWER(8);
+		AIR_INLET_VALVE_POWER(0, true),
+		AIR_RETURN_VALVE_POWER(1, true),
+		CO2_ISOLATION_VALVE_POWER(2, true),
+		CO2_VENT_VALVE_POWER(3, true),
+		CDRS_POWER(4, true),
+		PRIMARY_HEATER_POWER(5, false),
+		SECONDARY_HEATER_POWER(6, false),
+		WATER_PUMP_POWER(7, true),
+		BLOWER_POWER(8, true);
 		
 		private final int ix;
-		PowerIndex(int index) { ix = index; }
+		private final boolean contributes;
+		PowerIndex(int index, boolean contr) {
+			ix = index;
+			contributes = contr;
+		}
 		int index() { return ix; }
+		boolean contributor() { return contributes; }
 	}
 	
 	private float myPrimaryHeaterProduction = 0;
@@ -196,11 +201,13 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		for (PowerIndex item : PowerIndex.values()) {
 			int ix = item.index();
 			float desired = myPowerConsumerDefinitionImpl.getDesiredFlowRate(ix);
-			needed += desired;
-			System.out.println("   "+ item +": config index="+ ix +", desired flow="+ desired);
+			if (item.contributor()) {
+				needed += desired;
+			}
+			System.out.println("   "+ item +": config index="+ ix +", desired flow="+ desired +" ("+ (item.contributor() ? "" : "not ") +"contributing)");
 		}
 		fudged = needed * POWER_DESIRED_MULTIPLIER;
-		System.out.println("Total power needed for CDRS: "+ needed +" (with fudge factor, "+ fudged +")");
+		System.out.println("Total power needed for CDRS: "+ needed +" (with "+ POWER_DESIRED_MULTIPLIER +" fudge factor, "+ fudged +")");
 		return fudged;
 	}
 		
@@ -212,6 +219,7 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		float powerAvailable = 0.0f; // running total
 		float powerItem[] = new float[PowerIndex.values().length];
 		for (PowerIndex item : PowerIndex.values()) {
+			if (!item.contributor()) continue;
 			int ix = item.index(), ord = item.ordinal();
 			powerItem[ord] = myPowerConsumerDefinitionImpl.getMostResourceFromStore(ix);
 			float desired = myPowerConsumerDefinitionImpl.getDesiredFlowRate(ix);

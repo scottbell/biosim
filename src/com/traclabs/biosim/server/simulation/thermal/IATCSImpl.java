@@ -60,9 +60,6 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	/** Array to keep track of whether enough power is flowing in the
 	 * system to operate a particular piece of equipment. */
 	private boolean myHasPower[] = new boolean[PowerIndex.values().length];
-	//private boolean hasPowerSfca = false;
-	//private boolean hasPowerPpa  = false;
-	//private boolean hasPowerTwmv = false;
 	
 	/** Mapping of human-readable name to array indices for powerConsumer
 	 * inputs (as found in the biosim configuration file). Note that this
@@ -70,13 +67,18 @@ public class IATCSImpl extends SimBioModuleImpl implements
 	 * value, and recording whether a particular power source HAS power.
 	 * Only items that actually contribute to operation should be included. */
 	private enum PowerIndex {
-		SFCA_POWER(0),
-		PPA_POWER(1),
-		TWMV_POWER(2);
+		SFCA_POWER(0, true),
+		PPA_POWER(1, true),
+		TWMV_POWER(2, true);
 		
 		private final int ix;
-		PowerIndex(int index) { ix = index; }
+		private final boolean contributes;
+		PowerIndex(int index, boolean contr) {
+			ix = index;
+			contributes = contr;
+		}
 		int index() { return ix; }
+		boolean contributor() { return contributes; }
 	}
 	
 	private float myProductionRate = 1f;
@@ -182,11 +184,13 @@ public class IATCSImpl extends SimBioModuleImpl implements
 		for (PowerIndex item : PowerIndex.values()) {
 			int ix = item.index();
 			float desired = myPowerConsumerDefinitionImpl.getDesiredFlowRate(ix);
-			needed += desired;
-			System.out.println("   "+ item +": config index="+ ix +", desired flow="+ desired);
+			if (item.contributor()) {
+				needed += desired;
+			}
+			System.out.println("   "+ item +": config index="+ ix +", desired flow="+ desired +" ("+ (item.contributor() ? "" : "not ") +"contributing)");
 		}
 		fudged = needed * POWER_DESIRED_MULTIPLIER;
-		System.out.println("Total power needed for ATCS: "+ needed +" (with fudge factor, "+ fudged +")");
+		System.out.println("Total power needed for ATCS: "+ needed +" (with "+ POWER_DESIRED_MULTIPLIER +" fudge factor, "+ fudged +")");
 		return fudged;
 	}
 		
@@ -196,6 +200,7 @@ public class IATCSImpl extends SimBioModuleImpl implements
 		float powerAvailable = 0.0f; // running total
 		float powerItem[] = new float[PowerIndex.values().length];
 		for (PowerIndex item : PowerIndex.values()) {
+			if (!item.contributor()) continue;
 			int ix = item.index(), ord = item.ordinal();
 			powerItem[ord] = myPowerConsumerDefinitionImpl.getMostResourceFromStore(ix);
 			float desired = myPowerConsumerDefinitionImpl.getDesiredFlowRate(ix);
@@ -374,7 +379,7 @@ public class IATCSImpl extends SimBioModuleImpl implements
 		myLogger.debug("power_needed=" + powerNeededBase);
 		myLogger.debug("has_enough_power=" + hasEnoughPower);
 		for (PowerIndex item : PowerIndex.values()) {
-			myLogger.debug(item +"="+ myHasPower[item.ordinal()]);
+			myLogger.debug(item +"="+ myHasPower[item.ordinal()] +" ("+ (item.contributor() ? "" : "not ") +"contributing)");
 		}
 		myLogger.debug("current_power_consumed=" + currentPowerConsumed);
 	}
@@ -423,7 +428,6 @@ public class IATCSImpl extends SimBioModuleImpl implements
 
 	public void setIatcsState(IATCSState state) {
 		if (!myHasPower[PowerIndex.SFCA_POWER.ordinal()]) {
-		//if (!hasPowerSfca) {
 			return;
 		}
 		if (transitionAllowed(state)){
@@ -486,7 +490,6 @@ public class IATCSImpl extends SimBioModuleImpl implements
 
 	public void setBypassValveState(IFHXBypassState bypassValveState) {
 		if (!myHasPower[PowerIndex.TWMV_POWER.ordinal()]) {
-		//if (!hasPowerTwmv) {
 			return;
 		}
 		if (bypassValveCommandStatus == IFHXValveCommandStatus.enabled)
@@ -499,7 +502,6 @@ public class IATCSImpl extends SimBioModuleImpl implements
 
 	public void setBypassValveCommandStatus(IFHXValveCommandStatus bypassValveCommandStatus) {
 		if (!myHasPower[PowerIndex.TWMV_POWER.ordinal()]) {
-		//if (!hasPowerTwmv) {
 			return;
 		}
 		this.bypassValveCommandStatus = bypassValveCommandStatus;
@@ -511,7 +513,6 @@ public class IATCSImpl extends SimBioModuleImpl implements
 
 	public void setIsloationValveState(IFHXValveState isloationValveState) {
 		if (!myHasPower[PowerIndex.TWMV_POWER.ordinal()]) {
-		//if (!hasPowerTwmv) {
 			return;
 		}
 		if (isolationValveCommandStatus == IFHXValveCommandStatus.enabled)
@@ -524,7 +525,6 @@ public class IATCSImpl extends SimBioModuleImpl implements
 
 	public void setIsolationValveCommandStatus(IFHXValveCommandStatus isolationValveCommandStatus) {
 		if (!myHasPower[PowerIndex.TWMV_POWER.ordinal()]) {
-		//if (!hasPowerTwmv) {
 			return;
 		}
 		this.isolationValveCommandStatus = isolationValveCommandStatus;
@@ -536,7 +536,6 @@ public class IATCSImpl extends SimBioModuleImpl implements
 
 	public void setHeaterSoftwareState(SoftwareState newHeaterSoftwareState) {
 		if (!myHasPower[PowerIndex.PPA_POWER.ordinal()]) {
-	   // if (!hasPowerPpa) {
 			return;
 		}
 		if ((heaterSoftwareState == SoftwareState.softwareArmed) || (newHeaterSoftwareState == SoftwareState.softwareArmed)){
