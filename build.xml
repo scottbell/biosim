@@ -125,6 +125,7 @@
 		<echo message="Compling the client" />
 		<javac target="1.6" source="1.6" srcdir="${src}/com/traclabs/biosim/client" destdir="${buildDir}"
 			nowarn="yes" failonerror="yes" debug="on" includeantruntime="false">
+			<compilerarg value="-Xlint:unchecked"/>
 			<classpath>
 				<pathelement location="${src}" />
 				<pathelement location="${buildDir}" />
@@ -148,7 +149,7 @@
 				includes="com/traclabs/biosim/server/**, com/traclabs/biosim/util/**, com/traclabs/biosim/idl/**, com/traclabs/biosim/client/**" />
 			<fileset dir="${resourceDir}"
 				includes="com/traclabs/biosim/server/**, com/traclabs/biosim/util/**, com/traclabs/biosim/idl/**"
-				excludes="com/traclabs/biosim/server/framework/configuration/**/**.xml, com/traclabs/biosim/server/framework/schema/**/**.xsd" />
+				excludes="log4j.properties, com/traclabs/biosim/server/framework/configuration/**/**.xml, com/traclabs/biosim/server/framework/schema/**/**.xsd" />
 			<fileset dir="${distTmpDir}">
 				<exclude name="META-INF" />
 				<exclude name="license-INF" />
@@ -170,7 +171,7 @@
 		<jar destfile="${distDir}/biosim.jar">
 			<fileset dir="${buildDir}"
 				includes="com/traclabs/biosim/util/**, com/traclabs/biosim/idl/**, com/traclabs/biosim/client/util/**" />
-			<fileset dir="${resourceDir}"
+			<fileset dir="${resourceDir}" excludes="log4j.properties"
 				includes="com/traclabs/biosim/server/**, com/traclabs/biosim/util/**, com/traclabs/biosim/idl/**" />
 			<fileset dir="${distTmpDir}">
 				<exclude name="META-INF" />
@@ -363,7 +364,7 @@
 		description="update from subversion and rebuilds" />
 	<target name="test" depends="build">
 		<javac target="1.6" source="1.6" srcdir="${test.dir}" destdir="${buildDir}"
-			memoryMaximumSize="256m" fork="yes" debug="on" includeantruntime="false">
+			memoryMaximumSize="256m" fork="yes" debug="on">
 			<classpath>
 				<pathelement location="${buildDir}" />
 				<pathelement location="${resourceDir}" />
@@ -379,7 +380,7 @@
 		</javac>
 		<mkdir dir="${tmpDir}/junit-results" />
 		<junit haltonfailure="no" printsummary="on" fork="yes"
-			maxmemory="256m" debug="on" includeantruntime="false">
+			maxmemory="256m" debug="on">
 			<classpath>
 				<pathelement location="${buildDir}" />
 				<pathelement location="${resourceDir}" />

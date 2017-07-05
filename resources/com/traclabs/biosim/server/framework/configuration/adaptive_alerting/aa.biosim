@@ -3,10 +3,12 @@
 <biosim xmlns="http://www.traclabs.com/biosim"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
-	<Globals driverStutterLength="500" crewsToWatch="Crew_Quarters_Group" runTillCrewDeath="false"  tickLength="1" startPaused="false"/>
+	<Globals driverStutterLength="500" runTillCrewDeath="false"  tickLength="0.01" startPaused="false"/>
 	<SimBioModules>
 		<environment>
-			<SimEnvironment moduleName="Crew_Quarters" initialVolume="2700000"/>
+			<SimEnvironment moduleName="Crew_Quarters" initialVolume="2700000">
+				<percentageInitialization totalPressure="1.0" co2Percentage="0.95" o2Percentage="0.03" otherPercentage="0.0" waterPercentage="0.0" nitrogenPercentage="0.02"/>
+			</SimEnvironment>
 		</environment>
 		<air>
 			<MethaneStore capacity="0" moduleName="MethaneStore" level="0"/>
@@ -19,8 +21,8 @@
 				<powerConsumer inputs="CDRS_Air_Inlet_Power_Store CDRS_Air_Return_Power_Store CDRS_CO2_Isolation_Power_Store CDRS_CO2_Vent_Power_Store CDRS_Primary_Heater_Power_Store CDRS_Secondary_Heater_Power_Store CDRS_Power_Store General_Power_Store General_Power_Store" desiredFlowRates="100 100 100 100 100 100 100 100 100" maxFlowRates="100 100 100 100 100 100 100 100 100"/>
 				<greyWaterConsumer inputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
 				<greyWaterProducer outputs="Grey_Water_Store" desiredFlowRates="10" maxFlowRates="10"/>
-				<airConsumer inputs="Crew_Quarters" desiredFlowRates="1000" maxFlowRates="1000"/>
-				<airProducer outputs="Crew_Quarters" desiredFlowRates="1000" maxFlowRates="1000"/>
+				<airConsumer inputs="Crew_Quarters" desiredFlowRates="0.25" maxFlowRates="0.25"/>
+				<airProducer outputs="Crew_Quarters" desiredFlowRates="0.25" maxFlowRates="0.25"/>
 				<CO2Producer outputs="CO2_Store" desiredFlowRates="1000" maxFlowRates="1000"/>
 			</CDRS>
 			<OGS moduleName="OGS">
@@ -107,31 +109,6 @@
 		<waste>
 			<DryWasteStore capacity="1000000" moduleName="Dry_Waste_Store" level="0"/>
 		</waste>
-		<crew>
-			<CrewGroup moduleName="Crew_Quarters_Group">
-				<potableWaterConsumer inputs="Potable_Water_Store"
-					desiredFlowRates="3" maxFlowRates="3"/>
-				<airConsumer inputs="Crew_Quarters" desiredFlowRates="0"
-					maxFlowRates="0" />
-				<foodConsumer inputs="Food_Store" desiredFlowRates="5"
-					maxFlowRates="5"/>
-				<dirtyWaterProducer desiredFlowRates="100"
-					outputs="Dirty_Water_Store" maxFlowRates="100"/>
-				<greyWaterProducer desiredFlowRates="100"
-					outputs="Grey_Water_Store" maxFlowRates="100" />
-				<airProducer desiredFlowRates="0"
-					outputs="Crew_Quarters" maxFlowRates="0" />
-				<dryWasteProducer desiredFlowRates="10"
-					outputs="Dry_Waste_Store" maxFlowRates="10"/>
-				<crewPerson age="35" name="Buck Rogers" sex="MALE" weight="75">
-					<schedule>
-						<activity intensity="2" name="leisure" length="12" />
-						<activity intensity="0" name="sleep" length="8" />
-						<activity intensity="5" name="excercise" length="2" />
-					</schedule>
-				</crewPerson>
-			</CrewGroup>
-		</crew>
 	</SimBioModules>
 	<Sensors>
 		<air>

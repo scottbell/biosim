@@ -509,7 +509,7 @@ public class BioDriverImpl extends BioDriverPOA {
 	 * this has happened.
 	 */
 	private void tick() {
-		myLogger.debug("BioDriveImpl: begin Tick");
+		myLogger.debug("BioDriveImpl: begin tick " + ticksGoneBy);
 		// Iterate through the actuators and tick them
 		for (BioModule currentBioModule : actuators)
 			currentBioModule.tick();

@@ -73,6 +73,7 @@ public class MalfunctionPanel extends TimedPanel {
 		refresh();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void refresh() {
 		long ticksExpired = BioHolderInitializer.getBioHolder().theBioDriver
 				.getTicks();
@@ -153,6 +154,7 @@ public class MalfunctionPanel extends TimedPanel {
 				.addModuleSelectionListener(new MalfunctionModuleListener());
 	}
 
+	@SuppressWarnings("unchecked")
 	private void createOperatorPanel() {
 		myOperationsPanel = new JPanel();
 		GridBagLayout gridbag = new GridBagLayout();
@@ -192,6 +194,7 @@ public class MalfunctionPanel extends TimedPanel {
 		myOperationsPanel.add(addMalfunctionButton);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void createCurrentMalfunctionsPanel() {
 		myCurrentMalfunctionsPanel = new JPanel();
 		myCurrentMalfunctionsPanel.setBorder(BorderFactory

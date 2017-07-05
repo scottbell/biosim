@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.jacorb.naming.NameServer;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NameComponent;
@@ -342,29 +341,6 @@ public class OrbUtils {
     }
     
     public static void initializeLog(boolean pDebug){
-    	//load mysql driver
-    	try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-		} catch (ClassNotFoundException e) {
-			//ignore
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-        Properties logProps = new Properties();
-        if (pDebug)
-            logProps.setProperty("log4j.rootLogger", "DEBUG, rootAppender");
-        else
-            logProps.setProperty("log4j.rootLogger", "INFO, rootAppender");
-        logProps.setProperty("log4j.appender.rootAppender",
-                "org.apache.log4j.ConsoleAppender");
-        logProps.setProperty("log4j.appender.rootAppender.layout",
-                "org.apache.log4j.PatternLayout");
-        logProps.setProperty(
-                "log4j.appender.rootAppender.layout.ConversionPattern",
-                "%5p [%c] - %m%n");
-        PropertyConfigurator.configure(logProps);
     }
     
     public static void initializeLog(){

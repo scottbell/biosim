@@ -25,6 +25,7 @@ import com.traclabs.biosim.idl.framework.BioModule;
  * @author scott
  *  
  */
+@SuppressWarnings("unchecked")
 public class ModulePanel extends JPanel {
     private JTabbedPane myTabbedPane;
 
