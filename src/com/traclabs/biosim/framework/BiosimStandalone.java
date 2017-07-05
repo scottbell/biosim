@@ -44,6 +44,8 @@ public class BiosimStandalone {
 		if (args.length > 0) {
 			filename = BiosimMain.getArgumentValue(args[0]);
 		}
+    	System.out.println("Class path is: " + System.getProperty("java.class.path"));
+    	System.out.println("Using configuration file: " + filename);
 		ImageIcon moon = new ImageIcon(BiosimStandalone.class.getClassLoader()
 				.getResource("com/traclabs/biosim/framework/moon.png"));
 		BiosimStandalone myBiosimStandalone = new BiosimStandalone(moon,

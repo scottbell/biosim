@@ -66,7 +66,7 @@
 		description="compiles the IDL stubs">
 		<echo message="Compiling stubs" />
 		<javac target="1.6" source="1.6" srcdir="${stubsDir}" destdir="${buildDir}" fork="yes"
-			memoryMaximumSize="256m" nowarn="yes" debug="on">
+			memoryMaximumSize="256m" nowarn="yes" debug="on" includeantruntime="false">
 			<classpath>
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 			</classpath>
@@ -81,7 +81,7 @@
 		description="compile the server">
 		<echo message="Compling the server" />
 		<javac target="1.6" source="1.6" srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}"
-			nowarn="yes" failonerror="yes" debug="on">
+			nowarn="yes" failonerror="yes" debug="on" includeantruntime="false">
 			<classpath>
 				<pathelement location="${src}" />
 				<pathelement location="${buildDir}" />
@@ -96,7 +96,7 @@
 		description="compile the framework">
 		<echo message="Compling the framework" />
 		<javac target="1.6" source="1.6" srcdir="${src}/com/traclabs/biosim/framework" destdir="${buildDir}"
-			nowarn="yes" failonerror="yes" debug="on">
+			nowarn="yes" failonerror="yes" debug="on" includeantruntime="false">
 			<classpath>
 				<pathelement location="${src}" />
 				<pathelement location="${buildDir}" />
@@ -110,7 +110,7 @@
 	<target name="build-util" depends="" description="compile the util">
 		<echo message="Compling the util" />
 		<javac target="1.6" source="1.6" srcdir="${src}/com/traclabs/biosim/util" destdir="${buildDir}"
-			nowarn="yes" failonerror="yes" debug="on">
+			nowarn="yes" failonerror="yes" debug="on" includeantruntime="false">
 			<classpath>
 				<pathelement location="${src}" />
 				<pathelement location="${buildDir}" />
@@ -124,7 +124,8 @@
 		description="compile the client">
 		<echo message="Compling the client" />
 		<javac target="1.6" source="1.6" srcdir="${src}/com/traclabs/biosim/client" destdir="${buildDir}"
-			nowarn="yes" failonerror="yes" debug="on">
+			nowarn="yes" failonerror="yes" debug="on" includeantruntime="false">
+			<compilerarg value="-Xlint:unchecked"/>
 			<classpath>
 				<pathelement location="${src}" />
 				<pathelement location="${buildDir}" />
@@ -148,7 +149,7 @@
 				includes="com/traclabs/biosim/server/**, com/traclabs/biosim/util/**, com/traclabs/biosim/idl/**, com/traclabs/biosim/client/**" />
 			<fileset dir="${resourceDir}"
 				includes="com/traclabs/biosim/server/**, com/traclabs/biosim/util/**, com/traclabs/biosim/idl/**"
-				excludes="com/traclabs/biosim/server/framework/configuration/**/**.xml, com/traclabs/biosim/server/framework/schema/**/**.xsd" />
+				excludes="log4j.properties, com/traclabs/biosim/server/framework/configuration/**/**.xml, com/traclabs/biosim/server/framework/schema/**/**.xsd" />
 			<fileset dir="${distTmpDir}">
 				<exclude name="META-INF" />
 				<exclude name="license-INF" />
@@ -170,7 +171,7 @@
 		<jar destfile="${distDir}/biosim.jar">
 			<fileset dir="${buildDir}"
 				includes="com/traclabs/biosim/util/**, com/traclabs/biosim/idl/**, com/traclabs/biosim/client/util/**" />
-			<fileset dir="${resourceDir}"
+			<fileset dir="${resourceDir}" excludes="log4j.properties"
 				includes="com/traclabs/biosim/server/**, com/traclabs/biosim/util/**, com/traclabs/biosim/idl/**" />
 			<fileset dir="${distTmpDir}">
 				<exclude name="META-INF" />

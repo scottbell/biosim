@@ -22,10 +22,12 @@ public class HeadlessStandalone extends BiosimStandalone {
 	}
 	
 	public static void main(String args[]) {
-    	String filename = "cdrs/cdrs.biosim";
+		String filename = "default.biosim";
     	if (args.length > 0){
     		filename = BiosimMain.getArgumentValue(args[0]);
     	}
+    	System.out.println("Using configuration file: " + filename);
+    	System.out.println("Class path is: " + System.getProperty("java.class.path"));
     	HeadlessStandalone standalone = new HeadlessStandalone(filename, 500);
     	standalone.beginSimulation();
     }
