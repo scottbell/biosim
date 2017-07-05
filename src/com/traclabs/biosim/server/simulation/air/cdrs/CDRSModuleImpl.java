@@ -223,7 +223,19 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 			int ix = item.index(), ord = item.ordinal();
 			powerItem[ord] = myPowerConsumerDefinitionImpl.getMostResourceFromStore(ix);
 			float desired = myPowerConsumerDefinitionImpl.getDesiredFlowRate(ix);
-			myHasPower[ord] = (powerItem[ord] >= POWER_DESIRED_MULTIPLIER * desired);
+			if (powerItem[ord] < (POWER_DESIRED_MULTIPLIER * desired)) {
+				// special handling on power loss for certain items
+				if (item == PowerIndex.CDRS_POWER) {
+					cdrsPowerLoss();
+				} else if (item == PowerIndex.WATER_PUMP_POWER) {
+					waterPumpPowerLoss();
+				} else if (item == PowerIndex.BLOWER_POWER) {
+					blowerPowerLoss();
+				}
+				myHasPower[ord] = false;
+			} else {
+				myHasPower[ord] = true;
+			}
 			powerAvailable += powerItem[ord];
 		}
 		return powerAvailable;
@@ -310,6 +322,20 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 		powerAvailable += powerBlower;
 		return powerAvailable;
 		*/
+	}
+	
+	private void cdrsPowerLoss() {
+		transitionToInactive();
+		myTicksWaited = 0;
+		myStateToTransition = CDRSState.transitioning;
+	}
+	
+	private void waterPumpPowerLoss() {
+		setWaterPumpState(CDRSPowerState.off);
+	}
+	
+	private void blowerPowerLoss() {
+		setBlowerState(CDRSPowerState.off);
 	}
 	
 	/**
