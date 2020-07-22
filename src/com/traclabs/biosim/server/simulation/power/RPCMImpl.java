@@ -3,6 +3,9 @@
  */
 package com.traclabs.biosim.server.simulation.power;
 
+import com.traclabs.biosim.idl.framework.Malfunction;
+import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
+import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.idl.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.idl.simulation.power.PowerProducerDefinition;
@@ -77,5 +80,22 @@ public class RPCMImpl extends SimBioModuleImpl implements RPCMOperations, PowerC
 	public void setArmedStatus(RPCMArmedStatus state) {
 		this.myArmedStatus = state;
 	}
+
+	@Override
+	protected String getMalfunctionName(MalfunctionIntensity pIntensity,
+            MalfunctionLength pLength) {
+        return "Broken";
+    }
+    
+	@Override
+    protected void performMalfunctions() {
+		for (Malfunction malfunction : myMalfunctions.values()) {
+			malfunction.setPerformed(true);
+		}
+		if (myMalfunctions.values().size() > 0) {
+			myPowerConsumerDefinitionImpl.malfunction();
+			myPowerProducerDefinitionImpl.malfunction();
+		}
+    }
 
 }

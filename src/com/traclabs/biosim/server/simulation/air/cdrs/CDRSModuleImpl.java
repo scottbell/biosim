@@ -1,5 +1,8 @@
 package com.traclabs.biosim.server.simulation.air.cdrs;
 
+import com.traclabs.biosim.idl.framework.Malfunction;
+import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
+import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.idl.simulation.air.CO2ProducerDefinition;
 import com.traclabs.biosim.idl.simulation.air.CO2ProducerOperations;
 import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSArmedStatus;
@@ -88,7 +91,11 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
     
     public void tick() {
         super.tick();
-        gatherPower();
+        boolean gatheredProperPower =  gatherPower();
+        if (!gatheredProperPower) {
+        	transitionToInactive();
+        	return;
+        }
         gatherAir();
         gatherWater();
         if (myStateToTransition != CDRSState.transitioning){
@@ -139,17 +146,23 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
     	myStateToTransition = CDRSState.transitioning;
 	}
 
-	private void gatherPower() {
-    	float cdrsPower = myPowerConsumerDefinitionImpl.getMostResourceFromStore(CDRS_POWER_INDEX);
-    	//fix cdrs
-    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(AIR_INLET_VALVE_POWER_INDEX);
-    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(AIR_RETURN_VALVE_POWER_INDEX);
-    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(CO2_ISOLATION_VALVE_POWER_INDEX);
-    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(CO2_VENT_VALVE_POWER_INDEX);
-    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(PRIMARY_HEATER_POWER_INDEX);
-    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(SECONDARY_HEATER_POWER_INDEX);
-    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(WATER_PUMP_POWER_INDEX);
-    	myPowerConsumerDefinitionImpl.getMostResourceFromStore(BLOWER_POWER_INDEX);
+	private boolean gatherPower() {
+		float cdrsPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStore(CDRS_POWER_INDEX);
+		float airInletPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStore(AIR_INLET_VALVE_POWER_INDEX);
+		float airReturnPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStore(AIR_RETURN_VALVE_POWER_INDEX);
+		float co2IsolationPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStore(CO2_ISOLATION_VALVE_POWER_INDEX);
+		float co2VentPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStore(CO2_VENT_VALVE_POWER_INDEX);
+		float primaryHeaterPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStore(PRIMARY_HEATER_POWER_INDEX);
+		float secondaryHeaterPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStore(SECONDARY_HEATER_POWER_INDEX);
+		float waterPumpPowerConsumed = myPowerConsumerDefinitionImpl.getMostResourceFromStore(WATER_PUMP_POWER_INDEX);
+		float blowerPowerConsumed =  myPowerConsumerDefinitionImpl.getMostResourceFromStore(BLOWER_POWER_INDEX);
+		if (cdrsPowerConsumed <= 0 || airInletPowerConsumed <= 0 || airReturnPowerConsumed <= 0 ||
+				co2IsolationPowerConsumed <= 0 || co2VentPowerConsumed <= 0 ||
+				primaryHeaterPowerConsumed <= 0 || secondaryHeaterPowerConsumed <= 0 ||
+				waterPumpPowerConsumed <= 0 || blowerPowerConsumed <= 0) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -422,5 +435,27 @@ public class CDRSModuleImpl extends SimBioModuleImpl implements CDRSModuleOperat
 	public float getSecondaryHeatProduction() {
 		return mySecondaryHeaterProduction;
 	}
+	
+	@Override
+	protected String getMalfunctionName(MalfunctionIntensity pIntensity,
+            MalfunctionLength pLength) {
+        return "Broken";
+    }
+    
+	@Override
+    protected void performMalfunctions() {
+		for (Malfunction malfunction : myMalfunctions.values()) {
+			malfunction.setPerformed(true);
+		}
+		if (myMalfunctions.values().size() > 0) {
+			myPowerConsumerDefinitionImpl.malfunction();
+			myGreyWaterConsumerDefinitionImpl.malfunction();
+			myGreyWaterProducerDefinitionImpl.malfunction();
+			myAirProducerDefinitionImpl.malfunction();
+			myAirConsumerDefinitionImpl.malfunction();
+			myCO2ProducerDefinitionImpl.malfunction();
+			transitionToInactive();
+		}
+    }
 
 }

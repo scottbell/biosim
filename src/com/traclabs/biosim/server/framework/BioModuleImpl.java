@@ -144,6 +144,9 @@ public abstract class BioModuleImpl extends BioModulePOA {
             if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF)
                 myMalfunctions.remove(new Long(currentMalfunction.getID()));
 		}
+    	if (myMalfunctions.isEmpty()) {
+        	reset();
+        }
     }
 
     /**
@@ -154,6 +157,9 @@ public abstract class BioModuleImpl extends BioModulePOA {
     	for (Malfunction currentMalfunction : myMalfunctions.values())
             myMalfunctions.remove(new Long(currentMalfunction.getID()));
     	myFailureTime = 0;
+    	if (myMalfunctions.isEmpty()) {
+        	reset();
+        }
     }
 
     /**
@@ -291,6 +297,9 @@ public abstract class BioModuleImpl extends BioModulePOA {
                 .get(new Long(pID)));
         if (theMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF)
             myMalfunctions.remove(new Long(pID));
+        if (myMalfunctions.isEmpty()) {
+        	reset();
+        }
     }
 
     /**

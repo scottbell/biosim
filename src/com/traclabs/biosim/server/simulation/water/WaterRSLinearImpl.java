@@ -79,6 +79,7 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
         myGreyWaterConsumerDefinitionImpl.reset();
         myDirtyWaterConsumerDefinitionImpl.reset();
         myPotableWaterProducerDefinitionImpl.reset();
+        currentPowerConsumed = 0f;
     }
 
     private void gatherPower() {
@@ -119,7 +120,7 @@ public class WaterRSLinearImpl extends SimBioModuleImpl implements
     
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
             MalfunctionLength pLength) {
-        return "NoName";
+        return "Broken";
     }
     
     public void log() {
