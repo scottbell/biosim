@@ -58,6 +58,8 @@
 			<classpath>
 				<pathelement location="${jacorbDir}/idl.jar" />
 				<pathelement location="${jacorbDir}/logkit.jar" />
+				<pathelement location="${jacorbDir}/jacorb-omgapi.jar" />
+				<pathelement location="${jacorbDir}/jboss-rmi-api.jar" />
 			</classpath>
 		</java>
 	</target>
@@ -65,10 +67,12 @@
 	<target name="compile-stubs" depends="init-build,init-tmp"
 		description="compiles the IDL stubs">
 		<echo message="Compiling stubs" />
-		<javac target="1.6" source="1.6" srcdir="${stubsDir}" destdir="${buildDir}" fork="yes"
+		<javac target="1.8" source="1.8" srcdir="${stubsDir}" destdir="${buildDir}" fork="yes"
 			memoryMaximumSize="256m" nowarn="yes" debug="on" includeantruntime="false">
 			<classpath>
 				<pathelement location="${jacorbDir}/jacorb.jar" />
+				<pathelement location="${jacorbDir}/jacorb-omgapi.jar" />
+				<pathelement location="${jacorbDir}/jboss-rmi-api.jar" />
 			</classpath>
 		</javac>
 	</target>
@@ -80,7 +84,7 @@
 	<target name="build-server" depends="stub-and-compile-idl,build-util"
 		description="compile the server">
 		<echo message="Compling the server" />
-		<javac target="1.6" source="1.6" srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}"
+		<javac target="1.8" source="1.8" srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}"
 			nowarn="yes" failonerror="yes" debug="on" includeantruntime="false">
 			<classpath>
 				<pathelement location="${src}" />
@@ -88,6 +92,8 @@
 				<pathelement location="${log4jDir}/log4j.jar" />
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
+				<pathelement location="${jacorbDir}/jacorb-omgapi.jar" />
+				<pathelement location="${jacorbDir}/jboss-rmi-api.jar" />
 			</classpath>
 		</javac>
 	</target>
@@ -95,7 +101,7 @@
 	<target name="build-framework" depends="build-server"
 		description="compile the framework">
 		<echo message="Compling the framework" />
-		<javac target="1.6" source="1.6" srcdir="${src}/com/traclabs/biosim/framework" destdir="${buildDir}"
+		<javac target="1.8" source="1.8" srcdir="${src}/com/traclabs/biosim/framework" destdir="${buildDir}"
 			nowarn="yes" failonerror="yes" debug="on" includeantruntime="false">
 			<classpath>
 				<pathelement location="${src}" />
@@ -103,13 +109,15 @@
 				<pathelement location="${log4jDir}/log4j.jar" />
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
+				<pathelement location="${jacorbDir}/jacorb-omgapi.jar" />
+				<pathelement location="${jacorbDir}/jboss-rmi-api.jar" />
 			</classpath>
 		</javac>
 	</target>
 	
 	<target name="build-util" depends="" description="compile the util">
 		<echo message="Compling the util" />
-		<javac target="1.6" source="1.6" srcdir="${src}/com/traclabs/biosim/util" destdir="${buildDir}"
+		<javac target="1.8" source="1.8" srcdir="${src}/com/traclabs/biosim/util" destdir="${buildDir}"
 			nowarn="yes" failonerror="yes" debug="on" includeantruntime="false">
 			<classpath>
 				<pathelement location="${src}" />
@@ -117,13 +125,15 @@
 				<pathelement location="${log4jDir}/log4j.jar" />
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
+				<pathelement location="${jacorbDir}/jacorb-omgapi.jar" />
+				<pathelement location="${jacorbDir}/jboss-rmi-api.jar" />
 			</classpath>
 		</javac>
 	</target>
 	<target name="build-client" depends="stub-and-compile-idl"
 		description="compile the client">
 		<echo message="Compling the client" />
-		<javac target="1.6" source="1.6" srcdir="${src}/com/traclabs/biosim/client" destdir="${buildDir}"
+		<javac target="1.8" source="1.8" srcdir="${src}/com/traclabs/biosim/client" destdir="${buildDir}"
 			nowarn="yes" failonerror="yes" debug="on" includeantruntime="false">
 			<compilerarg value="-Xlint:unchecked"/>
 			<classpath>
@@ -131,6 +141,8 @@
 				<pathelement location="${buildDir}" />
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
+				<pathelement location="${jacorbDir}/jacorb-omgapi.jar" />
+				<pathelement location="${jacorbDir}/jboss-rmi-api.jar" />
 				<pathelement location="${log4jDir}/log4j.jar" />
 				<pathelement location="${plotDir}/jcommon.jar" />
 				<pathelement location="${plotDir}/jfreechart.jar" />
@@ -165,6 +177,8 @@
 		<unzip dest="${distTmpDir}">
 			<fileset file="${jacorbDir}/jacorb.jar" />
 			<fileset file="${jacorbDir}/logkit.jar" />
+			<fileset file="${jacorbDir}/jacorb-omgapi.jar" />
+			<fileset file="${jacorbDir}/jboss-rmi-api.jar" />
 			<fileset file="${jacorbDir}/avalon-framework.jar" />
 		</unzip>
 		<echo message="Creating biosim jar for client distribution" />
@@ -211,6 +225,8 @@
 				<pathelement location="${log4jDir}/log4j.jar" />
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/logkit.jar" />
+				<pathelement location="${jacorbDir}/jacorb-omgapi.jar" />
+				<pathelement location="${jacorbDir}/jboss-rmi-api.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
 				<pathelement location="${plotDir}/jcommon.jar" />
 				<pathelement location="${plotDir}/jfreechart.jar" />
@@ -269,6 +285,8 @@
 			<classpath>
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/logkit.jar" />
+				<pathelement location="${jacorbDir}/jacorb-omgapi.jar" />
+				<pathelement location="${jacorbDir}/jboss-rmi-api.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
 			</classpath>
 			<sysproperty key="org.omg.CORBA.ORBSingletonClass" value="org.jacorb.orb.ORBSingleton" />
@@ -286,6 +304,8 @@
 			<classpath>
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/logkit.jar" />
+				<pathelement location="${jacorbDir}/jacorb-omgapi.jar" />
+				<pathelement location="${jacorbDir}/jboss-rmi-api.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
 			</classpath>
 		</java>
@@ -303,6 +323,8 @@
 				<pathelement location="${log4jDir}/log4j.jar" />
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/logkit.jar" />
+				<pathelement location="${jacorbDir}/jacorb-omgapi.jar" />
+				<pathelement location="${jacorbDir}/jboss-rmi-api.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
 				<pathelement location="${bionetDir}" />
 				<pathelement location="${bionetDir}/JBionet.jar" />
@@ -322,6 +344,8 @@
 				<pathelement location="${log4jDir}/log4j.jar" />
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/logkit.jar" />
+				<pathelement location="${jacorbDir}/jacorb-omgapi.jar" />
+				<pathelement location="${jacorbDir}/jboss-rmi-api.jar" />
 				<pathelement location="${xercesDir}/xercesImpl.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
 				<pathelement location="${plotDir}/jcommon.jar" />
@@ -363,7 +387,7 @@
 	<target name="update-and-rebuild-and-test-and-dist" depends="update,rebuild,test,build-dist"
 		description="update from subversion and rebuilds" />
 	<target name="test" depends="build">
-		<javac target="1.6" source="1.6" srcdir="${test.dir}" destdir="${buildDir}"
+		<javac target="1.8" source="1.8" srcdir="${test.dir}" destdir="${buildDir}"
 			memoryMaximumSize="256m" fork="yes" debug="on">
 			<classpath>
 				<pathelement location="${buildDir}" />
@@ -371,6 +395,8 @@
 				<pathelement location="${log4jDir}/log4j.jar" />
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/logkit.jar" />
+				<pathelement location="${jacorbDir}/jacorb-omgapi.jar" />
+				<pathelement location="${jacorbDir}/jboss-rmi-api.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
 				<pathelement location="${plotDir}/jcommon.jar" />
 				<pathelement location="${plotDir}/jfreechart.jar" />
@@ -387,6 +413,8 @@
 				<pathelement location="${log4jDir}/log4j.jar" />
 				<pathelement location="${jacorbDir}/jacorb.jar" />
 				<pathelement location="${jacorbDir}/logkit.jar" />
+				<pathelement location="${jacorbDir}/jacorb-omgapi.jar" />
+				<pathelement location="${jacorbDir}/jboss-rmi-api.jar" />
 				<pathelement location="${jacorbDir}/avalon-framework.jar" />
 				<pathelement location="${plotDir}/jcommon.jar" />
 				<pathelement location="${plotDir}/jfreechart.jar" />
@@ -410,7 +438,8 @@
 			<fileset file="${log4jDir}/log4j.jar" />
 			<fileset file="${jacorbDir}/jacorb.jar" />
 			<fileset file="${jacorbDir}/logkit.jar" />
-			<fileset file="${jacorbDir}/avalon-framework.jar" />
+			<fileset file="${jacorbDir}/jacorb-omgapi.jar" />
+			<fileset file="${jacorbDir}/jboss-rmi-api.jar" />
 			<fileset file="${plotDir}/jcommon.jar" />
 			<fileset file="${plotDir}/jfreechart.jar" />
 			<fileset file="${lib}/ptolemy/plot.jar" />
