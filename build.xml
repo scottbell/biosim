@@ -76,7 +76,6 @@
 		<mkdir dir="${stubsDir}" />
 		<echo message="Stubbing the IDL file" />
 		<java classname="org.jacorb.idl.parser" failonerror="yes">
-			<arg value="-uncheckednarrow" />
 			<arg value="-d" />
 			<arg file="${stubsDir}" />
 			<arg file="${src}/com/traclabs/biosim/idl/biosim.idl" />
