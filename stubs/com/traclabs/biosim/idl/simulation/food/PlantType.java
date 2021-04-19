@@ -1,12 +1,16 @@
 package com.traclabs.biosim.idl.simulation.food;
 /**
- *	Generated from IDL definition of enum "PlantType"
- *	@author JacORB IDL compiler 
+ * Generated from IDL enum "PlantType".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
  */
 
 public final class PlantType
 	implements org.omg.CORBA.portable.IDLEntity
 {
+	/** Serial version UID. */
+	private static final long serialVersionUID = 1L;
 	private int value = -1;
 	public static final int _WHEAT = 0;
 	public static final PlantType WHEAT = new PlantType(_WHEAT);
@@ -48,10 +52,32 @@ public final class PlantType
 			default: throw new org.omg.CORBA.BAD_PARAM();
 		}
 	}
+	public String toString()
+	{
+		switch (value) {
+			case _WHEAT: return "WHEAT";
+			case _DRY_BEAN: return "DRY_BEAN";
+			case _LETTUCE: return "LETTUCE";
+			case _PEANUT: return "PEANUT";
+			case _RICE: return "RICE";
+			case _SOYBEAN: return "SOYBEAN";
+			case _SWEET_POTATO: return "SWEET_POTATO";
+			case _TOMATO: return "TOMATO";
+			case _WHITE_POTATO: return "WHITE_POTATO";
+			case _UNKNOWN_PLANT: return "UNKNOWN_PLANT";
+			default: throw new org.omg.CORBA.BAD_PARAM();
+		}
+	}
 	protected PlantType(int i)
 	{
 		value = i;
 	}
+	/**
+	 * Designate replacement object when deserialized from stream. See
+	 * http://www.omg.org/docs/ptc/02-01-03.htm#Issue4271
+	 *
+	 * @throws java.io.ObjectStreamException
+	 */
 	java.lang.Object readResolve()
 	throws java.io.ObjectStreamException
 	{

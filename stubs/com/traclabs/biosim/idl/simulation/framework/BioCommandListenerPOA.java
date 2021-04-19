@@ -1,28 +1,34 @@
 package com.traclabs.biosim.idl.simulation.framework;
 
-/**
- *	Generated from IDL interface "BioCommandListener"
- *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
- */
 
+/**
+ * Generated from IDL interface "BioCommandListener".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
+ */
 
 public abstract class BioCommandListenerPOA
 	extends org.omg.PortableServer.Servant
 	implements org.omg.CORBA.portable.InvokeHandler, com.traclabs.biosim.idl.simulation.framework.BioCommandListenerOperations
 {
-	static private final java.util.Hashtable m_opsHash = new java.util.Hashtable();
+	static private final java.util.HashMap<String,Integer> m_opsHash = new java.util.HashMap<String,Integer>();
 	static
 	{
-		m_opsHash.put ( "newCommandSent", new java.lang.Integer(0));
+		m_opsHash.put ( "newCommandSent", Integer.valueOf(0));
 	}
 	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/framework/BioCommandListener:1.0"};
 	public com.traclabs.biosim.idl.simulation.framework.BioCommandListener _this()
 	{
-		return com.traclabs.biosim.idl.simulation.framework.BioCommandListenerHelper.narrow(_this_object());
+		org.omg.CORBA.Object __o = _this_object() ;
+		com.traclabs.biosim.idl.simulation.framework.BioCommandListener __r = com.traclabs.biosim.idl.simulation.framework.BioCommandListenerHelper.narrow(__o);
+		return __r;
 	}
 	public com.traclabs.biosim.idl.simulation.framework.BioCommandListener _this(org.omg.CORBA.ORB orb)
 	{
-		return com.traclabs.biosim.idl.simulation.framework.BioCommandListenerHelper.narrow(_this_object(orb));
+		org.omg.CORBA.Object __o = _this_object(orb) ;
+		com.traclabs.biosim.idl.simulation.framework.BioCommandListener __r = com.traclabs.biosim.idl.simulation.framework.BioCommandListenerHelper.narrow(__o);
+		return __r;
 	}
 	public org.omg.CORBA.portable.OutputStream _invoke(String method, org.omg.CORBA.portable.InputStream _input, org.omg.CORBA.portable.ResponseHandler handler)
 		throws org.omg.CORBA.SystemException

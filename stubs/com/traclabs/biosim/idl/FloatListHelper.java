@@ -1,13 +1,15 @@
 package com.traclabs.biosim.idl;
 
 /**
- *	Generated from IDL definition of alias "FloatList"
- *	@author JacORB IDL compiler 
+ * Generated from IDL alias "FloatList".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
  */
 
-public final class FloatListHelper
+public abstract class FloatListHelper
 {
-	private static org.omg.CORBA.TypeCode _type = null;
+	private volatile static org.omg.CORBA.TypeCode _type;
 
 	public static void insert (org.omg.CORBA.Any any, float[] s)
 	{
@@ -17,6 +19,10 @@ public final class FloatListHelper
 
 	public static float[] extract (final org.omg.CORBA.Any any)
 	{
+		if ( any.type().kind() == org.omg.CORBA.TCKind.tk_null)
+		{
+			throw new org.omg.CORBA.BAD_OPERATION ("Can't extract from Any with null type.");
+		}
 		return read (any.create_input_stream ());
 	}
 
@@ -24,7 +30,13 @@ public final class FloatListHelper
 	{
 		if (_type == null)
 		{
-			_type = org.omg.CORBA.ORB.init().create_alias_tc(com.traclabs.biosim.idl.FloatListHelper.id(), "FloatList",org.omg.CORBA.ORB.init().create_sequence_tc(0, org.omg.CORBA.ORB.init().get_primitive_tc(org.omg.CORBA.TCKind.from_int(6))));
+			synchronized(FloatListHelper.class)
+			{
+				if (_type == null)
+				{
+					_type = org.omg.CORBA.ORB.init().create_alias_tc(com.traclabs.biosim.idl.FloatListHelper.id(), "FloatList",org.omg.CORBA.ORB.init().create_sequence_tc(0, org.omg.CORBA.ORB.init().get_primitive_tc(org.omg.CORBA.TCKind.from_int(6))));
+				}
+			}
 		}
 		return _type;
 	}
@@ -37,8 +49,19 @@ public final class FloatListHelper
 	{
 		float[] _result;
 		int _l_result1 = _in.read_long();
+		try
+		{
+			 int x = _in.available();
+			 if ( x > 0 && _l_result1 > x )
+				{
+					throw new org.omg.CORBA.MARSHAL("Sequence length too large. Only " + x + " available and trying to assign " + _l_result1);
+				}
+		}
+		catch (java.io.IOException e)
+		{
+		}
 		_result = new float[_l_result1];
-	_in.read_float_array(_result,0,_l_result1);
+		_in.read_float_array(_result,0,_l_result1);
 		return _result;
 	}
 

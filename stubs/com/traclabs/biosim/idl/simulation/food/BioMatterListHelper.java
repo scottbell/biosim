@@ -1,13 +1,15 @@
 package com.traclabs.biosim.idl.simulation.food;
 
 /**
- *	Generated from IDL definition of alias "BioMatterList"
- *	@author JacORB IDL compiler 
+ * Generated from IDL alias "BioMatterList".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
  */
 
-public final class BioMatterListHelper
+public abstract class BioMatterListHelper
 {
-	private static org.omg.CORBA.TypeCode _type = null;
+	private volatile static org.omg.CORBA.TypeCode _type;
 
 	public static void insert (org.omg.CORBA.Any any, com.traclabs.biosim.idl.simulation.food.BioMatter[] s)
 	{
@@ -17,6 +19,10 @@ public final class BioMatterListHelper
 
 	public static com.traclabs.biosim.idl.simulation.food.BioMatter[] extract (final org.omg.CORBA.Any any)
 	{
+		if ( any.type().kind() == org.omg.CORBA.TCKind.tk_null)
+		{
+			throw new org.omg.CORBA.BAD_OPERATION ("Can't extract from Any with null type.");
+		}
 		return read (any.create_input_stream ());
 	}
 
@@ -24,7 +30,13 @@ public final class BioMatterListHelper
 	{
 		if (_type == null)
 		{
-			_type = org.omg.CORBA.ORB.init().create_alias_tc(com.traclabs.biosim.idl.simulation.food.BioMatterListHelper.id(), "BioMatterList",org.omg.CORBA.ORB.init().create_sequence_tc(0, com.traclabs.biosim.idl.simulation.food.BioMatterHelper.type()));
+			synchronized(BioMatterListHelper.class)
+			{
+				if (_type == null)
+				{
+					_type = org.omg.CORBA.ORB.init().create_alias_tc(com.traclabs.biosim.idl.simulation.food.BioMatterListHelper.id(), "BioMatterList",org.omg.CORBA.ORB.init().create_sequence_tc(0, org.omg.CORBA.ORB.init().create_struct_tc(com.traclabs.biosim.idl.simulation.food.BioMatterHelper.id(),"BioMatter",new org.omg.CORBA.StructMember[]{new org.omg.CORBA.StructMember("mass", org.omg.CORBA.ORB.init().get_primitive_tc(org.omg.CORBA.TCKind.from_int(6)), null),new org.omg.CORBA.StructMember("inedibleFraction", org.omg.CORBA.ORB.init().get_primitive_tc(org.omg.CORBA.TCKind.from_int(6)), null),new org.omg.CORBA.StructMember("edibleWaterContent", org.omg.CORBA.ORB.init().get_primitive_tc(org.omg.CORBA.TCKind.from_int(6)), null),new org.omg.CORBA.StructMember("inedibleWaterContent", org.omg.CORBA.ORB.init().get_primitive_tc(org.omg.CORBA.TCKind.from_int(6)), null),new org.omg.CORBA.StructMember("type", org.omg.CORBA.ORB.init().create_enum_tc(com.traclabs.biosim.idl.simulation.food.PlantTypeHelper.id(),"PlantType",new String[]{"WHEAT","DRY_BEAN","LETTUCE","PEANUT","RICE","SOYBEAN","SWEET_POTATO","TOMATO","WHITE_POTATO","UNKNOWN_PLANT"}), null)})));
+				}
+			}
 		}
 		return _type;
 	}
@@ -37,6 +49,17 @@ public final class BioMatterListHelper
 	{
 		com.traclabs.biosim.idl.simulation.food.BioMatter[] _result;
 		int _l_result14 = _in.read_long();
+		try
+		{
+			 int x = _in.available();
+			 if ( x > 0 && _l_result14 > x )
+				{
+					throw new org.omg.CORBA.MARSHAL("Sequence length too large. Only " + x + " available and trying to assign " + _l_result14);
+				}
+		}
+		catch (java.io.IOException e)
+		{
+		}
 		_result = new com.traclabs.biosim.idl.simulation.food.BioMatter[_l_result14];
 		for (int i=0;i<_result.length;i++)
 		{

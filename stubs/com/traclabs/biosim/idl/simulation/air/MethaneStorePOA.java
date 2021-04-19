@@ -1,66 +1,72 @@
 package com.traclabs.biosim.idl.simulation.air;
 
-/**
- *	Generated from IDL interface "MethaneStore"
- *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
- */
 
+/**
+ * Generated from IDL interface "MethaneStore".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
+ */
 
 public abstract class MethaneStorePOA
 	extends org.omg.PortableServer.Servant
 	implements org.omg.CORBA.portable.InvokeHandler, com.traclabs.biosim.idl.simulation.air.MethaneStoreOperations
 {
-	static private final java.util.Hashtable m_opsHash = new java.util.Hashtable();
+	static private final java.util.HashMap<String,Integer> m_opsHash = new java.util.HashMap<String,Integer>();
 	static
 	{
-		m_opsHash.put ( "setPipe", new java.lang.Integer(0));
-		m_opsHash.put ( "setCurrentLevel", new java.lang.Integer(1));
-		m_opsHash.put ( "clearMalfunction", new java.lang.Integer(2));
-		m_opsHash.put ( "getTickLength", new java.lang.Integer(3));
-		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(4));
-		m_opsHash.put ( "setLogLevel", new java.lang.Integer(5));
-		m_opsHash.put ( "startMalfunction", new java.lang.Integer(6));
-		m_opsHash.put ( "getCurrentCapacity", new java.lang.Integer(7));
-		m_opsHash.put ( "notifyCommandSent", new java.lang.Integer(8));
-		m_opsHash.put ( "getID", new java.lang.Integer(9));
-		m_opsHash.put ( "setInitialCapacity", new java.lang.Integer(10));
-		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(11));
-		m_opsHash.put ( "getMyTicks", new java.lang.Integer(12));
-		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(13));
-		m_opsHash.put ( "getInitialCapacity", new java.lang.Integer(14));
-		m_opsHash.put ( "reset", new java.lang.Integer(15));
-		m_opsHash.put ( "registerBioCommandListener", new java.lang.Integer(16));
-		m_opsHash.put ( "getOverflow", new java.lang.Integer(17));
-		m_opsHash.put ( "take", new java.lang.Integer(18));
-		m_opsHash.put ( "getPercentageFilled", new java.lang.Integer(19));
-		m_opsHash.put ( "getModuleName", new java.lang.Integer(20));
-		m_opsHash.put ( "randomFilter", new java.lang.Integer(21));
-		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(22));
-		m_opsHash.put ( "log", new java.lang.Integer(23));
-		m_opsHash.put ( "setInitialLevel", new java.lang.Integer(24));
-		m_opsHash.put ( "maintain", new java.lang.Integer(25));
-		m_opsHash.put ( "getCurrentLevel", new java.lang.Integer(26));
-		m_opsHash.put ( "setCurrentCapacity", new java.lang.Integer(27));
-		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(28));
-		m_opsHash.put ( "add", new java.lang.Integer(29));
-		m_opsHash.put ( "isPipe", new java.lang.Integer(30));
-		m_opsHash.put ( "getInitialLevel", new java.lang.Integer(31));
-		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(32));
-		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(33));
-		m_opsHash.put ( "tick", new java.lang.Integer(34));
-		m_opsHash.put ( "setTickLength", new java.lang.Integer(35));
-		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(36));
-		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(37));
-		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(38));
+		m_opsHash.put ( "setPipe", Integer.valueOf(0));
+		m_opsHash.put ( "setCurrentLevel", Integer.valueOf(1));
+		m_opsHash.put ( "clearMalfunction", Integer.valueOf(2));
+		m_opsHash.put ( "getTickLength", Integer.valueOf(3));
+		m_opsHash.put ( "fixAllMalfunctions", Integer.valueOf(4));
+		m_opsHash.put ( "setLogLevel", Integer.valueOf(5));
+		m_opsHash.put ( "startMalfunction", Integer.valueOf(6));
+		m_opsHash.put ( "getCurrentCapacity", Integer.valueOf(7));
+		m_opsHash.put ( "notifyCommandSent", Integer.valueOf(8));
+		m_opsHash.put ( "getID", Integer.valueOf(9));
+		m_opsHash.put ( "setInitialCapacity", Integer.valueOf(10));
+		m_opsHash.put ( "fixMalfunction", Integer.valueOf(11));
+		m_opsHash.put ( "getMyTicks", Integer.valueOf(12));
+		m_opsHash.put ( "getMalfunctions", Integer.valueOf(13));
+		m_opsHash.put ( "getInitialCapacity", Integer.valueOf(14));
+		m_opsHash.put ( "reset", Integer.valueOf(15));
+		m_opsHash.put ( "registerBioCommandListener", Integer.valueOf(16));
+		m_opsHash.put ( "getOverflow", Integer.valueOf(17));
+		m_opsHash.put ( "take", Integer.valueOf(18));
+		m_opsHash.put ( "getPercentageFilled", Integer.valueOf(19));
+		m_opsHash.put ( "getModuleName", Integer.valueOf(20));
+		m_opsHash.put ( "randomFilter", Integer.valueOf(21));
+		m_opsHash.put ( "isMalfunctioning", Integer.valueOf(22));
+		m_opsHash.put ( "log", Integer.valueOf(23));
+		m_opsHash.put ( "setInitialLevel", Integer.valueOf(24));
+		m_opsHash.put ( "maintain", Integer.valueOf(25));
+		m_opsHash.put ( "getCurrentLevel", Integer.valueOf(26));
+		m_opsHash.put ( "setCurrentCapacity", Integer.valueOf(27));
+		m_opsHash.put ( "doSomeRepairWork", Integer.valueOf(28));
+		m_opsHash.put ( "add", Integer.valueOf(29));
+		m_opsHash.put ( "isPipe", Integer.valueOf(30));
+		m_opsHash.put ( "getInitialLevel", Integer.valueOf(31));
+		m_opsHash.put ( "setEnableFailure", Integer.valueOf(32));
+		m_opsHash.put ( "clearAllMalfunctions", Integer.valueOf(33));
+		m_opsHash.put ( "tick", Integer.valueOf(34));
+		m_opsHash.put ( "setTickLength", Integer.valueOf(35));
+		m_opsHash.put ( "scheduleMalfunction", Integer.valueOf(36));
+		m_opsHash.put ( "getMalfunctionNames", Integer.valueOf(37));
+		m_opsHash.put ( "isFailureEnabled", Integer.valueOf(38));
 	}
-	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/air/MethaneStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0"};
+	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/air/MethaneStore:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/PassiveModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Store:1.0"};
 	public com.traclabs.biosim.idl.simulation.air.MethaneStore _this()
 	{
-		return com.traclabs.biosim.idl.simulation.air.MethaneStoreHelper.narrow(_this_object());
+		org.omg.CORBA.Object __o = _this_object() ;
+		com.traclabs.biosim.idl.simulation.air.MethaneStore __r = com.traclabs.biosim.idl.simulation.air.MethaneStoreHelper.narrow(__o);
+		return __r;
 	}
 	public com.traclabs.biosim.idl.simulation.air.MethaneStore _this(org.omg.CORBA.ORB orb)
 	{
-		return com.traclabs.biosim.idl.simulation.air.MethaneStoreHelper.narrow(_this_object(orb));
+		org.omg.CORBA.Object __o = _this_object(orb) ;
+		com.traclabs.biosim.idl.simulation.air.MethaneStore __r = com.traclabs.biosim.idl.simulation.air.MethaneStoreHelper.narrow(__o);
+		return __r;
 	}
 	public org.omg.CORBA.portable.OutputStream _invoke(String method, org.omg.CORBA.portable.InputStream _input, org.omg.CORBA.portable.ResponseHandler handler)
 		throws org.omg.CORBA.SystemException
@@ -207,7 +213,8 @@ public abstract class MethaneStorePOA
 			case 20: // getModuleName
 			{
 				_out = handler.createReply();
-				_out.write_string(getModuleName());
+				java.lang.String tmpResult107 = getModuleName();
+_out.write_string( tmpResult107 );
 				break;
 			}
 			case 21: // randomFilter

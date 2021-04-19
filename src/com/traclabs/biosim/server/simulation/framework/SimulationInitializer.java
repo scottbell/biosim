@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
+import org.omg.CosNaming.NamingContextExt;
 import org.w3c.dom.Node;
 
 import com.traclabs.biosim.idl.framework.BioModule;
@@ -686,8 +687,11 @@ public class SimulationInitializer {
 		BioModule[] inputs = new BioModule[inputNames.length];
 		for (int i = 0; i < inputs.length; i++) {
 			try {
-				inputs[i] = BioModuleHelper.narrow(OrbUtils.getNamingContext(
-						myID).resolve_str(inputNames[i]));
+				String inputName = inputNames[i];
+				NamingContextExt inputNamingContext = OrbUtils.getNamingContext(myID);
+				org.omg.CORBA.Object rawInputObject = inputNamingContext.resolve_str(inputName);
+				BioModule inputModule = BioModuleHelper.unchecked_narrow(rawInputObject);
+				inputs[i] = (inputModule);
 				myLogger.debug("Fetched " + inputs[i].getModuleName());
 			} catch (org.omg.CORBA.UserException e) {
 				myLogger.error("Couldn't find module " + inputNames[i]
@@ -707,7 +711,7 @@ public class SimulationInitializer {
 		BioModule[] outputs = new BioModule[outputNames.length];
 		for (int i = 0; i < outputs.length; i++) {
 			try {
-				outputs[i] = BioModuleHelper.narrow(OrbUtils.getNamingContext(
+				outputs[i] = BioModuleHelper.unchecked_narrow(OrbUtils.getNamingContext(
 						myID).resolve_str(outputNames[i]));
 				myLogger.debug("Fetched " + outputs[i].getModuleName());
 			} catch (org.omg.CORBA.UserException e) {

@@ -1,8 +1,10 @@
 package com.traclabs.biosim.idl.simulation.air;
 
 /**
- *	Generated from IDL interface "O2Producer"
- *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
+ * Generated from IDL interface "O2Producer".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
  */
 
 public final class O2ProducerHolder	implements org.omg.CORBA.portable.Streamable{

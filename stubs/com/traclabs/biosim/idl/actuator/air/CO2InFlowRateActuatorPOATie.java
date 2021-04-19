@@ -3,8 +3,10 @@ package com.traclabs.biosim.idl.actuator.air;
 import org.omg.PortableServer.POA;
 
 /**
- *	Generated from IDL interface "CO2InFlowRateActuator"
- *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
+ * Generated from IDL interface "CO2InFlowRateActuator".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
  */
 
 public class CO2InFlowRateActuatorPOATie
@@ -24,11 +26,15 @@ public class CO2InFlowRateActuatorPOATie
 	}
 	public com.traclabs.biosim.idl.actuator.air.CO2InFlowRateActuator _this()
 	{
-		return com.traclabs.biosim.idl.actuator.air.CO2InFlowRateActuatorHelper.narrow(_this_object());
+		org.omg.CORBA.Object __o = _this_object() ;
+		com.traclabs.biosim.idl.actuator.air.CO2InFlowRateActuator __r = com.traclabs.biosim.idl.actuator.air.CO2InFlowRateActuatorHelper.narrow(__o);
+		return __r;
 	}
 	public com.traclabs.biosim.idl.actuator.air.CO2InFlowRateActuator _this(org.omg.CORBA.ORB orb)
 	{
-		return com.traclabs.biosim.idl.actuator.air.CO2InFlowRateActuatorHelper.narrow(_this_object(orb));
+		org.omg.CORBA.Object __o = _this_object(orb) ;
+		com.traclabs.biosim.idl.actuator.air.CO2InFlowRateActuator __r = com.traclabs.biosim.idl.actuator.air.CO2InFlowRateActuatorHelper.narrow(__o);
+		return __r;
 	}
 	public CO2InFlowRateActuatorOperations _delegate()
 	{
@@ -44,10 +50,7 @@ public class CO2InFlowRateActuatorPOATie
 		{
 			return _poa;
 		}
-		else
-		{
-			return super._default_POA();
-		}
+		return super._default_POA();
 	}
 	public float getTickLength()
 	{

@@ -1,41 +1,47 @@
 package com.traclabs.biosim.idl.simulation.food;
 
-/**
- *	Generated from IDL interface "Shelf"
- *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
- */
 
+/**
+ * Generated from IDL interface "Shelf".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
+ */
 
 public abstract class ShelfPOA
 	extends org.omg.PortableServer.Servant
 	implements org.omg.CORBA.portable.InvokeHandler, com.traclabs.biosim.idl.simulation.food.ShelfOperations
 {
-	static private final java.util.Hashtable m_opsHash = new java.util.Hashtable();
+	static private final java.util.HashMap<String,Integer> m_opsHash = new java.util.HashMap<String,Integer>();
 	static
 	{
-		m_opsHash.put ( "setStartTick", new java.lang.Integer(0));
-		m_opsHash.put ( "getPlant", new java.lang.Integer(1));
-		m_opsHash.put ( "replant", new java.lang.Integer(2));
-		m_opsHash.put ( "harvest", new java.lang.Integer(3));
-		m_opsHash.put ( "isDead", new java.lang.Integer(4));
-		m_opsHash.put ( "kill", new java.lang.Integer(5));
-		m_opsHash.put ( "getBiomassPS", new java.lang.Integer(6));
-		m_opsHash.put ( "getHarvestInterval", new java.lang.Integer(7));
-		m_opsHash.put ( "getCropTypeString", new java.lang.Integer(8));
-		m_opsHash.put ( "getCropType", new java.lang.Integer(9));
-		m_opsHash.put ( "isReadyForHavest", new java.lang.Integer(10));
-		m_opsHash.put ( "getCropAreaUsed", new java.lang.Integer(11));
-		m_opsHash.put ( "getTimeTillCanopyClosure", new java.lang.Integer(12));
-		m_opsHash.put ( "getCropAreaTotal", new java.lang.Integer(13));
+		m_opsHash.put ( "setStartTick", Integer.valueOf(0));
+		m_opsHash.put ( "getPlant", Integer.valueOf(1));
+		m_opsHash.put ( "replant", Integer.valueOf(2));
+		m_opsHash.put ( "harvest", Integer.valueOf(3));
+		m_opsHash.put ( "isDead", Integer.valueOf(4));
+		m_opsHash.put ( "kill", Integer.valueOf(5));
+		m_opsHash.put ( "getBiomassPS", Integer.valueOf(6));
+		m_opsHash.put ( "getHarvestInterval", Integer.valueOf(7));
+		m_opsHash.put ( "getCropTypeString", Integer.valueOf(8));
+		m_opsHash.put ( "getCropType", Integer.valueOf(9));
+		m_opsHash.put ( "isReadyForHavest", Integer.valueOf(10));
+		m_opsHash.put ( "getCropAreaUsed", Integer.valueOf(11));
+		m_opsHash.put ( "getTimeTillCanopyClosure", Integer.valueOf(12));
+		m_opsHash.put ( "getCropAreaTotal", Integer.valueOf(13));
 	}
 	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/food/Shelf:1.0"};
 	public com.traclabs.biosim.idl.simulation.food.Shelf _this()
 	{
-		return com.traclabs.biosim.idl.simulation.food.ShelfHelper.narrow(_this_object());
+		org.omg.CORBA.Object __o = _this_object() ;
+		com.traclabs.biosim.idl.simulation.food.Shelf __r = com.traclabs.biosim.idl.simulation.food.ShelfHelper.narrow(__o);
+		return __r;
 	}
 	public com.traclabs.biosim.idl.simulation.food.Shelf _this(org.omg.CORBA.ORB orb)
 	{
-		return com.traclabs.biosim.idl.simulation.food.ShelfHelper.narrow(_this_object(orb));
+		org.omg.CORBA.Object __o = _this_object(orb) ;
+		com.traclabs.biosim.idl.simulation.food.Shelf __r = com.traclabs.biosim.idl.simulation.food.ShelfHelper.narrow(__o);
+		return __r;
 	}
 	public org.omg.CORBA.portable.OutputStream _invoke(String method, org.omg.CORBA.portable.InputStream _input, org.omg.CORBA.portable.ResponseHandler handler)
 		throws org.omg.CORBA.SystemException
@@ -102,7 +108,8 @@ public abstract class ShelfPOA
 			case 8: // getCropTypeString
 			{
 				_out = handler.createReply();
-				_out.write_string(getCropTypeString());
+				java.lang.String tmpResult73 = getCropTypeString();
+_out.write_string( tmpResult73 );
 				break;
 			}
 			case 9: // getCropType

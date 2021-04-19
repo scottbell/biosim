@@ -1,35 +1,41 @@
 package com.traclabs.biosim.idl.framework;
 
-/**
- *	Generated from IDL interface "Malfunction"
- *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
- */
 
+/**
+ * Generated from IDL interface "Malfunction".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
+ */
 
 public abstract class MalfunctionPOA
 	extends org.omg.PortableServer.Servant
 	implements org.omg.CORBA.portable.InvokeHandler, com.traclabs.biosim.idl.framework.MalfunctionOperations
 {
-	static private final java.util.Hashtable m_opsHash = new java.util.Hashtable();
+	static private final java.util.HashMap<String,Integer> m_opsHash = new java.util.HashMap<String,Integer>();
 	static
 	{
-		m_opsHash.put ( "getLength", new java.lang.Integer(0));
-		m_opsHash.put ( "setPerformed", new java.lang.Integer(1));
-		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(2));
-		m_opsHash.put ( "hasPerformed", new java.lang.Integer(3));
-		m_opsHash.put ( "getID", new java.lang.Integer(4));
-		m_opsHash.put ( "getIntensity", new java.lang.Integer(5));
-		m_opsHash.put ( "doneEnoughRepairWork", new java.lang.Integer(6));
-		m_opsHash.put ( "getName", new java.lang.Integer(7));
+		m_opsHash.put ( "getLength", Integer.valueOf(0));
+		m_opsHash.put ( "setPerformed", Integer.valueOf(1));
+		m_opsHash.put ( "doSomeRepairWork", Integer.valueOf(2));
+		m_opsHash.put ( "hasPerformed", Integer.valueOf(3));
+		m_opsHash.put ( "getID", Integer.valueOf(4));
+		m_opsHash.put ( "getIntensity", Integer.valueOf(5));
+		m_opsHash.put ( "doneEnoughRepairWork", Integer.valueOf(6));
+		m_opsHash.put ( "getName", Integer.valueOf(7));
 	}
 	private String[] ids = {"IDL:com/traclabs/biosim/idl/framework/Malfunction:1.0"};
 	public com.traclabs.biosim.idl.framework.Malfunction _this()
 	{
-		return com.traclabs.biosim.idl.framework.MalfunctionHelper.narrow(_this_object());
+		org.omg.CORBA.Object __o = _this_object() ;
+		com.traclabs.biosim.idl.framework.Malfunction __r = com.traclabs.biosim.idl.framework.MalfunctionHelper.narrow(__o);
+		return __r;
 	}
 	public com.traclabs.biosim.idl.framework.Malfunction _this(org.omg.CORBA.ORB orb)
 	{
-		return com.traclabs.biosim.idl.framework.MalfunctionHelper.narrow(_this_object(orb));
+		org.omg.CORBA.Object __o = _this_object(orb) ;
+		com.traclabs.biosim.idl.framework.Malfunction __r = com.traclabs.biosim.idl.framework.MalfunctionHelper.narrow(__o);
+		return __r;
 	}
 	public org.omg.CORBA.portable.OutputStream _invoke(String method, org.omg.CORBA.portable.InputStream _input, org.omg.CORBA.portable.ResponseHandler handler)
 		throws org.omg.CORBA.SystemException
@@ -88,7 +94,8 @@ public abstract class MalfunctionPOA
 			case 7: // getName
 			{
 				_out = handler.createReply();
-				_out.write_string(getName());
+				java.lang.String tmpResult2 = getName();
+_out.write_string( tmpResult2 );
 				break;
 			}
 		}

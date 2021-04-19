@@ -1,71 +1,77 @@
 package com.traclabs.biosim.idl.framework;
 
-/**
- *	Generated from IDL interface "BioDriver"
- *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
- */
 
+/**
+ * Generated from IDL interface "BioDriver".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
+ */
 
 public abstract class BioDriverPOA
 	extends org.omg.PortableServer.Servant
 	implements org.omg.CORBA.portable.InvokeHandler, com.traclabs.biosim.idl.framework.BioDriverOperations
 {
-	static private final java.util.Hashtable m_opsHash = new java.util.Hashtable();
+	static private final java.util.HashMap<String,Integer> m_opsHash = new java.util.HashMap<String,Integer>();
 	static
 	{
-		m_opsHash.put ( "setLooping", new java.lang.Integer(0));
-		m_opsHash.put ( "getActiveSimModuleNames", new java.lang.Integer(1));
-		m_opsHash.put ( "getTickLength", new java.lang.Integer(2));
-		m_opsHash.put ( "getModuleNames", new java.lang.Integer(3));
-		m_opsHash.put ( "startSimulation", new java.lang.Integer(4));
-		m_opsHash.put ( "getSensorNames", new java.lang.Integer(5));
-		m_opsHash.put ( "startMalfunction", new java.lang.Integer(6));
-		m_opsHash.put ( "isDone", new java.lang.Integer(7));
-		m_opsHash.put ( "getPrioritySimModules", new java.lang.Integer(8));
-		m_opsHash.put ( "getSensors", new java.lang.Integer(9));
-		m_opsHash.put ( "setActuators", new java.lang.Integer(10));
-		m_opsHash.put ( "getPassiveSimModuleNames", new java.lang.Integer(11));
-		m_opsHash.put ( "setActiveSimModules", new java.lang.Integer(12));
-		m_opsHash.put ( "getActuatorNames", new java.lang.Integer(13));
-		m_opsHash.put ( "getDriverStutterLength", new java.lang.Integer(14));
-		m_opsHash.put ( "endSimulation", new java.lang.Integer(15));
-		m_opsHash.put ( "getSimModuleNames", new java.lang.Integer(16));
-		m_opsHash.put ( "getName", new java.lang.Integer(17));
-		m_opsHash.put ( "setPauseSimulation", new java.lang.Integer(18));
-		m_opsHash.put ( "setRunTillPlantDeath", new java.lang.Integer(19));
-		m_opsHash.put ( "setSensors", new java.lang.Integer(20));
-		m_opsHash.put ( "getSimModules", new java.lang.Integer(21));
-		m_opsHash.put ( "reset", new java.lang.Integer(22));
-		m_opsHash.put ( "getModule", new java.lang.Integer(23));
-		m_opsHash.put ( "setLoopSimulation", new java.lang.Integer(24));
-		m_opsHash.put ( "setCrewsToWatch", new java.lang.Integer(25));
-		m_opsHash.put ( "setPrioritySimModules", new java.lang.Integer(26));
-		m_opsHash.put ( "setDriverStutterLength", new java.lang.Integer(27));
-		m_opsHash.put ( "isPaused", new java.lang.Integer(28));
-		m_opsHash.put ( "setModules", new java.lang.Integer(29));
-		m_opsHash.put ( "setRunTillCrewDeath", new java.lang.Integer(30));
-		m_opsHash.put ( "getActuators", new java.lang.Integer(31));
-		m_opsHash.put ( "getPassiveSimModules", new java.lang.Integer(32));
-		m_opsHash.put ( "setRunTillN", new java.lang.Integer(33));
-		m_opsHash.put ( "getPrioritySimModuleNames", new java.lang.Integer(34));
-		m_opsHash.put ( "advanceOneTick", new java.lang.Integer(35));
-		m_opsHash.put ( "setPassiveSimModules", new java.lang.Integer(36));
-		m_opsHash.put ( "setPlantsToWatch", new java.lang.Integer(37));
-		m_opsHash.put ( "setTickLength", new java.lang.Integer(38));
-		m_opsHash.put ( "isLooping", new java.lang.Integer(39));
-		m_opsHash.put ( "isStarted", new java.lang.Integer(40));
-		m_opsHash.put ( "getActiveSimModules", new java.lang.Integer(41));
-		m_opsHash.put ( "getTicks", new java.lang.Integer(42));
-		m_opsHash.put ( "getModules", new java.lang.Integer(43));
+		m_opsHash.put ( "setLooping", Integer.valueOf(0));
+		m_opsHash.put ( "getActiveSimModuleNames", Integer.valueOf(1));
+		m_opsHash.put ( "getTickLength", Integer.valueOf(2));
+		m_opsHash.put ( "getModuleNames", Integer.valueOf(3));
+		m_opsHash.put ( "startSimulation", Integer.valueOf(4));
+		m_opsHash.put ( "getSensorNames", Integer.valueOf(5));
+		m_opsHash.put ( "startMalfunction", Integer.valueOf(6));
+		m_opsHash.put ( "isDone", Integer.valueOf(7));
+		m_opsHash.put ( "getPrioritySimModules", Integer.valueOf(8));
+		m_opsHash.put ( "getSensors", Integer.valueOf(9));
+		m_opsHash.put ( "setActuators", Integer.valueOf(10));
+		m_opsHash.put ( "getPassiveSimModuleNames", Integer.valueOf(11));
+		m_opsHash.put ( "setActiveSimModules", Integer.valueOf(12));
+		m_opsHash.put ( "getActuatorNames", Integer.valueOf(13));
+		m_opsHash.put ( "getDriverStutterLength", Integer.valueOf(14));
+		m_opsHash.put ( "endSimulation", Integer.valueOf(15));
+		m_opsHash.put ( "getSimModuleNames", Integer.valueOf(16));
+		m_opsHash.put ( "getName", Integer.valueOf(17));
+		m_opsHash.put ( "setPauseSimulation", Integer.valueOf(18));
+		m_opsHash.put ( "setRunTillPlantDeath", Integer.valueOf(19));
+		m_opsHash.put ( "setSensors", Integer.valueOf(20));
+		m_opsHash.put ( "getSimModules", Integer.valueOf(21));
+		m_opsHash.put ( "reset", Integer.valueOf(22));
+		m_opsHash.put ( "getModule", Integer.valueOf(23));
+		m_opsHash.put ( "setLoopSimulation", Integer.valueOf(24));
+		m_opsHash.put ( "setCrewsToWatch", Integer.valueOf(25));
+		m_opsHash.put ( "setPrioritySimModules", Integer.valueOf(26));
+		m_opsHash.put ( "setDriverStutterLength", Integer.valueOf(27));
+		m_opsHash.put ( "isPaused", Integer.valueOf(28));
+		m_opsHash.put ( "setModules", Integer.valueOf(29));
+		m_opsHash.put ( "setRunTillCrewDeath", Integer.valueOf(30));
+		m_opsHash.put ( "getActuators", Integer.valueOf(31));
+		m_opsHash.put ( "getPassiveSimModules", Integer.valueOf(32));
+		m_opsHash.put ( "setRunTillN", Integer.valueOf(33));
+		m_opsHash.put ( "getPrioritySimModuleNames", Integer.valueOf(34));
+		m_opsHash.put ( "advanceOneTick", Integer.valueOf(35));
+		m_opsHash.put ( "setPassiveSimModules", Integer.valueOf(36));
+		m_opsHash.put ( "setPlantsToWatch", Integer.valueOf(37));
+		m_opsHash.put ( "setTickLength", Integer.valueOf(38));
+		m_opsHash.put ( "isLooping", Integer.valueOf(39));
+		m_opsHash.put ( "isStarted", Integer.valueOf(40));
+		m_opsHash.put ( "getActiveSimModules", Integer.valueOf(41));
+		m_opsHash.put ( "getTicks", Integer.valueOf(42));
+		m_opsHash.put ( "getModules", Integer.valueOf(43));
 	}
 	private String[] ids = {"IDL:com/traclabs/biosim/idl/framework/BioDriver:1.0"};
 	public com.traclabs.biosim.idl.framework.BioDriver _this()
 	{
-		return com.traclabs.biosim.idl.framework.BioDriverHelper.narrow(_this_object());
+		org.omg.CORBA.Object __o = _this_object() ;
+		com.traclabs.biosim.idl.framework.BioDriver __r = com.traclabs.biosim.idl.framework.BioDriverHelper.narrow(__o);
+		return __r;
 	}
 	public com.traclabs.biosim.idl.framework.BioDriver _this(org.omg.CORBA.ORB orb)
 	{
-		return com.traclabs.biosim.idl.framework.BioDriverHelper.narrow(_this_object(orb));
+		org.omg.CORBA.Object __o = _this_object(orb) ;
+		com.traclabs.biosim.idl.framework.BioDriver __r = com.traclabs.biosim.idl.framework.BioDriverHelper.narrow(__o);
+		return __r;
 	}
 	public org.omg.CORBA.portable.OutputStream _invoke(String method, org.omg.CORBA.portable.InputStream _input, org.omg.CORBA.portable.ResponseHandler handler)
 		throws org.omg.CORBA.SystemException
@@ -188,7 +194,8 @@ public abstract class BioDriverPOA
 			case 17: // getName
 			{
 				_out = handler.createReply();
-				_out.write_string(getName());
+				java.lang.String tmpResult5 = getName();
+_out.write_string( tmpResult5 );
 				break;
 			}
 			case 18: // setPauseSimulation

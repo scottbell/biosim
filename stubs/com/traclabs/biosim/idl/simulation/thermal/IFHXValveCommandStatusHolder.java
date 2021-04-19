@@ -1,7 +1,9 @@
 package com.traclabs.biosim.idl.simulation.thermal;
 /**
- *	Generated from IDL definition of enum "IFHXValveCommandStatus"
- *	@author JacORB IDL compiler 
+ * Generated from IDL enum "IFHXValveCommandStatus".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
  */
 
 public final class IFHXValveCommandStatusHolder

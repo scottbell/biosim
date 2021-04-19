@@ -1,77 +1,83 @@
 package com.traclabs.biosim.idl.simulation.thermal;
 
-/**
- *	Generated from IDL interface "IATCS"
- *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
- */
 
+/**
+ * Generated from IDL interface "IATCS".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
+ */
 
 public abstract class IATCSPOA
 	extends org.omg.PortableServer.Servant
 	implements org.omg.CORBA.portable.InvokeHandler, com.traclabs.biosim.idl.simulation.thermal.IATCSOperations
 {
-	static private final java.util.Hashtable m_opsHash = new java.util.Hashtable();
+	static private final java.util.HashMap<String,Integer> m_opsHash = new java.util.HashMap<String,Integer>();
 	static
 	{
-		m_opsHash.put ( "getActivateState", new java.lang.Integer(0));
-		m_opsHash.put ( "clearMalfunction", new java.lang.Integer(1));
-		m_opsHash.put ( "getTickLength", new java.lang.Integer(2));
-		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(3));
-		m_opsHash.put ( "setLogLevel", new java.lang.Integer(4));
-		m_opsHash.put ( "getGreyWaterProducerDefinition", new java.lang.Integer(5));
-		m_opsHash.put ( "startMalfunction", new java.lang.Integer(6));
-		m_opsHash.put ( "setPumpSpeed", new java.lang.Integer(7));
-		m_opsHash.put ( "notifyCommandSent", new java.lang.Integer(8));
-		m_opsHash.put ( "getPpaPumpSpeedCommandStatus", new java.lang.Integer(9));
-		m_opsHash.put ( "getID", new java.lang.Integer(10));
-		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(11));
-		m_opsHash.put ( "getIsolationValveCommandStatus", new java.lang.Integer(12));
-		m_opsHash.put ( "getGreyWaterConsumerDefinition", new java.lang.Integer(13));
-		m_opsHash.put ( "setPpaPumpSpeedCommandStatus", new java.lang.Integer(14));
-		m_opsHash.put ( "setIsloationValveState", new java.lang.Integer(15));
-		m_opsHash.put ( "setIatcsState", new java.lang.Integer(16));
-		m_opsHash.put ( "getMyTicks", new java.lang.Integer(17));
-		m_opsHash.put ( "setBypassValveCommandStatus", new java.lang.Integer(18));
-		m_opsHash.put ( "getBypassValveState", new java.lang.Integer(19));
-		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(20));
-		m_opsHash.put ( "getSfcaSoftwareState", new java.lang.Integer(21));
-		m_opsHash.put ( "reset", new java.lang.Integer(22));
-		m_opsHash.put ( "registerBioCommandListener", new java.lang.Integer(23));
-		m_opsHash.put ( "getModuleName", new java.lang.Integer(24));
-		m_opsHash.put ( "setBypassValveState", new java.lang.Integer(25));
-		m_opsHash.put ( "setHeaterSoftwareState", new java.lang.Integer(26));
-		m_opsHash.put ( "randomFilter", new java.lang.Integer(27));
-		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(28));
-		m_opsHash.put ( "log", new java.lang.Integer(29));
-		m_opsHash.put ( "setActivateState", new java.lang.Integer(30));
-		m_opsHash.put ( "setTwvmSoftwareState", new java.lang.Integer(31));
-		m_opsHash.put ( "getPumpSpeed", new java.lang.Integer(32));
-		m_opsHash.put ( "maintain", new java.lang.Integer(33));
-		m_opsHash.put ( "getBypassValveCommandStatus", new java.lang.Integer(34));
-		m_opsHash.put ( "setIsolationValveCommandStatus", new java.lang.Integer(35));
-		m_opsHash.put ( "setSfcaSoftwareState", new java.lang.Integer(36));
-		m_opsHash.put ( "getHeaterSoftwareState", new java.lang.Integer(37));
-		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(38));
-		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(39));
-		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(40));
-		m_opsHash.put ( "getPowerConsumerDefinition", new java.lang.Integer(41));
-		m_opsHash.put ( "tick", new java.lang.Integer(42));
-		m_opsHash.put ( "setTickLength", new java.lang.Integer(43));
-		m_opsHash.put ( "getIatcsState", new java.lang.Integer(44));
-		m_opsHash.put ( "getIsloationValveState", new java.lang.Integer(45));
-		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(46));
-		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(47));
-		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(48));
-		m_opsHash.put ( "getTwvmSoftwareState", new java.lang.Integer(49));
+		m_opsHash.put ( "getActivateState", Integer.valueOf(0));
+		m_opsHash.put ( "clearMalfunction", Integer.valueOf(1));
+		m_opsHash.put ( "getTickLength", Integer.valueOf(2));
+		m_opsHash.put ( "fixAllMalfunctions", Integer.valueOf(3));
+		m_opsHash.put ( "setLogLevel", Integer.valueOf(4));
+		m_opsHash.put ( "getGreyWaterProducerDefinition", Integer.valueOf(5));
+		m_opsHash.put ( "startMalfunction", Integer.valueOf(6));
+		m_opsHash.put ( "setPumpSpeed", Integer.valueOf(7));
+		m_opsHash.put ( "notifyCommandSent", Integer.valueOf(8));
+		m_opsHash.put ( "getPpaPumpSpeedCommandStatus", Integer.valueOf(9));
+		m_opsHash.put ( "getID", Integer.valueOf(10));
+		m_opsHash.put ( "fixMalfunction", Integer.valueOf(11));
+		m_opsHash.put ( "getIsolationValveCommandStatus", Integer.valueOf(12));
+		m_opsHash.put ( "getGreyWaterConsumerDefinition", Integer.valueOf(13));
+		m_opsHash.put ( "setPpaPumpSpeedCommandStatus", Integer.valueOf(14));
+		m_opsHash.put ( "setIsloationValveState", Integer.valueOf(15));
+		m_opsHash.put ( "setIatcsState", Integer.valueOf(16));
+		m_opsHash.put ( "getMyTicks", Integer.valueOf(17));
+		m_opsHash.put ( "setBypassValveCommandStatus", Integer.valueOf(18));
+		m_opsHash.put ( "getBypassValveState", Integer.valueOf(19));
+		m_opsHash.put ( "getMalfunctions", Integer.valueOf(20));
+		m_opsHash.put ( "getSfcaSoftwareState", Integer.valueOf(21));
+		m_opsHash.put ( "reset", Integer.valueOf(22));
+		m_opsHash.put ( "registerBioCommandListener", Integer.valueOf(23));
+		m_opsHash.put ( "getModuleName", Integer.valueOf(24));
+		m_opsHash.put ( "setBypassValveState", Integer.valueOf(25));
+		m_opsHash.put ( "setHeaterSoftwareState", Integer.valueOf(26));
+		m_opsHash.put ( "randomFilter", Integer.valueOf(27));
+		m_opsHash.put ( "isMalfunctioning", Integer.valueOf(28));
+		m_opsHash.put ( "log", Integer.valueOf(29));
+		m_opsHash.put ( "setActivateState", Integer.valueOf(30));
+		m_opsHash.put ( "setTwvmSoftwareState", Integer.valueOf(31));
+		m_opsHash.put ( "getPumpSpeed", Integer.valueOf(32));
+		m_opsHash.put ( "maintain", Integer.valueOf(33));
+		m_opsHash.put ( "getBypassValveCommandStatus", Integer.valueOf(34));
+		m_opsHash.put ( "setIsolationValveCommandStatus", Integer.valueOf(35));
+		m_opsHash.put ( "setSfcaSoftwareState", Integer.valueOf(36));
+		m_opsHash.put ( "getHeaterSoftwareState", Integer.valueOf(37));
+		m_opsHash.put ( "doSomeRepairWork", Integer.valueOf(38));
+		m_opsHash.put ( "setEnableFailure", Integer.valueOf(39));
+		m_opsHash.put ( "clearAllMalfunctions", Integer.valueOf(40));
+		m_opsHash.put ( "getPowerConsumerDefinition", Integer.valueOf(41));
+		m_opsHash.put ( "tick", Integer.valueOf(42));
+		m_opsHash.put ( "setTickLength", Integer.valueOf(43));
+		m_opsHash.put ( "getIatcsState", Integer.valueOf(44));
+		m_opsHash.put ( "getIsloationValveState", Integer.valueOf(45));
+		m_opsHash.put ( "isFailureEnabled", Integer.valueOf(46));
+		m_opsHash.put ( "getMalfunctionNames", Integer.valueOf(47));
+		m_opsHash.put ( "scheduleMalfunction", Integer.valueOf(48));
+		m_opsHash.put ( "getTwvmSoftwareState", Integer.valueOf(49));
 	}
 	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/thermal/IATCS:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SimBioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/water/WaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/power/PowerConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Consumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterConsumer:1.0","IDL:com/traclabs/biosim/idl/simulation/water/GreyWaterProducer:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/Producer:1.0"};
 	public com.traclabs.biosim.idl.simulation.thermal.IATCS _this()
 	{
-		return com.traclabs.biosim.idl.simulation.thermal.IATCSHelper.narrow(_this_object());
+		org.omg.CORBA.Object __o = _this_object() ;
+		com.traclabs.biosim.idl.simulation.thermal.IATCS __r = com.traclabs.biosim.idl.simulation.thermal.IATCSHelper.narrow(__o);
+		return __r;
 	}
 	public com.traclabs.biosim.idl.simulation.thermal.IATCS _this(org.omg.CORBA.ORB orb)
 	{
-		return com.traclabs.biosim.idl.simulation.thermal.IATCSHelper.narrow(_this_object(orb));
+		org.omg.CORBA.Object __o = _this_object(orb) ;
+		com.traclabs.biosim.idl.simulation.thermal.IATCS __r = com.traclabs.biosim.idl.simulation.thermal.IATCSHelper.narrow(__o);
+		return __r;
 	}
 	public org.omg.CORBA.portable.OutputStream _invoke(String method, org.omg.CORBA.portable.InputStream _input, org.omg.CORBA.portable.ResponseHandler handler)
 		throws org.omg.CORBA.SystemException
@@ -243,7 +249,8 @@ public abstract class IATCSPOA
 			case 24: // getModuleName
 			{
 				_out = handler.createReply();
-				_out.write_string(getModuleName());
+				java.lang.String tmpResult145 = getModuleName();
+_out.write_string( tmpResult145 );
 				break;
 			}
 			case 25: // setBypassValveState

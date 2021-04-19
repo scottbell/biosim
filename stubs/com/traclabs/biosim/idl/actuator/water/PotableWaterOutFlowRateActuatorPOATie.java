@@ -3,8 +3,10 @@ package com.traclabs.biosim.idl.actuator.water;
 import org.omg.PortableServer.POA;
 
 /**
- *	Generated from IDL interface "PotableWaterOutFlowRateActuator"
- *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
+ * Generated from IDL interface "PotableWaterOutFlowRateActuator".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
  */
 
 public class PotableWaterOutFlowRateActuatorPOATie
@@ -24,11 +26,15 @@ public class PotableWaterOutFlowRateActuatorPOATie
 	}
 	public com.traclabs.biosim.idl.actuator.water.PotableWaterOutFlowRateActuator _this()
 	{
-		return com.traclabs.biosim.idl.actuator.water.PotableWaterOutFlowRateActuatorHelper.narrow(_this_object());
+		org.omg.CORBA.Object __o = _this_object() ;
+		com.traclabs.biosim.idl.actuator.water.PotableWaterOutFlowRateActuator __r = com.traclabs.biosim.idl.actuator.water.PotableWaterOutFlowRateActuatorHelper.narrow(__o);
+		return __r;
 	}
 	public com.traclabs.biosim.idl.actuator.water.PotableWaterOutFlowRateActuator _this(org.omg.CORBA.ORB orb)
 	{
-		return com.traclabs.biosim.idl.actuator.water.PotableWaterOutFlowRateActuatorHelper.narrow(_this_object(orb));
+		org.omg.CORBA.Object __o = _this_object(orb) ;
+		com.traclabs.biosim.idl.actuator.water.PotableWaterOutFlowRateActuator __r = com.traclabs.biosim.idl.actuator.water.PotableWaterOutFlowRateActuatorHelper.narrow(__o);
+		return __r;
 	}
 	public PotableWaterOutFlowRateActuatorOperations _delegate()
 	{
@@ -44,10 +50,7 @@ public class PotableWaterOutFlowRateActuatorPOATie
 		{
 			return _poa;
 		}
-		else
-		{
-			return super._default_POA();
-		}
+		return super._default_POA();
 	}
 	public float getTickLength()
 	{

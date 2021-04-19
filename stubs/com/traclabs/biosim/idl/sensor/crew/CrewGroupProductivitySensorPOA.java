@@ -1,56 +1,62 @@
 package com.traclabs.biosim.idl.sensor.crew;
 
-/**
- *	Generated from IDL interface "CrewGroupProductivitySensor"
- *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
- */
 
+/**
+ * Generated from IDL interface "CrewGroupProductivitySensor".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
+ */
 
 public abstract class CrewGroupProductivitySensorPOA
 	extends org.omg.PortableServer.Servant
 	implements org.omg.CORBA.portable.InvokeHandler, com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensorOperations
 {
-	static private final java.util.Hashtable m_opsHash = new java.util.Hashtable();
+	static private final java.util.HashMap<String,Integer> m_opsHash = new java.util.HashMap<String,Integer>();
 	static
 	{
-		m_opsHash.put ( "getTickLength", new java.lang.Integer(0));
-		m_opsHash.put ( "setLogLevel", new java.lang.Integer(1));
-		m_opsHash.put ( "clearMalfunction", new java.lang.Integer(2));
-		m_opsHash.put ( "isMalfunctioning", new java.lang.Integer(3));
-		m_opsHash.put ( "getMax", new java.lang.Integer(4));
-		m_opsHash.put ( "clearAllMalfunctions", new java.lang.Integer(5));
-		m_opsHash.put ( "setEnableFailure", new java.lang.Integer(6));
-		m_opsHash.put ( "getInput", new java.lang.Integer(7));
-		m_opsHash.put ( "randomFilter", new java.lang.Integer(8));
-		m_opsHash.put ( "reset", new java.lang.Integer(9));
-		m_opsHash.put ( "getMyTicks", new java.lang.Integer(10));
-		m_opsHash.put ( "maintain", new java.lang.Integer(11));
-		m_opsHash.put ( "doSomeRepairWork", new java.lang.Integer(12));
-		m_opsHash.put ( "getID", new java.lang.Integer(13));
-		m_opsHash.put ( "getValue", new java.lang.Integer(14));
-		m_opsHash.put ( "getModuleName", new java.lang.Integer(15));
-		m_opsHash.put ( "scheduleMalfunction", new java.lang.Integer(16));
-		m_opsHash.put ( "tick", new java.lang.Integer(17));
-		m_opsHash.put ( "fixMalfunction", new java.lang.Integer(18));
-		m_opsHash.put ( "getMalfunctionNames", new java.lang.Integer(19));
-		m_opsHash.put ( "setTickLength", new java.lang.Integer(20));
-		m_opsHash.put ( "isFailureEnabled", new java.lang.Integer(21));
-		m_opsHash.put ( "startMalfunction", new java.lang.Integer(22));
-		m_opsHash.put ( "log", new java.lang.Integer(23));
-		m_opsHash.put ( "getMin", new java.lang.Integer(24));
-		m_opsHash.put ( "setInput", new java.lang.Integer(25));
-		m_opsHash.put ( "getInputModule", new java.lang.Integer(26));
-		m_opsHash.put ( "fixAllMalfunctions", new java.lang.Integer(27));
-		m_opsHash.put ( "getMalfunctions", new java.lang.Integer(28));
+		m_opsHash.put ( "getTickLength", Integer.valueOf(0));
+		m_opsHash.put ( "setLogLevel", Integer.valueOf(1));
+		m_opsHash.put ( "clearMalfunction", Integer.valueOf(2));
+		m_opsHash.put ( "isMalfunctioning", Integer.valueOf(3));
+		m_opsHash.put ( "getMax", Integer.valueOf(4));
+		m_opsHash.put ( "clearAllMalfunctions", Integer.valueOf(5));
+		m_opsHash.put ( "setEnableFailure", Integer.valueOf(6));
+		m_opsHash.put ( "getInput", Integer.valueOf(7));
+		m_opsHash.put ( "randomFilter", Integer.valueOf(8));
+		m_opsHash.put ( "reset", Integer.valueOf(9));
+		m_opsHash.put ( "getMyTicks", Integer.valueOf(10));
+		m_opsHash.put ( "maintain", Integer.valueOf(11));
+		m_opsHash.put ( "doSomeRepairWork", Integer.valueOf(12));
+		m_opsHash.put ( "getID", Integer.valueOf(13));
+		m_opsHash.put ( "getValue", Integer.valueOf(14));
+		m_opsHash.put ( "getModuleName", Integer.valueOf(15));
+		m_opsHash.put ( "scheduleMalfunction", Integer.valueOf(16));
+		m_opsHash.put ( "tick", Integer.valueOf(17));
+		m_opsHash.put ( "fixMalfunction", Integer.valueOf(18));
+		m_opsHash.put ( "getMalfunctionNames", Integer.valueOf(19));
+		m_opsHash.put ( "setTickLength", Integer.valueOf(20));
+		m_opsHash.put ( "isFailureEnabled", Integer.valueOf(21));
+		m_opsHash.put ( "startMalfunction", Integer.valueOf(22));
+		m_opsHash.put ( "log", Integer.valueOf(23));
+		m_opsHash.put ( "getMin", Integer.valueOf(24));
+		m_opsHash.put ( "setInput", Integer.valueOf(25));
+		m_opsHash.put ( "getInputModule", Integer.valueOf(26));
+		m_opsHash.put ( "fixAllMalfunctions", Integer.valueOf(27));
+		m_opsHash.put ( "getMalfunctions", Integer.valueOf(28));
 	}
 	private String[] ids = {"IDL:com/traclabs/biosim/idl/sensor/crew/CrewGroupProductivitySensor:1.0","IDL:com/traclabs/biosim/idl/sensor/framework/GenericSensor:1.0","IDL:com/traclabs/biosim/idl/sensor/crew/CrewGroupSensor:1.0","IDL:com/traclabs/biosim/idl/framework/BioModule:1.0"};
 	public com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensor _this()
 	{
-		return com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensorHelper.narrow(_this_object());
+		org.omg.CORBA.Object __o = _this_object() ;
+		com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensor __r = com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensorHelper.narrow(__o);
+		return __r;
 	}
 	public com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensor _this(org.omg.CORBA.ORB orb)
 	{
-		return com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensorHelper.narrow(_this_object(orb));
+		org.omg.CORBA.Object __o = _this_object(orb) ;
+		com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensor __r = com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensorHelper.narrow(__o);
+		return __r;
 	}
 	public org.omg.CORBA.portable.OutputStream _invoke(String method, org.omg.CORBA.portable.InputStream _input, org.omg.CORBA.portable.ResponseHandler handler)
 		throws org.omg.CORBA.SystemException
@@ -161,7 +167,8 @@ public abstract class CrewGroupProductivitySensorPOA
 			case 15: // getModuleName
 			{
 				_out = handler.createReply();
-				_out.write_string(getModuleName());
+				java.lang.String tmpResult166 = getModuleName();
+_out.write_string( tmpResult166 );
 				break;
 			}
 			case 16: // scheduleMalfunction

@@ -1,7 +1,9 @@
 package com.traclabs.biosim.idl.simulation.food;
 /**
- *	Generated from IDL definition of enum "PlantType"
- *	@author JacORB IDL compiler 
+ * Generated from IDL enum "PlantType".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
  */
 
 public final class PlantTypeHolder

@@ -1,17 +1,25 @@
 package com.traclabs.biosim.idl.simulation.thermal;
 /**
- *	Generated from IDL definition of enum "PPAPumpSpeedStatus"
- *	@author JacORB IDL compiler 
+ * Generated from IDL enum "PPAPumpSpeedStatus".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
  */
 
-public final class PPAPumpSpeedStatusHelper
+public abstract class PPAPumpSpeedStatusHelper
 {
-	private static org.omg.CORBA.TypeCode _type = null;
+	private volatile static org.omg.CORBA.TypeCode _type;
 	public static org.omg.CORBA.TypeCode type ()
 	{
 		if (_type == null)
 		{
-			_type = org.omg.CORBA.ORB.init().create_enum_tc(com.traclabs.biosim.idl.simulation.thermal.PPAPumpSpeedStatusHelper.id(),"PPAPumpSpeedStatus",new String[]{"pumpArmed","notArmed"});
+			synchronized(PPAPumpSpeedStatusHelper.class)
+			{
+				if (_type == null)
+				{
+					_type = org.omg.CORBA.ORB.init().create_enum_tc(com.traclabs.biosim.idl.simulation.thermal.PPAPumpSpeedStatusHelper.id(),"PPAPumpSpeedStatus",new String[]{"pumpArmed","notArmed"});
+				}
+			}
 		}
 		return _type;
 	}
@@ -24,7 +32,22 @@ public final class PPAPumpSpeedStatusHelper
 
 	public static com.traclabs.biosim.idl.simulation.thermal.PPAPumpSpeedStatus extract (final org.omg.CORBA.Any any)
 	{
-		return read(any.create_input_stream());
+		org.omg.CORBA.portable.InputStream in = any.create_input_stream();
+		try
+		{
+			return read (in);
+		}
+		finally
+		{
+			try
+			{
+				in.close();
+			}
+			catch (java.io.IOException e)
+			{
+			throw new RuntimeException("Unexpected exception " + e.toString() );
+			}
+		}
 	}
 
 	public static String id()

@@ -1,17 +1,25 @@
 package com.traclabs.biosim.idl.simulation.air.cdrs;
 /**
- *	Generated from IDL definition of enum "CDRSValveState"
- *	@author JacORB IDL compiler 
+ * Generated from IDL enum "CDRSValveState".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
  */
 
-public final class CDRSValveStateHelper
+public abstract class CDRSValveStateHelper
 {
-	private static org.omg.CORBA.TypeCode _type = null;
+	private volatile static org.omg.CORBA.TypeCode _type;
 	public static org.omg.CORBA.TypeCode type ()
 	{
 		if (_type == null)
 		{
-			_type = org.omg.CORBA.ORB.init().create_enum_tc(com.traclabs.biosim.idl.simulation.air.cdrs.CDRSValveStateHelper.id(),"CDRSValveState",new String[]{"open","closed"});
+			synchronized(CDRSValveStateHelper.class)
+			{
+				if (_type == null)
+				{
+					_type = org.omg.CORBA.ORB.init().create_enum_tc(com.traclabs.biosim.idl.simulation.air.cdrs.CDRSValveStateHelper.id(),"CDRSValveState",new String[]{"open","closed"});
+				}
+			}
 		}
 		return _type;
 	}
@@ -24,7 +32,22 @@ public final class CDRSValveStateHelper
 
 	public static com.traclabs.biosim.idl.simulation.air.cdrs.CDRSValveState extract (final org.omg.CORBA.Any any)
 	{
-		return read(any.create_input_stream());
+		org.omg.CORBA.portable.InputStream in = any.create_input_stream();
+		try
+		{
+			return read (in);
+		}
+		finally
+		{
+			try
+			{
+				in.close();
+			}
+			catch (java.io.IOException e)
+			{
+			throw new RuntimeException("Unexpected exception " + e.toString() );
+			}
+		}
 	}
 
 	public static String id()

@@ -1,13 +1,17 @@
 package com.traclabs.biosim.idl.simulation.food;
 
 /**
- *	Generated from IDL definition of struct "BioMatter"
- *	@author JacORB IDL compiler 
+ * Generated from IDL struct "BioMatter".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
  */
 
 public final class BioMatter
 	implements org.omg.CORBA.portable.IDLEntity
 {
+	/** Serial version UID. */
+	private static final long serialVersionUID = 1L;
 	public BioMatter(){}
 	public float mass;
 	public float inedibleFraction;

@@ -1,17 +1,25 @@
 package com.traclabs.biosim.idl.framework;
 /**
- *	Generated from IDL definition of enum "MalfunctionLength"
- *	@author JacORB IDL compiler 
+ * Generated from IDL enum "MalfunctionLength".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
  */
 
-public final class MalfunctionLengthHelper
+public abstract class MalfunctionLengthHelper
 {
-	private static org.omg.CORBA.TypeCode _type = null;
+	private volatile static org.omg.CORBA.TypeCode _type;
 	public static org.omg.CORBA.TypeCode type ()
 	{
 		if (_type == null)
 		{
-			_type = org.omg.CORBA.ORB.init().create_enum_tc(com.traclabs.biosim.idl.framework.MalfunctionLengthHelper.id(),"MalfunctionLength",new String[]{"TEMPORARY_MALF","PERMANENT_MALF"});
+			synchronized(MalfunctionLengthHelper.class)
+			{
+				if (_type == null)
+				{
+					_type = org.omg.CORBA.ORB.init().create_enum_tc(com.traclabs.biosim.idl.framework.MalfunctionLengthHelper.id(),"MalfunctionLength",new String[]{"TEMPORARY_MALF","PERMANENT_MALF"});
+				}
+			}
 		}
 		return _type;
 	}
@@ -24,7 +32,22 @@ public final class MalfunctionLengthHelper
 
 	public static com.traclabs.biosim.idl.framework.MalfunctionLength extract (final org.omg.CORBA.Any any)
 	{
-		return read(any.create_input_stream());
+		org.omg.CORBA.portable.InputStream in = any.create_input_stream();
+		try
+		{
+			return read (in);
+		}
+		finally
+		{
+			try
+			{
+				in.close();
+			}
+			catch (java.io.IOException e)
+			{
+			throw new RuntimeException("Unexpected exception " + e.toString() );
+			}
+		}
 	}
 
 	public static String id()

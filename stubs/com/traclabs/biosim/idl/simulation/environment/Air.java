@@ -1,13 +1,17 @@
 package com.traclabs.biosim.idl.simulation.environment;
 
 /**
- *	Generated from IDL definition of struct "Air"
- *	@author JacORB IDL compiler 
+ * Generated from IDL struct "Air".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
  */
 
 public final class Air
 	implements org.omg.CORBA.portable.IDLEntity
 {
+	/** Serial version UID. */
+	private static final long serialVersionUID = 1L;
 	public Air(){}
 	public float o2Moles;
 	public float co2Moles;

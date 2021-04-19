@@ -1,30 +1,36 @@
 package com.traclabs.biosim.idl.simulation.crew;
 
-/**
- *	Generated from IDL interface "Activity"
- *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
- */
 
+/**
+ * Generated from IDL interface "Activity".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
+ */
 
 public abstract class ActivityPOA
 	extends org.omg.PortableServer.Servant
 	implements org.omg.CORBA.portable.InvokeHandler, com.traclabs.biosim.idl.simulation.crew.ActivityOperations
 {
-	static private final java.util.Hashtable m_opsHash = new java.util.Hashtable();
+	static private final java.util.HashMap<String,Integer> m_opsHash = new java.util.HashMap<String,Integer>();
 	static
 	{
-		m_opsHash.put ( "getActivityIntensity", new java.lang.Integer(0));
-		m_opsHash.put ( "getTimeLength", new java.lang.Integer(1));
-		m_opsHash.put ( "getName", new java.lang.Integer(2));
+		m_opsHash.put ( "getActivityIntensity", Integer.valueOf(0));
+		m_opsHash.put ( "getTimeLength", Integer.valueOf(1));
+		m_opsHash.put ( "getName", Integer.valueOf(2));
 	}
 	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/crew/Activity:1.0"};
 	public com.traclabs.biosim.idl.simulation.crew.Activity _this()
 	{
-		return com.traclabs.biosim.idl.simulation.crew.ActivityHelper.narrow(_this_object());
+		org.omg.CORBA.Object __o = _this_object() ;
+		com.traclabs.biosim.idl.simulation.crew.Activity __r = com.traclabs.biosim.idl.simulation.crew.ActivityHelper.narrow(__o);
+		return __r;
 	}
 	public com.traclabs.biosim.idl.simulation.crew.Activity _this(org.omg.CORBA.ORB orb)
 	{
-		return com.traclabs.biosim.idl.simulation.crew.ActivityHelper.narrow(_this_object(orb));
+		org.omg.CORBA.Object __o = _this_object(orb) ;
+		com.traclabs.biosim.idl.simulation.crew.Activity __r = com.traclabs.biosim.idl.simulation.crew.ActivityHelper.narrow(__o);
+		return __r;
 	}
 	public org.omg.CORBA.portable.OutputStream _invoke(String method, org.omg.CORBA.portable.InputStream _input, org.omg.CORBA.portable.ResponseHandler handler)
 		throws org.omg.CORBA.SystemException
@@ -52,7 +58,8 @@ public abstract class ActivityPOA
 			case 2: // getName
 			{
 				_out = handler.createReply();
-				_out.write_string(getName());
+				java.lang.String tmpResult23 = getName();
+_out.write_string( tmpResult23 );
 				break;
 			}
 		}

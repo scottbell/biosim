@@ -1,8 +1,10 @@
 package com.traclabs.biosim.idl.simulation.framework;
 
 /**
- *	Generated from IDL definition of alias "StoreList"
- *	@author JacORB IDL compiler 
+ * Generated from IDL alias "StoreList".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
  */
 
 public final class StoreListHolder

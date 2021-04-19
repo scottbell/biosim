@@ -1,13 +1,15 @@
 package com.traclabs.biosim.idl;
 
 /**
- *	Generated from IDL definition of alias "StringList"
- *	@author JacORB IDL compiler 
+ * Generated from IDL alias "StringList".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
  */
 
-public final class StringListHelper
+public abstract class StringListHelper
 {
-	private static org.omg.CORBA.TypeCode _type = null;
+	private volatile static org.omg.CORBA.TypeCode _type;
 
 	public static void insert (org.omg.CORBA.Any any, java.lang.String[] s)
 	{
@@ -17,6 +19,10 @@ public final class StringListHelper
 
 	public static java.lang.String[] extract (final org.omg.CORBA.Any any)
 	{
+		if ( any.type().kind() == org.omg.CORBA.TCKind.tk_null)
+		{
+			throw new org.omg.CORBA.BAD_OPERATION ("Can't extract from Any with null type.");
+		}
 		return read (any.create_input_stream ());
 	}
 
@@ -24,7 +30,13 @@ public final class StringListHelper
 	{
 		if (_type == null)
 		{
-			_type = org.omg.CORBA.ORB.init().create_alias_tc(com.traclabs.biosim.idl.StringListHelper.id(), "StringList",org.omg.CORBA.ORB.init().create_sequence_tc(0, org.omg.CORBA.ORB.init().create_string_tc(0)));
+			synchronized(StringListHelper.class)
+			{
+				if (_type == null)
+				{
+					_type = org.omg.CORBA.ORB.init().create_alias_tc(com.traclabs.biosim.idl.StringListHelper.id(), "StringList",org.omg.CORBA.ORB.init().create_sequence_tc(0, org.omg.CORBA.ORB.init().create_string_tc(0)));
+				}
+			}
 		}
 		return _type;
 	}
@@ -37,6 +49,17 @@ public final class StringListHelper
 	{
 		java.lang.String[] _result;
 		int _l_result0 = _in.read_long();
+		try
+		{
+			 int x = _in.available();
+			 if ( x > 0 && _l_result0 > x )
+				{
+					throw new org.omg.CORBA.MARSHAL("Sequence length too large. Only " + x + " available and trying to assign " + _l_result0);
+				}
+		}
+		catch (java.io.IOException e)
+		{
+		}
 		_result = new java.lang.String[_l_result0];
 		for (int i=0;i<_result.length;i++)
 		{
@@ -52,7 +75,8 @@ public final class StringListHelper
 		_out.write_long(_s.length);
 		for (int i=0; i<_s.length;i++)
 		{
-			_out.write_string(_s[i]);
+			java.lang.String tmpResult0 = _s[i];
+_out.write_string( tmpResult0 );
 		}
 
 	}

@@ -1,49 +1,55 @@
 package com.traclabs.biosim.idl.simulation.power;
 
-/**
- *	Generated from IDL interface "PowerConsumerDefinition"
- *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
- */
 
+/**
+ * Generated from IDL interface "PowerConsumerDefinition".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
+ */
 
 public abstract class PowerConsumerDefinitionPOA
 	extends org.omg.PortableServer.Servant
 	implements org.omg.CORBA.portable.InvokeHandler, com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinitionOperations
 {
-	static private final java.util.Hashtable m_opsHash = new java.util.Hashtable();
+	static private final java.util.HashMap<String,Integer> m_opsHash = new java.util.HashMap<String,Integer>();
 	static
 	{
-		m_opsHash.put ( "getPercentageFull", new java.lang.Integer(0));
-		m_opsHash.put ( "setStore", new java.lang.Integer(1));
-		m_opsHash.put ( "setInitialStores", new java.lang.Integer(2));
-		m_opsHash.put ( "getActualFlowRates", new java.lang.Integer(3));
-		m_opsHash.put ( "getStores", new java.lang.Integer(4));
-		m_opsHash.put ( "getMaxFlowRates", new java.lang.Integer(5));
-		m_opsHash.put ( "reset", new java.lang.Integer(6));
-		m_opsHash.put ( "setInitialDesiredFlowRates", new java.lang.Integer(7));
-		m_opsHash.put ( "setDesiredFlowRate", new java.lang.Integer(8));
-		m_opsHash.put ( "getTotalActualFlowRate", new java.lang.Integer(9));
-		m_opsHash.put ( "setInitialActualFlowRates", new java.lang.Integer(10));
-		m_opsHash.put ( "getActualFlowRate", new java.lang.Integer(11));
-		m_opsHash.put ( "setPowerInputs", new java.lang.Integer(12));
-		m_opsHash.put ( "setInitialMaxFlowRates", new java.lang.Integer(13));
-		m_opsHash.put ( "getMaxFlowRate", new java.lang.Integer(14));
-		m_opsHash.put ( "getAveragePercentageFull", new java.lang.Integer(15));
-		m_opsHash.put ( "getDesiredFlowRates", new java.lang.Integer(16));
-		m_opsHash.put ( "connectsTo", new java.lang.Integer(17));
-		m_opsHash.put ( "getTotalMaxFlowRate", new java.lang.Integer(18));
-		m_opsHash.put ( "setMaxFlowRate", new java.lang.Integer(19));
-		m_opsHash.put ( "getDesiredFlowRate", new java.lang.Integer(20));
-		m_opsHash.put ( "getTotalDesiredFlowRate", new java.lang.Integer(21));
+		m_opsHash.put ( "getPercentageFull", Integer.valueOf(0));
+		m_opsHash.put ( "setStore", Integer.valueOf(1));
+		m_opsHash.put ( "setInitialStores", Integer.valueOf(2));
+		m_opsHash.put ( "getActualFlowRates", Integer.valueOf(3));
+		m_opsHash.put ( "getStores", Integer.valueOf(4));
+		m_opsHash.put ( "getMaxFlowRates", Integer.valueOf(5));
+		m_opsHash.put ( "reset", Integer.valueOf(6));
+		m_opsHash.put ( "setInitialDesiredFlowRates", Integer.valueOf(7));
+		m_opsHash.put ( "setDesiredFlowRate", Integer.valueOf(8));
+		m_opsHash.put ( "getTotalActualFlowRate", Integer.valueOf(9));
+		m_opsHash.put ( "setInitialActualFlowRates", Integer.valueOf(10));
+		m_opsHash.put ( "getActualFlowRate", Integer.valueOf(11));
+		m_opsHash.put ( "setPowerInputs", Integer.valueOf(12));
+		m_opsHash.put ( "setInitialMaxFlowRates", Integer.valueOf(13));
+		m_opsHash.put ( "getMaxFlowRate", Integer.valueOf(14));
+		m_opsHash.put ( "getAveragePercentageFull", Integer.valueOf(15));
+		m_opsHash.put ( "getDesiredFlowRates", Integer.valueOf(16));
+		m_opsHash.put ( "connectsTo", Integer.valueOf(17));
+		m_opsHash.put ( "getTotalMaxFlowRate", Integer.valueOf(18));
+		m_opsHash.put ( "setMaxFlowRate", Integer.valueOf(19));
+		m_opsHash.put ( "getDesiredFlowRate", Integer.valueOf(20));
+		m_opsHash.put ( "getTotalDesiredFlowRate", Integer.valueOf(21));
 	}
 	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/power/PowerConsumerDefinition:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/StoreFlowRateControllable:1.0","IDL:com/traclabs/biosim/idl/simulation/framework/SingleFlowRateControllable:1.0"};
 	public com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition _this()
 	{
-		return com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinitionHelper.narrow(_this_object());
+		org.omg.CORBA.Object __o = _this_object() ;
+		com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition __r = com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinitionHelper.narrow(__o);
+		return __r;
 	}
 	public com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition _this(org.omg.CORBA.ORB orb)
 	{
-		return com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinitionHelper.narrow(_this_object(orb));
+		org.omg.CORBA.Object __o = _this_object(orb) ;
+		com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinition __r = com.traclabs.biosim.idl.simulation.power.PowerConsumerDefinitionHelper.narrow(__o);
+		return __r;
 	}
 	public org.omg.CORBA.portable.OutputStream _invoke(String method, org.omg.CORBA.portable.InputStream _input, org.omg.CORBA.portable.ResponseHandler handler)
 		throws org.omg.CORBA.SystemException

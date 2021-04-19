@@ -1,7 +1,9 @@
 package com.traclabs.biosim.idl.simulation.air.cdrs;
 /**
- *	Generated from IDL definition of enum "CDRSCommandStatus"
- *	@author JacORB IDL compiler 
+ * Generated from IDL enum "CDRSCommandStatus".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
  */
 
 public final class CDRSCommandStatusHolder

@@ -1,63 +1,69 @@
 package com.traclabs.biosim.idl.simulation.crew;
 
-/**
- *	Generated from IDL interface "CrewPerson"
- *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
- */
 
+/**
+ * Generated from IDL interface "CrewPerson".
+ *
+ * @author JacORB IDL compiler V 3.9
+ * @version generated at Apr 19, 2021, 1:35:30 PM
+ */
 
 public abstract class CrewPersonPOA
 	extends org.omg.PortableServer.Servant
 	implements org.omg.CORBA.portable.InvokeHandler, com.traclabs.biosim.idl.simulation.crew.CrewPersonOperations
 {
-	static private final java.util.Hashtable m_opsHash = new java.util.Hashtable();
+	static private final java.util.HashMap<String,Integer> m_opsHash = new java.util.HashMap<String,Integer>();
 	static
 	{
-		m_opsHash.put ( "getProductivity", new java.lang.Integer(0));
-		m_opsHash.put ( "insertActivityInSchedule", new java.lang.Integer(1));
-		m_opsHash.put ( "getScheduledActivityByOrder", new java.lang.Integer(2));
-		m_opsHash.put ( "setCurrentActivity", new java.lang.Integer(3));
-		m_opsHash.put ( "setLogLevel", new java.lang.Integer(4));
-		m_opsHash.put ( "getPotableWaterConsumed", new java.lang.Integer(5));
-		m_opsHash.put ( "getActivityByName", new java.lang.Integer(6));
-		m_opsHash.put ( "getDirtyWaterProduced", new java.lang.Integer(7));
-		m_opsHash.put ( "isSuffocating", new java.lang.Integer(8));
-		m_opsHash.put ( "getWeight", new java.lang.Integer(9));
-		m_opsHash.put ( "setDepartureTick", new java.lang.Integer(10));
-		m_opsHash.put ( "isStarving", new java.lang.Integer(11));
-		m_opsHash.put ( "sicken", new java.lang.Integer(12));
-		m_opsHash.put ( "getName", new java.lang.Integer(13));
-		m_opsHash.put ( "isSick", new java.lang.Integer(14));
-		m_opsHash.put ( "isThirsty", new java.lang.Integer(15));
-		m_opsHash.put ( "getGreyWaterProduced", new java.lang.Integer(16));
-		m_opsHash.put ( "getO2Consumed", new java.lang.Integer(17));
-		m_opsHash.put ( "getArrivalTick", new java.lang.Integer(18));
-		m_opsHash.put ( "reset", new java.lang.Integer(19));
-		m_opsHash.put ( "getAge", new java.lang.Integer(20));
-		m_opsHash.put ( "getDepartureTick", new java.lang.Integer(21));
-		m_opsHash.put ( "getTimeActivityPerformed", new java.lang.Integer(22));
-		m_opsHash.put ( "insertActivityInScheduleNow", new java.lang.Integer(23));
-		m_opsHash.put ( "getCO2Produced", new java.lang.Integer(24));
-		m_opsHash.put ( "getSex", new java.lang.Integer(25));
-		m_opsHash.put ( "getFoodConsumed", new java.lang.Integer(26));
-		m_opsHash.put ( "isOnBoard", new java.lang.Integer(27));
-		m_opsHash.put ( "isDead", new java.lang.Integer(28));
-		m_opsHash.put ( "isPoisoned", new java.lang.Integer(29));
-		m_opsHash.put ( "getCurrentActivity", new java.lang.Integer(30));
-		m_opsHash.put ( "kill", new java.lang.Integer(31));
-		m_opsHash.put ( "getOrderOfScheduledActivity", new java.lang.Integer(32));
-		m_opsHash.put ( "tick", new java.lang.Integer(33));
-		m_opsHash.put ( "setArrivalTick", new java.lang.Integer(34));
-		m_opsHash.put ( "getCurrentCrewGroup", new java.lang.Integer(35));
+		m_opsHash.put ( "getProductivity", Integer.valueOf(0));
+		m_opsHash.put ( "insertActivityInSchedule", Integer.valueOf(1));
+		m_opsHash.put ( "getScheduledActivityByOrder", Integer.valueOf(2));
+		m_opsHash.put ( "setCurrentActivity", Integer.valueOf(3));
+		m_opsHash.put ( "setLogLevel", Integer.valueOf(4));
+		m_opsHash.put ( "getPotableWaterConsumed", Integer.valueOf(5));
+		m_opsHash.put ( "getActivityByName", Integer.valueOf(6));
+		m_opsHash.put ( "getDirtyWaterProduced", Integer.valueOf(7));
+		m_opsHash.put ( "isSuffocating", Integer.valueOf(8));
+		m_opsHash.put ( "getWeight", Integer.valueOf(9));
+		m_opsHash.put ( "setDepartureTick", Integer.valueOf(10));
+		m_opsHash.put ( "isStarving", Integer.valueOf(11));
+		m_opsHash.put ( "sicken", Integer.valueOf(12));
+		m_opsHash.put ( "getName", Integer.valueOf(13));
+		m_opsHash.put ( "isSick", Integer.valueOf(14));
+		m_opsHash.put ( "isThirsty", Integer.valueOf(15));
+		m_opsHash.put ( "getGreyWaterProduced", Integer.valueOf(16));
+		m_opsHash.put ( "getO2Consumed", Integer.valueOf(17));
+		m_opsHash.put ( "getArrivalTick", Integer.valueOf(18));
+		m_opsHash.put ( "reset", Integer.valueOf(19));
+		m_opsHash.put ( "getAge", Integer.valueOf(20));
+		m_opsHash.put ( "getDepartureTick", Integer.valueOf(21));
+		m_opsHash.put ( "getTimeActivityPerformed", Integer.valueOf(22));
+		m_opsHash.put ( "insertActivityInScheduleNow", Integer.valueOf(23));
+		m_opsHash.put ( "getCO2Produced", Integer.valueOf(24));
+		m_opsHash.put ( "getSex", Integer.valueOf(25));
+		m_opsHash.put ( "getFoodConsumed", Integer.valueOf(26));
+		m_opsHash.put ( "isOnBoard", Integer.valueOf(27));
+		m_opsHash.put ( "isDead", Integer.valueOf(28));
+		m_opsHash.put ( "isPoisoned", Integer.valueOf(29));
+		m_opsHash.put ( "getCurrentActivity", Integer.valueOf(30));
+		m_opsHash.put ( "kill", Integer.valueOf(31));
+		m_opsHash.put ( "getOrderOfScheduledActivity", Integer.valueOf(32));
+		m_opsHash.put ( "tick", Integer.valueOf(33));
+		m_opsHash.put ( "setArrivalTick", Integer.valueOf(34));
+		m_opsHash.put ( "getCurrentCrewGroup", Integer.valueOf(35));
 	}
 	private String[] ids = {"IDL:com/traclabs/biosim/idl/simulation/crew/CrewPerson:1.0"};
 	public com.traclabs.biosim.idl.simulation.crew.CrewPerson _this()
 	{
-		return com.traclabs.biosim.idl.simulation.crew.CrewPersonHelper.narrow(_this_object());
+		org.omg.CORBA.Object __o = _this_object() ;
+		com.traclabs.biosim.idl.simulation.crew.CrewPerson __r = com.traclabs.biosim.idl.simulation.crew.CrewPersonHelper.narrow(__o);
+		return __r;
 	}
 	public com.traclabs.biosim.idl.simulation.crew.CrewPerson _this(org.omg.CORBA.ORB orb)
 	{
-		return com.traclabs.biosim.idl.simulation.crew.CrewPersonHelper.narrow(_this_object(orb));
+		org.omg.CORBA.Object __o = _this_object(orb) ;
+		com.traclabs.biosim.idl.simulation.crew.CrewPerson __r = com.traclabs.biosim.idl.simulation.crew.CrewPersonHelper.narrow(__o);
+		return __r;
 	}
 	public org.omg.CORBA.portable.OutputStream _invoke(String method, org.omg.CORBA.portable.InputStream _input, org.omg.CORBA.portable.ResponseHandler handler)
 		throws org.omg.CORBA.SystemException
@@ -158,7 +164,8 @@ public abstract class CrewPersonPOA
 			case 13: // getName
 			{
 				_out = handler.createReply();
-				_out.write_string(getName());
+				java.lang.String tmpResult33 = getName();
+_out.write_string( tmpResult33 );
 				break;
 			}
 			case 14: // isSick
