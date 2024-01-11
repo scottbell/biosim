@@ -20,5 +20,16 @@ Open a terminal and cd to one of the above directories and type:
 run-biosim
 ```
 
+## Docker
+To build and run using Docker, run
+```sh
+docker build -t biosim .
+```
+
+and then to run the contains:
+```sh
+docker run -p 16315:16315 biosim 
+```
+
 ## License
 GPL v3
