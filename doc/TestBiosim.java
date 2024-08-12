@@ -5,7 +5,7 @@ import com.traclabs.biosim.util.OrbUtils;
 /*
  To compile:
  1) build biosim (type ant in BIOSIM_HOME)
- 2) javac -classpath .:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/build TestBiosim.java
+ 2) javac -classpath ".:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb/jacorb-omgapi-3.9.jar:$BIOSIM_HOME/build" TestBiosim.java
  
  javac - the compiler
  jacorb.jar - the library that has the ORB and various CORBA utilities
@@ -16,9 +16,10 @@ import com.traclabs.biosim.util.OrbUtils;
  To run:
  1)type run-nameserver
  2)type run-server
- 3)type java -classpath .:$BIOSIM_HOME/lib/log4j/log4j.jar:$BIOSIM_HOME/lib/jacorb/jacorb.jar:$BIOSIM_HOME/lib/jacorb/logkit.jar:$BIOSIM_HOME/lib/jacorb/avalon-framework.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/build -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton -DORBInitRef.NameService=file:$BIOSIM_HOME/tmp/ns/ior.txt TestBiosim
+ 3)type 
+ java -classpath .:$BIOSIM_HOME/lib/log4j/log4j.jar:$BIOSIM_HOME/lib/jacorb/jacorb-3.9.jar:$BIOSIM_HOME/lib/jacorb/jboss-rmi-api.jar:$BIOSIM_HOME/lib/jacorb/slf4j-api-1.7.14.jar:$BIOSIM_HOME/lib/jacorb/slf4j-jdk14-1.7.14.jar:$BIOSIM_HOME/lib/jacorb/jacorb-3.9.jar:$BIOSIM_HOME/lib/jacorb/jacorb-omgapi-3.9.jar:$BIOSIM_HOME/lib/jacorb/logkit.jar:$BIOSIM_HOME/lib/jacorb/avalon-framework.jar:$BIOSIM_HOME/lib/jacorb:$BIOSIM_HOME/build -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton -DORBInitRef.NameService=corbaloc::localhost:16315/NameService TestBiosim
  
- 
+
  -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB - overriding Sun's default ORB (using Jacorb instead)
  -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton - overriding Sun's default ORB (using Jacorb instead)
  -DORBInitRef.NameService=file:$BIOSIM_HOME/tmp/ns/ior.txt - telling the client where to look for the ior (serialized nameservice object, produced by run-nameserver)
@@ -34,8 +35,6 @@ public class TestBiosim {
 			System.out.println("TestBiosim begin");
 			// Let's get the BioDriver
 			System.out.println("Getting BioDriver");
-			// BioHolder myBioHolder = BioHolderInitializer.getBioHolder();
-			// BioDriver myBioDriver = myBioHolder.theBioDriver;
 			BioDriver myBioDriver = BioDriverHelper.narrow(OrbUtils
 					.getNamingContext(0).resolve_str("BioDriver"));
 			// Now let's call a method on BioDriver

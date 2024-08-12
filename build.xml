@@ -86,7 +86,7 @@
 	<target name="compile-stubs" depends="init-build,init-tmp"
 		description="compiles the IDL stubs">
 		<echo message="Compiling stubs" />
-		<javac target="1.8" source="1.8" srcdir="${stubsDir}" destdir="${buildDir}" fork="yes"
+		<javac target="11" source="11" srcdir="${stubsDir}" destdir="${buildDir}" fork="yes"
 			memoryMaximumSize="256m" nowarn="yes" debug="on" includeantruntime="false">
 			<classpath refid="biosim.lib.build.path"/>
 		</javac>
@@ -99,7 +99,7 @@
 	<target name="build-server" depends="stub-and-compile-idl,build-util"
 		description="compile the server">
 		<echo message="Compling the server" />
-		<javac target="1.8" source="1.8" srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}"
+		<javac target="11" source="11" srcdir="${src}/com/traclabs/biosim/server" destdir="${buildDir}"
 			nowarn="yes" failonerror="yes" debug="on" includeantruntime="false">
 			<classpath refid="biosim.lib.build.path"/>
 		</javac>
@@ -108,7 +108,7 @@
 	<target name="build-framework" depends="build-server"
 		description="compile the framework">
 		<echo message="Compling the framework" />
-		<javac target="1.8" source="1.8" srcdir="${src}/com/traclabs/biosim/framework" destdir="${buildDir}"
+		<javac target="11" source="11" srcdir="${src}/com/traclabs/biosim/framework" destdir="${buildDir}"
 			nowarn="yes" failonerror="yes" debug="on" includeantruntime="false">
 			<classpath refid="biosim.lib.build.path"/>
 			<classpath>
@@ -120,7 +120,7 @@
 	
 	<target name="build-util" depends="" description="compile the util">
 		<echo message="Compling the util" />
-		<javac target="1.8" source="1.8" srcdir="${src}/com/traclabs/biosim/util" destdir="${buildDir}"
+		<javac target="11" source="11" srcdir="${src}/com/traclabs/biosim/util" destdir="${buildDir}"
 			nowarn="yes" failonerror="yes" debug="on" includeantruntime="false">
 			<classpath  refid="biosim.lib.build.path"/>
 			<classpath>
@@ -132,7 +132,7 @@
 	<target name="build-client" depends="stub-and-compile-idl"
 		description="compile the client">
 		<echo message="Compling the client" />
-		<javac target="1.8" source="1.8" srcdir="${src}/com/traclabs/biosim/client" destdir="${buildDir}"
+		<javac target="11" source="11" srcdir="${src}/com/traclabs/biosim/client" destdir="${buildDir}"
 			nowarn="yes" failonerror="yes" debug="on" includeantruntime="false">
 			<compilerarg value="-Xlint:unchecked"/>
 			<classpath  refid="biosim.lib.build.path"/>
@@ -341,7 +341,7 @@
 	<target name="update-and-rebuild-and-test-and-dist" depends="update,rebuild,test,build-dist"
 		description="update from subversion and rebuilds" />
 	<target name="test" depends="build">
-		<javac target="1.8" source="1.8" srcdir="${test.dir}" destdir="${buildDir}"
+		<javac target="11" source="11" srcdir="${test.dir}" destdir="${buildDir}"
 			memoryMaximumSize="256m" fork="yes" debug="on">
 			<classpath  refid="biosim.lib.build.path"/>
 			<classpath>
