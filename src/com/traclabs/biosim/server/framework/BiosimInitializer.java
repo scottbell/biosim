@@ -42,7 +42,7 @@ import com.traclabs.biosim.server.util.failure.Weibull2Decider;
 import com.traclabs.biosim.server.util.failure.Weibull3Decider;
 import com.traclabs.biosim.server.util.stochastic.NormalFilter;
 import com.traclabs.biosim.server.util.stochastic.StochasticFilter;
-import com.traclabs.biosim.util.OrbUtils;
+import com.traclabs.biosim.util.RestUtils;
 
 /**
  * Reads BioSim configuration from XML file.
@@ -161,8 +161,7 @@ public class BiosimInitializer {
 
 			BioDriver myDriver = null;
 			try {
-				myDriver = BioDriverHelper.narrow(OrbUtils.getNamingContext(
-						myID).resolve_str("BioDriver"));
+				myDriver = (BioDriver) RestUtils.getModule(myID, "BioDriver");
 			} catch (Exception e) {
 				myLogger.error(e.getMessage());
 				e.printStackTrace();
@@ -273,9 +272,7 @@ public class BiosimInitializer {
 				CrewGroup[] crewGroups = new CrewGroup[crewsToWatchArray.length];
 				for (int i = 0; i < crewGroups.length; i++) {
 					try {
-						crewGroups[i] = CrewGroupHelper.narrow(OrbUtils
-								.getNamingContext(myID).resolve_str(
-										crewsToWatchArray[i]));
+						crewGroups[i] = (CrewGroup) RestUtils.getModule(myID, crewsToWatchArray[i]);
 						myLogger.debug("Fetched "
 								+ crewGroups[i].getModuleName());
 					} catch (org.omg.CORBA.UserException e) {
@@ -294,9 +291,7 @@ public class BiosimInitializer {
 				BiomassPS[] biomassPSs = new BiomassPS[plantsToWatchArray.length];
 				for (int i = 0; i < biomassPSs.length; i++) {
 					try {
-						biomassPSs[i] = BiomassPSHelper.narrow(OrbUtils
-								.getNamingContext(myID).resolve_str(
-										plantsToWatchArray[i]));
+						biomassPSs[i] = (BiomassPS) RestUtils.getModule(myID, plantsToWatchArray[i]);
 						myLogger.debug("Fetched "
 								+ biomassPSs[i].getModuleName());
 					} catch (org.omg.CORBA.UserException e) {
@@ -343,14 +338,16 @@ public class BiosimInitializer {
 		String iorPathName = node.getAttributes().getNamedItem("path").getNodeValue();
 		File iorFile = new File(iorPathName);
 		myLogger.info("Looking for nameservice in file "+iorFile);
-		OrbUtils.initializeNamingServerWithFile(iorFile);
+		// Initialize REST API server
+		RestUtils.initialize();
 	}
 
 	private void parseServerLocation(Node node) {
 		String hostName = node.getAttributes().getNamedItem("hostname").getNodeValue();
 		int port = Integer.parseInt(node.getAttributes().getNamedItem("port").getNodeValue());
 		myLogger.info("Looking for nameservice on "+hostName+":"+port);
-		OrbUtils.initializeNamingServer(hostName, port);
+		// Initialize REST API server
+		RestUtils.initialize();
 	}
 
 	private static BioModule[] convertList(List pBioModules) {
@@ -380,19 +377,20 @@ public class BiosimInitializer {
 		org.omg.CORBA.Object moduleToReturn = null;
 		while (moduleToReturn == null) {
 			try {
-				moduleToReturn = OrbUtils.getNamingContext(pID).resolve_str(
-						moduleName);
+				moduleToReturn = RestUtils.getModule(pID, moduleName);
 			} catch (org.omg.CORBA.UserException e) {
 				Logger.getLogger(BiosimInitializer.class).error(
 						"Couldn't find module " + moduleName
 								+ ", polling again...");
-				OrbUtils.sleepAwhile();
+				RestUtils.sleepAwhile();
 			} catch (Exception e) {
 				Logger.getLogger(BiosimInitializer.class).error(
 						"Had problems contacting nameserver with module "
 								+ moduleName + ", polling again...");
-				OrbUtils.resetInit();
-				OrbUtils.sleepAwhile();
+				// Reinitialize REST API server
+				RestUtils.shutdown();
+				RestUtils.initialize();
+				RestUtils.sleepAwhile();
 			}
 		}
 		return moduleToReturn;

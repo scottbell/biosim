@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
-import org.omg.PortableServer.Servant;
 
-import com.traclabs.biosim.util.OrbUtils;
+import com.traclabs.biosim.util.RestUtils;
 
 /**
  * The Generic Server. Provides basic functionality for BioSim servers
@@ -23,53 +22,48 @@ public class GenericServer {
 	protected Logger myLogger;
 
 	public GenericServer() {
-		OrbUtils.initializeLog();
 		myLogger = Logger.getLogger(this.getClass());
 	}
 
 	/**
-	 * Registers this server with the CORBA naming service
+	 * Registers this server with the REST API
 	 * 
-	 * @param pPOA
+	 * @param pModule
 	 *            the object to register
 	 * @param pServerName
-	 *            the name that will be associated with this server in the
-	 *            naming service
+	 *            the name that will be associated with this server
 	 * @param pID
-	 *            the subcontext which to bind the name
+	 *            the ID of the module
 	 */
-	public static void registerServer(Servant pPOA, String pServerName, int pID) {
-		// Try to register the ID name context
+	public static void registerServer(Object pModule, String pServerName, int pID) {
+		// Try to register the module
 		try {
-			// bind the Object Reference in Naming
-			OrbUtils.getNamingContext(pID).rebind(
-					OrbUtils.getNamingContext(pID).to_name(pServerName),
-					OrbUtils.poaToCorbaObj(pPOA));
-		} catch (org.omg.CORBA.UserException e) {
+			// Register the module with RestUtils
+			RestUtils.registerModule(pID, pServerName, pModule);
+		} catch (Exception e) {
 			Logger
 					.getLogger(GenericServer.class)
 					.error(
 							pServerName
-									+ " had problems registering with nameservice, trying again..");
+									+ " had problems registering with REST API, trying again..");
 			e.printStackTrace();
-			OrbUtils.sleepAwhile();
-			registerServer(pPOA, pServerName, pID);
+			RestUtils.sleepAwhile();
+			registerServer(pModule, pServerName, pID);
 		}
 	}
 
 	/**
-	 * Registers this server with the CORBA naming service and starts the server
+	 * Registers this server with the REST API and starts the server
 	 * 
-	 * @param pPOA
+	 * @param pModule
 	 *            the object to register
 	 * @param pServerName
-	 *            the name that will be associated with this server in the
-	 *            naming service
+	 *            the name that will be associated with this server
 	 * @param pID
 	 *            the id of the server
 	 */
-	public void registerServerAndRun(Servant pPOA, String pServerName, int pID) {
-		registerServer(pPOA, pServerName, pID);
+	public void registerServerAndRun(Object pModule, String pServerName, int pID) {
+		registerServer(pModule, pServerName, pID);
 		runServer(pServerName);
 	}
 
@@ -90,7 +84,7 @@ public class GenericServer {
 	}
 
 	/**
-	 * Starts the server by calling ORB.run()
+	 * Starts the server
 	 * 
 	 * @param serverName
 	 *            the name associated with this server (for debug purposes only)
@@ -99,8 +93,11 @@ public class GenericServer {
 		try {
 			notfiyListeners();
 			myLogger.info(serverName + " ready and waiting");
-			// wait for invocations from clients
-			OrbUtils.getORB().run();
+			
+			// Keep the server running
+			// This is a blocking call in the original code with OrbUtils.getORB().run()
+			// In the REST version, we'll just keep the thread alive
+			Thread.currentThread().join();
 		} catch (Exception e) {
 			myLogger.error(serverName + " ERROR: " + e);
 			e.printStackTrace();

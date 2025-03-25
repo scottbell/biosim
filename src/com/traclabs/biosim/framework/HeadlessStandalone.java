@@ -1,7 +1,5 @@
 package com.traclabs.biosim.framework;
 
-import com.traclabs.biosim.client.control.SimCommandLine;
-import com.traclabs.biosim.client.framework.BiosimMain;
 
 /**
  * A standalone BioSim instance (server, nameserver, client in one)

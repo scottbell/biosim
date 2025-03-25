@@ -57,7 +57,7 @@ public class CommandLineUtils {
 					optionValue = args[i + 1];
 			} catch (ArrayIndexOutOfBoundsException e) {
 				Logger
-						.getLogger(OrbUtils.class)
+						.getLogger(CommandLineUtils.class)
 						.error(
 								"Bad command line arguments while trying to parse configuration file. Should be of form: "+commandLineOptionName+"foo where foo is the value of "+optionName);
 			}

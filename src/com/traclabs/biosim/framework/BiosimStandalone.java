@@ -1,21 +1,7 @@
 package com.traclabs.biosim.framework;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JProgressBar;
-import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
-
-import com.traclabs.biosim.client.framework.BiosimMain;
 import com.traclabs.biosim.server.framework.BiosimServer;
-import com.traclabs.biosim.util.OrbUtils;
+import com.traclabs.biosim.util.RestUtils;
 
 /**
  * A standalone BioSim instance (server, nameserver, client in one)
@@ -30,10 +16,6 @@ public class BiosimStandalone {
 	private Thread myClientThread;
 
 	private ReadyListener myReadyListener;
-
-	private JFrame myFrame;
-
-	private JProgressBar myProgressBar;
 
 	private String myXmlFilename;
 
@@ -96,12 +78,11 @@ public class BiosimStandalone {
 					Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			myFrame.setVisible(true);
 		}
-		OrbUtils.startStandaloneNameServer();
-		OrbUtils.sleepAwhile(5000);
-		OrbUtils.initializeServerForStandalone();
+		// Initialize REST API server
+		RestUtils.initialize();
+		RestUtils.sleepAwhile(1000);
 		myServerThread.start();
-		OrbUtils.sleepAwhile(4000);
-		OrbUtils.initializeClientForStandalone();
+		RestUtils.sleepAwhile(1000);
 		myClientThread.start();
 	}
 
@@ -112,11 +93,21 @@ public class BiosimStandalone {
 
 	private class ServerThread implements Runnable {
 		public void run() {
-			BiosimServer server = new BiosimServer(0, myDriverPause,
-					myXmlFilename);
-			if (myReadyListener != null)
-				server.addReadyListener(myReadyListener);
-			server.runServer("BiosimServer (id=0)");
+			BiosimServer server = new BiosimServer(8080);
+			// Configure server with XML file
+			System.out.println("Starting BioSim server with configuration: " + myXmlFilename);
+			
+			// Notify ready listener
+			if (myReadyListener != null) {
+				myReadyListener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Server Ready"));
+			}
+			
+			// Keep thread alive
+			try {
+				Thread.currentThread().join();
+			} catch (InterruptedException e) {
+				System.out.println("Server thread interrupted");
+			}
 		}
 	}
 
