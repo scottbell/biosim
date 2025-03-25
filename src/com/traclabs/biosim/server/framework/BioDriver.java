@@ -17,14 +17,14 @@ import com.traclabs.biosim.idl.simulation.food.BiomassPS;
  * @author Scott Bell
  */
 
-public class BioDriverImpl extends BioDriverPOA {
+public class BioDriver  {
 	// The thread to run the simulation
 	private Thread myTickThread;
 
-	// Flag to see whether the BioDriverImpl is paused (started but not ticking)
+	// Flag to see whether the BioDriver is paused (started but not ticking)
 	private boolean simulationIsPaused = false;
 
-	// Flag to see whether the BioDriverImpl is started at all
+	// Flag to see whether the BioDriver is started at all
 	private boolean simulationStarted = false;
 
 	// If <runTillN == true, this is the number of ticks to run for.
@@ -84,7 +84,7 @@ public class BioDriverImpl extends BioDriverPOA {
 	 *            The ID of this instance of the BioSim (must be the same for
 	 *            all modules in the instance)
 	 */
-	public BioDriverImpl(int pID) {
+	public BioDriver(int pID) {
 		myID = pID;
 		modules = new BioModule[0];
 		activeSimModules = new BioModule[0];
@@ -323,7 +323,7 @@ public class BioDriverImpl extends BioDriverPOA {
 	 */
 	public synchronized void setDriverStutterLength(int pDriverStutterLength) {
 		if (pDriverStutterLength > 0)
-			myLogger.debug("BioDriverImpl" + myID + ": driver pause of "
+			myLogger.debug("BioDriver" + myID + ": driver pause of "
 					+ pDriverStutterLength + " milliseconds");
 		myDriverStutterLength = pDriverStutterLength;
 	}
@@ -368,7 +368,7 @@ public class BioDriverImpl extends BioDriverPOA {
 	public boolean isDone() {
 		if (runTillN) {
 			if (ticksGoneBy >= nTicks) {
-				myLogger.info("BioDriverImpl" + myID
+				myLogger.info("BioDriver" + myID
 						+ ": Reached user defined tick limit of " + nTicks);
 				return true;
 			}
@@ -376,7 +376,7 @@ public class BioDriverImpl extends BioDriverPOA {
 		if (runTillCrewDeath) {
 			for (int i = 0; i < crewsToWatch.length; i++) {
 				if (crewsToWatch[i].anyDead()) {
-					myLogger.info("BioDriverImpl" + myID
+					myLogger.info("BioDriver" + myID
 							+ ": simulation ended due to crew death at "
 							+ nTicks);
 					return true;
@@ -386,7 +386,7 @@ public class BioDriverImpl extends BioDriverPOA {
 		if (runTillPlantDeath) {
 			for (int i = 0; i < plantsToWatch.length; i++) {
 				if (plantsToWatch[i].isAnyPlantDead()) {
-					myLogger.info("BioDriverImpl" + myID
+					myLogger.info("BioDriver" + myID
 							+ ": simulation ended due to plant death at "
 							+ nTicks);
 					return true;
@@ -413,7 +413,7 @@ public class BioDriverImpl extends BioDriverPOA {
 		myTickThread = null;
 		notify();
 		simulationStarted = false;
-		myLogger.info("BioDriverImpl" + myID + ": simulation ended on tick "
+		myLogger.info("BioDriver" + myID + ": simulation ended on tick "
 				+ ticksGoneBy);
 		if (exitWhenFinished)
 			System.exit(0);
@@ -463,7 +463,7 @@ public class BioDriverImpl extends BioDriverPOA {
 	 * levels, etc.
 	 */
 	public void reset() {
-		myLogger.info("BioDriverImpl" + myID + ": Resetting simulation");
+		myLogger.info("BioDriver" + myID + ": Resetting simulation");
 		ticksGoneBy = 0;
 		for (BioModule currentBioModule : modules) {
 			myLogger.debug("resetting "+currentBioModule.getModuleName());
@@ -505,7 +505,7 @@ public class BioDriverImpl extends BioDriverPOA {
 	 * Ticks every server. The SimEnvironment is ticked first as it keeps track
 	 * of time for the rest of the server. The other server are ticked in no
 	 * particular order by enumerating through the module hashtable. When every
-	 * server has been ticked, BioDriverImpl notifies all it's listeners that
+	 * server has been ticked, BioDriver notifies all it's listeners that
 	 * this has happened.
 	 */
 	private void tick() {
@@ -552,7 +552,7 @@ public class BioDriverImpl extends BioDriverPOA {
 		 * servers (if applicable), then begins ticking them.
 		 */
 		public void run() {
-			myLogger.info("BioDriverImpl" + myID + ": Running simulation...");
+			myLogger.info("BioDriver" + myID + ": Running simulation...");
 			simulationStarted = true;
 			runSimulation();
 		}

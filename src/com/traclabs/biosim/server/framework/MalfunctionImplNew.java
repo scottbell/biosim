@@ -2,7 +2,14 @@ package com.traclabs.biosim.server.framework;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-public class MalfunctionImplNew {
+import com.traclabs.biosim.api.Malfunction;
+import com.traclabs.biosim.api.MalfunctionIntensity;
+import com.traclabs.biosim.api.MalfunctionLength;
+
+/**
+ * Implementation of the Malfunction interface.
+ */
+public class MalfunctionImplNew implements Malfunction {
     private static final AtomicLong ID_GENERATOR = new AtomicLong(0);
     
     private final long id;
@@ -47,6 +54,7 @@ public class MalfunctionImplNew {
      * 
      * @return The malfunction intensity
      */
+    @Override
     public MalfunctionIntensity getIntensity() {
         return intensity;
     }
@@ -56,6 +64,7 @@ public class MalfunctionImplNew {
      * 
      * @return The malfunction ID
      */
+    @Override
     public long getID() {
         return id;
     }
@@ -65,6 +74,7 @@ public class MalfunctionImplNew {
      * 
      * @return The malfunction name
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -74,6 +84,7 @@ public class MalfunctionImplNew {
      * 
      * @return true if the malfunction has been performed, false otherwise
      */
+    @Override
     public boolean hasPerformed() {
         return performed;
     }
@@ -83,6 +94,7 @@ public class MalfunctionImplNew {
      * 
      * @param performed true if the malfunction has been performed, false otherwise
      */
+    @Override
     public void setPerformed(boolean performed) {
         this.performed = performed;
     }
@@ -92,6 +104,7 @@ public class MalfunctionImplNew {
      * 
      * @return The malfunction length
      */
+    @Override
     public MalfunctionLength getLength() {
         return length;
     }
@@ -99,6 +112,7 @@ public class MalfunctionImplNew {
     /**
      * Performs some repair work on the malfunction
      */
+    @Override
     public void doSomeRepairWork() {
         repairWorkDone++;
     }
@@ -108,6 +122,7 @@ public class MalfunctionImplNew {
      * 
      * @return true if enough repair work has been done, false otherwise
      */
+    @Override
     public boolean doneEnoughRepairWork() {
         return repairWorkDone >= repairWorkNeeded;
     }

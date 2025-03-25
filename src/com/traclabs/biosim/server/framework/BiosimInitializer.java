@@ -85,7 +85,7 @@ public class BiosimInitializer {
 
 	private ActuatorInitializer myActuatorInitializer;
 	
-	private BioDriverImpl myBioDriverImpl;
+	private BioDriver myBioDriver;
 
 	/** Default constructor. */
 	public BiosimInitializer(int pID) {
@@ -209,28 +209,28 @@ public class BiosimInitializer {
 	private void crawlGlobals(Node node, boolean firstPass) {
 		if (firstPass) {
 			try {
-				myBioDriverImpl = new BioDriverImpl(myID);
+				myBioDriver = new BioDriver(myID);
 				// set the tickLength
 				float tickLength = Float.parseFloat(node.getAttributes()
 						.getNamedItem("tickLength").getNodeValue());
-				myBioDriverImpl.setTickLength(tickLength);
+				myBioDriver.setTickLength(tickLength);
 
-				myBioDriverImpl.setRunTillN(Integer.parseInt(node.getAttributes()
+				myBioDriver.setRunTillN(Integer.parseInt(node.getAttributes()
 						.getNamedItem("runTillN").getNodeValue()));
-				myBioDriverImpl.setPauseSimulation(node.getAttributes().getNamedItem(
+				myBioDriver.setPauseSimulation(node.getAttributes().getNamedItem(
 						"startPaused").getNodeValue().equals("true"));
-				myBioDriverImpl.setRunTillCrewDeath(node.getAttributes().getNamedItem(
+				myBioDriver.setRunTillCrewDeath(node.getAttributes().getNamedItem(
 						"runTillCrewDeath").getNodeValue().equals("true"));
-				myBioDriverImpl.setExitWhenFinished(node.getAttributes().getNamedItem(
+				myBioDriver.setExitWhenFinished(node.getAttributes().getNamedItem(
 						"exitWhenFinished").getNodeValue().equals("true"));
-				myBioDriverImpl.setRunTillPlantDeath(node.getAttributes()
+				myBioDriver.setRunTillPlantDeath(node.getAttributes()
 						.getNamedItem("runTillPlantDeath").getNodeValue()
 						.equals("true"));
 				int stutterLength = Integer.parseInt(node.getAttributes()
 						.getNamedItem("driverStutterLength").getNodeValue());
 				if (stutterLength >= 0)
-					myBioDriverImpl.setDriverStutterLength(stutterLength);
-				myBioDriverImpl.setLooping(node.getAttributes().getNamedItem(
+					myBioDriver.setDriverStutterLength(stutterLength);
+				myBioDriver.setLooping(node.getAttributes().getNamedItem(
 						"isLooping").getNodeValue().equals("true"));
 
 				Properties logProperties = new Properties();
@@ -260,8 +260,8 @@ public class BiosimInitializer {
 		// second pass
 		else {
 			//register BioDriver
-	        GenericServer.registerServer(myBioDriverImpl, myBioDriverImpl.getName(),
-	        		myBioDriverImpl.getID());
+	        GenericServer.registerServer(myBioDriver, myBioDriver.getName(),
+	        		myBioDriver.getID());
 			
 			// Give BioDriver crew to watch for (if we're doing run till dead)
 			Node crewsToWatchNode = node.getAttributes().getNamedItem(
@@ -279,7 +279,7 @@ public class BiosimInitializer {
 						e.printStackTrace();
 					}
 				}
-				myBioDriverImpl.setCrewsToWatch(crewGroups);
+				myBioDriver.setCrewsToWatch(crewGroups);
 			}
 
 			// Give BioDriver plant to watch for (if we're doing run till dead)
@@ -298,7 +298,7 @@ public class BiosimInitializer {
 						e.printStackTrace();
 					}
 				}
-				myBioDriverImpl.setPlantsToWatch(biomassPSs);
+				myBioDriver.setPlantsToWatch(biomassPSs);
 			}
 
 			Node child = node.getFirstChild();

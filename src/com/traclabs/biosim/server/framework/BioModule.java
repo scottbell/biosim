@@ -9,12 +9,6 @@ import java.util.Vector;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import com.traclabs.biosim.idl.framework.BioModulePOA;
-import com.traclabs.biosim.idl.framework.LogLevel;
-import com.traclabs.biosim.idl.framework.Malfunction;
-import com.traclabs.biosim.idl.framework.MalfunctionHelper;
-import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
-import com.traclabs.biosim.idl.framework.MalfunctionLength;
 import com.traclabs.biosim.server.util.failure.FailureDecider;
 import com.traclabs.biosim.server.util.stochastic.NoFilter;
 import com.traclabs.biosim.server.util.stochastic.StochasticFilter;
@@ -28,7 +22,7 @@ import com.traclabs.biosim.util.OrbUtils;
  * @author Scott Bell
  */
 
-public abstract class BioModuleImpl extends BioModulePOA {
+public abstract class BioModule {
     //The random number generator used for gaussian function (stochastic stuff)
     private static Random myRandomGen = new MersenneTwister();
 
