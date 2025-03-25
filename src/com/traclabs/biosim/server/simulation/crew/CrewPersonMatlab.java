@@ -1,9 +1,9 @@
 package com.traclabs.biosim.server.simulation.crew;
 
-import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
-import com.traclabs.biosim.idl.simulation.crew.Sex;
+import com.traclabs.biosim.server.simulation.crew.CrewGroup;
+import com.traclabs.biosim.server.simulation.crew.Sex;
 
-public class CrewPersonMatlab extends BaseCrewPersonImpl {
+public class CrewPersonMatlab extends BaseCrewPerson {
 	public CrewPersonMatlab(String name, float age, float weight, Sex sex,
 			int arrivalTick, int departureTick, CrewGroup crewGroup,
 			Schedule schedule) {
@@ -11,7 +11,7 @@ public class CrewPersonMatlab extends BaseCrewPersonImpl {
 	}
 
 	/**
-	 * Take and give resources from stores. See CrewPersonImpl's implementation as a guide.
+	 * Take and give resources from stores. See CrewPerson's implementation as a guide.
 	 */
 	@Override
 	protected void consumeAndProduceResources() {

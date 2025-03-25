@@ -5,12 +5,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.traclabs.biosim.idl.framework.BioDriverPOA;
-import com.traclabs.biosim.idl.framework.BioModule;
-import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
-import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
-import com.traclabs.biosim.idl.simulation.food.BiomassPS;
+import com.traclabs.biosim.server.framework.BioDriverPOA;
+import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.framework.MalfunctionIntensity;
+import com.traclabs.biosim.server.framework.MalfunctionLength;
+import com.traclabs.biosim.server.simulation.crew.CrewGroup;
+import com.traclabs.biosim.server.simulation.food.BiomassPS;
 
 /*
  * 
@@ -509,7 +509,7 @@ public class BioDriver  {
 	 * this has happened.
 	 */
 	private void tick() {
-		myLogger.debug("BioDriveImpl: begin tick " + ticksGoneBy);
+		myLogger.debug("BioDrive: begin tick " + ticksGoneBy);
 		// Iterate through the actuators and tick them
 		for (BioModule currentBioModule : actuators)
 			currentBioModule.tick();

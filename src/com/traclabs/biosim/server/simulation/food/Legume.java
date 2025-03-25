@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
+import com.traclabs.biosim.server.simulation.food.PlantType;
 
 /**
  * Legume
@@ -47,8 +47,8 @@ public abstract class Legume extends Planophile {
 
     protected abstract int getTAInitialValue();
 
-    public Legume(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public Legume(Shelf pShelf) {
+        super(pShelf);
     }
 
     protected float getCarbonUseEfficiency24() {

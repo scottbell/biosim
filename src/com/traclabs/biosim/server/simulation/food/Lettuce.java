@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
+import com.traclabs.biosim.server.simulation.food.PlantType;
 
 /**
  * Lettuce
@@ -15,8 +15,8 @@ public class Lettuce extends Planophile {
 
     private static final float initialCO2Value = 1200f;
 
-    public Lettuce(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public Lettuce(Shelf pShelf) {
+        super(pShelf);
         canopyClosureConstants[1] = 10289f;
         canopyClosureConstants[2] = -3.7018f;
         canopyClosureConstants[4] = .00000036648f;

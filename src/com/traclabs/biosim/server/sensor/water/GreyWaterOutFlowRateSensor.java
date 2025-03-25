@@ -1,0 +1,46 @@
+package com.traclabs.biosim.server.sensor.water;
+
+import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.simulation.water.GreyWaterProducer;
+import com.traclabs.biosim.server.sensor.framework.GenericSensor;
+
+public class GreyWaterOutFlowRateSensor extends GenericSensor implements
+        GreyWaterOutFlowRateSensorOperations {
+    private GreyWaterProducer myProducer;
+
+    private int myIndex;
+
+    public GreyWaterOutFlowRateSensor(int pID, String pName) {
+        super(pID, pName);
+    }
+
+    protected void gatherData() {
+        float preFilteredValue = getInput().getGreyWaterProducerDefinition()
+                .getActualFlowRate(myIndex);
+        myValue = getStochasticFilter().randomFilter(preFilteredValue);
+    }
+
+
+
+    public void setInput(GreyWaterProducer pProducer, int pIndex) {
+        myProducer = pProducer;
+        myIndex = pIndex;
+    }
+
+    public GreyWaterProducer getInput() {
+        return myProducer;
+    }
+
+    public float getMax() {
+        return myProducer.getGreyWaterProducerDefinition().getMaxFlowRate(
+                myIndex);
+    }
+
+    public int getIndex() {
+        return myIndex;
+    }
+
+    public BioModule getInputModule() {
+        return myProducer;
+    }
+}

@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
+import com.traclabs.biosim.server.simulation.food.PlantType;
 
 /**
  * DryBean
@@ -15,8 +15,8 @@ public class DryBean extends Legume {
 
     private static final float initialCO2Value = 1200f;
 
-    public DryBean(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public DryBean(Shelf pShelf) {
+        super(pShelf);
         canopyClosureConstants[0] = 290410f;
         canopyClosureConstants[1] = 1559.4f;
         canopyClosureConstants[6] = 15.840f;

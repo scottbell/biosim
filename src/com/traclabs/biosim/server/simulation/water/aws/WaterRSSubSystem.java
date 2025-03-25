@@ -2,7 +2,7 @@ package com.traclabs.biosim.server.simulation.water.aws;
 
 import org.apache.log4j.Logger;
 
-import com.traclabs.biosim.server.simulation.water.WaterRSImpl;
+import com.traclabs.biosim.server.simulation.water.WaterRS;
 
 /**
  * The abstract class all the water subsystems derive from (the AES, BWP, PPS,
@@ -28,7 +28,7 @@ public abstract class WaterRSSubSystem {
     protected float waterNeeded = 57.6f;
 
     //Reference to the WaterRS to get other watersubsystems
-    protected WaterRSImpl myWaterRS;
+    protected WaterRS myWaterRS;
 
     //Flag to determine whether the water subsystem has received enough power
     // for this tick
@@ -50,11 +50,11 @@ public abstract class WaterRSSubSystem {
     /**
      * Constructor that creates the subsystem
      * 
-     * @param pWaterRSImpl
+     * @param pWaterRS
      *            The Water RS system this subsystem is contained in
      */
-    public WaterRSSubSystem(WaterRSImpl pWaterRSImpl) {
-        myWaterRS = pWaterRSImpl;
+    public WaterRSSubSystem(WaterRS pWaterRS) {
+        myWaterRS = pWaterRS;
         myLogger = Logger.getLogger(this.getClass());
         currentPowerNeeded = basePowerNeeded * myWaterRS.getTickLength();
     }
@@ -123,7 +123,7 @@ public abstract class WaterRSSubSystem {
      */
     protected void gatherPower() {
         float gatheredPower = 0f;
-        gatheredPower = myWaterRS.getPowerConsumerDefinitionImpl()
+        gatheredPower = myWaterRS.getPowerConsumerDefinition()
                 .getFractionalResourceFromStores(currentPowerNeeded,
                         1f / myWaterRS.getSubsystemsConsumingPower());
         currentPowerConsumed = gatheredPower;

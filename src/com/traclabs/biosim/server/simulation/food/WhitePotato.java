@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
+import com.traclabs.biosim.server.simulation.food.PlantType;
 
 /**
  * WhitePotato
@@ -15,8 +15,8 @@ public class WhitePotato extends Planophile {
 
     private static final float initialCO2Value = 1200f;
 
-    public WhitePotato(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public WhitePotato(Shelf pShelf) {
+        super(pShelf);
         canopyClosureConstants[0] = 657730f;
         canopyClosureConstants[1] = 8562.6f;
         canopyClosureConstants[11] = 0.042749f;

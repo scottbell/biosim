@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.BiomassPSPOATie;
+import com.traclabs.biosim.server.simulation.food.BiomassPSPOATie;
 import com.traclabs.biosim.server.framework.GenericServer;
 import com.traclabs.biosim.util.CommandLineUtils;
 
@@ -21,7 +21,7 @@ public class BiomassPSServer extends GenericServer {
      */
     public static void main(String args[]) {
         BiomassPSServer myServer = new BiomassPSServer();
-        BiomassPSImpl myBiomassPS = new BiomassPSImpl(CommandLineUtils
+        BiomassPS myBiomassPS = new BiomassPS(CommandLineUtils
                 .getIDfromArgs(args), CommandLineUtils.getNamefromArgs(args));
         myServer.registerServerAndRun(new BiomassPSPOATie(myBiomassPS),
                 myBiomassPS.getModuleName(), myBiomassPS.getID());

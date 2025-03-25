@@ -7,182 +7,182 @@ import org.apache.log4j.Logger;
 import org.omg.CosNaming.NamingContextExt;
 import org.w3c.dom.Node;
 
-import com.traclabs.biosim.idl.framework.BioModule;
-import com.traclabs.biosim.idl.framework.BioModuleHelper;
-import com.traclabs.biosim.idl.simulation.air.CO2Consumer;
-import com.traclabs.biosim.idl.simulation.air.CO2Producer;
-import com.traclabs.biosim.idl.simulation.air.CO2Store;
-import com.traclabs.biosim.idl.simulation.air.CO2StoreHelper;
-import com.traclabs.biosim.idl.simulation.air.CO2StorePOATie;
-import com.traclabs.biosim.idl.simulation.air.CRS;
-import com.traclabs.biosim.idl.simulation.air.CRSHelper;
-import com.traclabs.biosim.idl.simulation.air.CRSPOATie;
-import com.traclabs.biosim.idl.simulation.air.H2Consumer;
-import com.traclabs.biosim.idl.simulation.air.H2Producer;
-import com.traclabs.biosim.idl.simulation.air.H2Store;
-import com.traclabs.biosim.idl.simulation.air.H2StoreHelper;
-import com.traclabs.biosim.idl.simulation.air.H2StorePOATie;
-import com.traclabs.biosim.idl.simulation.air.MethaneConsumer;
-import com.traclabs.biosim.idl.simulation.air.MethaneProducer;
-import com.traclabs.biosim.idl.simulation.air.MethaneStore;
-import com.traclabs.biosim.idl.simulation.air.MethaneStoreHelper;
-import com.traclabs.biosim.idl.simulation.air.MethaneStorePOATie;
-import com.traclabs.biosim.idl.simulation.air.NitrogenConsumer;
-import com.traclabs.biosim.idl.simulation.air.NitrogenProducer;
-import com.traclabs.biosim.idl.simulation.air.NitrogenStore;
-import com.traclabs.biosim.idl.simulation.air.NitrogenStoreHelper;
-import com.traclabs.biosim.idl.simulation.air.NitrogenStorePOATie;
-import com.traclabs.biosim.idl.simulation.air.O2Consumer;
-import com.traclabs.biosim.idl.simulation.air.O2Producer;
-import com.traclabs.biosim.idl.simulation.air.O2Store;
-import com.traclabs.biosim.idl.simulation.air.O2StoreHelper;
-import com.traclabs.biosim.idl.simulation.air.O2StorePOATie;
-import com.traclabs.biosim.idl.simulation.air.OGS;
-import com.traclabs.biosim.idl.simulation.air.OGSHelper;
-import com.traclabs.biosim.idl.simulation.air.OGSPOATie;
-import com.traclabs.biosim.idl.simulation.air.Pyrolizer;
-import com.traclabs.biosim.idl.simulation.air.PyrolizerHelper;
-import com.traclabs.biosim.idl.simulation.air.PyrolizerPOATie;
-import com.traclabs.biosim.idl.simulation.air.VCCR;
-import com.traclabs.biosim.idl.simulation.air.VCCRHelper;
-import com.traclabs.biosim.idl.simulation.air.VCCRPOATie;
-import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSModule;
-import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSModuleHelper;
-import com.traclabs.biosim.idl.simulation.air.cdrs.CDRSModulePOATie;
-import com.traclabs.biosim.idl.simulation.crew.Activity;
-import com.traclabs.biosim.idl.simulation.crew.ActivityHelper;
-import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
-import com.traclabs.biosim.idl.simulation.crew.CrewGroupHelper;
-import com.traclabs.biosim.idl.simulation.crew.CrewGroupPOATie;
-import com.traclabs.biosim.idl.simulation.crew.EVAActivityHelper;
-import com.traclabs.biosim.idl.simulation.crew.Sex;
-import com.traclabs.biosim.idl.simulation.environment.AirConsumer;
-import com.traclabs.biosim.idl.simulation.environment.AirProducer;
-import com.traclabs.biosim.idl.simulation.environment.Dehumidifier;
-import com.traclabs.biosim.idl.simulation.environment.DehumidifierHelper;
-import com.traclabs.biosim.idl.simulation.environment.DehumidifierPOATie;
-import com.traclabs.biosim.idl.simulation.environment.Fan;
-import com.traclabs.biosim.idl.simulation.environment.FanHelper;
-import com.traclabs.biosim.idl.simulation.environment.FanPOATie;
-import com.traclabs.biosim.idl.simulation.environment.LightConsumer;
-import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentHelper;
-import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentPOATie;
-import com.traclabs.biosim.idl.simulation.food.BioMatter;
-import com.traclabs.biosim.idl.simulation.food.BiomassConsumer;
-import com.traclabs.biosim.idl.simulation.food.BiomassPS;
-import com.traclabs.biosim.idl.simulation.food.BiomassPSHelper;
-import com.traclabs.biosim.idl.simulation.food.BiomassPSPOATie;
-import com.traclabs.biosim.idl.simulation.food.BiomassProducer;
-import com.traclabs.biosim.idl.simulation.food.BiomassStore;
-import com.traclabs.biosim.idl.simulation.food.BiomassStoreHelper;
-import com.traclabs.biosim.idl.simulation.food.BiomassStorePOATie;
-import com.traclabs.biosim.idl.simulation.food.FoodConsumer;
-import com.traclabs.biosim.idl.simulation.food.FoodMatter;
-import com.traclabs.biosim.idl.simulation.food.FoodProcessor;
-import com.traclabs.biosim.idl.simulation.food.FoodProcessorHelper;
-import com.traclabs.biosim.idl.simulation.food.FoodProcessorPOATie;
-import com.traclabs.biosim.idl.simulation.food.FoodProducer;
-import com.traclabs.biosim.idl.simulation.food.FoodStore;
-import com.traclabs.biosim.idl.simulation.food.FoodStoreHelper;
-import com.traclabs.biosim.idl.simulation.food.FoodStorePOATie;
-import com.traclabs.biosim.idl.simulation.food.PlantType;
-import com.traclabs.biosim.idl.simulation.framework.Accumulator;
-import com.traclabs.biosim.idl.simulation.framework.AccumulatorHelper;
-import com.traclabs.biosim.idl.simulation.framework.AccumulatorPOATie;
-import com.traclabs.biosim.idl.simulation.framework.EffluentValve;
-import com.traclabs.biosim.idl.simulation.framework.EffluentValveHelper;
-import com.traclabs.biosim.idl.simulation.framework.EffluentValvePOATie;
-import com.traclabs.biosim.idl.simulation.framework.InfluentValve;
-import com.traclabs.biosim.idl.simulation.framework.InfluentValveHelper;
-import com.traclabs.biosim.idl.simulation.framework.InfluentValvePOATie;
-import com.traclabs.biosim.idl.simulation.framework.Injector;
-import com.traclabs.biosim.idl.simulation.framework.InjectorHelper;
-import com.traclabs.biosim.idl.simulation.framework.InjectorPOATie;
-import com.traclabs.biosim.idl.simulation.framework.PassiveModule;
-import com.traclabs.biosim.idl.simulation.framework.SimBioModule;
-import com.traclabs.biosim.idl.simulation.power.GenericPowerConsumer;
-import com.traclabs.biosim.idl.simulation.power.GenericPowerConsumerHelper;
-import com.traclabs.biosim.idl.simulation.power.GenericPowerConsumerPOATie;
-import com.traclabs.biosim.idl.simulation.power.PowerConsumer;
-import com.traclabs.biosim.idl.simulation.power.PowerPS;
-import com.traclabs.biosim.idl.simulation.power.PowerPSHelper;
-import com.traclabs.biosim.idl.simulation.power.PowerPSPOATie;
-import com.traclabs.biosim.idl.simulation.power.PowerProducer;
-import com.traclabs.biosim.idl.simulation.power.PowerStore;
-import com.traclabs.biosim.idl.simulation.power.PowerStoreHelper;
-import com.traclabs.biosim.idl.simulation.power.PowerStorePOATie;
-import com.traclabs.biosim.idl.simulation.power.RPCM;
-import com.traclabs.biosim.idl.simulation.power.RPCMHelper;
-import com.traclabs.biosim.idl.simulation.power.RPCMPOATie;
-import com.traclabs.biosim.idl.simulation.thermal.IATCS;
-import com.traclabs.biosim.idl.simulation.thermal.IATCSHelper;
-import com.traclabs.biosim.idl.simulation.thermal.IATCSPOATie;
-import com.traclabs.biosim.idl.simulation.waste.DryWasteConsumer;
-import com.traclabs.biosim.idl.simulation.waste.DryWasteProducer;
-import com.traclabs.biosim.idl.simulation.waste.DryWasteStore;
-import com.traclabs.biosim.idl.simulation.waste.DryWasteStoreHelper;
-import com.traclabs.biosim.idl.simulation.waste.DryWasteStorePOATie;
-import com.traclabs.biosim.idl.simulation.waste.Incinerator;
-import com.traclabs.biosim.idl.simulation.waste.IncineratorHelper;
-import com.traclabs.biosim.idl.simulation.waste.IncineratorPOATie;
-import com.traclabs.biosim.idl.simulation.water.DirtyWaterConsumer;
-import com.traclabs.biosim.idl.simulation.water.DirtyWaterProducer;
-import com.traclabs.biosim.idl.simulation.water.DirtyWaterStore;
-import com.traclabs.biosim.idl.simulation.water.DirtyWaterStoreHelper;
-import com.traclabs.biosim.idl.simulation.water.DirtyWaterStorePOATie;
-import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumer;
-import com.traclabs.biosim.idl.simulation.water.GreyWaterProducer;
-import com.traclabs.biosim.idl.simulation.water.GreyWaterStore;
-import com.traclabs.biosim.idl.simulation.water.GreyWaterStoreHelper;
-import com.traclabs.biosim.idl.simulation.water.GreyWaterStorePOATie;
-import com.traclabs.biosim.idl.simulation.water.PotableWaterConsumer;
-import com.traclabs.biosim.idl.simulation.water.PotableWaterProducer;
-import com.traclabs.biosim.idl.simulation.water.PotableWaterStore;
-import com.traclabs.biosim.idl.simulation.water.PotableWaterStoreHelper;
-import com.traclabs.biosim.idl.simulation.water.PotableWaterStorePOATie;
-import com.traclabs.biosim.idl.simulation.water.WaterRS;
-import com.traclabs.biosim.idl.simulation.water.WaterRSHelper;
-import com.traclabs.biosim.idl.simulation.water.WaterRSPOATie;
+import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.framework.BioModuleHelper;
+import com.traclabs.biosim.server.simulation.air.CO2Consumer;
+import com.traclabs.biosim.server.simulation.air.CO2Producer;
+import com.traclabs.biosim.server.simulation.air.CO2Store;
+import com.traclabs.biosim.server.simulation.air.CO2StoreHelper;
+import com.traclabs.biosim.server.simulation.air.CO2StorePOATie;
+import com.traclabs.biosim.server.simulation.air.CRS;
+import com.traclabs.biosim.server.simulation.air.CRSHelper;
+import com.traclabs.biosim.server.simulation.air.CRSPOATie;
+import com.traclabs.biosim.server.simulation.air.H2Consumer;
+import com.traclabs.biosim.server.simulation.air.H2Producer;
+import com.traclabs.biosim.server.simulation.air.H2Store;
+import com.traclabs.biosim.server.simulation.air.H2StoreHelper;
+import com.traclabs.biosim.server.simulation.air.H2StorePOATie;
+import com.traclabs.biosim.server.simulation.air.MethaneConsumer;
+import com.traclabs.biosim.server.simulation.air.MethaneProducer;
+import com.traclabs.biosim.server.simulation.air.MethaneStore;
+import com.traclabs.biosim.server.simulation.air.MethaneStoreHelper;
+import com.traclabs.biosim.server.simulation.air.MethaneStorePOATie;
+import com.traclabs.biosim.server.simulation.air.NitrogenConsumer;
+import com.traclabs.biosim.server.simulation.air.NitrogenProducer;
+import com.traclabs.biosim.server.simulation.air.NitrogenStore;
+import com.traclabs.biosim.server.simulation.air.NitrogenStoreHelper;
+import com.traclabs.biosim.server.simulation.air.NitrogenStorePOATie;
+import com.traclabs.biosim.server.simulation.air.O2Consumer;
+import com.traclabs.biosim.server.simulation.air.O2Producer;
+import com.traclabs.biosim.server.simulation.air.O2Store;
+import com.traclabs.biosim.server.simulation.air.O2StoreHelper;
+import com.traclabs.biosim.server.simulation.air.O2StorePOATie;
+import com.traclabs.biosim.server.simulation.air.OGS;
+import com.traclabs.biosim.server.simulation.air.OGSHelper;
+import com.traclabs.biosim.server.simulation.air.OGSPOATie;
+import com.traclabs.biosim.server.simulation.air.Pyrolizer;
+import com.traclabs.biosim.server.simulation.air.PyrolizerHelper;
+import com.traclabs.biosim.server.simulation.air.PyrolizerPOATie;
+import com.traclabs.biosim.server.simulation.air.VCCR;
+import com.traclabs.biosim.server.simulation.air.VCCRHelper;
+import com.traclabs.biosim.server.simulation.air.VCCRPOATie;
+import com.traclabs.biosim.server.simulation.air.cdrs.CDRSModule;
+import com.traclabs.biosim.server.simulation.air.cdrs.CDRSModuleHelper;
+import com.traclabs.biosim.server.simulation.air.cdrs.CDRSModulePOATie;
+import com.traclabs.biosim.server.simulation.crew.Activity;
+import com.traclabs.biosim.server.simulation.crew.ActivityHelper;
+import com.traclabs.biosim.server.simulation.crew.CrewGroup;
+import com.traclabs.biosim.server.simulation.crew.CrewGroupHelper;
+import com.traclabs.biosim.server.simulation.crew.CrewGroupPOATie;
+import com.traclabs.biosim.server.simulation.crew.EVAActivityHelper;
+import com.traclabs.biosim.server.simulation.crew.Sex;
+import com.traclabs.biosim.server.simulation.environment.AirConsumer;
+import com.traclabs.biosim.server.simulation.environment.AirProducer;
+import com.traclabs.biosim.server.simulation.environment.Dehumidifier;
+import com.traclabs.biosim.server.simulation.environment.DehumidifierHelper;
+import com.traclabs.biosim.server.simulation.environment.DehumidifierPOATie;
+import com.traclabs.biosim.server.simulation.environment.Fan;
+import com.traclabs.biosim.server.simulation.environment.FanHelper;
+import com.traclabs.biosim.server.simulation.environment.FanPOATie;
+import com.traclabs.biosim.server.simulation.environment.LightConsumer;
+import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.server.simulation.environment.SimEnvironmentHelper;
+import com.traclabs.biosim.server.simulation.environment.SimEnvironmentPOATie;
+import com.traclabs.biosim.server.simulation.food.BioMatter;
+import com.traclabs.biosim.server.simulation.food.BiomassConsumer;
+import com.traclabs.biosim.server.simulation.food.BiomassPS;
+import com.traclabs.biosim.server.simulation.food.BiomassPSHelper;
+import com.traclabs.biosim.server.simulation.food.BiomassPSPOATie;
+import com.traclabs.biosim.server.simulation.food.BiomassProducer;
+import com.traclabs.biosim.server.simulation.food.BiomassStore;
+import com.traclabs.biosim.server.simulation.food.BiomassStoreHelper;
+import com.traclabs.biosim.server.simulation.food.BiomassStorePOATie;
+import com.traclabs.biosim.server.simulation.food.FoodConsumer;
+import com.traclabs.biosim.server.simulation.food.FoodMatter;
+import com.traclabs.biosim.server.simulation.food.FoodProcessor;
+import com.traclabs.biosim.server.simulation.food.FoodProcessorHelper;
+import com.traclabs.biosim.server.simulation.food.FoodProcessorPOATie;
+import com.traclabs.biosim.server.simulation.food.FoodProducer;
+import com.traclabs.biosim.server.simulation.food.FoodStore;
+import com.traclabs.biosim.server.simulation.food.FoodStoreHelper;
+import com.traclabs.biosim.server.simulation.food.FoodStorePOATie;
+import com.traclabs.biosim.server.simulation.food.PlantType;
+import com.traclabs.biosim.server.simulation.framework.Accumulator;
+import com.traclabs.biosim.server.simulation.framework.AccumulatorHelper;
+import com.traclabs.biosim.server.simulation.framework.AccumulatorPOATie;
+import com.traclabs.biosim.server.simulation.framework.EffluentValve;
+import com.traclabs.biosim.server.simulation.framework.EffluentValveHelper;
+import com.traclabs.biosim.server.simulation.framework.EffluentValvePOATie;
+import com.traclabs.biosim.server.simulation.framework.InfluentValve;
+import com.traclabs.biosim.server.simulation.framework.InfluentValveHelper;
+import com.traclabs.biosim.server.simulation.framework.InfluentValvePOATie;
+import com.traclabs.biosim.server.simulation.framework.Injector;
+import com.traclabs.biosim.server.simulation.framework.InjectorHelper;
+import com.traclabs.biosim.server.simulation.framework.InjectorPOATie;
+import com.traclabs.biosim.server.simulation.framework.PassiveModule;
+import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.power.GenericPowerConsumer;
+import com.traclabs.biosim.server.simulation.power.GenericPowerConsumerHelper;
+import com.traclabs.biosim.server.simulation.power.GenericPowerConsumerPOATie;
+import com.traclabs.biosim.server.simulation.power.PowerConsumer;
+import com.traclabs.biosim.server.simulation.power.PowerPS;
+import com.traclabs.biosim.server.simulation.power.PowerPSHelper;
+import com.traclabs.biosim.server.simulation.power.PowerPSPOATie;
+import com.traclabs.biosim.server.simulation.power.PowerProducer;
+import com.traclabs.biosim.server.simulation.power.PowerStore;
+import com.traclabs.biosim.server.simulation.power.PowerStoreHelper;
+import com.traclabs.biosim.server.simulation.power.PowerStorePOATie;
+import com.traclabs.biosim.server.simulation.power.RPCM;
+import com.traclabs.biosim.server.simulation.power.RPCMHelper;
+import com.traclabs.biosim.server.simulation.power.RPCMPOATie;
+import com.traclabs.biosim.server.simulation.thermal.IATCS;
+import com.traclabs.biosim.server.simulation.thermal.IATCSHelper;
+import com.traclabs.biosim.server.simulation.thermal.IATCSPOATie;
+import com.traclabs.biosim.server.simulation.waste.DryWasteConsumer;
+import com.traclabs.biosim.server.simulation.waste.DryWasteProducer;
+import com.traclabs.biosim.server.simulation.waste.DryWasteStore;
+import com.traclabs.biosim.server.simulation.waste.DryWasteStoreHelper;
+import com.traclabs.biosim.server.simulation.waste.DryWasteStorePOATie;
+import com.traclabs.biosim.server.simulation.waste.Incinerator;
+import com.traclabs.biosim.server.simulation.waste.IncineratorHelper;
+import com.traclabs.biosim.server.simulation.waste.IncineratorPOATie;
+import com.traclabs.biosim.server.simulation.water.DirtyWaterConsumer;
+import com.traclabs.biosim.server.simulation.water.DirtyWaterProducer;
+import com.traclabs.biosim.server.simulation.water.DirtyWaterStore;
+import com.traclabs.biosim.server.simulation.water.DirtyWaterStoreHelper;
+import com.traclabs.biosim.server.simulation.water.DirtyWaterStorePOATie;
+import com.traclabs.biosim.server.simulation.water.GreyWaterConsumer;
+import com.traclabs.biosim.server.simulation.water.GreyWaterProducer;
+import com.traclabs.biosim.server.simulation.water.GreyWaterStore;
+import com.traclabs.biosim.server.simulation.water.GreyWaterStoreHelper;
+import com.traclabs.biosim.server.simulation.water.GreyWaterStorePOATie;
+import com.traclabs.biosim.server.simulation.water.PotableWaterConsumer;
+import com.traclabs.biosim.server.simulation.water.PotableWaterProducer;
+import com.traclabs.biosim.server.simulation.water.PotableWaterStore;
+import com.traclabs.biosim.server.simulation.water.PotableWaterStoreHelper;
+import com.traclabs.biosim.server.simulation.water.PotableWaterStorePOATie;
+import com.traclabs.biosim.server.simulation.water.WaterRS;
+import com.traclabs.biosim.server.simulation.water.WaterRSHelper;
+import com.traclabs.biosim.server.simulation.water.WaterRSPOATie;
 import com.traclabs.biosim.server.framework.BiosimInitializer;
 import com.traclabs.biosim.server.framework.BiosimServer;
-import com.traclabs.biosim.server.simulation.air.CO2StoreImpl;
-import com.traclabs.biosim.server.simulation.air.CRSImpl;
-import com.traclabs.biosim.server.simulation.air.H2StoreImpl;
-import com.traclabs.biosim.server.simulation.air.MethaneStoreImpl;
-import com.traclabs.biosim.server.simulation.air.NitrogenStoreImpl;
-import com.traclabs.biosim.server.simulation.air.O2StoreImpl;
-import com.traclabs.biosim.server.simulation.air.OGSImpl;
-import com.traclabs.biosim.server.simulation.air.PyrolizerImpl;
-import com.traclabs.biosim.server.simulation.air.VCCRImpl;
-import com.traclabs.biosim.server.simulation.air.VCCRLinearImpl;
-import com.traclabs.biosim.server.simulation.air.cdrs.CDRSModuleImpl;
-import com.traclabs.biosim.server.simulation.crew.ActivityImpl;
-import com.traclabs.biosim.server.simulation.crew.CrewGroupImpl;
-import com.traclabs.biosim.server.simulation.crew.EVAActivityImpl;
+import com.traclabs.biosim.server.simulation.air.CO2Store;
+import com.traclabs.biosim.server.simulation.air.CRS;
+import com.traclabs.biosim.server.simulation.air.H2Store;
+import com.traclabs.biosim.server.simulation.air.MethaneStore;
+import com.traclabs.biosim.server.simulation.air.NitrogenStore;
+import com.traclabs.biosim.server.simulation.air.O2Store;
+import com.traclabs.biosim.server.simulation.air.OGS;
+import com.traclabs.biosim.server.simulation.air.Pyrolizer;
+import com.traclabs.biosim.server.simulation.air.VCCR;
+import com.traclabs.biosim.server.simulation.air.VCCRLinear;
+import com.traclabs.biosim.server.simulation.air.cdrs.CDRSModule;
+import com.traclabs.biosim.server.simulation.crew.Activity;
+import com.traclabs.biosim.server.simulation.crew.CrewGroup;
+import com.traclabs.biosim.server.simulation.crew.EVAActivity;
 import com.traclabs.biosim.server.simulation.crew.Schedule;
-import com.traclabs.biosim.server.simulation.environment.DehumidifierImpl;
-import com.traclabs.biosim.server.simulation.environment.FanImpl;
-import com.traclabs.biosim.server.simulation.environment.SimEnvironmentImpl;
-import com.traclabs.biosim.server.simulation.food.BiomassPSImpl;
-import com.traclabs.biosim.server.simulation.food.BiomassStoreImpl;
-import com.traclabs.biosim.server.simulation.food.FoodProcessorImpl;
-import com.traclabs.biosim.server.simulation.food.FoodStoreImpl;
-import com.traclabs.biosim.server.simulation.power.GenericPowerConsumerImpl;
+import com.traclabs.biosim.server.simulation.environment.Dehumidifier;
+import com.traclabs.biosim.server.simulation.environment.Fan;
+import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.server.simulation.food.BiomassPS;
+import com.traclabs.biosim.server.simulation.food.BiomassStore;
+import com.traclabs.biosim.server.simulation.food.FoodProcessor;
+import com.traclabs.biosim.server.simulation.food.FoodStore;
+import com.traclabs.biosim.server.simulation.power.GenericPowerConsumer;
 import com.traclabs.biosim.server.simulation.power.NuclearPowerPS;
-import com.traclabs.biosim.server.simulation.power.PowerPSImpl;
-import com.traclabs.biosim.server.simulation.power.PowerStoreImpl;
-import com.traclabs.biosim.server.simulation.power.RPCMImpl;
+import com.traclabs.biosim.server.simulation.power.PowerPS;
+import com.traclabs.biosim.server.simulation.power.PowerStore;
+import com.traclabs.biosim.server.simulation.power.RPCM;
 import com.traclabs.biosim.server.simulation.power.SolarPowerPS;
 import com.traclabs.biosim.server.simulation.power.StateMachinePowerPS;
-import com.traclabs.biosim.server.simulation.thermal.IATCSImpl;
-import com.traclabs.biosim.server.simulation.waste.DryWasteStoreImpl;
-import com.traclabs.biosim.server.simulation.waste.IncineratorImpl;
-import com.traclabs.biosim.server.simulation.water.DirtyWaterStoreImpl;
-import com.traclabs.biosim.server.simulation.water.GreyWaterStoreImpl;
-import com.traclabs.biosim.server.simulation.water.PotableWaterStoreImpl;
-import com.traclabs.biosim.server.simulation.water.WaterRSImpl;
-import com.traclabs.biosim.server.simulation.water.WaterRSLinearImpl;
+import com.traclabs.biosim.server.simulation.thermal.IATCS;
+import com.traclabs.biosim.server.simulation.waste.DryWasteStore;
+import com.traclabs.biosim.server.simulation.waste.Incinerator;
+import com.traclabs.biosim.server.simulation.water.DirtyWaterStore;
+import com.traclabs.biosim.server.simulation.water.GreyWaterStore;
+import com.traclabs.biosim.server.simulation.water.PotableWaterStore;
+import com.traclabs.biosim.server.simulation.water.WaterRS;
+import com.traclabs.biosim.server.simulation.water.WaterRSLinear;
 import com.traclabs.biosim.util.OrbUtils;
 import com.traclabs.biosim.util.XMLUtils;
 
@@ -724,7 +724,7 @@ public class SimulationInitializer {
 		return outputs;
 	}
 
-	private void setupStore(StoreImpl pStore, Node pNode) {
+	private void setupStore(Store pStore, Node pNode) {
 		pStore.setInitialCapacity(getStoreCapacity(pNode));
 		pStore.setInitialLevel(getStoreLevel(pNode));
 		pStore.setResupply(getStoreResupplyFrequency(pNode),
@@ -743,15 +743,15 @@ public class SimulationInitializer {
 					"implementation").getNodeValue();
 			if (implementationString.equals("LINEAR")) {
 				myLogger.debug("created linear VCCR...");
-				VCCRLinearImpl myVCCRImpl = new VCCRLinearImpl(myID, moduleName);
-				BiosimInitializer.setupBioModule(myVCCRImpl, node);
-				BiosimServer.registerServer(new VCCRPOATie(myVCCRImpl),
-						myVCCRImpl.getModuleName(), myVCCRImpl.getID());
+				VCCRLinear myVCCR = new VCCRLinear(myID, moduleName);
+				BiosimInitializer.setupBioModule(myVCCR, node);
+				BiosimServer.registerServer(new VCCRPOATie(myVCCR),
+						myVCCR.getModuleName(), myVCCR.getID());
 			} else {
-				VCCRImpl myVCCRImpl = new VCCRImpl(myID, moduleName);
-				BiosimInitializer.setupBioModule(myVCCRImpl, node);
-				BiosimServer.registerServer(new VCCRPOATie(myVCCRImpl),
-						myVCCRImpl.getModuleName(), myVCCRImpl.getID());
+				VCCR myVCCR = new VCCR(myID, moduleName);
+				BiosimInitializer.setupBioModule(myVCCR, node);
+				BiosimServer.registerServer(new VCCRPOATie(myVCCR),
+						myVCCR.getModuleName(), myVCCR.getID());
 			}
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
@@ -776,10 +776,10 @@ public class SimulationInitializer {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating CRS with moduleName: " + moduleName);
-			CRSImpl myCRSImpl = new CRSImpl(myID, moduleName);
-			BiosimInitializer.setupBioModule(myCRSImpl, node);
-			BiosimServer.registerServer(new CRSPOATie(myCRSImpl), myCRSImpl
-					.getModuleName(), myCRSImpl.getID());
+			CRS myCRS = new CRS(myID, moduleName);
+			BiosimInitializer.setupBioModule(myCRS, node);
+			BiosimServer.registerServer(new CRSPOATie(myCRS), myCRS
+					.getModuleName(), myCRS.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 
@@ -803,10 +803,10 @@ public class SimulationInitializer {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating CDRS with moduleName: " + moduleName);
-			CDRSModuleImpl myCDRSImpl = new CDRSModuleImpl(myID, moduleName);
-			BiosimInitializer.setupBioModule(myCDRSImpl, node);
-			BiosimServer.registerServer(new CDRSModulePOATie(myCDRSImpl), myCDRSImpl
-					.getModuleName(), myCDRSImpl.getID());
+			CDRSModule myCDRS = new CDRSModule(myID, moduleName);
+			BiosimInitializer.setupBioModule(myCDRS, node);
+			BiosimServer.registerServer(new CDRSModulePOATie(myCDRS), myCDRS
+					.getModuleName(), myCDRS.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 
@@ -830,10 +830,10 @@ public class SimulationInitializer {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating OGS with moduleName: " + moduleName);
-			OGSImpl myOGSImpl = new OGSImpl(myID, moduleName);
-			BiosimInitializer.setupBioModule(myOGSImpl, node);
-			BiosimServer.registerServer(new OGSPOATie(myOGSImpl), myOGSImpl
-					.getModuleName(), myOGSImpl.getID());
+			OGS myOGS = new OGS(myID, moduleName);
+			BiosimInitializer.setupBioModule(myOGS, node);
+			BiosimServer.registerServer(new OGSPOATie(myOGS), myOGS
+					.getModuleName(), myOGS.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 
@@ -860,10 +860,10 @@ public class SimulationInitializer {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating Pyrolizer with moduleName: " + moduleName);
-			PyrolizerImpl myPyrolizerImpl = new PyrolizerImpl(myID, moduleName);
-			BiosimInitializer.setupBioModule(myPyrolizerImpl, node);
-			BiosimServer.registerServer(new PyrolizerPOATie(myPyrolizerImpl), myPyrolizerImpl
-					.getModuleName(), myPyrolizerImpl.getID());
+			Pyrolizer myPyrolizer = new Pyrolizer(myID, moduleName);
+			BiosimInitializer.setupBioModule(myPyrolizer, node);
+			BiosimServer.registerServer(new PyrolizerPOATie(myPyrolizer), myPyrolizer
+					.getModuleName(), myPyrolizer.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 
@@ -884,10 +884,10 @@ public class SimulationInitializer {
 	private void createO2Store(Node node) {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
-			O2StoreImpl myO2StoreImpl = new O2StoreImpl(myID, moduleName);
-			setupStore(myO2StoreImpl, node);
-			BiosimServer.registerServer(new O2StorePOATie(myO2StoreImpl),
-					myO2StoreImpl.getModuleName(), myO2StoreImpl.getID());
+			O2Store myO2Store = new O2Store(myID, moduleName);
+			setupStore(myO2Store, node);
+			BiosimServer.registerServer(new O2StorePOATie(myO2Store),
+					myO2Store.getModuleName(), myO2Store.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -895,10 +895,10 @@ public class SimulationInitializer {
 	private void createCO2Store(Node node) {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
-			CO2StoreImpl myCO2StoreImpl = new CO2StoreImpl(myID, moduleName);
-			setupStore(myCO2StoreImpl, node);
-			BiosimServer.registerServer(new CO2StorePOATie(myCO2StoreImpl),
-					myCO2StoreImpl.getModuleName(), myCO2StoreImpl.getID());
+			CO2Store myCO2Store = new CO2Store(myID, moduleName);
+			setupStore(myCO2Store, node);
+			BiosimServer.registerServer(new CO2StorePOATie(myCO2Store),
+					myCO2Store.getModuleName(), myCO2Store.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -906,10 +906,10 @@ public class SimulationInitializer {
 	private void createH2Store(Node node) {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
-			H2StoreImpl myH2StoreImpl = new H2StoreImpl(myID, moduleName);
-			setupStore(myH2StoreImpl, node);
-			BiosimServer.registerServer(new H2StorePOATie(myH2StoreImpl),
-					myH2StoreImpl.getModuleName(), myH2StoreImpl.getID());
+			H2Store myH2Store = new H2Store(myID, moduleName);
+			setupStore(myH2Store, node);
+			BiosimServer.registerServer(new H2StorePOATie(myH2Store),
+					myH2Store.getModuleName(), myH2Store.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -917,12 +917,12 @@ public class SimulationInitializer {
 	private void createNitrogenStore(Node node) {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
-			NitrogenStoreImpl myNitrogenStoreImpl = new NitrogenStoreImpl(myID,
+			NitrogenStore myNitrogenStore = new NitrogenStore(myID,
 					moduleName);
-			setupStore(myNitrogenStoreImpl, node);
+			setupStore(myNitrogenStore, node);
 			BiosimServer.registerServer(new NitrogenStorePOATie(
-					myNitrogenStoreImpl), myNitrogenStoreImpl.getModuleName(),
-					myNitrogenStoreImpl.getID());
+					myNitrogenStore), myNitrogenStore.getModuleName(),
+					myNitrogenStore.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -930,12 +930,12 @@ public class SimulationInitializer {
 	private void createMethaneStore(Node node) {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
-			MethaneStoreImpl myMethaneStoreImpl = new MethaneStoreImpl(myID,
+			MethaneStore myMethaneStore = new MethaneStore(myID,
 					moduleName);
-			setupStore(myMethaneStoreImpl, node);
+			setupStore(myMethaneStore, node);
 			BiosimServer.registerServer(new MethaneStorePOATie(
-					myMethaneStoreImpl), myMethaneStoreImpl.getModuleName(),
-					myMethaneStoreImpl.getID());
+					myMethaneStore), myMethaneStore.getModuleName(),
+					myMethaneStore.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1040,11 +1040,11 @@ public class SimulationInitializer {
 				myLogger.debug("Type is " + activityTypeNode.getNodeValue());
 				String evaCrewGroupName = node.getAttributes().getNamedItem(
 						"evaCrewGroup").getNodeValue();
-				EVAActivityImpl newEVAActivityImpl = new EVAActivityImpl(name,
+				EVAActivity newEVAActivity = new EVAActivity(name,
 						length, intensity, crew.getModuleName(),
 						evaCrewGroupName);
 				return EVAActivityHelper.narrow(ActivityHelper.narrow(OrbUtils
-						.poaToCorbaObj(newEVAActivityImpl)));
+						.poaToCorbaObj(newEVAActivity)));
 			}
 			myLogger
 					.error("Activity not of expected type even though it was explicitly declared! (can only be EVA type right now)");
@@ -1052,8 +1052,8 @@ public class SimulationInitializer {
 					+ ", should be: EVAActivityType");
 			return null;
 		}
-		ActivityImpl newActivityImpl = new ActivityImpl(name, length, intensity);
-		return ActivityHelper.narrow(OrbUtils.poaToCorbaObj(newActivityImpl));
+		Activity newActivity = new Activity(name, length, intensity);
+		return ActivityHelper.narrow(OrbUtils.poaToCorbaObj(newActivity));
 	}
 
 	private Schedule createSchedule(Node node, CrewGroup crew) {
@@ -1072,7 +1072,7 @@ public class SimulationInitializer {
 		return newSchedule;
 	}
 
-	private void createCrewPerson(Node node, CrewGroup crewGroup, CrewGroupImpl crewGroupImpl) {
+	private void createCrewPerson(Node node, CrewGroup crewGroup, CrewGroup crewGroup) {
 		Node child = node.getFirstChild();
 		Schedule schedule = null;
 		while (child != null) {
@@ -1111,7 +1111,7 @@ public class SimulationInitializer {
 
 			e.printStackTrace();
 		}
-		crewGroupImpl.createCrewPerson(implementation, name, age, weight, sex, arrivalDate,
+		crewGroup.createCrewPerson(implementation, name, age, weight, sex, arrivalDate,
 				departureDate, schedule);
 		crewGroup.getCrewPerson(name).setLogLevel(
 				BiosimInitializer.getLogLevel(node));
@@ -1121,22 +1121,22 @@ public class SimulationInitializer {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating CrewGroup with moduleName: " + moduleName);
-			CrewGroupImpl myCrewGroupImpl = new CrewGroupImpl(myID, moduleName);
-			BiosimInitializer.setupBioModule(myCrewGroupImpl, node);
-			BiosimServer.registerServer(new CrewGroupPOATie(myCrewGroupImpl),
-					myCrewGroupImpl.getModuleName(), myCrewGroupImpl.getID());
+			CrewGroup myCrewGroup = new CrewGroup(myID, moduleName);
+			BiosimInitializer.setupBioModule(myCrewGroup, node);
+			BiosimServer.registerServer(new CrewGroupPOATie(myCrewGroup),
+					myCrewGroup.getModuleName(), myCrewGroup.getID());
 			boolean deathEnabled = XMLUtils.getBooelanAttribute(node,
 					"isDeathEnabled");
-			myCrewGroupImpl.setDeathEnabled(deathEnabled);
+			myCrewGroup.setDeathEnabled(deathEnabled);
 			// Create crew members
 			CrewGroup myCrewGroup = CrewGroupHelper.narrow(BiosimInitializer
-					.getModule(myID, myCrewGroupImpl.getModuleName()));
+					.getModule(myID, myCrewGroup.getModuleName()));
 			Node child = node.getFirstChild();
 			while (child != null) {
 				String childName = child.getLocalName();
 				if (childName != null) {
 					if (childName.equals("crewPerson"))
-						createCrewPerson(child, myCrewGroup, myCrewGroupImpl);
+						createCrewPerson(child, myCrewGroup, myCrewGroup);
 				}
 				child = child.getNextSibling();
 			}
@@ -1172,7 +1172,7 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating SimEnvironment with moduleName: "
 					+ moduleName);
-			SimEnvironmentImpl newSimEnvironmentImpl = null;
+			SimEnvironment newSimEnvironment = null;
 			float CO2Moles = 0f;
 			float O2Moles = 0f;
 			float waterMoles = 0f;
@@ -1215,28 +1215,28 @@ public class SimulationInitializer {
 			}
 			if (creatingEnvironmentWithMoles(node)){
 				myLogger.debug("Creating environment with moles");
-				newSimEnvironmentImpl = createEnvironmentWithMoles(node, myID, volume, moduleName);
+				newSimEnvironment = createEnvironmentWithMoles(node, myID, volume, moduleName);
 			}
 			else if (creatingEnvironmentWithPercentages(node)){
 				myLogger.debug("Creating environment with percentages");
-				newSimEnvironmentImpl = createEnvironmentWithPercentages(node, myID, volume, moduleName);
+				newSimEnvironment = createEnvironmentWithPercentages(node, myID, volume, moduleName);
 			}
 			else{
 				myLogger.debug("Creating environment with defaults");
-				newSimEnvironmentImpl = new SimEnvironmentImpl(myID, volume,
+				newSimEnvironment = new SimEnvironment(myID, volume,
 						moduleName);
 			}
-			newSimEnvironmentImpl.setLeakRate(leakRate);
-			newSimEnvironmentImpl.setDayLength(dayLength);
-			newSimEnvironmentImpl.setHourOfDayStart(hourOfDayStart);
-			newSimEnvironmentImpl.setMaxLumens(maxLumens);
-			newSimEnvironmentImpl.setAirlockVolume(airlockVolume);
-			newSimEnvironmentImpl
+			newSimEnvironment.setLeakRate(leakRate);
+			newSimEnvironment.setDayLength(dayLength);
+			newSimEnvironment.setHourOfDayStart(hourOfDayStart);
+			newSimEnvironment.setMaxLumens(maxLumens);
+			newSimEnvironment.setAirlockVolume(airlockVolume);
+			newSimEnvironment
 					.setDangerousOxygenThreshold(dangerousOxygenThreshold);
-			BiosimInitializer.setupBioModule(newSimEnvironmentImpl, node);
+			BiosimInitializer.setupBioModule(newSimEnvironment, node);
 			BiosimServer.registerServer(new SimEnvironmentPOATie(
-					newSimEnvironmentImpl),
-					newSimEnvironmentImpl.getModuleName(), newSimEnvironmentImpl
+					newSimEnvironment),
+					newSimEnvironment.getModuleName(), newSimEnvironment
 							.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
@@ -1270,7 +1270,7 @@ public class SimulationInitializer {
 		return false;
 	}
 
-	private SimEnvironmentImpl createEnvironmentWithPercentages(Node node, int pID, float pVolume, String pName) {
+	private SimEnvironment createEnvironmentWithPercentages(Node node, int pID, float pVolume, String pName) {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
@@ -1282,8 +1282,8 @@ public class SimulationInitializer {
 					float otherPercentage = Float.parseFloat(child.getAttributes().getNamedItem("otherPercentage").getNodeValue());
 					float nitrogenPercentage = Float.parseFloat(child.getAttributes().getNamedItem("nitrogenPercentage").getNodeValue());
 					float totalPressure = Float.parseFloat(child.getAttributes().getNamedItem("totalPressure").getNodeValue());
-					SimEnvironmentImpl newSimEnvironmentImpl = new SimEnvironmentImpl(pID, pName, pVolume, totalPressure, o2Percentage, co2Percentage, otherPercentage, waterPercentage, nitrogenPercentage);
-					return newSimEnvironmentImpl;
+					SimEnvironment newSimEnvironment = new SimEnvironment(pID, pName, pVolume, totalPressure, o2Percentage, co2Percentage, otherPercentage, waterPercentage, nitrogenPercentage);
+					return newSimEnvironment;
 				}
 			}
 			child = child.getNextSibling();
@@ -1291,7 +1291,7 @@ public class SimulationInitializer {
 		return null;
 	}
 
-	private SimEnvironmentImpl createEnvironmentWithMoles(Node node, int pID, float pVolume, String pName) {
+	private SimEnvironment createEnvironmentWithMoles(Node node, int pID, float pVolume, String pName) {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();
@@ -1302,8 +1302,8 @@ public class SimulationInitializer {
 					float waterMoles = Float.parseFloat(child.getAttributes().getNamedItem("initialWaterMoles").getNodeValue());
 					float otherMoles = Float.parseFloat(child.getAttributes().getNamedItem("initialOtherMoles").getNodeValue());
 					float nitrogenMoles = Float.parseFloat(child.getAttributes().getNamedItem("initialNitrogenMoles").getNodeValue());
-					SimEnvironmentImpl newSimEnvironmentImpl = new SimEnvironmentImpl(O2Moles, CO2Moles, otherMoles, waterMoles, nitrogenMoles, pVolume, pName, pID);
-					return newSimEnvironmentImpl;
+					SimEnvironment newSimEnvironment = new SimEnvironment(O2Moles, CO2Moles, otherMoles, waterMoles, nitrogenMoles, pVolume, pName, pID);
+					return newSimEnvironment;
 				}
 			}
 			child = child.getNextSibling();
@@ -1316,12 +1316,12 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating Dehumidifier with moduleName: "
 					+ moduleName);
-			DehumidifierImpl myDehumidifierImpl = new DehumidifierImpl(myID,
+			Dehumidifier myDehumidifier = new Dehumidifier(myID,
 					moduleName);
-			BiosimInitializer.setupBioModule(myDehumidifierImpl, node);
+			BiosimInitializer.setupBioModule(myDehumidifier, node);
 			BiosimServer.registerServer(new DehumidifierPOATie(
-					myDehumidifierImpl), myDehumidifierImpl.getModuleName(),
-					myDehumidifierImpl.getID());
+					myDehumidifier), myDehumidifier.getModuleName(),
+					myDehumidifier.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1339,12 +1339,12 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating Fan with moduleName: "
 					+ moduleName);
-			FanImpl myFanImpl = new FanImpl(myID,
+			Fan myFan = new Fan(myID,
 					moduleName);
-			BiosimInitializer.setupBioModule(myFanImpl, node);
+			BiosimInitializer.setupBioModule(myFan, node);
 			BiosimServer.registerServer(new FanPOATie(
-					myFanImpl), myFanImpl.getModuleName(),
-					myFanImpl.getID());
+					myFan), myFan.getModuleName(),
+					myFan.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1394,12 +1394,12 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating Accumulator with moduleName: "
 					+ moduleName);
-			AccumulatorImpl myAccumulatorImpl = new AccumulatorImpl(myID,
+			Accumulator myAccumulator = new Accumulator(myID,
 					moduleName);
-			BiosimInitializer.setupBioModule(myAccumulatorImpl, node);
+			BiosimInitializer.setupBioModule(myAccumulator, node);
 			BiosimServer.registerServer(
-					new AccumulatorPOATie(myAccumulatorImpl), myAccumulatorImpl
-							.getModuleName(), myAccumulatorImpl.getID());
+					new AccumulatorPOATie(myAccumulator), myAccumulator
+							.getModuleName(), myAccumulator.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1415,10 +1415,10 @@ public class SimulationInitializer {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating Injector with moduleName: " + moduleName);
-			InjectorImpl myInjectorImpl = new InjectorImpl(myID, moduleName);
-			BiosimInitializer.setupBioModule(myInjectorImpl, node);
-			BiosimServer.registerServer(new InjectorPOATie(myInjectorImpl),
-					myInjectorImpl.getModuleName(), myInjectorImpl.getID());
+			Injector myInjector = new Injector(myID, moduleName);
+			BiosimInitializer.setupBioModule(myInjector, node);
+			BiosimServer.registerServer(new InjectorPOATie(myInjector),
+					myInjector.getModuleName(), myInjector.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1435,12 +1435,12 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating InfluentValve with moduleName: "
 					+ moduleName);
-			InfluentValveImpl myInfluentValveImpl = new InfluentValveImpl(myID,
+			InfluentValve myInfluentValve = new InfluentValve(myID,
 					moduleName);
-			BiosimInitializer.setupBioModule(myInfluentValveImpl, node);
+			BiosimInitializer.setupBioModule(myInfluentValve, node);
 			BiosimServer.registerServer(new InfluentValvePOATie(
-					myInfluentValveImpl), myInfluentValveImpl.getModuleName(),
-					myInfluentValveImpl.getID());
+					myInfluentValve), myInfluentValve.getModuleName(),
+					myInfluentValve.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1458,12 +1458,12 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating EffluentValve with moduleName: "
 					+ moduleName);
-			EffluentValveImpl myEffluentValveImpl = new EffluentValveImpl(myID,
+			EffluentValve myEffluentValve = new EffluentValve(myID,
 					moduleName);
-			BiosimInitializer.setupBioModule(myEffluentValveImpl, node);
+			BiosimInitializer.setupBioModule(myEffluentValve, node);
 			BiosimServer.registerServer(new EffluentValvePOATie(
-					myEffluentValveImpl), myEffluentValveImpl.getModuleName(),
-					myEffluentValveImpl.getID());
+					myEffluentValve), myEffluentValve.getModuleName(),
+					myEffluentValve.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1558,27 +1558,27 @@ public class SimulationInitializer {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating BiomassPS with moduleName: " + moduleName);
-			BiomassPSImpl myBiomassPSImpl = new BiomassPSImpl(myID, moduleName);
+			BiomassPS myBiomassPS = new BiomassPS(myID, moduleName);
 			boolean autoHarvestAndReplant = XMLUtils.getBooelanAttribute(node,
 					"autoHarvestAndReplant");
 			boolean deathEnabled = XMLUtils.getBooelanAttribute(node,
 					"isDeathEnabled");
-			myBiomassPSImpl
+			myBiomassPS
 					.setAutoHarvestAndReplantEnabled(autoHarvestAndReplant);
-			myBiomassPSImpl.setDeathEnabled(deathEnabled);
-			BiosimInitializer.setupBioModule(myBiomassPSImpl, node);
+			myBiomassPS.setDeathEnabled(deathEnabled);
+			BiosimInitializer.setupBioModule(myBiomassPS, node);
 			Node child = node.getFirstChild();
 			while (child != null) {
 				String childName = child.getLocalName();
 				if (childName != null) {
 					if (childName.equals("shelf"))
-						myBiomassPSImpl.createNewShelf(getCropType(child),
+						myBiomassPS.createNewShelf(getCropType(child),
 								getCropArea(child), getCropStartDay(child));
 				}
 				child = child.getNextSibling();
 			}
-			BiosimServer.registerServer(new BiomassPSPOATie(myBiomassPSImpl),
-					myBiomassPSImpl.getModuleName(), myBiomassPSImpl.getID());
+			BiosimServer.registerServer(new BiomassPSPOATie(myBiomassPS),
+					myBiomassPS.getModuleName(), myBiomassPS.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1595,12 +1595,12 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating FoodProcessor with moduleName: "
 					+ moduleName);
-			FoodProcessorImpl myFoodProcessorImpl = new FoodProcessorImpl(myID,
+			FoodProcessor myFoodProcessor = new FoodProcessor(myID,
 					moduleName);
-			BiosimInitializer.setupBioModule(myFoodProcessorImpl, node);
+			BiosimInitializer.setupBioModule(myFoodProcessor, node);
 			BiosimServer.registerServer(new FoodProcessorPOATie(
-					myFoodProcessorImpl), myFoodProcessorImpl.getModuleName(),
-					myFoodProcessorImpl.getID());
+					myFoodProcessor), myFoodProcessor.getModuleName(),
+					myFoodProcessor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1618,9 +1618,9 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating BiomassStore with moduleName: "
 					+ moduleName);
-			BiomassStoreImpl myBiomassStoreImpl = new BiomassStoreImpl(myID,
+			BiomassStore myBiomassStore = new BiomassStore(myID,
 					moduleName);
-			BiosimInitializer.setupBioModule(myBiomassStoreImpl, node);
+			BiosimInitializer.setupBioModule(myBiomassStore, node);
 			float inedibleFraction = Float.parseFloat(node.getAttributes()
 					.getNamedItem("inedibleFraction").getNodeValue());
 			float edibleWaterContent = Float.parseFloat(node.getAttributes()
@@ -1631,13 +1631,13 @@ public class SimulationInitializer {
 			BioMatter newBioMatter = new BioMatter(getStoreLevel(node),
 					inedibleFraction, edibleWaterContent, inedibleWaterContent,
 					theCropType);
-			myBiomassStoreImpl.setInitialCapacity(getStoreCapacity(node));
-			myBiomassStoreImpl.setInitialBioMatterLevel(newBioMatter);
-			myBiomassStoreImpl.setResupply(getStoreResupplyFrequency(node),
+			myBiomassStore.setInitialCapacity(getStoreCapacity(node));
+			myBiomassStore.setInitialBioMatterLevel(newBioMatter);
+			myBiomassStore.setResupply(getStoreResupplyFrequency(node),
 					getStoreResupplyAmount(node));
 			BiosimServer.registerServer(new BiomassStorePOATie(
-					myBiomassStoreImpl), myBiomassStoreImpl.getModuleName(),
-					myBiomassStoreImpl.getID());
+					myBiomassStore), myBiomassStore.getModuleName(),
+					myBiomassStore.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1646,19 +1646,19 @@ public class SimulationInitializer {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating FoodStore with moduleName: " + moduleName);
-			FoodStoreImpl myFoodStoreImpl = new FoodStoreImpl(myID, moduleName);
-			BiosimInitializer.setupBioModule(myFoodStoreImpl, node);
+			FoodStore myFoodStore = new FoodStore(myID, moduleName);
+			BiosimInitializer.setupBioModule(myFoodStore, node);
 			float waterContent = Float.parseFloat(node.getAttributes()
 					.getNamedItem("waterContent").getNodeValue());
 			PlantType theCropType = getCropType(node);
 			FoodMatter newFoodMatter = new FoodMatter(getStoreLevel(node),
 					waterContent, theCropType);
-			myFoodStoreImpl.setInitialCapacity(getStoreCapacity(node));
-			myFoodStoreImpl.setInitialFoodMatterLevel(newFoodMatter);
-			myFoodStoreImpl.setResupply(getStoreResupplyFrequency(node),
+			myFoodStore.setInitialCapacity(getStoreCapacity(node));
+			myFoodStore.setInitialFoodMatterLevel(newFoodMatter);
+			myFoodStore.setResupply(getStoreResupplyFrequency(node),
 					getStoreResupplyAmount(node));
-			BiosimServer.registerServer(new FoodStorePOATie(myFoodStoreImpl),
-					myFoodStoreImpl.getModuleName(), myFoodStoreImpl.getID());
+			BiosimServer.registerServer(new FoodStorePOATie(myFoodStore),
+					myFoodStore.getModuleName(), myFoodStore.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1705,20 +1705,20 @@ public class SimulationInitializer {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating PowerPS with moduleName: " + moduleName);
-			PowerPSImpl myPowerPSImpl = null;
+			PowerPS myPowerPS = null;
 			String generationType = node.getAttributes().getNamedItem("generationType").getNodeValue();
 			if (generationType.equals("SOLAR"))
-				myPowerPSImpl = new SolarPowerPS(myID, moduleName);
+				myPowerPS = new SolarPowerPS(myID, moduleName);
 			else if (generationType.equals("STATE_MACHINE"))
-				myPowerPSImpl = new StateMachinePowerPS(myID, moduleName);
+				myPowerPS = new StateMachinePowerPS(myID, moduleName);
 			else
-				myPowerPSImpl = new NuclearPowerPS(myID, moduleName);
+				myPowerPS = new NuclearPowerPS(myID, moduleName);
 			float upperPowerGeneration = Float.parseFloat(node.getAttributes()
 					.getNamedItem("upperPowerGeneration").getNodeValue());
-			myPowerPSImpl.setInitialUpperPowerGeneration(upperPowerGeneration);
-			BiosimInitializer.setupBioModule(myPowerPSImpl, node);
-			BiosimServer.registerServer(new PowerPSPOATie(myPowerPSImpl),
-					myPowerPSImpl.getModuleName(), myPowerPSImpl.getID());
+			myPowerPS.setInitialUpperPowerGeneration(upperPowerGeneration);
+			BiosimInitializer.setupBioModule(myPowerPS, node);
+			BiosimServer.registerServer(new PowerPSPOATie(myPowerPS),
+					myPowerPS.getModuleName(), myPowerPS.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1735,15 +1735,15 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating Generic Power Consumer with moduleName: "
 					+ moduleName);
-			GenericPowerConsumerImpl myGenericPowerConsumerImpl = null;
-			myGenericPowerConsumerImpl = new GenericPowerConsumerImpl(myID,
+			GenericPowerConsumer myGenericPowerConsumer = null;
+			myGenericPowerConsumer = new GenericPowerConsumer(myID,
 					moduleName);
-			myGenericPowerConsumerImpl.setPowerRequired(getAttributeFloat(node,
+			myGenericPowerConsumer.setPowerRequired(getAttributeFloat(node,
 					"powerRequired"));
-			BiosimInitializer.setupBioModule(myGenericPowerConsumerImpl, node);
+			BiosimInitializer.setupBioModule(myGenericPowerConsumer, node);
 			BiosimServer.registerServer(new GenericPowerConsumerPOATie(
-					myGenericPowerConsumerImpl), myGenericPowerConsumerImpl
-					.getModuleName(), myGenericPowerConsumerImpl.getID());
+					myGenericPowerConsumer), myGenericPowerConsumer
+					.getModuleName(), myGenericPowerConsumer.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1760,11 +1760,11 @@ public class SimulationInitializer {
 		String moduleName = BiosimInitializer.getModuleName(node);
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating RPCM with moduleName: " + moduleName);
-			RPCMImpl myRPCMImpl = null;
-			myRPCMImpl = new RPCMImpl(myID, moduleName);
-			BiosimInitializer.setupBioModule(myRPCMImpl, node);
-			BiosimServer.registerServer(new RPCMPOATie(myRPCMImpl), myRPCMImpl
-					.getModuleName(), myRPCMImpl.getID());
+			RPCM myRPCM = null;
+			myRPCM = new RPCM(myID, moduleName);
+			BiosimInitializer.setupBioModule(myRPCM, node);
+			BiosimServer.registerServer(new RPCMPOATie(myRPCM), myRPCM
+					.getModuleName(), myRPCM.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1781,11 +1781,11 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger
 					.debug("Creating PowerStore with moduleName: " + moduleName);
-			PowerStoreImpl myPowerStoreImpl = new PowerStoreImpl(myID,
+			PowerStore myPowerStore = new PowerStore(myID,
 					moduleName);
-			setupStore(myPowerStoreImpl, node);
-			BiosimServer.registerServer(new PowerStorePOATie(myPowerStoreImpl),
-					myPowerStoreImpl.getModuleName(), myPowerStoreImpl.getID());
+			setupStore(myPowerStore, node);
+			BiosimServer.registerServer(new PowerStorePOATie(myPowerStore),
+					myPowerStore.getModuleName(), myPowerStore.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1832,16 +1832,16 @@ public class SimulationInitializer {
 					"implementation").getNodeValue();
 			if (implementationString.equals("LINEAR")) {
 				myLogger.debug("created linear WaterRS...");
-				WaterRSLinearImpl myWaterRSImpl = new WaterRSLinearImpl(myID,
+				WaterRSLinear myWaterRS = new WaterRSLinear(myID,
 						moduleName);
-				BiosimInitializer.setupBioModule(myWaterRSImpl, node);
-				BiosimServer.registerServer(new WaterRSPOATie(myWaterRSImpl),
-						myWaterRSImpl.getModuleName(), myWaterRSImpl.getID());
+				BiosimInitializer.setupBioModule(myWaterRS, node);
+				BiosimServer.registerServer(new WaterRSPOATie(myWaterRS),
+						myWaterRS.getModuleName(), myWaterRS.getID());
 			} else {
-				WaterRSImpl myWaterRSImpl = new WaterRSImpl(myID, moduleName);
-				BiosimInitializer.setupBioModule(myWaterRSImpl, node);
-				BiosimServer.registerServer(new WaterRSPOATie(myWaterRSImpl),
-						myWaterRSImpl.getModuleName(), myWaterRSImpl.getID());
+				WaterRS myWaterRS = new WaterRS(myID, moduleName);
+				BiosimInitializer.setupBioModule(myWaterRS, node);
+				BiosimServer.registerServer(new WaterRSPOATie(myWaterRS),
+						myWaterRS.getModuleName(), myWaterRS.getID());
 			}
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
@@ -1872,12 +1872,12 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating PotableWaterStore with moduleName: "
 					+ moduleName);
-			PotableWaterStoreImpl myPotableWaterStoreImpl = new PotableWaterStoreImpl(
+			PotableWaterStore myPotableWaterStore = new PotableWaterStore(
 					myID, moduleName);
-			setupStore(myPotableWaterStoreImpl, node);
+			setupStore(myPotableWaterStore, node);
 			BiosimServer.registerServer(new PotableWaterStorePOATie(
-					myPotableWaterStoreImpl), myPotableWaterStoreImpl
-					.getModuleName(), myPotableWaterStoreImpl.getID());
+					myPotableWaterStore), myPotableWaterStore
+					.getModuleName(), myPotableWaterStore.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1887,12 +1887,12 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating DirtyWaterStore with moduleName: "
 					+ moduleName);
-			DirtyWaterStoreImpl myDirtyWaterStoreImpl = new DirtyWaterStoreImpl(
+			DirtyWaterStore myDirtyWaterStore = new DirtyWaterStore(
 					myID, moduleName);
-			setupStore(myDirtyWaterStoreImpl, node);
+			setupStore(myDirtyWaterStore, node);
 			BiosimServer.registerServer(new DirtyWaterStorePOATie(
-					myDirtyWaterStoreImpl), myDirtyWaterStoreImpl
-					.getModuleName(), myDirtyWaterStoreImpl.getID());
+					myDirtyWaterStore), myDirtyWaterStore
+					.getModuleName(), myDirtyWaterStore.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1902,12 +1902,12 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating GreyWaterStore with moduleName: "
 					+ moduleName);
-			GreyWaterStoreImpl myGreyWaterStoreImpl = new GreyWaterStoreImpl(
+			GreyWaterStore myGreyWaterStore = new GreyWaterStore(
 					myID, moduleName);
-			setupStore(myGreyWaterStoreImpl, node);
+			setupStore(myGreyWaterStore, node);
 			BiosimServer.registerServer(new GreyWaterStorePOATie(
-					myGreyWaterStoreImpl),
-					myGreyWaterStoreImpl.getModuleName(), myGreyWaterStoreImpl
+					myGreyWaterStore),
+					myGreyWaterStore.getModuleName(), myGreyWaterStore
 							.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
@@ -1961,12 +1961,12 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating Incinerator with moduleName: "
 					+ moduleName);
-			IncineratorImpl myIncineratorImpl = new IncineratorImpl(myID,
+			Incinerator myIncinerator = new Incinerator(myID,
 					moduleName);
-			BiosimInitializer.setupBioModule(myIncineratorImpl, node);
+			BiosimInitializer.setupBioModule(myIncinerator, node);
 			BiosimServer.registerServer(
-					new IncineratorPOATie(myIncineratorImpl), myIncineratorImpl
-							.getModuleName(), myIncineratorImpl.getID());
+					new IncineratorPOATie(myIncinerator), myIncinerator
+							.getModuleName(), myIncinerator.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1983,12 +1983,12 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating IATCS with moduleName: "
 					+ moduleName);
-			IATCSImpl myIATCSImpl = new IATCSImpl(myID,
+			IATCS myIATCS = new IATCS(myID,
 					moduleName);
-			BiosimInitializer.setupBioModule(myIATCSImpl, node);
+			BiosimInitializer.setupBioModule(myIATCS, node);
 			BiosimServer.registerServer(
-					new IATCSPOATie(myIATCSImpl), myIATCSImpl
-							.getModuleName(), myIATCSImpl.getID());
+					new IATCSPOATie(myIATCS), myIATCS
+							.getModuleName(), myIATCS.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -2005,12 +2005,12 @@ public class SimulationInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating DryWasteStore with moduleName: "
 					+ moduleName);
-			DryWasteStoreImpl myDryWasteStoreImpl = new DryWasteStoreImpl(myID,
+			DryWasteStore myDryWasteStore = new DryWasteStore(myID,
 					moduleName);
-			setupStore(myDryWasteStoreImpl, node);
+			setupStore(myDryWasteStore, node);
 			BiosimServer.registerServer(new DryWasteStorePOATie(
-					myDryWasteStoreImpl), myDryWasteStoreImpl.getModuleName(),
-					myDryWasteStoreImpl.getID());
+					myDryWasteStore), myDryWasteStore.getModuleName(),
+					myDryWasteStore.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}

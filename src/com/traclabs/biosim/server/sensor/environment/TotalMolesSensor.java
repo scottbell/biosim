@@ -1,0 +1,39 @@
+package com.traclabs.biosim.server.sensor.environment;
+
+import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.server.sensor.framework.GenericSensor;
+
+public class TotalMolesSensor extends GenericSensor  {
+    protected SimEnvironment myEnvironment;
+
+    public TotalMolesSensor(int pID, String pName) {
+        super(pID, pName);
+    }
+
+    protected void gatherData(){
+        myValue = getStochasticFilter().randomFilter(myEnvironment.getTotalMoles());
+    }
+    
+	@Override
+	public float getMax() {
+		return Float.MAX_VALUE;
+	}
+
+	public void setInput(SimEnvironment environment) {
+		myEnvironment = environment;
+	}
+
+	public SimEnvironment getEnvironment() {
+		return myEnvironment;
+	}
+
+	public SimEnvironment getInput() {
+		return myEnvironment;
+	}
+
+	@Override
+	public BioModule getInputModule() {
+		return myEnvironment;
+	}
+}

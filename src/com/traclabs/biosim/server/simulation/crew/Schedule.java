@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import com.traclabs.biosim.idl.simulation.crew.Activity;
-import com.traclabs.biosim.idl.simulation.crew.ActivityHelper;
-import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
+import com.traclabs.biosim.server.simulation.crew.Activity;
+import com.traclabs.biosim.server.simulation.crew.ActivityHelper;
+import com.traclabs.biosim.server.simulation.crew.CrewGroup;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
@@ -47,18 +47,18 @@ public class Schedule {
     private void createDefaultActivites() {
         allActivities = new Hashtable<String, Activity>();
         orderedSchedule = new Vector<Activity>();
-        ActivityImpl bornActivityImpl = new ActivityImpl("born", 0, 0);
-        ActivityImpl deadActivityImpl = new ActivityImpl("dead", 0, 0);
-        ActivityImpl absentActivityImpl = new ActivityImpl("absent", 0, 0);
-        ActivityImpl sickActivityImpl = new ActivityImpl("sick", (int)(Math.ceil(12 / myCrewGroup.getTickLength())), 1);
+        Activity bornActivity = new Activity("born", 0, 0);
+        Activity deadActivity = new Activity("dead", 0, 0);
+        Activity absentActivity = new Activity("absent", 0, 0);
+        Activity sickActivity = new Activity("sick", (int)(Math.ceil(12 / myCrewGroup.getTickLength())), 1);
         myBornActivity = ActivityHelper.narrow(OrbUtils
-                .poaToCorbaObj(bornActivityImpl));
+                .poaToCorbaObj(bornActivity));
         myDeadActivity = ActivityHelper.narrow(OrbUtils
-                .poaToCorbaObj(deadActivityImpl));
+                .poaToCorbaObj(deadActivity));
         mySickActivity = ActivityHelper.narrow(OrbUtils
-                .poaToCorbaObj(sickActivityImpl));
+                .poaToCorbaObj(sickActivity));
         myAbsentActivity = ActivityHelper.narrow(OrbUtils
-                .poaToCorbaObj(absentActivityImpl));
+                .poaToCorbaObj(absentActivity));
         allActivities.put("born", myBornActivity);
         orderedSchedule.add(0, myBornActivity);
         allActivities.put("dead", myDeadActivity);

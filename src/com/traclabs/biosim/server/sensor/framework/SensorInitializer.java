@@ -6,207 +6,207 @@ import java.util.Vector;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
-import com.traclabs.biosim.idl.sensor.air.CO2InFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.air.CO2InFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.air.CO2InFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.air.CO2OutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.air.CO2OutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.air.CO2OutFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.air.H2InFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.air.H2InFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.air.H2InFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.air.H2OutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.air.H2OutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.air.H2OutFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.air.MethaneInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.air.MethaneInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.air.MethaneInFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.air.MethaneOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.air.MethaneOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.air.MethaneOutFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.air.NitrogenInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.air.NitrogenInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.air.NitrogenInFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.air.NitrogenOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.air.NitrogenOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.air.NitrogenOutFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.air.O2InFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.air.O2InFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.air.O2InFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.air.O2OutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.air.O2OutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.air.O2OutFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.crew.CrewGroupAnyDeadSensor;
-import com.traclabs.biosim.idl.sensor.crew.CrewGroupAnyDeadSensorHelper;
-import com.traclabs.biosim.idl.sensor.crew.CrewGroupAnyDeadSensorPOATie;
-import com.traclabs.biosim.idl.sensor.crew.CrewGroupDeathSensor;
-import com.traclabs.biosim.idl.sensor.crew.CrewGroupDeathSensorHelper;
-import com.traclabs.biosim.idl.sensor.crew.CrewGroupDeathSensorPOATie;
-import com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensor;
-import com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensorHelper;
-import com.traclabs.biosim.idl.sensor.crew.CrewGroupProductivitySensorPOATie;
-import com.traclabs.biosim.idl.sensor.environment.AirInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.AirInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.AirInFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.environment.AirOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.environment.AirOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.AirOutFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.environment.GasConcentrationSensor;
-import com.traclabs.biosim.idl.sensor.environment.GasConcentrationSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.GasConcentrationSensorPOATie;
-import com.traclabs.biosim.idl.sensor.environment.GasPressureSensor;
-import com.traclabs.biosim.idl.sensor.environment.GasPressureSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.GasPressureSensorPOATie;
-import com.traclabs.biosim.idl.sensor.environment.TotalMolesSensor;
-import com.traclabs.biosim.idl.sensor.environment.TotalMolesSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.TotalMolesSensorPOATie;
-import com.traclabs.biosim.idl.sensor.environment.TotalPressureSensor;
-import com.traclabs.biosim.idl.sensor.environment.TotalPressureSensorHelper;
-import com.traclabs.biosim.idl.sensor.environment.TotalPressureSensorPOATie;
-import com.traclabs.biosim.idl.sensor.food.BiomassInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.food.BiomassInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.food.BiomassInFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.food.BiomassOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.food.BiomassOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.food.BiomassOutFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.food.BiomassStoreWaterContentSensor;
-import com.traclabs.biosim.idl.sensor.food.BiomassStoreWaterContentSensorHelper;
-import com.traclabs.biosim.idl.sensor.food.BiomassStoreWaterContentSensorPOATie;
-import com.traclabs.biosim.idl.sensor.food.FoodInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.food.FoodInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.food.FoodInFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.food.FoodOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.food.FoodOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.food.FoodOutFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.food.HarvestSensor;
-import com.traclabs.biosim.idl.sensor.food.HarvestSensorHelper;
-import com.traclabs.biosim.idl.sensor.food.HarvestSensorPOATie;
-import com.traclabs.biosim.idl.sensor.food.PlantDeathSensor;
-import com.traclabs.biosim.idl.sensor.food.PlantDeathSensorHelper;
-import com.traclabs.biosim.idl.sensor.food.PlantDeathSensorPOATie;
-import com.traclabs.biosim.idl.sensor.food.TimeTillCanopyClosureSensor;
-import com.traclabs.biosim.idl.sensor.food.TimeTillCanopyClosureSensorHelper;
-import com.traclabs.biosim.idl.sensor.food.TimeTillCanopyClosureSensorPOATie;
-import com.traclabs.biosim.idl.sensor.framework.EffluentValveStateSensor;
-import com.traclabs.biosim.idl.sensor.framework.EffluentValveStateSensorHelper;
-import com.traclabs.biosim.idl.sensor.framework.EffluentValveStateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.framework.GenericSensor;
-import com.traclabs.biosim.idl.sensor.framework.InfluentValveStateSensor;
-import com.traclabs.biosim.idl.sensor.framework.InfluentValveStateSensorHelper;
-import com.traclabs.biosim.idl.sensor.framework.InfluentValveStateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensor;
-import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensorHelper;
-import com.traclabs.biosim.idl.sensor.framework.StoreLevelSensorPOATie;
-import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensor;
-import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensorHelper;
-import com.traclabs.biosim.idl.sensor.framework.StoreOverflowSensorPOATie;
-import com.traclabs.biosim.idl.sensor.framework.TimeSensor;
-import com.traclabs.biosim.idl.sensor.framework.TimeSensorHelper;
-import com.traclabs.biosim.idl.sensor.framework.TimeSensorPOATie;
-import com.traclabs.biosim.idl.sensor.power.PowerInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.power.PowerInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.power.PowerInFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.power.PowerOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.power.PowerOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.power.PowerOutFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.waste.DryWasteInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.waste.DryWasteInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.waste.DryWasteInFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.waste.DryWasteOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.waste.DryWasteOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.waste.DryWasteOutFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.water.DirtyWaterInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.water.DirtyWaterInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.water.DirtyWaterInFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.water.DirtyWaterOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.water.DirtyWaterOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.water.DirtyWaterOutFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.water.GreyWaterInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.water.GreyWaterInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.water.GreyWaterInFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.water.GreyWaterOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.water.GreyWaterOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.water.GreyWaterOutFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.water.PotableWaterInFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.water.PotableWaterInFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.water.PotableWaterInFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.sensor.water.PotableWaterOutFlowRateSensor;
-import com.traclabs.biosim.idl.sensor.water.PotableWaterOutFlowRateSensorHelper;
-import com.traclabs.biosim.idl.sensor.water.PotableWaterOutFlowRateSensorPOATie;
-import com.traclabs.biosim.idl.simulation.air.CO2ConsumerHelper;
-import com.traclabs.biosim.idl.simulation.air.CO2ProducerHelper;
-import com.traclabs.biosim.idl.simulation.air.H2ConsumerHelper;
-import com.traclabs.biosim.idl.simulation.air.H2ProducerHelper;
-import com.traclabs.biosim.idl.simulation.air.MethaneConsumerHelper;
-import com.traclabs.biosim.idl.simulation.air.MethaneProducerHelper;
-import com.traclabs.biosim.idl.simulation.air.NitrogenConsumerHelper;
-import com.traclabs.biosim.idl.simulation.air.NitrogenProducerHelper;
-import com.traclabs.biosim.idl.simulation.air.O2ConsumerHelper;
-import com.traclabs.biosim.idl.simulation.air.O2ProducerHelper;
-import com.traclabs.biosim.idl.simulation.crew.CrewGroupHelper;
-import com.traclabs.biosim.idl.simulation.environment.AirConsumerHelper;
-import com.traclabs.biosim.idl.simulation.environment.AirProducerHelper;
-import com.traclabs.biosim.idl.simulation.environment.EnvironmentStore;
-import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.idl.simulation.environment.SimEnvironmentHelper;
-import com.traclabs.biosim.idl.simulation.food.BiomassConsumerHelper;
-import com.traclabs.biosim.idl.simulation.food.BiomassPSHelper;
-import com.traclabs.biosim.idl.simulation.food.BiomassProducerHelper;
-import com.traclabs.biosim.idl.simulation.food.BiomassStoreHelper;
-import com.traclabs.biosim.idl.simulation.food.FoodConsumerHelper;
-import com.traclabs.biosim.idl.simulation.food.FoodProducerHelper;
-import com.traclabs.biosim.idl.simulation.framework.EffluentValveHelper;
-import com.traclabs.biosim.idl.simulation.framework.InfluentValveHelper;
-import com.traclabs.biosim.idl.simulation.framework.StoreHelper;
-import com.traclabs.biosim.idl.simulation.power.PowerConsumerHelper;
-import com.traclabs.biosim.idl.simulation.power.PowerProducerHelper;
-import com.traclabs.biosim.idl.simulation.waste.DryWasteConsumerHelper;
-import com.traclabs.biosim.idl.simulation.waste.DryWasteProducerHelper;
-import com.traclabs.biosim.idl.simulation.water.DirtyWaterConsumerHelper;
-import com.traclabs.biosim.idl.simulation.water.DirtyWaterProducerHelper;
-import com.traclabs.biosim.idl.simulation.water.GreyWaterConsumerHelper;
-import com.traclabs.biosim.idl.simulation.water.GreyWaterProducerHelper;
-import com.traclabs.biosim.idl.simulation.water.PotableWaterConsumerHelper;
-import com.traclabs.biosim.idl.simulation.water.PotableWaterProducerHelper;
+import com.traclabs.biosim.server.sensor.air.CO2InFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.CO2InFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.air.CO2InFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.air.CO2OutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.CO2OutFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.air.CO2OutFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.air.H2InFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.H2InFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.air.H2InFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.air.H2OutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.H2OutFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.air.H2OutFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.air.MethaneInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.MethaneInFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.air.MethaneInFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.air.MethaneOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.MethaneOutFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.air.MethaneOutFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.air.NitrogenInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.NitrogenInFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.air.NitrogenInFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.air.NitrogenOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.NitrogenOutFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.air.NitrogenOutFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.air.O2InFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.O2InFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.air.O2InFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.air.O2OutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.O2OutFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.air.O2OutFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.crew.CrewGroupAnyDeadSensor;
+import com.traclabs.biosim.server.sensor.crew.CrewGroupAnyDeadSensorHelper;
+import com.traclabs.biosim.server.sensor.crew.CrewGroupAnyDeadSensorPOATie;
+import com.traclabs.biosim.server.sensor.crew.CrewGroupDeathSensor;
+import com.traclabs.biosim.server.sensor.crew.CrewGroupDeathSensorHelper;
+import com.traclabs.biosim.server.sensor.crew.CrewGroupDeathSensorPOATie;
+import com.traclabs.biosim.server.sensor.crew.CrewGroupProductivitySensor;
+import com.traclabs.biosim.server.sensor.crew.CrewGroupProductivitySensorHelper;
+import com.traclabs.biosim.server.sensor.crew.CrewGroupProductivitySensorPOATie;
+import com.traclabs.biosim.server.sensor.environment.AirInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.environment.AirInFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.environment.AirInFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.environment.AirOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.environment.AirOutFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.environment.AirOutFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.environment.GasConcentrationSensor;
+import com.traclabs.biosim.server.sensor.environment.GasConcentrationSensorHelper;
+import com.traclabs.biosim.server.sensor.environment.GasConcentrationSensorPOATie;
+import com.traclabs.biosim.server.sensor.environment.GasPressureSensor;
+import com.traclabs.biosim.server.sensor.environment.GasPressureSensorHelper;
+import com.traclabs.biosim.server.sensor.environment.GasPressureSensorPOATie;
+import com.traclabs.biosim.server.sensor.environment.TotalMolesSensor;
+import com.traclabs.biosim.server.sensor.environment.TotalMolesSensorHelper;
+import com.traclabs.biosim.server.sensor.environment.TotalMolesSensorPOATie;
+import com.traclabs.biosim.server.sensor.environment.TotalPressureSensor;
+import com.traclabs.biosim.server.sensor.environment.TotalPressureSensorHelper;
+import com.traclabs.biosim.server.sensor.environment.TotalPressureSensorPOATie;
+import com.traclabs.biosim.server.sensor.food.BiomassInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.food.BiomassInFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.food.BiomassInFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.food.BiomassOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.food.BiomassOutFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.food.BiomassOutFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.food.BiomassStoreWaterContentSensor;
+import com.traclabs.biosim.server.sensor.food.BiomassStoreWaterContentSensorHelper;
+import com.traclabs.biosim.server.sensor.food.BiomassStoreWaterContentSensorPOATie;
+import com.traclabs.biosim.server.sensor.food.FoodInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.food.FoodInFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.food.FoodInFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.food.FoodOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.food.FoodOutFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.food.FoodOutFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.food.HarvestSensor;
+import com.traclabs.biosim.server.sensor.food.HarvestSensorHelper;
+import com.traclabs.biosim.server.sensor.food.HarvestSensorPOATie;
+import com.traclabs.biosim.server.sensor.food.PlantDeathSensor;
+import com.traclabs.biosim.server.sensor.food.PlantDeathSensorHelper;
+import com.traclabs.biosim.server.sensor.food.PlantDeathSensorPOATie;
+import com.traclabs.biosim.server.sensor.food.TimeTillCanopyClosureSensor;
+import com.traclabs.biosim.server.sensor.food.TimeTillCanopyClosureSensorHelper;
+import com.traclabs.biosim.server.sensor.food.TimeTillCanopyClosureSensorPOATie;
+import com.traclabs.biosim.server.sensor.framework.EffluentValveStateSensor;
+import com.traclabs.biosim.server.sensor.framework.EffluentValveStateSensorHelper;
+import com.traclabs.biosim.server.sensor.framework.EffluentValveStateSensorPOATie;
+import com.traclabs.biosim.server.sensor.framework.GenericSensor;
+import com.traclabs.biosim.server.sensor.framework.InfluentValveStateSensor;
+import com.traclabs.biosim.server.sensor.framework.InfluentValveStateSensorHelper;
+import com.traclabs.biosim.server.sensor.framework.InfluentValveStateSensorPOATie;
+import com.traclabs.biosim.server.sensor.framework.StoreLevelSensor;
+import com.traclabs.biosim.server.sensor.framework.StoreLevelSensorHelper;
+import com.traclabs.biosim.server.sensor.framework.StoreLevelSensorPOATie;
+import com.traclabs.biosim.server.sensor.framework.StoreOverflowSensor;
+import com.traclabs.biosim.server.sensor.framework.StoreOverflowSensorHelper;
+import com.traclabs.biosim.server.sensor.framework.StoreOverflowSensorPOATie;
+import com.traclabs.biosim.server.sensor.framework.TimeSensor;
+import com.traclabs.biosim.server.sensor.framework.TimeSensorHelper;
+import com.traclabs.biosim.server.sensor.framework.TimeSensorPOATie;
+import com.traclabs.biosim.server.sensor.power.PowerInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.power.PowerInFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.power.PowerInFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.power.PowerOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.power.PowerOutFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.power.PowerOutFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.waste.DryWasteInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.waste.DryWasteInFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.waste.DryWasteInFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.waste.DryWasteOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.waste.DryWasteOutFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.waste.DryWasteOutFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.water.DirtyWaterInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.water.DirtyWaterInFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.water.DirtyWaterInFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.water.DirtyWaterOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.water.DirtyWaterOutFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.water.DirtyWaterOutFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.water.GreyWaterInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.water.GreyWaterInFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.water.GreyWaterInFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.water.GreyWaterOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.water.GreyWaterOutFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.water.GreyWaterOutFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.water.PotableWaterInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.water.PotableWaterInFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.water.PotableWaterInFlowRateSensorPOATie;
+import com.traclabs.biosim.server.sensor.water.PotableWaterOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.water.PotableWaterOutFlowRateSensorHelper;
+import com.traclabs.biosim.server.sensor.water.PotableWaterOutFlowRateSensorPOATie;
+import com.traclabs.biosim.server.simulation.air.CO2ConsumerHelper;
+import com.traclabs.biosim.server.simulation.air.CO2ProducerHelper;
+import com.traclabs.biosim.server.simulation.air.H2ConsumerHelper;
+import com.traclabs.biosim.server.simulation.air.H2ProducerHelper;
+import com.traclabs.biosim.server.simulation.air.MethaneConsumerHelper;
+import com.traclabs.biosim.server.simulation.air.MethaneProducerHelper;
+import com.traclabs.biosim.server.simulation.air.NitrogenConsumerHelper;
+import com.traclabs.biosim.server.simulation.air.NitrogenProducerHelper;
+import com.traclabs.biosim.server.simulation.air.O2ConsumerHelper;
+import com.traclabs.biosim.server.simulation.air.O2ProducerHelper;
+import com.traclabs.biosim.server.simulation.crew.CrewGroupHelper;
+import com.traclabs.biosim.server.simulation.environment.AirConsumerHelper;
+import com.traclabs.biosim.server.simulation.environment.AirProducerHelper;
+import com.traclabs.biosim.server.simulation.environment.EnvironmentStore;
+import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.server.simulation.environment.SimEnvironmentHelper;
+import com.traclabs.biosim.server.simulation.food.BiomassConsumerHelper;
+import com.traclabs.biosim.server.simulation.food.BiomassPSHelper;
+import com.traclabs.biosim.server.simulation.food.BiomassProducerHelper;
+import com.traclabs.biosim.server.simulation.food.BiomassStoreHelper;
+import com.traclabs.biosim.server.simulation.food.FoodConsumerHelper;
+import com.traclabs.biosim.server.simulation.food.FoodProducerHelper;
+import com.traclabs.biosim.server.simulation.framework.EffluentValveHelper;
+import com.traclabs.biosim.server.simulation.framework.InfluentValveHelper;
+import com.traclabs.biosim.server.simulation.framework.StoreHelper;
+import com.traclabs.biosim.server.simulation.power.PowerConsumerHelper;
+import com.traclabs.biosim.server.simulation.power.PowerProducerHelper;
+import com.traclabs.biosim.server.simulation.waste.DryWasteConsumerHelper;
+import com.traclabs.biosim.server.simulation.waste.DryWasteProducerHelper;
+import com.traclabs.biosim.server.simulation.water.DirtyWaterConsumerHelper;
+import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerHelper;
+import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerHelper;
+import com.traclabs.biosim.server.simulation.water.GreyWaterProducerHelper;
+import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerHelper;
+import com.traclabs.biosim.server.simulation.water.PotableWaterProducerHelper;
 import com.traclabs.biosim.server.framework.BiosimInitializer;
 import com.traclabs.biosim.server.framework.BiosimServer;
-import com.traclabs.biosim.server.sensor.air.CO2InFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.air.CO2OutFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.air.H2InFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.air.H2OutFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.air.MethaneInFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.air.MethaneOutFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.air.NitrogenInFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.air.NitrogenOutFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.air.O2InFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.air.O2OutFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.crew.CrewGroupAnyDeadSensorImpl;
-import com.traclabs.biosim.server.sensor.crew.CrewGroupDeathSensorImpl;
-import com.traclabs.biosim.server.sensor.crew.CrewGroupProductivitySensorImpl;
-import com.traclabs.biosim.server.sensor.environment.AirInFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.environment.AirOutFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.environment.GasConcentrationSensorImpl;
-import com.traclabs.biosim.server.sensor.environment.GasPressureSensorImpl;
-import com.traclabs.biosim.server.sensor.environment.TotalMolesSensorImpl;
-import com.traclabs.biosim.server.sensor.environment.TotalPressureSensorImpl;
-import com.traclabs.biosim.server.sensor.food.BiomassInFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.food.BiomassOutFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.food.BiomassStoreWaterContentSensorImpl;
-import com.traclabs.biosim.server.sensor.food.FoodInFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.food.FoodOutFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.food.HarvestSensorImpl;
-import com.traclabs.biosim.server.sensor.food.PlantDeathSensorImpl;
-import com.traclabs.biosim.server.sensor.food.TimeTillCanopyClosureSensorImpl;
-import com.traclabs.biosim.server.sensor.power.PowerInFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.power.PowerOutFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.waste.DryWasteInFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.waste.DryWasteOutFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.water.DirtyWaterInFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.water.DirtyWaterOutFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.water.GreyWaterInFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.water.GreyWaterOutFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.water.PotableWaterInFlowRateSensorImpl;
-import com.traclabs.biosim.server.sensor.water.PotableWaterOutFlowRateSensorImpl;
+import com.traclabs.biosim.server.sensor.air.CO2InFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.CO2OutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.H2InFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.H2OutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.MethaneInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.MethaneOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.NitrogenInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.NitrogenOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.O2InFlowRateSensor;
+import com.traclabs.biosim.server.sensor.air.O2OutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.crew.CrewGroupAnyDeadSensor;
+import com.traclabs.biosim.server.sensor.crew.CrewGroupDeathSensor;
+import com.traclabs.biosim.server.sensor.crew.CrewGroupProductivitySensor;
+import com.traclabs.biosim.server.sensor.environment.AirInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.environment.AirOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.environment.GasConcentrationSensor;
+import com.traclabs.biosim.server.sensor.environment.GasPressureSensor;
+import com.traclabs.biosim.server.sensor.environment.TotalMolesSensor;
+import com.traclabs.biosim.server.sensor.environment.TotalPressureSensor;
+import com.traclabs.biosim.server.sensor.food.BiomassInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.food.BiomassOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.food.BiomassStoreWaterContentSensor;
+import com.traclabs.biosim.server.sensor.food.FoodInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.food.FoodOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.food.HarvestSensor;
+import com.traclabs.biosim.server.sensor.food.PlantDeathSensor;
+import com.traclabs.biosim.server.sensor.food.TimeTillCanopyClosureSensor;
+import com.traclabs.biosim.server.sensor.power.PowerInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.power.PowerOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.waste.DryWasteInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.waste.DryWasteOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.water.DirtyWaterInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.water.DirtyWaterOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.water.GreyWaterInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.water.GreyWaterOutFlowRateSensor;
+import com.traclabs.biosim.server.sensor.water.PotableWaterInFlowRateSensor;
+import com.traclabs.biosim.server.sensor.water.PotableWaterOutFlowRateSensor;
 import com.traclabs.biosim.util.XMLUtils;
 
 /**
@@ -279,12 +279,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating CO2InFlowRateSensor with moduleName: "
 					+ moduleName);
-			CO2InFlowRateSensorImpl myCO2InFlowRateSensorImpl = new CO2InFlowRateSensorImpl(
+			CO2InFlowRateSensor myCO2InFlowRateSensor = new CO2InFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myCO2InFlowRateSensorImpl, node);
+			BiosimInitializer.setupBioModule(myCO2InFlowRateSensor, node);
 			BiosimServer.registerServer(new CO2InFlowRateSensorPOATie(
-					myCO2InFlowRateSensorImpl), myCO2InFlowRateSensorImpl
-					.getModuleName(), myCO2InFlowRateSensorImpl.getID());
+					myCO2InFlowRateSensor), myCO2InFlowRateSensor
+					.getModuleName(), myCO2InFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -304,12 +304,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating CO2OutFlowRateSensor with moduleName: "
 					+ moduleName);
-			CO2OutFlowRateSensorImpl myCO2OutFlowRateSensorImpl = new CO2OutFlowRateSensorImpl(
+			CO2OutFlowRateSensor myCO2OutFlowRateSensor = new CO2OutFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myCO2OutFlowRateSensorImpl, node);
+			BiosimInitializer.setupBioModule(myCO2OutFlowRateSensor, node);
 			BiosimServer.registerServer(new CO2OutFlowRateSensorPOATie(
-					myCO2OutFlowRateSensorImpl), myCO2OutFlowRateSensorImpl
-					.getModuleName(), myCO2OutFlowRateSensorImpl.getID());
+					myCO2OutFlowRateSensor), myCO2OutFlowRateSensor
+					.getModuleName(), myCO2OutFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -329,12 +329,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating O2InFlowRateSensor with moduleName: "
 					+ moduleName);
-			O2InFlowRateSensorImpl myO2InFlowRateSensorImpl = new O2InFlowRateSensorImpl(
+			O2InFlowRateSensor myO2InFlowRateSensor = new O2InFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myO2InFlowRateSensorImpl, node);
+			BiosimInitializer.setupBioModule(myO2InFlowRateSensor, node);
 			BiosimServer.registerServer(new O2InFlowRateSensorPOATie(
-					myO2InFlowRateSensorImpl), myO2InFlowRateSensorImpl
-					.getModuleName(), myO2InFlowRateSensorImpl.getID());
+					myO2InFlowRateSensor), myO2InFlowRateSensor
+					.getModuleName(), myO2InFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -353,12 +353,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating O2OutFlowRateSensor with moduleName: "
 					+ moduleName);
-			O2OutFlowRateSensorImpl myO2OutFlowRateSensorImpl = new O2OutFlowRateSensorImpl(
+			O2OutFlowRateSensor myO2OutFlowRateSensor = new O2OutFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myO2OutFlowRateSensorImpl, node);
+			BiosimInitializer.setupBioModule(myO2OutFlowRateSensor, node);
 			BiosimServer.registerServer(new O2OutFlowRateSensorPOATie(
-					myO2OutFlowRateSensorImpl), myO2OutFlowRateSensorImpl
-					.getModuleName(), myO2OutFlowRateSensorImpl.getID());
+					myO2OutFlowRateSensor), myO2OutFlowRateSensor
+					.getModuleName(), myO2OutFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -378,12 +378,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating H2InFlowRateSensor with moduleName: "
 					+ moduleName);
-			H2InFlowRateSensorImpl myH2InFlowRateSensorImpl = new H2InFlowRateSensorImpl(
+			H2InFlowRateSensor myH2InFlowRateSensor = new H2InFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myH2InFlowRateSensorImpl, node);
+			BiosimInitializer.setupBioModule(myH2InFlowRateSensor, node);
 			BiosimServer.registerServer(new H2InFlowRateSensorPOATie(
-					myH2InFlowRateSensorImpl), myH2InFlowRateSensorImpl
-					.getModuleName(), myH2InFlowRateSensorImpl.getID());
+					myH2InFlowRateSensor), myH2InFlowRateSensor
+					.getModuleName(), myH2InFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -402,12 +402,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating H2OutFlowRateSensor with moduleName: "
 					+ moduleName);
-			H2OutFlowRateSensorImpl myH2OutFlowRateSensorImpl = new H2OutFlowRateSensorImpl(
+			H2OutFlowRateSensor myH2OutFlowRateSensor = new H2OutFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myH2OutFlowRateSensorImpl, node);
+			BiosimInitializer.setupBioModule(myH2OutFlowRateSensor, node);
 			BiosimServer.registerServer(new H2OutFlowRateSensorPOATie(
-					myH2OutFlowRateSensorImpl), myH2OutFlowRateSensorImpl
-					.getModuleName(), myH2OutFlowRateSensorImpl.getID());
+					myH2OutFlowRateSensor), myH2OutFlowRateSensor
+					.getModuleName(), myH2OutFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -428,14 +428,14 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating NitrogenInFlowRateSensor with moduleName: "
 							+ moduleName);
-			NitrogenInFlowRateSensorImpl myNitrogenInFlowRateSensorImpl = new NitrogenInFlowRateSensorImpl(
+			NitrogenInFlowRateSensor myNitrogenInFlowRateSensor = new NitrogenInFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myNitrogenInFlowRateSensorImpl,
+			BiosimInitializer.setupBioModule(myNitrogenInFlowRateSensor,
 					node);
 			BiosimServer.registerServer(new NitrogenInFlowRateSensorPOATie(
-					myNitrogenInFlowRateSensorImpl),
-					myNitrogenInFlowRateSensorImpl.getModuleName(),
-					myNitrogenInFlowRateSensorImpl.getID());
+					myNitrogenInFlowRateSensor),
+					myNitrogenInFlowRateSensor.getModuleName(),
+					myNitrogenInFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -456,14 +456,14 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating NitrogenOutFlowRateSensor with moduleName: "
 							+ moduleName);
-			NitrogenOutFlowRateSensorImpl myNitrogenOutFlowRateSensorImpl = new NitrogenOutFlowRateSensorImpl(
+			NitrogenOutFlowRateSensor myNitrogenOutFlowRateSensor = new NitrogenOutFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myNitrogenOutFlowRateSensorImpl,
+			BiosimInitializer.setupBioModule(myNitrogenOutFlowRateSensor,
 					node);
 			BiosimServer.registerServer(new NitrogenOutFlowRateSensorPOATie(
-					myNitrogenOutFlowRateSensorImpl),
-					myNitrogenOutFlowRateSensorImpl.getModuleName(),
-					myNitrogenOutFlowRateSensorImpl.getID());
+					myNitrogenOutFlowRateSensor),
+					myNitrogenOutFlowRateSensor.getModuleName(),
+					myNitrogenOutFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -483,14 +483,14 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating MethaneInFlowRateSensor with moduleName: "
 					+ moduleName);
-			MethaneInFlowRateSensorImpl myMethaneInFlowRateSensorImpl = new MethaneInFlowRateSensorImpl(
+			MethaneInFlowRateSensor myMethaneInFlowRateSensor = new MethaneInFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myMethaneInFlowRateSensorImpl,
+			BiosimInitializer.setupBioModule(myMethaneInFlowRateSensor,
 					node);
 			BiosimServer.registerServer(new MethaneInFlowRateSensorPOATie(
-					myMethaneInFlowRateSensorImpl),
-					myMethaneInFlowRateSensorImpl.getModuleName(),
-					myMethaneInFlowRateSensorImpl.getID());
+					myMethaneInFlowRateSensor),
+					myMethaneInFlowRateSensor.getModuleName(),
+					myMethaneInFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -511,14 +511,14 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating MethaneOutFlowRateSensor with moduleName: "
 							+ moduleName);
-			MethaneOutFlowRateSensorImpl myMethaneOutFlowRateSensorImpl = new MethaneOutFlowRateSensorImpl(
+			MethaneOutFlowRateSensor myMethaneOutFlowRateSensor = new MethaneOutFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myMethaneOutFlowRateSensorImpl,
+			BiosimInitializer.setupBioModule(myMethaneOutFlowRateSensor,
 					node);
 			BiosimServer.registerServer(new MethaneOutFlowRateSensorPOATie(
-					myMethaneOutFlowRateSensorImpl),
-					myMethaneOutFlowRateSensorImpl.getModuleName(),
-					myMethaneOutFlowRateSensorImpl.getID());
+					myMethaneOutFlowRateSensor),
+					myMethaneOutFlowRateSensor.getModuleName(),
+					myMethaneOutFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -600,12 +600,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating CrewGroupDeathSensor with moduleName: "
 					+ moduleName);
-			CrewGroupDeathSensorImpl myCrewGroupDeathSensorImpl = new CrewGroupDeathSensorImpl(
+			CrewGroupDeathSensor myCrewGroupDeathSensor = new CrewGroupDeathSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myCrewGroupDeathSensorImpl, node);
+			BiosimInitializer.setupBioModule(myCrewGroupDeathSensor, node);
 			BiosimServer.registerServer(new CrewGroupDeathSensorPOATie(
-					myCrewGroupDeathSensorImpl), myCrewGroupDeathSensorImpl
-					.getModuleName(), myCrewGroupDeathSensorImpl.getID());
+					myCrewGroupDeathSensor), myCrewGroupDeathSensor
+					.getModuleName(), myCrewGroupDeathSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -625,13 +625,13 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating CrewGroupAnyDeadSensor with moduleName: "
 					+ moduleName);
-			CrewGroupAnyDeadSensorImpl myCrewGroupAnyDeadSensorImpl = new CrewGroupAnyDeadSensorImpl(
+			CrewGroupAnyDeadSensor myCrewGroupAnyDeadSensor = new CrewGroupAnyDeadSensor(
 					myID, moduleName);
 			BiosimInitializer
-					.setupBioModule(myCrewGroupAnyDeadSensorImpl, node);
+					.setupBioModule(myCrewGroupAnyDeadSensor, node);
 			BiosimServer.registerServer(new CrewGroupAnyDeadSensorPOATie(
-					myCrewGroupAnyDeadSensorImpl), myCrewGroupAnyDeadSensorImpl
-					.getModuleName(), myCrewGroupAnyDeadSensorImpl.getID());
+					myCrewGroupAnyDeadSensor), myCrewGroupAnyDeadSensor
+					.getModuleName(), myCrewGroupAnyDeadSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -652,14 +652,14 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating CrewGroupProductivitySensor with moduleName: "
 							+ moduleName);
-			CrewGroupProductivitySensorImpl myCrewGroupProductivitySensorImpl = new CrewGroupProductivitySensorImpl(
+			CrewGroupProductivitySensor myCrewGroupProductivitySensor = new CrewGroupProductivitySensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myCrewGroupProductivitySensorImpl,
+			BiosimInitializer.setupBioModule(myCrewGroupProductivitySensor,
 					node);
 			BiosimServer.registerServer(new CrewGroupProductivitySensorPOATie(
-					myCrewGroupProductivitySensorImpl),
-					myCrewGroupProductivitySensorImpl.getModuleName(),
-					myCrewGroupProductivitySensorImpl.getID());
+					myCrewGroupProductivitySensor),
+					myCrewGroupProductivitySensor.getModuleName(),
+					myCrewGroupProductivitySensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -706,12 +706,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating AirInFlowRateSensor with moduleName: "
 					+ moduleName);
-			AirInFlowRateSensorImpl myAirInFlowRateSensorImpl = new AirInFlowRateSensorImpl(
+			AirInFlowRateSensor myAirInFlowRateSensor = new AirInFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myAirInFlowRateSensorImpl, node);
+			BiosimInitializer.setupBioModule(myAirInFlowRateSensor, node);
 			BiosimServer.registerServer(new AirInFlowRateSensorPOATie(
-					myAirInFlowRateSensorImpl), myAirInFlowRateSensorImpl
-					.getModuleName(), myAirInFlowRateSensorImpl.getID());
+					myAirInFlowRateSensor), myAirInFlowRateSensor
+					.getModuleName(), myAirInFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -731,12 +731,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating AirOutFlowRateSensor with moduleName: "
 					+ moduleName);
-			AirOutFlowRateSensorImpl myAirOutFlowRateSensorImpl = new AirOutFlowRateSensorImpl(
+			AirOutFlowRateSensor myAirOutFlowRateSensor = new AirOutFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myAirOutFlowRateSensorImpl, node);
+			BiosimInitializer.setupBioModule(myAirOutFlowRateSensor, node);
 			BiosimServer.registerServer(new AirOutFlowRateSensorPOATie(
-					myAirOutFlowRateSensorImpl), myAirOutFlowRateSensorImpl
-					.getModuleName(), myAirOutFlowRateSensorImpl.getID());
+					myAirOutFlowRateSensor), myAirOutFlowRateSensor
+					.getModuleName(), myAirOutFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -756,13 +756,13 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating GasConcentrationSensor with moduleName: "
 					+ moduleName);
-			GasConcentrationSensorImpl myGasConcentrationSensorImpl = new GasConcentrationSensorImpl(
+			GasConcentrationSensor myGasConcentrationSensor = new GasConcentrationSensor(
 					myID, moduleName);
 			BiosimInitializer
-					.setupBioModule(myGasConcentrationSensorImpl, node);
+					.setupBioModule(myGasConcentrationSensor, node);
 			BiosimServer.registerServer(new GasConcentrationSensorPOATie(
-					myGasConcentrationSensorImpl), myGasConcentrationSensorImpl
-					.getModuleName(), myGasConcentrationSensorImpl.getID());
+					myGasConcentrationSensor), myGasConcentrationSensor
+					.getModuleName(), myGasConcentrationSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 
@@ -803,12 +803,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating GasPressureSensor with moduleName: "
 					+ moduleName);
-			GasPressureSensorImpl myGasPressureSensorImpl = new GasPressureSensorImpl(
+			GasPressureSensor myGasPressureSensor = new GasPressureSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myGasPressureSensorImpl, node);
+			BiosimInitializer.setupBioModule(myGasPressureSensor, node);
 			BiosimServer.registerServer(new GasPressureSensorPOATie(
-					myGasPressureSensorImpl), myGasPressureSensorImpl
-					.getModuleName(), myGasPressureSensorImpl.getID());
+					myGasPressureSensor), myGasPressureSensor
+					.getModuleName(), myGasPressureSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -828,12 +828,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating TotalMolesSensor with moduleName: "
 					+ moduleName);
-			TotalMolesSensorImpl myTotalMolesSensorImpl = new TotalMolesSensorImpl(
+			TotalMolesSensor myTotalMolesSensor = new TotalMolesSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myTotalMolesSensorImpl, node);
+			BiosimInitializer.setupBioModule(myTotalMolesSensor, node);
 			BiosimServer.registerServer(new TotalMolesSensorPOATie(
-					myTotalMolesSensorImpl), myTotalMolesSensorImpl
-					.getModuleName(), myTotalMolesSensorImpl.getID());
+					myTotalMolesSensor), myTotalMolesSensor
+					.getModuleName(), myTotalMolesSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -853,12 +853,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating TotalPressureSensor with moduleName: "
 					+ moduleName);
-			TotalPressureSensorImpl myTotalPressureSensorImpl = new TotalPressureSensorImpl(
+			TotalPressureSensor myTotalPressureSensor = new TotalPressureSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myTotalPressureSensorImpl, node);
+			BiosimInitializer.setupBioModule(myTotalPressureSensor, node);
 			BiosimServer.registerServer(new TotalPressureSensorPOATie(
-					myTotalPressureSensorImpl), myTotalPressureSensorImpl
-					.getModuleName(), myTotalPressureSensorImpl.getID());
+					myTotalPressureSensor), myTotalPressureSensor
+					.getModuleName(), myTotalPressureSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -920,14 +920,14 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating BiomassInFlowRateSensor with moduleName: "
 					+ moduleName);
-			BiomassInFlowRateSensorImpl myBiomassInFlowRateSensorImpl = new BiomassInFlowRateSensorImpl(
+			BiomassInFlowRateSensor myBiomassInFlowRateSensor = new BiomassInFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myBiomassInFlowRateSensorImpl,
+			BiosimInitializer.setupBioModule(myBiomassInFlowRateSensor,
 					node);
 			BiosimServer.registerServer(new BiomassInFlowRateSensorPOATie(
-					myBiomassInFlowRateSensorImpl),
-					myBiomassInFlowRateSensorImpl.getModuleName(),
-					myBiomassInFlowRateSensorImpl.getID());
+					myBiomassInFlowRateSensor),
+					myBiomassInFlowRateSensor.getModuleName(),
+					myBiomassInFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -948,14 +948,14 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating BiomassOutFlowRateSensor with moduleName: "
 							+ moduleName);
-			BiomassOutFlowRateSensorImpl myBiomassOutFlowRateSensorImpl = new BiomassOutFlowRateSensorImpl(
+			BiomassOutFlowRateSensor myBiomassOutFlowRateSensor = new BiomassOutFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myBiomassOutFlowRateSensorImpl,
+			BiosimInitializer.setupBioModule(myBiomassOutFlowRateSensor,
 					node);
 			BiosimServer.registerServer(new BiomassOutFlowRateSensorPOATie(
-					myBiomassOutFlowRateSensorImpl),
-					myBiomassOutFlowRateSensorImpl.getModuleName(),
-					myBiomassOutFlowRateSensorImpl.getID());
+					myBiomassOutFlowRateSensor),
+					myBiomassOutFlowRateSensor.getModuleName(),
+					myBiomassOutFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -975,12 +975,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating FoodInFlowRateSensor with moduleName: "
 					+ moduleName);
-			FoodInFlowRateSensorImpl myFoodInFlowRateSensorImpl = new FoodInFlowRateSensorImpl(
+			FoodInFlowRateSensor myFoodInFlowRateSensor = new FoodInFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myFoodInFlowRateSensorImpl, node);
+			BiosimInitializer.setupBioModule(myFoodInFlowRateSensor, node);
 			BiosimServer.registerServer(new FoodInFlowRateSensorPOATie(
-					myFoodInFlowRateSensorImpl), myFoodInFlowRateSensorImpl
-					.getModuleName(), myFoodInFlowRateSensorImpl.getID());
+					myFoodInFlowRateSensor), myFoodInFlowRateSensor
+					.getModuleName(), myFoodInFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1000,12 +1000,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating FoodOutFlowRateSensor with moduleName: "
 					+ moduleName);
-			FoodOutFlowRateSensorImpl myFoodOutFlowRateSensorImpl = new FoodOutFlowRateSensorImpl(
+			FoodOutFlowRateSensor myFoodOutFlowRateSensor = new FoodOutFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myFoodOutFlowRateSensorImpl, node);
+			BiosimInitializer.setupBioModule(myFoodOutFlowRateSensor, node);
 			BiosimServer.registerServer(new FoodOutFlowRateSensorPOATie(
-					myFoodOutFlowRateSensorImpl), myFoodOutFlowRateSensorImpl
-					.getModuleName(), myFoodOutFlowRateSensorImpl.getID());
+					myFoodOutFlowRateSensor), myFoodOutFlowRateSensor
+					.getModuleName(), myFoodOutFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1036,15 +1036,15 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating BiomassStoreWaterContentSensor with moduleName: "
 							+ moduleName);
-			BiomassStoreWaterContentSensorImpl myBiomassStoreWaterContentSensorImpl = new BiomassStoreWaterContentSensorImpl(
+			BiomassStoreWaterContentSensor myBiomassStoreWaterContentSensor = new BiomassStoreWaterContentSensor(
 					myID, moduleName);
 			BiosimInitializer.setupBioModule(
-					myBiomassStoreWaterContentSensorImpl, node);
+					myBiomassStoreWaterContentSensor, node);
 			BiosimServer.registerServer(
 					new BiomassStoreWaterContentSensorPOATie(
-							myBiomassStoreWaterContentSensorImpl),
-					myBiomassStoreWaterContentSensorImpl.getModuleName(),
-					myBiomassStoreWaterContentSensorImpl.getID());
+							myBiomassStoreWaterContentSensor),
+					myBiomassStoreWaterContentSensor.getModuleName(),
+					myBiomassStoreWaterContentSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1054,12 +1054,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating HarvestSensor with moduleName: "
 					+ moduleName);
-			HarvestSensorImpl myHarvestSensorImpl = new HarvestSensorImpl(myID,
+			HarvestSensor myHarvestSensor = new HarvestSensor(myID,
 					moduleName);
-			BiosimInitializer.setupBioModule(myHarvestSensorImpl, node);
+			BiosimInitializer.setupBioModule(myHarvestSensor, node);
 			BiosimServer.registerServer(new HarvestSensorPOATie(
-					myHarvestSensorImpl), myHarvestSensorImpl.getModuleName(),
-					myHarvestSensorImpl.getID());
+					myHarvestSensor), myHarvestSensor.getModuleName(),
+					myHarvestSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1083,12 +1083,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating PlantDeathSensor with moduleName: "
 					+ moduleName);
-			PlantDeathSensorImpl myPlantDeathSensorImpl = new PlantDeathSensorImpl(
+			PlantDeathSensor myPlantDeathSensor = new PlantDeathSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myPlantDeathSensorImpl, node);
+			BiosimInitializer.setupBioModule(myPlantDeathSensor, node);
 			BiosimServer.registerServer(new PlantDeathSensorPOATie(
-					myPlantDeathSensorImpl), myPlantDeathSensorImpl
-					.getModuleName(), myPlantDeathSensorImpl.getID());
+					myPlantDeathSensor), myPlantDeathSensor
+					.getModuleName(), myPlantDeathSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1114,14 +1114,14 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating TimeTillCanopyClosureSensor with moduleName: "
 							+ moduleName);
-			TimeTillCanopyClosureSensorImpl myTimeTillCanopyClosureSensorImpl = new TimeTillCanopyClosureSensorImpl(
+			TimeTillCanopyClosureSensor myTimeTillCanopyClosureSensor = new TimeTillCanopyClosureSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myTimeTillCanopyClosureSensorImpl,
+			BiosimInitializer.setupBioModule(myTimeTillCanopyClosureSensor,
 					node);
 			BiosimServer.registerServer(new TimeTillCanopyClosureSensorPOATie(
-					myTimeTillCanopyClosureSensorImpl),
-					myTimeTillCanopyClosureSensorImpl.getModuleName(),
-					myTimeTillCanopyClosureSensorImpl.getID());
+					myTimeTillCanopyClosureSensor),
+					myTimeTillCanopyClosureSensor.getModuleName(),
+					myTimeTillCanopyClosureSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1198,12 +1198,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating StoreLevelSensor with moduleName: "
 					+ moduleName);
-			StoreLevelSensorImpl myStoreLevelSensorImpl = new StoreLevelSensorImpl(
+			StoreLevelSensor myStoreLevelSensor = new StoreLevelSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myStoreLevelSensorImpl, node);
+			BiosimInitializer.setupBioModule(myStoreLevelSensor, node);
 			BiosimServer.registerServer(new StoreLevelSensorPOATie(
-					myStoreLevelSensorImpl), myStoreLevelSensorImpl
-					.getModuleName(), myStoreLevelSensorImpl.getID());
+					myStoreLevelSensor), myStoreLevelSensor
+					.getModuleName(), myStoreLevelSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1222,12 +1222,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating StoreOverflowSensor with moduleName: "
 					+ moduleName);
-			StoreOverflowSensorImpl myStoreOverflowSensorImpl = new StoreOverflowSensorImpl(
+			StoreOverflowSensor myStoreOverflowSensor = new StoreOverflowSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myStoreOverflowSensorImpl, node);
+			BiosimInitializer.setupBioModule(myStoreOverflowSensor, node);
 			BiosimServer.registerServer(new StoreOverflowSensorPOATie(
-					myStoreOverflowSensorImpl), myStoreOverflowSensorImpl
-					.getModuleName(), myStoreOverflowSensorImpl.getID());
+					myStoreOverflowSensor), myStoreOverflowSensor
+					.getModuleName(), myStoreOverflowSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1246,12 +1246,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating TimeSensor with moduleName: "
 					+ moduleName);
-			TimeSensorImpl myTimeSensorImpl = new TimeSensorImpl(
+			TimeSensor myTimeSensor = new TimeSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myTimeSensorImpl, node);
+			BiosimInitializer.setupBioModule(myTimeSensor, node);
 			BiosimServer.registerServer(new TimeSensorPOATie(
-					myTimeSensorImpl), myTimeSensorImpl
-					.getModuleName(), myTimeSensorImpl.getID());
+					myTimeSensor), myTimeSensor
+					.getModuleName(), myTimeSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1269,14 +1269,14 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating InfluentValveStateSensor with moduleName: "
 							+ moduleName);
-			InfluentValveStateSensorImpl myInfluentValveStateSensorImpl = new InfluentValveStateSensorImpl(
+			InfluentValveStateSensor myInfluentValveStateSensor = new InfluentValveStateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myInfluentValveStateSensorImpl,
+			BiosimInitializer.setupBioModule(myInfluentValveStateSensor,
 					node);
 			BiosimServer.registerServer(new InfluentValveStateSensorPOATie(
-					myInfluentValveStateSensorImpl),
-					myInfluentValveStateSensorImpl.getModuleName(),
-					myInfluentValveStateSensorImpl.getID());
+					myInfluentValveStateSensor),
+					myInfluentValveStateSensor.getModuleName(),
+					myInfluentValveStateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1297,14 +1297,14 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating EffluentValveStateSensor with moduleName: "
 							+ moduleName);
-			EffluentValveStateSensorImpl myEffluentValveStateSensorImpl = new EffluentValveStateSensorImpl(
+			EffluentValveStateSensor myEffluentValveStateSensor = new EffluentValveStateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myEffluentValveStateSensorImpl,
+			BiosimInitializer.setupBioModule(myEffluentValveStateSensor,
 					node);
 			BiosimServer.registerServer(new EffluentValveStateSensorPOATie(
-					myEffluentValveStateSensorImpl),
-					myEffluentValveStateSensorImpl.getModuleName(),
-					myEffluentValveStateSensorImpl.getID());
+					myEffluentValveStateSensor),
+					myEffluentValveStateSensor.getModuleName(),
+					myEffluentValveStateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1361,12 +1361,12 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating PowerInFlowRateSensor with moduleName: "
 					+ moduleName);
-			PowerInFlowRateSensorImpl myPowerInFlowRateSensorImpl = new PowerInFlowRateSensorImpl(
+			PowerInFlowRateSensor myPowerInFlowRateSensor = new PowerInFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myPowerInFlowRateSensorImpl, node);
+			BiosimInitializer.setupBioModule(myPowerInFlowRateSensor, node);
 			BiosimServer.registerServer(new PowerInFlowRateSensorPOATie(
-					myPowerInFlowRateSensorImpl), myPowerInFlowRateSensorImpl
-					.getModuleName(), myPowerInFlowRateSensorImpl.getID());
+					myPowerInFlowRateSensor), myPowerInFlowRateSensor
+					.getModuleName(), myPowerInFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1386,13 +1386,13 @@ public class SensorInitializer {
 		if (BiosimInitializer.isCreatedLocally(node)) {
 			myLogger.debug("Creating PowerOutFlowRateSensor with moduleName: "
 					+ moduleName);
-			PowerOutFlowRateSensorImpl myPowerOutFlowRateSensorImpl = new PowerOutFlowRateSensorImpl(
+			PowerOutFlowRateSensor myPowerOutFlowRateSensor = new PowerOutFlowRateSensor(
 					myID, moduleName);
 			BiosimInitializer
-					.setupBioModule(myPowerOutFlowRateSensorImpl, node);
+					.setupBioModule(myPowerOutFlowRateSensor, node);
 			BiosimServer.registerServer(new PowerOutFlowRateSensorPOATie(
-					myPowerOutFlowRateSensorImpl), myPowerOutFlowRateSensorImpl
-					.getModuleName(), myPowerOutFlowRateSensorImpl.getID());
+					myPowerOutFlowRateSensor), myPowerOutFlowRateSensor
+					.getModuleName(), myPowerOutFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1435,14 +1435,14 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating PotableWaterInFlowRateSensor with moduleName: "
 							+ moduleName);
-			PotableWaterInFlowRateSensorImpl myPotableWaterInFlowRateSensorImpl = new PotableWaterInFlowRateSensorImpl(
+			PotableWaterInFlowRateSensor myPotableWaterInFlowRateSensor = new PotableWaterInFlowRateSensor(
 					myID, moduleName);
 			BiosimInitializer.setupBioModule(
-					myPotableWaterInFlowRateSensorImpl, node);
+					myPotableWaterInFlowRateSensor, node);
 			BiosimServer.registerServer(new PotableWaterInFlowRateSensorPOATie(
-					myPotableWaterInFlowRateSensorImpl),
-					myPotableWaterInFlowRateSensorImpl.getModuleName(),
-					myPotableWaterInFlowRateSensorImpl.getID());
+					myPotableWaterInFlowRateSensor),
+					myPotableWaterInFlowRateSensor.getModuleName(),
+					myPotableWaterInFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1463,15 +1463,15 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating PotableWaterOutFlowRateSensor with moduleName: "
 							+ moduleName);
-			PotableWaterOutFlowRateSensorImpl myPotableWaterOutFlowRateSensorImpl = new PotableWaterOutFlowRateSensorImpl(
+			PotableWaterOutFlowRateSensor myPotableWaterOutFlowRateSensor = new PotableWaterOutFlowRateSensor(
 					myID, moduleName);
 			BiosimInitializer.setupBioModule(
-					myPotableWaterOutFlowRateSensorImpl, node);
+					myPotableWaterOutFlowRateSensor, node);
 			BiosimServer.registerServer(
 					new PotableWaterOutFlowRateSensorPOATie(
-							myPotableWaterOutFlowRateSensorImpl),
-					myPotableWaterOutFlowRateSensorImpl.getModuleName(),
-					myPotableWaterOutFlowRateSensorImpl.getID());
+							myPotableWaterOutFlowRateSensor),
+					myPotableWaterOutFlowRateSensor.getModuleName(),
+					myPotableWaterOutFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1492,14 +1492,14 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating GreyWaterInFlowRateSensor with moduleName: "
 							+ moduleName);
-			GreyWaterInFlowRateSensorImpl myGreyWaterInFlowRateSensorImpl = new GreyWaterInFlowRateSensorImpl(
+			GreyWaterInFlowRateSensor myGreyWaterInFlowRateSensor = new GreyWaterInFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myGreyWaterInFlowRateSensorImpl,
+			BiosimInitializer.setupBioModule(myGreyWaterInFlowRateSensor,
 					node);
 			BiosimServer.registerServer(new GreyWaterInFlowRateSensorPOATie(
-					myGreyWaterInFlowRateSensorImpl),
-					myGreyWaterInFlowRateSensorImpl.getModuleName(),
-					myGreyWaterInFlowRateSensorImpl.getID());
+					myGreyWaterInFlowRateSensor),
+					myGreyWaterInFlowRateSensor.getModuleName(),
+					myGreyWaterInFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1520,14 +1520,14 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating GreyWaterOutFlowRateSensor with moduleName: "
 							+ moduleName);
-			GreyWaterOutFlowRateSensorImpl myGreyWaterOutFlowRateSensorImpl = new GreyWaterOutFlowRateSensorImpl(
+			GreyWaterOutFlowRateSensor myGreyWaterOutFlowRateSensor = new GreyWaterOutFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myGreyWaterOutFlowRateSensorImpl,
+			BiosimInitializer.setupBioModule(myGreyWaterOutFlowRateSensor,
 					node);
 			BiosimServer.registerServer(new GreyWaterOutFlowRateSensorPOATie(
-					myGreyWaterOutFlowRateSensorImpl),
-					myGreyWaterOutFlowRateSensorImpl.getModuleName(),
-					myGreyWaterOutFlowRateSensorImpl.getID());
+					myGreyWaterOutFlowRateSensor),
+					myGreyWaterOutFlowRateSensor.getModuleName(),
+					myGreyWaterOutFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1548,14 +1548,14 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating DirtyWaterInFlowRateSensor with moduleName: "
 							+ moduleName);
-			DirtyWaterInFlowRateSensorImpl myDirtyWaterInFlowRateSensorImpl = new DirtyWaterInFlowRateSensorImpl(
+			DirtyWaterInFlowRateSensor myDirtyWaterInFlowRateSensor = new DirtyWaterInFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myDirtyWaterInFlowRateSensorImpl,
+			BiosimInitializer.setupBioModule(myDirtyWaterInFlowRateSensor,
 					node);
 			BiosimServer.registerServer(new DirtyWaterInFlowRateSensorPOATie(
-					myDirtyWaterInFlowRateSensorImpl),
-					myDirtyWaterInFlowRateSensorImpl.getModuleName(),
-					myDirtyWaterInFlowRateSensorImpl.getID());
+					myDirtyWaterInFlowRateSensor),
+					myDirtyWaterInFlowRateSensor.getModuleName(),
+					myDirtyWaterInFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1576,14 +1576,14 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating DirtyWaterOutFlowRateSensor with moduleName: "
 							+ moduleName);
-			DirtyWaterOutFlowRateSensorImpl myDirtyWaterOutFlowRateSensorImpl = new DirtyWaterOutFlowRateSensorImpl(
+			DirtyWaterOutFlowRateSensor myDirtyWaterOutFlowRateSensor = new DirtyWaterOutFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myDirtyWaterOutFlowRateSensorImpl,
+			BiosimInitializer.setupBioModule(myDirtyWaterOutFlowRateSensor,
 					node);
 			BiosimServer.registerServer(new DirtyWaterOutFlowRateSensorPOATie(
-					myDirtyWaterOutFlowRateSensorImpl),
-					myDirtyWaterOutFlowRateSensorImpl.getModuleName(),
-					myDirtyWaterOutFlowRateSensorImpl.getID());
+					myDirtyWaterOutFlowRateSensor),
+					myDirtyWaterOutFlowRateSensor.getModuleName(),
+					myDirtyWaterOutFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1646,14 +1646,14 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating DryWasteInFlowRateSensor with moduleName: "
 							+ moduleName);
-			DryWasteInFlowRateSensorImpl myDryWasteInFlowRateSensorImpl = new DryWasteInFlowRateSensorImpl(
+			DryWasteInFlowRateSensor myDryWasteInFlowRateSensor = new DryWasteInFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myDryWasteInFlowRateSensorImpl,
+			BiosimInitializer.setupBioModule(myDryWasteInFlowRateSensor,
 					node);
 			BiosimServer.registerServer(new DryWasteInFlowRateSensorPOATie(
-					myDryWasteInFlowRateSensorImpl),
-					myDryWasteInFlowRateSensorImpl.getModuleName(),
-					myDryWasteInFlowRateSensorImpl.getID());
+					myDryWasteInFlowRateSensor),
+					myDryWasteInFlowRateSensor.getModuleName(),
+					myDryWasteInFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}
@@ -1674,14 +1674,14 @@ public class SensorInitializer {
 			myLogger
 					.debug("Creating DryWasteOutFlowRateSensor with moduleName: "
 							+ moduleName);
-			DryWasteOutFlowRateSensorImpl myDryWasteOutFlowRateSensorImpl = new DryWasteOutFlowRateSensorImpl(
+			DryWasteOutFlowRateSensor myDryWasteOutFlowRateSensor = new DryWasteOutFlowRateSensor(
 					myID, moduleName);
-			BiosimInitializer.setupBioModule(myDryWasteOutFlowRateSensorImpl,
+			BiosimInitializer.setupBioModule(myDryWasteOutFlowRateSensor,
 					node);
 			BiosimServer.registerServer(new DryWasteOutFlowRateSensorPOATie(
-					myDryWasteOutFlowRateSensorImpl),
-					myDryWasteOutFlowRateSensorImpl.getModuleName(),
-					myDryWasteOutFlowRateSensorImpl.getID());
+					myDryWasteOutFlowRateSensor),
+					myDryWasteOutFlowRateSensor.getModuleName(),
+					myDryWasteOutFlowRateSensor.getID());
 		} else
 			BiosimInitializer.printRemoteWarningMessage(moduleName);
 	}

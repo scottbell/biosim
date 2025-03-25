@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.water.aws;
 
-import com.traclabs.biosim.server.simulation.water.WaterRSImpl;
+import com.traclabs.biosim.server.simulation.water.WaterRS;
 
 /**
  * The Biological Waste Processor is the first stage of water purification. It
@@ -29,11 +29,11 @@ public class BWP extends WaterRSSubSystem {
     /**
      * Constructor that creates the BWP
      * 
-     * @param pWaterRSImpl
+     * @param pWaterRS
      *            The Water RS system the BWP is contained in
      */
-    public BWP(WaterRSImpl pWaterRSImpl) {
-        super(pWaterRSImpl);
+    public BWP(WaterRS pWaterRS) {
+        super(pWaterRS);
     }
 
     public void log() {
@@ -70,10 +70,10 @@ public class BWP extends WaterRSSubSystem {
         }
         waterNeeded *= myWaterRS.getTickLength();
         currentDirtyWaterConsumed = myWaterRS
-                .getDirtyWaterConsumerDefinitionImpl().getResourceFromStores(
+                .getDirtyWaterConsumerDefinition().getResourceFromStores(
                         waterNeeded);
         currentGreyWaterConsumed = myWaterRS
-                .getGreyWaterConsumerDefinitionImpl().getResourceFromStores(
+                .getGreyWaterConsumerDefinition().getResourceFromStores(
                         waterNeeded - currentDirtyWaterConsumed);
         float gatheredWater = currentDirtyWaterConsumed
                 + currentGreyWaterConsumed;
@@ -99,7 +99,7 @@ public class BWP extends WaterRSSubSystem {
             myWaterRS.getAES().addWater(currentAESWaterProduced);
         } else {
             //dump water back to dirty water store
-            waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl()
+            waterLevel = myWaterRS.getDirtyWaterConsumerDefinition()
                     .pushResourceToStores(waterLevel);
             //dump rest
             waterLevel = 0f;

@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
+import com.traclabs.biosim.server.simulation.food.PlantType;
 
 /**
  * Wheat
@@ -16,8 +16,8 @@ public class Wheat extends Erectophile {
     //private static final float initialPPFValue = 1402.778f;
     private static final float initialCO2Value = 1200f;
 
-    public Wheat(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public Wheat(Shelf pShelf) {
+        super(pShelf);
         canopyClosureConstants[0] = 95488f;
         canopyClosureConstants[1] = 1068.6f;
         canopyClosureConstants[6] = 15.977f;

@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.water;
 
-import com.traclabs.biosim.idl.simulation.water.DirtyWaterStorePOATie;
+import com.traclabs.biosim.server.simulation.water.DirtyWaterStorePOATie;
 import com.traclabs.biosim.server.framework.GenericServer;
 import com.traclabs.biosim.util.CommandLineUtils;
 
@@ -21,7 +21,7 @@ public class DirtyWaterStoreServer extends GenericServer {
      */
     public static void main(String args[]) {
         DirtyWaterStoreServer myServer = new DirtyWaterStoreServer();
-        DirtyWaterStoreImpl myDirtyWaterStore = new DirtyWaterStoreImpl(
+        DirtyWaterStore myDirtyWaterStore = new DirtyWaterStore(
         		CommandLineUtils.getIDfromArgs(args), CommandLineUtils
                         .getNamefromArgs(args));
         myServer.registerServerAndRun(new DirtyWaterStorePOATie(

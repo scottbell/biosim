@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.power;
 
-import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
 
 /**
  * Solar Power Production System
@@ -8,7 +8,7 @@ import com.traclabs.biosim.idl.simulation.environment.SimEnvironment;
  * @author Scott Bell
  */
 
-public class SolarPowerPS extends PowerPSImpl {
+public class SolarPowerPS extends PowerPS {
 
     public SolarPowerPS(int pID, String pName) {
         super(pID, pName);

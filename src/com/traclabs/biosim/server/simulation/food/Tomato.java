@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
+import com.traclabs.biosim.server.simulation.food.PlantType;
 
 /**
  * Tomato
@@ -15,8 +15,8 @@ public class Tomato extends Planophile {
 
     private static final float initialCO2Value = 1200f;
 
-    public Tomato(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public Tomato(Shelf pShelf) {
+        super(pShelf);
         canopyClosureConstants[0] = 627740f;
         canopyClosureConstants[1] = 3172.4f;
         canopyClosureConstants[6] = 24.281f;

@@ -13,7 +13,7 @@ import java.net.Socket;
  * @author Kenneth McMurtrie
  */
 
-public class StateMachinePowerPS extends PowerPSImpl {
+public class StateMachinePowerPS extends PowerPS {
 	
 	private static final int m_port = 31215;
 

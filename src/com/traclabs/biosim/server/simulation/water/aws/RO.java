@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.water.aws;
 
-import com.traclabs.biosim.server.simulation.water.WaterRSImpl;
+import com.traclabs.biosim.server.simulation.water.WaterRS;
 
 /**
  * The RO is the second stage of water purification. It takes water from the
@@ -17,11 +17,11 @@ public class RO extends WaterRSSubSystem {
     /**
      * Constructor that creates the RO
      * 
-     * @param pWaterRSImpl
+     * @param pWaterRS
      *            The Water RS system the RO is contained in
      */
-    public RO(WaterRSImpl pWaterRSImpl) {
-        super(pWaterRSImpl);
+    public RO(WaterRS pWaterRS) {
+        super(pWaterRS);
     }
 
     public void log() {
@@ -61,7 +61,7 @@ public class RO extends WaterRSSubSystem {
         }
         //if not, send it to grey water tank
         else {
-            waterLevel = myWaterRS.getGreyWaterConsumerDefinitionImpl()
+            waterLevel = myWaterRS.getGreyWaterConsumerDefinition()
                     .pushResourceToStores(waterLevel);
         }
     }
@@ -77,7 +77,7 @@ public class RO extends WaterRSSubSystem {
                 pushWater();
             } else {
                 //try to put back into dirtyWater Store.
-                waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl()
+                waterLevel = myWaterRS.getDirtyWaterConsumerDefinition()
                         .pushResourceToStores(waterLevel);
                 //dump extra water
                 waterLevel = 0f;
@@ -86,7 +86,7 @@ public class RO extends WaterRSSubSystem {
             }
         } else {
             //try to put back into dirtyWater Store.
-            waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl()
+            waterLevel = myWaterRS.getDirtyWaterConsumerDefinition()
                     .pushResourceToStores(waterLevel);
             //dump extra water
             waterLevel = 0f;

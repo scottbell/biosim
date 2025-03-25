@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.water.aws;
 
-import com.traclabs.biosim.server.simulation.water.WaterRSImpl;
+import com.traclabs.biosim.server.simulation.water.WaterRS;
 
 /**
  * The PPS is the last stage of water purification. It takes water from the AES,
@@ -16,11 +16,11 @@ public class PPS extends WaterRSSubSystem {
     /**
      * Constructor that creates the PPS, the power required is 168 watts
      * 
-     * @param pWaterRSImpl
+     * @param pWaterRS
      *            The Water RS system the AES is contained in
      */
-    public PPS(WaterRSImpl pWaterRSImpl) {
-        super(pWaterRSImpl);
+    public PPS(WaterRS pWaterRS) {
+        super(pWaterRS);
     }
 
     /**
@@ -31,7 +31,7 @@ public class PPS extends WaterRSSubSystem {
         potableWaterProduced = waterLevel;
         waterLevel = 0;
         myWaterRS
-                .getPotableWaterProducerDefinitionImpl().pushResourceToStores(
+                .getPotableWaterProducerDefinition().pushResourceToStores(
                         potableWaterProduced);
     }
 

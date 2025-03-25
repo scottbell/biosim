@@ -1,12 +1,12 @@
 package com.traclabs.biosim.server.actuator.framework;
 
 import com.traclabs.biosim.api.BioModule;
-import com.traclabs.biosim.server.framework.BioModuleImplNew;
+import com.traclabs.biosim.server.framework.BioModuleNew;
 
 /**
  * Base class for all actuator implementations.
  */
-public abstract class GenericActuatorImplNew extends BioModuleImplNew {
+public abstract class GenericActuatorNew extends BioModuleNew {
     protected float myValue;
     protected boolean newValueSet = false;
 
@@ -16,7 +16,7 @@ public abstract class GenericActuatorImplNew extends BioModuleImplNew {
      * @param pID The ID of the actuator
      * @param pName The name of the actuator
      */
-    public GenericActuatorImplNew(long pID, String pName) {
+    public GenericActuatorNew(long pID, String pName) {
         super(pID, pName);
     }
     

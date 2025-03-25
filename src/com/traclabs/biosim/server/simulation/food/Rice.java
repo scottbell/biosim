@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
+import com.traclabs.biosim.server.simulation.food.PlantType;
 
 /**
  * Rice
@@ -15,8 +15,8 @@ public class Rice extends Erectophile {
 
     private static final float initialCO2Value = 1200f;
 
-    public Rice(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public Rice(Shelf pShelf) {
+        super(pShelf);
         canopyClosureConstants[0] = 6591400f;
         canopyClosureConstants[1] = 25776f;
         canopyClosureConstants[3] = .0064532f;

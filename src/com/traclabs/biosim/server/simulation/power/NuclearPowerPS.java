@@ -6,7 +6,7 @@ package com.traclabs.biosim.server.simulation.power;
  * @author Scott Bell
  */
 
-public class NuclearPowerPS extends PowerPSImpl {
+public class NuclearPowerPS extends PowerPS {
     public NuclearPowerPS(int pID, String pName) {
         super(pID, pName);
     }

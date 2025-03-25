@@ -18,17 +18,17 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.traclabs.biosim.idl.framework.BioDriver;
-import com.traclabs.biosim.idl.framework.BioDriverHelper;
-import com.traclabs.biosim.idl.framework.BioModule;
-import com.traclabs.biosim.idl.framework.BioModuleHelper;
-import com.traclabs.biosim.idl.framework.LogLevel;
-import com.traclabs.biosim.idl.framework.MalfunctionIntensity;
-import com.traclabs.biosim.idl.framework.MalfunctionLength;
-import com.traclabs.biosim.idl.simulation.crew.CrewGroup;
-import com.traclabs.biosim.idl.simulation.crew.CrewGroupHelper;
-import com.traclabs.biosim.idl.simulation.food.BiomassPS;
-import com.traclabs.biosim.idl.simulation.food.BiomassPSHelper;
+import com.traclabs.biosim.server.framework.BioDriver;
+import com.traclabs.biosim.server.framework.BioDriverHelper;
+import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.framework.BioModuleHelper;
+import com.traclabs.biosim.server.framework.LogLevel;
+import com.traclabs.biosim.server.framework.MalfunctionIntensity;
+import com.traclabs.biosim.server.framework.MalfunctionLength;
+import com.traclabs.biosim.server.simulation.crew.CrewGroup;
+import com.traclabs.biosim.server.simulation.crew.CrewGroupHelper;
+import com.traclabs.biosim.server.simulation.food.BiomassPS;
+import com.traclabs.biosim.server.simulation.food.BiomassPSHelper;
 import com.traclabs.biosim.server.actuator.framework.ActuatorInitializer;
 import com.traclabs.biosim.server.sensor.framework.SensorInitializer;
 import com.traclabs.biosim.server.simulation.framework.SimulationInitializer;
@@ -458,7 +458,7 @@ public class BiosimInitializer {
 				.getNodeValue().equals("true");
 	}
 
-	public static void setupBioModule(BioModuleImpl pModule, Node node) {
+	public static void setupBioModule(BioModule pModule, Node node) {
 		LogLevel logLevel = getLogLevel(node);
 		if (logLevel != null)
 			pModule.setLogLevel(logLevel);
@@ -505,7 +505,7 @@ public class BiosimInitializer {
 	}
 
 	private static boolean checkForFailureDecider(String childName,
-			BioModuleImpl pModule, Node child) {
+			BioModule pModule, Node child) {
 		if (childName.equals("cauchyFailureDecider")) {
 			double mu = getDoubleFromAttribute(child, "mu");
 			double sd = getDoubleFromAttribute(child, "sd");

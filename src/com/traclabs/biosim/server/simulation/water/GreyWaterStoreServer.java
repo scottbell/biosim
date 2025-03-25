@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.water;
 
-import com.traclabs.biosim.idl.simulation.water.GreyWaterStorePOATie;
+import com.traclabs.biosim.server.simulation.water.GreyWaterStorePOATie;
 import com.traclabs.biosim.server.framework.GenericServer;
 import com.traclabs.biosim.util.CommandLineUtils;
 
@@ -21,7 +21,7 @@ public class GreyWaterStoreServer extends GenericServer {
      */
     public static void main(String args[]) {
         GreyWaterStoreServer myServer = new GreyWaterStoreServer();
-        GreyWaterStoreImpl myGreyWaterStore = new GreyWaterStoreImpl(
+        GreyWaterStore myGreyWaterStore = new GreyWaterStore(
         		CommandLineUtils.getIDfromArgs(args), CommandLineUtils
                         .getNamefromArgs(args));
         myServer.registerServerAndRun(

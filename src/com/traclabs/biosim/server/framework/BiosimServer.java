@@ -3,7 +3,6 @@ package com.traclabs.biosim.server.framework;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.traclabs.biosim.api.rest.BiosimRestController;
 
 /**
  * Main class for the BioSim server.

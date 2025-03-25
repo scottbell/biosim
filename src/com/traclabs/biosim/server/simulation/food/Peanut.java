@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
+import com.traclabs.biosim.server.simulation.food.PlantType;
 
 /**
  * Peanut
@@ -15,8 +15,8 @@ public class Peanut extends Legume {
 
     private static final float initialCO2Value = 1200f;
 
-    public Peanut(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public Peanut(Shelf pShelf) {
+        super(pShelf);
         canopyClosureConstants[0] = 3748700f;
         canopyClosureConstants[1] = 2920f;
         canopyClosureConstants[4] = .000000094008f;

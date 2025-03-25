@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
+import com.traclabs.biosim.server.simulation.food.PlantType;
 
 /**
  * Erectophile
@@ -8,7 +8,7 @@ import com.traclabs.biosim.idl.simulation.food.PlantType;
  * @author Scott Bell
  */
 
-public abstract class Erectophile extends PlantImpl {
+public abstract class Erectophile extends Plant {
     protected abstract float getBCF();
 
     protected abstract float getCarbonUseEfficiency24();
@@ -45,12 +45,12 @@ public abstract class Erectophile extends PlantImpl {
 
     protected abstract int getTAInitialValue();
 
-    public Erectophile(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public Erectophile(Shelf pShelf) {
+        super(pShelf);
     }
 
     protected float calculateCanopyStomatalConductance() {
-        float relativeHumdity = myShelfImpl.getBiomassPSImpl()
+        float relativeHumdity = myShelf.getBiomassPS()
                 .getAirProducerDefinition().getEnvironments()[0]
                 .getRelativeHumidity();
         float netCanopyPhotosynthesis = calculateNetCanopyPhotosynthesis();

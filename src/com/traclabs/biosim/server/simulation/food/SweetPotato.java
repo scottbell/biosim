@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
+import com.traclabs.biosim.server.simulation.food.PlantType;
 
 /**
  * SweetPotato
@@ -15,8 +15,8 @@ public class SweetPotato extends Planophile {
 
     private static final float initialCO2Value = 1200f;
 
-    public SweetPotato(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public SweetPotato(Shelf pShelf) {
+        super(pShelf);
         canopyClosureConstants[0] = 1207000f;
         canopyClosureConstants[1] = 4948.4f;
         canopyClosureConstants[6] = 4.2978f;

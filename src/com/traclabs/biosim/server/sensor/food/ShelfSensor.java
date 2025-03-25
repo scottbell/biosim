@@ -1,0 +1,34 @@
+package com.traclabs.biosim.server.sensor.food;
+
+import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.simulation.food.BiomassPS;
+import com.traclabs.biosim.server.simulation.food.Shelf;
+import com.traclabs.biosim.server.sensor.framework.GenericSensor;
+
+public abstract class ShelfSensor extends GenericSensor implements
+        ShelfSensorOperations {
+    protected Shelf myShelf;
+
+    private BiomassPS myBiomassPS;
+
+    public ShelfSensor(int pID, String pName) {
+        super(pID, pName);
+    }
+
+    protected abstract void gatherData();
+
+    protected abstract void notifyListeners();
+
+    public void setInput(BiomassPS pBiomassPS, int shelfIndex) {
+        myShelf = pBiomassPS.getShelf(shelfIndex);
+        myBiomassPS = pBiomassPS;
+    }
+
+    public Shelf getInput() {
+        return myShelf;
+    }
+
+    public BioModule getInputModule() {
+        return (myBiomassPS);
+    }
+}

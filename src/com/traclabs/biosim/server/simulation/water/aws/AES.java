@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.water.aws;
 
-import com.traclabs.biosim.server.simulation.water.WaterRSImpl;
+import com.traclabs.biosim.server.simulation.water.WaterRS;
 
 /**
  * The AES is the third stage of water purification. It takes water from the RO,
@@ -16,11 +16,11 @@ public class AES extends WaterRSSubSystem {
     /**
      * Constructor that creates the AES
      * 
-     * @param pWaterRSImpl
+     * @param pWaterRS
      *            The Water RS system the AES is contained in
      */
-    public AES(WaterRSImpl pWaterRSImpl) {
-        super(pWaterRSImpl);
+    public AES(WaterRS pWaterRS) {
+        super(pWaterRS);
         basePowerNeeded = currentPowerNeeded = 168;
     }
 
@@ -45,7 +45,7 @@ public class AES extends WaterRSSubSystem {
         }
         //otherwise, push it to the grey water tank
         else {
-            waterLevel = myWaterRS.getGreyWaterConsumerDefinitionImpl()
+            waterLevel = myWaterRS.getGreyWaterConsumerDefinition()
                     .pushResourceToStores(waterLevel);
         }
     }
@@ -68,7 +68,7 @@ public class AES extends WaterRSSubSystem {
         else {
             currentPPSWaterProduced = 0f;
             //try to put back into dirtyWater Store.
-            waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl()
+            waterLevel = myWaterRS.getDirtyWaterConsumerDefinition()
                     .pushResourceToStores(waterLevel);
         }
     }

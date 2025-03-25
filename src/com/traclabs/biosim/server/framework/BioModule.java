@@ -16,7 +16,7 @@ import com.traclabs.biosim.util.MersenneTwister;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**
- * The BioModule Implementation. Every Module should derive from this as to
+ * The BioModule ementation. Every Module should derive from this as to
  * allow ticking and logging.
  * 
  * @author Scott Bell
@@ -37,7 +37,7 @@ public abstract class BioModule {
 
     protected Map<Long, Malfunction> myMalfunctions;
 
-    protected List<MalfunctionImpl> myScheduledMalfunctions;
+    protected List<Malfunction> myScheduledMalfunctions;
 
     private boolean canFail = false;
     
@@ -67,7 +67,7 @@ public abstract class BioModule {
      * @param pName
      *            The name of the module
      */
-    protected BioModuleImpl() {
+    protected BioModule() {
         this(0, "Unnamed");
     }
 
@@ -81,10 +81,10 @@ public abstract class BioModule {
      * @param pName
      *            The name of the module
      */
-    protected BioModuleImpl(int pID, String pName) {
+    protected BioModule(int pID, String pName) {
         myLogger = Logger.getLogger(this.getClass()+"."+pName);
         myMalfunctions = new Hashtable<Long, Malfunction>();
-        myScheduledMalfunctions = new Vector<MalfunctionImpl>();
+        myScheduledMalfunctions = new Vector<Malfunction>();
         myName = pName;
         myID = pID;
     }
@@ -117,7 +117,7 @@ public abstract class BioModule {
     }
 
     private void checkForScheduledMalfunctions() {
-    	for (MalfunctionImpl currentMalfunction : myScheduledMalfunctions) {
+    	for (Malfunction currentMalfunction : myScheduledMalfunctions) {
             if (currentMalfunction.getTickToMalfunction() == getMyTicks())
                 startMalfunction(currentMalfunction);
 		}
@@ -241,10 +241,10 @@ public abstract class BioModule {
     public Malfunction startMalfunction(MalfunctionIntensity pIntensity,
             MalfunctionLength pLength) {
         String malfunctionName = getMalfunctionName(pIntensity, pLength);
-        MalfunctionImpl newMalfunctionImpl = new MalfunctionImpl(
+        Malfunction newMalfunction = new Malfunction(
                 malfunctionName, pIntensity, pLength, getTickLength());
         Malfunction newMalfunction = MalfunctionHelper.narrow(OrbUtils
-                .poaToCorbaObj(newMalfunctionImpl));
+                .poaToCorbaObj(newMalfunction));
         myMalfunctions.put((new Long(newMalfunction.getID())), newMalfunction);
         return newMalfunction;
     }
@@ -255,7 +255,7 @@ public abstract class BioModule {
      * @param pMalfunction
      *            the malfunction
      */
-    private void startMalfunction(MalfunctionImpl pMalfunction) {
+    private void startMalfunction(Malfunction pMalfunction) {
         Malfunction newMalfunction = MalfunctionHelper.narrow(OrbUtils
                 .poaToCorbaObj(pMalfunction));
         myMalfunctions.put((new Long(newMalfunction.getID())), newMalfunction);
@@ -273,10 +273,10 @@ public abstract class BioModule {
     public void scheduleMalfunction(MalfunctionIntensity pIntensity,
             MalfunctionLength pLength, int tickToOccur) {
         String malfunctionName = getMalfunctionName(pIntensity, pLength);
-        MalfunctionImpl newMalfunctionImpl = new MalfunctionImpl(
+        Malfunction newMalfunction = new Malfunction(
                 malfunctionName, pIntensity, pLength, getTickLength());
-        newMalfunctionImpl.setTickToMalfunction(tickToOccur);
-        myScheduledMalfunctions.add(newMalfunctionImpl);
+        newMalfunction.setTickToMalfunction(tickToOccur);
+        myScheduledMalfunctions.add(newMalfunction);
     }
 
     /**
@@ -330,7 +330,7 @@ public abstract class BioModule {
         if (myStochasticFilter != null)
         	myStochasticFilter.reset();
         myMalfunctions.clear();
-    	for (MalfunctionImpl currentMalfunction : myScheduledMalfunctions)
+    	for (Malfunction currentMalfunction : myScheduledMalfunctions)
     		currentMalfunction.reset();
     }
 

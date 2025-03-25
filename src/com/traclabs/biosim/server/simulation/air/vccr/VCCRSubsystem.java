@@ -3,16 +3,16 @@ package com.traclabs.biosim.server.simulation.air.vccr;
 import java.util.List;
 import java.util.Vector;
 
-import com.traclabs.biosim.idl.simulation.framework.Store;
-import com.traclabs.biosim.server.simulation.environment.EnvironmentFlowRateControllableImpl;
-import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableImpl;
+import com.traclabs.biosim.server.simulation.framework.Store;
+import com.traclabs.biosim.server.simulation.environment.EnvironmentFlowRateControllable;
+import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
 
 public class VCCRSubsystem {
 	private List<VCCRSubsystem> mySubsystemAttachments = new Vector<VCCRSubsystem>();
 
-	private List<EnvironmentFlowRateControllableImpl> myEnvironmentAttachments = new Vector<EnvironmentFlowRateControllableImpl>();
+	private List<EnvironmentFlowRateControllable> myEnvironmentAttachments = new Vector<EnvironmentFlowRateControllable>();
 
-	private List<StoreFlowRateControllableImpl> myStoreAttachments = new Vector<StoreFlowRateControllableImpl>();
+	private List<StoreFlowRateControllable> myStoreAttachments = new Vector<StoreFlowRateControllable>();
 
 	private float initialPressure = 101f;
 	
@@ -40,11 +40,11 @@ public class VCCRSubsystem {
 		mySubsystemAttachments.add(attachment);
 	}
 
-	public void attach(EnvironmentFlowRateControllableImpl attachment) {
+	public void attach(EnvironmentFlowRateControllable attachment) {
 		myEnvironmentAttachments.add(attachment);
 	}
 
-	public void attach(StoreFlowRateControllableImpl attachment) {
+	public void attach(StoreFlowRateControllable attachment) {
 		myStoreAttachments.add(attachment);
 	}
 	
@@ -60,10 +60,10 @@ public class VCCRSubsystem {
 		for (VCCRSubsystem subsystem : mySubsystemAttachments)
 			if (subsystem.getPressure() != getPressure())
 				equalizePressure(subsystem, this);
-		for (EnvironmentFlowRateControllableImpl environmentAttachment : myEnvironmentAttachments)
+		for (EnvironmentFlowRateControllable environmentAttachment : myEnvironmentAttachments)
 			if (environmentAttachment.getEnvironments()[0].getTotalPressure() != getPressure())
 				equalizePressure(environmentAttachment, this);
-		for (StoreFlowRateControllableImpl storeAttachment : myStoreAttachments)
+		for (StoreFlowRateControllable storeAttachment : myStoreAttachments)
 			if (calculatePressure(storeAttachment.getStores()[0]) != getPressure())
 				equalizePressure(storeAttachment, this);
 	}
@@ -73,7 +73,7 @@ public class VCCRSubsystem {
 		return 100;
 	}
 
-	private static void equalizePressure(StoreFlowRateControllableImpl storeAttachment, VCCRSubsystem subsystem) {
+	private static void equalizePressure(StoreFlowRateControllable storeAttachment, VCCRSubsystem subsystem) {
 		float storePressure = calculatePressure(storeAttachment.getStores()[0]);
 		float pressureDifference = Math.abs(subsystem.getPressure() - storePressure);
 		float massFlowrate = calculateMassFlowRate(pressureDifference);
@@ -89,7 +89,7 @@ public class VCCRSubsystem {
 		}
 	}
 
-	private static void equalizePressure(EnvironmentFlowRateControllableImpl environmentFlowRate, VCCRSubsystem subsystem) {
+	private static void equalizePressure(EnvironmentFlowRateControllable environmentFlowRate, VCCRSubsystem subsystem) {
 		float environmentPressure = environmentFlowRate.getEnvironments()[0].getTotalPressure();
 		float pressureDifference = Math.abs(subsystem.getPressure() - environmentPressure);
 		float massFlowrate = calculateMassFlowRate(pressureDifference);

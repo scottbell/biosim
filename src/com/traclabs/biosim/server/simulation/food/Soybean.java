@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
+import com.traclabs.biosim.server.simulation.food.PlantType;
 
 /**
  * Soybean
@@ -16,8 +16,8 @@ public class Soybean extends Legume {
     //private static final float initialPPFValue = 462.96f;
     private static final float initialCO2Value = 1200f;
 
-    public Soybean(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public Soybean(Shelf pShelf) {
+        super(pShelf);
         canopyClosureConstants[0] = 6797800f;
         canopyClosureConstants[1] = -4365.8f;
         canopyClosureConstants[2] = 1.5573f;
