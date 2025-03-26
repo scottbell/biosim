@@ -4,8 +4,7 @@ import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.waste.DryWasteProducer;
 
-public class DryWasteOutFlowRateSensor extends GenericSensor implements
-        DryWasteOutFlowRateSensorOperations {
+public class DryWasteOutFlowRateSensor extends GenericSensor {
     private DryWasteProducer myProducer;
 
     private int myIndex;

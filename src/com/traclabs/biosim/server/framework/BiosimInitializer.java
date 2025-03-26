@@ -70,9 +70,25 @@ public class BiosimInitializer {
 	private ActuatorInitializer myActuatorInitializer;
 	
 	private BioDriver myBioDriver;
+	
+	private static BiosimInitializer instance = null;
+
+	public static synchronized BiosimInitializer getInstance(int pID) {
+        if (instance == null) {
+            instance = new BiosimInitializer(pID);
+        }
+        return instance;
+    }
+
+	/**
+     * Returns the BioDriver associated with this initializer.
+     */
+    public BioDriver getBioDriver() {
+        return myBioDriver;
+    }
 
 	/** Default constructor. */
-	public BiosimInitializer(int pID) {
+	private BiosimInitializer(int pID) {
 		myID = pID;
 		mySimulationInitializer = new SimulationInitializer(myID);
 		mySensorInitializer = new SensorInitializer(myID);

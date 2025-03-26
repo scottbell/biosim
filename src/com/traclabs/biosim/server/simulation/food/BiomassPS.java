@@ -107,7 +107,7 @@ public class BiomassPS extends SimBioModule {
 
     public Shelf getShelf(int index) {
         Shelf theShelf = (myShelves.get(index));
-        return ShelfHelper.narrow(OrbUtils.poaToCorbaObj(theShelf));
+        return theShelf;
     }
 
     public int getNumberOfShelves() {
@@ -125,7 +125,7 @@ public class BiomassPS extends SimBioModule {
     public Shelf createNewShelf(PlantType pType, float pCropArea, int startDay) {
         Shelf newShelf = new Shelf(pType, pCropArea, this, startDay);
         myShelves.add(newShelf);
-        return ShelfHelper.narrow(OrbUtils.poaToCorbaObj(newShelf));
+        return newShelf;
     }
 
     /**

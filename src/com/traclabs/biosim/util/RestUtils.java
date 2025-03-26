@@ -18,8 +18,6 @@ public class RestUtils {
     // The Javalin instance for the server
     private static Javalin app;
     
-    // Registry of modules by ID and name
-    private static final Map<Integer, Map<String, Object>> moduleRegistry = new ConcurrentHashMap<>();
     
     // Flag to make sure RestUtils only runs initialize once
     private static boolean initialized = false;
@@ -64,60 +62,8 @@ public class RestUtils {
         
         // Get all modules
         app.get("/modules", ctx -> {
-            ctx.json(moduleRegistry);
+            ctx.json(ModuleRegistry.getRegistry());
         });
-        
-        // Get modules by ID
-        app.get("/modules/{id}", ctx -> {
-            int id = Integer.parseInt(ctx.pathParam("id"));
-            Map<String, Object> modules = moduleRegistry.get(id);
-            if (modules != null) {
-                ctx.json(modules);
-            } else {
-                ctx.status(404).result("No modules found with ID: " + id);
-            }
-        });
-        
-        // Get specific module by ID and name
-        app.get("/modules/{id}/{name}", ctx -> {
-            int id = Integer.parseInt(ctx.pathParam("id"));
-            String name = ctx.pathParam("name");
-            Map<String, Object> modules = moduleRegistry.get(id);
-            if (modules != null && modules.containsKey(name)) {
-                ctx.json(modules.get(name));
-            } else {
-                ctx.status(404).result("Module not found: " + id + "/" + name);
-            }
-        });
-    }
-    
-    /**
-     * Register a module with the registry
-     * 
-     * @param id The ID of the module
-     * @param name The name of the module
-     * @param module The module object
-     */
-    public static void registerModule(int id, String name, Object module) {
-        initialize();
-        moduleRegistry.computeIfAbsent(id, k -> new ConcurrentHashMap<>()).put(name, module);
-        logger.info("Registered module: {}/{}", id, name);
-    }
-    
-    /**
-     * Get a module from the registry
-     * 
-     * @param id The ID of the module
-     * @param name The name of the module
-     * @return The module object, or null if not found
-     */
-    public static Object getModule(int id, String name) {
-        initialize();
-        Map<String, Object> modules = moduleRegistry.get(id);
-        if (modules != null) {
-            return modules.get(name);
-        }
-        return null;
     }
     
     /**

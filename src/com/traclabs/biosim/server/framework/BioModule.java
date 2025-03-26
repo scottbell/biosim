@@ -239,8 +239,6 @@ public abstract class BioModule {
         String malfunctionName = getMalfunctionName(pIntensity, pLength);
         Malfunction newMalfunction = new Malfunction(
                 malfunctionName, pIntensity, pLength, getTickLength());
-        Malfunction newMalfunction = MalfunctionHelper.narrow(OrbUtils
-                .poaToCorbaObj(newMalfunction));
         myMalfunctions.put(newMalfunction.getID(), newMalfunction);
         return newMalfunction;
     }
@@ -252,9 +250,7 @@ public abstract class BioModule {
      *            the malfunction
      */
     private void startMalfunction(Malfunction pMalfunction) {
-        Malfunction newMalfunction = MalfunctionHelper.narrow(OrbUtils
-                .poaToCorbaObj(pMalfunction));
-        myMalfunctions.put(newMalfunction.getID(), newMalfunction);
+        myMalfunctions.put(pMalfunction.getID(), pMalfunction);
     }
 
     /**

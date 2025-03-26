@@ -26,7 +26,7 @@ public class BiosimRestController {
      * @param port The port to run the server on
      */
     public BiosimRestController(int port) {
-        this.driver = new BioDriver("BioSim REST Driver");
+        this.driver = new BioDriver(0);
         
         this.app = Javalin.create(config -> {
             config.plugins.enableCors(cors -> cors.add(it -> {
@@ -155,7 +155,7 @@ public class BiosimRestController {
      */
     private void setRunTillN(Context ctx) {
         try {
-            long ticks = Long.parseLong(ctx.formParam("ticks"));
+            int ticks = Integer.parseInt(ctx.formParam("ticks"));
             driver.setRunTillN(ticks);
             ctx.json(Map.of("runTillN", ticks));
         } catch (NumberFormatException e) {
@@ -289,32 +289,6 @@ public class BiosimRestController {
         
         module.reset();
         ctx.json(Map.of("status", "reset", "module", name));
-    }
-    
-    /**
-     * Get all sensors
-     * 
-     * @param ctx The Javalin context
-     */
-    private void getSensors(Context ctx) {
-        List<Map<String, Object>> sensorInfos = driver.getSensors().stream()
-                .map(this::createModuleInfo)
-                .collect(Collectors.toList());
-        
-        ctx.json(sensorInfos);
-    }
-    
-    /**
-     * Get all actuators
-     * 
-     * @param ctx The Javalin context
-     */
-    private void getActuators(Context ctx) {
-        List<Map<String, Object>> actuatorInfos = driver.getActuators().stream()
-                .map(this::createModuleInfo)
-                .collect(Collectors.toList());
-        
-        ctx.json(actuatorInfos);
     }
     
     /**

@@ -39,18 +39,11 @@ public class Schedule {
     private void createDefaultActivites() {
         allActivities = new Hashtable<String, Activity>();
         orderedSchedule = new Vector<Activity>();
-        Activity bornActivity = new Activity("born", 0, 0);
-        Activity deadActivity = new Activity("dead", 0, 0);
-        Activity absentActivity = new Activity("absent", 0, 0);
-        Activity sickActivity = new Activity("sick", (int)(Math.ceil(12 / myCrewGroup.getTickLength())), 1);
-        myBornActivity = ActivityHelper.narrow(OrbUtils
-                .poaToCorbaObj(bornActivity));
-        myDeadActivity = ActivityHelper.narrow(OrbUtils
-                .poaToCorbaObj(deadActivity));
-        mySickActivity = ActivityHelper.narrow(OrbUtils
-                .poaToCorbaObj(sickActivity));
-        myAbsentActivity = ActivityHelper.narrow(OrbUtils
-                .poaToCorbaObj(absentActivity));
+        myBornActivity = new Activity("born", 0, 0);
+        myDeadActivity = new Activity("dead", 0, 0);
+        myAbsentActivity = new Activity("absent", 0, 0);
+        mySickActivity = new Activity("sick", (int)(Math.ceil(12 / myCrewGroup.getTickLength())), 1);
+
         allActivities.put("born", myBornActivity);
         orderedSchedule.add(0, myBornActivity);
         allActivities.put("dead", myDeadActivity);

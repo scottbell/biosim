@@ -45,7 +45,7 @@ public abstract class StoreFlowRateControllable extends
     
     public boolean connectsTo(Store pStore){
     	for (Store store : myStores){
-    		if (store._is_equivalent(pStore))
+    		if (store.equals(pStore))
     			return true;
     	}
     	return false;

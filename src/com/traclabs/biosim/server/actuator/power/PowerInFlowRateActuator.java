@@ -4,8 +4,7 @@ import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumer;
 
-public class PowerInFlowRateActuator extends GenericActuator implements
-        PowerInFlowRateActuatorOperations {
+public class PowerInFlowRateActuator extends GenericActuator {
     private PowerConsumer myConsumer;
 
     private int myIndex;

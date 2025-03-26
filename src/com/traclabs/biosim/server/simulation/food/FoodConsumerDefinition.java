@@ -36,8 +36,7 @@ super(pModule);
             float limitingMassFactor = Math.min(
                     pConsumer.getDesiredFlowRate(i), pConsumer
                             .getMaxFlowRate(i));
-            FoodStore currentFoodStore = FoodStoreHelper.narrow(pConsumer
-                    .getStores()[i]);
+            FoodStore currentFoodStore = (FoodStore)(pConsumer.getStores()[i]);
             FoodMatter[] takenMatter = currentFoodStore.takeFoodMatterCalories(
                     amountNeeded, limitingMassFactor);
             sizeOfMatter += takenMatter.length;

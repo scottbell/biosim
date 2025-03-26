@@ -1,6 +1,7 @@
 package com.traclabs.biosim.server.simulation.food;
 
 import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Tray contains Plants
@@ -9,7 +10,7 @@ import org.slf4j.LoggerFactory;
  */
 
 public class Shelf {
-
+    private Logger myLogger = LoggerFactory.getLogger(Shelf.class);
     private Plant myCrop;
 
     private float cropAreaTotal = 0f;
@@ -39,7 +40,6 @@ public class Shelf {
 
     public Shelf(PlantType pType, float pCropAreaTotal,
             BiomassPS pBiomass, int pStartTick) {
-        myLogger = LoggerFactory.getLogger(this.getClass());
         myStartTick = pStartTick;
         cropAreaTotal = pCropAreaTotal;
         myBiomassPS = pBiomass;

@@ -97,7 +97,7 @@ public class CrewGroup extends SimBioModule {
 
     public CrewPerson createCrewPerson(String pName, float pAge, float pWeight,
             Sex pSex, int pArrivalTick, int pDepartureTick, Schedule pSchedule) {
-        CreaPerson newCrewPerson = new CrewPerson(pName, pAge,
+        CrewPerson newCrewPerson = new CrewPerson(pName, pAge,
                 pWeight, pSex, pArrivalTick, pDepartureTick, getCrewGroup(),
                 pSchedule);
         crewPeople.put(pName, newCrewPerson);
@@ -133,9 +133,6 @@ public class CrewGroup extends SimBioModule {
                 .toArray())[randomCrewIndex]);
         RepairActivity newRepairActivity = new RepairActivity(
                 moduleName, malfunctionID, timeLength);
-        RepairActivity newRepairActivity = RepairActivityHelper
-                .narrow(OrbUtils.poaToCorbaObj(new RepairActivityPOATie(
-                        newRepairActivity)));
         randomCrewPerson.insertActivityInScheduleNow(newRepairActivity);
     }
 

@@ -34,7 +34,7 @@ public abstract class EnvironmentFlowRateControllable extends
     
     public boolean connectsTo(SimEnvironment pSimEnvironment){
     	for (SimEnvironment environment : mySimEnvironments){
-    		if (environment._is_equivalent(pSimEnvironment))
+    		if (environment.equals(pSimEnvironment))
     			return true;
     	}
     	return false;

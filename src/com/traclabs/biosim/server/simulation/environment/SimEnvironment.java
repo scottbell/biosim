@@ -69,7 +69,6 @@ public class SimEnvironment extends PassiveModule {
         float otherMoles = calculateMoles(otherPercentage, pTotalPressure, pVolume);
         float waterMoles = calculateMoles(waterPercentage, pTotalPressure, pVolume);
         float nitrogenMoles = calculateMoles(nitrogenPercentage, pTotalPressure, pVolume);
-        createPOAObjects();
     	setInitialVolume(o2Moles, co2Moles, otherMoles, waterMoles, nitrogenMoles, pVolume);
     }
 
@@ -86,14 +85,12 @@ public class SimEnvironment extends PassiveModule {
      */
     public SimEnvironment(int pID, float pInitialVolume, String pName) {
         super(pID, pName);
-        createPOAObjects();
         setInitialVolumeAtSeaLevel(pInitialVolume);
         currentVolume = initialVolume = pInitialVolume;
     }
 
 	public SimEnvironment(float O2Moles, float CO2Moles, float otherMoles, float waterMoles, float nitrogenMoles, float pVolume, String pName, int pID) {
     	super(pID, pName);
-        createPOAObjects();
     	setInitialVolume(O2Moles, CO2Moles, otherMoles, waterMoles, nitrogenMoles, pVolume);
 	}
 
@@ -105,23 +102,6 @@ public class SimEnvironment extends PassiveModule {
     	float moles = (percentage * totalPressure * volume) / (idealGasConstant * getTemperatureInKelvin());
 		return moles;
     }
-
-	private void createPOAObjects() {
-    	EnvironmentO2StorePOATie O2Tie = new EnvironmentO2StorePOATie(myO2Store);
-    	myO2Store = O2Tie._this(OrbUtils.getORB());
-    	
-    	EnvironmentCO2StorePOATie CO2Tie = new EnvironmentCO2StorePOATie(myCO2Store);
-    	myCO2Store = CO2Tie._this(OrbUtils.getORB());
-    	
-    	EnvironmentNitrogenStorePOATie nitrogenTie = new EnvironmentNitrogenStorePOATie(myNitrogenStore);
-    	myNitrogenStore = nitrogenTie._this(OrbUtils.getORB());
-    	
-    	EnvironmentVaporStorePOATie vaporTie = new EnvironmentVaporStorePOATie(myVaporStore);
-    	myVaporStore = vaporTie._this(OrbUtils.getORB());
-    	
-    	EnvironmentOtherStorePOATie otherTie = new EnvironmentOtherStorePOATie(myOtherStore);
-    	myOtherStore = otherTie._this(OrbUtils.getORB());
-	}
 
     /**
      * Resets environment volume and gas levels and percentages

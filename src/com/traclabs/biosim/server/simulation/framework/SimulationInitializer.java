@@ -213,7 +213,7 @@ public class SimulationInitializer {
 					BioModule[] modules = getInputs(child);
 					PowerStore[] inputs = new PowerStore[modules.length];
 					for (int i = 0; i < modules.length; i++)
-						inputs[i] = PowerStoreHelper.narrow(modules[i]);
+						inputs[i] = (PowerStore)modules[i];
 					myPowerConsumer.getPowerConsumerDefinition()
 							.setPowerInputs(inputs, getMaxFlowRates(child),
 									getDesiredFlowRates(child));
@@ -222,7 +222,7 @@ public class SimulationInitializer {
 					BioModule[] modules = getInputs(child);
 					PotableWaterStore[] inputs = new PotableWaterStore[modules.length];
 					for (int i = 0; i < modules.length; i++)
-						inputs[i] = PotableWaterStoreHelper.narrow(modules[i]);
+						inputs[i] = (PotableWaterStore)modules[i];
 					myPotableWaterConsumer.getPotableWaterConsumerDefinition()
 							.setPotableWaterInputs(inputs,
 									getMaxFlowRates(child),
