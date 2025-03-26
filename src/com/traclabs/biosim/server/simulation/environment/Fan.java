@@ -2,12 +2,8 @@ package com.traclabs.biosim.server.simulation.environment;
 
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerOperations;
-import com.traclabs.biosim.server.simulation.environment.AirProducerOperations;
-import com.traclabs.biosim.server.simulation.environment.FanOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 
 /**
  * The basic Fan implementation.
@@ -15,7 +11,7 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
  * @author Scott Bell
  */
 
-public class Fan extends SimBioModule implements FanOperations, AirConsumerOperations, PowerConsumerOperations, AirProducerOperations {
+public class Fan extends SimBioModule {
     //Consumers, Producers
     private AirConsumerDefinition myAirConsumerDefinition;
     private PowerConsumerDefinition myPowerConsumerDefinition;
@@ -43,15 +39,15 @@ public class Fan extends SimBioModule implements FanOperations, AirConsumerOpera
     }
 
     public AirConsumerDefinition getAirConsumerDefinition() {
-        return myAirConsumerDefinition.getCorbaObject();
+        return myAirConsumerDefinition;
     }
 
     public AirProducerDefinition getAirProducerDefinition() {
-        return myAirProducerDefinition.getCorbaObject();
+        return myAirProducerDefinition;
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition.getCorbaObject();
+        return myPowerConsumerDefinition;
     }
 
     public void tick() {

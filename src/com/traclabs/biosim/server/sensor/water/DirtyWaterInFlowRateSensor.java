@@ -4,8 +4,7 @@ import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.water.DirtyWaterConsumer;
 
-public class DirtyWaterInFlowRateSensor extends GenericSensor implements
-        DirtyWaterInFlowRateSensorOperations {
+public class DirtyWaterInFlowRateSensor extends GenericSensor {
     private DirtyWaterConsumer myConsumer;
 
     private int myIndex;

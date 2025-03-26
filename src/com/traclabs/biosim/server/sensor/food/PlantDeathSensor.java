@@ -1,8 +1,7 @@
 package com.traclabs.biosim.server.sensor.food;
 
 
-public class PlantDeathSensor extends ShelfSensor implements
-        PlantDeathSensorOperations {
+public class PlantDeathSensor extends ShelfSensor {
     public PlantDeathSensor(int pID, String pName) {
         super(pID, pName);
     }

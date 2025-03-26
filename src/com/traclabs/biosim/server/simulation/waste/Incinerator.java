@@ -4,14 +4,9 @@ import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.air.CO2ProducerDefinition;
-import com.traclabs.biosim.server.simulation.air.CO2ProducerOperations;
 import com.traclabs.biosim.server.simulation.air.O2ConsumerDefinition;
-import com.traclabs.biosim.server.simulation.air.O2ConsumerOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
-import com.traclabs.biosim.server.simulation.waste.DryWasteConsumerOperations;
-import com.traclabs.biosim.server.simulation.waste.IncineratorOperations;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -23,9 +18,7 @@ import java.util.Iterator;
  * @author Scott Bell
  */
 
-public class Incinerator extends SimBioModule implements
-        IncineratorOperations, PowerConsumerOperations,
-        DryWasteConsumerOperations, O2ConsumerOperations, CO2ProducerOperations {
+public class Incinerator extends SimBioModule {
     //Consumers, Producers
     private PowerConsumerDefinition myPowerConsumerDefinition;
 
@@ -83,19 +76,19 @@ public class Incinerator extends SimBioModule implements
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition.getCorbaObject();
+        return myPowerConsumerDefinition;
     }
 
     public O2ConsumerDefinition getO2ConsumerDefinition() {
-        return myO2ConsumerDefinition.getCorbaObject();
+        return myO2ConsumerDefinition;
     }
 
     public DryWasteConsumerDefinition getDryWasteConsumerDefinition() {
-        return myDryWasteConsumerDefinition.getCorbaObject();
+        return myDryWasteConsumerDefinition;
     }
 
     public CO2ProducerDefinition getCO2ProducerDefinition() {
-        return myCO2ProducerDefinition.getCorbaObject();
+        return myCO2ProducerDefinition;
     }
 
     /**

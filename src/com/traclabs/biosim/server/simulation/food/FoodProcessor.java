@@ -5,11 +5,8 @@ import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.waste.DryWasteProducerDefinition;
-import com.traclabs.biosim.server.simulation.waste.DryWasteProducerOperations;
 import com.traclabs.biosim.server.simulation.water.WaterProducerDefinition;
-import com.traclabs.biosim.server.simulation.water.WaterProducerOperations;
 
 import java.util.Iterator;
 
@@ -20,10 +17,7 @@ import java.util.Iterator;
  * @author Scott Bell
  */
 
-public class FoodProcessor extends SimBioModule implements
-        FoodProcessorOperations, PowerConsumerOperations,
-        BiomassConsumerOperations, FoodProducerOperations,
-        DryWasteProducerOperations, WaterProducerOperations {
+public class FoodProcessor extends SimBioModule {
     //Consumers, Producers
     private BiomassConsumerDefinition myBiomassConsumerDefinition;
 
@@ -78,23 +72,23 @@ public class FoodProcessor extends SimBioModule implements
     }
 
     public BiomassConsumerDefinition getBiomassConsumerDefinition() {
-        return myBiomassConsumerDefinition.getCorbaObject();
+        return myBiomassConsumerDefinition;
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition.getCorbaObject();
+        return myPowerConsumerDefinition;
     }
 
     public WaterProducerDefinition getWaterProducerDefinition() {
-        return myWaterProducerDefinition.getCorbaObject();
+        return myWaterProducerDefinition;
     }
 
     public FoodProducerDefinition getFoodProducerDefinition() {
-        return myFoodProducerDefinition.getCorbaObject();
+        return myFoodProducerDefinition;
     }
 
     public DryWasteProducerDefinition getDryWasteProducerDefinition() {
-        return myDryWasteProducerDefinition.getCorbaObject();
+        return myDryWasteProducerDefinition;
     }
 
     /**

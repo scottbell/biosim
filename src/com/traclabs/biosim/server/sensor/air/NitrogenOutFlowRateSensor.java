@@ -4,8 +4,7 @@ import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.air.NitrogenProducer;
 
-public class NitrogenOutFlowRateSensor extends GenericSensor implements
-        NitrogenOutFlowRateSensorOperations {
+public class NitrogenOutFlowRateSensor extends GenericSensor {
     private NitrogenProducer myProducer;
 
     private int myIndex;

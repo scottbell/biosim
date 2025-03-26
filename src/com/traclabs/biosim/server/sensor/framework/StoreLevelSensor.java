@@ -1,8 +1,7 @@
 package com.traclabs.biosim.server.sensor.framework;
 
 
-public class StoreLevelSensor extends StoreSensor implements
-        StoreLevelSensorOperations {
+public class StoreLevelSensor extends StoreSensor {
     public StoreLevelSensor(int pID, String pName) {
         super(pID, pName);
     }

@@ -5,8 +5,7 @@ import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.food.BiomassPS;
 import com.traclabs.biosim.server.simulation.food.Shelf;
 
-public abstract class ShelfSensor extends GenericSensor implements
-        ShelfSensorOperations {
+public abstract class ShelfSensor extends GenericSensor {
     protected Shelf myShelf;
 
     private BiomassPS myBiomassPS;

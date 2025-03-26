@@ -4,8 +4,7 @@ import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.water.GreyWaterConsumer;
 
-public class GreyWaterInFlowRateSensor extends GenericSensor implements
-        GreyWaterInFlowRateSensorOperations {
+public class GreyWaterInFlowRateSensor extends GenericSensor {
     private GreyWaterConsumer myConsumer;
 
     private int myIndex;

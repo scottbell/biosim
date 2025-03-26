@@ -4,8 +4,7 @@ import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.crew.CrewGroup;
 
-public abstract class CrewGroupSensor extends GenericSensor implements
-        CrewGroupSensorOperations {
+public abstract class CrewGroupSensor extends GenericSensor {
     protected CrewGroup myCrewGroup;
 
     public CrewGroupSensor(int pID, String pName) {

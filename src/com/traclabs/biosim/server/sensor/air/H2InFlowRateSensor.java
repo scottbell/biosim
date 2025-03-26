@@ -4,8 +4,7 @@ import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.air.H2Consumer;
 
-public class H2InFlowRateSensor extends GenericSensor implements
-        H2InFlowRateSensorOperations {
+public class H2InFlowRateSensor extends GenericSensor {
     private H2Consumer myConsumer;
 
     private int myIndex;

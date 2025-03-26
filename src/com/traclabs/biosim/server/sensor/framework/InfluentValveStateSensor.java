@@ -2,8 +2,7 @@ package com.traclabs.biosim.server.sensor.framework;
 
 import com.traclabs.biosim.server.framework.BioModule;
 
-public class InfluentValveStateSensor extends InfluentValveSensor implements
-        InfluentValveStateSensorOperations {
+public class InfluentValveStateSensor extends InfluentValveSensor  {
     public InfluentValveStateSensor(int pID, String pName) {
         super(pID, pName);
     }

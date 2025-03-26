@@ -3,8 +3,7 @@ package com.traclabs.biosim.server.sensor.framework;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.framework.Store;
 
-public abstract class StoreSensor extends GenericSensor implements
-        StoreSensorOperations {
+public abstract class StoreSensor extends GenericSensor {
     protected Store myStore;
 
     public StoreSensor(int pID, String pName) {

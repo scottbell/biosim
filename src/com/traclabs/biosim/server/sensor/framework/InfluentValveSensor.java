@@ -3,8 +3,7 @@ package com.traclabs.biosim.server.sensor.framework;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.framework.InfluentValve;
 
-public abstract class InfluentValveSensor extends GenericSensor implements
-        InfluentValveSensorOperations {
+public abstract class InfluentValveSensor extends GenericSensor {
     protected InfluentValve myInfluentValve;
 
     public InfluentValveSensor(int pID, String pName) {

@@ -4,8 +4,7 @@ import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.food.BiomassProducer;
 
-public class BiomassOutFlowRateSensor extends GenericSensor implements
-        BiomassOutFlowRateSensorOperations {
+public class BiomassOutFlowRateSensor extends GenericSensor {
     private BiomassProducer myProducer;
 
     private int myIndex;

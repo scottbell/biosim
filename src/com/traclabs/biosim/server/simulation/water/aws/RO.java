@@ -44,7 +44,7 @@ public class RO extends WaterRSSubSystem {
     private void pushWater() {
         //if AES is enabled, send 15% of water to it
         if (myWaterRS.getAES().isEnabled()) {
-            currentAESWaterProduced = (new Double(waterLevel * 0.15f))
+            currentAESWaterProduced = (Double.valueOf(waterLevel * 0.15f))
                     .floatValue();
             myWaterRS.getAES().addWater(currentAESWaterProduced);
         }
@@ -54,7 +54,7 @@ public class RO extends WaterRSSubSystem {
         }
         //if PPS is enabled, give it to it
         if (myWaterRS.getPPS().isEnabled()) {
-            currentPPSWaterProduced = (new Double(waterLevel * 0.85f))
+            currentPPSWaterProduced = (Double.valueOf(waterLevel * 0.85f))
                     .floatValue();
             myWaterRS.getPPS().addWater(currentPPSWaterProduced);
             waterLevel = 0;

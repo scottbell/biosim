@@ -21,7 +21,7 @@ public class BWP extends WaterRSSubSystem {
 
     private final float NORMAL_WATER_NEEDED = waterNeeded;
 
-    private final float RO_DISABLED_WATER_NEEDED = new Double(
+    private final float RO_DISABLED_WATER_NEEDED = Double.valueOf(
             waterNeeded * 0.15f).floatValue();
 
     private final static float BOTH_DISABLED_WATER_NEEDED = 0f;

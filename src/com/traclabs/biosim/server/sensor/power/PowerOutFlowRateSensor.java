@@ -4,8 +4,7 @@ import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.power.PowerProducer;
 
-public class PowerOutFlowRateSensor extends GenericSensor implements
-        PowerOutFlowRateSensorOperations {
+public class PowerOutFlowRateSensor extends GenericSensor {
     private PowerProducer myProducer;
 
     private int myIndex;

@@ -4,8 +4,7 @@ import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.air.O2Producer;
 
-public class O2OutFlowRateSensor extends GenericSensor implements
-        O2OutFlowRateSensorOperations {
+public class O2OutFlowRateSensor extends GenericSensor {
     private O2Producer myProducer;
 
     private int myIndex;

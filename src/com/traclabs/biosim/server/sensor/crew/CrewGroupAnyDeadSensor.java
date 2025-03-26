@@ -2,8 +2,7 @@ package com.traclabs.biosim.server.sensor.crew;
 
 import com.traclabs.biosim.server.framework.BioModule;
 
-public class CrewGroupAnyDeadSensor extends CrewGroupSensor implements
-        CrewGroupAnyDeadSensorOperations {
+public class CrewGroupAnyDeadSensor extends CrewGroupSensor {
     public CrewGroupAnyDeadSensor(int pID, String pName) {
         super(pID, pName);
     }
