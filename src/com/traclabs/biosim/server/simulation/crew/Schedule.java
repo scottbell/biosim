@@ -1,7 +1,5 @@
 package com.traclabs.biosim.server.simulation.crew;
 
-import com.traclabs.biosim.server.simulation.crew.ActivityHelper;
-import com.traclabs.biosim.util.OrbUtils;
 
 import java.util.*;
 

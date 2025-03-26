@@ -1,25 +1,21 @@
 package com.traclabs.biosim.server.simulation.crew;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.framework.BioModuleHelper;
-import com.traclabs.biosim.server.framework.LogLevel;
-import com.traclabs.biosim.server.simulation.crew.CrewGroupHelper;
-import com.traclabs.biosim.server.simulation.crew.CrewPersonHelper;
-import com.traclabs.biosim.server.simulation.crew.CrewPersonPOA;
-import com.traclabs.biosim.server.simulation.crew.Sex;
-import com.traclabs.biosim.util.OrbUtils;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+
+import ch.qos.logback.classic.Level;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
- * The Base Crew Person ementation. Eats/drinks/excercises away resources
+ * The Base Crew Person implementation. Eats/drinks/exercises away resources
  * according to a set schedule.
  * 
  * @author Scott Bell
  */
 
-public abstract class BaseCrewPerson extends CrewPersonPOA {
-	// The name of this crew memeber
+public abstract class BaseCrewPerson {
+	// The name of this crew member
 	private String myName = "No Name";
 
 	// The current activity index this crew member is on
@@ -76,7 +72,7 @@ public abstract class BaseCrewPerson extends CrewPersonPOA {
 	public BaseCrewPerson(String pName, float pAge, float pWeight,
 			Sex pSex, int pArrivalTick, int pDepartureTick,
 			CrewGroup bCrewGroup, Schedule pSchedule) {
-		myLogger = Logger.getLogger(this.getClass() + "." + pName);
+		myLogger = LoggerFactory.getLogger(this.getClass() + "." + pName);
 		myName = pName;
 		myAge = pAge;
 		myWeight = pWeight;
@@ -99,21 +95,12 @@ public abstract class BaseCrewPerson extends CrewPersonPOA {
 		myCurrentCrewGroup = myBaseCrewGroup;
 	}
 
-	public void setLogLevel(LogLevel pLevel) {
-		if (pLevel == LogLevel.OFF)
-			myLogger.setLevel(Level.OFF);
-		else if (pLevel == LogLevel.INFO)
-			myLogger.setLevel(Level.INFO);
-		else if (pLevel == LogLevel.DEBUG)
-			myLogger.setLevel(Level.DEBUG);
-		else if (pLevel == LogLevel.ERROR)
-			myLogger.setLevel(Level.ERROR);
-		else if (pLevel == LogLevel.WARN)
-			myLogger.setLevel(Level.WARN);
-		else if (pLevel == LogLevel.FATAL)
-			myLogger.setLevel(Level.FATAL);
-		else if (pLevel == LogLevel.ALL)
-			myLogger.setLevel(Level.ALL);
+	public void setLogLevel(Level level) {
+		if (myLogger instanceof ch.qos.logback.classic.Logger lbLogger) {
+            lbLogger.setLevel(level);
+		} else {
+			myLogger.warn("Cannot set log level for logger of type " + myLogger.getClass().getName());
+		}
 	}
 
 	public void setArrivalTick(int pArrivalTick) {

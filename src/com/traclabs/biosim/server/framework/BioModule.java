@@ -360,7 +360,7 @@ public abstract class BioModule {
         if (myLogger instanceof ch.qos.logback.classic.Logger) {
             ch.qos.logback.classic.Logger lbLogger = (ch.qos.logback.classic.Logger) myLogger;
             lbLogger.setLevel(level);
-        }else {
+        } else {
             myLogger.warn("Cannot set log level for logger of type " + myLogger.getClass().getName());
         }
     }

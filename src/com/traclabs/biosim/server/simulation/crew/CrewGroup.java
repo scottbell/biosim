@@ -13,6 +13,8 @@ import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinition;
 import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinition;
 import com.traclabs.biosim.util.MersenneTwister;
 
+import ch.qos.logback.classic.Level;
+
 import java.util.*;
 
 /**
@@ -186,7 +188,7 @@ public class CrewGroup extends SimBioModule {
     		currentPerson.reset();
     }
     
-    public void setLogLevel(LogLevel pLevel){
+    public void setLogLevel(Level pLevel){
     	super.setLogLevel(pLevel);
     	for (CrewPerson currentPerson : crewPeople.values()){
     		currentPerson.setLogLevel(pLevel);
