@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.sensor.air;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.air.O2Producer;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
+import com.traclabs.biosim.server.simulation.air.O2Producer;
 
 public class O2OutFlowRateSensor extends GenericSensor implements
         O2OutFlowRateSensorOperations {

@@ -1,20 +1,15 @@
 package com.traclabs.biosim.server.simulation.framework;
 
-import java.util.Arrays;
+import com.traclabs.biosim.server.framework.BioModule;
 
-import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.framework.Store;
-import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
-import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllableOperations;
-import com.traclabs.biosim.server.framework.BioModule;
+import java.util.Arrays;
 
 /**
  * @author Scott Bell
  */
 
 public abstract class StoreFlowRateControllable extends
-        SingleFlowRateControllable implements
-        StoreFlowRateControllableOperations {
+        SingleFlowRateControllable {
     private Store[] myStores = new Store[0];
     private Store[] myInitialStores = new Store[0];
     

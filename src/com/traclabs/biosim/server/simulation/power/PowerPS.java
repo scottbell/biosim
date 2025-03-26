@@ -1,17 +1,15 @@
 package com.traclabs.biosim.server.simulation.power;
 
-import java.util.Iterator;
-
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.environment.LightConsumerDefinition;
 import com.traclabs.biosim.server.simulation.environment.LightConsumerOperations;
-import com.traclabs.biosim.server.simulation.power.PowerPSOperations;
-import com.traclabs.biosim.server.simulation.power.PowerProducerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerProducerOperations;
-import com.traclabs.biosim.server.simulation.environment.LightConsumerDefinition;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.power.PowerPSOperations;
+import com.traclabs.biosim.server.simulation.power.PowerProducerOperations;
+
+import java.util.Iterator;
 
 /**
  * The Power Production System creates power from a generator (say a solar

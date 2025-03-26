@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.sensor.crew;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.crew.CrewGroup;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
+import com.traclabs.biosim.server.simulation.crew.CrewGroup;
 
 public abstract class CrewGroupSensor extends GenericSensor implements
         CrewGroupSensorOperations {

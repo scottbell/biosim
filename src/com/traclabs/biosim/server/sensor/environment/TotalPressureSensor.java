@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.sensor.environment;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
+import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
 
 public class TotalPressureSensor extends GenericSensor  {
     protected SimEnvironment myEnvironment;

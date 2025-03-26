@@ -1,30 +1,8 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
-
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerOperations;
-import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirProducerOperations;
-import com.traclabs.biosim.server.simulation.food.BiomassPSOperations;
-import com.traclabs.biosim.server.simulation.food.BiomassProducerDefinition;
-import com.traclabs.biosim.server.simulation.food.BiomassProducerOperations;
-import com.traclabs.biosim.server.simulation.food.PlantType;
-import com.traclabs.biosim.server.simulation.food.Shelf;
-import com.traclabs.biosim.server.simulation.food.ShelfHelper;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinition;
-import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerOperations;
-import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerOperations;
-import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerOperations;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
@@ -32,7 +10,11 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinition;
 import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerDefinition;
 import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinition;
-import com.traclabs.biosim.util.OrbUtils;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * The Biomass RS is essentially responsible for growing plants. The Biomass RS
@@ -45,11 +27,7 @@ import com.traclabs.biosim.util.OrbUtils;
  * @author Scott Bell
  */
 
-public class BiomassPS extends SimBioModule implements
-        BiomassPSOperations, PotableWaterConsumerOperations,
-        AirConsumerOperations, AirProducerOperations,
-        GreyWaterConsumerOperations, BiomassProducerOperations,
-        DirtyWaterProducerOperations {
+public class BiomassPS extends SimBioModule {
     private List<Shelf> myShelves;
 
     private boolean autoHarvestAndReplant = true;
@@ -87,41 +65,12 @@ public class BiomassPS extends SimBioModule implements
         myBiomassProducerDefinition = new BiomassProducerDefinition(this);
     }
 
-    public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition.getCorbaObject();
-    }
-
-    public AirConsumerDefinition getAirConsumerDefinition() {
-        return myAirConsumerDefinition.getCorbaObject();
-    }
-
-    public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
-        return myPotableWaterConsumerDefinition.getCorbaObject();
-    }
-
-    public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
-        return myGreyWaterConsumerDefinition.getCorbaObject();
-    }
-
-    public DirtyWaterProducerDefinition getDirtyWaterProducerDefinition() {
-        return myDirtyWaterProducerDefinition.getCorbaObject();
-    }
-
-    public AirProducerDefinition getAirProducerDefinition() {
-        return myAirProducerDefinition.getCorbaObject();
-    }
-
-    public BiomassProducerDefinition getBiomassProducerDefinition() {
-        return myBiomassProducerDefinition.getCorbaObject();
-    }
-
     public Shelf[] getShelves() {
         Shelf[] theShelfArray = new Shelf[myShelves.size()];
         int i = 0;
         for (Iterator iter = myShelves.iterator(); iter.hasNext(); i++) {
             Shelf currentShelf = (Shelf) (iter.next());
-            theShelfArray[i] = ShelfHelper.narrow(OrbUtils
-                    .poaToCorbaObj(currentShelf));
+            theShelfArray[i] = currentShelf;
         }
         return theShelfArray;
     }

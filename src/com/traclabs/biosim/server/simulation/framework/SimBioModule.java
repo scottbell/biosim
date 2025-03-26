@@ -1,12 +1,5 @@
 package com.traclabs.biosim.server.simulation.framework;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.omg.CORBA.TRANSIENT;
-
-import com.traclabs.biosim.server.simulation.framework.BioCommandListener;
-import com.traclabs.biosim.server.simulation.framework.SimBioModuleOperations;
 import com.traclabs.biosim.server.framework.BioModule;
 
 /**
@@ -15,9 +8,7 @@ import com.traclabs.biosim.server.framework.BioModule;
  * @author Scott Bell
  */
 
-public abstract class SimBioModule extends BioModule implements SimBioModuleOperations {
-	private List<BioCommandListener> myListeners = new ArrayList<BioCommandListener>();
-
+public abstract class SimBioModule extends BioModule {
     /**
      * Constructor to create a BioModule, should only be called by those
      * deriving from BioModule.
@@ -29,26 +20,7 @@ public abstract class SimBioModule extends BioModule implements SimBioModuleOper
     protected SimBioModule(int pID, String pName) {
         super(pID, pName);
     }
-    
-	public void notifyCommandSent(String commandName){
-		BioCommandListener currentListener = null;
-		try{
-			for (BioCommandListener listener : myListeners) {
-				currentListener = listener;
-				currentListener.newCommandSent(commandName);
-			}
-		}
-		catch (TRANSIENT e){
-			if (currentListener != null){
-				myListeners.remove(currentListener);
-				//try again
-				notifyCommandSent(commandName);
-			}
-		}
-	}
-	public void registerBioCommandListener(BioCommandListener listener){
-		myListeners.add(listener);
-	}
+
 
 }
 

@@ -5,31 +5,16 @@ import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.air.CO2ProducerDefinition;
 import com.traclabs.biosim.server.simulation.air.CO2ProducerOperations;
-import com.traclabs.biosim.server.simulation.air.cdrs.CDRSArmedStatus;
-import com.traclabs.biosim.server.simulation.air.cdrs.CDRSCommandStatus;
-import com.traclabs.biosim.server.simulation.air.cdrs.CDRSDayNightState;
-import com.traclabs.biosim.server.simulation.air.cdrs.CDRSModuleOperations;
-import com.traclabs.biosim.server.simulation.air.cdrs.CDRSPowerState;
-import com.traclabs.biosim.server.simulation.air.cdrs.CDRSState;
-import com.traclabs.biosim.server.simulation.air.cdrs.CDRSValveState;
 import com.traclabs.biosim.server.simulation.environment.Air;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerOperations;
 import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirProducerOperations;
+import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerDefinition;
 import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerOperations;
 import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinition;
 import com.traclabs.biosim.server.simulation.water.GreyWaterProducerOperations;
-import com.traclabs.biosim.server.simulation.air.CO2ProducerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
-import com.traclabs.biosim.server.simulation.framework.SimBioModule;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinition;
 
 public class CDRSModule extends SimBioModule implements CDRSModuleOperations, PowerConsumerOperations, AirConsumerOperations, AirProducerOperations, CO2ProducerOperations
 , GreyWaterConsumerOperations, GreyWaterProducerOperations{

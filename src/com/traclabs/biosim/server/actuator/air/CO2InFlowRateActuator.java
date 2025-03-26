@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.actuator.air;
 
+import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.air.CO2Consumer;
-import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 
 public class CO2InFlowRateActuator extends GenericActuator {
     private CO2Consumer myConsumer;

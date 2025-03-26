@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.actuator.food;
 
+import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.food.FoodConsumer;
-import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 
 public class FoodInFlowRateActuator extends GenericActuator{
     private FoodConsumer myConsumer;

@@ -1,14 +1,14 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
-
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.simulation.food.FoodMatter;
 import com.traclabs.biosim.server.simulation.food.FoodStoreOperations;
 import com.traclabs.biosim.server.simulation.food.PlantType;
 import com.traclabs.biosim.server.simulation.framework.Store;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * The Food Store ementation. Takes raw plant matter from the Food RS to be

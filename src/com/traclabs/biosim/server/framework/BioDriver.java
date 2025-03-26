@@ -1,16 +1,14 @@
 package com.traclabs.biosim.server.framework;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
-
-import com.traclabs.biosim.server.framework.BioDriverPOA;
-import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.crew.CrewGroup;
 import com.traclabs.biosim.server.simulation.food.BiomassPS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /*
  * 
@@ -94,7 +92,7 @@ public class BioDriver  {
 		actuators = new BioModule[0];
 		crewsToWatch = new CrewGroup[0];
 		plantsToWatch = new BiomassPS[0];
-		myLogger = Logger.getLogger(this.getClass());
+		myLogger = LoggerFactory.getLogger(BioDriver.class);
 	}
 
 	/**

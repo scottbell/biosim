@@ -1,9 +1,9 @@
 package com.traclabs.biosim.server.sensor.food;
 
 import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.food.BiomassPS;
 import com.traclabs.biosim.server.simulation.food.Shelf;
-import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 
 public abstract class ShelfSensor extends GenericSensor implements
         ShelfSensorOperations {

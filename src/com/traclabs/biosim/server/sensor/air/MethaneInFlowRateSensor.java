@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.sensor.air;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.air.MethaneConsumer;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
+import com.traclabs.biosim.server.simulation.air.MethaneConsumer;
 
 public class MethaneInFlowRateSensor extends GenericSensor implements
         MethaneInFlowRateSensorOperations {

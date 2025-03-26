@@ -1,17 +1,13 @@
 package com.traclabs.biosim.server.simulation.air;
 
-import com.traclabs.biosim.server.simulation.air.H2ProducerDefinition;
 import com.traclabs.biosim.server.simulation.air.H2ProducerOperations;
-import com.traclabs.biosim.server.simulation.air.MethaneConsumerDefinition;
 import com.traclabs.biosim.server.simulation.air.MethaneConsumerOperations;
 import com.traclabs.biosim.server.simulation.air.PyrolizerOperations;
+import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.waste.DryWasteProducerDefinition;
 import com.traclabs.biosim.server.simulation.waste.DryWasteProducerOperations;
-import com.traclabs.biosim.server.simulation.framework.SimBioModule;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.waste.DryWasteProducerDefinition;
 
 
 public class Pyrolizer extends SimBioModule implements PyrolizerOperations,

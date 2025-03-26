@@ -1,27 +1,17 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import java.util.Iterator;
-
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
-import com.traclabs.biosim.server.simulation.food.BioMatter;
-import com.traclabs.biosim.server.simulation.food.BiomassConsumerDefinition;
-import com.traclabs.biosim.server.simulation.food.BiomassConsumerOperations;
-import com.traclabs.biosim.server.simulation.food.FoodMatter;
-import com.traclabs.biosim.server.simulation.food.FoodProcessorOperations;
-import com.traclabs.biosim.server.simulation.food.FoodProducerDefinition;
-import com.traclabs.biosim.server.simulation.food.FoodProducerOperations;
+import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.waste.DryWasteProducerDefinition;
 import com.traclabs.biosim.server.simulation.waste.DryWasteProducerOperations;
 import com.traclabs.biosim.server.simulation.water.WaterProducerDefinition;
 import com.traclabs.biosim.server.simulation.water.WaterProducerOperations;
-import com.traclabs.biosim.server.simulation.framework.SimBioModule;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.waste.DryWasteProducerDefinition;
-import com.traclabs.biosim.server.simulation.water.WaterProducerDefinition;
+
+import java.util.Iterator;
 
 /**
  * The Food Processor takes biomass (plants matter) and refines it to food for

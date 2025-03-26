@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.actuator.air;
 
+import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.air.MethaneProducer;
-import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 
 public class MethaneOutFlowRateActuator extends GenericActuator {
     private MethaneProducer myProducer;

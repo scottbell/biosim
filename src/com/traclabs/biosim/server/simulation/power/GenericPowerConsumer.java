@@ -1,9 +1,8 @@
 package com.traclabs.biosim.server.simulation.power;
 
-import com.traclabs.biosim.server.simulation.power.GenericPowerConsumerOperations;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.power.GenericPowerConsumerOperations;
+import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 
 public class GenericPowerConsumer extends SimBioModule implements PowerConsumerOperations, GenericPowerConsumerOperations{
 	private float myPowerRequired = 0f;

@@ -1,4 +1,4 @@
-package com.traclabs.biosim.api;
+package com.traclabs.biosim.server.framework;
 
 public enum MalfunctionLength {
     TEMPORARY_MALF,

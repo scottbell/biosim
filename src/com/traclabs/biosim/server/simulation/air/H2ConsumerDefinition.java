@@ -1,10 +1,8 @@
 package com.traclabs.biosim.server.simulation.air;
 
-import com.traclabs.biosim.server.simulation.air.H2ConsumerDefinition;
+import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.air.H2ConsumerDefinitionOperations;
 import com.traclabs.biosim.server.simulation.air.H2ConsumerDefinitionPOATie;
-import com.traclabs.biosim.server.simulation.air.H2Store;
-import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
 import com.traclabs.biosim.util.OrbUtils;
 

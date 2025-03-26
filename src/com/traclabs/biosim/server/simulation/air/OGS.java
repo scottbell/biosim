@@ -1,18 +1,14 @@
 package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.server.framework.Malfunction;
-import com.traclabs.biosim.server.simulation.air.H2ProducerDefinition;
 import com.traclabs.biosim.server.simulation.air.H2ProducerOperations;
-import com.traclabs.biosim.server.simulation.air.O2ProducerDefinition;
 import com.traclabs.biosim.server.simulation.air.O2ProducerOperations;
 import com.traclabs.biosim.server.simulation.air.OGSOperations;
+import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinition;
 import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerOperations;
-import com.traclabs.biosim.server.simulation.framework.SimBioModule;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinition;
 
 public class OGS extends SimBioModule implements OGSOperations,
         PowerConsumerOperations, PotableWaterConsumerOperations,

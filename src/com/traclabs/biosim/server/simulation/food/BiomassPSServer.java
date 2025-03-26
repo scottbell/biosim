@@ -1,7 +1,7 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.server.simulation.food.BiomassPSPOATie;
 import com.traclabs.biosim.server.framework.GenericServer;
+import com.traclabs.biosim.server.simulation.food.BiomassPSPOATie;
 import com.traclabs.biosim.util.CommandLineUtils;
 
 /**

@@ -1,11 +1,9 @@
 package com.traclabs.biosim.server.simulation.waste;
 
-import com.traclabs.biosim.server.simulation.waste.DryWasteConsumerDefinition;
-import com.traclabs.biosim.server.simulation.waste.DryWasteConsumerDefinitionOperations;
-import com.traclabs.biosim.server.simulation.waste.DryWasteConsumerDefinitionPOATie;
-import com.traclabs.biosim.server.simulation.waste.DryWasteStore;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
+import com.traclabs.biosim.server.simulation.waste.DryWasteConsumerDefinitionOperations;
+import com.traclabs.biosim.server.simulation.waste.DryWasteConsumerDefinitionPOATie;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**

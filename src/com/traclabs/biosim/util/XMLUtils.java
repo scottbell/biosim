@@ -1,10 +1,10 @@
 package com.traclabs.biosim.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class XMLUtils {
 	public static String getTextofChildNode(Node parentNode, String nameOfChildToFind) {

@@ -1,8 +1,7 @@
 package com.traclabs.biosim.server.simulation.water.aws;
 
-import org.apache.log4j.Logger;
-
 import com.traclabs.biosim.server.simulation.water.WaterRS;
+import org.apache.log4j.Logger;
 
 /**
  * The abstract class all the water subsystems derive from (the AES, BWP, PPS,

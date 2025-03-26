@@ -1,15 +1,9 @@
 package com.traclabs.biosim.server.simulation.crew;
 
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-
-import com.traclabs.biosim.server.simulation.crew.Activity;
 import com.traclabs.biosim.server.simulation.crew.ActivityHelper;
-import com.traclabs.biosim.server.simulation.crew.CrewGroup;
 import com.traclabs.biosim.util.OrbUtils;
+
+import java.util.*;
 
 /**
  * The Schedule dictates what each crew member shall do at what time, for how

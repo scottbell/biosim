@@ -1,25 +1,16 @@
 package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.server.framework.Malfunction;
-import com.traclabs.biosim.server.simulation.air.CO2ProducerDefinition;
 import com.traclabs.biosim.server.simulation.air.CO2ProducerOperations;
 import com.traclabs.biosim.server.simulation.air.VCCROperations;
+import com.traclabs.biosim.server.simulation.air.vccr.*;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerOperations;
 import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
 import com.traclabs.biosim.server.simulation.environment.AirProducerOperations;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
-import com.traclabs.biosim.server.simulation.air.vccr.CO2Bed;
-import com.traclabs.biosim.server.simulation.air.vccr.DesiccantBed;
-import com.traclabs.biosim.server.simulation.air.vccr.HeatExchanger;
-import com.traclabs.biosim.server.simulation.air.vccr.Pump;
-import com.traclabs.biosim.server.simulation.air.vccr.VCCRSubsystem;
-import com.traclabs.biosim.server.simulation.air.vccr.Valve;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
+import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 
 /**
  * Produces air with less CO2. The pumps create pressure changes in each

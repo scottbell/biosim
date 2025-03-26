@@ -1,20 +1,14 @@
 package com.traclabs.biosim.server.simulation.air;
 
-import com.traclabs.biosim.server.simulation.air.CO2ProducerDefinition;
 import com.traclabs.biosim.server.simulation.air.CO2ProducerOperations;
 import com.traclabs.biosim.server.simulation.air.VCCROperations;
 import com.traclabs.biosim.server.simulation.environment.Air;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerOperations;
 import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirProducerOperations;
 import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
+import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 
 /**
  * Produces air with less CO2.

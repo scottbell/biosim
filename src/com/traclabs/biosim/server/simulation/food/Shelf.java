@@ -1,15 +1,6 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import org.apache.log4j.Logger;
-
-import com.traclabs.biosim.server.simulation.food.BioMatter;
-import com.traclabs.biosim.server.simulation.food.BiomassPS;
-import com.traclabs.biosim.server.simulation.food.BiomassPSHelper;
-import com.traclabs.biosim.server.simulation.food.Plant;
-import com.traclabs.biosim.server.simulation.food.PlantHelper;
-import com.traclabs.biosim.server.simulation.food.PlantType;
-import com.traclabs.biosim.server.simulation.food.ShelfPOA;
-import com.traclabs.biosim.util.OrbUtils;
+import org.slf4j.LoggerFactory;
 
 /**
  * Tray contains Plants
@@ -17,8 +8,7 @@ import com.traclabs.biosim.util.OrbUtils;
  * @author Scott Bell
  */
 
-public class Shelf extends ShelfPOA {
-    private Logger myLogger;
+public class Shelf {
 
     private Plant myCrop;
 
@@ -49,16 +39,12 @@ public class Shelf extends ShelfPOA {
 
     public Shelf(PlantType pType, float pCropAreaTotal,
             BiomassPS pBiomass, int pStartTick) {
-        myLogger = Logger.getLogger(this.getClass());
+        myLogger = LoggerFactory.getLogger(this.getClass());
         myStartTick = pStartTick;
         cropAreaTotal = pCropAreaTotal;
         myBiomassPS = pBiomass;
         replant(pType, cropAreaTotal);
         waterNeeded = cropAreaUsed * waterNeededPerMeterSquared;
-    }
-
-    public Plant getPlant() {
-        return PlantHelper.narrow(OrbUtils.poaToCorbaObj(myCrop));
     }
 
     public Plant getPlant() {
@@ -81,10 +67,6 @@ public class Shelf extends ShelfPOA {
 
     public String getCropTypeString() {
         return myCrop.getPlantTypeString();
-    }
-
-    public BiomassPS getBiomassPS() {
-        return BiomassPSHelper.narrow(OrbUtils.poaToCorbaObj(myBiomassPS));
     }
 
     public BiomassPS getBiomassPS() {
@@ -148,7 +130,6 @@ public class Shelf extends ShelfPOA {
             powerToDeliver = Float.MIN_VALUE;
         float thePPF = powerToDeliver * getLampEfficiency() * getPSEfficiency()
                 / getCropAreaUsed();
-        //myLogger.debug("Shelf: thePPF: " + thePPF);
         myCrop.shine(thePPF);
     }
 

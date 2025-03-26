@@ -1,10 +1,8 @@
 package com.traclabs.biosim.server.simulation.air;
 
-import com.traclabs.biosim.server.simulation.air.MethaneProducerDefinition;
+import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.air.MethaneProducerDefinitionOperations;
 import com.traclabs.biosim.server.simulation.air.MethaneProducerDefinitionPOATie;
-import com.traclabs.biosim.server.simulation.air.MethaneStore;
-import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
 import com.traclabs.biosim.util.OrbUtils;
 

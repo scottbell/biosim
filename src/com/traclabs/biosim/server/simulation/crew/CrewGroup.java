@@ -1,41 +1,8 @@
 package com.traclabs.biosim.server.simulation.crew;
 
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Vector;
-
-import com.traclabs.biosim.server.framework.LogLevel;
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
-import com.traclabs.biosim.server.simulation.crew.CrewGroup;
-import com.traclabs.biosim.server.simulation.crew.CrewGroupOperations;
-import com.traclabs.biosim.server.simulation.crew.CrewGroupPOATie;
-import com.traclabs.biosim.server.simulation.crew.CrewPerson;
-import com.traclabs.biosim.server.simulation.crew.CrewPersonHelper;
-import com.traclabs.biosim.server.simulation.crew.CrewPersonPOA;
-import com.traclabs.biosim.server.simulation.crew.RepairActivity;
-import com.traclabs.biosim.server.simulation.crew.RepairActivityHelper;
-import com.traclabs.biosim.server.simulation.crew.RepairActivityPOATie;
-import com.traclabs.biosim.server.simulation.crew.Sex;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerOperations;
-import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirProducerOperations;
-import com.traclabs.biosim.server.simulation.food.FoodConsumerDefinition;
-import com.traclabs.biosim.server.simulation.food.FoodConsumerOperations;
-import com.traclabs.biosim.server.simulation.waste.DryWasteProducerDefinition;
-import com.traclabs.biosim.server.simulation.waste.DryWasteProducerOperations;
-import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinition;
-import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerOperations;
-import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinition;
-import com.traclabs.biosim.server.simulation.water.GreyWaterProducerOperations;
-import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerOperations;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
 import com.traclabs.biosim.server.simulation.food.FoodConsumerDefinition;
@@ -45,7 +12,8 @@ import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinition;
 import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinition;
 import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinition;
 import com.traclabs.biosim.util.MersenneTwister;
-import com.traclabs.biosim.util.OrbUtils;
+
+import java.util.*;
 
 /**
  * The Crew ementation. Holds multiple crew persons and their schedule.
@@ -53,11 +21,7 @@ import com.traclabs.biosim.util.OrbUtils;
  * @author Scott Bell
  */
 
-public class CrewGroup extends SimBioModule implements
-        CrewGroupOperations, AirConsumerOperations,
-        PotableWaterConsumerOperations, FoodConsumerOperations,
-        AirProducerOperations, GreyWaterProducerOperations,
-        DirtyWaterProducerOperations, DryWasteProducerOperations {
+public class CrewGroup extends SimBioModule {
 
     //Consumers, Producers
     private FoodConsumerDefinition myFoodConsumerDefinition;
@@ -304,7 +268,7 @@ public class CrewGroup extends SimBioModule implements
             currentMalfunction.setPerformed(true);
         }
 
-        int peopleAsleep = (new Float((1 - healthyPercentage)
+        int peopleAsleep = (Float.valueOf((1 - healthyPercentage)
                 * crewPeople.size())).intValue();
         for (int i = 0; i < peopleAsleep; i++) {
             int randomIndex = myRandom.nextInt(crewPeople.size());

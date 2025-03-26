@@ -1,19 +1,15 @@
 package com.traclabs.biosim.server.framework;
 
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Vector;
-
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-
 import com.traclabs.biosim.server.util.failure.FailureDecider;
 import com.traclabs.biosim.server.util.stochastic.NoFilter;
 import com.traclabs.biosim.server.util.stochastic.StochasticFilter;
 import com.traclabs.biosim.util.MersenneTwister;
-import com.traclabs.biosim.util.OrbUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.classic.Level;
+
+import java.util.*;
 
 /**
  * The BioModule ementation. Every Module should derive from this as to
@@ -82,7 +78,7 @@ public abstract class BioModule {
      *            The name of the module
      */
     protected BioModule(int pID, String pName) {
-        myLogger = Logger.getLogger(this.getClass()+"."+pName);
+        myLogger = LoggerFactory.getLogger(this.getClass()+"."+pName);
         myMalfunctions = new Hashtable<Long, Malfunction>();
         myScheduledMalfunctions = new Vector<Malfunction>();
         myName = pName;
@@ -360,21 +356,13 @@ public abstract class BioModule {
         //does nothing right now
     }
     
-    public void setLogLevel(LogLevel pLevel){
-    	if (pLevel == LogLevel.OFF)
-    		myLogger.setLevel(Level.OFF);
-    	else if (pLevel == LogLevel.INFO)
-    		myLogger.setLevel(Level.INFO);
-    	else if (pLevel == LogLevel.DEBUG)
-    		myLogger.setLevel(Level.DEBUG);
-    	else if (pLevel == LogLevel.ERROR)
-    		myLogger.setLevel(Level.ERROR);
-    	else if (pLevel == LogLevel.WARN)
-    		myLogger.setLevel(Level.WARN);
-    	else if (pLevel == LogLevel.FATAL)
-    		myLogger.setLevel(Level.FATAL);
-    	else if (pLevel == LogLevel.ALL)
-    		myLogger.setLevel(Level.ALL);
+    public void setLogLevel(Level level) {
+        if (myLogger instanceof ch.qos.logback.classic.Logger) {
+            ch.qos.logback.classic.Logger lbLogger = (ch.qos.logback.classic.Logger) myLogger;
+            lbLogger.setLevel(level);
+        }else {
+            myLogger.warn("Cannot set log level for logger of type " + myLogger.getClass().getName());
+        }
     }
     
     public float randomFilter(float value){

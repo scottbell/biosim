@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.sensor.power;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.power.PowerConsumer;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
+import com.traclabs.biosim.server.simulation.power.PowerConsumer;
 
 public class PowerInFlowRateSensor extends GenericSensor implements
         PowerInFlowRateSensorOperations {

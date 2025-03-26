@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.sensor.water;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.water.GreyWaterConsumer;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
+import com.traclabs.biosim.server.simulation.water.GreyWaterConsumer;
 
 public class GreyWaterInFlowRateSensor extends GenericSensor implements
         GreyWaterInFlowRateSensorOperations {

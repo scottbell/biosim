@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.sensor.water;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.water.PotableWaterProducer;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
+import com.traclabs.biosim.server.simulation.water.PotableWaterProducer;
 
 public class PotableWaterOutFlowRateSensor extends GenericSensor
          {

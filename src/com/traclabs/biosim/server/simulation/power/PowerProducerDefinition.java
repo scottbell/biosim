@@ -1,11 +1,9 @@
 package com.traclabs.biosim.server.simulation.power;
 
-import com.traclabs.biosim.server.simulation.power.PowerProducerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerProducerDefinitionOperations;
-import com.traclabs.biosim.server.simulation.power.PowerProducerDefinitionPOATie;
-import com.traclabs.biosim.server.simulation.power.PowerStore;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
+import com.traclabs.biosim.server.simulation.power.PowerProducerDefinitionOperations;
+import com.traclabs.biosim.server.simulation.power.PowerProducerDefinitionPOATie;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**

@@ -1,21 +1,18 @@
 package com.traclabs.biosim.api.rest;
 
+import com.traclabs.biosim.api.BioDriver;
+import com.traclabs.biosim.api.BioModule;
+import com.traclabs.biosim.api.MalfunctionIntensity;
+import com.traclabs.biosim.api.MalfunctionLength;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.traclabs.biosim.api.BioDriver;
-import com.traclabs.biosim.api.BioDriver;
-import com.traclabs.biosim.api.BioModule;
-import com.traclabs.biosim.api.MalfunctionIntensity;
-import com.traclabs.biosim.api.MalfunctionLength;
 
 /**
  * REST API controller for BioSim.

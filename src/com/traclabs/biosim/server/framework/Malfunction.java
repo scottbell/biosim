@@ -2,7 +2,7 @@ package com.traclabs.biosim.server.framework;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-public class MalfunctionNew {
+public class Malfunction {
     private static final AtomicLong ID_GENERATOR = new AtomicLong(0);
     
     private final long id;
@@ -23,7 +23,7 @@ public class MalfunctionNew {
      * @param pLength The length of the malfunction
      * @param pTickLength The tick length
      */
-    public MalfunctionNew(String pName, MalfunctionIntensity pIntensity,
+    public Malfunction(String pName, MalfunctionIntensity pIntensity,
             MalfunctionLength pLength, float pTickLength) {
         this.id = ID_GENERATOR.incrementAndGet();
         this.name = pName;

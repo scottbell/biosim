@@ -1,20 +1,13 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.Vector;
-
-import org.apache.log4j.Logger;
-
 import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.server.simulation.food.BioMatter;
-import com.traclabs.biosim.server.simulation.food.PlantPOA;
-import com.traclabs.biosim.server.simulation.food.PlantType;
 import com.traclabs.biosim.server.simulation.framework.SimpleBuffer;
 import com.traclabs.biosim.server.util.MathUtils;
 import com.traclabs.biosim.util.MersenneTwister;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 /**
  * Plant
@@ -22,8 +15,8 @@ import com.traclabs.biosim.util.MersenneTwister;
  * @author Scott Bell
  */
 
-public abstract class Plant extends PlantPOA {
-    protected Logger myLogger = Logger.getLogger(Plant.class);
+public abstract class Plant {
+    Logger myLogger = LoggerFactory.getLogger(Plant.class);
 
     private static Random myRandomGen = new MersenneTwister();
 

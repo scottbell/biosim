@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.actuator.water;
 
+import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.water.GreyWaterConsumer;
-import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 
 public class GreyWaterInFlowRateActuator extends GenericActuator
          {

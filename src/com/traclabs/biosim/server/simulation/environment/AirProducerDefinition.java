@@ -1,30 +1,15 @@
 package com.traclabs.biosim.server.simulation.environment;
 
-import com.traclabs.biosim.server.simulation.environment.Air;
-import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirProducerDefinitionOperations;
-import com.traclabs.biosim.server.simulation.environment.AirProducerDefinitionPOATie;
-import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell
  */
 
-public class AirProducerDefinition extends
-        EnvironmentFlowRateControllable implements
-        AirProducerDefinitionOperations {
-    private AirProducerDefinition myAirProducerDefinition;
+public class AirProducerDefinition extends EnvironmentFlowRateControllable {
 
     public AirProducerDefinition(BioModule pModule) {
     	super(pModule);
-    	AirProducerDefinitionPOATie tie = new AirProducerDefinitionPOATie(this);
-    	myAirProducerDefinition = tie._this(OrbUtils.getORB());
-    }
-
-    public AirProducerDefinition getCorbaObject() {
-        return myAirProducerDefinition;
     }
 
     public void setAirOutputs(SimEnvironment[] pSimEnvironments,

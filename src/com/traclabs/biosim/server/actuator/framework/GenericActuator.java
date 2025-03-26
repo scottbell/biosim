@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.actuator.framework;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.framework.BioModule;
 
 public abstract class GenericActuator extends BioModule {
     protected float myValue;

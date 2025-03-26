@@ -1,7 +1,7 @@
 package com.traclabs.biosim.server.simulation.waste;
 
-import com.traclabs.biosim.server.simulation.waste.DryWasteStoreOperations;
 import com.traclabs.biosim.server.simulation.framework.Store;
+import com.traclabs.biosim.server.simulation.waste.DryWasteStoreOperations;
 
 /**
  * The DryWaste Store ementation.

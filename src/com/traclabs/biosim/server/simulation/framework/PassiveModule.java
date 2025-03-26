@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.simulation.framework;
 
-import com.traclabs.biosim.server.simulation.framework.PassiveModuleOperations;
 
 /**
  * The SimBioModule ementation. Modules specific to the simulation.
@@ -8,8 +7,7 @@ import com.traclabs.biosim.server.simulation.framework.PassiveModuleOperations;
  * @author Scott Bell
  */
 
-public abstract class PassiveModule extends SimBioModule implements
-        PassiveModuleOperations {
+public abstract class PassiveModule extends SimBioModule {
 
     /**
      * Constructor to create a BioModule, should only be called by those

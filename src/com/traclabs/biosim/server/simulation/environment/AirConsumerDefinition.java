@@ -1,32 +1,17 @@
 package com.traclabs.biosim.server.simulation.environment;
 
-import com.traclabs.biosim.server.simulation.environment.Air;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinitionOperations;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinitionPOATie;
-import com.traclabs.biosim.server.simulation.environment.EnvironmentStore;
-import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.server.simulation.framework.Store;
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.util.OrbUtils;
+import com.traclabs.biosim.server.simulation.framework.Store;
 
 /**
  * @author Scott Bell
  */
 
-public class AirConsumerDefinition extends
-        EnvironmentFlowRateControllable implements
-        AirConsumerDefinitionOperations {
+public class AirConsumerDefinition extends EnvironmentFlowRateControllable {
     private AirConsumerDefinition myAirConsumerDefinition;
 
     public AirConsumerDefinition(BioModule pModule) {
     	super(pModule);
-    	AirConsumerDefinitionPOATie tie = new AirConsumerDefinitionPOATie(this);
-    	myAirConsumerDefinition = tie._this(OrbUtils.getORB());
-    }
-
-    public AirConsumerDefinition getCorbaObject() {
-        return myAirConsumerDefinition;
     }
 
     public void setAirInputs(SimEnvironment[] pSimEnvironments,

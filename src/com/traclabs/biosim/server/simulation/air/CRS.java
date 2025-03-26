@@ -2,22 +2,11 @@ package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
-import com.traclabs.biosim.server.simulation.air.CO2ConsumerDefinition;
-import com.traclabs.biosim.server.simulation.air.CO2ConsumerOperations;
-import com.traclabs.biosim.server.simulation.air.CRSOperations;
-import com.traclabs.biosim.server.simulation.air.H2ConsumerDefinition;
-import com.traclabs.biosim.server.simulation.air.H2ConsumerOperations;
-import com.traclabs.biosim.server.simulation.air.MethaneProducerDefinition;
-import com.traclabs.biosim.server.simulation.air.MethaneProducerOperations;
-import com.traclabs.biosim.server.simulation.air.O2ProducerDefinition;
-import com.traclabs.biosim.server.simulation.air.O2ProducerOperations;
+import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.water.PotableWaterProducerDefinition;
 import com.traclabs.biosim.server.simulation.water.PotableWaterProducerOperations;
-import com.traclabs.biosim.server.simulation.framework.SimBioModule;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.PotableWaterProducerDefinition;
 
 public class CRS extends SimBioModule implements CRSOperations,
         PowerConsumerOperations, PotableWaterProducerOperations,

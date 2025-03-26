@@ -4,9 +4,8 @@
  */
 package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
-import org.apache.log4j.Logger;
-
 import com.traclabs.biosim.util.OrbUtils;
+import org.apache.log4j.Logger;
 
 /**
  * @author scott

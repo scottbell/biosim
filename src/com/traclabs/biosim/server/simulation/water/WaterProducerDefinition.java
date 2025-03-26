@@ -1,24 +1,18 @@
 package com.traclabs.biosim.server.simulation.water;
 
-import java.util.Arrays;
-
-import com.traclabs.biosim.server.simulation.water.WaterProducerDefinition;
-import com.traclabs.biosim.server.simulation.water.WaterProducerDefinitionOperations;
-import com.traclabs.biosim.server.simulation.water.WaterProducerDefinitionPOATie;
-import com.traclabs.biosim.server.simulation.water.WaterStore;
-import com.traclabs.biosim.server.simulation.water.WaterStoreHelper;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
-import com.traclabs.biosim.util.OrbUtils;
+
+import java.util.Arrays;
 
 /**
  * @author Scott Bell
  */
 
-public class WaterProducerDefinition extends StoreFlowRateControllable
-        implements WaterProducerDefinitionOperations {
-    private WaterProducerDefinition myWaterProducerDefinition;
-
+public class WaterProducerDefinition extends StoreFlowRateControllable {
+    public WaterProducerDefinition(BioModule pModule) {
+        super(pModule);
+    }
 	public float pushResourceToStores(float amountToPush, float temperatureOfWater) {
 		if (getStores() == null)
             return 0f;
@@ -32,22 +26,13 @@ public class WaterProducerDefinition extends StoreFlowRateControllable
                     getMaxFlowRate(i));
             float resourceToDistributeFinal = Math.min(
                     resourceToDistributeFirst, getDesiredFlowRate(i));
-            WaterStore waterStore = WaterStoreHelper.narrow(getStores()[i]);
+            WaterStore waterStore = (WaterStore)(getStores()[i]);
             waterStore.addWaterWithTemperature(resourceToDistributeFinal, temperatureOfWater);
             getActualFlowRates()[i] = resourceToDistributeFinal;
             resourceRemaining -= getActualFlowRate(i);
         }
         return (amountToPush - resourceRemaining);
 	}
-
-	public WaterProducerDefinition(BioModule pModule) {
-     super(pModule);    	WaterProducerDefinitionPOATie tie = new WaterProducerDefinitionPOATie(this);
-    	myWaterProducerDefinition = tie._this(OrbUtils.getORB());
-    }
-
-    public WaterProducerDefinition getCorbaObject() {
-        return myWaterProducerDefinition;
-    }
 
     public void setWaterOutputs(WaterStore[] pStores, float[] pMaxFlowRates,
             float[] pDesiredFlowRates) {

@@ -1,36 +1,22 @@
 package com.traclabs.biosim.server.simulation.food;
 
+import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.simulation.food.FoodMatter;
+import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
-
-import com.traclabs.biosim.server.simulation.food.FoodConsumerDefinition;
-import com.traclabs.biosim.server.simulation.food.FoodConsumerDefinitionOperations;
-import com.traclabs.biosim.server.simulation.food.FoodConsumerDefinitionPOATie;
-import com.traclabs.biosim.server.simulation.food.FoodMatter;
-import com.traclabs.biosim.server.simulation.food.FoodStore;
-import com.traclabs.biosim.server.simulation.food.FoodStoreHelper;
-import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
-import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell
  */
 
-public class FoodConsumerDefinition extends StoreFlowRateControllable
-        implements FoodConsumerDefinitionOperations {
-    private FoodConsumerDefinition myFoodConsumerDefinition;
+public class FoodConsumerDefinition extends StoreFlowRateControllable {
 
     public FoodConsumerDefinition(BioModule pModule) {
 super(pModule);
-    	FoodConsumerDefinitionPOATie tie = new FoodConsumerDefinitionPOATie(this);
-    	myFoodConsumerDefinition = tie._this(OrbUtils.getORB());
     	
-    }
-
-    public FoodConsumerDefinition getCorbaObject() {
-        return myFoodConsumerDefinition;
     }
 
     public void setFoodInputs(FoodStore[] pStores, float[] pMaxFlowRates,

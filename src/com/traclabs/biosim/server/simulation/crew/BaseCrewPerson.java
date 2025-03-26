@@ -1,21 +1,15 @@
 package com.traclabs.biosim.server.simulation.crew;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.framework.BioModuleHelper;
 import com.traclabs.biosim.server.framework.LogLevel;
-import com.traclabs.biosim.server.simulation.crew.Activity;
-import com.traclabs.biosim.server.simulation.crew.CrewGroup;
 import com.traclabs.biosim.server.simulation.crew.CrewGroupHelper;
 import com.traclabs.biosim.server.simulation.crew.CrewPersonHelper;
 import com.traclabs.biosim.server.simulation.crew.CrewPersonPOA;
-import com.traclabs.biosim.server.simulation.crew.EVAActivity;
-import com.traclabs.biosim.server.simulation.crew.MaitenanceActivity;
-import com.traclabs.biosim.server.simulation.crew.RepairActivity;
 import com.traclabs.biosim.server.simulation.crew.Sex;
 import com.traclabs.biosim.util.OrbUtils;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 /**
  * The Base Crew Person ementation. Eats/drinks/excercises away resources
@@ -438,9 +432,7 @@ public abstract class BaseCrewPerson extends CrewPersonPOA {
      */
     private void repairModule(String moduleName, long id) {
         try {
-            BioModule moduleToRepair = BioModuleHelper.narrow(OrbUtils
-                    .getNamingContext(getCurrentCrewGroup().getID()).resolve_str(
-                            moduleName));
+            BioModule moduleToRepair = (BioModule)getCurrentCrewGroup();
             moduleToRepair.doSomeRepairWork(id);
         } catch (org.omg.CORBA.UserException e) {
             myLogger.warn("CrewPersonImp:" + getCurrentCrewGroup().getID()

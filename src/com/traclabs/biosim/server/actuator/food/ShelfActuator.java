@@ -1,9 +1,9 @@
 package com.traclabs.biosim.server.actuator.food;
 
+import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.food.BiomassPS;
 import com.traclabs.biosim.server.simulation.food.Shelf;
-import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 
 public abstract class ShelfActuator extends GenericActuator {
     protected Shelf myShelf;

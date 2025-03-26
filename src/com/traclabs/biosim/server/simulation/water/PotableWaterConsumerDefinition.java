@@ -1,31 +1,18 @@
 package com.traclabs.biosim.server.simulation.water;
 
-import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinitionOperations;
-import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinitionPOATie;
-import com.traclabs.biosim.server.simulation.water.PotableWaterStore;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
-import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell
  */
 
 public class PotableWaterConsumerDefinition extends
-        StoreFlowRateControllable implements
-        PotableWaterConsumerDefinitionOperations {
+        StoreFlowRateControllable {
     private PotableWaterConsumerDefinition myPotableWaterConsumerDefinition;
 
     public PotableWaterConsumerDefinition(BioModule pModule) {
-super(pModule);
-
-    	PotableWaterConsumerDefinitionPOATie tie = new PotableWaterConsumerDefinitionPOATie(this);
-    	myPotableWaterConsumerDefinition = tie._this(OrbUtils.getORB());
-    }
-
-    public PotableWaterConsumerDefinition getCorbaObject() {
-        return myPotableWaterConsumerDefinition;
+        super(pModule);
     }
 
     public void setPotableWaterInputs(PotableWaterStore[] pStores,

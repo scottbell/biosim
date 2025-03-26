@@ -4,9 +4,9 @@
  */
 package com.traclabs.biosim.server.util;
 
-import java.util.Random;
-
 import com.traclabs.biosim.util.MersenneTwister;
+
+import java.util.Random;
 
 /**
  * 

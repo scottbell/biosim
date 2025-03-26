@@ -1,8 +1,7 @@
 package com.traclabs.biosim.server.simulation.environment;
 
-import com.traclabs.biosim.server.simulation.environment.EnvironmentCO2StoreOperations;
 
-public class EnvironmentCO2Store extends EnvironmentStore implements EnvironmentCO2StoreOperations{
+public class EnvironmentCO2Store extends EnvironmentStore {
 
 	public EnvironmentCO2Store(SimEnvironment pSimEnvironment) {
 		super(pSimEnvironment, "CO2");

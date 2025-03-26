@@ -1,6 +1,7 @@
 package com.traclabs.biosim.server.simulation.framework;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Scott Bell
@@ -20,7 +21,7 @@ public class SimpleBuffer {
 
     protected float initialCapacity = 0f;
 
-    private static Logger myLogger = Logger.getLogger(SimpleBuffer.class);
+    private static Logger myLogger = LoggerFactory.getLogger(SimpleBuffer.class);
 
     /**
      * Creates a Store with an initial level and capacity of 0

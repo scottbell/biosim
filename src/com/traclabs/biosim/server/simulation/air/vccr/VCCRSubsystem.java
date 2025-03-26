@@ -1,11 +1,11 @@
 package com.traclabs.biosim.server.simulation.air.vccr;
 
+import com.traclabs.biosim.server.simulation.environment.EnvironmentFlowRateControllable;
+import com.traclabs.biosim.server.simulation.framework.Store;
+import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
+
 import java.util.List;
 import java.util.Vector;
-
-import com.traclabs.biosim.server.simulation.framework.Store;
-import com.traclabs.biosim.server.simulation.environment.EnvironmentFlowRateControllable;
-import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
 
 public class VCCRSubsystem {
 	private List<VCCRSubsystem> mySubsystemAttachments = new Vector<VCCRSubsystem>();

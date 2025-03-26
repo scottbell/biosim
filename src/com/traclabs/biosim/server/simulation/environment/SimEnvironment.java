@@ -1,24 +1,13 @@
 package com.traclabs.biosim.server.simulation.environment;
 
-import java.util.Iterator;
-
-import com.traclabs.biosim.server.framework.LogLevel;
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
-import com.traclabs.biosim.server.simulation.environment.EnvironmentCO2Store;
-import com.traclabs.biosim.server.simulation.environment.EnvironmentCO2StorePOATie;
-import com.traclabs.biosim.server.simulation.environment.EnvironmentNitrogenStore;
-import com.traclabs.biosim.server.simulation.environment.EnvironmentNitrogenStorePOATie;
-import com.traclabs.biosim.server.simulation.environment.EnvironmentO2Store;
-import com.traclabs.biosim.server.simulation.environment.EnvironmentO2StorePOATie;
-import com.traclabs.biosim.server.simulation.environment.EnvironmentOtherStore;
-import com.traclabs.biosim.server.simulation.environment.EnvironmentOtherStorePOATie;
-import com.traclabs.biosim.server.simulation.environment.EnvironmentVaporStore;
-import com.traclabs.biosim.server.simulation.environment.EnvironmentVaporStorePOATie;
-import com.traclabs.biosim.server.simulation.environment.SimEnvironmentOperations;
 import com.traclabs.biosim.server.simulation.framework.PassiveModule;
-import com.traclabs.biosim.util.OrbUtils;
+
+import ch.qos.logback.classic.Level;
+
+import java.util.Iterator;
 
 /**
  * The SimEnvironment acts as the environment in which the crew breathes from
@@ -27,8 +16,7 @@ import com.traclabs.biosim.util.OrbUtils;
  * @author Scott Bell
  */
 
-public class SimEnvironment extends PassiveModule implements
-        SimEnvironmentOperations {
+public class SimEnvironment extends PassiveModule {
 	
 	private EnvironmentO2Store myO2Store = new EnvironmentO2Store(this);
 	
@@ -41,16 +29,6 @@ public class SimEnvironment extends PassiveModule implements
 	private EnvironmentVaporStore myVaporStore = new EnvironmentVaporStore(this);
 	
 	private EnvironmentStore[] myEnvironmentStores = {myO2Store, myCO2Store, myNitrogenStore, myOtherStore, myVaporStore};
-	
-	private EnvironmentO2Store myO2Store;
-	
-	private EnvironmentCO2Store myCO2Store;
-	
-	private EnvironmentNitrogenStore myNitrogenStore;
-	
-	private EnvironmentOtherStore myOtherStore;
-	
-	private EnvironmentVaporStore myVaporStore;
     
 	private final static float temperature = 23f;
 	
@@ -254,7 +232,7 @@ public class SimEnvironment extends PassiveModule implements
         	store.performLeak(pLeakRate);
     }
     
-    public void setLogLevel(LogLevel pLevel){
+    public void setLogLevel(Level pLevel){
     	super.setLogLevel(pLevel);
         for (EnvironmentStore store : myEnvironmentStores)
         	store.setLogLevel(pLevel);

@@ -1,30 +1,16 @@
 package com.traclabs.biosim.server.simulation.thermal;
 
-import java.util.Iterator;
-
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
-import com.traclabs.biosim.server.simulation.thermal.IATCSActivation;
-import com.traclabs.biosim.server.simulation.thermal.IATCSOperations;
-import com.traclabs.biosim.server.simulation.thermal.IATCSState;
-import com.traclabs.biosim.server.simulation.thermal.IFHXBypassState;
-import com.traclabs.biosim.server.simulation.thermal.IFHXValveCommandStatus;
-import com.traclabs.biosim.server.simulation.thermal.IFHXValveState;
-import com.traclabs.biosim.server.simulation.thermal.PPAPumpSpeedStatus;
-import com.traclabs.biosim.server.simulation.thermal.SoftwareState;
-import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerOperations;
-import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinition;
-import com.traclabs.biosim.server.simulation.water.GreyWaterProducerOperations;
-import com.traclabs.biosim.server.simulation.water.WaterStore;
-import com.traclabs.biosim.server.simulation.water.WaterStoreHelper;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
+import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerDefinition;
 import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinition;
+import com.traclabs.biosim.server.simulation.water.WaterStore;
+
+import java.util.Iterator;
 
 /**
  * The IATCS is the Internal Active Thermal Control System. It takes power and cools water

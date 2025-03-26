@@ -2,16 +2,12 @@ package com.traclabs.biosim.server.simulation.environment;
 
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
-import com.traclabs.biosim.server.simulation.environment.Air;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerOperations;
-import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
 import com.traclabs.biosim.server.simulation.environment.AirProducerOperations;
 import com.traclabs.biosim.server.simulation.environment.FanOperations;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
+import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 
 /**
  * The basic Fan ementation.

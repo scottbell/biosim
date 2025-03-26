@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.actuator.waste;
 
+import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.waste.DryWasteConsumer;
-import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 
 public class DryWasteInFlowRateActuator extends GenericActuator
          {

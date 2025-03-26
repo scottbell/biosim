@@ -1,18 +1,16 @@
 package com.traclabs.biosim.server.simulation.crew;
 
-import java.text.DecimalFormat;
-import java.util.Random;
-
-import com.traclabs.biosim.server.simulation.crew.CrewGroup;
-import com.traclabs.biosim.server.simulation.crew.Sex;
 import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.server.simulation.food.FoodMatter;
 import com.traclabs.biosim.server.simulation.food.FoodConsumerDefinition;
+import com.traclabs.biosim.server.simulation.food.FoodMatter;
 import com.traclabs.biosim.server.simulation.food.FoodStore;
 import com.traclabs.biosim.server.simulation.framework.SimpleBuffer;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
 import com.traclabs.biosim.server.util.MathUtils;
 import com.traclabs.biosim.util.MersenneTwister;
+
+import java.text.DecimalFormat;
+import java.util.Random;
 
 /**
  * The Crew Person ementation. Eats/drinks/excercises away resources

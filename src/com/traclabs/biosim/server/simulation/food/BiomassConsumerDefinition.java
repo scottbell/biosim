@@ -1,18 +1,16 @@
 package com.traclabs.biosim.server.simulation.food;
 
+import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.simulation.food.BioMatter;
+import com.traclabs.biosim.server.simulation.food.BiomassConsumerDefinitionOperations;
+import com.traclabs.biosim.server.simulation.food.BiomassConsumerDefinitionPOATie;
+import com.traclabs.biosim.server.simulation.food.BiomassStoreHelper;
+import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
+import com.traclabs.biosim.util.OrbUtils;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
-
-import com.traclabs.biosim.server.simulation.food.BioMatter;
-import com.traclabs.biosim.server.simulation.food.BiomassConsumerDefinition;
-import com.traclabs.biosim.server.simulation.food.BiomassConsumerDefinitionOperations;
-import com.traclabs.biosim.server.simulation.food.BiomassConsumerDefinitionPOATie;
-import com.traclabs.biosim.server.simulation.food.BiomassStore;
-import com.traclabs.biosim.server.simulation.food.BiomassStoreHelper;
-import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
-import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell

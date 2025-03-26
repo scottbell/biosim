@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.sensor.environment;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.environment.EnvironmentStore;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
+import com.traclabs.biosim.server.simulation.environment.EnvironmentStore;
 
 public class GasPressureSensor extends GenericSensor  {
     private EnvironmentStore myEnvironmentStore;

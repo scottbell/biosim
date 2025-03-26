@@ -1,7 +1,7 @@
 package com.traclabs.biosim.server.simulation.water;
 
-import com.traclabs.biosim.server.simulation.water.PotableWaterStorePOATie;
 import com.traclabs.biosim.server.framework.GenericServer;
+import com.traclabs.biosim.server.simulation.water.PotableWaterStorePOATie;
 import com.traclabs.biosim.util.CommandLineUtils;
 
 /**

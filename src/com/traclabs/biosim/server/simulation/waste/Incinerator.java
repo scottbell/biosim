@@ -1,8 +1,5 @@
 package com.traclabs.biosim.server.simulation.waste;
 
-import java.util.Arrays;
-import java.util.Iterator;
-
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
@@ -10,15 +7,14 @@ import com.traclabs.biosim.server.simulation.air.CO2ProducerDefinition;
 import com.traclabs.biosim.server.simulation.air.CO2ProducerOperations;
 import com.traclabs.biosim.server.simulation.air.O2ConsumerDefinition;
 import com.traclabs.biosim.server.simulation.air.O2ConsumerOperations;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
-import com.traclabs.biosim.server.simulation.waste.DryWasteConsumerDefinition;
-import com.traclabs.biosim.server.simulation.waste.DryWasteConsumerOperations;
-import com.traclabs.biosim.server.simulation.waste.IncineratorOperations;
-import com.traclabs.biosim.server.simulation.air.CO2ProducerDefinition;
-import com.traclabs.biosim.server.simulation.air.O2ConsumerDefinition;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
+import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
+import com.traclabs.biosim.server.simulation.waste.DryWasteConsumerOperations;
+import com.traclabs.biosim.server.simulation.waste.IncineratorOperations;
+
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * The Incinerator takes dryWaste (plants matter) and refines it to food for the

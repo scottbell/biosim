@@ -1,28 +1,15 @@
 package com.traclabs.biosim.server.simulation.water;
 
-import java.util.Arrays;
-import java.util.Iterator;
-
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
-import com.traclabs.biosim.server.simulation.water.DirtyWaterConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.DirtyWaterConsumerOperations;
-import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerOperations;
-import com.traclabs.biosim.server.simulation.water.PotableWaterProducerDefinition;
-import com.traclabs.biosim.server.simulation.water.PotableWaterProducerOperations;
-import com.traclabs.biosim.server.simulation.water.WaterRSOperationMode;
-import com.traclabs.biosim.server.simulation.water.WaterRSOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.aws.AES;
-import com.traclabs.biosim.server.simulation.water.aws.BWP;
-import com.traclabs.biosim.server.simulation.water.aws.PPS;
-import com.traclabs.biosim.server.simulation.water.aws.RO;
-import com.traclabs.biosim.server.simulation.water.aws.WaterRSSubSystem;
+import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
+import com.traclabs.biosim.server.simulation.water.aws.*;
+
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * The Water Recovery System takes grey/dirty water and refines it to potable

@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.simulation.crew;
 
-import com.traclabs.biosim.server.simulation.crew.CrewGroup;
 import com.traclabs.biosim.server.simulation.crew.Sex;
 
 public class CrewPersonMatlab extends BaseCrewPerson {

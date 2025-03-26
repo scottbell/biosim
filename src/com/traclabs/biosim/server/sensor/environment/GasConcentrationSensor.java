@@ -1,9 +1,9 @@
 package com.traclabs.biosim.server.sensor.environment;
 
 import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.environment.EnvironmentStore;
 import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 
 public class GasConcentrationSensor extends GenericSensor  {
     protected SimEnvironment myEnvironment;

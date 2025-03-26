@@ -1,11 +1,10 @@
 package com.traclabs.biosim.server.simulation.framework;
 
-import java.util.Iterator;
-
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
-import com.traclabs.biosim.server.simulation.framework.StoreOperations;
+
+import java.util.Iterator;
 
 /**
  * The basic Store ementation. Allows for basic store functionality (like
@@ -17,8 +16,7 @@ import com.traclabs.biosim.server.simulation.framework.StoreOperations;
  * @author Scott Bell
  */
 
-public class Store extends PassiveModule implements
-        StoreOperations {
+public class Store extends PassiveModule {
     //The currentLevel of whatever this store is holding (at t)
     protected float currentLevel = 0f;
 

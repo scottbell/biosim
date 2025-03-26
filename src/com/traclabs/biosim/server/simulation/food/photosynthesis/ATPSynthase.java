@@ -4,10 +4,10 @@
  */
 package com.traclabs.biosim.server.simulation.food.photosynthesis;
 
-import java.util.Random;
-
 import com.traclabs.biosim.server.util.MathUtils;
 import com.traclabs.biosim.util.MersenneTwister;
+
+import java.util.Random;
 
 /**
  * @author scott

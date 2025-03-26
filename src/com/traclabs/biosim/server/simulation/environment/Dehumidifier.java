@@ -2,14 +2,11 @@ package com.traclabs.biosim.server.simulation.environment;
 
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerOperations;
 import com.traclabs.biosim.server.simulation.environment.DehumidifierOperations;
-import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinition;
-import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinition;
+import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerOperations;
 
 /**
  * The basic Dehimidifier ementation.

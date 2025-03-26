@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.actuator.environment;
 
+import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.environment.AirProducer;
-import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 
 public class AirOutFlowRateActuator extends GenericActuator {
     private AirProducer myProducer;

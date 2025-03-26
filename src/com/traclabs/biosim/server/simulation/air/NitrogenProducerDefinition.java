@@ -1,10 +1,8 @@
 package com.traclabs.biosim.server.simulation.air;
 
-import com.traclabs.biosim.server.simulation.air.NitrogenProducerDefinition;
+import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.air.NitrogenProducerDefinitionOperations;
 import com.traclabs.biosim.server.simulation.air.NitrogenProducerDefinitionPOATie;
-import com.traclabs.biosim.server.simulation.air.NitrogenStore;
-import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
 import com.traclabs.biosim.util.OrbUtils;
 

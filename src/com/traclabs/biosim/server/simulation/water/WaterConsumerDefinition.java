@@ -1,11 +1,9 @@
 package com.traclabs.biosim.server.simulation.water;
 
-import com.traclabs.biosim.server.simulation.water.WaterConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.WaterConsumerDefinitionOperations;
-import com.traclabs.biosim.server.simulation.water.WaterConsumerDefinitionPOATie;
-import com.traclabs.biosim.server.simulation.water.WaterStore;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
+import com.traclabs.biosim.server.simulation.water.WaterConsumerDefinitionOperations;
+import com.traclabs.biosim.server.simulation.water.WaterConsumerDefinitionPOATie;
 import com.traclabs.biosim.util.OrbUtils;
 
 /**

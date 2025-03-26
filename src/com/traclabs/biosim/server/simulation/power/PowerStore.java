@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.simulation.power;
 
-import com.traclabs.biosim.server.simulation.power.PowerStoreOperations;
 import com.traclabs.biosim.server.simulation.framework.Store;
 
 /**
@@ -10,7 +9,7 @@ import com.traclabs.biosim.server.simulation.framework.Store;
  * @author Scott Bell
  */
 
-public class PowerStore extends Store implements PowerStoreOperations {
+public class PowerStore extends Store {
     public PowerStore(){
     	this(0, "Unnamed PowerStore");
     }

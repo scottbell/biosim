@@ -1,8 +1,8 @@
 package com.traclabs.biosim.server.sensor.food;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.food.FoodProducer;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
+import com.traclabs.biosim.server.simulation.food.FoodProducer;
 
 public class FoodOutFlowRateSensor extends GenericSensor implements
         FoodOutFlowRateSensorOperations {

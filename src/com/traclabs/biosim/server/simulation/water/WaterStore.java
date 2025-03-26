@@ -1,9 +1,8 @@
 package com.traclabs.biosim.server.simulation.water;
 
-import com.traclabs.biosim.server.simulation.water.WaterStoreOperations;
 import com.traclabs.biosim.server.simulation.framework.Store;
 
-public class WaterStore extends Store implements WaterStoreOperations {
+public class WaterStore extends Store  {
 	private float intialTemperature = 22f;
 	private float temperature = intialTemperature;
 	

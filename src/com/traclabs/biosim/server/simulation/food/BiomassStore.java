@@ -1,13 +1,10 @@
 package com.traclabs.biosim.server.simulation.food;
 
+import com.traclabs.biosim.server.simulation.framework.Store;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
-
-import com.traclabs.biosim.server.simulation.food.BioMatter;
-import com.traclabs.biosim.server.simulation.food.BiomassStoreOperations;
-import com.traclabs.biosim.server.simulation.food.PlantType;
-import com.traclabs.biosim.server.simulation.framework.Store;
 
 /**
  * The Biomass Store ementation. Takes raw plant matter from the Biomass RS
@@ -16,8 +13,7 @@ import com.traclabs.biosim.server.simulation.framework.Store;
  * @author Scott Bell
  */
 
-public class BiomassStore extends Store implements
-        BiomassStoreOperations {
+public class BiomassStore extends Store {
     List<BioMatter> currentBiomassItems;
 
     BioMatter myOriginalMatter;

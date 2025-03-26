@@ -1,9 +1,8 @@
 package com.traclabs.biosim.server.simulation.environment;
 
-import com.traclabs.biosim.server.simulation.environment.EnvironmentStoreOperations;
 import com.traclabs.biosim.server.simulation.framework.Store;
 
-public class EnvironmentStore extends Store implements EnvironmentStoreOperations{
+public class EnvironmentStore extends Store {
 
     private final static float idealGasConstant = 8.314f; // J K ^-1 mol -1
     private float totalTaken = 0;

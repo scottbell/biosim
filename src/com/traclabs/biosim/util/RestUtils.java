@@ -1,24 +1,14 @@
 package com.traclabs.biosim.util;
 
 import io.javalin.Javalin;
-import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import io.javalin.plugin.bundled.CorsPluginConfig;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * The RestUtils class provides RESTful API utilities to server components,
- * replacing the CORBA-based OrbUtils.
- * 
- * @author BioSim Team
- */
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class RestUtils {
     private static final Logger logger = LoggerFactory.getLogger(RestUtils.class);
     
@@ -47,12 +37,12 @@ public class RestUtils {
         if (initialized) {
             return;
         }
-        
+
         app = Javalin.create(config -> {
-            config.plugins.enableCors(cors -> {
-                cors.add(CorsPluginConfig::anyHost);
-            });
             config.http.defaultContentType = "application/json";
+            config.bundledPlugins.enableCors(cors -> {
+                cors.addRule(CorsPluginConfig.CorsRule::anyHost);
+            });
         });
         
         // Set up basic routes

@@ -1,12 +1,10 @@
 package com.traclabs.biosim.server.simulation.food;
 
+import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.food.FoodMatter;
-import com.traclabs.biosim.server.simulation.food.FoodProducerDefinition;
 import com.traclabs.biosim.server.simulation.food.FoodProducerDefinitionOperations;
 import com.traclabs.biosim.server.simulation.food.FoodProducerDefinitionPOATie;
-import com.traclabs.biosim.server.simulation.food.FoodStore;
 import com.traclabs.biosim.server.simulation.food.FoodStoreHelper;
-import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
 import com.traclabs.biosim.util.OrbUtils;
 

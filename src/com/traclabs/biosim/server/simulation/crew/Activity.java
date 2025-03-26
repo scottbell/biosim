@@ -1,7 +1,5 @@
 package com.traclabs.biosim.server.simulation.crew;
 
-import com.traclabs.biosim.server.simulation.crew.ActivityPOA;
-
 /**
  * Activities are performed by crew members (CrewPerson) for a certain amount of
  * time with a certain intensity in a certain order.
@@ -9,7 +7,7 @@ import com.traclabs.biosim.server.simulation.crew.ActivityPOA;
  * @author Scott Bell
  */
 
-public class Activity extends ActivityPOA {
+public class Activity {
     //The name of this activity
     private String myName = "unknown";
 
