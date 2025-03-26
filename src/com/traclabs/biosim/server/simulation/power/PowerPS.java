@@ -16,7 +16,7 @@ import java.util.Iterator;
  * @author Scott Bell
  */
 
-public abstract class PowerPS extends SimBioModule {
+public abstract class PowerPS extends SimBioModule implements PowerProducer {
     //The power produced (in watts) by the Power PS at the current tick
     float currentPowerProduced = 0f;
 

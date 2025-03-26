@@ -8,7 +8,7 @@ import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
  * @author Scott Bell
  */
 
-public class SolarPowerPS extends PowerPS {
+public class SolarPowerPS extends PowerPS implements PowerProducer {
 
     public SolarPowerPS(int pID, String pName) {
         super(pID, pName);
