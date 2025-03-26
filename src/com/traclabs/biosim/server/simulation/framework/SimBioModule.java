@@ -3,7 +3,7 @@ package com.traclabs.biosim.server.simulation.framework;
 import com.traclabs.biosim.server.framework.BioModule;
 
 /**
- * The SimBioModule ementation. Modules specific to the simulation.
+ * The SimBioModule implementation. Modules specific to the simulation.
  * 
  * @author Scott Bell
  */

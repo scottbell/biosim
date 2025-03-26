@@ -1,7 +1,7 @@
 package com.traclabs.biosim.server.simulation.water;
 
 /**
- * The Potable Water Store ementation. Filled with clean potable water from
+ * The Potable Water Store implementation. Filled with clean potable water from
  * the WaterRS and used by the crew memebers to drink.
  * 
  * @author Scott Bell

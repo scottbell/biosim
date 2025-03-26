@@ -1,7 +1,9 @@
 package com.traclabs.biosim.server.simulation.water.aws;
 
 import com.traclabs.biosim.server.simulation.water.WaterRS;
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The abstract class all the water subsystems derive from (the AES, BWP, PPS,
@@ -54,7 +56,7 @@ public abstract class WaterRSSubSystem {
      */
     public WaterRSSubSystem(WaterRS pWaterRS) {
         myWaterRS = pWaterRS;
-        myLogger = Logger.getLogger(this.getClass());
+        myLogger = LoggerFactory.getLogger(this.getClass());
         currentPowerNeeded = basePowerNeeded * myWaterRS.getTickLength();
     }
 

@@ -1,18 +1,11 @@
 package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.server.framework.Malfunction;
-import com.traclabs.biosim.server.simulation.air.H2ProducerOperations;
-import com.traclabs.biosim.server.simulation.air.O2ProducerOperations;
-import com.traclabs.biosim.server.simulation.air.OGSOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerOperations;
 
-public class OGS extends SimBioModule implements OGSOperations,
-        PowerConsumerOperations, PotableWaterConsumerOperations,
-        O2ProducerOperations, H2ProducerOperations {
+public class OGS extends SimBioModule {
 
     //Consumers, Producers
     private PowerConsumerDefinition myPowerConsumerDefinition;
@@ -55,19 +48,19 @@ public class OGS extends SimBioModule implements OGSOperations,
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition.getCorbaObject();
+        return myPowerConsumerDefinition;
     }
 
     public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
-        return myPotableWaterConsumerDefinition.getCorbaObject();
+        return myPotableWaterConsumerDefinition;
     }
 
     public O2ProducerDefinition getO2ProducerDefinition() {
-        return myO2ProducerDefinition.getCorbaObject();
+        return myO2ProducerDefinition;
     }
 
     public H2ProducerDefinition getH2ProducerDefinition() {
-        return myH2ProducerDefinition.getCorbaObject();
+        return myH2ProducerDefinition;
     }
 
     /**

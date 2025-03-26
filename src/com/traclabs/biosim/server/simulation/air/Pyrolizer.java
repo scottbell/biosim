@@ -1,18 +1,11 @@
 package com.traclabs.biosim.server.simulation.air;
 
-import com.traclabs.biosim.server.simulation.air.H2ProducerOperations;
-import com.traclabs.biosim.server.simulation.air.MethaneConsumerOperations;
-import com.traclabs.biosim.server.simulation.air.PyrolizerOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.waste.DryWasteProducerDefinition;
-import com.traclabs.biosim.server.simulation.waste.DryWasteProducerOperations;
 
 
-public class Pyrolizer extends SimBioModule implements PyrolizerOperations,
-        PowerConsumerOperations, MethaneConsumerOperations,
-        DryWasteProducerOperations, H2ProducerOperations {
+public class Pyrolizer extends SimBioModule {
 
     //Consumers, Producers
     private PowerConsumerDefinition myPowerConsumerDefinition;
@@ -32,19 +25,19 @@ public class Pyrolizer extends SimBioModule implements PyrolizerOperations,
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition.getCorbaObject();
+        return myPowerConsumerDefinition;
     }
 
     public MethaneConsumerDefinition getMethaneConsumerDefinition() {
-        return myMethaneConsumerDefinition.getCorbaObject();
+        return myMethaneConsumerDefinition;
     }
 
     public DryWasteProducerDefinition getDryWasteProducerDefinition() {
-        return myDryWasteProducerDefinition.getCorbaObject();
+        return myDryWasteProducerDefinition;
     }
 
     public H2ProducerDefinition getH2ProducerDefinition() {
-        return myH2ProducerDefinition.getCorbaObject();
+        return myH2ProducerDefinition;
     }
 
     /**

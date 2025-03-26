@@ -12,7 +12,7 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModule;
  * @author scott
  *
  */
-public class RPCM extends SimBioModule implements RPCMOperations, PowerConsumerOperations, PowerProducerOperations {
+public class RPCM extends SimBioModule  {
 	 //Consumers, Producers
     private PowerProducerDefinition myPowerProducerDefinition;
     private PowerConsumerDefinition myPowerConsumerDefinition;
@@ -43,15 +43,6 @@ public class RPCM extends SimBioModule implements RPCMOperations, PowerConsumerO
         	powerGathered = myPowerConsumerDefinition.getResourceFromStores(0);
     	myPowerProducerDefinition.pushResourceToStores(powerGathered);
     }
-	
-	public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition.getCorbaObject();
-	}
-
-	public PowerProducerDefinition getPowerProducerDefinition() {
-        return myPowerProducerDefinition.getCorbaObject();
-	}
-
 
 	public RPCMSwitchState getSwitchState() {
 		return mySwitchState;

@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.simulation.crew;
 
-import com.traclabs.biosim.server.simulation.crew.MaitenanceActivityOperations;
 
 /**
  * Repair Activities.
@@ -8,8 +7,7 @@ import com.traclabs.biosim.server.simulation.crew.MaitenanceActivityOperations;
  * @author Scott Bell
  */
 
-public class MaitenanceActivity extends Activity implements
-        MaitenanceActivityOperations {
+public class MaitenanceActivity extends Activity {
     private String myModuleNameToMaintain = "Unknown";
 
     public MaitenanceActivity(String pName, int pTimeLength,

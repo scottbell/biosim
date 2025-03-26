@@ -2,28 +2,16 @@ package com.traclabs.biosim.server.simulation.food;
 
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.simulation.food.FoodMatter;
-import com.traclabs.biosim.server.simulation.food.FoodProducerDefinitionOperations;
-import com.traclabs.biosim.server.simulation.food.FoodProducerDefinitionPOATie;
-import com.traclabs.biosim.server.simulation.food.FoodStoreHelper;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
-import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell
  */
 
-public class FoodProducerDefinition extends StoreFlowRateControllable
-        implements FoodProducerDefinitionOperations {
-    private FoodProducerDefinition myFoodProducerDefinition;
+public class FoodProducerDefinition extends StoreFlowRateControllable  {
 
     public FoodProducerDefinition(BioModule pModule) {
     	super(pModule);
-    	FoodProducerDefinitionPOATie tie = new FoodProducerDefinitionPOATie(this);
-    	myFoodProducerDefinition = tie._this(OrbUtils.getORB());
-    }
-
-    public FoodProducerDefinition getCorbaObject() {
-        return myFoodProducerDefinition;
     }
 
     public void setFoodOutputs(FoodStore[] pStores, float[] pMaxFlowRates,
@@ -46,7 +34,7 @@ public class FoodProducerDefinition extends StoreFlowRateControllable
             float resourceToDistributeFinal = Math.min(
                     resourceToDistributeFirst, getDesiredFlowRate(i));
             */
-            FoodStore currentFoodStore = FoodStoreHelper.narrow(getStores()[i]);
+            FoodStore currentFoodStore = (FoodStore)(getStores()[i]);
             getActualFlowRates()[i] = currentFoodStore
                     .addFoodMatterArray(copyOfMatter);
             resourceDistributed -= getActualFlowRate(i);

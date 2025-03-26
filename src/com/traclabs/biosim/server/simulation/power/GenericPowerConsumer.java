@@ -1,10 +1,8 @@
 package com.traclabs.biosim.server.simulation.power;
 
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
-import com.traclabs.biosim.server.simulation.power.GenericPowerConsumerOperations;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 
-public class GenericPowerConsumer extends SimBioModule implements PowerConsumerOperations, GenericPowerConsumerOperations{
+public class GenericPowerConsumer extends SimBioModule {
 	private float myPowerRequired = 0f;
 	private float myPowerGathered = 0f;
 	
@@ -25,10 +23,6 @@ public class GenericPowerConsumer extends SimBioModule implements PowerConsumerO
 		myPowerGathered= myPowerConsumerDefinition.getResourceFromStores(myPowerRequired);
 	}
 
-	public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition.getCorbaObject();
-	}
-	
 	public void reset(){
 		super.reset();
 		myPowerConsumerDefinition.reset();

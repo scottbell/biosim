@@ -5,7 +5,6 @@ import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerDefinition;
 import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinition;
 import com.traclabs.biosim.server.simulation.water.WaterStore;
@@ -18,9 +17,7 @@ import java.util.Iterator;
  * @author Scott Bell
  */
 
-public class IATCS extends SimBioModule implements
-        IATCSOperations, PowerConsumerOperations,
-        GreyWaterConsumerOperations, GreyWaterProducerOperations {
+public class IATCS extends SimBioModule  {
     //Consumers, Producers
     private PowerConsumerDefinition myPowerConsumerDefinition;
 
@@ -47,7 +44,6 @@ public class IATCS extends SimBioModule implements
     
 	private IATCSState iatcsState = IATCSState.idle;
 	private IATCSActivation activateState = IATCSActivation.inProgress;
-	
 
 	private SoftwareState sfcaSoftwareState = SoftwareState.shutdown;
 	private SoftwareState twvmSoftwareState = SoftwareState.shutdown;

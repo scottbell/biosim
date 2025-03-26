@@ -4,13 +4,9 @@ import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.water.PotableWaterProducerDefinition;
-import com.traclabs.biosim.server.simulation.water.PotableWaterProducerOperations;
 
-public class CRS extends SimBioModule implements CRSOperations,
-        PowerConsumerOperations, PotableWaterProducerOperations,
-        O2ProducerOperations, CO2ConsumerOperations, H2ConsumerOperations, MethaneProducerOperations {
+public class CRS extends SimBioModule {
     //Consumers, Producers
     private PowerConsumerDefinition myPowerConsumerDefinition;
 
@@ -48,27 +44,27 @@ public class CRS extends SimBioModule implements CRSOperations,
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition.getCorbaObject();
+        return myPowerConsumerDefinition;
     }
 
     public PotableWaterProducerDefinition getPotableWaterProducerDefinition() {
-        return myPotableWaterProducerDefinition.getCorbaObject();
+        return myPotableWaterProducerDefinition;
     }
 
     public CO2ConsumerDefinition getCO2ConsumerDefinition() {
-        return myCO2ConsumerDefinition.getCorbaObject();
+        return myCO2ConsumerDefinition;
     }
 
     public O2ProducerDefinition getO2ProducerDefinition() {
-        return myO2ProducerDefinition.getCorbaObject();
+        return myO2ProducerDefinition;
     }
 
     public H2ConsumerDefinition getH2ConsumerDefinition() {
-        return myH2ConsumerDefinition.getCorbaObject();
+        return myH2ConsumerDefinition;
     }
 
     public MethaneProducerDefinition getMethaneProducerDefinition() {
-        return myMethaneProducerDefinition.getCorbaObject();
+        return myMethaneProducerDefinition;
     }
 
     private void gatherPower() {

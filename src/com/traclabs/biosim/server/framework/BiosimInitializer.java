@@ -1,10 +1,6 @@
 package com.traclabs.biosim.server.framework;
 
 import com.traclabs.biosim.server.actuator.framework.ActuatorInitializer;
-import com.traclabs.biosim.server.framework.BioModuleHelper;
-import com.traclabs.biosim.server.framework.LogLevel;
-import com.traclabs.biosim.server.framework.MalfunctionIntensity;
-import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.sensor.framework.SensorInitializer;
 import com.traclabs.biosim.server.simulation.crew.CrewGroup;
 import com.traclabs.biosim.server.simulation.food.BiomassPS;
@@ -13,12 +9,14 @@ import com.traclabs.biosim.server.util.failure.*;
 import com.traclabs.biosim.server.util.stochastic.NormalFilter;
 import com.traclabs.biosim.server.util.stochastic.StochasticFilter;
 import com.traclabs.biosim.util.RestUtils;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ch.qos.logback.classic.Level;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -80,7 +78,7 @@ public class BiosimInitializer {
 		mySensorInitializer = new SensorInitializer(myID);
 		myActuatorInitializer = new ActuatorInitializer(myID);
 		myModules = new Vector<BioModule>();
-		myLogger = Logger.getLogger(this.getClass());
+		myLogger = LoggerFactory.getLogger(this.getClass());
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
 				.newInstance();
 		documentBuilderFactory.setNamespaceAware(true);
@@ -304,90 +302,6 @@ public class BiosimInitializer {
 		}
 	}
 
-	private void parseNameServiceLocation(Node node) {
-		Node child = node.getFirstChild();
-		while (child != null) {
-			String childName = child.getLocalName();
-			if (childName != null) {
-				if (childName.equals("serverLocation")) {
-					parseServerLocation(child);
-				}
-				else if (childName.equals("fileLocation")) {
-					parseFileLocation(child);
-				}
-			}
-			child = child.getNextSibling();
-		}
-	}
-
-	private void parseFileLocation(Node node) {
-		String iorPathName = node.getAttributes().getNamedItem("path").getNodeValue();
-		File iorFile = new File(iorPathName);
-		myLogger.info("Looking for nameservice in file "+iorFile);
-		// Initialize REST API server
-		RestUtils.initialize();
-	}
-
-	private void parseServerLocation(Node node) {
-		String hostName = node.getAttributes().getNamedItem("hostname").getNodeValue();
-		int port = Integer.parseInt(node.getAttributes().getNamedItem("port").getNodeValue());
-		myLogger.info("Looking for nameservice on "+hostName+":"+port);
-		// Initialize REST API server
-		RestUtils.initialize();
-	}
-
-	private static BioModule[] convertList(List pBioModules) {
-		BioModule[] newArray = new BioModule[pBioModules.size()];
-		int i = 0;
-		for (Iterator iter = pBioModules.iterator(); iter.hasNext(); i++) {
-			newArray[i] = BioModuleHelper.narrow((org.omg.CORBA.Object) (iter
-					.next()));
-		}
-		return newArray;
-	}
-
-	public static boolean isCreatedLocally(Node node) {
-		return node.getAttributes().getNamedItem("createLocally")
-				.getNodeValue().equals("true");
-	}
-
-	public static String getModuleName(Node node) {
-		return node.getAttributes().getNamedItem("moduleName").getNodeValue();
-	}
-	
-	public static org.omg.CORBA.Object getModule(String moduleName) {
-		return getModule(0, moduleName);
-	}
-
-	public static org.omg.CORBA.Object getModule(int pID, String moduleName) {
-		org.omg.CORBA.Object moduleToReturn = null;
-		while (moduleToReturn == null) {
-			try {
-				moduleToReturn = RestUtils.getModule(pID, moduleName);
-			} catch (org.omg.CORBA.UserException e) {
-				Logger.getLogger(BiosimInitializer.class).error(
-						"Couldn't find module " + moduleName
-								+ ", polling again...");
-				RestUtils.sleepAwhile();
-			} catch (Exception e) {
-				Logger.getLogger(BiosimInitializer.class).error(
-						"Had problems contacting nameserver with module "
-								+ moduleName + ", polling again...");
-				// Reinitialize REST API server
-				RestUtils.shutdown();
-				RestUtils.initialize();
-				RestUtils.sleepAwhile();
-			}
-		}
-		return moduleToReturn;
-	}
-
-	public static void printRemoteWarningMessage(String pName) {
-		Logger.getLogger(BiosimInitializer.class).warn(
-				"\nInstance of the module named " + pName
-						+ " should be created remotely (if not already done)");
-	}
-
 	private static MalfunctionLength getMalfunctionLength(Node pNode) {
 		String lengthString = pNode.getAttributes().getNamedItem("length")
 				.getNodeValue();
@@ -418,7 +332,7 @@ public class BiosimInitializer {
 			return MalfunctionIntensity.LOW_MALF;
 	}
 
-	public static LogLevel getLogLevel(Node pNode) {
+	public static Level getLogLevel(Node pNode) {
 		String logString = pNode.getAttributes().getNamedItem("logLevel")
 				.getNodeValue();
 		if (logString.equals("OFF"))
@@ -438,18 +352,11 @@ public class BiosimInitializer {
 		else
 			return null;
 	}
-	
-	private static boolean getBionetEnablement(Node pNode) {
-		return pNode.getAttributes().getNamedItem("isBionetEnabled")
-				.getNodeValue().equals("true");
-	}
 
 	public static void setupBioModule(BioModule pModule, Node node) {
-		LogLevel logLevel = getLogLevel(node);
+		Level logLevel = getLogLevel(node);
 		if (logLevel != null)
 			pModule.setLogLevel(logLevel);
-		boolean isBionetEnabled = getBionetEnablement(node);
-		pModule.setBionetEnabled(isBionetEnabled);
 		Node child = node.getFirstChild();
 		while (child != null) {
 			String childName = child.getLocalName();

@@ -9,7 +9,7 @@ import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinition;
 import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerOperations;
 
 /**
- * The basic Dehimidifier ementation.
+ * The basic Dehimidifier implementation.
  * 
  * @author Scott Bell
  */

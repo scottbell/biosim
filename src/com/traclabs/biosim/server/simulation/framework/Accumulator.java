@@ -1,9 +1,7 @@
 package com.traclabs.biosim.server.simulation.framework;
 
-import com.traclabs.biosim.server.simulation.framework.AccumulatorOperations;
-
 /**
- * The basic Accumulator ementation. Can be configured to take any modules
+ * The basic Accumulator implementation. Can be configured to take any modules
  * as input, and any modules as output. It takes as much as it can (max taken
  * set by maxFlowRates) from one module and pushes it into another module.
  * Functionally equivalent to an Accumulator at this point.
@@ -11,7 +9,7 @@ import com.traclabs.biosim.server.simulation.framework.AccumulatorOperations;
  * @author Scott Bell
  */
 
-public class Accumulator extends ResourceMover implements AccumulatorOperations{
+public class Accumulator extends ResourceMover {
 	
     public Accumulator() {
     	this(0, "Unnamed Accumulator");

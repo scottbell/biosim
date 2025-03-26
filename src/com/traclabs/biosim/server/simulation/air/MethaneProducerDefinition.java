@@ -1,27 +1,18 @@
 package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.air.MethaneProducerDefinitionOperations;
-import com.traclabs.biosim.server.simulation.air.MethaneProducerDefinitionPOATie;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
-import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell
  */
 
 public class MethaneProducerDefinition extends
-        StoreFlowRateControllable implements
-        MethaneProducerDefinitionOperations {
+        StoreFlowRateControllable {
     private MethaneProducerDefinition myMethaneProducerDefinition;
 
     public MethaneProducerDefinition(BioModule pModule) {
-     super(pModule);    	MethaneProducerDefinitionPOATie tie = new MethaneProducerDefinitionPOATie(this);
-    	myMethaneProducerDefinition = tie._this(OrbUtils.getORB());
-    }
-
-    public MethaneProducerDefinition getCorbaObject() {
-        return myMethaneProducerDefinition;
+     super(pModule);
     }
 
     public void setMethaneOutputs(MethaneStore[] pStores,

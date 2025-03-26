@@ -1,9 +1,5 @@
-package com.traclabs.biosim.api.rest;
+package com.traclabs.biosim.server.framework;
 
-import com.traclabs.biosim.api.BioDriver;
-import com.traclabs.biosim.api.BioModule;
-import com.traclabs.biosim.api.MalfunctionIntensity;
-import com.traclabs.biosim.api.MalfunctionLength;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import org.slf4j.Logger;

@@ -5,22 +5,15 @@ import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.air.*;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerOperations;
 import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirProducerOperations;
 import com.traclabs.biosim.server.simulation.food.BiomassConsumerDefinition;
 import com.traclabs.biosim.server.simulation.food.BiomassProducerDefinition;
 import com.traclabs.biosim.server.simulation.food.FoodConsumerDefinition;
 import com.traclabs.biosim.server.simulation.food.FoodProducerDefinition;
-import com.traclabs.biosim.server.simulation.framework.InfluentValveOperations;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.power.PowerProducerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerProducerOperations;
 import com.traclabs.biosim.server.simulation.waste.DryWasteConsumerDefinition;
-import com.traclabs.biosim.server.simulation.waste.DryWasteConsumerOperations;
 import com.traclabs.biosim.server.simulation.waste.DryWasteProducerDefinition;
-import com.traclabs.biosim.server.simulation.waste.DryWasteProducerOperations;
 import com.traclabs.biosim.server.simulation.water.*;
 
 /**
@@ -29,20 +22,7 @@ import com.traclabs.biosim.server.simulation.water.*;
  * @author Scott Bell
  */
 
-public class InfluentValve extends SimBioModule implements
-		InfluentValveOperations, PowerConsumerOperations,
-		PotableWaterConsumerOperations, GreyWaterConsumerOperations,
-		WaterConsumerOperations, DirtyWaterConsumerOperations,
-		O2ConsumerOperations, CO2ConsumerOperations, AirConsumerOperations,
-		BiomassConsumerOperations, FoodConsumerOperations,
-		DryWasteConsumerOperations, H2ConsumerOperations,
-		NitrogenConsumerOperations, PowerProducerOperations,
-		PotableWaterProducerOperations, GreyWaterProducerOperations,
-		WaterProducerOperations, DirtyWaterProducerOperations,
-		O2ProducerOperations, CO2ProducerOperations, AirProducerOperations,
-		BiomassProducerOperations, FoodProducerOperations,
-		DryWasteProducerOperations, H2ProducerOperations,
-		NitrogenProducerOperations {
+public class InfluentValve extends SimBioModule {
 
 	// Consumers, Producers
 	private PowerConsumerDefinition myPowerConsumerDefinition;

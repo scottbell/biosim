@@ -5,7 +5,6 @@ import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.water.aws.*;
 
 import java.util.Arrays;
@@ -20,9 +19,7 @@ import java.util.Iterator;
  * @author Scott Bell
  */
 
-public class WaterRS extends SimBioModule implements WaterRSOperations,
-        PowerConsumerOperations, DirtyWaterConsumerOperations,
-        GreyWaterConsumerOperations, PotableWaterProducerOperations {
+public class WaterRS extends SimBioModule {
     //Consumers, Producers
     private PowerConsumerDefinition myPowerConsumerDefinition;
 
@@ -66,22 +63,6 @@ public class WaterRS extends SimBioModule implements WaterRSOperations,
         mySubsystems[1] = myRO;
         mySubsystems[2] = myAES;
         mySubsystems[3] = myPPS;
-    }
-
-    public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition.getCorbaObject();
-    }
-
-    public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
-        return myGreyWaterConsumerDefinition.getCorbaObject();
-    }
-
-    public DirtyWaterConsumerDefinition getDirtyWaterConsumerDefinition() {
-        return myDirtyWaterConsumerDefinition.getCorbaObject();
-    }
-
-    public PotableWaterProducerDefinition getPotableWaterProducerDefinition() {
-        return myPotableWaterProducerDefinition.getCorbaObject();
     }
 
     /**

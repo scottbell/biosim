@@ -1,16 +1,11 @@
 package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.server.framework.Malfunction;
-import com.traclabs.biosim.server.simulation.air.CO2ProducerOperations;
-import com.traclabs.biosim.server.simulation.air.VCCROperations;
 import com.traclabs.biosim.server.simulation.air.vccr.*;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerOperations;
 import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirProducerOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 
 /**
  * Produces air with less CO2. The pumps create pressure changes in each
@@ -22,9 +17,7 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
  * @author Scott Bell
  */
 
-public class VCCR extends SimBioModule implements VCCROperations,
-		PowerConsumerOperations, AirConsumerOperations, AirProducerOperations,
-		CO2ProducerOperations {
+public class VCCR extends SimBioModule {
 
 	// Consumers, Producers
 	private PowerConsumerDefinition myPowerConsumerDefinition;
@@ -123,19 +116,19 @@ public class VCCR extends SimBioModule implements VCCROperations,
 	}
 
 	public PowerConsumerDefinition getPowerConsumerDefinition() {
-		return myPowerConsumerDefinition.getCorbaObject();
+		return myPowerConsumerDefinition;
 	}
 
 	public AirConsumerDefinition getAirConsumerDefinition() {
-		return myAirConsumerDefinition.getCorbaObject();
+		return myAirConsumerDefinition;
 	}
 
 	public AirProducerDefinition getAirProducerDefinition() {
-		return myAirProducerDefinition.getCorbaObject();
+		return myAirProducerDefinition;
 	}
 
 	public CO2ProducerDefinition getCO2ProducerDefinition() {
-		return myCO2ProducerDefinition.getCorbaObject();
+		return myCO2ProducerDefinition;
 	}
 	
 	@Override

@@ -13,19 +13,13 @@ import com.traclabs.biosim.server.sensor.power.PowerOutFlowRateSensor;
 import com.traclabs.biosim.server.sensor.waste.DryWasteInFlowRateSensor;
 import com.traclabs.biosim.server.sensor.waste.DryWasteOutFlowRateSensor;
 import com.traclabs.biosim.server.sensor.water.*;
-import com.traclabs.biosim.server.simulation.crew.CrewGroupHelper;
 import com.traclabs.biosim.server.simulation.environment.EnvironmentStore;
 import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
-import com.traclabs.biosim.server.simulation.framework.EffluentValveHelper;
-import com.traclabs.biosim.server.simulation.framework.InfluentValveHelper;
-import com.traclabs.biosim.server.simulation.framework.StoreHelper;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerHelper;
-import com.traclabs.biosim.server.simulation.power.PowerProducerHelper;
-import com.traclabs.biosim.server.simulation.waste.DryWasteConsumerHelper;
-import com.traclabs.biosim.server.simulation.waste.DryWasteProducerHelper;
 import com.traclabs.biosim.util.XMLUtils;
-import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Vector;
@@ -46,7 +40,7 @@ public class SensorInitializer {
 	public SensorInitializer(int pID) {
 		myID = pID;
 		mySensors = new Vector<GenericSensor>();
-		myLogger = Logger.getLogger(this.getClass());
+		myLogger = LoggerFactory.getLogger(this.getClass());
 	}
 
 	// Sensors

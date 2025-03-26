@@ -1,6 +1,5 @@
 package com.traclabs.biosim.server.simulation.crew;
 
-import com.traclabs.biosim.server.simulation.crew.EVAActivityPOA;
 
 /**
  * An EVA Activity for a crew member. During this activity, the crew member
@@ -11,7 +10,7 @@ import com.traclabs.biosim.server.simulation.crew.EVAActivityPOA;
  * @author Scott Bell
  */
 
-public class EVAActivity extends EVAActivityPOA {
+public class EVAActivity {
     private String myBaseCrewGroupName;
 
     private String myEVACrewGroupName;

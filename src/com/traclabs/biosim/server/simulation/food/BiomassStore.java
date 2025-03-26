@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Vector;
 
 /**
- * The Biomass Store ementation. Takes raw plant matter from the Biomass RS
+ * The Biomass Store implementation. Takes raw plant matter from the Biomass RS
  * to be used by the Food Processor.
  * 
  * @author Scott Bell

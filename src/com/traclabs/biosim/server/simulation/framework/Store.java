@@ -7,7 +7,7 @@ import com.traclabs.biosim.server.framework.MalfunctionLength;
 import java.util.Iterator;
 
 /**
- * The basic Store ementation. Allows for basic store functionality (like
+ * The basic Store implementation. Allows for basic store functionality (like
  * adding, removing). <br>
  * Stores report information about their levels, etc. from currentTick-1 until
  * ALL modules have advanced to currentTick. <br>

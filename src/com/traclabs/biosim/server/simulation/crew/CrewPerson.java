@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
 import java.util.Random;
 
 /**
- * The Crew Person ementation. Eats/drinks/excercises away resources
+ * The Crew Person implementation. Eats/drinks/excercises away resources
  * according to a set schedule.
  * 
  * @author Scott Bell

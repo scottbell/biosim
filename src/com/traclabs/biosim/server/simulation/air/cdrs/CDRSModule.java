@@ -4,20 +4,15 @@ import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.air.CO2ProducerDefinition;
-import com.traclabs.biosim.server.simulation.air.CO2ProducerOperations;
 import com.traclabs.biosim.server.simulation.environment.Air;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerOperations;
 import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinition;
-import com.traclabs.biosim.server.simulation.water.GreyWaterProducerOperations;
 
-public class CDRSModule extends SimBioModule implements CDRSModuleOperations, PowerConsumerOperations, AirConsumerOperations, AirProducerOperations, CO2ProducerOperations
-, GreyWaterConsumerOperations, GreyWaterProducerOperations{
+public class CDRSModule extends SimBioModule {
     //Consumers, Producers
     private PowerConsumerDefinition myPowerConsumerDefinition;
 
@@ -184,27 +179,27 @@ public class CDRSModule extends SimBioModule implements CDRSModuleOperations, Po
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition.getCorbaObject();
+        return myPowerConsumerDefinition;
     }
 
 	public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
-		return myGreyWaterConsumerDefinition.getCorbaObject();
+		return myGreyWaterConsumerDefinition;
 	}
 
 	public GreyWaterProducerDefinition getGreyWaterProducerDefinition() {
-		return myGreyWaterProducerDefinition.getCorbaObject();
+		return myGreyWaterProducerDefinition;
 	}
 
 	public CO2ProducerDefinition getCO2ProducerDefinition() {
-		return myCO2ProducerDefinition.getCorbaObject();
+		return myCO2ProducerDefinition;
 	}
 
 	public AirProducerDefinition getAirProducerDefinition() {
-		return myAirProducerDefinition.getCorbaObject();
+		return myAirProducerDefinition;
 	}
 
 	public AirConsumerDefinition getAirConsumerDefinition() {
-		return myAirConsumerDefinition.getCorbaObject();
+		return myAirConsumerDefinition;
 	}
 
 	public void setState(CDRSState state) {

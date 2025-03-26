@@ -18,7 +18,7 @@ import ch.qos.logback.classic.Level;
 import java.util.*;
 
 /**
- * The Crew ementation. Holds multiple crew persons and their schedule.
+ * The Crew implementation. Holds multiple crew persons and their schedule.
  * 
  * @author Scott Bell
  */
@@ -73,34 +73,6 @@ public class CrewGroup extends SimBioModule {
         myDryWasteProducerDefinition = new DryWasteProducerDefinition(this);
     }
 
-    public FoodConsumerDefinition getFoodConsumerDefinition() {
-        return myFoodConsumerDefinition.getCorbaObject();
-    }
-
-    public AirConsumerDefinition getAirConsumerDefinition() {
-        return myAirConsumerDefinition.getCorbaObject();
-    }
-
-    public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
-        return myPotableWaterConsumerDefinition.getCorbaObject();
-    }
-
-    public GreyWaterProducerDefinition getGreyWaterProducerDefinition() {
-        return myGreyWaterProducerDefinition.getCorbaObject();
-    }
-
-    public DirtyWaterProducerDefinition getDirtyWaterProducerDefinition() {
-        return myDirtyWaterProducerDefinition.getCorbaObject();
-    }
-
-    public AirProducerDefinition getAirProducerDefinition() {
-        return myAirProducerDefinition.getCorbaObject();
-    }
-
-    public DryWasteProducerDefinition getDryWasteProducerDefinition() {
-        return myDryWasteProducerDefinition.getCorbaObject();
-    }
-
     /**
      * Creates a crew person and adds them to the crew
      * 
@@ -119,31 +91,15 @@ public class CrewGroup extends SimBioModule {
         return createCrewPerson(pName, pAge, pWeight, pSex, pArrivalTick, pDepartureTick, new Schedule(getCrewGroup()));
     }
     
-    public CrewPerson createCrewPerson(String pName, float pAge, float pWeight,
-            Sex pSex, int pArrivalTick, int pDepartureTick, Schedule pSchedule) {
-        return createCrewPerson("NORMAL", pName, pAge, pWeight, pSex, pArrivalTick, pDepartureTick, pSchedule);
-    }
-    
     private CrewGroup getCrewGroup(){
-    	CrewGroupPOATie tie = new CrewGroupPOATie(this);
-    	CrewGroup crewGroup = tie._this(OrbUtils.getORB());
-    	return crewGroup;
+    	return this;
     }
 
-    public CrewPerson createCrewPerson(String implementation, String pName, float pAge, float pWeight,
+    public CrewPerson createCrewPerson(String pName, float pAge, float pWeight,
             Sex pSex, int pArrivalTick, int pDepartureTick, Schedule pSchedule) {
-    	CrewPersonPOA newCrewPersonPOA = null;
-    	if (implementation.equals("NORMAL")){
-    		newCrewPersonPOA = new CrewPerson(pName, pAge,
+        CreaPerson newCrewPerson = new CrewPerson(pName, pAge,
                 pWeight, pSex, pArrivalTick, pDepartureTick, getCrewGroup(),
                 pSchedule);
-    	}
-    	else
-    		newCrewPersonPOA = new CrewPersonMatlab(pName, pAge,
-                    pWeight, pSex, pArrivalTick, pDepartureTick, getCrewGroup(),
-                    pSchedule);
-        CrewPerson newCrewPerson = CrewPersonHelper.narrow((OrbUtils
-                .poaToCorbaObj(newCrewPersonPOA)));
         crewPeople.put(pName, newCrewPerson);
         return newCrewPerson;
     }

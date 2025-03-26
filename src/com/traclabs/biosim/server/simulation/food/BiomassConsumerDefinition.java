@@ -1,12 +1,7 @@
 package com.traclabs.biosim.server.simulation.food;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.food.BioMatter;
-import com.traclabs.biosim.server.simulation.food.BiomassConsumerDefinitionOperations;
-import com.traclabs.biosim.server.simulation.food.BiomassConsumerDefinitionPOATie;
-import com.traclabs.biosim.server.simulation.food.BiomassStoreHelper;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
-import com.traclabs.biosim.util.OrbUtils;
 
 import java.util.Iterator;
 import java.util.List;
@@ -17,19 +12,10 @@ import java.util.Vector;
  */
 
 public class BiomassConsumerDefinition extends
-        StoreFlowRateControllable implements
-        BiomassConsumerDefinitionOperations {
-    private BiomassConsumerDefinition myBiomassConsumerDefinition;
+        StoreFlowRateControllable {
 
     public BiomassConsumerDefinition(BioModule pModule) {
 super(pModule);
-
-    	BiomassConsumerDefinitionPOATie tie = new BiomassConsumerDefinitionPOATie(this);
-    	myBiomassConsumerDefinition = tie._this(OrbUtils.getORB());
-    }
-
-    public BiomassConsumerDefinition getCorbaObject() {
-        return myBiomassConsumerDefinition;
     }
 
     public void setBiomassInputs(BiomassStore[] pStores, float[] pMaxFlowRates,
@@ -49,8 +35,7 @@ super(pModule);
                     getMaxFlowRate(i));
             float resourceToGatherFinal = Math.min(resourceToGatherFirst,
                     getDesiredFlowRate(i));
-            BiomassStore currentBiomassStore = BiomassStoreHelper
-                    .narrow(getStores()[i]);
+            BiomassStore currentBiomassStore = (BiomassStore)(getStores()[i]);
             BioMatter[] takenMatter = currentBiomassStore
                     .takeBioMatterMass(resourceToGatherFinal);
             sizeOfMatterArray += takenMatter.length;

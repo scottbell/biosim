@@ -5,11 +5,6 @@ import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
-import com.traclabs.biosim.server.simulation.water.DirtyWaterConsumerOperations;
-import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerOperations;
-import com.traclabs.biosim.server.simulation.water.PotableWaterProducerOperations;
-import com.traclabs.biosim.server.simulation.water.WaterRSOperations;
 
 //import java.lang.*;
 
@@ -22,10 +17,7 @@ import com.traclabs.biosim.server.simulation.water.WaterRSOperations;
  * @author Scott Bell
  */
 
-public class WaterRSLinear extends SimBioModule implements
-        WaterRSOperations, PowerConsumerOperations,
-        DirtyWaterConsumerOperations, GreyWaterConsumerOperations,
-        PotableWaterProducerOperations {
+public class WaterRSLinear extends SimBioModule {
     //Consumers, Producers
     private PowerConsumerDefinition myPowerConsumerDefinition;
 
@@ -51,19 +43,19 @@ public class WaterRSLinear extends SimBioModule implements
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition.getCorbaObject();
+        return myPowerConsumerDefinition;
     }
 
     public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
-        return myGreyWaterConsumerDefinition.getCorbaObject();
+        return myGreyWaterConsumerDefinition;
     }
 
     public DirtyWaterConsumerDefinition getDirtyWaterConsumerDefinition() {
-        return myDirtyWaterConsumerDefinition.getCorbaObject();
+        return myDirtyWaterConsumerDefinition;
     }
 
     public PotableWaterProducerDefinition getPotableWaterProducerDefinition() {
-        return myPotableWaterProducerDefinition.getCorbaObject();
+        return myPotableWaterProducerDefinition;
     }
 
     /**

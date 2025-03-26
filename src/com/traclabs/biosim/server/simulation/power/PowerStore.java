@@ -3,7 +3,7 @@ package com.traclabs.biosim.server.simulation.power;
 import com.traclabs.biosim.server.simulation.framework.Store;
 
 /**
- * The Power Store ementation. Takes power from the Power Production System
+ * The Power Store implementation. Takes power from the Power Production System
  * and stores it here for other modules to use.
  * 
  * @author Scott Bell

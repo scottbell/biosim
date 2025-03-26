@@ -1,9 +1,7 @@
 package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.air.MethaneConsumerDefinitionPOATie;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
-import com.traclabs.biosim.util.OrbUtils;
 
 /**
  * @author Scott Bell
@@ -14,9 +12,6 @@ public class MethaneConsumerDefinition extends StoreFlowRateControllable  {
 
     public MethaneConsumerDefinition(BioModule pModule) {
         super(pModule);
-
-    	MethaneConsumerDefinitionPOATie tie = new MethaneConsumerDefinitionPOATie(this);
-    	myMethaneConsumerDefinition = tie._this(OrbUtils.getORB());
     }
 
     public MethaneConsumerDefinition getCorbaObject() {

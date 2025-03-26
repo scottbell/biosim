@@ -1,15 +1,12 @@
 package com.traclabs.biosim.server.simulation.crew;
 
-import com.traclabs.biosim.server.simulation.crew.RepairActivityOperations;
-
 /**
  * Repair Activities.
  * 
  * @author Scott Bell
  */
 
-public class RepairActivity extends Activity implements
-        RepairActivityOperations {
+public class RepairActivity extends Activity {
     private long myMalfunctionID = 0;
 
     private String myModuleNameToRepair = "unknown";

@@ -1,9 +1,6 @@
 package com.traclabs.biosim.server.simulation.food;
 
 import com.traclabs.biosim.server.framework.Malfunction;
-import com.traclabs.biosim.server.simulation.food.FoodMatter;
-import com.traclabs.biosim.server.simulation.food.FoodStoreOperations;
-import com.traclabs.biosim.server.simulation.food.PlantType;
 import com.traclabs.biosim.server.simulation.framework.Store;
 
 import java.util.Iterator;
@@ -11,13 +8,13 @@ import java.util.List;
 import java.util.Vector;
 
 /**
- * The Food Store ementation. Takes raw plant matter from the Food RS to be
+ * The Food Store implementation. Takes raw plant matter from the Food RS to be
  * used by the Food Processor.
  * 
  * @author Scott Bell
  */
 
-public class FoodStore extends Store implements FoodStoreOperations {
+public class FoodStore extends Store {
     private List<FoodMatter> currentFoodItems;
 
     private FoodMatter myOriginalMatter;

@@ -1,13 +1,10 @@
 package com.traclabs.biosim.server.simulation.framework;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.framework.BioModuleHelper;
 import com.traclabs.biosim.server.framework.BiosimInitializer;
 import com.traclabs.biosim.server.framework.BiosimServer;
 import com.traclabs.biosim.server.simulation.air.*;
 import com.traclabs.biosim.server.simulation.air.cdrs.CDRSModule;
-import com.traclabs.biosim.server.simulation.air.cdrs.CDRSModuleHelper;
-import com.traclabs.biosim.server.simulation.air.cdrs.CDRSModulePOATie;
 import com.traclabs.biosim.server.simulation.crew.Activity;
 import com.traclabs.biosim.server.simulation.crew.CrewGroup;
 import com.traclabs.biosim.server.simulation.crew.EVAActivity;
@@ -19,18 +16,17 @@ import com.traclabs.biosim.server.simulation.food.BiomassPS;
 import com.traclabs.biosim.server.simulation.food.BiomassStore;
 import com.traclabs.biosim.server.simulation.food.FoodProcessor;
 import com.traclabs.biosim.server.simulation.food.FoodStore;
+import com.traclabs.biosim.server.simulation.food.PlantType;
 import com.traclabs.biosim.server.simulation.power.*;
 import com.traclabs.biosim.server.simulation.thermal.IATCS;
-import com.traclabs.biosim.server.simulation.thermal.IATCSHelper;
-import com.traclabs.biosim.server.simulation.thermal.IATCSPOATie;
 import com.traclabs.biosim.server.simulation.waste.DryWasteStore;
 import com.traclabs.biosim.server.simulation.waste.Incinerator;
 import com.traclabs.biosim.server.simulation.water.*;
-import com.traclabs.biosim.util.OrbUtils;
 import com.traclabs.biosim.util.XMLUtils;
-import org.apache.log4j.Logger;
-import org.omg.CosNaming.NamingContextExt;
 import org.w3c.dom.Node;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Vector;
@@ -54,7 +50,7 @@ public class SimulationInitializer {
 	/** Default constructor. */
 	public SimulationInitializer(int pID) {
 		myID = pID;
-		myLogger = Logger.getLogger(this.getClass());
+		myLogger = LoggerFactory.getLogger(this.getClass());
 		myPassiveSimModules = new Vector<PassiveModule>();
 		myActiveSimModules = new Vector<SimBioModule>();
 		myPrioritySimModules = new Vector<SimBioModule>();
@@ -921,7 +917,7 @@ public class SimulationInitializer {
 		return newSchedule;
 	}
 
-	private void createCrewPerson(Node node, CrewGroup crewGroup, CrewGroup crewGroup) {
+	private void createCrewPerson(Node node, CrewGroup crewGroup) {
 		Node child = node.getFirstChild();
 		Schedule schedule = null;
 		while (child != null) {
@@ -933,7 +929,6 @@ public class SimulationInitializer {
 			}
 			child = child.getNextSibling();
 		}
-		String implementation = node.getAttributes().getNamedItem("implementation").getNodeValue();
 		String name = node.getAttributes().getNamedItem("name").getNodeValue();
 		Sex sex;
 		if (node.getAttributes().getNamedItem("sex").getNodeValue().equals(
@@ -960,7 +955,7 @@ public class SimulationInitializer {
 
 			e.printStackTrace();
 		}
-		crewGroup.createCrewPerson(implementation, name, age, weight, sex, arrivalDate,
+		crewGroup.createCrewPerson(name, age, weight, sex, arrivalDate,
 				departureDate, schedule);
 		crewGroup.getCrewPerson(name).setLogLevel(
 				BiosimInitializer.getLogLevel(node));

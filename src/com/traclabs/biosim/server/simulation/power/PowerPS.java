@@ -4,10 +4,7 @@ import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.environment.LightConsumerDefinition;
-import com.traclabs.biosim.server.simulation.environment.LightConsumerOperations;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
-import com.traclabs.biosim.server.simulation.power.PowerPSOperations;
-import com.traclabs.biosim.server.simulation.power.PowerProducerOperations;
 
 import java.util.Iterator;
 
@@ -19,8 +16,7 @@ import java.util.Iterator;
  * @author Scott Bell
  */
 
-public abstract class PowerPS extends SimBioModule implements
-        PowerPSOperations, PowerProducerOperations, LightConsumerOperations {
+public abstract class PowerPS extends SimBioModule {
     //The power produced (in watts) by the Power PS at the current tick
     float currentPowerProduced = 0f;
 
@@ -37,14 +33,6 @@ public abstract class PowerPS extends SimBioModule implements
         super(pID, pName);
         myPowerProducerDefinition = new PowerProducerDefinition(this);
         myLightConsumerDefinition = new LightConsumerDefinition(this);
-    }
-
-    public PowerProducerDefinition getPowerProducerDefinition() {
-        return myPowerProducerDefinition.getCorbaObject();
-    }
-
-    public LightConsumerDefinition getLightConsumerDefinition() {
-        return myLightConsumerDefinition.getCorbaObject();
     }
 
     /**

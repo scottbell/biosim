@@ -3,8 +3,7 @@ package com.traclabs.biosim.server.sensor.framework;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.util.MathUtils;
 
-public abstract class GenericSensor extends BioModule implements
-        GenericSensorOperations {
+public abstract class GenericSensor extends BioModule {
     protected float myValue;
 
     public GenericSensor(int pID, String pName) {

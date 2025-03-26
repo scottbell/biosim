@@ -12,7 +12,7 @@ import ch.qos.logback.classic.Level;
 import java.util.*;
 
 /**
- * The BioModule ementation. Every Module should derive from this as to
+ * The BioModule implementation. Every Module should derive from this as to
  * allow ticking and logging.
  * 
  * @author Scott Bell
@@ -132,7 +132,7 @@ public abstract class BioModule {
     public void fixAllMalfunctions() {
     	for (Malfunction currentMalfunction : myMalfunctions.values()) {
             if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF)
-                myMalfunctions.remove(new Long(currentMalfunction.getID()));
+                myMalfunctions.remove(Long.valueOf(currentMalfunction.getID()));
 		}
     	if (myMalfunctions.isEmpty()) {
         	reset();
@@ -145,7 +145,7 @@ public abstract class BioModule {
      */
     public void clearAllMalfunctions() {
     	for (Malfunction currentMalfunction : myMalfunctions.values())
-            myMalfunctions.remove(new Long(currentMalfunction.getID()));
+            myMalfunctions.remove(currentMalfunction.getID());
     	myFailureTime = 0;
     	if (myMalfunctions.isEmpty()) {
         	reset();
@@ -189,7 +189,7 @@ public abstract class BioModule {
      */
     public void doSomeRepairWork(long malfunctionID) {
         Malfunction currentMalfunction = (myMalfunctions
-                .get(new Long(malfunctionID)));
+                .get(malfunctionID));
         if (currentMalfunction == null)
             return;
         currentMalfunction.doSomeRepairWork();
@@ -241,7 +241,7 @@ public abstract class BioModule {
                 malfunctionName, pIntensity, pLength, getTickLength());
         Malfunction newMalfunction = MalfunctionHelper.narrow(OrbUtils
                 .poaToCorbaObj(newMalfunction));
-        myMalfunctions.put((new Long(newMalfunction.getID())), newMalfunction);
+        myMalfunctions.put(newMalfunction.getID(), newMalfunction);
         return newMalfunction;
     }
 
@@ -254,7 +254,7 @@ public abstract class BioModule {
     private void startMalfunction(Malfunction pMalfunction) {
         Malfunction newMalfunction = MalfunctionHelper.narrow(OrbUtils
                 .poaToCorbaObj(pMalfunction));
-        myMalfunctions.put((new Long(newMalfunction.getID())), newMalfunction);
+        myMalfunctions.put(newMalfunction.getID(), newMalfunction);
     }
 
     /**
@@ -284,9 +284,9 @@ public abstract class BioModule {
      */
     public void fixMalfunction(long pID) {
         Malfunction theMalfunction = (myMalfunctions
-                .get(new Long(pID)));
+                .get(pID));
         if (theMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF)
-            myMalfunctions.remove(new Long(pID));
+            myMalfunctions.remove(pID);
         if (myMalfunctions.isEmpty()) {
         	reset();
         }
@@ -300,7 +300,7 @@ public abstract class BioModule {
      *            the ID of the malfunction to remove
      */
     public void clearMalfunction(long malfunctionID) {
-        myMalfunctions.remove(new Long(malfunctionID));
+        myMalfunctions.remove(malfunctionID);
     }
 
     /**

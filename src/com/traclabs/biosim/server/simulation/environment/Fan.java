@@ -10,7 +10,7 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerOperations;
 
 /**
- * The basic Fan ementation.
+ * The basic Fan implementation.
  * 
  * @author Scott Bell
  */
