@@ -9,7 +9,7 @@ import com.traclabs.biosim.server.simulation.framework.Store;
  * @author Scott Bell
  */
 
-public class CO2Store extends Store {
+public class CO2Store extends Store implements ICO2Store {
 
     public CO2Store(int pID, String pName) {
         super(pID, pName);

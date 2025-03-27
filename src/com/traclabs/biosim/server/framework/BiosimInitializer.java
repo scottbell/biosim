@@ -152,6 +152,11 @@ public class BiosimInitializer {
 
 	}
 
+	// Added helper method to convert a List of BioModules to an array using native functions.
+	private BioModule[] convertList(List<? extends BioModule> list) {
+		return list.toArray(new BioModule[0]);
+	}
+
 	public void parseFile(String fileToParse) {
 		try {
 			myLogger.info("Initializing...");
@@ -160,12 +165,7 @@ public class BiosimInitializer {
 			crawlBiosim(document, false);
 
 			BioDriver myDriver = null;
-			try {
-				myDriver = (BioDriver) RestUtils.getModule(myID, "BioDriver");
-			} catch (Exception e) {
-				myLogger.error(e.getMessage());
-				e.printStackTrace();
-			}
+			myDriver = new BioDriver(myID);
 			// Fold Actuators, SimModules, and Sensors into modules
 			myModules.addAll(mySensorInitializer.getSensors());
 			myModules.addAll(mySimulationInitializer.getPassiveSimModules());
@@ -246,23 +246,15 @@ public class BiosimInitializer {
 							logProperties.setProperty(nameProperty,
 									valueProperty);
 						}
-						else if (childName.equals("nameServiceLocation")) {
-							parseNameServiceLocation(child);
-						}
 					}
 					child = child.getNextSibling();
 				}
-				PropertyConfigurator.configure(logProperties);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		// second pass
 		else {
-			//register BioDriver
-	        GenericServer.registerServer(myBioDriver, myBioDriver.getName(),
-	        		myBioDriver.getID());
-			
 			// Give BioDriver crew to watch for (if we're doing run till dead)
 			Node crewsToWatchNode = node.getAttributes().getNamedItem(
 					"crewsToWatch");
@@ -271,13 +263,7 @@ public class BiosimInitializer {
 				String[] crewsToWatchArray = crewsToWatchString.split("\\s");
 				CrewGroup[] crewGroups = new CrewGroup[crewsToWatchArray.length];
 				for (int i = 0; i < crewGroups.length; i++) {
-					try {
-						crewGroups[i] = (CrewGroup) RestUtils.getModule(myID, crewsToWatchArray[i]);
-						myLogger.debug("Fetched "
-								+ crewGroups[i].getModuleName());
-					} catch (org.omg.CORBA.UserException e) {
-						e.printStackTrace();
-					}
+					crewGroups[i] = (CrewGroup) getBioDriver().getModule(crewsToWatchArray[i]);
 				}
 				myBioDriver.setCrewsToWatch(crewGroups);
 			}
@@ -290,13 +276,7 @@ public class BiosimInitializer {
 				String[] plantsToWatchArray = plantsToWatchString.split("\\s");
 				BiomassPS[] biomassPSs = new BiomassPS[plantsToWatchArray.length];
 				for (int i = 0; i < biomassPSs.length; i++) {
-					try {
-						biomassPSs[i] = (BiomassPS) RestUtils.getModule(myID, plantsToWatchArray[i]);
-						myLogger.debug("Fetched "
-								+ biomassPSs[i].getModuleName());
-					} catch (org.omg.CORBA.UserException e) {
-						e.printStackTrace();
-					}
+					biomassPSs[i] = (BiomassPS) getBioDriver().getModule(plantsToWatchArray[i]);
 				}
 				myBioDriver.setPlantsToWatch(biomassPSs);
 			}
@@ -352,19 +332,19 @@ public class BiosimInitializer {
 		String logString = pNode.getAttributes().getNamedItem("logLevel")
 				.getNodeValue();
 		if (logString.equals("OFF"))
-			return LogLevel.OFF;
+			return Level.OFF;
 		else if (logString.equals("INFO"))
-			return LogLevel.INFO;
+			return Level.INFO;
 		else if (logString.equals("DEBUG"))
-			return LogLevel.DEBUG;
+			return Level.DEBUG;
 		else if (logString.equals("ERROR"))
-			return LogLevel.ERROR;
+			return Level.ERROR;
 		else if (logString.equals("WARN"))
-			return LogLevel.WARN;
+			return Level.WARN;
 		else if (logString.equals("FATAL"))
-			return LogLevel.FATAL;
+			return Level.ERROR;
 		else if (logString.equals("ALL"))
-			return LogLevel.ALL;
+			return Level.TRACE;
 		else
 			return null;
 	}
@@ -380,11 +360,11 @@ public class BiosimInitializer {
 				StochasticFilter filter = getStochasticFilter(childName, child);
 				if (filter != null) {
 					pModule.setStochasticFilter(filter);
-					Logger.getLogger(BiosimInitializer.class).debug(
+					LoggerFactory.getLogger(BiosimInitializer.class).debug(
 							"created stochastic filter for"
 									+ pModule.getModuleName());
 				} else if (checkForFailureDecider(childName, pModule, child)) {
-					Logger.getLogger(BiosimInitializer.class).debug(
+					LoggerFactory.getLogger(BiosimInitializer.class).debug(
 							"created failure decider for"
 									+ pModule.getModuleName());
 				} else if (childName.equals("malfunction")) {

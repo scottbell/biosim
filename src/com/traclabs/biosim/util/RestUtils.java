@@ -57,13 +57,6 @@ public class RestUtils {
      * Set up the basic routes for the REST API
      */
     private static void setupRoutes() {
-        // Health check endpoint
-        app.get("/health", ctx -> ctx.result("OK"));
-        
-        // Get all modules
-        app.get("/modules", ctx -> {
-            ctx.json(ModuleRegistry.getRegistry());
-        });
     }
     
     /**

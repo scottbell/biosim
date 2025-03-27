@@ -2,6 +2,7 @@ package com.traclabs.biosim.server.framework;
 
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import io.javalin.plugin.bundled.CorsPluginConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,9 +30,7 @@ public class BiosimRestController {
         this.driver = new BioDriver(0);
         
         this.app = Javalin.create(config -> {
-            config.plugins.enableCors(cors -> cors.add(it -> {
-                it.anyHost();
-            }));
+            config.bundledPlugins.enableCors(cors -> cors.addRule(CorsPluginConfig.CorsRule::anyHost));
             config.http.defaultContentType = "application/json";
         });
         
@@ -53,21 +52,6 @@ public class BiosimRestController {
         app.post("/api/driver/resume", this::resumeSimulation);
         app.post("/api/driver/reset", this::resetSimulation);
         app.post("/api/driver/tick", this::advanceOneTick);
-        app.post("/api/driver/run-till-n", this::setRunTillN);
-        app.post("/api/driver/tick-length", this::setTickLength);
-        
-        // Module endpoints
-        app.get("/api/modules", this::getModules);
-        app.get("/api/modules/{name}", this::getModule);
-        app.post("/api/modules/{name}/malfunction", this::startMalfunction);
-        app.post("/api/modules/{name}/fix", this::fixMalfunction);
-        app.post("/api/modules/{name}/reset", this::resetModule);
-        
-        // Sensor endpoints
-        app.get("/api/sensors", this::getSensors);
-        
-        // Actuator endpoints
-        app.get("/api/actuators", this::getActuators);
     }
     
     /**
@@ -147,182 +131,7 @@ public class BiosimRestController {
         driver.advanceOneTick();
         ctx.json(Map.of("ticks", driver.getTicks()));
     }
-    
-    /**
-     * Set the number of ticks to run the simulation for
-     * 
-     * @param ctx The Javalin context
-     */
-    private void setRunTillN(Context ctx) {
-        try {
-            int ticks = Integer.parseInt(ctx.formParam("ticks"));
-            driver.setRunTillN(ticks);
-            ctx.json(Map.of("runTillN", ticks));
-        } catch (NumberFormatException e) {
-            ctx.status(400).json(Map.of("error", "Invalid ticks value"));
-        }
-    }
-    
-    /**
-     * Set the tick length
-     * 
-     * @param ctx The Javalin context
-     */
-    private void setTickLength(Context ctx) {
-        try {
-            float tickLength = Float.parseFloat(ctx.formParam("tickLength"));
-            driver.setTickLength(tickLength);
-            ctx.json(Map.of("tickLength", tickLength));
-        } catch (NumberFormatException e) {
-            ctx.status(400).json(Map.of("error", "Invalid tick length value"));
-        }
-    }
-    
-    /**
-     * Get all modules
-     * 
-     * @param ctx The Javalin context
-     */
-    private void getModules(Context ctx) {
-        List<Map<String, Object>> moduleInfos = driver.getModules().stream()
-                .map(this::createModuleInfo)
-                .collect(Collectors.toList());
-        
-        ctx.json(moduleInfos);
-    }
-    
-    /**
-     * Get a specific module
-     * 
-     * @param ctx The Javalin context
-     */
-    private void getModule(Context ctx) {
-        String name = ctx.pathParam("name");
-        BioModule module = driver.getModule(name);
-        
-        if (module == null) {
-            ctx.status(404).json(Map.of("error", "Module not found: " + name));
-            return;
-        }
-        
-        ctx.json(createModuleInfo(module));
-    }
-    
-    /**
-     * Start a malfunction in a module
-     * 
-     * @param ctx The Javalin context
-     */
-    private void startMalfunction(Context ctx) {
-        String name = ctx.pathParam("name");
-        BioModule module = driver.getModule(name);
-        
-        if (module == null) {
-            ctx.status(404).json(Map.of("error", "Module not found: " + name));
-            return;
-        }
-        
-        String intensityStr = ctx.formParam("intensity", "MEDIUM_MALF");
-        String lengthStr = ctx.formParam("length", "TEMPORARY_MALF");
-        
-        MalfunctionIntensity intensity;
-        try {
-            intensity = MalfunctionIntensity.valueOf(intensityStr);
-        } catch (IllegalArgumentException e) {
-            ctx.status(400).json(Map.of("error", "Invalid intensity value: " + intensityStr));
-            return;
-        }
-        
-        MalfunctionLength length;
-        try {
-            length = MalfunctionLength.valueOf(lengthStr);
-        } catch (IllegalArgumentException e) {
-            ctx.status(400).json(Map.of("error", "Invalid length value: " + lengthStr));
-            return;
-        }
-        
-        long id = module.startMalfunction(intensity, length);
-        ctx.json(Map.of("id", id, "module", name, "intensity", intensity, "length", length));
-    }
-    
-    /**
-     * Fix a malfunction in a module
-     * 
-     * @param ctx The Javalin context
-     */
-    private void fixMalfunction(Context ctx) {
-        String name = ctx.pathParam("name");
-        BioModule module = driver.getModule(name);
-        
-        if (module == null) {
-            ctx.status(404).json(Map.of("error", "Module not found: " + name));
-            return;
-        }
-        
-        try {
-            long id = Long.parseLong(ctx.formParam("id", "-1"));
-            if (id == -1) {
-                module.fixAllMalfunctions();
-                ctx.json(Map.of("status", "all malfunctions fixed", "module", name));
-            } else {
-                module.fixMalfunction(id);
-                ctx.json(Map.of("status", "malfunction fixed", "module", name, "id", id));
-            }
-        } catch (NumberFormatException e) {
-            ctx.status(400).json(Map.of("error", "Invalid malfunction ID"));
-        }
-    }
-    
-    /**
-     * Reset a module
-     * 
-     * @param ctx The Javalin context
-     */
-    private void resetModule(Context ctx) {
-        String name = ctx.pathParam("name");
-        BioModule module = driver.getModule(name);
-        
-        if (module == null) {
-            ctx.status(404).json(Map.of("error", "Module not found: " + name));
-            return;
-        }
-        
-        module.reset();
-        ctx.json(Map.of("status", "reset", "module", name));
-    }
-    
-    /**
-     * Create a map of module information
-     * 
-     * @param module The module
-     * @return A map of module information
-     */
-    private Map<String, Object> createModuleInfo(BioModule module) {
-        Map<String, Object> info = new HashMap<>();
-        info.put("id", module.getID());
-        info.put("name", module.getModuleName());
-        info.put("ticks", module.getMyTicks());
-        info.put("tickLength", module.getTickLength());
-        info.put("malfunctioning", module.isMalfunctioning());
-        info.put("failureEnabled", module.isFailureEnabled());
-        
-        List<Map<String, Object>> malfunctions = module.getMalfunctions().stream()
-                .map(m -> {
-                    Map<String, Object> mInfo = new HashMap<>();
-                    mInfo.put("id", m.getID());
-                    mInfo.put("name", m.getName());
-                    mInfo.put("intensity", m.getIntensity());
-                    mInfo.put("length", m.getLength());
-                    mInfo.put("performed", m.hasPerformed());
-                    mInfo.put("doneEnoughRepairWork", m.doneEnoughRepairWork());
-                    return mInfo;
-                })
-                .collect(Collectors.toList());
-        
-        info.put("malfunctions", malfunctions);
-        
-        return info;
-    }
+
     
     /**
      * Stop the REST API server

@@ -8,7 +8,7 @@ import com.traclabs.biosim.server.simulation.framework.Store;
  * 
  * @author Scott Bell
  */
-public class O2Store extends Store {
+public class O2Store extends Store implements IO2Store{
     public O2Store(int pID, String pName) {
         super(pID, pName);
     }

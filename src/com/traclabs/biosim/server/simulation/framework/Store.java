@@ -16,7 +16,7 @@ import java.util.Iterator;
  * @author Scott Bell
  */
 
-public class Store extends PassiveModule {
+public class Store extends PassiveModule implements IStore{
     //The currentLevel of whatever this store is holding (at t)
     protected float currentLevel = 0f;
 

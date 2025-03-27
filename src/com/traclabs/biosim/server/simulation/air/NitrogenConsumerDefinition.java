@@ -14,7 +14,7 @@ public class NitrogenConsumerDefinition extends
 super(pModule);
     }
 
-    public void setNitrogenInputs(NitrogenStore[] pStores,
+    public void setNitrogenInputs(INitrogenStore[] pStores,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);

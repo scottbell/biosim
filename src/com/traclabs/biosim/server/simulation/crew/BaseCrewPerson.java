@@ -1,8 +1,10 @@
 package com.traclabs.biosim.server.simulation.crew;
 
+import com.traclabs.biosim.server.framework.BioDriver;
 import com.traclabs.biosim.server.framework.BioModule;
 
 import ch.qos.logback.classic.Level;
+import com.traclabs.biosim.server.framework.BiosimInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -285,11 +287,8 @@ public abstract class BaseCrewPerson {
 		// detach from current crew group
 		myCurrentCrewGroup.detachCrewPerson(getName());
 		// attach to eva crew group
-		CrewGroup evaCrewGroup = CrewGroupHelper.narrow(OrbUtils.getBioModule(
-				myCurrentCrewGroup.getID(), evaCrewGroupName));
-		evaCrewGroup.attachCrewPerson(CrewPersonHelper.narrow((OrbUtils
-				.poaToCorbaObj(this))));
-		myCurrentCrewGroup = evaCrewGroup;
+
+		myCurrentCrewGroup = (CrewGroup) BiosimInitializer.getInstance(myCurrentCrewGroup.getID()).getBioDriver().getModule(evaCrewGroupName);
 		// perform activity for X ticks
 	}
 
@@ -301,11 +300,7 @@ public abstract class BaseCrewPerson {
 		// detach from EVA crew group
 		myCurrentCrewGroup.detachCrewPerson(getName());
 		// reattach to base crew group
-		CrewGroup baseCrewGroup = CrewGroupHelper.narrow((OrbUtils
-				.getBioModule(myCurrentCrewGroup.getID(), baseCrewGroupName)));
-		baseCrewGroup.attachCrewPerson(CrewPersonHelper.narrow((OrbUtils
-				.poaToCorbaObj(this))));
-		myCurrentCrewGroup = baseCrewGroup;
+		myCurrentCrewGroup = (CrewGroup) BiosimInitializer.getInstance(myCurrentCrewGroup.getID()).getBioDriver().getModule(baseCrewGroupName);
 		// remove 5% from base environment (assume 3.7 m3 airlock)
 		myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0]
 				.removeAirlockPercentage(0.05f);
@@ -418,14 +413,8 @@ public abstract class BaseCrewPerson {
      * "repair" activity
      */
     private void repairModule(String moduleName, long id) {
-        try {
-            BioModule moduleToRepair = (BioModule)getCurrentCrewGroup();
-            moduleToRepair.doSomeRepairWork(id);
-        } catch (org.omg.CORBA.UserException e) {
-            myLogger.warn("CrewPersonImp:" + getCurrentCrewGroup().getID()
-                    + ": Couldn't locate " + moduleName
-                    + " to repair, skipping...");
-        }
+        BioModule moduleToRepair = (BioModule)getCurrentCrewGroup();
+		moduleToRepair.doSomeRepairWork(id);
     }
 
     /**
@@ -433,16 +422,8 @@ public abstract class BaseCrewPerson {
      * performs "maitenance" activity
      */
     private void maintainModule(String moduleName) {
-        try {
-            BioModule module = BioModuleHelper.narrow(OrbUtils
-                    .getNamingContext(getCurrentCrewGroup().getID()).resolve_str(
-                            moduleName));
-            module.maintain();
-        } catch (org.omg.CORBA.UserException e) {
-            myLogger.warn("CrewPersonImp:" + getCurrentCrewGroup().getID()
-                    + ": Couldn't locate " + moduleName
-                    + " to repair, skipping...");
-        }
+		BioModule module = BiosimInitializer.getInstance(myCurrentCrewGroup.getID()).getBioDriver().getModule(moduleName);
+		module.maintain();
     }
 
 	/**

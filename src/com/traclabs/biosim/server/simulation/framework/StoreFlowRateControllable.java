@@ -10,8 +10,8 @@ import java.util.Arrays;
 
 public abstract class StoreFlowRateControllable extends
         SingleFlowRateControllable {
-    private Store[] myStores = new Store[0];
-    private Store[] myInitialStores = new Store[0];
+    private IStore[] myStores = new Store[0];
+    private IStore[] myInitialStores = new Store[0];
     
     public StoreFlowRateControllable(BioModule pModule){
     	super(pModule);
@@ -23,7 +23,7 @@ public abstract class StoreFlowRateControllable extends
         System.arraycopy(myInitialStores, 0, myStores, 0, myInitialStores.length);
     }
 
-    public Store[] getStores() {
+    public IStore[] getStores() {
         return myStores;
     }
     
@@ -31,7 +31,7 @@ public abstract class StoreFlowRateControllable extends
     	myStores[index] = store;
     }
 
-    public void setInitialStores(Store[] pStores) {
+    public void setInitialStores(IStore[] pStores) {
     	myInitialStores = pStores;
     	myStores = new Store[myInitialStores.length];
         System.arraycopy(myInitialStores, 0, myStores, 0, myInitialStores.length);
@@ -43,8 +43,8 @@ public abstract class StoreFlowRateControllable extends
         setInitialActualFlowRates(emptyActualFlowRates);
     }
     
-    public boolean connectsTo(Store pStore){
-    	for (Store store : myStores){
+    public boolean connectsTo(IStore pStore){
+    	for (IStore store : myStores){
     		if (store.equals(pStore))
     			return true;
     	}

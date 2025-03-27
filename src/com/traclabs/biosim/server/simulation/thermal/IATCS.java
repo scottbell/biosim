@@ -150,7 +150,7 @@ public class IATCS extends SimBioModule  {
  		}
  		else{
  			if (myGreyWaterConsumerDefinition.getStores().length > 0){
- 				WaterStore inputWaterStore = WaterStoreHelper.narrow(myGreyWaterConsumerDefinition.getStores()[0]);
+ 				WaterStore inputWaterStore = ((WaterStore) myGreyWaterConsumerDefinition.getStores()[0]);
  				float inputTemperature = inputWaterStore.getCurrentTemperature();
  				myGreyWaterProducerDefinition.pushResourceToStores(waterGathered, inputTemperature);
  			}
