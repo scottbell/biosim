@@ -37,4 +37,6 @@ public interface IStore {
     float getPercentageFilled();
     
     void log();
+
+    String getModuleName();
 }

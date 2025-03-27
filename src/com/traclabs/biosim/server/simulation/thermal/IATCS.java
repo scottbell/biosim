@@ -66,15 +66,15 @@ public class IATCS extends SimBioModule  {
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition.getCorbaObject();
+        return myPowerConsumerDefinition;
     }
 
     public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
-        return myGreyWaterConsumerDefinition.getCorbaObject();
+        return myGreyWaterConsumerDefinition;
     }
 
     public GreyWaterProducerDefinition getGreyWaterProducerDefinition() {
-        return myGreyWaterProducerDefinition.getCorbaObject();
+        return myGreyWaterProducerDefinition;
     }
 
     /**

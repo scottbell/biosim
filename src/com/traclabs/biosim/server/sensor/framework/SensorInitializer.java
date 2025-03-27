@@ -16,7 +16,6 @@ import com.traclabs.biosim.server.simulation.framework.*;
 import com.traclabs.biosim.server.simulation.power.*;
 import com.traclabs.biosim.server.simulation.water.*;
 import com.traclabs.biosim.server.simulation.waste.*;
-import com.traclabs.biosim.server.simulation.thermal.*;
 import com.traclabs.biosim.util.XMLUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -964,16 +963,16 @@ public class SensorInitializer {
 		while (child != null) {
 			String childName = child.getLocalName();
 			if (childName != null) {
-				if (childName.equals("DryWasteInFlowRateSensor")) {
-					if (firstPass)
-						createDryWasteInFlowRateSensor(child);
-					else
-						configureDryWasteInFlowRateSensor(child);
-				} else if (childName.equals("DryWasteOutFlowRateSensor")) {
-					if (firstPass)
-						createDryWasteOutFlowRateSensor(child);
-					else
-						configureDryWasteOutFlowRateSensor(child);
+			if (childName.equals("DryWasteInFlowRateSensor")) {
+				if (firstPass)
+					createDryWasteInFlowRateSensor(child);
+				else
+					configureDryWasteInFlowRateSensor(child);
+			} else if (childName.equals("DryWasteOutFlowRateSensor")) {
+				if (firstPass)
+					createDryWasteOutFlowRateSensor(child);
+				else
+					configureDryWasteOutFlowRateSensor(child);
 				}
 			}
 			child = child.getNextSibling();

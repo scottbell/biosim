@@ -240,108 +240,108 @@ public class InfluentValve extends SimBioModule {
 
 	// Consumers
 	public PowerConsumerDefinition getPowerConsumerDefinition() {
-		return myPowerConsumerDefinition.getCorbaObject();
+		return myPowerConsumerDefinition;
 	}
 
 	public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
-		return myPotableWaterConsumerDefinition.getCorbaObject();
+		return myPotableWaterConsumerDefinition;
 	}
 
 	public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
-		return myGreyWaterConsumerDefinition.getCorbaObject();
+		return myGreyWaterConsumerDefinition;
 	}
 
 	public DirtyWaterConsumerDefinition getDirtyWaterConsumerDefinition() {
-		return myDirtyWaterConsumerDefinition.getCorbaObject();
+		return myDirtyWaterConsumerDefinition;
 	}
 
 	public O2ConsumerDefinition getO2ConsumerDefinition() {
-		return myO2ConsumerDefinition.getCorbaObject();
+		return myO2ConsumerDefinition;
 	}
 
 	public CO2ConsumerDefinition getCO2ConsumerDefinition() {
-		return myCO2ConsumerDefinition.getCorbaObject();
+		return myCO2ConsumerDefinition;
 	}
 
 	public NitrogenConsumerDefinition getNitrogenConsumerDefinition() {
-		return myNitrogenConsumerDefinition.getCorbaObject();
+		return myNitrogenConsumerDefinition;
 	}
 
 	public AirConsumerDefinition getAirConsumerDefinition() {
-		return myAirConsumerDefinition.getCorbaObject();
+		return myAirConsumerDefinition;
 	}
 
 	public BiomassConsumerDefinition getBiomassConsumerDefinition() {
-		return myBiomassConsumerDefinition.getCorbaObject();
+		return myBiomassConsumerDefinition;
 	}
 
 	public FoodConsumerDefinition getFoodConsumerDefinition() {
-		return myFoodConsumerDefinition.getCorbaObject();
+		return myFoodConsumerDefinition;
 	}
 
 	public DryWasteConsumerDefinition getDryWasteConsumerDefinition() {
-		return myDryWasteConsumerDefinition.getCorbaObject();
+		return myDryWasteConsumerDefinition;
 	}
 
 	public H2ConsumerDefinition getH2ConsumerDefinition() {
-		return myH2ConsumerDefinition.getCorbaObject();
+		return myH2ConsumerDefinition;
 	}
 
 	public WaterConsumerDefinition getWaterConsumerDefinition() {
-		return myWaterConsumerDefinition.getCorbaObject();
+		return myWaterConsumerDefinition;
 	}
 
 	// Producers
 	public PowerProducerDefinition getPowerProducerDefinition() {
-		return myPowerProducerDefinition.getCorbaObject();
+		return myPowerProducerDefinition;
 	}
 
 	public PotableWaterProducerDefinition getPotableWaterProducerDefinition() {
-		return myPotableWaterProducerDefinition.getCorbaObject();
+		return myPotableWaterProducerDefinition;
 	}
 
 	public GreyWaterProducerDefinition getGreyWaterProducerDefinition() {
-		return myGreyWaterProducerDefinition.getCorbaObject();
+		return myGreyWaterProducerDefinition;
 	}
 
 	public DirtyWaterProducerDefinition getDirtyWaterProducerDefinition() {
-		return myDirtyWaterProducerDefinition.getCorbaObject();
+		return myDirtyWaterProducerDefinition;
 	}
 
 	public O2ProducerDefinition getO2ProducerDefinition() {
-		return myO2ProducerDefinition.getCorbaObject();
+		return myO2ProducerDefinition;
 	}
 
 	public CO2ProducerDefinition getCO2ProducerDefinition() {
-		return myCO2ProducerDefinition.getCorbaObject();
+		return myCO2ProducerDefinition;
 	}
 
 	public NitrogenProducerDefinition getNitrogenProducerDefinition() {
-		return myNitrogenProducerDefinition.getCorbaObject();
+		return myNitrogenProducerDefinition;
 	}
 
 	public AirProducerDefinition getAirProducerDefinition() {
-		return myAirProducerDefinition.getCorbaObject();
+		return myAirProducerDefinition;
 	}
 
 	public BiomassProducerDefinition getBiomassProducerDefinition() {
-		return myBiomassProducerDefinition.getCorbaObject();
+		return myBiomassProducerDefinition;
 	}
 
 	public FoodProducerDefinition getFoodProducerDefinition() {
-		return myFoodProducerDefinition.getCorbaObject();
+		return myFoodProducerDefinition;
 	}
 
 	public DryWasteProducerDefinition getDryWasteProducerDefinition() {
-		return myDryWasteProducerDefinition.getCorbaObject();
+		return myDryWasteProducerDefinition;
 	}
 
 	public H2ProducerDefinition getH2ProducerDefinition() {
-		return myH2ProducerDefinition.getCorbaObject();
+		return myH2ProducerDefinition;
 	}
 
 	public WaterProducerDefinition getWaterProducerDefinition() {
-		return myWaterProducerDefinition.getCorbaObject();
+		return myWaterProducerDefinition;
 	}
 	
     /**

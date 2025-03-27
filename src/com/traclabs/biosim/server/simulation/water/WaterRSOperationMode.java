@@ -22,7 +22,7 @@ public final class WaterRSOperationMode
             case _OFF: return OFF;
             case _GREY_WATER_ONLY: return GREY_WATER_ONLY;
             case _PARTIAL: return PARTIAL;
-            default: throw new org.omg.CORBA.BAD_PARAM();
+            default: throw new IllegalArgumentException();
         }
     }
     public String toString()

@@ -27,12 +27,14 @@ public abstract class PowerPS extends SimBioModule implements PowerProducer {
     //Consumers, Producers
     private PowerProducerDefinition myPowerProducerDefinition;
 
-    private LightConsumerDefinition myLightConsumerDefinition;
-
     public PowerPS(int pID, String pName) {
         super(pID, pName);
         myPowerProducerDefinition = new PowerProducerDefinition(this);
-        myLightConsumerDefinition = new LightConsumerDefinition(this);
+    }
+
+    @Override
+    public PowerProducerDefinition getPowerProducerDefinition() {
+        return myPowerProducerDefinition;
     }
 
     /**
@@ -95,7 +97,6 @@ public abstract class PowerPS extends SimBioModule implements PowerProducer {
         super.reset();
         currentPowerProduced = 0f;
         myPowerProducerDefinition.reset();
-        myLightConsumerDefinition.reset();
     }
 
     /**

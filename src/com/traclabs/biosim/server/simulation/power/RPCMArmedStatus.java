@@ -24,7 +24,7 @@ public final class RPCMArmedStatus
         switch (value) {
             case _enabled: return "enabled";
             case _inhibited: return "inhibited";
-            default: throw new org.omg.CORBA.BAD_PARAM();
+            default: throw new IllegalArgumentException();
         }
     }
     protected RPCMArmedStatus(int i)
