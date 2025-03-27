@@ -1,6 +1,7 @@
 package com.traclabs.biosim.server.sensor.framework;
 
 import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.util.MathUtils;
 
 public abstract class GenericSensor extends BioModule {
@@ -31,7 +32,7 @@ public abstract class GenericSensor extends BioModule {
         notifyListeners();
     }
 
-    public abstract BioModule getInputModule();
+    public abstract IBioModule getInputModule();
 
     public void log() {
         myLogger.debug("value=" + getValue());

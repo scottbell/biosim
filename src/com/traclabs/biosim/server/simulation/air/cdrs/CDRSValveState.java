@@ -11,6 +11,9 @@ public final class CDRSValveState
 	{
 		return value;
 	}
+	private CDRSValveState(int value) {
+		this.value = value;
+	}
 	public static CDRSValveState from_int(int value)
 	{
 		switch (value) {

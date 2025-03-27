@@ -1,7 +1,7 @@
 package com.traclabs.biosim.server.simulation.air.vccr;
 
 import com.traclabs.biosim.server.simulation.environment.EnvironmentFlowRateControllable;
-import com.traclabs.biosim.server.simulation.framework.Store;
+import com.traclabs.biosim.server.simulation.framework.IStore;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
 
 import java.util.List;
@@ -68,7 +68,7 @@ public class VCCRSubsystem {
 				equalizePressure(storeAttachment, this);
 	}
 
-	private static float calculatePressure(Store store) {
+	private static float calculatePressure(IStore store) {
 		//TODO
 		return 100;
 	}

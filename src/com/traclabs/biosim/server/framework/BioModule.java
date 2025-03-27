@@ -18,7 +18,7 @@ import java.util.*;
  * @author Scott Bell
  */
 
-public abstract class BioModule {
+public abstract class BioModule implements IBioModule{
     //The random number generator used for gaussian function (stochastic stuff)
     private static Random myRandomGen = new MersenneTwister();
 

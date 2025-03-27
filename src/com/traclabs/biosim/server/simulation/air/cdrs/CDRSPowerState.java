@@ -6,6 +6,9 @@ public final class CDRSPowerState {
 	public static final CDRSPowerState on = new CDRSPowerState(_on);
 	public static final int _off = 1;
 	public static final CDRSPowerState off = new CDRSPowerState(_off);
+	private CDRSPowerState(int value) {
+		this.value = value;
+	}
 	public int value()
 	{
 		return value;

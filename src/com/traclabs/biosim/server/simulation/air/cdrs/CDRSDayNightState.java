@@ -11,6 +11,9 @@ public final class CDRSDayNightState
 	{
 		return value;
 	}
+	private CDRSDayNightState(int value) {
+		this.value = value;
+	}
 	public static CDRSDayNightState from_int(int value)
 	{
 		switch (value) {

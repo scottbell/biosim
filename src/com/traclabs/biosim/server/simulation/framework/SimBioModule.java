@@ -8,7 +8,7 @@ import com.traclabs.biosim.server.framework.BioModule;
  * @author Scott Bell
  */
 
-public abstract class SimBioModule extends BioModule {
+public abstract class SimBioModule extends BioModule implements ISimBioModule{
     /**
      * Constructor to create a BioModule, should only be called by those
      * deriving from BioModule.

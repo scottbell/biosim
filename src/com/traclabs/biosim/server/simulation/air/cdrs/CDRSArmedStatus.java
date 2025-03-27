@@ -12,6 +12,9 @@ public final class CDRSArmedStatus
 	{
 		return value;
 	}
+	private CDRSArmedStatus(int value) {
+		this.value = value;
+	}
 	public static CDRSArmedStatus from_int(int value)
 	{
 		switch (value) {

@@ -12,6 +12,9 @@ public final class CDRSCommandStatus {
 	{
 		return value;
 	}
+	private CDRSCommandStatus(int value) {
+		this.value = value;
+	}
 	public static CDRSCommandStatus from_int(int value)
 	{
 		switch (value) {

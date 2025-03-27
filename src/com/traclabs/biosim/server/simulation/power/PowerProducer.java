@@ -1,5 +1,7 @@
 package com.traclabs.biosim.server.simulation.power;
 
-public interface PowerProducer {
+import com.traclabs.biosim.server.simulation.framework.ISimBioModule;
+
+public interface PowerProducer extends ISimBioModule{
     PowerProducerDefinition getPowerProducerDefinition();
 }

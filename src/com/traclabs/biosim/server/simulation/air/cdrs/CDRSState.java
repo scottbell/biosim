@@ -19,6 +19,9 @@ public final class CDRSState
 	{
 		return value;
 	}
+	private CDRSState(int value) {
+		this.value = value;
+	}
 	public static CDRSState from_int(int value)
 	{
 		switch (value) {
@@ -28,7 +31,7 @@ public final class CDRSState
 			case _single_bed: return single_bed;
 			case _transitioning: return transitioning;
 			case _inactive: return inactive;
-			default: throw new org.omg.CORBA.BAD_PARAM();
+			default: throw new IllegalArgumentException();
 		}
 	}
 	public String toString()
