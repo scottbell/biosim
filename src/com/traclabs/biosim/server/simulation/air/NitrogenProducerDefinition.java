@@ -14,7 +14,7 @@ public class NitrogenProducerDefinition extends
      super(pModule);
     }
 
-    public void setNitrogenOutputs(NitrogenStore[] pStores,
+    public void setNitrogenOutputs(INitrogenStore[] pStores,
             float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);

@@ -8,7 +8,6 @@ import com.traclabs.biosim.server.simulation.framework.SimulationInitializer;
 import com.traclabs.biosim.server.util.failure.*;
 import com.traclabs.biosim.server.util.stochastic.NormalFilter;
 import com.traclabs.biosim.server.util.stochastic.StochasticFilter;
-import com.traclabs.biosim.util.RestUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -21,12 +20,10 @@ import ch.qos.logback.classic.Level;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
 import java.net.URL;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 import java.util.Properties;
-import java.util.Vector;
+import java.util.HashSet;
 
 /**
  * Reads BioSim configuration from XML file.
@@ -59,7 +56,7 @@ public class BiosimInitializer {
 
 	private int myID = 0;
 
-	private List<BioModule> myModules;
+	private Set<BioModule> myModules;
 
 	private Logger myLogger;
 
@@ -93,7 +90,7 @@ public class BiosimInitializer {
 		mySimulationInitializer = new SimulationInitializer(myID);
 		mySensorInitializer = new SensorInitializer(myID);
 		myActuatorInitializer = new ActuatorInitializer(myID);
-		myModules = new Vector<BioModule>();
+		myModules = new HashSet<BioModule>();
 		myLogger = LoggerFactory.getLogger(this.getClass());
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
 				.newInstance();
@@ -152,9 +149,9 @@ public class BiosimInitializer {
 
 	}
 
-	// Added helper method to convert a List of BioModules to an array using native functions.
-	private BioModule[] convertList(List<? extends BioModule> list) {
-		return list.toArray(new BioModule[0]);
+	// Added helper method to convert a Set of BioModules to an array using native functions.
+	private BioModule[] convertSet(Set<? extends BioModule> set) {
+		return set.toArray(new BioModule[0]);
 	}
 
 	public void parseFile(String fileToParse) {
@@ -174,16 +171,16 @@ public class BiosimInitializer {
 			myModules.addAll(myActuatorInitializer.getActuators());
 
 			// Give Modules, Sensors, Actuatos to BioDriver to tick
-			BioModule[] moduleArray = convertList(myModules);
-			BioModule[] sensorArray = convertList(mySensorInitializer
+			BioModule[] moduleArray = convertSet(myModules);
+			BioModule[] sensorArray = convertSet(mySensorInitializer
 					.getSensors());
-			BioModule[] actuatorArray = convertList(myActuatorInitializer
+			BioModule[] actuatorArray = convertSet(myActuatorInitializer
 					.getActuators());
-			BioModule[] passiveSimModulesArray = convertList(mySimulationInitializer
+			BioModule[] passiveSimModulesArray = convertSet(mySimulationInitializer
 					.getPassiveSimModules());
-			BioModule[] activeSimModulesArray = convertList(mySimulationInitializer
+			BioModule[] activeSimModulesArray = convertSet(mySimulationInitializer
 					.getActiveSimModules());
-			BioModule[] prioritySimModulesArray = convertList(mySimulationInitializer
+			BioModule[] prioritySimModulesArray = convertSet(mySimulationInitializer
 					.getPrioritySimModules());
 			myDriver.setModules(moduleArray);
 			myDriver.setSensors(sensorArray);
@@ -347,6 +344,10 @@ public class BiosimInitializer {
 			return Level.TRACE;
 		else
 			return null;
+	}
+
+	public static String getModuleName(Node node) {
+		return node.getAttributes().getNamedItem("moduleName").getNodeValue();
 	}
 
 	public static void setupBioModule(BioModule pModule, Node node) {

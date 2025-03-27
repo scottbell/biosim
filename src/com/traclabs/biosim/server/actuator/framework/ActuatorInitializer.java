@@ -16,8 +16,8 @@ import org.w3c.dom.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Vector;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Reads BioSim configuration from XML file.
@@ -27,15 +27,15 @@ import java.util.Vector;
 public class ActuatorInitializer {
 	private int myID = 0;
 
-	private List<GenericActuator> myActuators;
+	private Set<GenericActuator> myActuators;
 
 	private Logger myLogger;
 
 	/** Default constructor. */
 	public ActuatorInitializer(int pID) {
 		myID = pID;
-		myActuators = new Vector<GenericActuator>();
-		myLogger = Logger.getLogger(this.getClass());
+		myActuators = new HashSet<GenericActuator>();
+		myLogger = LoggerFactory.getLogger(this.getClass());
 	}
 
 	private static int getShelfIndex(Node pNode) {
@@ -1115,7 +1115,7 @@ public class ActuatorInitializer {
 	/**
 	 * @return Returns the myActuators.
 	 */
-	public List<GenericActuator> getActuators() {
+	public Set<GenericActuator> getActuators() {
 		return myActuators;
 	}
 }

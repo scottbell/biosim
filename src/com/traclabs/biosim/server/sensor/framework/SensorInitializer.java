@@ -21,8 +21,8 @@ import org.w3c.dom.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Vector;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Reads BioSim configuration from XML file.
@@ -32,14 +32,14 @@ import java.util.Vector;
 public class SensorInitializer {
 	private int myID = 0;
 
-	private List<GenericSensor> mySensors;
+	private Set<GenericSensor> mySensors;
 
 	private Logger myLogger;
 
 	/** Default constructor. */
 	public SensorInitializer(int pID) {
 		myID = pID;
-		mySensors = new Vector<GenericSensor>();
+		mySensors = new HashSet<GenericSensor>();
 		myLogger = LoggerFactory.getLogger(this.getClass());
 	}
 
@@ -1533,7 +1533,7 @@ public class SensorInitializer {
 	/**
 	 * @return Returns the mySensors.
 	 */
-	public List<GenericSensor> getSensors() {
+	public Set<GenericSensor> getSensors() {
 		return mySensors;
 	}
 }

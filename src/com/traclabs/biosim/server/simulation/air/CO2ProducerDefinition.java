@@ -13,7 +13,7 @@ public class CO2ProducerDefinition extends StoreFlowRateControllable {
     	super(pModule);
     }
 
-    public void setCO2Outputs(CO2Store[] pStores, float[] pMaxFlowRates,
+    public void setCO2Outputs(ICO2Store[] pStores, float[] pMaxFlowRates,
             float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);

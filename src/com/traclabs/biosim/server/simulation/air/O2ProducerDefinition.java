@@ -13,7 +13,7 @@ public class O2ProducerDefinition extends StoreFlowRateControllable {
      super(pModule);
     }
 
-    public void setO2Outputs(O2Store[] pStores, float[] pMaxFlowRates,
+    public void setO2Outputs(IO2Store[] pStores, float[] pMaxFlowRates,
             float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
