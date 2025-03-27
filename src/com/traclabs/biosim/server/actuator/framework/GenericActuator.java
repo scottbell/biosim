@@ -1,6 +1,7 @@
 package com.traclabs.biosim.server.actuator.framework;
 
 import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.framework.IBioModule;
 
 public abstract class GenericActuator extends BioModule {
     protected float myValue;
@@ -44,7 +45,7 @@ public abstract class GenericActuator extends BioModule {
 
     protected abstract void processData();
 
-    public abstract BioModule getOutputModule();
+    public abstract IBioModule getOutputModule();
 
     public void log() {
         myLogger.debug(getModuleName() + ":\toutput=" + getValue());

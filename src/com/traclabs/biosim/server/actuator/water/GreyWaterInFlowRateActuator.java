@@ -1,7 +1,7 @@
 package com.traclabs.biosim.server.actuator.water;
 
 import com.traclabs.biosim.server.actuator.framework.GenericActuator;
-import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.water.GreyWaterConsumer;
 
 public class GreyWaterInFlowRateActuator extends GenericActuator
@@ -28,7 +28,7 @@ public class GreyWaterInFlowRateActuator extends GenericActuator
         myValue = getOutput().getGreyWaterConsumerDefinition().getDesiredFlowRate(myIndex);
     }
 
-    public BioModule getOutputModule() {
+    public IBioModule getOutputModule() {
         return myConsumer;
     }
 

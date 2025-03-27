@@ -1,7 +1,7 @@
 package com.traclabs.biosim.server.sensor.framework;
 
-import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.framework.IBioModule;
+import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.util.MathUtils;
 
 public abstract class GenericSensor extends BioModule {

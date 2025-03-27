@@ -1,7 +1,7 @@
 package com.traclabs.biosim.server.actuator.water;
 
 import com.traclabs.biosim.server.actuator.framework.GenericActuator;
-import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.water.PotableWaterProducer;
 
 public class PotableWaterOutFlowRateActuator extends GenericActuator
@@ -28,7 +28,7 @@ public class PotableWaterOutFlowRateActuator extends GenericActuator
         myValue = getOutput().getPotableWaterProducerDefinition().getDesiredFlowRate(myIndex);
     }
 
-    public BioModule getOutputModule() {
+    public IBioModule getOutputModule() {
         return (myProducer);
     }
 

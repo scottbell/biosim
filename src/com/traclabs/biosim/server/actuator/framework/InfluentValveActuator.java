@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.actuator.framework;
 
-import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.framework.InfluentValve;
 
 public class InfluentValveActuator extends GenericActuator  {
@@ -29,7 +29,7 @@ public class InfluentValveActuator extends GenericActuator  {
         return myInfluentValve;
     }
 
-	public BioModule getOutputModule() {
+	public IBioModule getOutputModule() {
 		return myInfluentValve;
 	}
 }

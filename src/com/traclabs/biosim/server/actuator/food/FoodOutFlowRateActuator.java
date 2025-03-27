@@ -1,7 +1,7 @@
 package com.traclabs.biosim.server.actuator.food;
 
 import com.traclabs.biosim.server.actuator.framework.GenericActuator;
-import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.food.FoodProducer;
 
 public class FoodOutFlowRateActuator extends GenericActuator {
@@ -27,7 +27,7 @@ public class FoodOutFlowRateActuator extends GenericActuator {
         myValue = getOutput().getFoodProducerDefinition().getDesiredFlowRate(myIndex);
     }
 
-    public BioModule getOutputModule() {
+    public IBioModule getOutputModule() {
         return myProducer;
     }
 

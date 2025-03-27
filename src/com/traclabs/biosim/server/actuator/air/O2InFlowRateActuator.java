@@ -1,7 +1,7 @@
 package com.traclabs.biosim.server.actuator.air;
 
 import com.traclabs.biosim.server.actuator.framework.GenericActuator;
-import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.air.O2Consumer;
 
 public class O2InFlowRateActuator extends GenericActuator {
@@ -27,7 +27,7 @@ public class O2InFlowRateActuator extends GenericActuator {
         myValue = getOutput().getO2ConsumerDefinition().getDesiredFlowRate(myIndex);
     }
 
-    public BioModule getOutputModule() {
+    public IBioModule getOutputModule() {
         return myConsumer;
     }
 

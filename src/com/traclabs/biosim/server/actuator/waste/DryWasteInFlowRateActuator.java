@@ -1,7 +1,7 @@
 package com.traclabs.biosim.server.actuator.waste;
 
 import com.traclabs.biosim.server.actuator.framework.GenericActuator;
-import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.waste.DryWasteConsumer;
 
 public class DryWasteInFlowRateActuator extends GenericActuator
@@ -28,7 +28,7 @@ public class DryWasteInFlowRateActuator extends GenericActuator
         myValue = getOutput().getDryWasteConsumerDefinition().getDesiredFlowRate(myIndex);
     }
 
-    public BioModule getOutputModule() {
+    public IBioModule getOutputModule() {
         return myConsumer;
     }
 

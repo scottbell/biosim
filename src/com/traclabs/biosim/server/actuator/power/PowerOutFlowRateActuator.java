@@ -1,7 +1,7 @@
 package com.traclabs.biosim.server.actuator.power;
 
 import com.traclabs.biosim.server.actuator.framework.GenericActuator;
-import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerProducer;
 
 public class PowerOutFlowRateActuator extends GenericActuator {
@@ -27,7 +27,7 @@ public class PowerOutFlowRateActuator extends GenericActuator {
         myValue = getOutput().getPowerProducerDefinition().getDesiredFlowRate(myIndex);
     }
 
-    public BioModule getOutputModule() {
+    public IBioModule getOutputModule() {
         return myProducer;
     }
 

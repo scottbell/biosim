@@ -1,7 +1,7 @@
 package com.traclabs.biosim.server.actuator.environment;
 
 import com.traclabs.biosim.server.actuator.framework.GenericActuator;
-import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.environment.AirProducer;
 
 public class AirOutFlowRateActuator extends GenericActuator {
@@ -31,7 +31,7 @@ public class AirOutFlowRateActuator extends GenericActuator {
         myValue = getOutput().getAirProducerDefinition().getDesiredFlowRate(myIndex);
     }
 
-    public BioModule getOutputModule() {
+    public IBioModule getOutputModule() {
         return myProducer;
     }
 
