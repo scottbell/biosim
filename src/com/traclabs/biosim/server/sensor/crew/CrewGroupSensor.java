@@ -23,7 +23,7 @@ public abstract class CrewGroupSensor extends GenericSensor {
         return myCrewGroup;
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return getInput();
     }
 }

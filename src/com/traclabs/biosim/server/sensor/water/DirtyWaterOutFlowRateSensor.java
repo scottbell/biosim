@@ -40,7 +40,7 @@ public class DirtyWaterOutFlowRateSensor extends GenericSensor
         return myIndex;
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return myProducer;
     }
 }

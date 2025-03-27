@@ -35,7 +35,7 @@ public class DryWasteInFlowRateSensor extends GenericSensor {
                 myIndex);
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return myConsumer;
     }
 

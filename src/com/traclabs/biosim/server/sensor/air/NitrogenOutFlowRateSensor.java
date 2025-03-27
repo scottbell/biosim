@@ -35,7 +35,7 @@ public class NitrogenOutFlowRateSensor extends GenericSensor {
         return myProducer;
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return myProducer;
     }
 

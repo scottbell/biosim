@@ -20,7 +20,7 @@ public class GasPressureSensor extends GenericSensor  {
         myValue = getStochasticFilter().randomFilter(preFilteredValue);
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return getInput();
     }
 

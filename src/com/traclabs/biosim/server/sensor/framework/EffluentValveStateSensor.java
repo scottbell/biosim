@@ -19,7 +19,7 @@ public class EffluentValveStateSensor extends EffluentValveSensor  {
     protected void notifyListeners() {
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return getInput();
     }
 }

@@ -35,7 +35,7 @@ public class MethaneInFlowRateSensor extends GenericSensor {
         return myConsumer;
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return myConsumer;
     }
 

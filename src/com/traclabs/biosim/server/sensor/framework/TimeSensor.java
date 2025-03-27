@@ -16,7 +16,7 @@ public class TimeSensor extends GenericSensor {
 	}
 
 	@Override
-	public BioModule getInputModule() {
+	public IBioModule getInputModule() {
 		return null;
 	}
 

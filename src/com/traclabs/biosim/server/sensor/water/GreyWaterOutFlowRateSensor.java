@@ -39,7 +39,7 @@ public class GreyWaterOutFlowRateSensor extends GenericSensor {
         return myIndex;
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return myProducer;
     }
 }

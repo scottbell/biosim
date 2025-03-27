@@ -34,7 +34,7 @@ public class O2InFlowRateSensor extends GenericSensor {
         return myIndex;
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return myConsumer;
     }
 

@@ -27,7 +27,7 @@ public abstract class ShelfSensor extends GenericSensor {
         return myShelf;
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return (myBiomassPS);
     }
 }

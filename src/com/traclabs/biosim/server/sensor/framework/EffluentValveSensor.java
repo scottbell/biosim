@@ -22,7 +22,7 @@ public abstract class EffluentValveSensor extends GenericSensor {
         return myEffluentValve;
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return getInput();
     }
 }

@@ -22,7 +22,7 @@ public class CrewGroupDeathSensor extends CrewGroupSensor {
     protected void notifyListeners() {
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return getInput();
     }
 }

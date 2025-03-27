@@ -33,7 +33,7 @@ public class TotalMolesSensor extends GenericSensor  {
 	}
 
 	@Override
-	public BioModule getInputModule() {
+	public IBioModule getInputModule() {
 		return myEnvironment;
 	}
 }

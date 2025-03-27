@@ -40,7 +40,7 @@ public class PotableWaterOutFlowRateSensor extends GenericSensor
                 myIndex);
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return myProducer;
     }
 }

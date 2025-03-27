@@ -32,7 +32,7 @@ public class AirInFlowRateSensor extends GenericSensor {
         return myConsumer;
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return myConsumer;
     }
 

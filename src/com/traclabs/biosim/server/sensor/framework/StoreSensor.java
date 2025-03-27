@@ -26,7 +26,7 @@ public abstract class StoreSensor extends GenericSensor {
         return myStore.getCurrentCapacity();
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return getInput();
     }
 }

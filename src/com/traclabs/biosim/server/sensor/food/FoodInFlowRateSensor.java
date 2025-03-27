@@ -34,7 +34,7 @@ public class FoodInFlowRateSensor extends GenericSensor {
         return myConsumer;
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return myConsumer;
     }
 

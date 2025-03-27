@@ -28,7 +28,7 @@ public abstract class BiomassStoreSensor extends GenericSensor
         return myBiomassStore.getCurrentCapacity();
     }
 
-    public BioModule getInputModule() {
+    public IBioModule getInputModule() {
         return getInput();
     }
 }
