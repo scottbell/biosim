@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy the Maven project files
 COPY pom.xml .
 COPY src/ ./src/
-COPY resources/ ./resources/
+COPY etc/ ./etc/
 COPY bin/ ./bin/
 
 # Install Maven and build the project

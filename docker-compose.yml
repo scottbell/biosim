@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  biosim-server:
+    build: .
+    ports:
+      - "8009:8009"
+    command: ["./bin/start-biosim-server", "0.0.0.0", "8009"]
