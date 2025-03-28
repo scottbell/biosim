@@ -59,10 +59,4 @@ public interface IBioModule {
     void setFailureDecider(FailureDecider decider);
 
     void reset();
-
-    boolean isBionetEnabled();
-
-    void setBionetEnabled(boolean enabled);
-
-    void bionetCallBack(String value);
 }

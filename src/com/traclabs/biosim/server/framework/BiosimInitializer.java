@@ -26,9 +26,8 @@ import javax.xml.validation.SchemaFactory;
 import java.io.FileNotFoundException;
 import java.io.StringReader;
 import java.net.URL;
-import java.util.Map;
 import java.util.HashMap;
-import java.util.Properties;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -38,7 +37,7 @@ import java.util.Set;
  */
 public class BiosimInitializer {
     private static final String SCHEMA_LOCATION_VALUE = "schema/BiosimInitSchema.xsd";
-    private static BiosimInitializer instance = null;
+    private static final Map<Integer, BiosimInitializer> instances = new HashMap<Integer, BiosimInitializer>();
     private final Map<String, IBioModule> myModules;
     private final Logger myLogger;
     private final SimulationInitializer mySimulationInitializer;
@@ -94,11 +93,22 @@ public class BiosimInitializer {
 		BiosimInitializer.getInstance(id).addModule(module);
     }
 
+    public static synchronized void testConfiguration() {
+        new BiosimInitializer(-1);
+    }
+
+
     public static synchronized BiosimInitializer getInstance(int pID) {
-        if (instance == null) {
-            instance = new BiosimInitializer(pID);
+        BiosimInitializer existingInstance = instances.get(pID);
+        if (existingInstance == null) {
+            existingInstance = new BiosimInitializer(pID);
+            instances.put(pID, existingInstance);
         }
-        return instance;
+        return existingInstance;
+    }
+
+    public static synchronized void deleteInstance(int pID) {
+        instances.remove(pID);
     }
 
     public IBioModule getModule(String name) {
@@ -388,6 +398,7 @@ public class BiosimInitializer {
                 myBioDriver.setLooping(node.getAttributes().getNamedItem(
                         "isLooping").getNodeValue().equals("true"));
             } catch (Exception e) {
+                myLogger.error("🛑 Could not crawl globals in configuration! " + e.getMessage());
                 e.printStackTrace();
             }
         }

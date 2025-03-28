@@ -70,6 +70,10 @@ public abstract class BaseCrewPerson {
                 .getScheduledActivityByOrder(myCurrentActivityIndex);
     }
 
+    public Schedule getSchedule() {
+        return mySchedule;
+    }
+
     /**
      * Resets the state of this crew member
      */

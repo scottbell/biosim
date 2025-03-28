@@ -33,7 +33,7 @@ public class BiosimServer {
         }
 
         // Test XML configuration for errors
-        BiosimInitializer.getInstance(-1);
+        BiosimInitializer.testConfiguration();
 
         // Start the Javalin server
         Javalin app = Javalin.create(config -> {

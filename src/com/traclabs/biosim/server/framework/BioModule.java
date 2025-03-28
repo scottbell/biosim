@@ -37,7 +37,6 @@ public abstract class BioModule implements IBioModule {
     //in hours (can be a fraction of an hour)
     private float myTickInterval = 1f;
     private FailureDecider myFailureDecider;
-    private boolean myBionetEnablement = false;
 
     /**
      * Constructor to create a BioModule, should only be called by those
@@ -372,16 +371,5 @@ public abstract class BioModule implements IBioModule {
 
     public void setFailureDecider(FailureDecider decider) {
         this.myFailureDecider = decider;
-    }
-
-    public boolean isBionetEnabled() {
-        return myBionetEnablement;
-    }
-
-    public void setBionetEnabled(boolean enabled) {
-        this.myBionetEnablement = enabled;
-    }
-
-    public void bionetCallBack(String value) {
     }
 }
