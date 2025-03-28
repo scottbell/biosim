@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Run the BioSim server in headless mode.
+# Usage: run-biosim [host] [port]
+# Default host is 0.0.0.0 and default port is 8080
+
+# Get the directory of this script
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Change to the project root directory
+cd "$DIR/.."
+
+# Set default host and port
+HOST="0.0.0.0"
+PORT=8080
+
+# Allow overriding defaults via command line arguments
+if [ $# -ge 1 ]; then
+    HOST=$1
+fi
+
+if [ $# -ge 2 ]; then
+    PORT=$2
+fi
+
+# Run the server using the jar built with dependencies
+java -jar target/biosim-1.0.0-jar-with-dependencies.jar "$HOST" "$PORT"

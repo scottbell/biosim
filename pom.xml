@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.traclabs</groupId>
@@ -60,13 +61,13 @@
 
     <build>
         <sourceDirectory>src</sourceDirectory>
-        <testSourceDirectory>test</testSourceDirectory>
         <resources>
             <resource>
                 <directory>resources</directory>
             </resource>
         </resources>
         <plugins>
+            <!-- Maven Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -76,11 +77,15 @@
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
+
+            <!-- Maven Surefire Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
             </plugin>
+
+            <!-- Maven Jar Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -90,11 +95,14 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.traclabs.biosim.client.framework.BiosimMain</mainClass>
+                            <!-- Updated Main Class -->
+                            <mainClass>com.traclabs.biosim.server.framework.BiosimServer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
+
+            <!-- Maven Dependency Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -112,6 +120,8 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Maven Assembly Plugin for creating an executable jar-with-dependencies -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -122,7 +132,8 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.traclabs.biosim.client.framework.BiosimMain</mainClass>
+                            <!-- Updated Main Class -->
+                            <mainClass>com.traclabs.biosim.server.framework.BiosimServer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

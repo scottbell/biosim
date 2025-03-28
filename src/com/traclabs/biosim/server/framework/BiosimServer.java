@@ -1,65 +1,53 @@
 package com.traclabs.biosim.server.framework;
 
+import io.javalin.Javalin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * Main class for the BioSim server.
- * Starts the REST API server.
+ * Starts the Javalin REST API server.
  */
 public class BiosimServer {
     private static final Logger logger = LoggerFactory.getLogger(BiosimServer.class);
-
     private static final int DEFAULT_PORT = 8080;
+    // Default host now uses 0.0.0.0 so that Docker can reach the service
+    private static final String DEFAULT_HOST = "0.0.0.0";
 
-    private final BiosimRestController controller;
-
-    /**
-     * Constructor
-     *
-     * @param port The port to run the server on
-     */
-    public BiosimServer(int port) {
-        logger.info("Starting BioSim server on port {}", port);
-        controller = new BiosimRestController(port);
-    }
-
-    /**
-     * Main method
-     *
-     * @param args Command line arguments
-     */
     public static void main(String[] args) {
+        String host = DEFAULT_HOST;
         int port = DEFAULT_PORT;
 
-        // Parse command line arguments
+        // If at least one argument is provided, treat it as the host
         if (args.length > 0) {
+            host = args[0];
+        }
+
+        // If a second argument is provided, treat it as the port
+        if (args.length > 1) {
             try {
-                port = Integer.parseInt(args[0]);
+                port = Integer.parseInt(args[1]);
             } catch (NumberFormatException e) {
-                logger.warn("Invalid port number: {}, using default: {}", args[0], DEFAULT_PORT);
+                logger.warn("Invalid port number: {}, using default: {}", args[1], DEFAULT_PORT);
             }
         }
 
-        // Start the server
-        BiosimServer server = new BiosimServer(port);
+        // Start the Javalin server
+        Javalin app = Javalin.create(config -> {
+            // Using Javalin 6.0.0's bundledPlugins method:
+            config.bundledPlugins.enableCors(cors -> cors.addRule(it -> it.anyHost()));
+            config.http.defaultContentType = "application/json";
+        });
 
-        // Add shutdown hook to stop the server when the JVM exits
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            logger.info("Shutting down BioSim server");
-            server.stop();
-        }));
+        // Register REST endpoints
+        SimulationController simulationController = new SimulationController();
+        simulationController.registerEndpoints(app);
 
-        logger.info("BioSim server started on port {}", port);
-        logger.info("Press Ctrl+C to stop");
-    }
+        // Bind to the host and port provided
+        app.start(host, port);
+        logger.info("BioSim server started on {}:{}", host, port);
 
-    /**
-     * Stop the server
-     */
-    public void stop() {
-        logger.info("Stopping BioSim server");
-        controller.stop();
+        // Add shutdown hook to stop the server gracefully
+        Runtime.getRuntime().addShutdownHook(new Thread(app::stop));
     }
 }

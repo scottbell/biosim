@@ -16,9 +16,12 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+
+import org.xml.sax.InputSource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.StringReader;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Properties;
@@ -30,34 +33,6 @@ import java.util.Set;
  * @author Scott Bell
  */
 public class BiosimInitializer {
-    private static final String SCHEMA_LOCATION_VALUE = "com/traclabs/biosim/server/framework/schema/BiosimInitSchema.xsd";
-
-    private static final String W3C_XML_SCHEMA = "http://www.w3.org/2001/XMLSchema";
-
-    private static final String JAXP_SCHEMA_LANGUAGE = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
-
-    private static final String JAXP_SCHEMA_SOURCE = "http://java.sun.com/xml/jaxp/properties/schemaSource";
-
-    // default settings
-    /**
-     * Default moduleNamespaces support (true).
-     */
-    private static final boolean DEFAULT_NAMESPACES = true;
-
-    /**
-     * Default validation support (false).
-     */
-    private static final boolean DEFAULT_VALIDATION = true;
-
-    /**
-     * Default Schema validation support (false).
-     */
-    private static final boolean DEFAULT_SCHEMA_VALIDATION = true;
-
-    /**
-     * Default Schema full checking support (false).
-     */
-    private static final boolean DEFAULT_SCHEMA_FULL_CHECKING = true;
     private static BiosimInitializer instance = null;
     private DocumentBuilder myDocumentBuilder = null;
     private int myID = 0;
@@ -68,41 +43,44 @@ public class BiosimInitializer {
     private final ActuatorInitializer myActuatorInitializer;
     private BioDriver myBioDriver;
 
-    /**
-     * Default constructor.
-     */
+	private static final String SCHEMA_LOCATION_VALUE = "com/traclabs/biosim/server/framework/schema/BiosimInitSchema.xsd";
+    private static final String JAXP_SCHEMA_LANGUAGE = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
+    private static final String W3C_XML_SCHEMA = "http://www.w3.org/2001/XMLSchema";
+    private static final String JAXP_SCHEMA_SOURCE = "http://java.sun.com/xml/jaxp/properties/schemaSource";
+
+
     private BiosimInitializer(int pID) {
         myID = pID;
         mySimulationInitializer = new SimulationInitializer(myID);
         mySensorInitializer = new SensorInitializer(myID);
         myActuatorInitializer = new ActuatorInitializer(myID);
-        myModules = new HashSet<BioModule>();
+        myModules = new HashSet<>();
         myLogger = LoggerFactory.getLogger(this.getClass());
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
-                .newInstance();
-        documentBuilderFactory.setNamespaceAware(true);
-        documentBuilderFactory.setValidating(true);
+
+        // Initialize the DocumentBuilder with JAXP configurations
         try {
-            documentBuilderFactory.setAttribute(JAXP_SCHEMA_LANGUAGE,
-                    W3C_XML_SCHEMA);
-            URL foundURL = BiosimInitializer.class.getClassLoader()
-                    .getResource(SCHEMA_LOCATION_VALUE);
-            if (foundURL != null) {
-                String urlString = foundURL.toString();
-                if (urlString.length() > 0)
-                    documentBuilderFactory.setAttribute(JAXP_SCHEMA_SOURCE,
-                            urlString);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
+            factory.setValidating(true);
+            factory.setFeature("http://javax.xml.XMLConstants/feature/secure-processing", true);
+
+            // Set the schema language to XML Schema
+            factory.setAttribute(JAXP_SCHEMA_LANGUAGE, W3C_XML_SCHEMA);
+
+            // Locate the schema file
+            URL schemaURL = getClass().getClassLoader().getResource(SCHEMA_LOCATION_VALUE);
+            if (schemaURL != null) {
+                factory.setAttribute(JAXP_SCHEMA_SOURCE, schemaURL.toString());
+            } else {
+                myLogger.warn("Schema file not found at {}", SCHEMA_LOCATION_VALUE);
             }
-            myDocumentBuilder = documentBuilderFactory.newDocumentBuilder();
+
+            myDocumentBuilder = factory.newDocumentBuilder();
             myDocumentBuilder.setErrorHandler(new DefaultHandler());
-        } catch (IllegalArgumentException e) {
-            // This can happen if the parser does not support JAXP 1.2
-            myLogger
-                    .warn("Had trouble configuring parser for schema validation: "
-                            + e);
         } catch (ParserConfigurationException e) {
-            myLogger.warn("Had trouble configuring parser: " + e);
-            e.printStackTrace();
+            myLogger.error("Error configuring parser: {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            myLogger.warn("Parser does not support JAXP 1.2 properties: {}", e.getMessage());
         }
     }
 
@@ -324,6 +302,56 @@ public class BiosimInitializer {
     // Added helper method to convert a Set of BioModules to an array using native functions.
     private BioModule[] convertSet(Set<? extends BioModule> set) {
         return set.toArray(new BioModule[0]);
+    }
+
+    /**
+     * Parses the XML configuration from a string.
+     *
+     * @param xmlConfig The XML configuration as a string
+     */
+    public void parseXmlConfiguration(String xmlConfig) {
+        try {
+            myLogger.info("Initializing...");
+            InputSource is = new InputSource(new StringReader(xmlConfig));
+            Document document = myDocumentBuilder.parse(is);
+
+            // First and second pass to process the XML document
+            crawlBiosim(document, true);
+            crawlBiosim(document, false);
+
+            // Initialize the BioDriver
+            myBioDriver = new BioDriver(myID);
+
+            // Collect all modules
+            myModules.addAll(mySensorInitializer.getSensors());
+            myModules.addAll(mySimulationInitializer.getPassiveSimModules());
+            myModules.addAll(mySimulationInitializer.getActiveSimModules());
+            myModules.addAll(mySimulationInitializer.getPrioritySimModules());
+            myModules.addAll(myActuatorInitializer.getActuators());
+
+            // Configure the BioDriver with modules
+            BioModule[] moduleArray = convertSet(myModules);
+            BioModule[] sensorArray = convertSet(mySensorInitializer.getSensors());
+            BioModule[] actuatorArray = convertSet(myActuatorInitializer.getActuators());
+            BioModule[] passiveSimModulesArray = convertSet(mySimulationInitializer.getPassiveSimModules());
+            BioModule[] activeSimModulesArray = convertSet(mySimulationInitializer.getActiveSimModules());
+            BioModule[] prioritySimModulesArray = convertSet(mySimulationInitializer.getPrioritySimModules());
+
+            myBioDriver.setModules(moduleArray);
+            myBioDriver.setSensors(sensorArray);
+            myBioDriver.setActuators(actuatorArray);
+            myBioDriver.setActiveSimModules(activeSimModulesArray);
+            myBioDriver.setPassiveSimModules(passiveSimModulesArray);
+            myBioDriver.setPrioritySimModules(prioritySimModulesArray);
+
+            myLogger.info("Initialization complete.");
+        } catch (SAXException e) {
+            myLogger.error("Parse error occurred: {}", e.getMessage());
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            myLogger.error("Error during initialization: {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     public void parseFile(String fileToParse) {
