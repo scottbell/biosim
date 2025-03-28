@@ -7,6 +7,7 @@ public final class Air {
     public float otherMoles;
     public float vaporMoles;
     public float nitrogenMoles;
+
     public Air() {
     }
 

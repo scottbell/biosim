@@ -34,9 +34,9 @@ import java.util.Set;
  * @author Scott Bell
  */
 public class ActuatorInitializer {
-    private int myID = 0;
     private final Set<GenericActuator> myActuators;
     private final Logger myLogger;
+    private int myID = 0;
 
     /**
      * Default constructor.

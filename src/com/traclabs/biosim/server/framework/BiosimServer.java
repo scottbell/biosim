@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  */
 public class BiosimServer {
     private static final Logger logger = LoggerFactory.getLogger(BiosimServer.class);
-    private static final int DEFAULT_PORT = 8080;
+    private static final int DEFAULT_PORT = 8009;
     // Default host now uses 0.0.0.0 so that Docker can reach the service
     private static final String DEFAULT_HOST = "0.0.0.0";
 

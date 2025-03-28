@@ -45,12 +45,9 @@ public class CrewGroup extends SimBioModule {
     private final Map<String, CrewPerson> crewPeople;
 
     private final Random myRandom = new MersenneTwister();
-
-    private boolean myDeathEnabled = true;
-
     private final List<String> crewScheduledForRemoval = new Vector<String>();
-
     private final List<CrewPerson> crewScheduledForAddition = new Vector<CrewPerson>();
+    private boolean myDeathEnabled = true;
 
     /**
      * Default constructor. Uses a default schedule.

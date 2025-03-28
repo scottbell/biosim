@@ -15,10 +15,10 @@ public class Shelf {
     /* grab 1520 watts per square meter (from table 4.2.2 in BVAD) */
     private static final float POWER_PER_SQUARE_METER = 1520f;
     private final Logger myLogger = LoggerFactory.getLogger(Shelf.class);
+    private final BiomassPS myBiomassPS;
     private Plant myCrop;
     private float cropAreaTotal = 0f;
     private float cropAreaUsed = 0f;
-    private final BiomassPS myBiomassPS;
     private float waterLevel = 0f;
     private float waterNeeded = 0f;
     private float powerLevel = 0f;

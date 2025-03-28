@@ -1,6 +1,5 @@
 package com.traclabs.biosim.util;
 
-import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -138,7 +137,7 @@ import java.util.Random;
  * @version 8
  */
 
-public class MersenneTwister extends Random  {
+public class MersenneTwister extends Random {
     // Period parameters
     private static final int N = 624;
 

@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
  */
 
 public abstract class BaseCrewPerson {
+    private final CrewGroup myBaseCrewGroup;
     protected Logger myLogger;
     // The name of this crew member
     private String myName = "No Name";
@@ -35,7 +36,6 @@ public abstract class BaseCrewPerson {
     private Schedule mySchedule;
     private int myArrivalTick = 0;
     private int myDepartureTick = Integer.MAX_VALUE;
-    private final CrewGroup myBaseCrewGroup;
     private CrewGroup myCurrentCrewGroup;
 
     /**

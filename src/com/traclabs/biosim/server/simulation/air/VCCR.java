@@ -27,51 +27,30 @@ public class VCCR extends SimBioModule {
     private final AirProducerDefinition myAirProducerDefinition;
 
     private final CO2ProducerDefinition myCO2ProducerDefinition;
-
-    private float currentCO2Produced = 0f;
-
-    private float currentPowerConsumed = 0;
-
     private final float gatheredCO2 = 0;
-
     private final DesiccantBed myDesciccantBed1 = new DesiccantBed();
-
     private final DesiccantBed myDesciccantBed2 = new DesiccantBed();
-
     private final CO2Bed myCO2Bed3 = new CO2Bed();
-
     private final CO2Bed myCO2Bed4 = new CO2Bed();
-
     private final Pump myPump1 = new Pump();
-
     private final Pump myPump2 = new Pump();
-
     private final HeatExchanger myHeatExchanger = new HeatExchanger();
-
     private final Valve myValve1 = new Valve();
-
     private final Valve myValve2 = new Valve();
-
     private final Valve myValve3 = new Valve();
-
     private final Valve myValve4 = new Valve();
-
     private final Valve myValve5 = new Valve();
-
     private final Valve myValve6 = new Valve();
-
     private final Valve myValve7 = new Valve();
-
     private final Valve myValve8 = new Valve();
-
     private final Valve myValve9 = new Valve();
-
     private final Valve myValve10 = new Valve();
-
     private final VCCRSubsystem[] mySubsystems = {myDesciccantBed1,
             myDesciccantBed2, myCO2Bed3, myCO2Bed4, myPump1, myPump2,
             myHeatExchanger, myValve1, myValve2, myValve3, myValve4, myValve5,
             myValve6, myValve7, myValve8, myValve9, myValve10};
+    private float currentCO2Produced = 0f;
+    private float currentPowerConsumed = 0;
 
     public VCCR(int pID, String pName) {
         super(pID, pName);

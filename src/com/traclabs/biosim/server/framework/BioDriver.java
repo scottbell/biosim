@@ -14,47 +14,33 @@ import java.util.Map;
  */
 
 public class BioDriver {
+    // The ID of this instance of BioSim
+    private final int myID;
+    private final Logger myLogger;
+    private final Map<String, BioModule> myModuleMap = new HashMap<String, BioModule>();
     // The thread to run the simulation
     private Thread myTickThread;
-
     // Flag to see whether the BioDriver is paused (started but not ticking)
     private boolean simulationIsPaused = false;
-
     // Flag to see whether the BioDriver is started at all
     private boolean simulationStarted = false;
-
     // If <runTillN == true, this is the number of ticks to run for.
     private int nTicks;
-
     // The number of ticks gone by
     private int ticksGoneBy;
-
     // Tells whether simulation runs until crew death
     private boolean runTillCrewDeath = false;
-
     // Tells whether simulation runs until plant death
     private boolean runTillPlantDeath = false;
-
     // Tells whether simulation runs till a fixed number of ticks
     // If <runTillN == true, this is the number of ticks to run for.
     private boolean runTillN = false;
-
     // How long BioDriver should pause between ticks
     private int myDriverStutterLength;
-
     private boolean exitWhenFinished = false;
-
-    // The ID of this instance of BioSim
-    private final int myID;
-
-    private final Logger myLogger;
-
     // If we loop after end conditions of a simulation run have been met (crew
     // death or n-ticks)
     private boolean looping = false;
-
-    private final Map<String, BioModule> myModuleMap = new HashMap<String, BioModule>();
-
     private CrewGroup[] crewsToWatch;
 
     private BiomassPS[] plantsToWatch;
@@ -217,7 +203,7 @@ public class BioDriver {
         BioModule[] simModules = new BioModule[activeSimModules.length
                 + passiveSimModules.length + prioritySimModules.length];
         System.arraycopy(activeSimModules, 0, simModules, 0, activeSimModules.length);
-        System.arraycopy(passiveSimModules, 0, simModules, 0 + activeSimModules.length, passiveSimModules.length);
+        System.arraycopy(passiveSimModules, 0, simModules, activeSimModules.length, passiveSimModules.length);
         for (int i = 0; i < prioritySimModules.length; i++)
             simModules[i + activeSimModules.length + passiveSimModules.length] = prioritySimModules[i];
         return simModules;

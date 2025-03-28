@@ -30,6 +30,13 @@ public abstract class Plant {
     private static final float LIGHT_TILL_DEAD = 150f;
     private static final float LIGHT_RECOVERY_RATE = 0.005f;
     private static final Random myRandomGen = new MersenneTwister();
+    private final SimpleBuffer consumedWaterBuffer;
+    private final SimpleBuffer consumedCO2LowBuffer;
+    private final SimpleBuffer consumedCO2HighBuffer;
+    private final SimpleBuffer consumedHeatBuffer;
+    private final SimpleBuffer consumedLightBuffer;
+    private final List<Float> myCanopyClosurePPFValues;
+    private final List<Float> myCanopyClosureCO2Values;
     protected int myAge = 0;
     protected Shelf myShelf;
     protected float[] canopyClosureConstants = new float[25];
@@ -61,14 +68,7 @@ public abstract class Plant {
     private float totalCO2GramsConsumed = 0f;
     private float totalWaterLitersTranspired = 0f;
     private float myTimeTillCanopyClosure = 0f;
-    private final SimpleBuffer consumedWaterBuffer;
-    private final SimpleBuffer consumedCO2LowBuffer;
-    private final SimpleBuffer consumedCO2HighBuffer;
-    private final SimpleBuffer consumedHeatBuffer;
-    private final SimpleBuffer consumedLightBuffer;
     private float myPPFFractionAbsorbed = 0f;
-    private final List<Float> myCanopyClosurePPFValues;
-    private final List<Float> myCanopyClosureCO2Values;
     private float myProductionRate = 1f;
 
     private float myMolesOfCO2Inhaled = 0f;

@@ -17,13 +17,13 @@ public class VCCRSubsystem {
     private final List<EnvironmentFlowRateControllable> myEnvironmentAttachments = new Vector<EnvironmentFlowRateControllable>();
     private final List<StoreFlowRateControllable> myStoreAttachments = new Vector<StoreFlowRateControllable>();
     private final float initialPressure = 101f;
-    private float currentPressure = initialPressure;
     private final float initialTemperature = 30f;
     private final float currentTemperature = initialTemperature;
-    private GasMoles myAirMoles;
     //in meters cubed
     private final float myVolume = 10f;
     private final float volume = 1f;
+    private float currentPressure = initialPressure;
+    private GasMoles myAirMoles;
 
     private static float calculatePressure(IStore store) {
         //TODO

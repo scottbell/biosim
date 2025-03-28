@@ -4,6 +4,7 @@ public final class FoodMatter {
     public float mass;
     public float waterContent;
     public PlantType type;
+
     public FoodMatter() {
     }
 

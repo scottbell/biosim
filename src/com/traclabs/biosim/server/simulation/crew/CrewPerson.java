@@ -36,6 +36,16 @@ public class CrewPerson extends BaseCrewPerson {
     private static final float LEISURE_RECOVERY_RATE = 90f;
     private static final float AWAKE_TILL_EXHAUSTION = 120;
     private static final float SLEEP_RECOVERY_RATE = 120f;
+    // Used to format floats
+    private final DecimalFormat numFormat;
+    private final Random myRandomGen = new MersenneTwister();
+    private final SimpleBuffer consumedWaterBuffer;
+    private final SimpleBuffer consumedLowOxygenBuffer;
+    private final SimpleBuffer highOxygenBuffer;
+    private final SimpleBuffer consumedCaloriesBuffer;
+    private final SimpleBuffer consumedCO2Buffer;
+    private final SimpleBuffer sleepBuffer;
+    private final SimpleBuffer leisureBuffer;
     // How much O2 this crew member consumed in the current tick
     private float O2Consumed = 0f;
     // How much CO2 this crew member produced in the current tick
@@ -70,16 +80,6 @@ public class CrewPerson extends BaseCrewPerson {
     // A mission productivity measure, used when "mission" is specified in the
     // schedule. Not implemented correctly yet.
     private float myMissionProductivity = 0;
-    // Used to format floats
-    private final DecimalFormat numFormat;
-    private final Random myRandomGen = new MersenneTwister();
-    private final SimpleBuffer consumedWaterBuffer;
-    private final SimpleBuffer consumedLowOxygenBuffer;
-    private final SimpleBuffer highOxygenBuffer;
-    private final SimpleBuffer consumedCaloriesBuffer;
-    private final SimpleBuffer consumedCO2Buffer;
-    private final SimpleBuffer sleepBuffer;
-    private final SimpleBuffer leisureBuffer;
 
     public CrewPerson(String pName, float pAge, float pWeight, Sex pSex,
                       int pArrivalTick, int pDepartureTick, CrewGroup pBaseCrewGroup,

@@ -21,11 +21,9 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.StringReader;
 import java.net.URL;
 import java.util.HashSet;
@@ -38,51 +36,50 @@ import java.util.Set;
  * @author Scott Bell
  */
 public class BiosimInitializer {
+    private static final String SCHEMA_LOCATION_VALUE = "schema/BiosimInitSchema.xsd";
     private static BiosimInitializer instance = null;
-    private DocumentBuilder myDocumentBuilder = null;
-    private int myID = 0;
     private final Set<BioModule> myModules;
     private final Logger myLogger;
     private final SimulationInitializer mySimulationInitializer;
     private final SensorInitializer mySensorInitializer;
     private final ActuatorInitializer myActuatorInitializer;
+    private DocumentBuilder myDocumentBuilder = null;
+    private int myID = 0;
     private BioDriver myBioDriver;
 
-	private static final String SCHEMA_LOCATION_VALUE = "schema/BiosimInitSchema.xsd";
-
     private BiosimInitializer(int pID) {
-		myID = pID;
-		mySimulationInitializer = new SimulationInitializer(myID);
-		mySensorInitializer = new SensorInitializer(myID);
-		myActuatorInitializer = new ActuatorInitializer(myID);
-		myModules = new HashSet<>();
-		myLogger = LoggerFactory.getLogger(this.getClass());
- 
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			factory.setNamespaceAware(true);
-			factory.setValidating(true);
-			factory.setFeature("http://javax.xml.XMLConstants/feature/secure-processing", true);
- 
-			SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			// Load the schema from the classpath
-			URL schemaURL = getClass().getClassLoader().getResource(SCHEMA_LOCATION_VALUE);
-			if (schemaURL == null) {
-				throw new FileNotFoundException("Schema file " + SCHEMA_LOCATION_VALUE + " not found in classpath.");
-			}
-			Schema schema = sf.newSchema(schemaURL);
-			factory.setSchema(schema);
- 
-			myDocumentBuilder = factory.newDocumentBuilder();
-			myDocumentBuilder.setErrorHandler(new DefaultHandler());
-		} catch (ParserConfigurationException | SAXException e) {
-			myLogger.error("Error configuring parser: {}", e.getMessage());
-			throw new RuntimeException("Failed to configure XML parser", e);
-		} catch (Exception e) {
-			myLogger.error("Error initializing document builder: {}", e.getMessage());
-			throw new RuntimeException("Failed to initialize document builder", e);
-		}
-	}
+        myID = pID;
+        mySimulationInitializer = new SimulationInitializer(myID);
+        mySensorInitializer = new SensorInitializer(myID);
+        myActuatorInitializer = new ActuatorInitializer(myID);
+        myModules = new HashSet<>();
+        myLogger = LoggerFactory.getLogger(this.getClass());
+
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
+            factory.setValidating(true);
+            factory.setFeature("http://javax.xml.XMLConstants/feature/secure-processing", true);
+
+            SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            // Load the schema from the classpath
+            URL schemaURL = getClass().getClassLoader().getResource(SCHEMA_LOCATION_VALUE);
+            if (schemaURL == null) {
+                throw new FileNotFoundException("Schema file " + SCHEMA_LOCATION_VALUE + " not found in classpath.");
+            }
+            Schema schema = sf.newSchema(schemaURL);
+            factory.setSchema(schema);
+
+            myDocumentBuilder = factory.newDocumentBuilder();
+            myDocumentBuilder.setErrorHandler(new DefaultHandler());
+        } catch (ParserConfigurationException | SAXException e) {
+            myLogger.error("Error configuring parser: {}", e.getMessage());
+            throw new RuntimeException("Failed to configure XML parser", e);
+        } catch (Exception e) {
+            myLogger.error("Error initializing document builder: {}", e.getMessage());
+            throw new RuntimeException("Failed to initialize document builder", e);
+        }
+    }
 
     public static synchronized BiosimInitializer getInstance(int pID) {
         if (instance == null) {
@@ -350,7 +347,7 @@ public class BiosimInitializer {
             throw new RuntimeException(e);
         } catch (Exception e) {
             myLogger.error("🛑 Error during initialization: {}", e.getMessage());
-			e.printStackTrace();
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

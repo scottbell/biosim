@@ -15,15 +15,10 @@ public class OGS extends SimBioModule {
     private final O2ProducerDefinition myO2ProducerDefinition;
 
     private final H2ProducerDefinition myH2ProducerDefinition;
-
-    private float currentH2OConsumed = 0;
-
-    private float currentO2Produced = 0;
-
-    private float currentH2Produced = 0;
-
     private final float myProductionRate = 1f;
-
+    private float currentH2OConsumed = 0;
+    private float currentO2Produced = 0;
+    private float currentH2Produced = 0;
     private float currentPowerConsumed = 0f;
 
     public OGS(int pID, String pName) {

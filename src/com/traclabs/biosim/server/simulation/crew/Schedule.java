@@ -12,21 +12,15 @@ import java.util.*;
  */
 
 public class Schedule {
+    private final CrewGroup myCrewGroup;
     //Each activity hashed by their names
     private Map<String, Activity> allActivities;
-
     //Each activity ordered (scheduled if you will)
     private List<Activity> orderedSchedule;
-
     private Activity myBornActivity;
-
     private Activity myDeadActivity;
-
     private Activity mySickActivity;
-
     private Activity myAbsentActivity;
-
-    private final CrewGroup myCrewGroup;
 
     /**
      * Constructor that creates a new default schedule.

@@ -3,11 +3,10 @@ package com.traclabs.biosim.server.simulation.power;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 
 public class GenericPowerConsumer extends SimBioModule {
-    private float myPowerRequired = 0f;
-    private float myPowerGathered = 0f;
-
     //Consumers, Producers
     private final PowerConsumerDefinition myPowerConsumerDefinition;
+    private float myPowerRequired = 0f;
+    private float myPowerGathered = 0f;
 
     public GenericPowerConsumer(int pID, String pName) {
         super(pID, pName);

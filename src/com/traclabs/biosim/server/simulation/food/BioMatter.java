@@ -6,6 +6,7 @@ public final class BioMatter {
     public float edibleWaterContent;
     public float inedibleWaterContent;
     public PlantType type;
+
     public BioMatter() {
     }
 

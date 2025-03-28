@@ -36,9 +36,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class SensorInitializer {
-    private int myID = 0;
     private final Set<GenericSensor> mySensors;
     private final Logger myLogger;
+    private int myID = 0;
 
     public SensorInitializer(int pID) {
         myID = pID;

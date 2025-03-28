@@ -28,13 +28,11 @@ import java.util.Set;
  * @author Scott Bell
  */
 public class SimulationInitializer {
-    private int myID = 0;
-
     private final Set<SimBioModule> myActiveSimModules;
     private final Set<PassiveModule> myPassiveSimModules;
     private final Set<SimBioModule> myPrioritySimModules;
-
     private final Logger myLogger;
+    private int myID = 0;
 
     /**
      * Default constructor.
@@ -272,283 +270,311 @@ public class SimulationInitializer {
         while (child != null) {
             String childName = child.getLocalName();
             if (childName != null) {
-                if (childName.equals("powerConsumer")) {
-                    PowerConsumer myPowerConsumer = (PowerConsumer) (pModule);
-                    BioModule[] modules = getInputs(child);
-                    PowerStore[] inputs = new PowerStore[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        inputs[i] = (PowerStore) modules[i];
-                    myPowerConsumer.getPowerConsumerDefinition()
-                            .setPowerInputs(inputs, getMaxFlowRates(child),
-                                    getDesiredFlowRates(child));
-                } else if (childName.equals("potableWaterConsumer")) {
-                    PotableWaterConsumer myPotableWaterConsumer = (PotableWaterConsumer) (pModule);
-                    BioModule[] modules = getInputs(child);
-                    PotableWaterStore[] inputs = new PotableWaterStore[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        inputs[i] = (PotableWaterStore) modules[i];
-                    myPotableWaterConsumer.getPotableWaterConsumerDefinition()
-                            .setPotableWaterInputs(inputs,
-                                    getMaxFlowRates(child),
-                                    getDesiredFlowRates(child));
-                } else if (childName.equals("greyWaterConsumer")) {
-                    GreyWaterConsumer myGreyWaterConsumer = (GreyWaterConsumer) (pModule);
-                    BioModule[] modules = getInputs(child);
-                    GreyWaterStore[] inputs = new GreyWaterStore[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        inputs[i] = (GreyWaterStore) (modules[i]);
-                    myGreyWaterConsumer.getGreyWaterConsumerDefinition()
-                            .setGreyWaterInputs(inputs, getMaxFlowRates(child),
-                                    getDesiredFlowRates(child));
-                } else if (childName.equals("dirtyWaterConsumer")) {
-                    DirtyWaterConsumer myDirtyWaterConsumer = (DirtyWaterConsumer) (pModule);
-                    BioModule[] modules = getInputs(child);
-                    DirtyWaterStore[] inputs = new DirtyWaterStore[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        inputs[i] = ((DirtyWaterStore) modules[i]);
-                    myDirtyWaterConsumer.getDirtyWaterConsumerDefinition()
-                            .setDirtyWaterInputs(inputs,
-                                    getMaxFlowRates(child),
-                                    getDesiredFlowRates(child));
-                } else if (childName.equals("airConsumer")) {
-                    AirConsumer myAirConsumer = (AirConsumer) (pModule);
-                    BioModule[] modules = getInputs(child);
-                    SimEnvironment[] inputs = new SimEnvironment[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        inputs[i] = ((SimEnvironment) modules[i]);
-                    myAirConsumer.getAirConsumerDefinition().setAirInputs(
-                            inputs, getMaxFlowRates(child),
-                            getDesiredFlowRates(child));
-                } else if (childName.equals("H2Consumer")) {
-                    H2Consumer myH2Consumer = (H2Consumer) (pModule);
-                    BioModule[] modules = getInputs(child);
-                    H2Store[] inputs = new H2Store[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        inputs[i] = ((H2Store) modules[i]);
-                    myH2Consumer.getH2ConsumerDefinition().setH2Inputs(inputs,
-                            getMaxFlowRates(child), getDesiredFlowRates(child));
-                } else if (childName.equals("nitrogenConsumer")) {
-                    NitrogenConsumer myNitrogenConsumer = (NitrogenConsumer) (pModule);
-                    BioModule[] modules = getInputs(child);
-                    INitrogenStore[] inputs = new INitrogenStore[modules.length];
-                    for (int i = 0; i < modules.length; i++) {
-                        if (modules[i] instanceof SimEnvironment) {
-                            SimEnvironment currentEnvironment = (SimEnvironment) (modules[i]);
-                            inputs[i] = currentEnvironment.getNitrogenStore();
-                        } else
-                            inputs[i] = ((INitrogenStore) modules[i]);
+                switch (childName) {
+                    case "powerConsumer" -> {
+                        PowerConsumer myPowerConsumer = (PowerConsumer) (pModule);
+                        BioModule[] modules = getInputs(child);
+                        PowerStore[] inputs = new PowerStore[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            inputs[i] = (PowerStore) modules[i];
+                        myPowerConsumer.getPowerConsumerDefinition()
+                                .setPowerInputs(inputs, getMaxFlowRates(child),
+                                        getDesiredFlowRates(child));
                     }
-                    myNitrogenConsumer.getNitrogenConsumerDefinition()
-                            .setNitrogenInputs(inputs, getMaxFlowRates(child),
-                                    getDesiredFlowRates(child));
-                } else if (childName.equals("methaneConsumer")) {
-                    MethaneConsumer myMethaneConsumer = (MethaneConsumer) (pModule);
-                    BioModule[] modules = getInputs(child);
-                    MethaneStore[] inputs = new MethaneStore[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        inputs[i] = ((MethaneStore) modules[i]);
-                    myMethaneConsumer.getMethaneConsumerDefinition()
-                            .setMethaneInputs(inputs, getMaxFlowRates(child),
-                                    getDesiredFlowRates(child));
-                } else if (childName.equals("O2Consumer")) {
-                    O2Consumer myO2Consumer = (O2Consumer) (pModule);
-                    BioModule[] modules = getInputs(child);
-                    IO2Store[] inputs = new IO2Store[modules.length];
-                    for (int i = 0; i < modules.length; i++) {
-                        if (modules[i] instanceof SimEnvironment) {
-                            SimEnvironment currentEnvironment = (SimEnvironment) (modules[i]);
-                            inputs[i] = currentEnvironment.getO2Store();
-                        } else
-                            inputs[i] = ((O2Store) modules[i]);
+                    case "potableWaterConsumer" -> {
+                        PotableWaterConsumer myPotableWaterConsumer = (PotableWaterConsumer) (pModule);
+                        BioModule[] modules = getInputs(child);
+                        PotableWaterStore[] inputs = new PotableWaterStore[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            inputs[i] = (PotableWaterStore) modules[i];
+                        myPotableWaterConsumer.getPotableWaterConsumerDefinition()
+                                .setPotableWaterInputs(inputs,
+                                        getMaxFlowRates(child),
+                                        getDesiredFlowRates(child));
                     }
-                    myO2Consumer.getO2ConsumerDefinition().setO2Inputs(inputs,
-                            getMaxFlowRates(child), getDesiredFlowRates(child));
-                } else if (childName.equals("CO2Consumer")) {
-                    CO2Consumer myCO2Consumer = (CO2Consumer) (pModule);
-                    BioModule[] modules = getInputs(child);
-                    ICO2Store[] inputs = new ICO2Store[modules.length];
-                    for (int i = 0; i < modules.length; i++) {
-                        if (modules[i] instanceof SimEnvironment) {
-                            SimEnvironment currentEnvironment = (SimEnvironment) (modules[i]);
-                            inputs[i] = currentEnvironment.getCO2Store();
-                        } else
-                            inputs[i] = ((CO2Store) modules[i]);
+                    case "greyWaterConsumer" -> {
+                        GreyWaterConsumer myGreyWaterConsumer = (GreyWaterConsumer) (pModule);
+                        BioModule[] modules = getInputs(child);
+                        GreyWaterStore[] inputs = new GreyWaterStore[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            inputs[i] = (GreyWaterStore) (modules[i]);
+                        myGreyWaterConsumer.getGreyWaterConsumerDefinition()
+                                .setGreyWaterInputs(inputs, getMaxFlowRates(child),
+                                        getDesiredFlowRates(child));
                     }
-                    myCO2Consumer.getCO2ConsumerDefinition().setCO2Inputs(
-                            inputs, getMaxFlowRates(child),
-                            getDesiredFlowRates(child));
-                } else if (childName.equals("lightConsumer")) {
-                    LightConsumer myLightConsumer = (LightConsumer) (pModule);
-                    BioModule[] modules = getInputs(child);
-                    SimEnvironment[] inputs = new SimEnvironment[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        inputs[i] = ((SimEnvironment) modules[i]);
-                    myLightConsumer.getLightConsumerDefinition().setLightInput(
-                            inputs[0]);
-                } else if (childName.equals("biomassConsumer")) {
-                    BiomassConsumer myBiomassConsumer = (BiomassConsumer) (pModule);
-                    BioModule[] modules = getInputs(child);
-                    BiomassStore[] inputs = new BiomassStore[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        inputs[i] = ((BiomassStore) modules[i]);
-                    myBiomassConsumer.getBiomassConsumerDefinition()
-                            .setBiomassInputs(inputs, getMaxFlowRates(child),
-                                    getDesiredFlowRates(child));
-                } else if (childName.equals("dryWasteConsumer")) {
-                    DryWasteConsumer myDryWasteConsumer = (DryWasteConsumer) (pModule);
-                    BioModule[] modules = getInputs(child);
-                    DryWasteStore[] inputs = new DryWasteStore[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        inputs[i] = ((DryWasteStore) modules[i]);
-                    myDryWasteConsumer.getDryWasteConsumerDefinition()
-                            .setDryWasteInputs(inputs, getMaxFlowRates(child),
-                                    getDesiredFlowRates(child));
-                } else if (childName.equals("foodConsumer")) {
-                    FoodConsumer myFoodConsumer = (FoodConsumer) (pModule);
-                    BioModule[] modules = getInputs(child);
-                    FoodStore[] inputs = new FoodStore[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        inputs[i] = ((FoodStore) modules[i]);
-                    myFoodConsumer.getFoodConsumerDefinition().setFoodInputs(
-                            inputs, getMaxFlowRates(child),
-                            getDesiredFlowRates(child));
-                } else if (childName.equals("powerProducer")) {
-                    PowerProducer myPowerProducer = (PowerProducer) (pModule);
-                    BioModule[] modules = getOutputs(child);
-                    PowerStore[] outputs = new PowerStore[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        outputs[i] = ((PowerStore) modules[i]);
-                    myPowerProducer.getPowerProducerDefinition()
-                            .setPowerOutputs(outputs, getMaxFlowRates(child),
-                                    getDesiredFlowRates(child));
-                } else if (childName.equals("potableWaterProducer")) {
-                    PotableWaterProducer myPotableWaterProducer = (PotableWaterProducer) (pModule);
-                    BioModule[] modules = getOutputs(child);
-                    PotableWaterStore[] outputs = new PotableWaterStore[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        outputs[i] = ((PotableWaterStore) modules[i]);
-                    myPotableWaterProducer.getPotableWaterProducerDefinition()
-                            .setPotableWaterOutputs(outputs,
-                                    getMaxFlowRates(child),
-                                    getDesiredFlowRates(child));
-                } else if (childName.equals("greyWaterProducer")) {
-                    GreyWaterProducer myGreyWaterProducer = (GreyWaterProducer) (pModule);
-                    BioModule[] modules = getOutputs(child);
-                    GreyWaterStore[] outputs = new GreyWaterStore[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        outputs[i] = ((GreyWaterStore) modules[i]);
-                    myGreyWaterProducer.getGreyWaterProducerDefinition()
-                            .setGreyWaterOutputs(outputs,
-                                    getMaxFlowRates(child),
-                                    getDesiredFlowRates(child));
-                } else if (childName.equals("dirtyWaterProducer")) {
-                    DirtyWaterProducer myDirtyWaterProducer = (DirtyWaterProducer) (pModule);
-                    BioModule[] modules = getOutputs(child);
-                    DirtyWaterStore[] outputs = new DirtyWaterStore[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        outputs[i] = ((DirtyWaterStore) modules[i]);
-                    myDirtyWaterProducer.getDirtyWaterProducerDefinition()
-                            .setDirtyWaterOutputs(outputs,
-                                    getMaxFlowRates(child),
-                                    getDesiredFlowRates(child));
-                } else if (childName.equals("airProducer")) {
-                    AirProducer myAirProducer = (AirProducer) (pModule);
-                    BioModule[] modules = getOutputs(child);
-                    SimEnvironment[] outputs = new SimEnvironment[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        outputs[i] = ((SimEnvironment) modules[i]);
-                    myAirProducer.getAirProducerDefinition().setAirOutputs(
-                            outputs, getMaxFlowRates(child),
-                            getDesiredFlowRates(child));
-                } else if (childName.equals("H2Producer")) {
-                    H2Producer myH2Producer = (H2Producer) (pModule);
-                    BioModule[] modules = getOutputs(child);
-                    H2Store[] outputs = new H2Store[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        outputs[i] = ((H2Store) modules[i]);
-                    myH2Producer.getH2ProducerDefinition().setH2Outputs(
-                            outputs, getMaxFlowRates(child),
-                            getDesiredFlowRates(child));
-                } else if (childName.equals("nitrogenProducer")) {
-                    NitrogenProducer myNitrogenProducer = (NitrogenProducer) (pModule);
-                    BioModule[] modules = getOutputs(child);
-                    INitrogenStore[] outputs = new INitrogenStore[modules.length];
-                    for (int i = 0; i < modules.length; i++) {
-                        if (modules[i] instanceof SimEnvironment) {
-                            SimEnvironment currentEnvironment = (SimEnvironment) (modules[i]);
-                            outputs[i] = currentEnvironment.getNitrogenStore();
-                        } else
-                            outputs[i] = ((INitrogenStore) modules[i]);
+                    case "dirtyWaterConsumer" -> {
+                        DirtyWaterConsumer myDirtyWaterConsumer = (DirtyWaterConsumer) (pModule);
+                        BioModule[] modules = getInputs(child);
+                        DirtyWaterStore[] inputs = new DirtyWaterStore[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            inputs[i] = ((DirtyWaterStore) modules[i]);
+                        myDirtyWaterConsumer.getDirtyWaterConsumerDefinition()
+                                .setDirtyWaterInputs(inputs,
+                                        getMaxFlowRates(child),
+                                        getDesiredFlowRates(child));
                     }
-                    myNitrogenProducer.getNitrogenProducerDefinition()
-                            .setNitrogenOutputs(outputs,
-                                    getMaxFlowRates(child),
-                                    getDesiredFlowRates(child));
-                } else if (childName.equals("methaneProducer")) {
-                    MethaneProducer myMethaneProducer = (MethaneProducer) (pModule);
-                    BioModule[] modules = getOutputs(child);
-                    MethaneStore[] outputs = new MethaneStore[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        outputs[i] = ((MethaneStore) modules[i]);
-                    myMethaneProducer.getMethaneProducerDefinition()
-                            .setMethaneOutputs(outputs, getMaxFlowRates(child),
-                                    getDesiredFlowRates(child));
-                } else if (childName.equals("O2Producer")) {
-                    O2Producer myO2Producer = (O2Producer) (pModule);
-                    BioModule[] modules = getOutputs(child);
-                    IO2Store[] outputs = new IO2Store[modules.length];
-                    for (int i = 0; i < modules.length; i++) {
-                        if (modules[i] instanceof SimEnvironment) {
-                            SimEnvironment currentEnvironment = (SimEnvironment) (modules[i]);
-                            outputs[i] = currentEnvironment.getO2Store();
-                        } else
-                            outputs[i] = ((IO2Store) modules[i]);
+                    case "airConsumer" -> {
+                        AirConsumer myAirConsumer = (AirConsumer) (pModule);
+                        BioModule[] modules = getInputs(child);
+                        SimEnvironment[] inputs = new SimEnvironment[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            inputs[i] = ((SimEnvironment) modules[i]);
+                        myAirConsumer.getAirConsumerDefinition().setAirInputs(
+                                inputs, getMaxFlowRates(child),
+                                getDesiredFlowRates(child));
                     }
-                    myO2Producer.getO2ProducerDefinition().setO2Outputs(
-                            outputs, getMaxFlowRates(child),
-                            getDesiredFlowRates(child));
-                } else if (childName.equals("CO2Producer")) {
-                    CO2Producer myCO2Producer = (CO2Producer) (pModule);
-                    BioModule[] modules = getOutputs(child);
-                    ICO2Store[] outputs = new ICO2Store[modules.length];
-                    for (int i = 0; i < modules.length; i++) {
-                        if (modules[i] instanceof SimEnvironment) {
-                            SimEnvironment currentEnvironment = (SimEnvironment) (modules[i]);
-                            outputs[i] = currentEnvironment.getCO2Store();
-                        } else
-                            outputs[i] = ((ICO2Store) modules[i]);
+                    case "H2Consumer" -> {
+                        H2Consumer myH2Consumer = (H2Consumer) (pModule);
+                        BioModule[] modules = getInputs(child);
+                        H2Store[] inputs = new H2Store[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            inputs[i] = ((H2Store) modules[i]);
+                        myH2Consumer.getH2ConsumerDefinition().setH2Inputs(inputs,
+                                getMaxFlowRates(child), getDesiredFlowRates(child));
                     }
-                    myCO2Producer.getCO2ProducerDefinition().setCO2Outputs(
-                            outputs, getMaxFlowRates(child),
-                            getDesiredFlowRates(child));
-                } else if (childName.equals("biomassProducer")) {
-                    BiomassProducer myBiomassProducer = (BiomassProducer) (pModule);
-                    BioModule[] modules = getOutputs(child);
-                    BiomassStore[] outputs = new BiomassStore[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        outputs[i] = ((BiomassStore) modules[i]);
-                    myBiomassProducer.getBiomassProducerDefinition()
-                            .setBiomassOutputs(outputs, getMaxFlowRates(child),
-                                    getDesiredFlowRates(child));
-                } else if (childName.equals("dryWasteProducer")) {
-                    DryWasteProducer myDryWasteProducer = (DryWasteProducer) (pModule);
-                    BioModule[] modules = getOutputs(child);
-                    DryWasteStore[] outputs = new DryWasteStore[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        outputs[i] = ((DryWasteStore) modules[i]);
-                    myDryWasteProducer.getDryWasteProducerDefinition()
-                            .setDryWasteOutputs(outputs,
-                                    getMaxFlowRates(child),
-                                    getDesiredFlowRates(child));
-                } else if (childName.equals("foodProducer")) {
-                    FoodProducer myFoodProducer = (FoodProducer) (pModule);
-                    BioModule[] modules = getOutputs(child);
-                    FoodStore[] outputs = new FoodStore[modules.length];
-                    for (int i = 0; i < modules.length; i++)
-                        outputs[i] = ((FoodStore) modules[i]);
-                    myFoodProducer.getFoodProducerDefinition().setFoodOutputs(
-                            outputs, getMaxFlowRates(child),
-                            getDesiredFlowRates(child));
+                    case "nitrogenConsumer" -> {
+                        NitrogenConsumer myNitrogenConsumer = (NitrogenConsumer) (pModule);
+                        BioModule[] modules = getInputs(child);
+                        INitrogenStore[] inputs = new INitrogenStore[modules.length];
+                        for (int i = 0; i < modules.length; i++) {
+                            if (modules[i] instanceof SimEnvironment) {
+                                SimEnvironment currentEnvironment = (SimEnvironment) (modules[i]);
+                                inputs[i] = currentEnvironment.getNitrogenStore();
+                            } else
+                                inputs[i] = ((INitrogenStore) modules[i]);
+                        }
+                        myNitrogenConsumer.getNitrogenConsumerDefinition()
+                                .setNitrogenInputs(inputs, getMaxFlowRates(child),
+                                        getDesiredFlowRates(child));
+                    }
+                    case "methaneConsumer" -> {
+                        MethaneConsumer myMethaneConsumer = (MethaneConsumer) (pModule);
+                        BioModule[] modules = getInputs(child);
+                        MethaneStore[] inputs = new MethaneStore[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            inputs[i] = ((MethaneStore) modules[i]);
+                        myMethaneConsumer.getMethaneConsumerDefinition()
+                                .setMethaneInputs(inputs, getMaxFlowRates(child),
+                                        getDesiredFlowRates(child));
+                    }
+                    case "O2Consumer" -> {
+                        O2Consumer myO2Consumer = (O2Consumer) (pModule);
+                        BioModule[] modules = getInputs(child);
+                        IO2Store[] inputs = new IO2Store[modules.length];
+                        for (int i = 0; i < modules.length; i++) {
+                            if (modules[i] instanceof SimEnvironment) {
+                                SimEnvironment currentEnvironment = (SimEnvironment) (modules[i]);
+                                inputs[i] = currentEnvironment.getO2Store();
+                            } else
+                                inputs[i] = ((O2Store) modules[i]);
+                        }
+                        myO2Consumer.getO2ConsumerDefinition().setO2Inputs(inputs,
+                                getMaxFlowRates(child), getDesiredFlowRates(child));
+                    }
+                    case "CO2Consumer" -> {
+                        CO2Consumer myCO2Consumer = (CO2Consumer) (pModule);
+                        BioModule[] modules = getInputs(child);
+                        ICO2Store[] inputs = new ICO2Store[modules.length];
+                        for (int i = 0; i < modules.length; i++) {
+                            if (modules[i] instanceof SimEnvironment) {
+                                SimEnvironment currentEnvironment = (SimEnvironment) (modules[i]);
+                                inputs[i] = currentEnvironment.getCO2Store();
+                            } else
+                                inputs[i] = ((CO2Store) modules[i]);
+                        }
+                        myCO2Consumer.getCO2ConsumerDefinition().setCO2Inputs(
+                                inputs, getMaxFlowRates(child),
+                                getDesiredFlowRates(child));
+                    }
+                    case "lightConsumer" -> {
+                        LightConsumer myLightConsumer = (LightConsumer) (pModule);
+                        BioModule[] modules = getInputs(child);
+                        SimEnvironment[] inputs = new SimEnvironment[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            inputs[i] = ((SimEnvironment) modules[i]);
+                        myLightConsumer.getLightConsumerDefinition().setLightInput(
+                                inputs[0]);
+                    }
+                    case "biomassConsumer" -> {
+                        BiomassConsumer myBiomassConsumer = (BiomassConsumer) (pModule);
+                        BioModule[] modules = getInputs(child);
+                        BiomassStore[] inputs = new BiomassStore[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            inputs[i] = ((BiomassStore) modules[i]);
+                        myBiomassConsumer.getBiomassConsumerDefinition()
+                                .setBiomassInputs(inputs, getMaxFlowRates(child),
+                                        getDesiredFlowRates(child));
+                    }
+                    case "dryWasteConsumer" -> {
+                        DryWasteConsumer myDryWasteConsumer = (DryWasteConsumer) (pModule);
+                        BioModule[] modules = getInputs(child);
+                        DryWasteStore[] inputs = new DryWasteStore[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            inputs[i] = ((DryWasteStore) modules[i]);
+                        myDryWasteConsumer.getDryWasteConsumerDefinition()
+                                .setDryWasteInputs(inputs, getMaxFlowRates(child),
+                                        getDesiredFlowRates(child));
+                    }
+                    case "foodConsumer" -> {
+                        FoodConsumer myFoodConsumer = (FoodConsumer) (pModule);
+                        BioModule[] modules = getInputs(child);
+                        FoodStore[] inputs = new FoodStore[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            inputs[i] = ((FoodStore) modules[i]);
+                        myFoodConsumer.getFoodConsumerDefinition().setFoodInputs(
+                                inputs, getMaxFlowRates(child),
+                                getDesiredFlowRates(child));
+                    }
+                    case "powerProducer" -> {
+                        PowerProducer myPowerProducer = (PowerProducer) (pModule);
+                        BioModule[] modules = getOutputs(child);
+                        PowerStore[] outputs = new PowerStore[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            outputs[i] = ((PowerStore) modules[i]);
+                        myPowerProducer.getPowerProducerDefinition()
+                                .setPowerOutputs(outputs, getMaxFlowRates(child),
+                                        getDesiredFlowRates(child));
+                    }
+                    case "potableWaterProducer" -> {
+                        PotableWaterProducer myPotableWaterProducer = (PotableWaterProducer) (pModule);
+                        BioModule[] modules = getOutputs(child);
+                        PotableWaterStore[] outputs = new PotableWaterStore[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            outputs[i] = ((PotableWaterStore) modules[i]);
+                        myPotableWaterProducer.getPotableWaterProducerDefinition()
+                                .setPotableWaterOutputs(outputs,
+                                        getMaxFlowRates(child),
+                                        getDesiredFlowRates(child));
+                    }
+                    case "greyWaterProducer" -> {
+                        GreyWaterProducer myGreyWaterProducer = (GreyWaterProducer) (pModule);
+                        BioModule[] modules = getOutputs(child);
+                        GreyWaterStore[] outputs = new GreyWaterStore[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            outputs[i] = ((GreyWaterStore) modules[i]);
+                        myGreyWaterProducer.getGreyWaterProducerDefinition()
+                                .setGreyWaterOutputs(outputs,
+                                        getMaxFlowRates(child),
+                                        getDesiredFlowRates(child));
+                    }
+                    case "dirtyWaterProducer" -> {
+                        DirtyWaterProducer myDirtyWaterProducer = (DirtyWaterProducer) (pModule);
+                        BioModule[] modules = getOutputs(child);
+                        DirtyWaterStore[] outputs = new DirtyWaterStore[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            outputs[i] = ((DirtyWaterStore) modules[i]);
+                        myDirtyWaterProducer.getDirtyWaterProducerDefinition()
+                                .setDirtyWaterOutputs(outputs,
+                                        getMaxFlowRates(child),
+                                        getDesiredFlowRates(child));
+                    }
+                    case "airProducer" -> {
+                        AirProducer myAirProducer = (AirProducer) (pModule);
+                        BioModule[] modules = getOutputs(child);
+                        SimEnvironment[] outputs = new SimEnvironment[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            outputs[i] = ((SimEnvironment) modules[i]);
+                        myAirProducer.getAirProducerDefinition().setAirOutputs(
+                                outputs, getMaxFlowRates(child),
+                                getDesiredFlowRates(child));
+                    }
+                    case "H2Producer" -> {
+                        H2Producer myH2Producer = (H2Producer) (pModule);
+                        BioModule[] modules = getOutputs(child);
+                        H2Store[] outputs = new H2Store[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            outputs[i] = ((H2Store) modules[i]);
+                        myH2Producer.getH2ProducerDefinition().setH2Outputs(
+                                outputs, getMaxFlowRates(child),
+                                getDesiredFlowRates(child));
+                    }
+                    case "nitrogenProducer" -> {
+                        NitrogenProducer myNitrogenProducer = (NitrogenProducer) (pModule);
+                        BioModule[] modules = getOutputs(child);
+                        INitrogenStore[] outputs = new INitrogenStore[modules.length];
+                        for (int i = 0; i < modules.length; i++) {
+                            if (modules[i] instanceof SimEnvironment) {
+                                SimEnvironment currentEnvironment = (SimEnvironment) (modules[i]);
+                                outputs[i] = currentEnvironment.getNitrogenStore();
+                            } else
+                                outputs[i] = ((INitrogenStore) modules[i]);
+                        }
+                        myNitrogenProducer.getNitrogenProducerDefinition()
+                                .setNitrogenOutputs(outputs,
+                                        getMaxFlowRates(child),
+                                        getDesiredFlowRates(child));
+                    }
+                    case "methaneProducer" -> {
+                        MethaneProducer myMethaneProducer = (MethaneProducer) (pModule);
+                        BioModule[] modules = getOutputs(child);
+                        MethaneStore[] outputs = new MethaneStore[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            outputs[i] = ((MethaneStore) modules[i]);
+                        myMethaneProducer.getMethaneProducerDefinition()
+                                .setMethaneOutputs(outputs, getMaxFlowRates(child),
+                                        getDesiredFlowRates(child));
+                    }
+                    case "O2Producer" -> {
+                        O2Producer myO2Producer = (O2Producer) (pModule);
+                        BioModule[] modules = getOutputs(child);
+                        IO2Store[] outputs = new IO2Store[modules.length];
+                        for (int i = 0; i < modules.length; i++) {
+                            if (modules[i] instanceof SimEnvironment) {
+                                SimEnvironment currentEnvironment = (SimEnvironment) (modules[i]);
+                                outputs[i] = currentEnvironment.getO2Store();
+                            } else
+                                outputs[i] = ((IO2Store) modules[i]);
+                        }
+                        myO2Producer.getO2ProducerDefinition().setO2Outputs(
+                                outputs, getMaxFlowRates(child),
+                                getDesiredFlowRates(child));
+                    }
+                    case "CO2Producer" -> {
+                        CO2Producer myCO2Producer = (CO2Producer) (pModule);
+                        BioModule[] modules = getOutputs(child);
+                        ICO2Store[] outputs = new ICO2Store[modules.length];
+                        for (int i = 0; i < modules.length; i++) {
+                            if (modules[i] instanceof SimEnvironment) {
+                                SimEnvironment currentEnvironment = (SimEnvironment) (modules[i]);
+                                outputs[i] = currentEnvironment.getCO2Store();
+                            } else
+                                outputs[i] = ((ICO2Store) modules[i]);
+                        }
+                        myCO2Producer.getCO2ProducerDefinition().setCO2Outputs(
+                                outputs, getMaxFlowRates(child),
+                                getDesiredFlowRates(child));
+                    }
+                    case "biomassProducer" -> {
+                        BiomassProducer myBiomassProducer = (BiomassProducer) (pModule);
+                        BioModule[] modules = getOutputs(child);
+                        BiomassStore[] outputs = new BiomassStore[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            outputs[i] = ((BiomassStore) modules[i]);
+                        myBiomassProducer.getBiomassProducerDefinition()
+                                .setBiomassOutputs(outputs, getMaxFlowRates(child),
+                                        getDesiredFlowRates(child));
+                    }
+                    case "dryWasteProducer" -> {
+                        DryWasteProducer myDryWasteProducer = (DryWasteProducer) (pModule);
+                        BioModule[] modules = getOutputs(child);
+                        DryWasteStore[] outputs = new DryWasteStore[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            outputs[i] = ((DryWasteStore) modules[i]);
+                        myDryWasteProducer.getDryWasteProducerDefinition()
+                                .setDryWasteOutputs(outputs,
+                                        getMaxFlowRates(child),
+                                        getDesiredFlowRates(child));
+                    }
+                    case "foodProducer" -> {
+                        FoodProducer myFoodProducer = (FoodProducer) (pModule);
+                        BioModule[] modules = getOutputs(child);
+                        FoodStore[] outputs = new FoodStore[modules.length];
+                        for (int i = 0; i < modules.length; i++)
+                            outputs[i] = ((FoodStore) modules[i]);
+                        myFoodProducer.getFoodProducerDefinition().setFoodOutputs(
+                                outputs, getMaxFlowRates(child),
+                                getDesiredFlowRates(child));
+                    }
                 }
             }
             child = child.getNextSibling();

@@ -10,7 +10,6 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 
 /**
  * @author scott
- *
  */
 public class RPCM extends SimBioModule {
     //Consumers, Producers

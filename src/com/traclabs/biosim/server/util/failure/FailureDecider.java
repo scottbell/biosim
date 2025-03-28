@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Random;
 
 public abstract class FailureDecider {
-    Logger myLogger = LoggerFactory.getLogger(FailureDecider.class);
     private final Random myRandomGenerator = new MersenneTwister();
+    Logger myLogger = LoggerFactory.getLogger(FailureDecider.class);
 
     public boolean hasFailed(double timeElapsed) {
         double Reliability = getReliability(timeElapsed);

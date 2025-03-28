@@ -29,24 +29,15 @@ import java.util.Vector;
 
 public class BiomassPS extends SimBioModule {
     private final List<Shelf> myShelves;
-
-    private boolean autoHarvestAndReplant = true;
-
     //Consumers, Producers
     private final PowerConsumerDefinition myPowerConsumerDefinition;
-
     private final AirConsumerDefinition myAirConsumerDefinition;
-
     private final PotableWaterConsumerDefinition myPotableWaterConsumerDefinition;
-
     private final GreyWaterConsumerDefinition myGreyWaterConsumerDefinition;
-
     private final DirtyWaterProducerDefinition myDirtyWaterProducerDefinition;
-
     private final AirProducerDefinition myAirProducerDefinition;
-
     private final BiomassProducerDefinition myBiomassProducerDefinition;
-
+    private boolean autoHarvestAndReplant = true;
     private boolean myDeathEnabled = true;
 
     public BiomassPS() {
