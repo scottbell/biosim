@@ -457,29 +457,46 @@ public class BioDriver {
      * pause or die.
      */
     private void runSimulation() {
-        Thread theCurrentThread = Thread.currentThread();
-        if (!simulationStarted)
-            reset();
-        while (myTickThread == theCurrentThread) {
-            try {
-                Thread.sleep(myDriverStutterLength);
-                synchronized (this) {
-                    while (simulationIsPaused
-                            && (myTickThread == theCurrentThread)) {
-                        wait();
-                    }
-                }
-            } catch (InterruptedException e) {
-            }
-            tick();
-            if (isDone()) {
+		Thread currentThread = Thread.currentThread();
+		if (!simulationStarted) {
+			reset();
+		}
+		while (myTickThread == currentThread) {
+			// Wait immediately if the simulation is paused to avoid busy waiting
+			synchronized (this) {
+				while (simulationIsPaused && (myTickThread == currentThread)) {
+					try {
+						wait();
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+						return; // exit if the thread is interrupted
+					}
+				}
+			}
+			
+			// Perform the simulation tick once resumed
+			tick();
+			
+			// Check if an end condition has been met
+			if (isDone()) {
 				myLogger.info("🎬 Simulation ended after " + getTicksInHumanReadableFormat());
-                endSimulation();
-                if (looping)
-                    startSimulation();
-            }
-        }
-    }
+				endSimulation();
+				if (looping) {
+					startSimulation();
+				} else {
+					break;
+				}
+			}
+			
+			// Pause between ticks to throttle simulation speed
+			try {
+				Thread.sleep(myDriverStutterLength);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				break;
+			}
+		}
+	}
 
     /**
      * Ticks every server. The SimEnvironment is ticked first as it keeps track
@@ -526,7 +543,7 @@ public class BioDriver {
     private class Ticker implements Runnable {
         /**
          * Invoked by the myTickThread.start() method call and necessary to
-         * implement Runnable. Sets flag that simulation is running, intializes
+         * implement Runnable. Sets flag that simulation is running, initializes
          * servers (if applicable), then begins ticking them.
          */
         public void run() {

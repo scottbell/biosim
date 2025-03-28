@@ -334,9 +334,6 @@ public class BiosimInitializer {
             crawlBiosim(document, true);
             crawlBiosim(document, false);
 
-            // Initialize the BioDriver
-            myBioDriver = new BioDriver(myID);
-
             // Configure the BioDriver with modules
             IBioModule[] moduleArray = myModules.values().toArray(new IBioModule[0]);
             IBioModule[] sensorArray = convertSet(mySensorInitializer.getSensors());
