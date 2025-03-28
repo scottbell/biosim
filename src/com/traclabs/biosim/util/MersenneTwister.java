@@ -138,7 +138,7 @@ import java.util.Random;
  * @version 8
  */
 
-public class MersenneTwister extends Random implements Serializable {
+public class MersenneTwister extends Random  {
     // Period parameters
     private static final int N = 624;
 
