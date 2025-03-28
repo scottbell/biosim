@@ -139,8 +139,7 @@
 	<xsd:complexType name="GlobalsType">
 		<xsd:sequence>
 			<xsd:element maxOccurs="1" minOccurs="0" name="comment" type="xsd:string"/>	
-			<xsd:element maxOccurs="1" minOccurs="0" name="author" type="xsd:string"/>	
-			<xsd:element maxOccurs="unbounded" minOccurs="0" name="log4jProperty" type="Log4jPropertyType"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="author" type="xsd:string"/>
 			<xsd:element maxOccurs="1" minOccurs="0" name="nameServiceLocation" type="NameServiceLocationType"/>
 		</xsd:sequence>
 		<xsd:attribute default="true" name="startPaused" type="xsd:boolean"/>

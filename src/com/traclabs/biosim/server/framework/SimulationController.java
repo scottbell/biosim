@@ -27,9 +27,9 @@ public class SimulationController {
     public void registerEndpoints(Javalin app) {
         app.get("/api/simulation", this::listSimulations);
         app.post("/api/simulation/start", this::startSimulation);
-        app.post("/api/simulation/{simId}/tick", this::tickSimulation);
-        app.get("/api/simulation/{simId}/ticks", this::getSimulationTicks);
-        app.get("/api/simulation/{simId}/modules", this::getSimulationModules);
+        app.post("/api/simulation/{simID}/tick", this::tickSimulation);
+        app.get("/api/simulation/{simID}/ticks", this::getSimulationTicks);
+        app.get("/api/simulation/{simID}/modules", this::getSimulationModules);
     }
 
     /**
@@ -82,8 +82,8 @@ public class SimulationController {
      * @param ctx The Javalin context
      */
     private void tickSimulation(Context ctx) {
-        String simId = ctx.pathParam("simId");
-        BioDriver bioDriver = simulations.get(simId);
+        int simID = Integer.parseInt(ctx.pathParam("simID"));
+        BioDriver bioDriver = simulations.get(simID);
 
         if (bioDriver == null) {
             ctx.status(404).result("Simulation ID not found.");
@@ -92,7 +92,7 @@ public class SimulationController {
 
         bioDriver.advanceOneTick();
         ctx.json(Map.of("ticks", bioDriver.getTicks()));
-        logger.info("Simulation {} advanced to tick {}", simId, bioDriver.getTicks());
+        logger.info("Simulation {} advanced to tick {}", simID, bioDriver.getTicks());
     }
 
     /**
@@ -101,8 +101,8 @@ public class SimulationController {
      * @param ctx The Javalin context
      */
     private void getSimulationTicks(Context ctx) {
-        String simId = ctx.pathParam("simId");
-        BioDriver bioDriver = simulations.get(simId);
+        int simID = Integer.parseInt(ctx.pathParam("simID"));
+        BioDriver bioDriver = simulations.get(simID);
 
         if (bioDriver == null) {
             ctx.status(404).result("Simulation ID not found.");
@@ -118,8 +118,8 @@ public class SimulationController {
      * @param ctx The Javalin context
      */
     private void getSimulationModules(Context ctx) {
-        String simId = ctx.pathParam("simId");
-        BioDriver bioDriver = simulations.get(simId);
+        int simID = Integer.parseInt(ctx.pathParam("simID"));
+        BioDriver bioDriver = simulations.get(simID);
 
         if (bioDriver == null) {
             ctx.status(404).result("Simulation ID not found.");

@@ -427,6 +427,15 @@ public class BioDriver {
         }
     }
 
+	private String getTicksInHumanReadableFormat() {
+		// ticks are 1 hour by default, but need to multiply by tick length
+		// to get actual hours
+		float hours = ticksGoneBy * getTickLength();
+		int days = (int) (hours / 24);
+		hours = hours % 24;
+		return days + " days, " + hours + " hours";
+	}
+
     /**
      * Resets the simulation by calling every known server's reset method.
      * Typically this means resetting the various gas levels, crew people, water
@@ -464,6 +473,7 @@ public class BioDriver {
             }
             tick();
             if (isDone()) {
+				myLogger.info("🎬 Simulation ended after " + getTicksInHumanReadableFormat());
                 endSimulation();
                 if (looping)
                     startSimulation();

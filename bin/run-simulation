@@ -3,8 +3,7 @@
 # Test script for starting a BioSim simulation.
 #
 # This script posts a configuration file (default is ../configuration/default.biosim)
-# to the /api/simulation/start endpoint and waits for a given number of seconds
-# before printing the simulation ID.
+# to the /api/simulation/start endpoint
 #
 
 usage() {
@@ -54,16 +53,6 @@ while [[ "$#" -gt 0 ]]; do
                 exit 1
             fi
             ;;
-        -w|--wait)
-            if [[ -n "$2" ]]; then
-                WAIT_SECONDS="$2"
-                shift
-            else
-                echo "🛑 Error: --wait requires a non-empty option argument."
-                usage
-                exit 1
-            fi
-            ;;
         -h|--help)
             usage
             exit 0
@@ -100,18 +89,6 @@ if [[ "$STATUS_CODE" -ne 200 ]]; then
     exit 1
 fi
 
-# Extract simulation ID from the JSON response.
-# Example response: {"simId": "sim-1649123456789"}
-SIM_ID=$(echo "$BODY" | sed -n 's/.*"simId"\s*:\s*"\([^"]*\)".*/\1/p')
+echo "👀 Response body: $BODY"
 
-if [[ -z "$SIM_ID" ]]; then
-    echo "🛑 Error: Could not extract simulation ID from the response."
-    echo "Response body: $BODY"
-    exit 1
-fi
-
-echo "🌎 Simulation started with ID: $SIM_ID"
-echo "⏲️ Waiting for $WAIT_SECONDS seconds..."
-sleep "$WAIT_SECONDS"
-
-echo ✅ Done. Simulation ID: $SIM_ID"
+echo "✅ Simulation started"

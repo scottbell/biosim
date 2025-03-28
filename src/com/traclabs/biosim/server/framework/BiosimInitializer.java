@@ -390,23 +390,6 @@ public class BiosimInitializer {
                     myBioDriver.setDriverStutterLength(stutterLength);
                 myBioDriver.setLooping(node.getAttributes().getNamedItem(
                         "isLooping").getNodeValue().equals("true"));
-
-                Properties logProperties = new Properties();
-                Node child = node.getFirstChild();
-                while (child != null) {
-                    String childName = child.getLocalName();
-                    if (childName != null) {
-                        if (childName.equals("log4jProperty")) {
-                            String nameProperty = child.getAttributes()
-                                    .getNamedItem("name").getNodeValue();
-                            String valueProperty = child.getAttributes()
-                                    .getNamedItem("value").getNodeValue();
-                            logProperties.setProperty(nameProperty,
-                                    valueProperty);
-                        }
-                    }
-                    child = child.getNextSibling();
-                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
