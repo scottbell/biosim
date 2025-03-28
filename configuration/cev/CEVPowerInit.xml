@@ -10,7 +10,6 @@
 				A cabin for the crew.
 		</comment>
 		<author>Scott Bell</author>
-		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.simulation.crew" value="DEBUG"/> -->
 	</Globals>
 	<SimBioModules>
 		<air>

@@ -12,7 +12,6 @@
 			A malfunction happens at 5 minutes into the mission
 		</comment>
 		<author>Scott Bell</author>
-		<!-- <log4jProperty name="log4j.logger.com.traclabs.biosim.server.simulation.crew" value="DEBUG"/> -->
 	</Globals>
 	<SimBioModules>
 		<air>
