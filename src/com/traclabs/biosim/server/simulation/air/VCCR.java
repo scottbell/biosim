@@ -2,9 +2,12 @@ package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.simulation.air.vccr.*;
+import com.traclabs.biosim.server.simulation.environment.AirConsumer;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
+import com.traclabs.biosim.server.simulation.environment.AirProducer;
 import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.power.PowerConsumer;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 
 /**
@@ -17,7 +20,7 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
  * @author Scott Bell
  */
 
-public class VCCR extends SimBioModule {
+public class VCCR extends SimBioModule implements PowerConsumer, AirConsumer, AirProducer, CO2Producer {
 
     // Consumers, Producers
     private final PowerConsumerDefinition myPowerConsumerDefinition;
@@ -83,9 +86,7 @@ public class VCCR extends SimBioModule {
         attach(myValve9, myValve10);
         attach(myValve10, myPump2);
         myPump2.attach(myCO2ProducerDefinition);
-
         myValve3.attach(myPump1);
-
     }
 
     private static void attach(VCCRSubsystem componenet1,

@@ -2,10 +2,13 @@ package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.power.PowerConsumer;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
+import com.traclabs.biosim.server.simulation.water.PotableWaterConsumer;
 import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinition;
+import com.traclabs.biosim.server.simulation.water.PotableWaterProducer;
 
-public class OGS extends SimBioModule {
+public class OGS extends SimBioModule implements PowerConsumer, PotableWaterConsumer, O2Producer, H2Producer {
 
     //Consumers, Producers
     private final PowerConsumerDefinition myPowerConsumerDefinition;

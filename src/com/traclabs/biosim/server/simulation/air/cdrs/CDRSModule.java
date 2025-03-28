@@ -3,16 +3,18 @@ package com.traclabs.biosim.server.simulation.air.cdrs;
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
+import com.traclabs.biosim.server.simulation.air.CO2Producer;
 import com.traclabs.biosim.server.simulation.air.CO2ProducerDefinition;
-import com.traclabs.biosim.server.simulation.environment.Air;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
+import com.traclabs.biosim.server.simulation.environment.*;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.power.PowerConsumer;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
+import com.traclabs.biosim.server.simulation.water.GreyWaterConsumer;
 import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerDefinition;
+import com.traclabs.biosim.server.simulation.water.GreyWaterProducer;
 import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinition;
 
-public class CDRSModule extends SimBioModule {
+public class CDRSModule extends SimBioModule implements PowerConsumer, GreyWaterConsumer, GreyWaterProducer, AirConsumer, AirProducer, CO2Producer {
     private static final int AIR_INLET_VALVE_POWER_INDEX = 0;
     private static final int AIR_RETURN_VALVE_POWER_INDEX = 1;
     private static final int CO2_ISOLATION_VALVE_POWER_INDEX = 2;

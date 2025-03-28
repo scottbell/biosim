@@ -11,7 +11,7 @@ import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 /**
  * @author scott
  */
-public class RPCM extends SimBioModule {
+public class RPCM extends SimBioModule implements PowerConsumer, PowerProducer {
     //Consumers, Producers
     private final PowerProducerDefinition myPowerProducerDefinition;
     private final PowerConsumerDefinition myPowerConsumerDefinition;
@@ -25,6 +25,15 @@ public class RPCM extends SimBioModule {
         myPowerConsumerDefinition = new PowerConsumerDefinition(this);
     }
 
+    @Override
+    public PowerProducerDefinition getPowerProducerDefinition() {
+        return myPowerProducerDefinition;
+    }
+
+    @Override
+    public PowerConsumerDefinition getPowerConsumerDefinition() {
+        return myPowerConsumerDefinition;
+    }
 
     public void reset() {
         super.reset();

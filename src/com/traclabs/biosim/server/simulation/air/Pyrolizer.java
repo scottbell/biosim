@@ -1,11 +1,13 @@
 package com.traclabs.biosim.server.simulation.air;
 
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.power.PowerConsumer;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
+import com.traclabs.biosim.server.simulation.waste.DryWasteProducer;
 import com.traclabs.biosim.server.simulation.waste.DryWasteProducerDefinition;
 
 
-public class Pyrolizer extends SimBioModule {
+public class Pyrolizer extends SimBioModule implements PowerConsumer, MethaneConsumer, DryWasteProducer, H2Producer {
 
     //Consumers, Producers
     private final PowerConsumerDefinition myPowerConsumerDefinition;

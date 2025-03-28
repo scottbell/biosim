@@ -3,9 +3,12 @@ package com.traclabs.biosim.server.simulation.waste;
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
+import com.traclabs.biosim.server.simulation.air.CO2Producer;
 import com.traclabs.biosim.server.simulation.air.CO2ProducerDefinition;
+import com.traclabs.biosim.server.simulation.air.O2Consumer;
 import com.traclabs.biosim.server.simulation.air.O2ConsumerDefinition;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.power.PowerConsumer;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 
 import java.util.Arrays;
@@ -18,7 +21,7 @@ import java.util.Iterator;
  * @author Scott Bell
  */
 
-public class Incinerator extends SimBioModule {
+public class Incinerator extends SimBioModule implements PowerConsumer, DryWasteConsumer, O2Consumer, CO2Producer {
     //During any given tick, this much power is needed for the incinerator
     // to run at all
     private static final float POWER_NEEDED_BASE = 100;

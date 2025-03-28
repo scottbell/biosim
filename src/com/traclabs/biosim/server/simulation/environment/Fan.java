@@ -3,6 +3,7 @@ package com.traclabs.biosim.server.simulation.environment;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.power.PowerConsumer;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 
 /**
@@ -11,7 +12,7 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
  * @author Scott Bell
  */
 
-public class Fan extends SimBioModule {
+public class Fan extends SimBioModule implements AirConsumer, PowerConsumer, AirProducer {
     //  in kPA assuming 101 kPa total pressure and air temperature of 23C and relative humidity of 80%
     public static final float OPTIMAL_MOISTURE_CONCENTRATION = 0.0218910f;
     //Consumers, Producers

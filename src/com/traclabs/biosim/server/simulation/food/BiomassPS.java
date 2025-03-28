@@ -3,13 +3,14 @@ package com.traclabs.biosim.server.simulation.food;
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
+import com.traclabs.biosim.server.simulation.environment.AirConsumer;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
+import com.traclabs.biosim.server.simulation.environment.AirProducer;
 import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.power.PowerConsumer;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinition;
-import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinition;
+import com.traclabs.biosim.server.simulation.water.*;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -27,7 +28,7 @@ import java.util.Vector;
  * @author Scott Bell
  */
 
-public class BiomassPS extends SimBioModule {
+public class BiomassPS extends SimBioModule implements PowerConsumer, AirConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterProducer, AirProducer, BiomassProducer {
     private final List<Shelf> myShelves;
     //Consumers, Producers
     private final PowerConsumerDefinition myPowerConsumerDefinition;
@@ -180,49 +181,49 @@ public class BiomassPS extends SimBioModule {
     /**
      * @return Returns the myAirConsumerDefinition.
      */
-    protected AirConsumerDefinition getAirConsumerDefinition() {
+    public AirConsumerDefinition getAirConsumerDefinition() {
         return myAirConsumerDefinition;
     }
 
     /**
      * @return Returns the myAirProducerDefinition.
      */
-    protected AirProducerDefinition getAirProducerDefinition() {
+    public AirProducerDefinition getAirProducerDefinition() {
         return myAirProducerDefinition;
     }
 
     /**
      * @return Returns the myBiomassProducerDefinition.
      */
-    protected BiomassProducerDefinition getBiomassProducerDefinition() {
+    public BiomassProducerDefinition getBiomassProducerDefinition() {
         return myBiomassProducerDefinition;
     }
 
     /**
      * @return Returns the myDirtyWaterProducerDefinition.
      */
-    protected DirtyWaterProducerDefinition getDirtyWaterProducerDefinition() {
+    public DirtyWaterProducerDefinition getDirtyWaterProducerDefinition() {
         return myDirtyWaterProducerDefinition;
     }
 
     /**
      * @return Returns the myGreyWaterConsumerDefinition.
      */
-    protected GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
+    public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
         return myGreyWaterConsumerDefinition;
     }
 
     /**
      * @return Returns the myPotableWaterConsumerDefinition.
      */
-    protected PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
+    public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
         return myPotableWaterConsumerDefinition;
     }
 
     /**
      * @return Returns the myPowerConsumerDefinition.
      */
-    protected PowerConsumerDefinition getPowerConsumerDefinition() {
+    public PowerConsumerDefinition getPowerConsumerDefinition() {
         return myPowerConsumerDefinition;
     }
 

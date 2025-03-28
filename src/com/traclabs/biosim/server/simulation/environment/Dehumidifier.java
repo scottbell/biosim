@@ -3,6 +3,7 @@ package com.traclabs.biosim.server.simulation.environment;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.water.DirtyWaterProducer;
 import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinition;
 
 /**
@@ -11,7 +12,7 @@ import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinition;
  * @author Scott Bell
  */
 
-public class Dehumidifier extends SimBioModule {
+public class Dehumidifier extends SimBioModule implements AirConsumer, DirtyWaterProducer {
 
     public static final float OPTIMAL_MOISTURE_CONCENTRATION = 0.0218910f;
     //Consumers, Producers

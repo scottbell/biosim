@@ -4,14 +4,16 @@ import ch.qos.logback.classic.Level;
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
+import com.traclabs.biosim.server.simulation.environment.AirConsumer;
 import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
+import com.traclabs.biosim.server.simulation.environment.AirProducer;
 import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
+import com.traclabs.biosim.server.simulation.food.FoodConsumer;
 import com.traclabs.biosim.server.simulation.food.FoodConsumerDefinition;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.waste.DryWasteProducer;
 import com.traclabs.biosim.server.simulation.waste.DryWasteProducerDefinition;
-import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinition;
-import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinition;
-import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinition;
+import com.traclabs.biosim.server.simulation.water.*;
 import com.traclabs.biosim.util.MersenneTwister;
 
 import java.util.*;
@@ -22,7 +24,7 @@ import java.util.*;
  * @author Scott Bell
  */
 
-public class CrewGroup extends SimBioModule {
+public class CrewGroup extends SimBioModule implements FoodConsumer, AirConsumer, PotableWaterConsumer, GreyWaterProducer, DirtyWaterProducer, AirProducer, DryWasteProducer {
 
     //Consumers, Producers
     private final FoodConsumerDefinition myFoodConsumerDefinition;
@@ -333,49 +335,49 @@ public class CrewGroup extends SimBioModule {
     /**
      * @return Returns the myAirConsumerDefinition.
      */
-    protected AirConsumerDefinition getAirConsumerDefinition() {
+    public AirConsumerDefinition getAirConsumerDefinition() {
         return myAirConsumerDefinition;
     }
 
     /**
      * @return Returns the myAirProducerDefinition.
      */
-    protected AirProducerDefinition getAirProducerDefinition() {
+    public AirProducerDefinition getAirProducerDefinition() {
         return myAirProducerDefinition;
     }
 
     /**
      * @return Returns the myDirtyWaterProducerDefinition.
      */
-    protected DirtyWaterProducerDefinition getDirtyWaterProducerDefinition() {
+    public DirtyWaterProducerDefinition getDirtyWaterProducerDefinition() {
         return myDirtyWaterProducerDefinition;
     }
 
     /**
      * @return Returns the myDryWasteProducerDefinition.
      */
-    protected DryWasteProducerDefinition getDryWasteProducerDefinition() {
+    public DryWasteProducerDefinition getDryWasteProducerDefinition() {
         return myDryWasteProducerDefinition;
     }
 
     /**
      * @return Returns the myFoodConsumerDefinition.
      */
-    protected FoodConsumerDefinition getFoodConsumerDefinition() {
+    public FoodConsumerDefinition getFoodConsumerDefinition() {
         return myFoodConsumerDefinition;
     }
 
     /**
      * @return Returns the myGreyWaterProducerDefinition.
      */
-    protected GreyWaterProducerDefinition getGreyWaterProducerDefinition() {
+    public GreyWaterProducerDefinition getGreyWaterProducerDefinition() {
         return myGreyWaterProducerDefinition;
     }
 
     /**
      * @return Returns the myPotableWaterConsumerDefinition.
      */
-    protected PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
+    public PotableWaterConsumerDefinition getPotableWaterConsumerDefinition() {
         return myPotableWaterConsumerDefinition;
     }
 

@@ -1,10 +1,8 @@
 package com.traclabs.biosim.server.simulation.air;
 
-import com.traclabs.biosim.server.simulation.environment.Air;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
-import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.server.simulation.environment.*;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.power.PowerConsumer;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 
 /**
@@ -13,7 +11,7 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
  * @author Scott Bell
  */
 
-public class VCCRLinear extends SimBioModule {
+public class VCCRLinear extends SimBioModule implements PowerConsumer, AirConsumer, AirProducer, CO2Producer {
 
     //Consumers, Producers
     private final PowerConsumerDefinition myPowerConsumerDefinition;

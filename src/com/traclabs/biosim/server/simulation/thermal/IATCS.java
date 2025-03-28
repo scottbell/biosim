@@ -4,10 +4,9 @@ import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.power.PowerConsumer;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.GreyWaterConsumerDefinition;
-import com.traclabs.biosim.server.simulation.water.GreyWaterProducerDefinition;
-import com.traclabs.biosim.server.simulation.water.WaterStore;
+import com.traclabs.biosim.server.simulation.water.*;
 
 import java.util.Iterator;
 
@@ -17,7 +16,7 @@ import java.util.Iterator;
  * @author Scott Bell
  */
 
-public class IATCS extends SimBioModule {
+public class IATCS extends SimBioModule implements PowerConsumer, GreyWaterConsumer, GreyWaterProducer {
     //During any given tick, this much power is needed for the IATCS
     // to run at all
     private static final float POWER_NEEDED_BASE = 100;

@@ -4,6 +4,7 @@ import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.power.PowerConsumer;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.server.simulation.water.aws.*;
 
@@ -19,7 +20,7 @@ import java.util.Iterator;
  * @author Scott Bell
  */
 
-public class WaterRS extends SimBioModule {
+public class WaterRS extends SimBioModule implements PowerConsumer, GreyWaterConsumer, DirtyWaterConsumer, PotableWaterProducer {
     private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 4;
     //Consumers, Producers
     private final PowerConsumerDefinition myPowerConsumerDefinition;

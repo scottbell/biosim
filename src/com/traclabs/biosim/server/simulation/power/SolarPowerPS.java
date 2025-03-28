@@ -1,5 +1,6 @@
 package com.traclabs.biosim.server.simulation.power;
 
+import com.traclabs.biosim.server.simulation.environment.LightConsumer;
 import com.traclabs.biosim.server.simulation.environment.LightConsumerDefinition;
 import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
 
@@ -9,7 +10,7 @@ import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
  * @author Scott Bell
  */
 
-public class SolarPowerPS extends PowerPS implements PowerProducer {
+public class SolarPowerPS extends PowerPS implements PowerProducer, LightConsumer {
 
     //Consumers, Producers
     private final LightConsumerDefinition myLightConsumerDefinition;
