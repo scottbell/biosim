@@ -86,140 +86,120 @@ public class SensorInitializer {
     private void createCO2InFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         CO2InFlowRateSensor sensor = new CO2InFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureCO2InFlowRateSensor(Node node) {
-        CO2InFlowRateSensor sensor = (CO2InFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((CO2Consumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        CO2InFlowRateSensor sensor = (CO2InFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((CO2Consumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createCO2OutFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         CO2OutFlowRateSensor sensor = new CO2OutFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureCO2OutFlowRateSensor(Node node) {
-        CO2OutFlowRateSensor sensor = (CO2OutFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((CO2Producer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        CO2OutFlowRateSensor sensor = (CO2OutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((CO2Producer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createO2InFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         O2InFlowRateSensor sensor = new O2InFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureO2InFlowRateSensor(Node node) {
-        O2InFlowRateSensor sensor = (O2InFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((O2Consumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        O2InFlowRateSensor sensor = (O2InFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((O2Consumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createO2OutFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         O2OutFlowRateSensor sensor = new O2OutFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureO2OutFlowRateSensor(Node node) {
-        O2OutFlowRateSensor sensor = (O2OutFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((O2Producer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        O2OutFlowRateSensor sensor = (O2OutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((O2Producer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createH2InFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         H2InFlowRateSensor sensor = new H2InFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureH2InFlowRateSensor(Node node) {
-        H2InFlowRateSensor sensor = (H2InFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((H2Consumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        H2InFlowRateSensor sensor = (H2InFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((H2Consumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createH2OutFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         H2OutFlowRateSensor sensor = new H2OutFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureH2OutFlowRateSensor(Node node) {
-        H2OutFlowRateSensor sensor = (H2OutFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((H2Producer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        H2OutFlowRateSensor sensor = (H2OutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((H2Producer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createNitrogenInFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         NitrogenInFlowRateSensor sensor = new NitrogenInFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureNitrogenInFlowRateSensor(Node node) {
-        NitrogenInFlowRateSensor sensor = (NitrogenInFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((NitrogenConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        NitrogenInFlowRateSensor sensor = (NitrogenInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((NitrogenConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createNitrogenOutFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         NitrogenOutFlowRateSensor sensor = new NitrogenOutFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureNitrogenOutFlowRateSensor(Node node) {
-        NitrogenOutFlowRateSensor sensor = (NitrogenOutFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((NitrogenProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        NitrogenOutFlowRateSensor sensor = (NitrogenOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((NitrogenProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createMethaneInFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         MethaneInFlowRateSensor sensor = new MethaneInFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureMethaneInFlowRateSensor(Node node) {
-        MethaneInFlowRateSensor sensor = (MethaneInFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((MethaneConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        MethaneInFlowRateSensor sensor = (MethaneInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((MethaneConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createMethaneOutFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         MethaneOutFlowRateSensor sensor = new MethaneOutFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureMethaneOutFlowRateSensor(Node node) {
-        MethaneOutFlowRateSensor sensor = (MethaneOutFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((MethaneProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        MethaneOutFlowRateSensor sensor = (MethaneOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((MethaneProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
@@ -228,42 +208,36 @@ public class SensorInitializer {
     private void createCrewGroupDeathSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         CrewGroupDeathSensor sensor = new CrewGroupDeathSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureCrewGroupDeathSensor(Node node) {
-        CrewGroupDeathSensor sensor = (CrewGroupDeathSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((CrewGroup) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)));
+        CrewGroupDeathSensor sensor = (CrewGroupDeathSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((CrewGroup) BiosimInitializer.getModule(myID, getInputName(node)));
         mySensors.add(sensor);
     }
 
     private void createCrewGroupAnyDeadSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         CrewGroupAnyDeadSensor sensor = new CrewGroupAnyDeadSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureCrewGroupAnyDeadSensor(Node node) {
-        CrewGroupAnyDeadSensor sensor = (CrewGroupAnyDeadSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((CrewGroup) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)));
+        CrewGroupAnyDeadSensor sensor = (CrewGroupAnyDeadSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((CrewGroup) BiosimInitializer.getModule(myID, getInputName(node)));
         mySensors.add(sensor);
     }
 
     private void createCrewGroupProductivitySensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         CrewGroupProductivitySensor sensor = new CrewGroupProductivitySensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureCrewGroupProductivitySensor(Node node) {
-        CrewGroupProductivitySensor sensor = (CrewGroupProductivitySensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((CrewGroup) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)));
+        CrewGroupProductivitySensor sensor = (CrewGroupProductivitySensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((CrewGroup) BiosimInitializer.getModule(myID, getInputName(node)));
         mySensors.add(sensor);
     }
 
@@ -272,42 +246,36 @@ public class SensorInitializer {
     private void createAirInFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         AirInFlowRateSensor sensor = new AirInFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureAirInFlowRateSensor(Node node) {
-        AirInFlowRateSensor sensor = (AirInFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((AirConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        AirInFlowRateSensor sensor = (AirInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((AirConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createAirOutFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         AirOutFlowRateSensor sensor = new AirOutFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureAirOutFlowRateSensor(Node node) {
-        AirOutFlowRateSensor sensor = (AirOutFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((AirProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        AirOutFlowRateSensor sensor = (AirOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((AirProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createGasConcentrationSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         GasConcentrationSensor sensor = new GasConcentrationSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureGasConcentrationSensor(Node node) {
-        GasConcentrationSensor sensor = (GasConcentrationSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        SimEnvironment inputEnvironment = (SimEnvironment) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node));
+        GasConcentrationSensor sensor = (GasConcentrationSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        SimEnvironment inputEnvironment = (SimEnvironment) BiosimInitializer.getModule(myID, getInputName(node));
         sensor.setInput(inputEnvironment, getGasStore(node, inputEnvironment));
         mySensors.add(sensor);
     }
@@ -315,14 +283,12 @@ public class SensorInitializer {
     private void createGasPressureSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         GasPressureSensor sensor = new GasPressureSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureGasPressureSensor(Node node) {
-        GasPressureSensor sensor = (GasPressureSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        SimEnvironment inputEnvironment = (SimEnvironment) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node));
+        GasPressureSensor sensor = (GasPressureSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        SimEnvironment inputEnvironment = (SimEnvironment) BiosimInitializer.getModule(myID, getInputName(node));
         sensor.setInput(getGasStore(node, inputEnvironment));
         mySensors.add(sensor);
     }
@@ -330,14 +296,12 @@ public class SensorInitializer {
     private void createTotalMolesSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         TotalMolesSensor sensor = new TotalMolesSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureTotalMolesSensor(Node node) {
-        TotalMolesSensor sensor = (TotalMolesSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        SimEnvironment inputEnvironment = (SimEnvironment) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node));
+        TotalMolesSensor sensor = (TotalMolesSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        SimEnvironment inputEnvironment = (SimEnvironment) BiosimInitializer.getModule(myID, getInputName(node));
         sensor.setInput(inputEnvironment);
         mySensors.add(sensor);
     }
@@ -345,14 +309,12 @@ public class SensorInitializer {
     private void createTotalPressureSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         TotalPressureSensor sensor = new TotalPressureSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureTotalPressureSensor(Node node) {
-        TotalPressureSensor sensor = (TotalPressureSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        SimEnvironment inputEnvironment = (SimEnvironment) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node));
+        TotalPressureSensor sensor = (TotalPressureSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        SimEnvironment inputEnvironment = (SimEnvironment) BiosimInitializer.getModule(myID, getInputName(node));
         sensor.setInput(inputEnvironment);
         mySensors.add(sensor);
     }
@@ -362,115 +324,99 @@ public class SensorInitializer {
     private void createBiomassInFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         BiomassInFlowRateSensor sensor = new BiomassInFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureBiomassInFlowRateSensor(Node node) {
-        BiomassInFlowRateSensor sensor = (BiomassInFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((BiomassConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        BiomassInFlowRateSensor sensor = (BiomassInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((BiomassConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createBiomassOutFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         BiomassOutFlowRateSensor sensor = new BiomassOutFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureBiomassOutFlowRateSensor(Node node) {
-        BiomassOutFlowRateSensor sensor = (BiomassOutFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((BiomassProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        BiomassOutFlowRateSensor sensor = (BiomassOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((BiomassProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createFoodInFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         FoodInFlowRateSensor sensor = new FoodInFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureFoodInFlowRateSensor(Node node) {
-        FoodInFlowRateSensor sensor = (FoodInFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((FoodConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        FoodInFlowRateSensor sensor = (FoodInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((FoodConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createFoodOutFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         FoodOutFlowRateSensor sensor = new FoodOutFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureFoodOutFlowRateSensor(Node node) {
-        FoodOutFlowRateSensor sensor = (FoodOutFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((FoodProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        FoodOutFlowRateSensor sensor = (FoodOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((FoodProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createBiomassStoreWaterContentSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         BiomassStoreWaterContentSensor sensor = new BiomassStoreWaterContentSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureBiomassStoreWaterContentSensor(Node node) {
-        BiomassStoreWaterContentSensor sensor = (BiomassStoreWaterContentSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((BiomassStore) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)));
+        BiomassStoreWaterContentSensor sensor = (BiomassStoreWaterContentSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((BiomassStore) BiosimInitializer.getModule(myID, getInputName(node)));
         mySensors.add(sensor);
     }
 
     private void createHarvestSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         HarvestSensor sensor = new HarvestSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureHarvestSensor(Node node) {
         int index = XMLUtils.getIntAttribute(node, "shelfIndex");
-        HarvestSensor sensor = (HarvestSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((BiomassPS) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), index);
+        HarvestSensor sensor = (HarvestSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((BiomassPS) BiosimInitializer.getModule(myID, getInputName(node)), index);
         mySensors.add(sensor);
     }
 
     private void createPlantDeathSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         PlantDeathSensor sensor = new PlantDeathSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configurePlantDeathSensor(Node node) {
         int index = XMLUtils.getIntAttribute(node, "shelfIndex");
-        PlantDeathSensor sensor = (PlantDeathSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((BiomassPS) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), index);
+        PlantDeathSensor sensor = (PlantDeathSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((BiomassPS) BiosimInitializer.getModule(myID, getInputName(node)), index);
         mySensors.add(sensor);
     }
 
     private void createTimeTillCanopyClosureSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         TimeTillCanopyClosureSensor sensor = new TimeTillCanopyClosureSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureTimeTillCanopyClosureSensor(Node node) {
         int index = XMLUtils.getIntAttribute(node, "shelfIndex");
-        TimeTillCanopyClosureSensor sensor = (TimeTillCanopyClosureSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((BiomassPS) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), index);
+        TimeTillCanopyClosureSensor sensor = (TimeTillCanopyClosureSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((BiomassPS) BiosimInitializer.getModule(myID, getInputName(node)), index);
         mySensors.add(sensor);
     }
 
@@ -479,68 +425,59 @@ public class SensorInitializer {
     private void createStoreLevelSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         StoreLevelSensor sensor = new StoreLevelSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureStoreLevelSensor(Node node) {
-        StoreLevelSensor sensor = (StoreLevelSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((Store) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)));
+        StoreLevelSensor sensor = (StoreLevelSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((Store) BiosimInitializer.getModule(myID, getInputName(node)));
         mySensors.add(sensor);
     }
 
     private void createStoreOverflowSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         StoreOverflowSensor sensor = new StoreOverflowSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureStoreOverflowSensor(Node node) {
-        StoreOverflowSensor sensor = (StoreOverflowSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((Store) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)));
+        StoreOverflowSensor sensor = (StoreOverflowSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((Store) BiosimInitializer.getModule(myID, getInputName(node)));
         mySensors.add(sensor);
     }
 
     private void createInfluentValveStateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         InfluentValveStateSensor sensor = new InfluentValveStateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureInfluentValveStateSensor(Node node) {
-        InfluentValveStateSensor sensor = (InfluentValveStateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((InfluentValve) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)));
+        InfluentValveStateSensor sensor = (InfluentValveStateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((InfluentValve) BiosimInitializer.getModule(myID, getInputName(node)));
         mySensors.add(sensor);
     }
 
     private void createEffluentValveStateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         EffluentValveStateSensor sensor = new EffluentValveStateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureEffluentValveStateSensor(Node node) {
-        EffluentValveStateSensor sensor = (EffluentValveStateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((EffluentValve) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)));
+        EffluentValveStateSensor sensor = (EffluentValveStateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((EffluentValve) BiosimInitializer.getModule(myID, getInputName(node)));
         mySensors.add(sensor);
     }
 
     private void createTimeSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         TimeSensor sensor = new TimeSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureTimeSensor(Node node) {
-        TimeSensor sensor = (TimeSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
+        TimeSensor sensor = (TimeSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         mySensors.add(sensor);
     }
 
@@ -549,28 +486,24 @@ public class SensorInitializer {
     private void createPowerInFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         PowerInFlowRateSensor sensor = new PowerInFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configurePowerInFlowRateSensor(Node node) {
-        PowerInFlowRateSensor sensor = (PowerInFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((PowerConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        PowerInFlowRateSensor sensor = (PowerInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((PowerConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createPowerOutFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         PowerOutFlowRateSensor sensor = new PowerOutFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configurePowerOutFlowRateSensor(Node node) {
-        PowerOutFlowRateSensor sensor = (PowerOutFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((PowerProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        PowerOutFlowRateSensor sensor = (PowerOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((PowerProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
@@ -579,84 +512,72 @@ public class SensorInitializer {
     private void createPotableWaterInFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         PotableWaterInFlowRateSensor sensor = new PotableWaterInFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configurePotableWaterInFlowRateSensor(Node node) {
-        PotableWaterInFlowRateSensor sensor = (PotableWaterInFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((PotableWaterConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        PotableWaterInFlowRateSensor sensor = (PotableWaterInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((PotableWaterConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createPotableWaterOutFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         PotableWaterOutFlowRateSensor sensor = new PotableWaterOutFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configurePotableWaterOutFlowRateSensor(Node node) {
-        PotableWaterOutFlowRateSensor sensor = (PotableWaterOutFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((PotableWaterProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        PotableWaterOutFlowRateSensor sensor = (PotableWaterOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((PotableWaterProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createGreyWaterInFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         GreyWaterInFlowRateSensor sensor = new GreyWaterInFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureGreyWaterInFlowRateSensor(Node node) {
-        GreyWaterInFlowRateSensor sensor = (GreyWaterInFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((GreyWaterConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        GreyWaterInFlowRateSensor sensor = (GreyWaterInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((GreyWaterConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createGreyWaterOutFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         GreyWaterOutFlowRateSensor sensor = new GreyWaterOutFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureGreyWaterOutFlowRateSensor(Node node) {
-        GreyWaterOutFlowRateSensor sensor = (GreyWaterOutFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((GreyWaterProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        GreyWaterOutFlowRateSensor sensor = (GreyWaterOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((GreyWaterProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createDirtyWaterInFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         DirtyWaterInFlowRateSensor sensor = new DirtyWaterInFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureDirtyWaterInFlowRateSensor(Node node) {
-        DirtyWaterInFlowRateSensor sensor = (DirtyWaterInFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((DirtyWaterConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        DirtyWaterInFlowRateSensor sensor = (DirtyWaterInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((DirtyWaterConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createDirtyWaterOutFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         DirtyWaterOutFlowRateSensor sensor = new DirtyWaterOutFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureDirtyWaterOutFlowRateSensor(Node node) {
-        DirtyWaterOutFlowRateSensor sensor = (DirtyWaterOutFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((DirtyWaterProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        DirtyWaterOutFlowRateSensor sensor = (DirtyWaterOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((DirtyWaterProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
@@ -665,28 +586,24 @@ public class SensorInitializer {
     private void createDryWasteInFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         DryWasteInFlowRateSensor sensor = new DryWasteInFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureDryWasteInFlowRateSensor(Node node) {
-        DryWasteInFlowRateSensor sensor = (DryWasteInFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((DryWasteConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        DryWasteInFlowRateSensor sensor = (DryWasteInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((DryWasteConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 
     private void createDryWasteOutFlowRateSensor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         DryWasteOutFlowRateSensor sensor = new DryWasteOutFlowRateSensor(myID, moduleName);
-        BiosimInitializer.setupBioModule(sensor, node);
+        BiosimInitializer.setupBioModule(myID, sensor, node);
     }
 
     private void configureDryWasteOutFlowRateSensor(Node node) {
-        DryWasteOutFlowRateSensor sensor = (DryWasteOutFlowRateSensor) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        sensor.setInput((DryWasteProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getInputName(node)), getFlowRateIndex(node));
+        DryWasteOutFlowRateSensor sensor = (DryWasteOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        sensor.setInput((DryWasteProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
         mySensors.add(sensor);
     }
 

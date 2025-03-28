@@ -3,6 +3,7 @@ package com.traclabs.biosim.server.simulation.crew;
 import ch.qos.logback.classic.Level;
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.framework.BiosimInitializer;
+import com.traclabs.biosim.server.framework.IBioModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -267,7 +268,7 @@ public abstract class BaseCrewPerson {
         myCurrentCrewGroup.detachCrewPerson(getName());
         // attach to eva crew group
 
-        myCurrentCrewGroup = (CrewGroup) BiosimInitializer.getInstance(myCurrentCrewGroup.getID()).getBioDriver().getModule(evaCrewGroupName);
+        myCurrentCrewGroup = (CrewGroup) BiosimInitializer.getModule(myCurrentCrewGroup.getID(), evaCrewGroupName);
         // perform activity for X ticks
     }
 
@@ -279,7 +280,7 @@ public abstract class BaseCrewPerson {
         // detach from EVA crew group
         myCurrentCrewGroup.detachCrewPerson(getName());
         // reattach to base crew group
-        myCurrentCrewGroup = (CrewGroup) BiosimInitializer.getInstance(myCurrentCrewGroup.getID()).getBioDriver().getModule(baseCrewGroupName);
+        myCurrentCrewGroup = (CrewGroup) BiosimInitializer.getModule(myCurrentCrewGroup.getID(), baseCrewGroupName);
         // remove 5% from base environment (assume 3.7 m3 airlock)
         myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0]
                 .removeAirlockPercentage(0.05f);
@@ -401,7 +402,7 @@ public abstract class BaseCrewPerson {
      * performs "maitenance" activity
      */
     private void maintainModule(String moduleName) {
-        BioModule module = BiosimInitializer.getInstance(myCurrentCrewGroup.getID()).getBioDriver().getModule(moduleName);
+        IBioModule module = BiosimInitializer.getModule(myCurrentCrewGroup.getID(), moduleName);
         module.maintain();
     }
 

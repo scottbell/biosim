@@ -17,7 +17,7 @@ public class BioDriver {
     // The ID of this instance of BioSim
     private final int myID;
     private final Logger myLogger;
-    private final Map<String, BioModule> myModuleMap = new HashMap<String, BioModule>();
+    private final Map<String, IBioModule> myModuleMap = new HashMap<String, IBioModule>();
     // The thread to run the simulation
     private Thread myTickThread;
     // Flag to see whether the BioDriver is paused (started but not ticking)
@@ -45,17 +45,17 @@ public class BioDriver {
 
     private BiomassPS[] plantsToWatch;
 
-    private BioModule[] modules;
+    private IBioModule[] modules;
 
-    private BioModule[] activeSimModules;
+    private IBioModule[] activeSimModules;
 
-    private BioModule[] passiveSimModules;
+    private IBioModule[] passiveSimModules;
 
-    private BioModule[] prioritySimModules;
+    private IBioModule[] prioritySimModules;
 
-    private BioModule[] sensors;
+    private IBioModule[] sensors;
 
-    private BioModule[] actuators;
+    private IBioModule[] actuators;
 
     private float myTickLength = 1f;
 
@@ -67,12 +67,12 @@ public class BioDriver {
      */
     public BioDriver(int pID) {
         myID = pID;
-        modules = new BioModule[0];
-        activeSimModules = new BioModule[0];
-        passiveSimModules = new BioModule[0];
-        prioritySimModules = new BioModule[0];
-        sensors = new BioModule[0];
-        actuators = new BioModule[0];
+        modules = new IBioModule[0];
+        activeSimModules = new IBioModule[0];
+        passiveSimModules = new IBioModule[0];
+        prioritySimModules = new IBioModule[0];
+        sensors = new IBioModule[0];
+        actuators = new IBioModule[0];
         crewsToWatch = new CrewGroup[0];
         plantsToWatch = new BiomassPS[0];
         myLogger = LoggerFactory.getLogger(BioDriver.class);
@@ -144,63 +144,59 @@ public class BioDriver {
         runTillPlantDeath = pRunTillDead;
     }
 
-    public BioModule getModule(String moduleName) {
-        return myModuleMap.get(moduleName);
-    }
-
-    public BioModule[] getModules() {
+    public IBioModule[] getModules() {
         return modules;
     }
 
-    public void setModules(BioModule[] pModules) {
+    public void setModules(IBioModule[] pModules) {
         modules = pModules;
-        for (BioModule module : pModules) {
+        for (IBioModule module : pModules) {
             myModuleMap.put(module.getModuleName(), module);
         }
     }
 
-    public BioModule[] getSensors() {
+    public IBioModule[] getSensors() {
         return sensors;
     }
 
-    public void setSensors(BioModule[] pSensors) {
+    public void setSensors(IBioModule[] pSensors) {
         sensors = pSensors;
     }
 
-    public BioModule[] getActiveSimModules() {
+    public IBioModule[] getActiveSimModules() {
         return activeSimModules;
     }
 
-    public void setActiveSimModules(BioModule[] pSimModules) {
+    public void setActiveSimModules(IBioModule[] pSimModules) {
         activeSimModules = pSimModules;
     }
 
-    public BioModule[] getPassiveSimModules() {
+    public IBioModule[] getPassiveSimModules() {
         return passiveSimModules;
     }
 
-    public void setPassiveSimModules(BioModule[] pSimModules) {
+    public void setPassiveSimModules(IBioModule[] pSimModules) {
         passiveSimModules = pSimModules;
     }
 
-    public BioModule[] getPrioritySimModules() {
+    public IBioModule[] getPrioritySimModules() {
         return prioritySimModules;
     }
 
-    public void setPrioritySimModules(BioModule[] pSimModules) {
+    public void setPrioritySimModules(IBioModule[] pSimModules) {
         prioritySimModules = pSimModules;
     }
 
-    public BioModule[] getActuators() {
+    public IBioModule[] getActuators() {
         return actuators;
     }
 
-    public void setActuators(BioModule[] pActuators) {
+    public void setActuators(IBioModule[] pActuators) {
         actuators = pActuators;
     }
 
-    public BioModule[] getSimModules() {
-        BioModule[] simModules = new BioModule[activeSimModules.length
+    public IBioModule[] getSimModules() {
+        IBioModule[] simModules = new IBioModule[activeSimModules.length
                 + passiveSimModules.length + prioritySimModules.length];
         System.arraycopy(activeSimModules, 0, simModules, 0, activeSimModules.length);
         System.arraycopy(passiveSimModules, 0, simModules, activeSimModules.length, passiveSimModules.length);
@@ -252,7 +248,7 @@ public class BioDriver {
     }
 
     public String[] getSimModuleNames() {
-        BioModule[] simModules = getSimModules();
+        IBioModule[] simModules = getSimModules();
         String[] simModuleNameArray = new String[simModules.length];
         for (int i = 0; i < simModules.length; i++)
             simModuleNameArray[i] = simModules[i].getModuleName();
@@ -426,7 +422,7 @@ public class BioDriver {
     public void startMalfunction(MalfunctionIntensity pIntensity,
                                  MalfunctionLength pLength) {
         for (int i = 0; i < modules.length; i++) {
-            BioModule currentBioModule = (modules[i]);
+            IBioModule currentBioModule = (modules[i]);
             currentBioModule.startMalfunction(pIntensity, pLength);
         }
     }
@@ -439,7 +435,7 @@ public class BioDriver {
     public void reset() {
         myLogger.info("BioDriver" + myID + ": Resetting simulation");
         ticksGoneBy = 0;
-        for (BioModule currentBioModule : modules) {
+        for (IBioModule currentBioModule : modules) {
             myLogger.debug("resetting " + currentBioModule.getModuleName());
             currentBioModule.reset();
             currentBioModule.setTickLength(getTickLength());
@@ -485,20 +481,20 @@ public class BioDriver {
     private void tick() {
         myLogger.debug("BioDrive: begin tick " + ticksGoneBy);
         // Iterate through the actuators and tick them
-        for (BioModule currentBioModule : actuators)
+        for (IBioModule currentBioModule : actuators)
             currentBioModule.tick();
         // Iterate through the active sim modules and tick them
-        for (BioModule currentBioModule : activeSimModules) {
+        for (IBioModule currentBioModule : activeSimModules) {
             currentBioModule.tick();
         }
         // Iterate through the passive sim modules and tick them
-        for (BioModule currentBioModule : passiveSimModules)
+        for (IBioModule currentBioModule : passiveSimModules)
             currentBioModule.tick();
         // Iterate through the priority sim modules and tick them
-        for (BioModule currentBioModule : prioritySimModules)
+        for (IBioModule currentBioModule : prioritySimModules)
             currentBioModule.tick();
         // Iterate through the sensors and tick them
-        for (BioModule currentBioModule : sensors)
+        for (IBioModule currentBioModule : sensors)
             currentBioModule.tick();
         ticksGoneBy++;
     }

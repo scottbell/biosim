@@ -26,7 +26,8 @@ import javax.xml.validation.SchemaFactory;
 import java.io.FileNotFoundException;
 import java.io.StringReader;
 import java.net.URL;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.Set;
 
@@ -38,7 +39,7 @@ import java.util.Set;
 public class BiosimInitializer {
     private static final String SCHEMA_LOCATION_VALUE = "schema/BiosimInitSchema.xsd";
     private static BiosimInitializer instance = null;
-    private final Set<BioModule> myModules;
+    private final Map<String, IBioModule> myModules;
     private final Logger myLogger;
     private final SimulationInitializer mySimulationInitializer;
     private final SensorInitializer mySensorInitializer;
@@ -52,7 +53,7 @@ public class BiosimInitializer {
         mySimulationInitializer = new SimulationInitializer(myID);
         mySensorInitializer = new SensorInitializer(myID);
         myActuatorInitializer = new ActuatorInitializer(myID);
-        myModules = new HashSet<>();
+        myModules = new HashMap<String, IBioModule>();
         myLogger = LoggerFactory.getLogger(this.getClass());
 
         try {
@@ -81,11 +82,27 @@ public class BiosimInitializer {
         }
     }
 
+    public static synchronized IBioModule getModule(int id, String name) {
+        return getInstance(id).getModule(name);
+    }
+
+	public synchronized void addModule(IBioModule module) {
+		myModules.put(module.getModuleName(), module);
+	}
+
+    public static synchronized void addModule(int id, IBioModule module) {
+		BiosimInitializer.getInstance(id).addModule(module);
+    }
+
     public static synchronized BiosimInitializer getInstance(int pID) {
         if (instance == null) {
             instance = new BiosimInitializer(pID);
         }
         return instance;
+    }
+
+    public IBioModule getModule(String name) {
+        return myModules.get(name);
     }
 
     private static MalfunctionLength getMalfunctionLength(Node pNode) {
@@ -143,7 +160,8 @@ public class BiosimInitializer {
         return node.getAttributes().getNamedItem("moduleName").getNodeValue();
     }
 
-    public static void setupBioModule(BioModule pModule, Node node) {
+    public static void setupBioModule(int id, BioModule pModule, Node node) {
+        BiosimInitializer.addModule(id, pModule);
         Level logLevel = getLogLevel(node);
         if (logLevel != null)
             pModule.setLogLevel(logLevel);
@@ -319,20 +337,13 @@ public class BiosimInitializer {
             // Initialize the BioDriver
             myBioDriver = new BioDriver(myID);
 
-            // Collect all modules
-            myModules.addAll(mySensorInitializer.getSensors());
-            myModules.addAll(mySimulationInitializer.getPassiveSimModules());
-            myModules.addAll(mySimulationInitializer.getActiveSimModules());
-            myModules.addAll(mySimulationInitializer.getPrioritySimModules());
-            myModules.addAll(myActuatorInitializer.getActuators());
-
             // Configure the BioDriver with modules
-            BioModule[] moduleArray = convertSet(myModules);
-            BioModule[] sensorArray = convertSet(mySensorInitializer.getSensors());
-            BioModule[] actuatorArray = convertSet(myActuatorInitializer.getActuators());
-            BioModule[] passiveSimModulesArray = convertSet(mySimulationInitializer.getPassiveSimModules());
-            BioModule[] activeSimModulesArray = convertSet(mySimulationInitializer.getActiveSimModules());
-            BioModule[] prioritySimModulesArray = convertSet(mySimulationInitializer.getPrioritySimModules());
+            IBioModule[] moduleArray = myModules.values().toArray(new IBioModule[0]);
+            IBioModule[] sensorArray = convertSet(mySensorInitializer.getSensors());
+            IBioModule[] actuatorArray = convertSet(myActuatorInitializer.getActuators());
+            IBioModule[] passiveSimModulesArray = convertSet(mySimulationInitializer.getPassiveSimModules());
+            IBioModule[] activeSimModulesArray = convertSet(mySimulationInitializer.getActiveSimModules());
+            IBioModule[] prioritySimModulesArray = convertSet(mySimulationInitializer.getPrioritySimModules());
 
             myBioDriver.setModules(moduleArray);
             myBioDriver.setSensors(sensorArray);
@@ -410,7 +421,7 @@ public class BiosimInitializer {
                 String[] crewsToWatchArray = crewsToWatchString.split("\\s");
                 CrewGroup[] crewGroups = new CrewGroup[crewsToWatchArray.length];
                 for (int i = 0; i < crewGroups.length; i++) {
-                    crewGroups[i] = (CrewGroup) getBioDriver().getModule(crewsToWatchArray[i]);
+                    crewGroups[i] = (CrewGroup) getModule(crewsToWatchArray[i]);
                 }
                 myBioDriver.setCrewsToWatch(crewGroups);
             }
@@ -423,7 +434,7 @@ public class BiosimInitializer {
                 String[] plantsToWatchArray = plantsToWatchString.split("\\s");
                 BiomassPS[] biomassPSs = new BiomassPS[plantsToWatchArray.length];
                 for (int i = 0; i < biomassPSs.length; i++) {
-                    biomassPSs[i] = (BiomassPS) getBioDriver().getModule(plantsToWatchArray[i]);
+                    biomassPSs[i] = (BiomassPS) getModule(plantsToWatchArray[i]);
                 }
                 myBioDriver.setPlantsToWatch(biomassPSs);
             }

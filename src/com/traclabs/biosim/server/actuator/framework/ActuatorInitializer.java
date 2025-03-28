@@ -67,140 +67,120 @@ public class ActuatorInitializer {
     private void createCO2InFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         CO2InFlowRateActuator actuator = new CO2InFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureCO2InFlowRateActuator(Node node) {
-        CO2InFlowRateActuator actuator = (CO2InFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((CO2Consumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        CO2InFlowRateActuator actuator = (CO2InFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((CO2Consumer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createCO2OutFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         CO2OutFlowRateActuator actuator = new CO2OutFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureCO2OutFlowRateActuator(Node node) {
-        CO2OutFlowRateActuator actuator = (CO2OutFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((CO2Producer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        CO2OutFlowRateActuator actuator = (CO2OutFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((CO2Producer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createO2InFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         O2InFlowRateActuator actuator = new O2InFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureO2InFlowRateActuator(Node node) {
-        O2InFlowRateActuator actuator = (O2InFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((O2Consumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        O2InFlowRateActuator actuator = (O2InFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((O2Consumer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createO2OutFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         O2OutFlowRateActuator actuator = new O2OutFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureO2OutFlowRateActuator(Node node) {
-        O2OutFlowRateActuator actuator = (O2OutFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((O2Producer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        O2OutFlowRateActuator actuator = (O2OutFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((O2Producer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createH2InFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         H2InFlowRateActuator actuator = new H2InFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureH2InFlowRateActuator(Node node) {
-        H2InFlowRateActuator actuator = (H2InFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((H2Consumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        H2InFlowRateActuator actuator = (H2InFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((H2Consumer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createH2OutFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         H2OutFlowRateActuator actuator = new H2OutFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureH2OutFlowRateActuator(Node node) {
-        H2OutFlowRateActuator actuator = (H2OutFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((H2Producer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        H2OutFlowRateActuator actuator = (H2OutFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((H2Producer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createNitrogenInFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         NitrogenInFlowRateActuator actuator = new NitrogenInFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureNitrogenInFlowRateActuator(Node node) {
-        NitrogenInFlowRateActuator actuator = (NitrogenInFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((NitrogenConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        NitrogenInFlowRateActuator actuator = (NitrogenInFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((NitrogenConsumer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createNitrogenOutFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         NitrogenOutFlowRateActuator actuator = new NitrogenOutFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureNitrogenOutFlowRateActuator(Node node) {
-        NitrogenOutFlowRateActuator actuator = (NitrogenOutFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((NitrogenProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        NitrogenOutFlowRateActuator actuator = (NitrogenOutFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((NitrogenProducer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createMethaneInFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         MethaneInFlowRateActuator actuator = new MethaneInFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureMethaneInFlowRateActuator(Node node) {
-        MethaneInFlowRateActuator actuator = (MethaneInFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((MethaneConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        MethaneInFlowRateActuator actuator = (MethaneInFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((MethaneConsumer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createMethaneOutFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         MethaneOutFlowRateActuator actuator = new MethaneOutFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureMethaneOutFlowRateActuator(Node node) {
-        MethaneOutFlowRateActuator actuator = (MethaneOutFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((MethaneProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        MethaneOutFlowRateActuator actuator = (MethaneOutFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((MethaneProducer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
@@ -273,28 +253,24 @@ public class ActuatorInitializer {
     private void createAirInFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         AirInFlowRateActuator actuator = new AirInFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureAirInFlowRateActuator(Node node) {
-        AirInFlowRateActuator actuator = (AirInFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((AirConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        AirInFlowRateActuator actuator = (AirInFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((AirConsumer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createAirOutFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         AirOutFlowRateActuator actuator = new AirOutFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureAirOutFlowRateActuator(Node node) {
-        AirOutFlowRateActuator actuator = (AirOutFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((AirProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        AirOutFlowRateActuator actuator = (AirOutFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((AirProducer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
@@ -327,84 +303,72 @@ public class ActuatorInitializer {
     private void createBiomassInFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         BiomassInFlowRateActuator actuator = new BiomassInFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureBiomassInFlowRateActuator(Node node) {
-        BiomassInFlowRateActuator actuator = (BiomassInFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((BiomassConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        BiomassInFlowRateActuator actuator = (BiomassInFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((BiomassConsumer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createBiomassOutFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         BiomassOutFlowRateActuator actuator = new BiomassOutFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureBiomassOutFlowRateActuator(Node node) {
-        BiomassOutFlowRateActuator actuator = (BiomassOutFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((BiomassProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        BiomassOutFlowRateActuator actuator = (BiomassOutFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((BiomassProducer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createFoodInFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         FoodInFlowRateActuator actuator = new FoodInFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureFoodInFlowRateActuator(Node node) {
-        FoodInFlowRateActuator actuator = (FoodInFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((FoodConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        FoodInFlowRateActuator actuator = (FoodInFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((FoodConsumer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createFoodOutFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         FoodOutFlowRateActuator actuator = new FoodOutFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureFoodOutFlowRateActuator(Node node) {
-        FoodOutFlowRateActuator actuator = (FoodOutFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((FoodProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        FoodOutFlowRateActuator actuator = (FoodOutFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((FoodProducer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createPlantingActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         PlantingActuator actuator = new PlantingActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configurePlantingActuator(Node node) {
-        PlantingActuator actuator = (PlantingActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((BiomassPS) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getShelfIndex(node));
+        PlantingActuator actuator = (PlantingActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((BiomassPS) BiosimInitializer.getModule(myID, getOutputName(node)), getShelfIndex(node));
         myActuators.add(actuator);
     }
 
     private void createHarvestingActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         HarvestingActuator actuator = new HarvestingActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureHarvestingActuator(Node node) {
-        HarvestingActuator actuator = (HarvestingActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((BiomassPS) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getShelfIndex(node));
+        HarvestingActuator actuator = (HarvestingActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((BiomassPS) BiosimInitializer.getModule(myID, getOutputName(node)), getShelfIndex(node));
         myActuators.add(actuator);
     }
 
@@ -457,28 +421,24 @@ public class ActuatorInitializer {
     private void createInfluentValveActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         InfluentValveActuator actuator = new InfluentValveActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureInfluentValveActuator(Node node) {
-        InfluentValveActuator actuator = (InfluentValveActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((InfluentValve) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)));
+        InfluentValveActuator actuator = (InfluentValveActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((InfluentValve) BiosimInitializer.getModule(myID, getOutputName(node)));
         myActuators.add(actuator);
     }
 
     private void createEffluentValveActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         EffluentValveActuator actuator = new EffluentValveActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureEffluentValveActuator(Node node) {
-        EffluentValveActuator actuator = (EffluentValveActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((EffluentValve) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)));
+        EffluentValveActuator actuator = (EffluentValveActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((EffluentValve) BiosimInitializer.getModule(myID, getOutputName(node)));
         myActuators.add(actuator);
     }
 
@@ -511,28 +471,24 @@ public class ActuatorInitializer {
     private void createPowerInFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         PowerInFlowRateActuator actuator = new PowerInFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configurePowerInFlowRateActuator(Node node) {
-        PowerInFlowRateActuator actuator = (PowerInFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((PowerConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        PowerInFlowRateActuator actuator = (PowerInFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((PowerConsumer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createPowerOutFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         PowerOutFlowRateActuator actuator = new PowerOutFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configurePowerOutFlowRateActuator(Node node) {
-        PowerOutFlowRateActuator actuator = (PowerOutFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((PowerProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        PowerOutFlowRateActuator actuator = (PowerOutFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((PowerProducer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
@@ -565,84 +521,72 @@ public class ActuatorInitializer {
     private void createPotableWaterInFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         PotableWaterInFlowRateActuator actuator = new PotableWaterInFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configurePotableWaterInFlowRateActuator(Node node) {
-        PotableWaterInFlowRateActuator actuator = (PotableWaterInFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((PotableWaterConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        PotableWaterInFlowRateActuator actuator = (PotableWaterInFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((PotableWaterConsumer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createPotableWaterOutFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         PotableWaterOutFlowRateActuator actuator = new PotableWaterOutFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configurePotableWaterOutFlowRateActuator(Node node) {
-        PotableWaterOutFlowRateActuator actuator = (PotableWaterOutFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((PotableWaterProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        PotableWaterOutFlowRateActuator actuator = (PotableWaterOutFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((PotableWaterProducer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createGreyWaterInFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         GreyWaterInFlowRateActuator actuator = new GreyWaterInFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureGreyWaterInFlowRateActuator(Node node) {
-        GreyWaterInFlowRateActuator actuator = (GreyWaterInFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((GreyWaterConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        GreyWaterInFlowRateActuator actuator = (GreyWaterInFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((GreyWaterConsumer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createGreyWaterOutFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         GreyWaterOutFlowRateActuator actuator = new GreyWaterOutFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureGreyWaterOutFlowRateActuator(Node node) {
-        GreyWaterOutFlowRateActuator actuator = (GreyWaterOutFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((GreyWaterProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        GreyWaterOutFlowRateActuator actuator = (GreyWaterOutFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((GreyWaterProducer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createDirtyWaterInFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         DirtyWaterInFlowRateActuator actuator = new DirtyWaterInFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureDirtyWaterInFlowRateActuator(Node node) {
-        DirtyWaterInFlowRateActuator actuator = (DirtyWaterInFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((DirtyWaterConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        DirtyWaterInFlowRateActuator actuator = (DirtyWaterInFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((DirtyWaterConsumer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createDirtyWaterOutFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         DirtyWaterOutFlowRateActuator actuator = new DirtyWaterOutFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureDirtyWaterOutFlowRateActuator(Node node) {
-        DirtyWaterOutFlowRateActuator actuator = (DirtyWaterOutFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((DirtyWaterProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        DirtyWaterOutFlowRateActuator actuator = (DirtyWaterOutFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((DirtyWaterProducer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
@@ -695,28 +639,24 @@ public class ActuatorInitializer {
     private void createDryWasteInFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         DryWasteInFlowRateActuator actuator = new DryWasteInFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureDryWasteInFlowRateActuator(Node node) {
-        DryWasteInFlowRateActuator actuator = (DryWasteInFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((DryWasteConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        DryWasteInFlowRateActuator actuator = (DryWasteInFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((DryWasteConsumer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 
     private void createDryWasteOutFlowRateActuator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         DryWasteOutFlowRateActuator actuator = new DryWasteOutFlowRateActuator(myID, moduleName);
-        BiosimInitializer.setupBioModule(actuator, node);
+        BiosimInitializer.setupBioModule(myID, actuator, node);
     }
 
     private void configureDryWasteOutFlowRateActuator(Node node) {
-        DryWasteOutFlowRateActuator actuator = (DryWasteOutFlowRateActuator) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(BiosimInitializer.getModuleName(node));
-        actuator.setOutput((DryWasteProducer) BiosimInitializer.getInstance(myID)
-                .getBioDriver().getModule(getOutputName(node)), getFlowRateIndex(node));
+        DryWasteOutFlowRateActuator actuator = (DryWasteOutFlowRateActuator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        actuator.setOutput((DryWasteProducer) BiosimInitializer.getModule(myID, getOutputName(node)), getFlowRateIndex(node));
         myActuators.add(actuator);
     }
 

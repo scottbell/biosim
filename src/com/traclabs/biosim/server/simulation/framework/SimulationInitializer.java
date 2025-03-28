@@ -2,6 +2,7 @@ package com.traclabs.biosim.server.simulation.framework;
 
 import com.traclabs.biosim.server.framework.BioModule;
 import com.traclabs.biosim.server.framework.BiosimInitializer;
+import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.air.*;
 import com.traclabs.biosim.server.simulation.air.cdrs.CDRSModule;
 import com.traclabs.biosim.server.simulation.crew.*;
@@ -266,6 +267,9 @@ public class SimulationInitializer {
     }
 
     private void configureSimBioModule(SimBioModule pModule, Node node) {
+        if (pModule == null) {
+            throw new IllegalArgumentException("Module passed for configuration is null!");
+        }
         Node child = node.getFirstChild();
         while (child != null) {
             String childName = child.getLocalName();
@@ -273,7 +277,7 @@ public class SimulationInitializer {
                 switch (childName) {
                     case "powerConsumer" -> {
                         PowerConsumer myPowerConsumer = (PowerConsumer) (pModule);
-                        BioModule[] modules = getInputs(child);
+                        IBioModule[] modules = getInputs(child);
                         PowerStore[] inputs = new PowerStore[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             inputs[i] = (PowerStore) modules[i];
@@ -283,7 +287,7 @@ public class SimulationInitializer {
                     }
                     case "potableWaterConsumer" -> {
                         PotableWaterConsumer myPotableWaterConsumer = (PotableWaterConsumer) (pModule);
-                        BioModule[] modules = getInputs(child);
+                        IBioModule[] modules = getInputs(child);
                         PotableWaterStore[] inputs = new PotableWaterStore[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             inputs[i] = (PotableWaterStore) modules[i];
@@ -294,7 +298,7 @@ public class SimulationInitializer {
                     }
                     case "greyWaterConsumer" -> {
                         GreyWaterConsumer myGreyWaterConsumer = (GreyWaterConsumer) (pModule);
-                        BioModule[] modules = getInputs(child);
+                        IBioModule[] modules = getInputs(child);
                         GreyWaterStore[] inputs = new GreyWaterStore[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             inputs[i] = (GreyWaterStore) (modules[i]);
@@ -304,7 +308,7 @@ public class SimulationInitializer {
                     }
                     case "dirtyWaterConsumer" -> {
                         DirtyWaterConsumer myDirtyWaterConsumer = (DirtyWaterConsumer) (pModule);
-                        BioModule[] modules = getInputs(child);
+                        IBioModule[] modules = getInputs(child);
                         DirtyWaterStore[] inputs = new DirtyWaterStore[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             inputs[i] = ((DirtyWaterStore) modules[i]);
@@ -315,7 +319,7 @@ public class SimulationInitializer {
                     }
                     case "airConsumer" -> {
                         AirConsumer myAirConsumer = (AirConsumer) (pModule);
-                        BioModule[] modules = getInputs(child);
+                        IBioModule[] modules = getInputs(child);
                         SimEnvironment[] inputs = new SimEnvironment[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             inputs[i] = ((SimEnvironment) modules[i]);
@@ -325,7 +329,7 @@ public class SimulationInitializer {
                     }
                     case "H2Consumer" -> {
                         H2Consumer myH2Consumer = (H2Consumer) (pModule);
-                        BioModule[] modules = getInputs(child);
+                        IBioModule[] modules = getInputs(child);
                         H2Store[] inputs = new H2Store[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             inputs[i] = ((H2Store) modules[i]);
@@ -334,7 +338,7 @@ public class SimulationInitializer {
                     }
                     case "nitrogenConsumer" -> {
                         NitrogenConsumer myNitrogenConsumer = (NitrogenConsumer) (pModule);
-                        BioModule[] modules = getInputs(child);
+                        IBioModule[] modules = getInputs(child);
                         INitrogenStore[] inputs = new INitrogenStore[modules.length];
                         for (int i = 0; i < modules.length; i++) {
                             if (modules[i] instanceof SimEnvironment) {
@@ -349,7 +353,7 @@ public class SimulationInitializer {
                     }
                     case "methaneConsumer" -> {
                         MethaneConsumer myMethaneConsumer = (MethaneConsumer) (pModule);
-                        BioModule[] modules = getInputs(child);
+                        IBioModule[] modules = getInputs(child);
                         MethaneStore[] inputs = new MethaneStore[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             inputs[i] = ((MethaneStore) modules[i]);
@@ -359,7 +363,7 @@ public class SimulationInitializer {
                     }
                     case "O2Consumer" -> {
                         O2Consumer myO2Consumer = (O2Consumer) (pModule);
-                        BioModule[] modules = getInputs(child);
+                        IBioModule[] modules = getInputs(child);
                         IO2Store[] inputs = new IO2Store[modules.length];
                         for (int i = 0; i < modules.length; i++) {
                             if (modules[i] instanceof SimEnvironment) {
@@ -373,7 +377,7 @@ public class SimulationInitializer {
                     }
                     case "CO2Consumer" -> {
                         CO2Consumer myCO2Consumer = (CO2Consumer) (pModule);
-                        BioModule[] modules = getInputs(child);
+                        IBioModule[] modules = getInputs(child);
                         ICO2Store[] inputs = new ICO2Store[modules.length];
                         for (int i = 0; i < modules.length; i++) {
                             if (modules[i] instanceof SimEnvironment) {
@@ -388,7 +392,7 @@ public class SimulationInitializer {
                     }
                     case "lightConsumer" -> {
                         LightConsumer myLightConsumer = (LightConsumer) (pModule);
-                        BioModule[] modules = getInputs(child);
+                        IBioModule[] modules = getInputs(child);
                         SimEnvironment[] inputs = new SimEnvironment[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             inputs[i] = ((SimEnvironment) modules[i]);
@@ -397,7 +401,7 @@ public class SimulationInitializer {
                     }
                     case "biomassConsumer" -> {
                         BiomassConsumer myBiomassConsumer = (BiomassConsumer) (pModule);
-                        BioModule[] modules = getInputs(child);
+                        IBioModule[] modules = getInputs(child);
                         BiomassStore[] inputs = new BiomassStore[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             inputs[i] = ((BiomassStore) modules[i]);
@@ -407,7 +411,7 @@ public class SimulationInitializer {
                     }
                     case "dryWasteConsumer" -> {
                         DryWasteConsumer myDryWasteConsumer = (DryWasteConsumer) (pModule);
-                        BioModule[] modules = getInputs(child);
+                        IBioModule[] modules = getInputs(child);
                         DryWasteStore[] inputs = new DryWasteStore[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             inputs[i] = ((DryWasteStore) modules[i]);
@@ -417,7 +421,7 @@ public class SimulationInitializer {
                     }
                     case "foodConsumer" -> {
                         FoodConsumer myFoodConsumer = (FoodConsumer) (pModule);
-                        BioModule[] modules = getInputs(child);
+                        IBioModule[] modules = getInputs(child);
                         FoodStore[] inputs = new FoodStore[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             inputs[i] = ((FoodStore) modules[i]);
@@ -427,7 +431,7 @@ public class SimulationInitializer {
                     }
                     case "powerProducer" -> {
                         PowerProducer myPowerProducer = (PowerProducer) (pModule);
-                        BioModule[] modules = getOutputs(child);
+                        IBioModule[] modules = getOutputs(child);
                         PowerStore[] outputs = new PowerStore[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             outputs[i] = ((PowerStore) modules[i]);
@@ -437,7 +441,7 @@ public class SimulationInitializer {
                     }
                     case "potableWaterProducer" -> {
                         PotableWaterProducer myPotableWaterProducer = (PotableWaterProducer) (pModule);
-                        BioModule[] modules = getOutputs(child);
+                        IBioModule[] modules = getOutputs(child);
                         PotableWaterStore[] outputs = new PotableWaterStore[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             outputs[i] = ((PotableWaterStore) modules[i]);
@@ -448,7 +452,7 @@ public class SimulationInitializer {
                     }
                     case "greyWaterProducer" -> {
                         GreyWaterProducer myGreyWaterProducer = (GreyWaterProducer) (pModule);
-                        BioModule[] modules = getOutputs(child);
+                        IBioModule[] modules = getOutputs(child);
                         GreyWaterStore[] outputs = new GreyWaterStore[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             outputs[i] = ((GreyWaterStore) modules[i]);
@@ -459,7 +463,7 @@ public class SimulationInitializer {
                     }
                     case "dirtyWaterProducer" -> {
                         DirtyWaterProducer myDirtyWaterProducer = (DirtyWaterProducer) (pModule);
-                        BioModule[] modules = getOutputs(child);
+                        IBioModule[] modules = getOutputs(child);
                         DirtyWaterStore[] outputs = new DirtyWaterStore[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             outputs[i] = ((DirtyWaterStore) modules[i]);
@@ -470,7 +474,7 @@ public class SimulationInitializer {
                     }
                     case "airProducer" -> {
                         AirProducer myAirProducer = (AirProducer) (pModule);
-                        BioModule[] modules = getOutputs(child);
+                        IBioModule[] modules = getOutputs(child);
                         SimEnvironment[] outputs = new SimEnvironment[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             outputs[i] = ((SimEnvironment) modules[i]);
@@ -480,7 +484,7 @@ public class SimulationInitializer {
                     }
                     case "H2Producer" -> {
                         H2Producer myH2Producer = (H2Producer) (pModule);
-                        BioModule[] modules = getOutputs(child);
+                        IBioModule[] modules = getOutputs(child);
                         H2Store[] outputs = new H2Store[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             outputs[i] = ((H2Store) modules[i]);
@@ -490,7 +494,7 @@ public class SimulationInitializer {
                     }
                     case "nitrogenProducer" -> {
                         NitrogenProducer myNitrogenProducer = (NitrogenProducer) (pModule);
-                        BioModule[] modules = getOutputs(child);
+                        IBioModule[] modules = getOutputs(child);
                         INitrogenStore[] outputs = new INitrogenStore[modules.length];
                         for (int i = 0; i < modules.length; i++) {
                             if (modules[i] instanceof SimEnvironment) {
@@ -506,7 +510,7 @@ public class SimulationInitializer {
                     }
                     case "methaneProducer" -> {
                         MethaneProducer myMethaneProducer = (MethaneProducer) (pModule);
-                        BioModule[] modules = getOutputs(child);
+                        IBioModule[] modules = getOutputs(child);
                         MethaneStore[] outputs = new MethaneStore[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             outputs[i] = ((MethaneStore) modules[i]);
@@ -516,7 +520,7 @@ public class SimulationInitializer {
                     }
                     case "O2Producer" -> {
                         O2Producer myO2Producer = (O2Producer) (pModule);
-                        BioModule[] modules = getOutputs(child);
+                        IBioModule[] modules = getOutputs(child);
                         IO2Store[] outputs = new IO2Store[modules.length];
                         for (int i = 0; i < modules.length; i++) {
                             if (modules[i] instanceof SimEnvironment) {
@@ -531,7 +535,7 @@ public class SimulationInitializer {
                     }
                     case "CO2Producer" -> {
                         CO2Producer myCO2Producer = (CO2Producer) (pModule);
-                        BioModule[] modules = getOutputs(child);
+                        IBioModule[] modules = getOutputs(child);
                         ICO2Store[] outputs = new ICO2Store[modules.length];
                         for (int i = 0; i < modules.length; i++) {
                             if (modules[i] instanceof SimEnvironment) {
@@ -546,7 +550,7 @@ public class SimulationInitializer {
                     }
                     case "biomassProducer" -> {
                         BiomassProducer myBiomassProducer = (BiomassProducer) (pModule);
-                        BioModule[] modules = getOutputs(child);
+                        IBioModule[] modules = getOutputs(child);
                         BiomassStore[] outputs = new BiomassStore[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             outputs[i] = ((BiomassStore) modules[i]);
@@ -556,7 +560,7 @@ public class SimulationInitializer {
                     }
                     case "dryWasteProducer" -> {
                         DryWasteProducer myDryWasteProducer = (DryWasteProducer) (pModule);
-                        BioModule[] modules = getOutputs(child);
+                        IBioModule[] modules = getOutputs(child);
                         DryWasteStore[] outputs = new DryWasteStore[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             outputs[i] = ((DryWasteStore) modules[i]);
@@ -567,7 +571,7 @@ public class SimulationInitializer {
                     }
                     case "foodProducer" -> {
                         FoodProducer myFoodProducer = (FoodProducer) (pModule);
-                        BioModule[] modules = getOutputs(child);
+                        IBioModule[] modules = getOutputs(child);
                         FoodStore[] outputs = new FoodStore[modules.length];
                         for (int i = 0; i < modules.length; i++)
                             outputs[i] = ((FoodStore) modules[i]);
@@ -581,30 +585,30 @@ public class SimulationInitializer {
         }
     }
 
-    private BioModule[] getInputs(Node node) {
+    private IBioModule[] getInputs(Node node) {
         if (node == null)
             return new BioModule[0];
         String arrayString = node.getAttributes().getNamedItem("inputs")
                 .getNodeValue();
         String[] inputNames = arrayString.split("\\s");
-        BioModule[] inputs = new BioModule[inputNames.length];
+        IBioModule[] inputs = new IBioModule[inputNames.length];
         for (int i = 0; i < inputs.length; i++) {
             String inputName = inputNames[i];
-            inputs[i] = BiosimInitializer.getInstance(myID).getBioDriver().getModule(inputName);
+            inputs[i] = BiosimInitializer.getModule(myID, inputName);
         }
         return inputs;
     }
 
-    private BioModule[] getOutputs(Node node) {
+    private IBioModule[] getOutputs(Node node) {
         if (node == null)
             return new BioModule[0];
         String arrayString = node.getAttributes().getNamedItem("outputs")
                 .getNodeValue();
         String[] outputNames = arrayString.split("\\s");
-        BioModule[] outputs = new BioModule[outputNames.length];
+        IBioModule[] outputs = new IBioModule[outputNames.length];
         for (int i = 0; i < outputs.length; i++) {
             String outputName = outputNames[i];
-            outputs[i] = BiosimInitializer.getInstance(myID).getBioDriver().getModule(outputName);
+            outputs[i] = BiosimInitializer.getModule(myID, outputName);
         }
         return outputs;
     }
@@ -614,7 +618,7 @@ public class SimulationInitializer {
         pStore.setInitialLevel(getStoreLevel(pNode));
         pStore.setResupply(getStoreResupplyFrequency(pNode),
                 getStoreResupplyAmount(pNode));
-        BiosimInitializer.setupBioModule(pStore, pNode);
+        BiosimInitializer.setupBioModule(myID, pStore, pNode);
         myPassiveSimModules.add(pStore);
     }
 
@@ -629,10 +633,10 @@ public class SimulationInitializer {
         if (implementationString.equals("LINEAR")) {
             myLogger.debug("created linear VCCR...");
             VCCRLinear myVCCR = new VCCRLinear(myID, moduleName);
-            BiosimInitializer.setupBioModule(myVCCR, node);
+            BiosimInitializer.setupBioModule(myID, myVCCR, node);
         } else {
             VCCR myVCCR = new VCCR(myID, moduleName);
-            BiosimInitializer.setupBioModule(myVCCR, node);
+            BiosimInitializer.setupBioModule(myID, myVCCR, node);
         }
     }
 
@@ -640,7 +644,7 @@ public class SimulationInitializer {
      * @param child
      */
     private void configureVCCR(Node node) {
-        VCCR myVCCR = (VCCR) BiosimInitializer.getInstance(myID).getBioDriver().getModule(BiosimInitializer.getModuleName(node));
+        VCCR myVCCR = (VCCR) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(myVCCR, node);
         myActiveSimModules.add(myVCCR);
 
@@ -652,14 +656,14 @@ public class SimulationInitializer {
     private void createCRS(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         CRS myCRS = new CRS(myID, moduleName);
-        BiosimInitializer.setupBioModule(myCRS, node);
+        BiosimInitializer.setupBioModule(myID, myCRS, node);
     }
 
     /**
      * @param child
      */
     private void configureCRS(Node node) {
-        CRS myCRS = (CRS) BiosimInitializer.getInstance(myID).getBioDriver().getModule(BiosimInitializer.getModuleName(node));
+        CRS myCRS = (CRS) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(myCRS, node);
         myActiveSimModules.add(myCRS);
 
@@ -671,14 +675,14 @@ public class SimulationInitializer {
     private void createCDRS(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         CDRSModule cdrs = new CDRSModule(myID, moduleName);
-        BiosimInitializer.setupBioModule(cdrs, node);
+        BiosimInitializer.setupBioModule(myID, cdrs, node);
     }
 
     /**
      * @param child
      */
     private void configureCDRS(Node node) {
-        CDRSModule cdrs = (CDRSModule) BiosimInitializer.getInstance(myID).getBioDriver().getModule(BiosimInitializer.getModuleName(node));
+        CDRSModule cdrs = (CDRSModule) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(cdrs, node);
         myActiveSimModules.add(cdrs);
 
@@ -687,13 +691,11 @@ public class SimulationInitializer {
     private void createOGS(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         OGS ogs = new OGS(myID, moduleName);
-        BiosimInitializer.setupBioModule(ogs, node);
+        BiosimInitializer.setupBioModule(myID, ogs, node);
     }
 
     private void configureOGS(Node node) {
-        OGS ogs = (OGS) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        OGS ogs = (OGS) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(ogs, node);
         myLogger.debug("Configuring OGS");
         myActiveSimModules.add(ogs);
@@ -702,13 +704,11 @@ public class SimulationInitializer {
     private void createPyrolizer(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         Pyrolizer pyrolizer = new Pyrolizer(myID, moduleName);
-        BiosimInitializer.setupBioModule(pyrolizer, node);
+        BiosimInitializer.setupBioModule(myID, pyrolizer, node);
     }
 
     private void configurePyrolizer(Node node) {
-        Pyrolizer pyrolizer = (Pyrolizer) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        Pyrolizer pyrolizer = (Pyrolizer) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(pyrolizer, node);
         myLogger.debug("Configuring Pyrolizer");
         myActiveSimModules.add(pyrolizer);
@@ -892,7 +892,7 @@ public class SimulationInitializer {
         String moduleName = BiosimInitializer.getModuleName(node);
         myLogger.debug("Creating CrewGroup with moduleName: " + moduleName);
         CrewGroup myCrewGroup = new CrewGroup(myID, moduleName);
-        BiosimInitializer.setupBioModule(myCrewGroup, node);
+        BiosimInitializer.setupBioModule(myID, myCrewGroup, node);
         boolean deathEnabled = XMLUtils.getBooelanAttribute(node,
                 "isDeathEnabled");
         myCrewGroup.setDeathEnabled(deathEnabled);
@@ -909,9 +909,7 @@ public class SimulationInitializer {
     }
 
     private void configureCrewGroup(Node node) {
-        CrewGroup crewGroup = (CrewGroup) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        CrewGroup crewGroup = (CrewGroup) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(crewGroup, node);
         myActiveSimModules.add(crewGroup);
     }
@@ -960,7 +958,7 @@ public class SimulationInitializer {
         env.setMaxLumens(maxLumens);
         env.setAirlockVolume(airlockVolume);
         env.setDangerousOxygenThreshold(dangerousOxygenThreshold);
-        BiosimInitializer.setupBioModule(env, node);
+        BiosimInitializer.setupBioModule(myID, env, node);
     }
 
     private boolean creatingEnvironmentWithPercentages(Node node) {
@@ -1036,13 +1034,11 @@ public class SimulationInitializer {
         String moduleName = BiosimInitializer.getModuleName(node);
         myLogger.debug("Creating Dehumidifier with moduleName: " + moduleName);
         Dehumidifier dehumidifier = new Dehumidifier(myID, moduleName);
-        BiosimInitializer.setupBioModule(dehumidifier, node);
+        BiosimInitializer.setupBioModule(myID, dehumidifier, node);
     }
 
     private void configureDehumidifier(Node node) {
-        Dehumidifier dehumidifier = (Dehumidifier) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        Dehumidifier dehumidifier = (Dehumidifier) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(dehumidifier, node);
         myPrioritySimModules.add(dehumidifier);
     }
@@ -1051,13 +1047,11 @@ public class SimulationInitializer {
         String moduleName = BiosimInitializer.getModuleName(node);
         myLogger.debug("Creating Fan with moduleName: " + moduleName);
         Fan fan = new Fan(myID, moduleName);
-        BiosimInitializer.setupBioModule(fan, node);
+        BiosimInitializer.setupBioModule(myID, fan, node);
     }
 
     private void configureFan(Node node) {
-        Fan fan = (Fan) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        Fan fan = (Fan) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(fan, node);
         myPrioritySimModules.add(fan);
     }
@@ -1071,9 +1065,7 @@ public class SimulationInitializer {
                     if (firstPass)
                         createSimEnvironment(child);
                     else {
-                        SimEnvironment environment = (SimEnvironment) BiosimInitializer.getInstance(myID)
-                                .getBioDriver()
-                                .getModule(BiosimInitializer.getModuleName(child));
+                        SimEnvironment environment = (SimEnvironment) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(child));
                         myPassiveSimModules.add(environment);
                     }
                 }
@@ -1097,13 +1089,11 @@ public class SimulationInitializer {
     private void createAccumulator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         Accumulator accumulator = new Accumulator(myID, moduleName);
-        BiosimInitializer.setupBioModule(accumulator, node);
+        BiosimInitializer.setupBioModule(myID, accumulator, node);
     }
 
     private void configureAccumulator(Node node) {
-        Accumulator accumulator = (Accumulator) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        Accumulator accumulator = (Accumulator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(accumulator, node);
         myActiveSimModules.add(accumulator);
     }
@@ -1111,13 +1101,11 @@ public class SimulationInitializer {
     private void createInjector(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         Injector injector = new Injector(myID, moduleName);
-        BiosimInitializer.setupBioModule(injector, node);
+        BiosimInitializer.setupBioModule(myID, injector, node);
     }
 
     private void configureInjector(Node node) {
-        Injector injector = (Injector) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        Injector injector = (Injector) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(injector, node);
         myActiveSimModules.add(injector);
     }
@@ -1125,13 +1113,11 @@ public class SimulationInitializer {
     private void createInfluentValve(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         InfluentValve influentValve = new InfluentValve(myID, moduleName);
-        BiosimInitializer.setupBioModule(influentValve, node);
+        BiosimInitializer.setupBioModule(myID, influentValve, node);
     }
 
     private void configureInfluentValve(Node node) {
-        InfluentValve influentValve = (InfluentValve) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        InfluentValve influentValve = (InfluentValve) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(influentValve, node);
         myActiveSimModules.add(influentValve);
     }
@@ -1139,13 +1125,11 @@ public class SimulationInitializer {
     private void createEffluentValve(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         EffluentValve effluentValve = new EffluentValve(myID, moduleName);
-        BiosimInitializer.setupBioModule(effluentValve, node);
+        BiosimInitializer.setupBioModule(myID, effluentValve, node);
     }
 
     private void configureEffluentValve(Node node) {
-        EffluentValve effluentValve = (EffluentValve) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        EffluentValve effluentValve = (EffluentValve) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(effluentValve, node);
         myActiveSimModules.add(effluentValve);
     }
@@ -1190,7 +1174,7 @@ public class SimulationInitializer {
         boolean deathEnabled = XMLUtils.getBooelanAttribute(node, "isDeathEnabled");
         biomassPS.setAutoHarvestAndReplantEnabled(autoHarvestAndReplant);
         biomassPS.setDeathEnabled(deathEnabled);
-        BiosimInitializer.setupBioModule(biomassPS, node);
+        BiosimInitializer.setupBioModule(myID, biomassPS, node);
         Node child = node.getFirstChild();
         while (child != null) {
             if ("shelf".equals(child.getLocalName())) {
@@ -1201,9 +1185,7 @@ public class SimulationInitializer {
     }
 
     private void configureBiomassPS(Node node) {
-        BiomassPS biomassPS = (BiomassPS) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        BiomassPS biomassPS = (BiomassPS) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(biomassPS, node);
         myActiveSimModules.add(biomassPS);
     }
@@ -1211,13 +1193,11 @@ public class SimulationInitializer {
     private void createFoodProcessor(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         FoodProcessor foodProcessor = new FoodProcessor(myID, moduleName);
-        BiosimInitializer.setupBioModule(foodProcessor, node);
+        BiosimInitializer.setupBioModule(myID, foodProcessor, node);
     }
 
     private void configureFoodProcessor(Node node) {
-        FoodProcessor foodProcessor = (FoodProcessor) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        FoodProcessor foodProcessor = (FoodProcessor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(foodProcessor, node);
         myActiveSimModules.add(foodProcessor);
     }
@@ -1225,7 +1205,7 @@ public class SimulationInitializer {
     private void createBiomassStore(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         BiomassStore biomassStore = new BiomassStore(myID, moduleName);
-        BiosimInitializer.setupBioModule(biomassStore, node);
+        BiosimInitializer.setupBioModule(myID, biomassStore, node);
         float inedibleFraction = Float.parseFloat(node.getAttributes().getNamedItem("inedibleFraction").getNodeValue());
         float edibleWaterContent = Float.parseFloat(node.getAttributes().getNamedItem("edibleWaterContent").getNodeValue());
         float inedibleWaterContent = Float.parseFloat(node.getAttributes().getNamedItem("inedibleWaterContent").getNodeValue());
@@ -1239,7 +1219,7 @@ public class SimulationInitializer {
     private void createFoodStore(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         FoodStore foodStore = new FoodStore(myID, moduleName);
-        BiosimInitializer.setupBioModule(foodStore, node);
+        BiosimInitializer.setupBioModule(myID, foodStore, node);
         float waterContent = Float.parseFloat(node.getAttributes().getNamedItem("waterContent").getNodeValue());
         PlantType cropType = getCropType(node);
         FoodMatter foodMatter = new FoodMatter(getStoreLevel(node), waterContent, cropType);
@@ -1290,13 +1270,11 @@ public class SimulationInitializer {
         }
         float upperPowerGeneration = Float.parseFloat(node.getAttributes().getNamedItem("upperPowerGeneration").getNodeValue());
         powerPS.setInitialUpperPowerGeneration(upperPowerGeneration);
-        BiosimInitializer.setupBioModule(powerPS, node);
+        BiosimInitializer.setupBioModule(myID, powerPS, node);
     }
 
     private void configurePowerPS(Node node) {
-        PowerPS powerPS = (PowerPS) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        PowerPS powerPS = (PowerPS) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(powerPS, node);
         myActiveSimModules.add(powerPS);
     }
@@ -1305,13 +1283,11 @@ public class SimulationInitializer {
         String moduleName = BiosimInitializer.getModuleName(node);
         GenericPowerConsumer consumer = new GenericPowerConsumer(myID, moduleName);
         consumer.setPowerRequired(getAttributeFloat(node, "powerRequired"));
-        BiosimInitializer.setupBioModule(consumer, node);
+        BiosimInitializer.setupBioModule(myID, consumer, node);
     }
 
     private void configureGenericPowerConsumer(Node node) {
-        GenericPowerConsumer consumer = (GenericPowerConsumer) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        GenericPowerConsumer consumer = (GenericPowerConsumer) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(consumer, node);
         myActiveSimModules.add(consumer);
     }
@@ -1319,13 +1295,11 @@ public class SimulationInitializer {
     private void createRPCM(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         RPCM rpcm = new RPCM(myID, moduleName);
-        BiosimInitializer.setupBioModule(rpcm, node);
+        BiosimInitializer.setupBioModule(myID, rpcm, node);
     }
 
     private void configureRPCM(Node node) {
-        RPCM rpcm = (RPCM) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        RPCM rpcm = (RPCM) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(rpcm, node);
         myActiveSimModules.add(rpcm);
     }
@@ -1373,17 +1347,15 @@ public class SimulationInitializer {
         if (implementationString.equals("LINEAR")) {
             myLogger.debug("Creating linear WaterRS with moduleName: " + moduleName);
             WaterRSLinear waterRS = new WaterRSLinear(myID, moduleName);
-            BiosimInitializer.setupBioModule(waterRS, node);
+            BiosimInitializer.setupBioModule(myID, waterRS, node);
         } else {
             WaterRS waterRS = new WaterRS(myID, moduleName);
-            BiosimInitializer.setupBioModule(waterRS, node);
+            BiosimInitializer.setupBioModule(myID, waterRS, node);
         }
     }
 
     private void configureWaterRS(Node node) {
-        WaterRS waterRS = (WaterRS) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        WaterRS waterRS = (WaterRS) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(waterRS, node);
         myActiveSimModules.add(waterRS);
     }
@@ -1436,13 +1408,11 @@ public class SimulationInitializer {
     private void createIncinerator(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         Incinerator incinerator = new Incinerator(myID, moduleName);
-        BiosimInitializer.setupBioModule(incinerator, node);
+        BiosimInitializer.setupBioModule(myID, incinerator, node);
     }
 
     private void configureIncinerator(Node node) {
-        Incinerator incinerator = (Incinerator) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        Incinerator incinerator = (Incinerator) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(incinerator, node);
         myActiveSimModules.add(incinerator);
     }
@@ -1458,13 +1428,11 @@ public class SimulationInitializer {
     private void createIATCS(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         IATCS iatcs = new IATCS(myID, moduleName);
-        BiosimInitializer.setupBioModule(iatcs, node);
+        BiosimInitializer.setupBioModule(myID, iatcs, node);
     }
 
     private void configureIATCS(Node node) {
-        IATCS iatcs = (IATCS) BiosimInitializer.getInstance(myID)
-                .getBioDriver()
-                .getModule(BiosimInitializer.getModuleName(node));
+        IATCS iatcs = (IATCS) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(iatcs, node);
         myActiveSimModules.add(iatcs);
     }
