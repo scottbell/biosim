@@ -1,9 +1,10 @@
 package com.traclabs.biosim.server.simulation.air;
 
-import com.traclabs.biosim.server.simulation.environment.*;
-import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.environment.Air;
+import com.traclabs.biosim.server.simulation.environment.AirConsumer;
+import com.traclabs.biosim.server.simulation.environment.AirProducer;
+import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.server.simulation.power.PowerConsumer;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 
 /**
  * Produces air with less CO2.
@@ -11,17 +12,7 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
  * @author Scott Bell
  */
 
-public class VCCRLinear extends SimBioModule implements PowerConsumer, AirConsumer, AirProducer, CO2Producer {
-
-    //Consumers, Producers
-    private final PowerConsumerDefinition myPowerConsumerDefinition;
-
-    private final AirConsumerDefinition myAirConsumerDefinition;
-
-    private final AirProducerDefinition myAirProducerDefinition;
-
-    private final CO2ProducerDefinition myCO2ProducerDefinition;
-
+public class VCCRLinear extends AbstractVCCR implements PowerConsumer, AirConsumer, AirProducer, CO2Producer {
     private float currentCO2Produced = 0f;
 
     private float currentPowerConsumed = 0;
@@ -30,26 +21,6 @@ public class VCCRLinear extends SimBioModule implements PowerConsumer, AirConsum
 
     public VCCRLinear(int pID, String pName) {
         super(pID, pName);
-        myPowerConsumerDefinition = new PowerConsumerDefinition(this);
-        myAirConsumerDefinition = new AirConsumerDefinition(this);
-        myAirProducerDefinition = new AirProducerDefinition(this);
-        myCO2ProducerDefinition = new CO2ProducerDefinition(this);
-    }
-
-    public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition;
-    }
-
-    public AirConsumerDefinition getAirConsumerDefinition() {
-        return myAirConsumerDefinition;
-    }
-
-    public AirProducerDefinition getAirProducerDefinition() {
-        return myAirProducerDefinition;
-    }
-
-    public CO2ProducerDefinition getCO2ProducerDefinition() {
-        return myCO2ProducerDefinition;
     }
 
     /**
@@ -78,10 +49,6 @@ public class VCCRLinear extends SimBioModule implements PowerConsumer, AirConsum
         super.reset();
         currentPowerConsumed = 0;
         currentCO2Produced = 0f;
-        myPowerConsumerDefinition.reset();
-        myAirConsumerDefinition.reset();
-        myAirProducerDefinition.reset();
-        myCO2ProducerDefinition.reset();
     }
 
     private void gatherCO2() {

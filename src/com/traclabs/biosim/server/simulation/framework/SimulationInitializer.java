@@ -644,7 +644,7 @@ public class SimulationInitializer {
      * @param child
      */
     private void configureVCCR(Node node) {
-        VCCR myVCCR = (VCCR) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        AbstractVCCR myVCCR = (AbstractVCCR) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(myVCCR, node);
         myActiveSimModules.add(myVCCR);
 
@@ -1355,7 +1355,7 @@ public class SimulationInitializer {
     }
 
     private void configureWaterRS(Node node) {
-        WaterRS waterRS = (WaterRS) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        AbstractWaterRS waterRS = (AbstractWaterRS) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         configureSimBioModule(waterRS, node);
         myActiveSimModules.add(waterRS);
     }

@@ -3,10 +3,12 @@ package com.traclabs.biosim.server.simulation.air;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.power.PowerConsumer;
 import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
+import com.traclabs.biosim.server.simulation.water.PotableWaterProducer;
 import com.traclabs.biosim.server.simulation.water.PotableWaterProducerDefinition;
 
-public class CRS extends SimBioModule {
+public class CRS extends SimBioModule implements PowerConsumer, PotableWaterProducer, CO2Consumer, H2Consumer, MethaneProducer {
     //multiply times power to determine how much air/H2/water we're consuming
     private static final float LINEAR_MULTIPLICATIVE_FACTOR = 0.02777777777777778f;
     //Consumers, Producers

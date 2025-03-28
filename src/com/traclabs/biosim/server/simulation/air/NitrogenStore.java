@@ -8,7 +8,7 @@ import com.traclabs.biosim.server.simulation.framework.Store;
  *
  * @author Scott Bell
  */
-public class NitrogenStore extends Store {
+public class NitrogenStore extends Store implements INitrogenStore {
     public NitrogenStore(int pID, String pName) {
         super(pID, pName);
     }

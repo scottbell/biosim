@@ -3,12 +3,8 @@ package com.traclabs.biosim.server.simulation.air;
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.simulation.air.vccr.*;
 import com.traclabs.biosim.server.simulation.environment.AirConsumer;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.server.simulation.environment.AirProducer;
-import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
-import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 import com.traclabs.biosim.server.simulation.power.PowerConsumer;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 
 /**
  * Produces air with less CO2. The pumps create pressure changes in each
@@ -20,16 +16,7 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
  * @author Scott Bell
  */
 
-public class VCCR extends SimBioModule implements PowerConsumer, AirConsumer, AirProducer, CO2Producer {
-
-    // Consumers, Producers
-    private final PowerConsumerDefinition myPowerConsumerDefinition;
-
-    private final AirConsumerDefinition myAirConsumerDefinition;
-
-    private final AirProducerDefinition myAirProducerDefinition;
-
-    private final CO2ProducerDefinition myCO2ProducerDefinition;
+public class VCCR extends AbstractVCCR implements PowerConsumer, AirConsumer, AirProducer, CO2Producer {
     private final float gatheredCO2 = 0;
     private final DesiccantBed myDesciccantBed1 = new DesiccantBed();
     private final DesiccantBed myDesciccantBed2 = new DesiccantBed();
@@ -57,11 +44,6 @@ public class VCCR extends SimBioModule implements PowerConsumer, AirConsumer, Ai
 
     public VCCR(int pID, String pName) {
         super(pID, pName);
-        // initialize consumers/producers
-        myPowerConsumerDefinition = new PowerConsumerDefinition(this);
-        myAirConsumerDefinition = new AirConsumerDefinition(this);
-        myAirProducerDefinition = new AirProducerDefinition(this);
-        myCO2ProducerDefinition = new CO2ProducerDefinition(this);
 
         // Hook up various pieces of VCCR
         myValve1.attach(myAirProducerDefinition);
@@ -93,22 +75,6 @@ public class VCCR extends SimBioModule implements PowerConsumer, AirConsumer, Ai
                                VCCRSubsystem componenet2) {
         componenet1.attach(componenet2);
         componenet2.attach(componenet1);
-    }
-
-    public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition;
-    }
-
-    public AirConsumerDefinition getAirConsumerDefinition() {
-        return myAirConsumerDefinition;
-    }
-
-    public AirProducerDefinition getAirProducerDefinition() {
-        return myAirProducerDefinition;
-    }
-
-    public CO2ProducerDefinition getCO2ProducerDefinition() {
-        return myCO2ProducerDefinition;
     }
 
     @Override
@@ -143,9 +109,5 @@ public class VCCR extends SimBioModule implements PowerConsumer, AirConsumer, Ai
         currentCO2Produced = 0f;
         for (VCCRSubsystem subsystem : mySubsystems)
             subsystem.reset();
-        myPowerConsumerDefinition.reset();
-        myAirConsumerDefinition.reset();
-        myAirProducerDefinition.reset();
-        myCO2ProducerDefinition.reset();
     }
 }

@@ -3,11 +3,6 @@ package com.traclabs.biosim.server.simulation.water;
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
-import com.traclabs.biosim.server.simulation.framework.SimBioModule;
-import com.traclabs.biosim.server.simulation.power.PowerConsumer;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-
-//import java.lang.*;
 
 /**
  * The Water Recovery System takes grey/dirty water and refines it to potable
@@ -18,16 +13,7 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
  * @author Scott Bell
  */
 
-public class WaterRSLinear extends SimBioModule implements PowerConsumer, GreyWaterConsumer, DirtyWaterConsumer, PotableWaterProducer {
-    //Consumers, Producers
-    private final PowerConsumerDefinition myPowerConsumerDefinition;
-
-    private final GreyWaterConsumerDefinition myGreyWaterConsumerDefinition;
-
-    private final DirtyWaterConsumerDefinition myDirtyWaterConsumerDefinition;
-
-    private final PotableWaterProducerDefinition myPotableWaterProducerDefinition;
-
+public class WaterRSLinear extends AbstractWaterRS {
     private float currentPowerConsumed = 0f;
 
     private float currentWaterConsumed = 0f;
@@ -37,26 +23,6 @@ public class WaterRSLinear extends SimBioModule implements PowerConsumer, GreyWa
      */
     public WaterRSLinear(int pID, String pName) {
         super(pID, pName);
-        myPowerConsumerDefinition = new PowerConsumerDefinition(this);
-        myGreyWaterConsumerDefinition = new GreyWaterConsumerDefinition(this);
-        myDirtyWaterConsumerDefinition = new DirtyWaterConsumerDefinition(this);
-        myPotableWaterProducerDefinition = new PotableWaterProducerDefinition(this);
-    }
-
-    public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition;
-    }
-
-    public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
-        return myGreyWaterConsumerDefinition;
-    }
-
-    public DirtyWaterConsumerDefinition getDirtyWaterConsumerDefinition() {
-        return myDirtyWaterConsumerDefinition;
-    }
-
-    public PotableWaterProducerDefinition getPotableWaterProducerDefinition() {
-        return myPotableWaterProducerDefinition;
     }
 
     /**
@@ -64,10 +30,6 @@ public class WaterRSLinear extends SimBioModule implements PowerConsumer, GreyWa
      */
     public void reset() {
         super.reset();
-        myPowerConsumerDefinition.reset();
-        myGreyWaterConsumerDefinition.reset();
-        myDirtyWaterConsumerDefinition.reset();
-        myPotableWaterProducerDefinition.reset();
         currentPowerConsumed = 0f;
     }
 

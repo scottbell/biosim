@@ -3,9 +3,6 @@ package com.traclabs.biosim.server.simulation.water;
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
-import com.traclabs.biosim.server.simulation.framework.SimBioModule;
-import com.traclabs.biosim.server.simulation.power.PowerConsumer;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.server.simulation.water.aws.*;
 
 import java.util.Arrays;
@@ -20,13 +17,8 @@ import java.util.Iterator;
  * @author Scott Bell
  */
 
-public class WaterRS extends SimBioModule implements PowerConsumer, GreyWaterConsumer, DirtyWaterConsumer, PotableWaterProducer {
+public class WaterRS extends AbstractWaterRS {
     private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 4;
-    //Consumers, Producers
-    private final PowerConsumerDefinition myPowerConsumerDefinition;
-    private final GreyWaterConsumerDefinition myGreyWaterConsumerDefinition;
-    private final DirtyWaterConsumerDefinition myDirtyWaterConsumerDefinition;
-    private final PotableWaterProducerDefinition myPotableWaterProducerDefinition;
     //The various subsystems of Water RS that clean the water
     private final BWP myBWP;
     private final RO myRO;
@@ -40,10 +32,6 @@ public class WaterRS extends SimBioModule implements PowerConsumer, GreyWaterCon
      */
     public WaterRS(int pID, String pName) {
         super(pID, pName);
-        myPowerConsumerDefinition = new PowerConsumerDefinition(this);
-        myGreyWaterConsumerDefinition = new GreyWaterConsumerDefinition(this);
-        myDirtyWaterConsumerDefinition = new DirtyWaterConsumerDefinition(this);
-        myPotableWaterProducerDefinition = new PotableWaterProducerDefinition(this);
 
         myBWP = new BWP(this);
         myRO = new RO(this);
@@ -63,10 +51,6 @@ public class WaterRS extends SimBioModule implements PowerConsumer, GreyWaterCon
         super.reset();
         for (int i = 0; i < mySubsystems.length; i++)
             mySubsystems[i].reset();
-        myPowerConsumerDefinition.reset();
-        myGreyWaterConsumerDefinition.reset();
-        myDirtyWaterConsumerDefinition.reset();
-        myPotableWaterProducerDefinition.reset();
     }
 
     /**
@@ -291,33 +275,5 @@ public class WaterRS extends SimBioModule implements PowerConsumer, GreyWaterCon
      */
     public WaterRSOperationMode getOpertationMode() {
         return myMode;
-    }
-
-    /**
-     * @return Returns the myDirtyWaterConsumerDefinition.
-     */
-    public DirtyWaterConsumerDefinition getDirtyWaterConsumerDefinition() {
-        return myDirtyWaterConsumerDefinition;
-    }
-
-    /**
-     * @return Returns the myGreyWaterConsumerDefinition.
-     */
-    public GreyWaterConsumerDefinition getGreyWaterConsumerDefinition() {
-        return myGreyWaterConsumerDefinition;
-    }
-
-    /**
-     * @return Returns the myPotableWaterProducerDefinition.
-     */
-    public PotableWaterProducerDefinition getPotableWaterProducerDefinition() {
-        return myPotableWaterProducerDefinition;
-    }
-
-    /**
-     * @return Returns the myPowerConsumerDefinition.
-     */
-    public PowerConsumerDefinition getPowerConsumerDefinition() {
-        return myPowerConsumerDefinition;
     }
 }
