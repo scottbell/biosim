@@ -32,6 +32,9 @@ public class BiosimServer {
             }
         }
 
+        // Test XML configuration for errors
+        BiosimInitializer.getInstance(-1);
+
         // Start the Javalin server
         Javalin app = Javalin.create(config -> {
             // Using Javalin 6.0.0's bundledPlugins method:
@@ -45,7 +48,7 @@ public class BiosimServer {
 
         // Bind to the host and port provided
         app.start(host, port);
-        logger.info("BioSim server started on {}:{}", host, port);
+        logger.info("🌎 BioSim server started 🌎 on {}:{}", host, port);
 
         // Add shutdown hook to stop the server gracefully
         Runtime.getRuntime().addShutdownHook(new Thread(app::stop));

@@ -8,13 +8,17 @@ WORKDIR /app
 COPY pom.xml .
 COPY src/ ./src/
 COPY resources/ ./resources/
+COPY bin/ ./bin/
 
 # Install Maven and build the project
 RUN apt-get update && apt-get install -y maven
 RUN mvn clean package
 
-# Expose the port for the REST API
-EXPOSE 8080
+# Make the scripts in bin executable
+RUN chmod +x bin/*
 
-# Run the BioSim server (using the jar built with dependencies)
-CMD ["java", "-jar", "target/biosim-1.0.0-jar-with-dependencies.jar", "8080"]
+# Expose the port for the REST API
+EXPOSE 8009
+
+# Run the BioSim server using the start script
+CMD ["./bin/start-biosim-server", "0.0.0.0", "8009"]

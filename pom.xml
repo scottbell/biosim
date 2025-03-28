@@ -17,11 +17,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-        <javalin.version>6.0.0</javalin.version>
+        <javalin.version>6.5.0</javalin.version>
         <jackson.version>2.18.0</jackson.version>
         <logback.version>1.5.18</logback.version>
         <slf4j.version>2.0.17</slf4j.version>
-        <picocli.version>4.7.6</picocli.version>
     </properties>
 
     <dependencies>
@@ -50,20 +49,16 @@
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
         </dependency>
-
-        <!-- Picocli for modern command-line option parsing -->
-        <dependency>
-            <groupId>info.picocli</groupId>
-            <artifactId>picocli</artifactId>
-            <version>${picocli.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
         <sourceDirectory>src</sourceDirectory>
         <resources>
             <resource>
-                <directory>resources</directory>
+                <directory>etc</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
             </resource>
         </resources>
         <plugins>

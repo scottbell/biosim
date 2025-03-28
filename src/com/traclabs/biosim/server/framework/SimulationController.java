@@ -7,15 +7,17 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Controller class to handle simulation REST endpoints.
  */
 public class SimulationController {
     private static final Logger logger = LoggerFactory.getLogger(SimulationController.class);
+    private final AtomicInteger simInitializerCounter = new AtomicInteger();
 
     // Map to store simulation IDs and their corresponding BioDriver instances
-    private final Map<String, BioDriver> simulations = new ConcurrentHashMap<>();
+    private final Map<Integer, BioDriver> simulations = new ConcurrentHashMap<>();
 
     /**
      * Registers the simulation endpoints with the Javalin app.
@@ -23,10 +25,21 @@ public class SimulationController {
      * @param app The Javalin application instance
      */
     public void registerEndpoints(Javalin app) {
+        app.get("/api/simulation", this::listSimulations);
         app.post("/api/simulation/start", this::startSimulation);
         app.post("/api/simulation/{simId}/tick", this::tickSimulation);
         app.get("/api/simulation/{simId}/ticks", this::getSimulationTicks);
         app.get("/api/simulation/{simId}/modules", this::getSimulationModules);
+    }
+
+    /**
+     * Gets the list of all simulation IDs.
+     *
+     * @param ctx The Javalin context
+     */
+    private void listSimulations(Context ctx) {
+        // Return the keys of the simulations map as a JSON response.
+        ctx.json(Map.of("simulations", simulations.keySet()));
     }
 
     /**
@@ -42,22 +55,21 @@ public class SimulationController {
         }
 
         try {
+            // Generate a unique simulation ID
+            int simID = simInitializerCounter.incrementAndGet();
             // Initialize the simulation using BiosimInitializer
-            BiosimInitializer initializer = BiosimInitializer.getInstance(0);
+            BiosimInitializer initializer = BiosimInitializer.getInstance(simID);
             initializer.parseXmlConfiguration(xmlConfig);
 
             // Create a new BioDriver instance for the simulation
             BioDriver bioDriver = initializer.getBioDriver();
-
-            // Generate a unique simulation ID
-            String simId = "sim-" + System.currentTimeMillis();
-            simulations.put(simId, bioDriver);
+            simulations.put(simID, bioDriver);
 
             // Start the simulation (without ticking)
             bioDriver.startSimulation();
 
-            ctx.json(Map.of("simId", simId));
-            logger.info("Started simulation with ID {}", simId);
+            ctx.json(Map.of("simId", simID));
+            logger.info("Started simulation with ID {}", simID);
         } catch (Exception e) {
             logger.error("Failed to start simulation: {}", e.getMessage());
             ctx.status(500).result("Failed to start simulation: " + e.getMessage());

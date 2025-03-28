@@ -1,18 +1,18 @@
 #!/bin/bash
 
 # Run the BioSim server in headless mode.
-# Usage: run-biosim [host] [port]
+# Usage: start-biosim-server [host] [port]
 # Default host is 0.0.0.0 and default port is 8080
 
 # Get the directory of this script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Change to the project root directory
-cd "$DIR/.."
+cd "$DIR/.." || exit
 
 # Set default host and port
 HOST="0.0.0.0"
-PORT=8080
+PORT=8009
 
 # Allow overriding defaults via command line arguments
 if [ $# -ge 1 ]; then
@@ -21,6 +21,13 @@ fi
 
 if [ $# -ge 2 ]; then
     PORT=$2
+fi
+
+JAR_FILE="target/biosim-1.0.0-jar-with-dependencies.jar"
+if [ ! -f "$JAR_FILE" ]; then
+    echo "🛑 Error: JAR file '$JAR_FILE' not found."
+    echo "Please build the project using 'mvn clean package' before running."
+    exit 1
 fi
 
 # Run the server using the jar built with dependencies
