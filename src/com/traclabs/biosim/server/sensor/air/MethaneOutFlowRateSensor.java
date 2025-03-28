@@ -4,7 +4,7 @@ import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.air.MethaneProducer;
 
-public class MethaneOutFlowRateSensor extends GenericSensor{
+public class MethaneOutFlowRateSensor extends GenericSensor {
     private MethaneProducer myProducer;
 
     private int myIndex;
@@ -18,7 +18,6 @@ public class MethaneOutFlowRateSensor extends GenericSensor{
                 .getActualFlowRate(myIndex);
         myValue = getStochasticFilter().randomFilter(preFilteredValue);
     }
-
 
 
     public void setInput(MethaneProducer pProducer, int pIndex) {

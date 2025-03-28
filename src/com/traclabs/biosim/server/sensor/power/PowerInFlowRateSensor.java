@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.sensor.power;
 
 import com.traclabs.biosim.server.framework.IBioModule;
-import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.power.PowerConsumer;
 
@@ -19,7 +18,6 @@ public class PowerInFlowRateSensor extends GenericSensor {
                 .getActualFlowRate(myIndex);
         myValue = getStochasticFilter().randomFilter(preFilteredValue);
     }
-
 
 
     public void setInput(PowerConsumer pConsumer, int pIndex) {

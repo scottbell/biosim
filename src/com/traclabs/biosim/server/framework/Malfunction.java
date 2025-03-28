@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class Malfunction {
     private static final AtomicLong ID_GENERATOR = new AtomicLong(0);
-    
+
     private final long id;
     private final String name;
     private final MalfunctionIntensity intensity;
@@ -17,20 +17,20 @@ public class Malfunction {
 
     /**
      * Constructor
-     * 
-     * @param pName The name of the malfunction
-     * @param pIntensity The intensity of the malfunction
-     * @param pLength The length of the malfunction
+     *
+     * @param pName       The name of the malfunction
+     * @param pIntensity  The intensity of the malfunction
+     * @param pLength     The length of the malfunction
      * @param pTickLength The tick length
      */
     public Malfunction(String pName, MalfunctionIntensity pIntensity,
-            MalfunctionLength pLength, float pTickLength) {
+                       MalfunctionLength pLength, float pTickLength) {
         this.id = ID_GENERATOR.incrementAndGet();
         this.name = pName;
         this.intensity = pIntensity;
         this.length = pLength;
         this.tickLength = pTickLength;
-        
+
         // Determine how much repair work is needed based on intensity
         if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
             repairWorkNeeded = 10;
@@ -44,7 +44,7 @@ public class Malfunction {
 
     /**
      * Gets the intensity of the malfunction
-     * 
+     *
      * @return The malfunction intensity
      */
     public MalfunctionIntensity getIntensity() {
@@ -53,7 +53,7 @@ public class Malfunction {
 
     /**
      * Gets the ID of the malfunction
-     * 
+     *
      * @return The malfunction ID
      */
     public long getID() {
@@ -62,7 +62,7 @@ public class Malfunction {
 
     /**
      * Gets the name of the malfunction
-     * 
+     *
      * @return The malfunction name
      */
     public String getName() {
@@ -71,7 +71,7 @@ public class Malfunction {
 
     /**
      * Checks if the malfunction has been performed
-     * 
+     *
      * @return true if the malfunction has been performed, false otherwise
      */
     public boolean hasPerformed() {
@@ -80,7 +80,7 @@ public class Malfunction {
 
     /**
      * Sets whether the malfunction has been performed
-     * 
+     *
      * @param performed true if the malfunction has been performed, false otherwise
      */
     public void setPerformed(boolean performed) {
@@ -89,7 +89,7 @@ public class Malfunction {
 
     /**
      * Gets the length of the malfunction
-     * 
+     *
      * @return The malfunction length
      */
     public MalfunctionLength getLength() {
@@ -105,7 +105,7 @@ public class Malfunction {
 
     /**
      * Checks if enough repair work has been done to fix the malfunction
-     * 
+     *
      * @return true if enough repair work has been done, false otherwise
      */
     public boolean doneEnoughRepairWork() {
@@ -114,7 +114,7 @@ public class Malfunction {
 
     /**
      * Gets the tick at which the malfunction should occur
-     * 
+     *
      * @return The tick at which the malfunction should occur
      */
     public long getTickToMalfunction() {
@@ -123,7 +123,7 @@ public class Malfunction {
 
     /**
      * Sets the tick at which the malfunction should occur
-     * 
+     *
      * @param tickToMalfunction The tick at which the malfunction should occur
      */
     public void setTickToMalfunction(long tickToMalfunction) {

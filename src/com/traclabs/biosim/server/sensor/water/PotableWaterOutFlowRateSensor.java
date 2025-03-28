@@ -4,8 +4,7 @@ import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.water.PotableWaterProducer;
 
-public class PotableWaterOutFlowRateSensor extends GenericSensor
-         {
+public class PotableWaterOutFlowRateSensor extends GenericSensor {
     private PotableWaterProducer myProducer;
 
     private int myIndex;
@@ -19,7 +18,6 @@ public class PotableWaterOutFlowRateSensor extends GenericSensor
                 .getActualFlowRate(myIndex);
         myValue = getStochasticFilter().randomFilter(preFilteredValue);
     }
-
 
 
     public void setInput(PotableWaterProducer pProducer, int pIndex) {

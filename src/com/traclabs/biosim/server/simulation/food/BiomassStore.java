@@ -9,7 +9,7 @@ import java.util.Vector;
 /**
  * The Biomass Store implementation. Takes raw plant matter from the Biomass RS
  * to be used by the Food Processor.
- * 
+ *
  * @author Scott Bell
  */
 
@@ -17,15 +17,74 @@ public class BiomassStore extends Store {
     List<BioMatter> currentBiomassItems;
 
     BioMatter myOriginalMatter;
-    
-    public BiomassStore(){
-    	this(0, "Unnamed BiomassStore");
+
+    public BiomassStore() {
+        this(0, "Unnamed BiomassStore");
     }
 
     public BiomassStore(int pID, String pName) {
         super(pID, pName);
         currentBiomassItems = new Vector<BioMatter>();
         myOriginalMatter = new BioMatter(0, 0, 0, 0, PlantType.UNKNOWN_PLANT);
+    }
+
+    private static float calculateWaterContent(BioMatter inMatter) {
+        float totalWaterWithinBioMatter = 0f;
+        if (inMatter.type == PlantType.DRY_BEAN)
+            totalWaterWithinBioMatter = (inMatter.mass
+                    * (1 - DryBean.getFractionOfEdibleBiomass()) * DryBean
+                    .getInedibleFreshBasisWaterContent())
+                    + (inMatter.mass * DryBean.getFractionOfEdibleBiomass() * DryBean
+                    .getEdibleFreshBasisWaterContent());
+        else if (inMatter.type == PlantType.LETTUCE)
+            totalWaterWithinBioMatter = (inMatter.mass
+                    * (1 - Lettuce.getFractionOfEdibleBiomass()) * Lettuce
+                    .getInedibleFreshBasisWaterContent())
+                    + (inMatter.mass * Lettuce.getFractionOfEdibleBiomass() * Lettuce
+                    .getEdibleFreshBasisWaterContent());
+        else if (inMatter.type == PlantType.PEANUT)
+            totalWaterWithinBioMatter = (inMatter.mass
+                    * (1 - Peanut.getFractionOfEdibleBiomass()) * Peanut
+                    .getInedibleFreshBasisWaterContent())
+                    + (inMatter.mass * Peanut.getFractionOfEdibleBiomass() * Peanut
+                    .getEdibleFreshBasisWaterContent());
+        else if (inMatter.type == PlantType.RICE)
+            totalWaterWithinBioMatter = (inMatter.mass
+                    * (1 - Rice.getFractionOfEdibleBiomass()) * Rice
+                    .getInedibleFreshBasisWaterContent())
+                    + (inMatter.mass * Rice.getFractionOfEdibleBiomass() * Rice
+                    .getEdibleFreshBasisWaterContent());
+        else if (inMatter.type == PlantType.SOYBEAN)
+            totalWaterWithinBioMatter = (inMatter.mass
+                    * (1 - Soybean.getFractionOfEdibleBiomass()) * Soybean
+                    .getInedibleFreshBasisWaterContent())
+                    + (inMatter.mass * Soybean.getFractionOfEdibleBiomass() * Soybean
+                    .getEdibleFreshBasisWaterContent());
+        else if (inMatter.type == PlantType.SWEET_POTATO)
+            totalWaterWithinBioMatter = (inMatter.mass
+                    * (1 - SweetPotato.getFractionOfEdibleBiomass()) * SweetPotato
+                    .getInedibleFreshBasisWaterContent())
+                    + (inMatter.mass * SweetPotato.getFractionOfEdibleBiomass() * SweetPotato
+                    .getEdibleFreshBasisWaterContent());
+        else if (inMatter.type == PlantType.TOMATO)
+            totalWaterWithinBioMatter = (inMatter.mass
+                    * (1 - Tomato.getFractionOfEdibleBiomass()) * Tomato
+                    .getInedibleFreshBasisWaterContent())
+                    + (inMatter.mass * Tomato.getFractionOfEdibleBiomass() * Tomato
+                    .getEdibleFreshBasisWaterContent());
+        else if (inMatter.type == PlantType.WHEAT)
+            totalWaterWithinBioMatter = (inMatter.mass
+                    * (1 - Wheat.getFractionOfEdibleBiomass()) * Wheat
+                    .getInedibleFreshBasisWaterContent())
+                    + (inMatter.mass * Wheat.getFractionOfEdibleBiomass() * Wheat
+                    .getEdibleFreshBasisWaterContent());
+        else if (inMatter.type == PlantType.WHITE_POTATO)
+            totalWaterWithinBioMatter = (inMatter.mass
+                    * (1 - WhitePotato.getFractionOfEdibleBiomass()) * WhitePotato
+                    .getInedibleFreshBasisWaterContent())
+                    + (inMatter.mass * WhitePotato.getFractionOfEdibleBiomass() * WhitePotato
+                    .getEdibleFreshBasisWaterContent());
+        return totalWaterWithinBioMatter;
     }
 
     public float add(float pMass) {
@@ -67,68 +126,9 @@ public class BiomassStore extends Store {
         return matterToReturn;
     }
 
-    private static float calculateWaterContent(BioMatter inMatter) {
-        float totalWaterWithinBioMatter = 0f;
-        if (inMatter.type == PlantType.DRY_BEAN)
-            totalWaterWithinBioMatter = (inMatter.mass
-                    * (1 - DryBean.getFractionOfEdibleBiomass()) * DryBean
-                    .getInedibleFreshBasisWaterContent())
-                    + (inMatter.mass * DryBean.getFractionOfEdibleBiomass() * DryBean
-                            .getEdibleFreshBasisWaterContent());
-        else if (inMatter.type == PlantType.LETTUCE)
-            totalWaterWithinBioMatter = (inMatter.mass
-                    * (1 - Lettuce.getFractionOfEdibleBiomass()) * Lettuce
-                    .getInedibleFreshBasisWaterContent())
-                    + (inMatter.mass * Lettuce.getFractionOfEdibleBiomass() * Lettuce
-                            .getEdibleFreshBasisWaterContent());
-        else if (inMatter.type == PlantType.PEANUT)
-            totalWaterWithinBioMatter = (inMatter.mass
-                    * (1 - Peanut.getFractionOfEdibleBiomass()) * Peanut
-                    .getInedibleFreshBasisWaterContent())
-                    + (inMatter.mass * Peanut.getFractionOfEdibleBiomass() * Peanut
-                            .getEdibleFreshBasisWaterContent());
-        else if (inMatter.type == PlantType.RICE)
-            totalWaterWithinBioMatter = (inMatter.mass
-                    * (1 - Rice.getFractionOfEdibleBiomass()) * Rice
-                    .getInedibleFreshBasisWaterContent())
-                    + (inMatter.mass * Rice.getFractionOfEdibleBiomass() * Rice
-                            .getEdibleFreshBasisWaterContent());
-        else if (inMatter.type == PlantType.SOYBEAN)
-            totalWaterWithinBioMatter = (inMatter.mass
-                    * (1 - Soybean.getFractionOfEdibleBiomass()) * Soybean
-                    .getInedibleFreshBasisWaterContent())
-                    + (inMatter.mass * Soybean.getFractionOfEdibleBiomass() * Soybean
-                            .getEdibleFreshBasisWaterContent());
-        else if (inMatter.type == PlantType.SWEET_POTATO)
-            totalWaterWithinBioMatter = (inMatter.mass
-                    * (1 - SweetPotato.getFractionOfEdibleBiomass()) * SweetPotato
-                    .getInedibleFreshBasisWaterContent())
-                    + (inMatter.mass * SweetPotato.getFractionOfEdibleBiomass() * SweetPotato
-                            .getEdibleFreshBasisWaterContent());
-        else if (inMatter.type == PlantType.TOMATO)
-            totalWaterWithinBioMatter = (inMatter.mass
-                    * (1 - Tomato.getFractionOfEdibleBiomass()) * Tomato
-                    .getInedibleFreshBasisWaterContent())
-                    + (inMatter.mass * Tomato.getFractionOfEdibleBiomass() * Tomato
-                            .getEdibleFreshBasisWaterContent());
-        else if (inMatter.type == PlantType.WHEAT)
-            totalWaterWithinBioMatter = (inMatter.mass
-                    * (1 - Wheat.getFractionOfEdibleBiomass()) * Wheat
-                    .getInedibleFreshBasisWaterContent())
-                    + (inMatter.mass * Wheat.getFractionOfEdibleBiomass() * Wheat
-                            .getEdibleFreshBasisWaterContent());
-        else if (inMatter.type == PlantType.WHITE_POTATO)
-            totalWaterWithinBioMatter = (inMatter.mass
-                    * (1 - WhitePotato.getFractionOfEdibleBiomass()) * WhitePotato
-                    .getInedibleFreshBasisWaterContent())
-                    + (inMatter.mass * WhitePotato.getFractionOfEdibleBiomass() * WhitePotato
-                            .getEdibleFreshBasisWaterContent());
-        return totalWaterWithinBioMatter;
-    }
-
     public float calculateWaterContentInStore() {
         float totalWater = 0f;
-        for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext();) {
+        for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext(); ) {
             BioMatter currentBioMatter = (BioMatter) iter.next();
             totalWater += calculateWaterContent(currentBioMatter);
         }
@@ -149,19 +149,19 @@ public class BiomassStore extends Store {
             float fractionOfOriginal = acutallyAdded / pMatter.mass;
             BioMatter newBioMatter = new BioMatter(acutallyAdded,
                     pMatter.inedibleFraction, pMatter.edibleWaterContent
-                            * fractionOfOriginal, pMatter.inedibleWaterContent
-                            * fractionOfOriginal, pMatter.type);
+                    * fractionOfOriginal, pMatter.inedibleWaterContent
+                    * fractionOfOriginal, pMatter.type);
             currentBiomassItems.add(newBioMatter);
             myLogger.debug("added = " + newBioMatter.mass
                     + " with currentLevel @ " + currentLevel);
             return acutallyAdded;
         }
-		acutallyAdded = pMatter.mass;
-		currentLevel += acutallyAdded;
-		currentBiomassItems.add(pMatter);
-		myLogger.debug("added = " + pMatter.mass + "with currentLevel @ "
-		        + currentLevel);
-		return acutallyAdded;
+        acutallyAdded = pMatter.mass;
+        currentLevel += acutallyAdded;
+        currentBiomassItems.add(pMatter);
+        myLogger.debug("added = " + pMatter.mass + "with currentLevel @ "
+                + currentLevel);
+        return acutallyAdded;
     }
 
     public BioMatter[] takeBioMatterMass(float pMass) {
@@ -171,7 +171,7 @@ public class BiomassStore extends Store {
         List<BioMatter> itemsToRemove = new Vector<BioMatter>();
         float collectedMass = 0f;
         for (Iterator iter = currentBiomassItems.iterator(); iter.hasNext()
-                && (collectedMass <= pMass);) {
+                && (collectedMass <= pMass); ) {
             BioMatter currentBioMatter = (BioMatter) (iter.next());
             float massStillNeeded = pMass - collectedMass;
             //we need to get more bio matter
@@ -198,7 +198,7 @@ public class BiomassStore extends Store {
             }
         }
         //Remove items from List
-        for (Iterator iter = itemsToRemove.iterator(); iter.hasNext();) {
+        for (Iterator iter = itemsToRemove.iterator(); iter.hasNext(); ) {
             currentBiomassItems.remove(iter.next());
         }
         currentLevel -= collectedMass;
@@ -208,7 +208,7 @@ public class BiomassStore extends Store {
                 .toArray(emptyArray));
         if (returnArray == null)
             return emptyArray;
-		return returnArray;
+        return returnArray;
     }
 
     public void reset() {
@@ -217,13 +217,13 @@ public class BiomassStore extends Store {
         if (currentLevel > 0)
             currentBiomassItems.add(myOriginalMatter);
     }
-    
+
     @Override
     public void log() {
-    	super.log();
-    	if (myLogger.isDebugEnabled()){
-    		myLogger.debug("water content of store=" + calculateWaterContentInStore());
-    	}
+        super.log();
+        if (myLogger.isDebugEnabled()) {
+            myLogger.debug("water content of store=" + calculateWaterContentInStore());
+        }
     }
 
 }

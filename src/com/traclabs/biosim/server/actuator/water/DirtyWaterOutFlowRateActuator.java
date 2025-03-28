@@ -4,8 +4,7 @@ import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.water.DirtyWaterProducer;
 
-public class DirtyWaterOutFlowRateActuator extends GenericActuator
-         {
+public class DirtyWaterOutFlowRateActuator extends GenericActuator {
     private DirtyWaterProducer myProducer;
 
     private int myIndex;
@@ -19,7 +18,6 @@ public class DirtyWaterOutFlowRateActuator extends GenericActuator
         getOutput().getDirtyWaterProducerDefinition().setDesiredFlowRate(
                 myFilteredValue, myIndex);
     }
-
 
 
     public void setOutput(DirtyWaterProducer pProducer, int pIndex) {

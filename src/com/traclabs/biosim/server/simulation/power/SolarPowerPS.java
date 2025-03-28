@@ -5,14 +5,14 @@ import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
 
 /**
  * Solar Power Production System
- * 
+ *
  * @author Scott Bell
  */
 
 public class SolarPowerPS extends PowerPS implements PowerProducer {
 
     //Consumers, Producers
-    private LightConsumerDefinition myLightConsumerDefinition;
+    private final LightConsumerDefinition myLightConsumerDefinition;
 
     public SolarPowerPS(int pID, String pName) {
         super(pID, pName);
@@ -30,15 +30,15 @@ public class SolarPowerPS extends PowerPS implements PowerProducer {
         if (lightInput != null) {
             float powerGenerated = getTickLength() * getCurrentUpperPowerGeneration()
                     * (lightInput.getLightIntensity() / lightInput
-                            .getMaxLumens());
+                    .getMaxLumens());
             return powerGenerated;
         }
-		myLogger.error("SolarPowerPS: no light input!");
-		return 0;
+        myLogger.error("SolarPowerPS: no light input!");
+        return 0;
     }
 
     @Override
-    public void reset(){
+    public void reset() {
         super.reset();
         myLightConsumerDefinition.reset();
     }

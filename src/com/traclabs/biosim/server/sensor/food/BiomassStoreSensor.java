@@ -4,8 +4,7 @@ import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.food.BiomassStore;
 
-public abstract class BiomassStoreSensor extends GenericSensor
-         {
+public abstract class BiomassStoreSensor extends GenericSensor {
     protected BiomassStore myBiomassStore;
 
     public BiomassStoreSensor(int pID, String pName) {
@@ -16,12 +15,12 @@ public abstract class BiomassStoreSensor extends GenericSensor
 
     protected abstract void notifyListeners();
 
-    public void setInput(BiomassStore source) {
-        myBiomassStore = source;
-    }
-
     public BiomassStore getInput() {
         return myBiomassStore;
+    }
+
+    public void setInput(BiomassStore source) {
+        myBiomassStore = source;
     }
 
     public float getMax() {

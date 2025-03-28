@@ -20,7 +20,6 @@ public class FoodOutFlowRateSensor extends GenericSensor {
     }
 
 
-
     public void setInput(FoodProducer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;

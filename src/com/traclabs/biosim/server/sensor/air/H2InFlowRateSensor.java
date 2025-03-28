@@ -20,7 +20,6 @@ public class H2InFlowRateSensor extends GenericSensor {
     }
 
 
-
     public void setInput(H2Consumer pConsumer, int pIndex) {
         myConsumer = pConsumer;
         myIndex = pIndex;

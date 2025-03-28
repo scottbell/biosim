@@ -10,11 +10,11 @@ import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable
 public class O2ConsumerDefinition extends StoreFlowRateControllable {
 
     public O2ConsumerDefinition(BioModule pModule) {
-super(pModule);
+        super(pModule);
     }
 
     public void setO2Inputs(IO2Store[] pStores, float[] pMaxFlowRates,
-            float[] pDesiredFlowRates) {
+                            float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
         setInitialStores(pStores);

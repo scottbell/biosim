@@ -15,7 +15,7 @@ public class GreyWaterConsumerDefinition extends
     }
 
     public void setGreyWaterInputs(GreyWaterStore[] pStores,
-            float[] pMaxFlowRates, float[] pDesiredFlowRates) {
+                                   float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
         setInitialStores(pStores);

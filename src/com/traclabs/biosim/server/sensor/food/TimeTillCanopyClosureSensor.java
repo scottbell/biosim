@@ -1,8 +1,7 @@
 package com.traclabs.biosim.server.sensor.food;
 
 
-
-public class TimeTillCanopyClosureSensor extends ShelfSensor  {
+public class TimeTillCanopyClosureSensor extends ShelfSensor {
     public TimeTillCanopyClosureSensor(int pID, String pName) {
         super(pID, pName);
     }

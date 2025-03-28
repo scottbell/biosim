@@ -3,7 +3,6 @@ package com.traclabs.biosim.server.simulation.power;
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
-import com.traclabs.biosim.server.simulation.environment.LightConsumerDefinition;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
 
 import java.util.Iterator;
@@ -12,7 +11,7 @@ import java.util.Iterator;
  * The Power Production System creates power from a generator (say a solar
  * panel) and stores it in the power store. This provides power to all the
  * biomodules in the system.
- * 
+ *
  * @author Scott Bell
  */
 
@@ -25,7 +24,7 @@ public abstract class PowerPS extends SimBioModule implements PowerProducer {
     private float initialUpperPowerGeneration = 10000f;
 
     //Consumers, Producers
-    private PowerProducerDefinition myPowerProducerDefinition;
+    private final PowerProducerDefinition myPowerProducerDefinition;
 
     public PowerPS(int pID, String pName) {
         super(pID, pName);
@@ -50,7 +49,7 @@ public abstract class PowerPS extends SimBioModule implements PowerProducer {
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
-            MalfunctionLength pLength) {
+                                        MalfunctionLength pLength) {
         StringBuffer returnBuffer = new StringBuffer();
         if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
             returnBuffer.append("Severe ");
@@ -67,7 +66,7 @@ public abstract class PowerPS extends SimBioModule implements PowerProducer {
 
     protected void performMalfunctions() {
         float productionRate = 1f;
-        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
+        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ) {
             Malfunction currentMalfunction = (Malfunction) (iter.next());
             if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
@@ -102,9 +101,9 @@ public abstract class PowerPS extends SimBioModule implements PowerProducer {
     /**
      * Returns the power produced (in watts) by the Power PS during the current
      * tick
-     * 
+     *
      * @return the power produced (in watts) by the Power PS during the current
-     *         tick
+     * tick
      */
     public float getPowerProduced() {
         return currentPowerProduced;
@@ -122,8 +121,7 @@ public abstract class PowerPS extends SimBioModule implements PowerProducer {
     }
 
     /**
-     * @param currentUpperPowerGeneration
-     *            The currentUpperPowerGeneration to set.
+     * @param currentUpperPowerGeneration The currentUpperPowerGeneration to set.
      */
     public void setCurrentUpperPowerGeneration(
             float pCurrentUpperPowerGeneration) {
@@ -138,8 +136,7 @@ public abstract class PowerPS extends SimBioModule implements PowerProducer {
     }
 
     /**
-     * @param initialUpperPowerGeneration
-     *            The initialUpperPowerGeneration to set.
+     * @param initialUpperPowerGeneration The initialUpperPowerGeneration to set.
      */
     public void setInitialUpperPowerGeneration(
             float pInitialUpperPowerGeneration) {

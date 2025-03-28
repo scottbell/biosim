@@ -14,32 +14,25 @@ import java.util.Iterator;
 /**
  * The Incinerator takes dryWaste (plants matter) and refines it to food for the
  * crew members.
- * 
+ *
  * @author Scott Bell
  */
 
 public class Incinerator extends SimBioModule {
-    //Consumers, Producers
-    private PowerConsumerDefinition myPowerConsumerDefinition;
-
-    private DryWasteConsumerDefinition myDryWasteConsumerDefinition;
-
-    private O2ConsumerDefinition myO2ConsumerDefinition;
-
-    private CO2ProducerDefinition myCO2ProducerDefinition;
-
     //During any given tick, this much power is needed for the incinerator
     // to run at all
     private static final float POWER_NEEDED_BASE = 100;
-
     //During any given tick, this much dry waste is needed for the incinerator
     // to run optimally
     private static final float DRY_WASTE_NEEDED_BASE = 10f;
-
     //During any given tick, this much O2 is needed for the incinerator to run
     // optimally
     private static final float O2_NEEDED_BASE = 10f;
-
+    //Consumers, Producers
+    private final PowerConsumerDefinition myPowerConsumerDefinition;
+    private final DryWasteConsumerDefinition myDryWasteConsumerDefinition;
+    private final O2ConsumerDefinition myO2ConsumerDefinition;
+    private final CO2ProducerDefinition myCO2ProducerDefinition;
     //Flag to determine if the Incinerator has enough power to function
     private boolean hasEnoughPower = false;
 
@@ -109,9 +102,9 @@ public class Incinerator extends SimBioModule {
     /**
      * Returns the dryWaste consumed (in kilograms) by the Incinerator during
      * the current tick
-     * 
+     *
      * @return the dryWaste consumed (in kilograms) by the Incinerator during
-     *         the current tick
+     * the current tick
      */
     public float getDryWasteConsumed() {
         return currentDryWasteConsumed;
@@ -120,9 +113,9 @@ public class Incinerator extends SimBioModule {
     /**
      * Returns the power consumed (in watts) by the Incinerator during the
      * current tick
-     * 
+     *
      * @return the power consumed (in watts) by the Incinerator during the
-     *         current tick
+     * current tick
      */
     public float getPowerConsumed() {
         return currentPowerConsumed;
@@ -131,9 +124,9 @@ public class Incinerator extends SimBioModule {
     /**
      * Returns the O2 consumed (in moles) by the Incinerator during the current
      * tick
-     * 
+     *
      * @return the O2 consumed (in moles) by the Incinerator during the current
-     *         tick
+     * tick
      */
     public float getO2Consumed() {
         return currentO2Consumed;
@@ -142,9 +135,9 @@ public class Incinerator extends SimBioModule {
     /**
      * Returns the CO2 produced (in moles) by the Incinerator during the current
      * tick
-     * 
+     *
      * @return the CO2 produced (in moles) by the Incinerator during the current
-     *         tick
+     * tick
      */
     public float getCO2Produced() {
         return currentCO2Produced;
@@ -152,9 +145,9 @@ public class Incinerator extends SimBioModule {
 
     /**
      * Checks whether Incinerator has enough power or not
-     * 
+     *
      * @return <code>true</code> if the Incinerator has enough power,
-     *         <code>false</code> if not.
+     * <code>false</code> if not.
      */
     public boolean hasPower() {
         return hasEnoughPower;
@@ -162,9 +155,9 @@ public class Incinerator extends SimBioModule {
 
     /**
      * Checks whether Incinerator has enough dryWaste to run optimally or not
-     * 
+     *
      * @return <code>true</code> if the Incinerator has enough dryWaste,
-     *         <code>false</code> if not.
+     * <code>false</code> if not.
      */
     public boolean hasDryWaste() {
         return hasEnoughDryWaste;
@@ -172,9 +165,9 @@ public class Incinerator extends SimBioModule {
 
     /**
      * Checks whether Incinerator has enough O2 to run optimally or not
-     * 
+     *
      * @return <code>true</code> if the Incinerator has enough O2,
-     *         <code>false</code> if not.
+     * <code>false</code> if not.
      */
     public boolean hasO2() {
         return hasEnoughO2;
@@ -185,13 +178,10 @@ public class Incinerator extends SimBioModule {
      * for one tick.
      */
     private void gatherPower() {
-    	float powerNeeded = POWER_NEEDED_BASE * getTickLength();
+        float powerNeeded = POWER_NEEDED_BASE * getTickLength();
         currentPowerConsumed = myPowerConsumerDefinition
                 .getResourceFromStores(powerNeeded);
-        if (currentPowerConsumed < powerNeeded)
-            hasEnoughPower = false;
-        else
-            hasEnoughPower = true;
+        hasEnoughPower = !(currentPowerConsumed < powerNeeded);
     }
 
     /**
@@ -199,13 +189,10 @@ public class Incinerator extends SimBioModule {
      * Incinerator optimally for one tick.
      */
     private void gatherDryWaste() {
-    	float dryWasteNeeded = DRY_WASTE_NEEDED_BASE * getTickLength();
+        float dryWasteNeeded = DRY_WASTE_NEEDED_BASE * getTickLength();
         currentDryWasteConsumed = myDryWasteConsumerDefinition
                 .getResourceFromStores(dryWasteNeeded);
-        if (currentDryWasteConsumed < dryWasteNeeded)
-            hasEnoughDryWaste = false;
-        else
-            hasEnoughDryWaste = true;
+        hasEnoughDryWaste = !(currentDryWasteConsumed < dryWasteNeeded);
     }
 
     /**
@@ -213,13 +200,10 @@ public class Incinerator extends SimBioModule {
      * optimally for one tick.
      */
     private void gatherO2() {
-    	float o2Needed = O2_NEEDED_BASE * getTickLength();
+        float o2Needed = O2_NEEDED_BASE * getTickLength();
         currentO2Consumed = myO2ConsumerDefinition
                 .getResourceFromStores(o2Needed);
-        if (currentO2Consumed < o2Needed)
-            hasEnoughO2 = false;
-        else
-            hasEnoughO2 = true;
+        hasEnoughO2 = !(currentO2Consumed < o2Needed);
     }
 
     /**
@@ -251,7 +235,7 @@ public class Incinerator extends SimBioModule {
 
     protected void performMalfunctions() {
         float productionRate = 1f;
-        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
+        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ) {
             Malfunction currentMalfunction = (Malfunction) (iter.next());
             if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
@@ -284,7 +268,7 @@ public class Incinerator extends SimBioModule {
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
-            MalfunctionLength pLength) {
+                                        MalfunctionLength pLength) {
         StringBuffer returnBuffer = new StringBuffer();
         if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
             returnBuffer.append("Severe ");

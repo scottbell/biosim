@@ -20,7 +20,6 @@ public class O2InFlowRateActuator extends GenericActuator {
     }
 
 
-
     public void setOutput(O2Consumer pConsumer, int pIndex) {
         myConsumer = pConsumer;
         myIndex = pIndex;

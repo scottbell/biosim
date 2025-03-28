@@ -16,7 +16,7 @@ public class PotableWaterConsumerDefinition extends
     }
 
     public void setPotableWaterInputs(PotableWaterStore[] pStores,
-            float[] pMaxFlowRates, float[] pDesiredFlowRates) {
+                                      float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
         setInitialStores(pStores);

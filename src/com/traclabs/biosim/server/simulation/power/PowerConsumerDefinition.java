@@ -10,12 +10,12 @@ import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable
 public class PowerConsumerDefinition extends StoreFlowRateControllable {
 
     public PowerConsumerDefinition(BioModule pModule) {
-    	super(pModule);
+        super(pModule);
     }
 
 
     public void setPowerInputs(PowerStore[] pStores, float[] pMaxFlowRates,
-            float[] pDesiredFlowRates) {
+                               float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
         setInitialStores(pStores);

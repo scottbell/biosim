@@ -1,7 +1,7 @@
 package com.traclabs.biosim.server.sensor.food;
 
 
-public class HarvestSensor extends ShelfSensor  {
+public class HarvestSensor extends ShelfSensor {
     public HarvestSensor(int pID, String pName) {
         super(pID, pName);
     }

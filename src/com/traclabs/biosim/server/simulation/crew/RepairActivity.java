@@ -2,7 +2,7 @@ package com.traclabs.biosim.server.simulation.crew;
 
 /**
  * Repair Activities.
- * 
+ *
  * @author Scott Bell
  */
 
@@ -12,7 +12,7 @@ public class RepairActivity extends Activity {
     private String myModuleNameToRepair = "unknown";
 
     public RepairActivity(String pModuleNameToRepair, long pMalfunctionID,
-            int pTimeLength) {
+                          int pTimeLength) {
         super("repair", pTimeLength, pTimeLength);
         myMalfunctionID = pMalfunctionID;
         myModuleNameToRepair = pModuleNameToRepair;

@@ -8,11 +8,11 @@ public class AirOutFlowRateActuator extends GenericActuator {
     private AirProducer myProducer;
 
     private int myIndex;
-    
-    public AirOutFlowRateActuator(){
-    	super(0, "Unnamed AirOutFlowRateActuator");
+
+    public AirOutFlowRateActuator() {
+        super(0, "Unnamed AirOutFlowRateActuator");
     }
-    
+
     public AirOutFlowRateActuator(int pID, String pName) {
         super(pID, pName);
     }
@@ -22,7 +22,6 @@ public class AirOutFlowRateActuator extends GenericActuator {
         getOutput().getAirProducerDefinition().setDesiredFlowRate(
                 myFilteredValue, myIndex);
     }
-
 
 
     public void setOutput(AirProducer pProducer, int pIndex) {

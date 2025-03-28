@@ -4,7 +4,7 @@ import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.air.NitrogenProducer;
 
-public class NitrogenOutFlowRateActuator extends GenericActuator{
+public class NitrogenOutFlowRateActuator extends GenericActuator {
     private NitrogenProducer myProducer;
 
     private int myIndex;
@@ -18,7 +18,6 @@ public class NitrogenOutFlowRateActuator extends GenericActuator{
         getOutput().getNitrogenProducerDefinition().setDesiredFlowRate(
                 myFilteredValue, myIndex);
     }
-
 
 
     public void setOutput(NitrogenProducer pProducer, int pIndex) {

@@ -13,29 +13,29 @@ import java.util.Iterator;
 /**
  * The Food Processor takes biomass (plants matter) and refines it to food for
  * the crew members.
- * 
+ *
  * @author Scott Bell
  */
 
 public class FoodProcessor extends SimBioModule {
     //Consumers, Producers
-    private BiomassConsumerDefinition myBiomassConsumerDefinition;
+    private final BiomassConsumerDefinition myBiomassConsumerDefinition;
 
-    private PowerConsumerDefinition myPowerConsumerDefinition;
+    private final PowerConsumerDefinition myPowerConsumerDefinition;
 
-    private FoodProducerDefinition myFoodProducerDefinition;
+    private final FoodProducerDefinition myFoodProducerDefinition;
 
-    private WaterProducerDefinition myWaterProducerDefinition;
+    private final WaterProducerDefinition myWaterProducerDefinition;
 
-    private DryWasteProducerDefinition myDryWasteProducerDefinition;
+    private final DryWasteProducerDefinition myDryWasteProducerDefinition;
 
     //During any given tick, this much power is needed for the food processor
     // to run at all
-    private float powerNeeded = 100;
+    private final float powerNeeded = 100;
 
     //During any given tick, this much biomass is needed for the food processor
     // to run optimally
-    private float biomassNeeded = 200f;
+    private final float biomassNeeded = 200f;
 
     //Flag to determine if the Food Processor has enough power to function
     private boolean hasEnoughPower = false;
@@ -69,6 +69,20 @@ public class FoodProcessor extends SimBioModule {
         myWaterProducerDefinition = new WaterProducerDefinition(this);
         myFoodProducerDefinition = new FoodProducerDefinition(this);
         myDryWasteProducerDefinition = new DryWasteProducerDefinition(this);
+    }
+
+    private static float calculateSizeOfBioMatter(BioMatter[] arrayOfMatter) {
+        float totalSize = 0f;
+        for (int i = 0; i < arrayOfMatter.length; i++)
+            totalSize += arrayOfMatter[i].mass;
+        return totalSize;
+    }
+
+    private static float calculateSizeOfFoodMatter(FoodMatter[] arrayOfMatter) {
+        float totalSize = 0f;
+        for (int i = 0; i < arrayOfMatter.length; i++)
+            totalSize += arrayOfMatter[i].mass;
+        return totalSize;
     }
 
     public BiomassConsumerDefinition getBiomassConsumerDefinition() {
@@ -110,9 +124,9 @@ public class FoodProcessor extends SimBioModule {
     /**
      * Returns the biomass consumed (in kilograms) by the Food Processor during
      * the current tick
-     * 
+     *
      * @return the biomass consumed (in kilograms) by the Food Processor during
-     *         the current tick
+     * the current tick
      */
     public float getBiomassConsumed() {
         return massConsumed;
@@ -121,9 +135,9 @@ public class FoodProcessor extends SimBioModule {
     /**
      * Returns the power consumed (in watts) by the Food Processor during the
      * current tick
-     * 
+     *
      * @return the power consumed (in watts) by the Food Processor during the
-     *         current tick
+     * current tick
      */
     public float getPowerConsumed() {
         return currentPowerConsumed;
@@ -132,9 +146,9 @@ public class FoodProcessor extends SimBioModule {
     /**
      * Returns the food produced (in kilograms) by the Food Processor during the
      * current tick
-     * 
+     *
      * @return the food produced (in kilograms) by the Food Processor during the
-     *         current tick
+     * current tick
      */
     public float getFoodProduced() {
         return currentFoodProduced;
@@ -142,9 +156,9 @@ public class FoodProcessor extends SimBioModule {
 
     /**
      * Checks whether Food Processor has enough power or not
-     * 
+     *
      * @return <code>true</code> if the Food Processor has enough power,
-     *         <code>false</code> if not.
+     * <code>false</code> if not.
      */
     public boolean hasPower() {
         return hasEnoughPower;
@@ -152,9 +166,9 @@ public class FoodProcessor extends SimBioModule {
 
     /**
      * Checks whether Food Processor has enough biomass to run optimally or not
-     * 
+     *
      * @return <code>true</code> if the Food Processor has enough biomass,
-     *         <code>false</code> if not.
+     * <code>false</code> if not.
      */
     public boolean hasBiomass() {
         return hasEnoughBiomass;
@@ -167,11 +181,7 @@ public class FoodProcessor extends SimBioModule {
     private void gatherPower() {
         currentPowerConsumed = myPowerConsumerDefinition
                 .getResourceFromStores(powerNeeded);
-        if (currentPowerConsumed < powerNeeded) {
-            hasEnoughPower = false;
-        } else {
-            hasEnoughPower = true;
-        }
+        hasEnoughPower = !(currentPowerConsumed < powerNeeded);
     }
 
     /**
@@ -185,25 +195,7 @@ public class FoodProcessor extends SimBioModule {
         if (massConsumed > 0)
             myLogger
                     .debug(getModuleName() + ": massConsumed = " + massConsumed);
-        if (massConsumed < biomassNeeded) {
-            hasEnoughBiomass = false;
-        } else {
-            hasEnoughBiomass = true;
-        }
-    }
-
-    private static float calculateSizeOfBioMatter(BioMatter[] arrayOfMatter) {
-        float totalSize = 0f;
-        for (int i = 0; i < arrayOfMatter.length; i++)
-            totalSize += arrayOfMatter[i].mass;
-        return totalSize;
-    }
-
-    private static float calculateSizeOfFoodMatter(FoodMatter[] arrayOfMatter) {
-        float totalSize = 0f;
-        for (int i = 0; i < arrayOfMatter.length; i++)
-            totalSize += arrayOfMatter[i].mass;
-        return totalSize;
+        hasEnoughBiomass = !(massConsumed < biomassNeeded);
     }
 
     private float calculateInedibleWaterContent(BioMatter inMatter) {
@@ -270,7 +262,7 @@ public class FoodProcessor extends SimBioModule {
 
     protected void performMalfunctions() {
         float productionRate = 1f;
-        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
+        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ) {
             Malfunction currentMalfunction = (Malfunction) (iter.next());
             if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
@@ -306,7 +298,7 @@ public class FoodProcessor extends SimBioModule {
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
-            MalfunctionLength pLength) {
+                                        MalfunctionLength pLength) {
         StringBuffer returnBuffer = new StringBuffer();
         if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
             returnBuffer.append("Severe ");

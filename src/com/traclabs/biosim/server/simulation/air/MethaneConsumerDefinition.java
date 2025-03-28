@@ -7,7 +7,7 @@ import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable
  * @author Scott Bell
  */
 
-public class MethaneConsumerDefinition extends StoreFlowRateControllable  {
+public class MethaneConsumerDefinition extends StoreFlowRateControllable {
     private MethaneConsumerDefinition myMethaneConsumerDefinition;
 
     public MethaneConsumerDefinition(BioModule pModule) {
@@ -19,7 +19,7 @@ public class MethaneConsumerDefinition extends StoreFlowRateControllable  {
     }
 
     public void setMethaneInputs(MethaneStore[] pStores,
-            float[] pMaxFlowRates, float[] pDesiredFlowRates) {
+                                 float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
         setInitialStores(pStores);

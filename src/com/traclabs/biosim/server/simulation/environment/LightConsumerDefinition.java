@@ -8,7 +8,7 @@ import com.traclabs.biosim.server.framework.BioModule;
 
 public class LightConsumerDefinition extends EnvironmentFlowRateControllable {
     public LightConsumerDefinition(BioModule pModule) {
-    	super(pModule);
+        super(pModule);
     }
 
     public void setLightInput(SimEnvironment pSimEnvironment) {

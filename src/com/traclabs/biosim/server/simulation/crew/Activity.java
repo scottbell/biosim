@@ -3,7 +3,7 @@ package com.traclabs.biosim.server.simulation.crew;
 /**
  * Activities are performed by crew members (CrewPerson) for a certain amount of
  * time with a certain intensity in a certain order.
- * 
+ *
  * @author Scott Bell
  */
 
@@ -19,14 +19,11 @@ public class Activity {
 
     /**
      * Returns the power consumption of the AirRS at the current tick.
-     * 
-     * @param pName
-     *            The name of this activity
-     * @param pTimeLength
-     *            How long this activity will be performed
-     * @param pActivityIntensity
-     *            The intensity of this activity (how much exertion it takes to
-     *            perform it)
+     *
+     * @param pName              The name of this activity
+     * @param pTimeLength        How long this activity will be performed
+     * @param pActivityIntensity The intensity of this activity (how much exertion it takes to
+     *                           perform it)
      */
     public Activity(String pName, int pTimeLength, int pActivityIntensity) {
         myName = pName;
@@ -36,7 +33,7 @@ public class Activity {
 
     /**
      * Returns the name of this activity
-     * 
+     *
      * @return The name of this activity
      */
     public String getName() {
@@ -45,7 +42,7 @@ public class Activity {
 
     /**
      * Returns how long this activity will be performed (in ticks)
-     * 
+     *
      * @return How long this activity will be performed
      */
     public int getTimeLength() {
@@ -55,9 +52,9 @@ public class Activity {
     /**
      * Returns the intensity of this activity (how much exertion it takes to
      * perform it)
-     * 
+     *
      * @return The intensity of this activity (how much exertion it takes to
-     *         perform it)
+     * perform it)
      */
     public int getActivityIntensity() {
         return myActivityIntensity;
@@ -65,7 +62,7 @@ public class Activity {
 
     /**
      * Returns the name of this activity
-     * 
+     *
      * @return The name of this activity
      */
     public String toString() {

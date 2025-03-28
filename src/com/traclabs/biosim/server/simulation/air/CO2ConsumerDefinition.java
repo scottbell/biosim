@@ -11,11 +11,11 @@ public class CO2ConsumerDefinition extends StoreFlowRateControllable {
     private CO2ConsumerDefinition myCO2ConsumerDefinition;
 
     public CO2ConsumerDefinition(BioModule pModule) {
-super(pModule);
+        super(pModule);
     }
 
     public void setCO2Inputs(ICO2Store[] pStores, float[] pMaxFlowRates,
-            float[] pDesiredFlowRates) {
+                             float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
         setInitialStores(pStores);

@@ -15,12 +15,12 @@ public abstract class CrewGroupSensor extends GenericSensor {
 
     protected abstract void notifyListeners();
 
-    public void setInput(CrewGroup source) {
-        myCrewGroup = source;
-    }
-
     public CrewGroup getInput() {
         return myCrewGroup;
+    }
+
+    public void setInput(CrewGroup source) {
+        myCrewGroup = source;
     }
 
     public IBioModule getInputModule() {

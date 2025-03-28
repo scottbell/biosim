@@ -12,7 +12,6 @@ public class HarvestingActuator extends ShelfActuator {
     }
 
 
-
     public float getMax() {
         return 1f;
     }

@@ -11,11 +11,11 @@ public class H2ProducerDefinition extends StoreFlowRateControllable {
     private H2ProducerDefinition myH2ProducerDefinition;
 
     public H2ProducerDefinition(BioModule pModule) {
-    	super(pModule);
+        super(pModule);
     }
 
     public void setH2Outputs(H2Store[] pStores, float[] pMaxFlowRates,
-            float[] pDesiredFlowRates) {
+                             float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
         setInitialStores(pStores);

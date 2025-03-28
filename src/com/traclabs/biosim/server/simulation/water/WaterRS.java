@@ -15,34 +15,24 @@ import java.util.Iterator;
  * water for the crew members and grey water for the crops.. Class modeled after
  * the paper:. "Intelligent Control of a Water Recovery System: Three Years in
  * the Trenches" by Bonasso, Kortenkamp, and Thronesbery
- * 
+ *
  * @author Scott Bell
  */
 
 public class WaterRS extends SimBioModule {
-    //Consumers, Producers
-    private PowerConsumerDefinition myPowerConsumerDefinition;
-
-    private GreyWaterConsumerDefinition myGreyWaterConsumerDefinition;
-
-    private DirtyWaterConsumerDefinition myDirtyWaterConsumerDefinition;
-
-    private PotableWaterProducerDefinition myPotableWaterProducerDefinition;
-
-    //The various subsystems of Water RS that clean the water
-    private BWP myBWP;
-
-    private RO myRO;
-
-    private AES myAES;
-
-    private PPS myPPS;
-
-    private WaterRSSubSystem[] mySubsystems;
-
-    private WaterRSOperationMode myMode;
-
     private static final int NUMBER_OF_SUBSYSTEMS_CONSUMING_POWER = 4;
+    //Consumers, Producers
+    private final PowerConsumerDefinition myPowerConsumerDefinition;
+    private final GreyWaterConsumerDefinition myGreyWaterConsumerDefinition;
+    private final DirtyWaterConsumerDefinition myDirtyWaterConsumerDefinition;
+    private final PotableWaterProducerDefinition myPotableWaterProducerDefinition;
+    //The various subsystems of Water RS that clean the water
+    private final BWP myBWP;
+    private final RO myRO;
+    private final AES myAES;
+    private final PPS myPPS;
+    private final WaterRSSubSystem[] mySubsystems;
+    private WaterRSOperationMode myMode;
 
     /**
      * Creates the Water RS and it's subsystems
@@ -80,7 +70,7 @@ public class WaterRS extends SimBioModule {
 
     /**
      * Returns the RO subsystem
-     * 
+     *
      * @return the RO subsystem
      */
     public RO getRO() {
@@ -89,7 +79,7 @@ public class WaterRS extends SimBioModule {
 
     /**
      * Returns the AES subsystem
-     * 
+     *
      * @return the AES subsystem
      */
     public AES getAES() {
@@ -98,7 +88,7 @@ public class WaterRS extends SimBioModule {
 
     /**
      * Returns the PPS subsystem
-     * 
+     *
      * @return the PPS subsystem
      */
     public PPS getPPS() {
@@ -107,7 +97,7 @@ public class WaterRS extends SimBioModule {
 
     /**
      * Returns the BWP subsystem
-     * 
+     *
      * @return the BWP subsystem
      */
     public BWP getBWP() {
@@ -117,9 +107,9 @@ public class WaterRS extends SimBioModule {
     /**
      * Returns the potable water produced (in liters) by the Water RS during the
      * current tick
-     * 
+     *
      * @return the potable water produced (in liters) by the Water RS during the
-     *         current tick
+     * current tick
      */
     public float getPotableWaterProduced() {
         return myPPS.getPotableWaterProduced();
@@ -128,9 +118,9 @@ public class WaterRS extends SimBioModule {
     /**
      * Returns the grey water produced (in liters) by the Water RS during the
      * current tick
-     * 
+     *
      * @return the grey water produced (in liters) by the Water RS during the
-     *         current tick
+     * current tick
      */
     public float getGreyWaterProduced() {
         return 0f;
@@ -139,9 +129,9 @@ public class WaterRS extends SimBioModule {
     /**
      * Returns the grey water consumed (in liters) by the Water RS during the
      * current tick
-     * 
+     *
      * @return the grey water consumed (in liters) by the Water RS during the
-     *         current tick
+     * current tick
      */
     public float getGreyWaterConsumed() {
         return myBWP.getGreyWaterConsumed();
@@ -150,9 +140,9 @@ public class WaterRS extends SimBioModule {
     /**
      * Returns the power consumed (in watts) by the Water RS during the current
      * tick
-     * 
+     *
      * @return the power consumed (in watts) by the Water RS during the current
-     *         tick
+     * tick
      */
     public float getPowerConsumed() {
         float powerConsumed = 0f;
@@ -164,9 +154,9 @@ public class WaterRS extends SimBioModule {
     /**
      * Returns the dirty water consumed (in liters) by the Water RS during the
      * current tick
-     * 
+     *
      * @return the dirty water consumed (in liters) by the Water RS during the
-     *         current tick
+     * current tick
      */
     public float getDirtyWaterConsumed() {
         return myBWP.getDirtyWaterConsumed();
@@ -213,7 +203,7 @@ public class WaterRS extends SimBioModule {
     }
 
     protected void performMalfunctions() {
-        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
+        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ) {
             Malfunction currentMalfunction = (Malfunction) (iter.next());
             if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF) {
@@ -236,7 +226,7 @@ public class WaterRS extends SimBioModule {
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
-            MalfunctionLength pLength) {
+                                        MalfunctionLength pLength) {
         StringBuffer returnBuffer = new StringBuffer();
         if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
             returnBuffer.append("AES and RO ");

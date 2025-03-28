@@ -2,7 +2,7 @@ package com.traclabs.biosim.server.simulation.power;
 
 /**
  * Nuclear Power Production System
- * 
+ *
  * @author Scott Bell
  */
 

@@ -20,7 +20,6 @@ public class PowerOutFlowRateActuator extends GenericActuator {
     }
 
 
-
     public void setOutput(PowerProducer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;

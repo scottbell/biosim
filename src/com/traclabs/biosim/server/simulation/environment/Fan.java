@@ -7,20 +7,17 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 
 /**
  * The basic Fan implementation.
- * 
+ *
  * @author Scott Bell
  */
 
 public class Fan extends SimBioModule {
-    //Consumers, Producers
-    private AirConsumerDefinition myAirConsumerDefinition;
-    private PowerConsumerDefinition myPowerConsumerDefinition;
-
-    private AirProducerDefinition myAirProducerDefinition;
-    
     //  in kPA assuming 101 kPa total pressure and air temperature of 23C and relative humidity of 80%
     public static final float OPTIMAL_MOISTURE_CONCENTRATION = 0.0218910f;
-
+    //Consumers, Producers
+    private final AirConsumerDefinition myAirConsumerDefinition;
+    private final PowerConsumerDefinition myPowerConsumerDefinition;
+    private final AirProducerDefinition myAirProducerDefinition;
     private float currentPowerConsumed = 0f;
 
     private float currentMolesOfAirConsumed = 0f;
@@ -33,7 +30,7 @@ public class Fan extends SimBioModule {
         myPowerConsumerDefinition = new PowerConsumerDefinition(this);
         myAirProducerDefinition = new AirProducerDefinition(this);
     }
-    
+
     public Fan() {
         this(0, "Unnamed Fan");
     }
@@ -56,18 +53,18 @@ public class Fan extends SimBioModule {
     }
 
     private void getAndPushAir() {
-    	currentPowerConsumed = myPowerConsumerDefinition.getMostResourceFromStores();
-    	currentMolesOfAirConsumed = calculateAirToConsume(currentPowerConsumed);
-    	currentAirConsumed = myAirConsumerDefinition.getAirFromEnvironment(currentMolesOfAirConsumed, 0);
-    	myAirProducerDefinition.pushAirToEnvironment(currentAirConsumed, 0);
+        currentPowerConsumed = myPowerConsumerDefinition.getMostResourceFromStores();
+        currentMolesOfAirConsumed = calculateAirToConsume(currentPowerConsumed);
+        currentAirConsumed = myAirConsumerDefinition.getAirFromEnvironment(currentMolesOfAirConsumed, 0);
+        myAirProducerDefinition.pushAirToEnvironment(currentAirConsumed, 0);
     }
 
     private float calculateAirToConsume(float powerReceived) {
-		return powerReceived * 4;
-	}
+        return powerReceived * 4;
+    }
 
-	protected String getMalfunctionName(MalfunctionIntensity pIntensity,
-            MalfunctionLength pLength) {
+    protected String getMalfunctionName(MalfunctionIntensity pIntensity,
+                                        MalfunctionLength pLength) {
         StringBuffer returnBuffer = new StringBuffer();
         if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
             returnBuffer.append("Severe ");
@@ -81,7 +78,7 @@ public class Fan extends SimBioModule {
             returnBuffer.append("Permanent Production Reduction");
         return returnBuffer.toString();
     }
-    
+
     public void log() {
         myLogger.debug("power_consumed=" + currentPowerConsumed);
     }

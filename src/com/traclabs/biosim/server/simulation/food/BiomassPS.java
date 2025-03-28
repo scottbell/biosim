@@ -23,34 +23,34 @@ import java.util.Vector;
  * and produces biomass. The plant matter (biomass) is fed into the food
  * processor to create food for the crew. The plants can also (along with the
  * AirRS) take CO2 out of the air and add O2.
- * 
+ *
  * @author Scott Bell
  */
 
 public class BiomassPS extends SimBioModule {
-    private List<Shelf> myShelves;
+    private final List<Shelf> myShelves;
 
     private boolean autoHarvestAndReplant = true;
 
     //Consumers, Producers
-    private PowerConsumerDefinition myPowerConsumerDefinition;
+    private final PowerConsumerDefinition myPowerConsumerDefinition;
 
-    private AirConsumerDefinition myAirConsumerDefinition;
+    private final AirConsumerDefinition myAirConsumerDefinition;
 
-    private PotableWaterConsumerDefinition myPotableWaterConsumerDefinition;
+    private final PotableWaterConsumerDefinition myPotableWaterConsumerDefinition;
 
-    private GreyWaterConsumerDefinition myGreyWaterConsumerDefinition;
+    private final GreyWaterConsumerDefinition myGreyWaterConsumerDefinition;
 
-    private DirtyWaterProducerDefinition myDirtyWaterProducerDefinition;
+    private final DirtyWaterProducerDefinition myDirtyWaterProducerDefinition;
 
-    private AirProducerDefinition myAirProducerDefinition;
+    private final AirProducerDefinition myAirProducerDefinition;
 
-    private BiomassProducerDefinition myBiomassProducerDefinition;
-    
+    private final BiomassProducerDefinition myBiomassProducerDefinition;
+
     private boolean myDeathEnabled = true;
-    
-    public BiomassPS(){
-    	this(0, "Unnamed BiomassPS");
+
+    public BiomassPS() {
+        this(0, "Unnamed BiomassPS");
     }
 
     public BiomassPS(int pID, String pName) {
@@ -77,7 +77,7 @@ public class BiomassPS extends SimBioModule {
 
     protected void performMalfunctions() {
         float productionRate = 1f;
-        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
+        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ) {
             Malfunction currentMalfunction = (Malfunction) (iter.next());
             if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
@@ -95,7 +95,7 @@ public class BiomassPS extends SimBioModule {
                     productionRate *= 0.90; // 10% reduction
             }
         }
-        for (Iterator iter = myShelves.iterator(); iter.hasNext();) {
+        for (Iterator iter = myShelves.iterator(); iter.hasNext(); ) {
             Shelf currentShelf = (Shelf) (iter.next());
             currentShelf.getPlant().setProductionRate(productionRate);
         }
@@ -134,7 +134,7 @@ public class BiomassPS extends SimBioModule {
     public void reset() {
         super.reset();
         clearActualFlowRates();
-        for (Iterator iter = myShelves.iterator(); iter.hasNext();) {
+        for (Iterator iter = myShelves.iterator(); iter.hasNext(); ) {
             Shelf currentShelf = (Shelf) (iter.next());
             currentShelf.reset();
         }
@@ -169,7 +169,7 @@ public class BiomassPS extends SimBioModule {
     public void tick() {
         super.tick();
         clearActualFlowRates();
-        for (Iterator iter = myShelves.iterator(); iter.hasNext();) {
+        for (Iterator iter = myShelves.iterator(); iter.hasNext(); ) {
             Shelf currentShelf = (Shelf) (iter.next());
             currentShelf.tick();
         }
@@ -178,12 +178,12 @@ public class BiomassPS extends SimBioModule {
 
     public void log() {
     }
-    
-    public boolean isAnyPlantDead(){
-    	for (Shelf currentShelf : getShelves())
-			if (currentShelf.isDead())
-				return true;
-    	return false;
+
+    public boolean isAnyPlantDead() {
+        for (Shelf currentShelf : getShelves())
+            if (currentShelf.isDead())
+                return true;
+        return false;
     }
 
     /**
@@ -235,16 +235,16 @@ public class BiomassPS extends SimBioModule {
         return myPowerConsumerDefinition;
     }
 
-	public void killPlants() {
-    	for (Shelf currentShelf : getShelves())
-    		currentShelf.kill();
-	}
+    public void killPlants() {
+        for (Shelf currentShelf : getShelves())
+            currentShelf.kill();
+    }
 
-	public boolean getDeathEnabled() {
-		return myDeathEnabled;
-	}
+    public boolean getDeathEnabled() {
+        return myDeathEnabled;
+    }
 
-	public void setDeathEnabled(boolean deathEnabled) {
-		this.myDeathEnabled = deathEnabled;
-	}
+    public void setDeathEnabled(boolean deathEnabled) {
+        this.myDeathEnabled = deathEnabled;
+    }
 }

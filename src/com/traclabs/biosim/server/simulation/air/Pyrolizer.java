@@ -8,13 +8,13 @@ import com.traclabs.biosim.server.simulation.waste.DryWasteProducerDefinition;
 public class Pyrolizer extends SimBioModule {
 
     //Consumers, Producers
-    private PowerConsumerDefinition myPowerConsumerDefinition;
+    private final PowerConsumerDefinition myPowerConsumerDefinition;
 
-    private MethaneConsumerDefinition myMethaneConsumerDefinition;
+    private final MethaneConsumerDefinition myMethaneConsumerDefinition;
 
-    private DryWasteProducerDefinition myDryWasteProducerDefinition;
+    private final DryWasteProducerDefinition myDryWasteProducerDefinition;
 
-    private H2ProducerDefinition myH2ProducerDefinition;
+    private final H2ProducerDefinition myH2ProducerDefinition;
 
     public Pyrolizer(int pID, String pName) {
         super(pID, pName);

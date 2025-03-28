@@ -20,7 +20,6 @@ public class CO2OutFlowRateSensor extends GenericSensor {
     }
 
 
-
     public void setInput(CO2Producer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;

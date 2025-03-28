@@ -12,64 +12,53 @@ import java.util.Iterator;
  * Stores report information about their levels, etc. from currentTick-1 until
  * ALL modules have advanced to currentTick. <br>
  * This allows for simulated parralelism.
- * 
+ *
  * @author Scott Bell
  */
 
-public class Store extends PassiveModule implements IStore{
+public class Store extends PassiveModule implements IStore {
     //The currentLevel of whatever this store is holding (at t)
     protected float currentLevel = 0f;
 
     //The currentCapacity of what this store can hold (at t)
     protected float currentCapacity = 0f;
-    
+
     //What this store has leaked (at t)
     protected float overflow = 0f;
-
-    private boolean pipe = false;
-
     protected float initialLevel = 0f;
-
     protected float initialCapacity = 0f;
-
+    private boolean pipe = false;
     private int resupplyFrequency = 0;
 
     private float resupplyAmount = 0f;
 
     /**
      * Creates a Store with an initial currentLevel and currentCapacity of 0
-     * 
-     * @param pID
-     *            the ID of the store
-     * @param pName
-     *            the name of the store
+     *
+     * @param pID   the ID of the store
+     * @param pName the name of the store
      */
     public Store(int pID, String pName) {
         super(pID, pName);
-        currentLevel  = initialLevel = 100f;
+        currentLevel = initialLevel = 100f;
         currentCapacity = initialCapacity = 100f;
     }
 
     /**
      * Creates a Store with an initial currentLevel and currentCapacity user
      * specified
-     * 
-     * @param pID
-     *            the initial currentLevel of the store
-     * @param pName
-     *            the name of the store
-     * @param pInitialCapacity
-     *            the initial currentCapacity of the store
-     * @param pInitialLevel
-     *            the initial currentLevel of the store
-     * @param pPipe
-     *            whether this store should act like a pipe. dynamic capcity ==
-     *            currentLevel == whatever is added THIS tick (0 if nothing
-     *            added, maxFlowRate should dictate pipe size, infinite
-     *            otherwise)
+     *
+     * @param pID              the initial currentLevel of the store
+     * @param pName            the name of the store
+     * @param pInitialCapacity the initial currentCapacity of the store
+     * @param pInitialLevel    the initial currentLevel of the store
+     * @param pPipe            whether this store should act like a pipe. dynamic capcity ==
+     *                         currentLevel == whatever is added THIS tick (0 if nothing
+     *                         added, maxFlowRate should dictate pipe size, infinite
+     *                         otherwise)
      */
     public Store(int pID, String pName, float pInitialLevel,
-            float pInitialCapacity, boolean pPipe) {
+                 float pInitialCapacity, boolean pPipe) {
         super(pID, pName);
         pipe = pPipe;
         currentLevel = initialLevel = pInitialLevel;
@@ -77,14 +66,14 @@ public class Store extends PassiveModule implements IStore{
     }
 
     public Store() {
-		this(0, "Unnamed Store");
-	}
+        this(0, "Unnamed Store");
+    }
 
-	/**
+    /**
      * If this store acts like a pipe. dynamic capcity == currentLevel ==
      * whatever is added THIS tick (0 if nothing added, maxFlowRate should
      * dictate pipe size, infinite otherwise)
-     * 
+     *
      * @return pPipe whether this store acts like a pipe.
      */
     public boolean isPipe() {
@@ -95,9 +84,8 @@ public class Store extends PassiveModule implements IStore{
      * Sets this store to act like a pipe. dynamic capcity == currentLevel ==
      * whatever is added THIS tick (0 if nothing added, maxFlowRate should
      * dictate pipe size, infinite otherwise)
-     * 
-     * @param pPipe
-     *            whether this store should act like a pipe.
+     *
+     * @param pPipe whether this store should act like a pipe.
      */
     public void setPipe(boolean pPipe) {
         pipe = pPipe;
@@ -106,38 +94,6 @@ public class Store extends PassiveModule implements IStore{
     public void setResupply(int pResupplyFrequency, float pResupplyAmount) {
         resupplyFrequency = pResupplyFrequency;
         resupplyAmount = pResupplyAmount;
-    }
-
-    public void setInitialCapacity(float metricAmount) {
-        initialCapacity = metricAmount;
-        setCurrentCapacity(metricAmount);
-        if (currentLevel > initialCapacity)
-        	setInitialLevel(initialCapacity);
-    }
-
-    /**
-     * Sets the currentCapacity of the store (how much it can hold)
-     * 
-     * @param metricAmount
-     *            the new volume of the store
-     */
-    public void setCurrentCapacity(float metricAmount) {
-        currentCapacity = metricAmount;
-    }
-
-    /**
-     * Sets the currentLevel to a set amount
-     * 
-     * @param metricAmount
-     *            the currentLevel to set the store to
-     */
-    public void setCurrentLevel(float metricAmount) {
-        currentLevel = metricAmount;
-    }
-
-    public void setInitialLevel(float metricAmount) {
-        initialLevel = metricAmount;
-        setCurrentLevel(metricAmount);
     }
 
     public void tick() {
@@ -157,15 +113,13 @@ public class Store extends PassiveModule implements IStore{
     /**
      * Gives a decent name/description of the malfunction as it relates to this
      * module.
-     * 
-     * @param pIntensity
-     *            The intensity of the malfunction (severe, medium, low)
-     * @param pLength
-     *            The temporal length of the malfunction (temporary, permanent)
+     *
+     * @param pIntensity The intensity of the malfunction (severe, medium, low)
+     * @param pLength    The temporal length of the malfunction (temporary, permanent)
      * @return the description/name of the malfunction
      */
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
-            MalfunctionLength pLength) {
+                                        MalfunctionLength pLength) {
         StringBuffer returnBuffer = new StringBuffer();
         if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
             returnBuffer.append("Severe ");
@@ -184,16 +138,16 @@ public class Store extends PassiveModule implements IStore{
      * Actually performs the malfunctions. Reduces levels/currentCapacity
      */
     protected void performMalfunctions() {
-        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
+        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ) {
             Malfunction currentMalfunction = (Malfunction) (iter.next());
             if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
                 float leakRate = 0f;
                 if (currentMalfunction.getIntensity() == MalfunctionIntensity.SEVERE_MALF)
                     leakRate = .20f * getTickLength();
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.MEDIUM_MALF)
-                	leakRate = .10f * getTickLength();
+                    leakRate = .10f * getTickLength();
                 else if (currentMalfunction.getIntensity() == MalfunctionIntensity.LOW_MALF)
-                	leakRate = .05f * getTickLength();
+                    leakRate = .05f * getTickLength();
                 currentLevel -= (currentLevel * leakRate);
                 currentMalfunction.setPerformed(true);
             } else if ((currentMalfunction.getLength() == MalfunctionLength.PERMANENT_MALF)
@@ -221,9 +175,8 @@ public class Store extends PassiveModule implements IStore{
     /**
      * Attempts to add to the store. If the currentLevel is near
      * currentCapacity, it will only up to currentCapacity
-     * 
-     * @param amountRequested
-     *            the amount wanted to add to the store
+     *
+     * @param amountRequested the amount wanted to add to the store
      * @return the amount actually added to the store
      */
     public float add(float amountRequested) {
@@ -247,16 +200,15 @@ public class Store extends PassiveModule implements IStore{
             overflow += (amountRequested - acutallyAdded);
             return acutallyAdded;
         }
-		acutallyAdded = amountRequested;
-		currentLevel += acutallyAdded;
-		return acutallyAdded;
+        acutallyAdded = amountRequested;
+        currentLevel += acutallyAdded;
+        return acutallyAdded;
     }
 
     /**
      * Attemps to take the amount requested from the store
-     * 
-     * @param amountRequested
-     *            the amount wanted
+     *
+     * @param amountRequested the amount wanted
      * @return the amount actually retrieved
      */
     public float take(float amountRequested) {
@@ -288,29 +240,47 @@ public class Store extends PassiveModule implements IStore{
 
     /**
      * Retrieves the currentLevel of the store
-     * 
+     *
      * @return the currentLevel of the store
      */
     public float getCurrentLevel() {
-		return currentLevel;
+        return currentLevel;
+    }
+
+    /**
+     * Sets the currentLevel to a set amount
+     *
+     * @param metricAmount the currentLevel to set the store to
+     */
+    public void setCurrentLevel(float metricAmount) {
+        currentLevel = metricAmount;
     }
 
     /**
      * Retrieves the overflow of the store
-     * 
+     *
      * @return the overflow of the store
      */
     public float getOverflow() {
-		return overflow;
+        return overflow;
     }
 
     /**
      * Retrieves the currentCapacity of the store
-     * 
+     *
      * @return the currentCapacity of the store
      */
     public float getCurrentCapacity() {
-		return currentCapacity;
+        return currentCapacity;
+    }
+
+    /**
+     * Sets the currentCapacity of the store (how much it can hold)
+     *
+     * @param metricAmount the new volume of the store
+     */
+    public void setCurrentCapacity(float metricAmount) {
+        currentCapacity = metricAmount;
     }
 
     /**
@@ -334,7 +304,7 @@ public class Store extends PassiveModule implements IStore{
      */
     public void log() {
         myLogger.debug("currentLevel=" + currentLevel);
-        myLogger.debug("currentCapacity="+ currentCapacity);
+        myLogger.debug("currentCapacity=" + currentCapacity);
         myLogger.debug("overflow=" + overflow);
     }
 
@@ -345,6 +315,13 @@ public class Store extends PassiveModule implements IStore{
         return initialCapacity;
     }
 
+    public void setInitialCapacity(float metricAmount) {
+        initialCapacity = metricAmount;
+        setCurrentCapacity(metricAmount);
+        if (currentLevel > initialCapacity)
+            setInitialLevel(initialCapacity);
+    }
+
     /**
      * @return Returns the initialLevel.
      */
@@ -352,9 +329,14 @@ public class Store extends PassiveModule implements IStore{
         return initialLevel;
     }
 
-	public float getPercentageFilled() {
-		if (currentCapacity <= 0)
-			return 1f;
-		return currentLevel / currentCapacity;
-	}
+    public void setInitialLevel(float metricAmount) {
+        initialLevel = metricAmount;
+        setCurrentLevel(metricAmount);
+    }
+
+    public float getPercentageFilled() {
+        if (currentCapacity <= 0)
+            return 1f;
+        return currentLevel / currentCapacity;
+    }
 }

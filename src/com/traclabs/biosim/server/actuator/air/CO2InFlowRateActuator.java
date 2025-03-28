@@ -20,7 +20,6 @@ public class CO2InFlowRateActuator extends GenericActuator {
     }
 
 
-
     public void setOutput(CO2Consumer pConsumer, int pIndex) {
         myConsumer = pConsumer;
         myIndex = pIndex;

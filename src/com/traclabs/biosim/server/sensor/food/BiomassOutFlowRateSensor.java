@@ -20,7 +20,6 @@ public class BiomassOutFlowRateSensor extends GenericSensor {
     }
 
 
-
     public void setInput(BiomassProducer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;

@@ -1,10 +1,8 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.server.simulation.food.PlantType;
-
 /**
  * SweetPotato
- * 
+ *
  * @author Scott Bell
  */
 
@@ -30,6 +28,25 @@ public class SweetPotato extends Planophile {
         canopyQYConstants[12] = -0.0000000063397f;
         canopyQYConstants[17] = -0.000000000013464f;
         canopyQYConstants[18] = 0.0000000000000077362f;
+    }
+
+    public static float getFractionOfEdibleBiomass() {
+        return 0.4f;
+    }
+
+    /**
+     * Returns calories per kilogram
+     */
+    public static float getCaloriesPerKilogram() {
+        return 1140f;
+    }
+
+    public static float getEdibleFreshBasisWaterContent() {
+        return 0.71f;
+    }
+
+    public static float getInedibleFreshBasisWaterContent() {
+        return 0.90f;
     }
 
     protected float getInitialPPFValue() {
@@ -107,27 +124,8 @@ public class SweetPotato extends Planophile {
         return 1.02f;
     }
 
-    public static float getFractionOfEdibleBiomass() {
-        return 0.4f;
-    }
-
     protected float getProtectedFractionOfEdibleBiomass() {
         return getFractionOfEdibleBiomass();
-    }
-
-    /**
-     * Returns calories per kilogram
-     */
-    public static float getCaloriesPerKilogram() {
-        return 1140f;
-    }
-
-    public static float getEdibleFreshBasisWaterContent() {
-        return 0.71f;
-    }
-
-    public static float getInedibleFreshBasisWaterContent() {
-        return 0.90f;
     }
 
     protected float getProtectedEdibleFreshBasisWaterContent() {

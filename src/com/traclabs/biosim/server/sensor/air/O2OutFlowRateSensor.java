@@ -17,7 +17,7 @@ public class O2OutFlowRateSensor extends GenericSensor {
         float preFilteredValue = getInput().getO2ProducerDefinition()
                 .getActualFlowRate(myIndex);
         myValue = getStochasticFilter().randomFilter(preFilteredValue);
-		myLogger.debug("sensor value = "+myValue);
+        myLogger.debug("sensor value = " + myValue);
     }
 
     public void setInput(O2Producer pProducer, int pIndex) {

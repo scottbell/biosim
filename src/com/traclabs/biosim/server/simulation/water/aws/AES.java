@@ -5,19 +5,18 @@ import com.traclabs.biosim.server.simulation.water.WaterRS;
 /**
  * The AES is the third stage of water purification. It takes water from the RO,
  * filters it some, and sends the water to the PPS
- * 
+ *
  * @author Scott Bell
  */
 
 public class AES extends WaterRSSubSystem {
-    
+
     private float currentPPSWaterProduced = 0f;
 
     /**
      * Constructor that creates the AES
-     * 
-     * @param pWaterRS
-     *            The Water RS system the AES is contained in
+     *
+     * @param pWaterRS The Water RS system the AES is contained in
      */
     public AES(WaterRS pWaterRS) {
         super(pWaterRS);

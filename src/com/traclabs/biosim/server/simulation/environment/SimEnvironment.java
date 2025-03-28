@@ -1,39 +1,30 @@
 package com.traclabs.biosim.server.simulation.environment;
 
+import ch.qos.logback.classic.Level;
 import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.framework.PassiveModule;
-
-import ch.qos.logback.classic.Level;
 
 import java.util.Iterator;
 
 /**
  * The SimEnvironment acts as the environment in which the crew breathes from
  * and as the keeper of time.
- * 
+ *
  * @author Scott Bell
  */
 
 public class SimEnvironment extends PassiveModule {
-	
-	private EnvironmentO2Store myO2Store = new EnvironmentO2Store(this);
-	
-	private EnvironmentCO2Store myCO2Store = new EnvironmentCO2Store(this);
-	
-	private EnvironmentNitrogenStore myNitrogenStore = new EnvironmentNitrogenStore(this);
-	
-	private EnvironmentOtherStore myOtherStore = new EnvironmentOtherStore(this);
-	
-	private EnvironmentVaporStore myVaporStore = new EnvironmentVaporStore(this);
-	
-	private EnvironmentStore[] myEnvironmentStores = {myO2Store, myCO2Store, myNitrogenStore, myOtherStore, myVaporStore};
-    
-	private final static float temperature = 23f;
-	
-    private final static float idealGasConstant = 8.314f; // J K ^-1 mol -1
 
+    private final static float temperature = 23f;
+    private final static float idealGasConstant = 8.314f; // J K ^-1 mol -1
+    private final EnvironmentO2Store myO2Store = new EnvironmentO2Store(this);
+    private final EnvironmentCO2Store myCO2Store = new EnvironmentCO2Store(this);
+    private final EnvironmentNitrogenStore myNitrogenStore = new EnvironmentNitrogenStore(this);
+    private final EnvironmentOtherStore myOtherStore = new EnvironmentOtherStore(this);
+    private final EnvironmentVaporStore myVaporStore = new EnvironmentVaporStore(this);
+    private final EnvironmentStore[] myEnvironmentStores = {myO2Store, myCO2Store, myNitrogenStore, myOtherStore, myVaporStore};
     //The total currentVolume of the environment (all the open space)
     private float currentVolume = 0f;
 
@@ -61,27 +52,24 @@ public class SimEnvironment extends PassiveModule {
     public SimEnvironment(int pID, String pName) {
         this(pID, 100000, pName);
     }
-    
-    public SimEnvironment(int pID, String pName, float pVolume, float pTotalPressure, float o2Percentage, float co2Percentage, float otherPercentage, float waterPercentage, float nitrogenPercentage){
-    	super(pID, pName);
+
+    public SimEnvironment(int pID, String pName, float pVolume, float pTotalPressure, float o2Percentage, float co2Percentage, float otherPercentage, float waterPercentage, float nitrogenPercentage) {
+        super(pID, pName);
         float o2Moles = calculateMoles(o2Percentage, pTotalPressure, pVolume);
         float co2Moles = calculateMoles(co2Percentage, pTotalPressure, pVolume);
         float otherMoles = calculateMoles(otherPercentage, pTotalPressure, pVolume);
         float waterMoles = calculateMoles(waterPercentage, pTotalPressure, pVolume);
         float nitrogenMoles = calculateMoles(nitrogenPercentage, pTotalPressure, pVolume);
-    	setInitialVolume(o2Moles, co2Moles, otherMoles, waterMoles, nitrogenMoles, pVolume);
+        setInitialVolume(o2Moles, co2Moles, otherMoles, waterMoles, nitrogenMoles, pVolume);
     }
 
     /**
      * Creates a SimEnvironment with a set initial currentVolume and sets the
      * gas levels to correct percentages of sea level air.
-     * 
-     * @param pInitialVolume
-     *            the initial currentVolume of the environment in liters
-     * @param pID
-     *            the ID of the server
-     * @param pName
-     *            the name of this environment
+     *
+     * @param pInitialVolume the initial currentVolume of the environment in liters
+     * @param pID            the ID of the server
+     * @param pName          the name of this environment
      */
     public SimEnvironment(int pID, float pInitialVolume, String pName) {
         super(pID, pName);
@@ -89,18 +77,18 @@ public class SimEnvironment extends PassiveModule {
         currentVolume = initialVolume = pInitialVolume;
     }
 
-	public SimEnvironment(float O2Moles, float CO2Moles, float otherMoles, float waterMoles, float nitrogenMoles, float pVolume, String pName, int pID) {
-    	super(pID, pName);
-    	setInitialVolume(O2Moles, CO2Moles, otherMoles, waterMoles, nitrogenMoles, pVolume);
-	}
+    public SimEnvironment(float O2Moles, float CO2Moles, float otherMoles, float waterMoles, float nitrogenMoles, float pVolume, String pName, int pID) {
+        super(pID, pName);
+        setInitialVolume(O2Moles, CO2Moles, otherMoles, waterMoles, nitrogenMoles, pVolume);
+    }
 
     public SimEnvironment() {
-    	this(0, 100000, "Unnamed Environment");
-	}
-    
+        this(0, 100000, "Unnamed Environment");
+    }
+
     private float calculateMoles(float percentage, float totalPressure, float volume) {
-    	float moles = (percentage * totalPressure * volume) / (idealGasConstant * getTemperatureInKelvin());
-		return moles;
+        float moles = (percentage * totalPressure * volume) / (idealGasConstant * getTemperatureInKelvin());
+        return moles;
     }
 
     /**
@@ -112,12 +100,12 @@ public class SimEnvironment extends PassiveModule {
         lightIntensity = 0f;
         currentVolume = initialVolume;
         for (EnvironmentStore store : myEnvironmentStores)
-        	store.reset();
+            store.reset();
     }
 
     /**
      * Gives the light intensity outside
-     * 
+     *
      * @return the light intensity in lumens
      */
     public float getLightIntensity() {
@@ -131,7 +119,7 @@ public class SimEnvironment extends PassiveModule {
 
     public float getRelativeHumidity() {
         float exponent = (17.4f * getTemperature()) / getTemperatureInKelvin();
-        float saturatedVaporPressure = .611f * (float)(Math.exp(exponent));
+        float saturatedVaporPressure = .611f * (float) (Math.exp(exponent));
         return myVaporStore.getPressure() / saturatedVaporPressure;
     }
 
@@ -139,18 +127,18 @@ public class SimEnvironment extends PassiveModule {
     public float getTemperature() {
         return temperature;
     }
-    
+
     //returns temperature in kelvin
     public float getTemperatureInKelvin() {
         float kelvinTemperature = getTemperature() + 273.15f;
         if (kelvinTemperature <= 0)
             return 0f;
         else
-        	return kelvinTemperature;
+            return kelvinTemperature;
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
-            MalfunctionLength pLength) {
+                                        MalfunctionLength pLength) {
         StringBuffer returnBuffer = new StringBuffer();
         if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
             returnBuffer.append("Severe ");
@@ -168,34 +156,33 @@ public class SimEnvironment extends PassiveModule {
     /**
      * Sets the volume of the environment (how much gas it can hold) w/ gas
      * mixture at earth sea level
-     * 
-     * @param pInitialVolume
-     *            the new currentVolume of the environment (in liters)
+     *
+     * @param pInitialVolume the new currentVolume of the environment (in liters)
      */
     public void setInitialVolumeAtSeaLevel(float pInitialVolume) {
-      	float moleOfHumidAirPerLiter = 0.04115f;	//	assuming air temperature of 23C
-    	currentVolume = initialVolume = pInitialVolume;
-        myO2Store.setInitialLevel(currentVolume *  moleOfHumidAirPerLiter * 0.185f);
-        myCO2Store.setInitialLevel(currentVolume *  moleOfHumidAirPerLiter * 0.117f/101f);
-        myOtherStore.setInitialLevel(currentVolume *  moleOfHumidAirPerLiter * 0.0f);
-        myVaporStore.setInitialLevel(currentVolume *  moleOfHumidAirPerLiter * 0.0218910f);
-        myNitrogenStore.setInitialLevel(currentVolume *  moleOfHumidAirPerLiter * (1f - 0.185f - 0.117f/101f - 0.0f - 0.0218910f));
+        float moleOfHumidAirPerLiter = 0.04115f;    //	assuming air temperature of 23C
+        currentVolume = initialVolume = pInitialVolume;
+        myO2Store.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * 0.185f);
+        myCO2Store.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * 0.117f / 101f);
+        myOtherStore.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * 0.0f);
+        myVaporStore.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * 0.0218910f);
+        myNitrogenStore.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * (1f - 0.185f - 0.117f / 101f - 0.0f - 0.0218910f));
     }
-    
+
     public void setCurrentVolumeAtSeaLevel(float pVolume) {
-       	float moleOfHumidAirPerLiter = 0.04115f;	//	assuming air temperature of 23C
-       	currentVolume = pVolume;
-        myO2Store.setCurrentLevel(currentVolume *  moleOfHumidAirPerLiter * 0.185f);
-        myCO2Store.setCurrentLevel(currentVolume *  moleOfHumidAirPerLiter * 0.117f/101f);
-        myOtherStore.setCurrentLevel(currentVolume *  moleOfHumidAirPerLiter * 0.0f);
-        myVaporStore.setCurrentLevel(currentVolume *  moleOfHumidAirPerLiter * 0.0218910f);
-        myNitrogenStore.setCurrentLevel(currentVolume *  moleOfHumidAirPerLiter * (1f - 0.185f - 0.117f/101f - 0.0f - 0.0218910f));
+        float moleOfHumidAirPerLiter = 0.04115f;    //	assuming air temperature of 23C
+        currentVolume = pVolume;
+        myO2Store.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * 0.185f);
+        myCO2Store.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * 0.117f / 101f);
+        myOtherStore.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * 0.0f);
+        myVaporStore.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * 0.0218910f);
+        myNitrogenStore.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * (1f - 0.185f - 0.117f / 101f - 0.0f - 0.0218910f));
     }
 
     public float getInitialTotalPressure() {
-    	float initialTotalPressure = 0f;
+        float initialTotalPressure = 0f;
         for (EnvironmentStore store : myEnvironmentStores)
-        	initialTotalPressure += store.getInitialPressure();
+            initialTotalPressure += store.getInitialPressure();
         return initialTotalPressure;
     }
 
@@ -209,18 +196,18 @@ public class SimEnvironment extends PassiveModule {
 
     private void performLeak(float pLeakRate) {
         for (EnvironmentStore store : myEnvironmentStores)
-        	store.performLeak(pLeakRate);
+            store.performLeak(pLeakRate);
     }
-    
-    public void setLogLevel(Level pLevel){
-    	super.setLogLevel(pLevel);
+
+    public void setLogLevel(Level pLevel) {
+        super.setLogLevel(pLevel);
         for (EnvironmentStore store : myEnvironmentStores)
-        	store.setLogLevel(pLevel);
+            store.setLogLevel(pLevel);
     }
 
     protected void performMalfunctions() {
         float malfunctionLeakRate = 0f;
-        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
+        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ) {
             Malfunction currentMalfunction = (Malfunction) (iter.next());
             if (currentMalfunction.getLength() == MalfunctionLength.TEMPORARY_MALF) {
                 malfunctionLeakRate = 0f;
@@ -265,15 +252,15 @@ public class SimEnvironment extends PassiveModule {
     public void tick() {
         super.tick();
         for (EnvironmentStore store : myEnvironmentStores)
-        	store.tick();
+            store.tick();
         performLeak(permanentLeakRate);
         calculateLightIntensity();
     }
 
     public void log() {
-    	myLogger.debug(getModuleName()+ " levels");
+        myLogger.debug(getModuleName() + " levels");
         for (EnvironmentStore store : myEnvironmentStores)
-        	store.log();
+            store.log();
     }
 
     /**
@@ -284,8 +271,7 @@ public class SimEnvironment extends PassiveModule {
     }
 
     /**
-     * @param pLeakRate
-     *            The permanentLeakRate to set.
+     * @param pLeakRate The permanentLeakRate to set.
      */
     public void setLeakRate(float pLeakRate) {
         permanentLeakRate = pLeakRate;
@@ -299,8 +285,7 @@ public class SimEnvironment extends PassiveModule {
     }
 
     /**
-     * @param dayLength
-     *            The dayLength to set.
+     * @param dayLength The dayLength to set.
      */
     public void setDayLength(float dayLength) {
         this.dayLength = dayLength;
@@ -314,8 +299,7 @@ public class SimEnvironment extends PassiveModule {
     }
 
     /**
-     * @param hourOfDayStart
-     *            The hourOfDayStart to set.
+     * @param hourOfDayStart The hourOfDayStart to set.
      */
     public void setHourOfDayStart(float hourOfDayStart) {
         this.hourOfDayStart = hourOfDayStart;
@@ -329,8 +313,7 @@ public class SimEnvironment extends PassiveModule {
     }
 
     /**
-     * @param maxLumens
-     *            The maxLumens to set.
+     * @param maxLumens The maxLumens to set.
      */
     public void setMaxLumens(float maxLumens) {
         this.maxLumens = maxLumens;
@@ -338,7 +321,7 @@ public class SimEnvironment extends PassiveModule {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.traclabs.biosim.server.simulation.environment.SimEnvironmentOperations#removePercentage(float)
      */
     public void removeAirlockPercentage(float airlockPercentageToRemove) {
@@ -351,20 +334,20 @@ public class SimEnvironment extends PassiveModule {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see com.traclabs.biosim.server.simulation.environment.SimEnvironmentOperations#setAirlockSize(float)
-     */
-    public void setAirlockVolume(float pAirLockVolume) {
-        myAirLockVolume = pAirLockVolume;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
+     *
      * @see com.traclabs.biosim.server.simulation.environment.SimEnvironmentOperations#getAirlockSize()
      */
     public float getAirlockVolume() {
         return myAirLockVolume;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.traclabs.biosim.server.simulation.environment.SimEnvironmentOperations#setAirlockSize(float)
+     */
+    public void setAirlockVolume(float pAirLockVolume) {
+        myAirLockVolume = pAirLockVolume;
     }
 
     /**
@@ -375,64 +358,63 @@ public class SimEnvironment extends PassiveModule {
     }
 
     /**
-     * @param myDangerousOxygenThreshold
-     *            The myDangerousOxygenThreshold to set.
+     * @param myDangerousOxygenThreshold The myDangerousOxygenThreshold to set.
      */
     public void setDangerousOxygenThreshold(float pDangerousOxygenThreshold) {
         myDangerousOxygenThreshold = pDangerousOxygenThreshold;
     }
 
-	public EnvironmentO2Store getO2Store() {
-		return myO2Store;
-	}
+    public EnvironmentO2Store getO2Store() {
+        return myO2Store;
+    }
 
-	public EnvironmentCO2Store getCO2Store() {
-		return myCO2Store;
-	}
+    public EnvironmentCO2Store getCO2Store() {
+        return myCO2Store;
+    }
 
-	public EnvironmentOtherStore getOtherStore() {
-		return myOtherStore;
-	}
+    public EnvironmentOtherStore getOtherStore() {
+        return myOtherStore;
+    }
 
-	public EnvironmentVaporStore getVaporStore() {
-		return myVaporStore;
-	}
+    public EnvironmentVaporStore getVaporStore() {
+        return myVaporStore;
+    }
 
-	public EnvironmentNitrogenStore getNitrogenStore() {
-		return myNitrogenStore;
-	}
+    public EnvironmentNitrogenStore getNitrogenStore() {
+        return myNitrogenStore;
+    }
 
-	public void setInitialVolume(float pInitialO2Moles, float pInitialCO2Moles, float pInitialOtherMoles, float pInitialWaterMoles, float pInitialNitrogenMoles, float pInitialVolume) {
-    	currentVolume = initialVolume = pInitialVolume;
-    	myO2Store.setInitialLevel(pInitialO2Moles);
-    	myCO2Store.setInitialLevel(pInitialCO2Moles);
-    	myOtherStore.setInitialLevel(pInitialOtherMoles);
-    	myVaporStore.setInitialLevel(pInitialWaterMoles);
-    	myNitrogenStore.setInitialLevel(pInitialNitrogenMoles);
-	}
+    public void setInitialVolume(float pInitialO2Moles, float pInitialCO2Moles, float pInitialOtherMoles, float pInitialWaterMoles, float pInitialNitrogenMoles, float pInitialVolume) {
+        currentVolume = initialVolume = pInitialVolume;
+        myO2Store.setInitialLevel(pInitialO2Moles);
+        myCO2Store.setInitialLevel(pInitialCO2Moles);
+        myOtherStore.setInitialLevel(pInitialOtherMoles);
+        myVaporStore.setInitialLevel(pInitialWaterMoles);
+        myNitrogenStore.setInitialLevel(pInitialNitrogenMoles);
+    }
 
     /**
      * Retrieves the the total level of gas in the environment (in moles)
-     * 
+     *
      * @return retrieves the the total level of gas in the environment (in
-     *         moles)
+     * moles)
      */
     public float getTotalMoles() {
-    	float totalMoles = 0f;
+        float totalMoles = 0f;
         for (EnvironmentStore store : myEnvironmentStores)
-        	totalMoles += store.getCurrentLevel();
+            totalMoles += store.getCurrentLevel();
         return totalMoles;
     }
 
     /**
      * Retrieves the the total level of gas in the environment (in kPA)
-     * 
+     *
      * @return retrieves the the total level of gas in the environment (in kPA)
      */
     public float getTotalPressure() {
-    	float totalPressure = 0f;
+        float totalPressure = 0f;
         for (EnvironmentStore store : myEnvironmentStores)
-        	totalPressure += store.getPressure();
+            totalPressure += store.getPressure();
         return totalPressure;
     }
 

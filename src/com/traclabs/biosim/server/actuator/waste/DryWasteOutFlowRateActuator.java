@@ -4,8 +4,7 @@ import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.waste.DryWasteProducer;
 
-public class DryWasteOutFlowRateActuator extends GenericActuator
-         {
+public class DryWasteOutFlowRateActuator extends GenericActuator {
     private DryWasteProducer myProducer;
 
     private int myIndex;
@@ -19,7 +18,6 @@ public class DryWasteOutFlowRateActuator extends GenericActuator
         getOutput().getDryWasteProducerDefinition().setDesiredFlowRate(
                 myFilteredValue, myIndex);
     }
-
 
 
     public void setOutput(DryWasteProducer pProducer, int pIndex) {

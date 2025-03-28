@@ -20,7 +20,6 @@ public class MethaneOutFlowRateActuator extends GenericActuator {
     }
 
 
-
     public void setOutput(MethaneProducer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;

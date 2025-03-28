@@ -11,11 +11,11 @@ public class NitrogenProducerDefinition extends
         StoreFlowRateControllable {
 
     public NitrogenProducerDefinition(BioModule pModule) {
-     super(pModule);
+        super(pModule);
     }
 
     public void setNitrogenOutputs(INitrogenStore[] pStores,
-            float[] pMaxFlowRates, float[] pDesiredFlowRates) {
+                                   float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
         setInitialStores(pStores);

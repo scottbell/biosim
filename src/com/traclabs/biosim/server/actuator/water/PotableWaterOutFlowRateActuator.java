@@ -4,8 +4,7 @@ import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.water.PotableWaterProducer;
 
-public class PotableWaterOutFlowRateActuator extends GenericActuator
-         {
+public class PotableWaterOutFlowRateActuator extends GenericActuator {
     private PotableWaterProducer myProducer;
 
     private int myIndex;
@@ -19,7 +18,6 @@ public class PotableWaterOutFlowRateActuator extends GenericActuator
         getOutput().getPotableWaterProducerDefinition().setDesiredFlowRate(
                 myFilteredValue, myIndex);
     }
-
 
 
     public void setOutput(PotableWaterProducer pProducer, int pIndex) {

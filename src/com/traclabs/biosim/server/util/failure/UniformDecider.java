@@ -1,63 +1,60 @@
 package com.traclabs.biosim.server.util.failure;
 
 public class UniformDecider extends FailureDecider {
-	private double myAlpha;
+    private final double myAlpha;
 
-	private double myBeta;
+    private final double myBeta;
 
-	public UniformDecider(double alpha, double beta) {
-		this.myAlpha = alpha;
-		this.myBeta = beta;
-	}
-	
-	@Override
-	public void reset() {
-	}
+    public UniformDecider(double alpha, double beta) {
+        this.myAlpha = alpha;
+        this.myBeta = beta;
+    }
 
-	@Override
-	protected double getReliability(double timeElapsed) {
-		return UniformFailureRate(myAlpha, myBeta, timeElapsed);
-	}
+    /**
+     * This method calculates the uniform distribution function.
+     *
+     * @param alpha alpha<beta
+     * @param beta  beta>alpha
+     * @param x     x must be greater than 0, but less than 1.
+     */
 
-	/**
-	 * This method calculates the uniform distribution function.
-	 * 
-	 * @param alpha
-	 *            alpha<beta
-	 * @param beta
-	 *            beta>alpha
-	 * @param x
-	 *            x must be greater than 0, but less than 1.
-	 */
+    public static double UniformDensity(double alpha, double beta, double x) {
 
-	public static double UniformDensity(double alpha, double beta, double x) {
+        double f;
 
-		double f;
+        f = 1 / (beta - alpha);
 
-		f = 1 / (beta - alpha);
+        return f;
 
-		return f;
+    }
 
-	}
+    public static double UniformReliability(double alpha, double beta, double x) {
 
-	public static double UniformReliability(double alpha, double beta, double x) {
+        double R;
 
-		double R;
+        R = 1 - (x - alpha) / (beta - alpha);
 
-		R = 1 - (x - alpha) / (beta - alpha);
+        return R;
 
-		return R;
+    }
 
-	}
+    public static double UniformFailureRate(double alpha, double beta, double x) {
 
-	public static double UniformFailureRate(double alpha, double beta, double x) {
+        double Z;
 
-		double Z;
+        Z = 1 / (beta - x);
 
-		Z = 1 / (beta - x);
+        return Z;
 
-		return Z;
+    }
 
-	}
+    @Override
+    public void reset() {
+    }
+
+    @Override
+    protected double getReliability(double timeElapsed) {
+        return UniformFailureRate(myAlpha, myBeta, timeElapsed);
+    }
 
 }

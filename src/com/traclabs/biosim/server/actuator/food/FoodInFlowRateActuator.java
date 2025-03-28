@@ -4,7 +4,7 @@ import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.food.FoodConsumer;
 
-public class FoodInFlowRateActuator extends GenericActuator{
+public class FoodInFlowRateActuator extends GenericActuator {
     private FoodConsumer myConsumer;
 
     private int myIndex;
@@ -18,7 +18,6 @@ public class FoodInFlowRateActuator extends GenericActuator{
         getOutput().getFoodConsumerDefinition().setDesiredFlowRate(
                 myFilteredValue, myIndex);
     }
-
 
 
     public void setOutput(FoodConsumer pConsumer, int pIndex) {

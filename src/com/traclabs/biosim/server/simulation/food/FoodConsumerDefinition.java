@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.food;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.food.FoodMatter;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
 
 import java.util.Iterator;
@@ -15,15 +14,8 @@ import java.util.Vector;
 public class FoodConsumerDefinition extends StoreFlowRateControllable {
 
     public FoodConsumerDefinition(BioModule pModule) {
-super(pModule);
-    	
-    }
+        super(pModule);
 
-    public void setFoodInputs(FoodStore[] pStores, float[] pMaxFlowRates,
-            float[] pDesiredFlowRates) {
-        setInitialMaxFlowRates(pMaxFlowRates);
-        setInitialDesiredFlowRates(pDesiredFlowRates);
-        setInitialStores(pStores);
     }
 
     public static FoodMatter[] getCaloriesFromStore(
@@ -36,7 +28,7 @@ super(pModule);
             float limitingMassFactor = Math.min(
                     pConsumer.getDesiredFlowRate(i), pConsumer
                             .getMaxFlowRate(i));
-            FoodStore currentFoodStore = (FoodStore)(pConsumer.getStores()[i]);
+            FoodStore currentFoodStore = (FoodStore) (pConsumer.getStores()[i]);
             FoodMatter[] takenMatter = currentFoodStore.takeFoodMatterCalories(
                     amountNeeded, limitingMassFactor);
             sizeOfMatter += takenMatter.length;
@@ -46,7 +38,7 @@ super(pModule);
         }
         FoodMatter[] fullMatterTaken = new FoodMatter[sizeOfMatter];
         int lastPosition = 0;
-        for (Iterator iter = gatheredFoodMatterArrays.iterator(); iter.hasNext();) {
+        for (Iterator iter = gatheredFoodMatterArrays.iterator(); iter.hasNext(); ) {
             FoodMatter[] matterArray = (FoodMatter[]) (iter.next());
             System.arraycopy(matterArray, 0, fullMatterTaken, lastPosition,
                     matterArray.length);
@@ -60,5 +52,12 @@ super(pModule);
         for (int i = 0; i < arrayOfMatter.length; i++)
             totalSize += arrayOfMatter[i].mass;
         return totalSize;
+    }
+
+    public void setFoodInputs(FoodStore[] pStores, float[] pMaxFlowRates,
+                              float[] pDesiredFlowRates) {
+        setInitialMaxFlowRates(pMaxFlowRates);
+        setInitialDesiredFlowRates(pDesiredFlowRates);
+        setInitialStores(pStores);
     }
 }

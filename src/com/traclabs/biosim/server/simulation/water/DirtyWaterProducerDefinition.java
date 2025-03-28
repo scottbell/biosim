@@ -11,11 +11,11 @@ public class DirtyWaterProducerDefinition extends
         StoreFlowRateControllable {
 
     public DirtyWaterProducerDefinition(BioModule pModule) {
-     super(pModule);
+        super(pModule);
     }
 
     public void setDirtyWaterOutputs(DirtyWaterStore[] pStores,
-            float[] pMaxFlowRates, float[] pDesiredFlowRates) {
+                                     float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
         setInitialStores(pStores);

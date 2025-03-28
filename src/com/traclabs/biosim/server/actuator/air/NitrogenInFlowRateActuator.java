@@ -20,7 +20,6 @@ public class NitrogenInFlowRateActuator extends GenericActuator {
     }
 
 
-
     public void setOutput(NitrogenConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;
         myIndex = pIndex;

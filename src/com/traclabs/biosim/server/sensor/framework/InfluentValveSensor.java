@@ -14,12 +14,12 @@ public abstract class InfluentValveSensor extends GenericSensor {
 
     protected abstract void notifyListeners();
 
-    public void setInput(InfluentValve source) {
-        myInfluentValve = source;
-    }
-
     public InfluentValve getInput() {
         return myInfluentValve;
+    }
+
+    public void setInput(InfluentValve source) {
+        myInfluentValve = source;
     }
 
     public IBioModule getInputModule() {

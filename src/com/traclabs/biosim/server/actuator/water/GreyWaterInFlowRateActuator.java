@@ -4,8 +4,7 @@ import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.water.GreyWaterConsumer;
 
-public class GreyWaterInFlowRateActuator extends GenericActuator
-         {
+public class GreyWaterInFlowRateActuator extends GenericActuator {
     private GreyWaterConsumer myConsumer;
 
     private int myIndex;
@@ -19,7 +18,6 @@ public class GreyWaterInFlowRateActuator extends GenericActuator
         getOutput().getGreyWaterConsumerDefinition().setDesiredFlowRate(
                 myFilteredValue, myIndex);
     }
-
 
 
     public void setOutput(GreyWaterConsumer pConsumer, int pIndex) {

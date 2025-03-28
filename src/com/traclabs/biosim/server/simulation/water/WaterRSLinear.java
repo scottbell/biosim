@@ -13,19 +13,19 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
  * water for the crew members and grey water for the crops.. Class modeled after
  * the paper:. "Intelligent Control of a Water Recovery System: Three Years in
  * the Trenches" by Bonasso, Kortenkamp, and Thronesbery
- * 
+ *
  * @author Scott Bell
  */
 
 public class WaterRSLinear extends SimBioModule {
     //Consumers, Producers
-    private PowerConsumerDefinition myPowerConsumerDefinition;
+    private final PowerConsumerDefinition myPowerConsumerDefinition;
 
-    private GreyWaterConsumerDefinition myGreyWaterConsumerDefinition;
+    private final GreyWaterConsumerDefinition myGreyWaterConsumerDefinition;
 
-    private DirtyWaterConsumerDefinition myDirtyWaterConsumerDefinition;
+    private final DirtyWaterConsumerDefinition myDirtyWaterConsumerDefinition;
 
-    private PotableWaterProducerDefinition myPotableWaterProducerDefinition;
+    private final PotableWaterProducerDefinition myPotableWaterProducerDefinition;
 
     private float currentPowerConsumed = 0f;
 
@@ -105,29 +105,28 @@ public class WaterRSLinear extends SimBioModule {
         gatherWater();
         pushWater();
     }
-    
+
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
-            MalfunctionLength pLength) {
+                                        MalfunctionLength pLength) {
         return "Broken";
     }
-    
+
     public void log() {
         myLogger.debug("power_consumed=" + currentPowerConsumed);
     }
-    
 
-	
-	@Override
+
+    @Override
     protected void performMalfunctions() {
-		for (Malfunction malfunction : myMalfunctions.values()) {
-			malfunction.setPerformed(true);
-		}
-		if (myMalfunctions.values().size() > 0) {
-			myPowerConsumerDefinition.malfunction();
-	        myGreyWaterConsumerDefinition.malfunction();
-	        myDirtyWaterConsumerDefinition.malfunction();
-	        myPotableWaterProducerDefinition.malfunction();
-		}
+        for (Malfunction malfunction : myMalfunctions.values()) {
+            malfunction.setPerformed(true);
+        }
+        if (myMalfunctions.size() > 0) {
+            myPowerConsumerDefinition.malfunction();
+            myGreyWaterConsumerDefinition.malfunction();
+            myDirtyWaterConsumerDefinition.malfunction();
+            myPotableWaterProducerDefinition.malfunction();
+        }
     }
 
 }

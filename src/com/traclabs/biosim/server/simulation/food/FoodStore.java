@@ -10,12 +10,12 @@ import java.util.Vector;
 /**
  * The Food Store implementation. Takes raw plant matter from the Food RS to be
  * used by the Food Processor.
- * 
+ *
  * @author Scott Bell
  */
 
 public class FoodStore extends Store {
-    private List<FoodMatter> currentFoodItems;
+    private final List<FoodMatter> currentFoodItems;
 
     private FoodMatter myOriginalMatter;
 
@@ -26,38 +26,7 @@ public class FoodStore extends Store {
     }
 
     public FoodStore() {
-		this(0, "Unnamed Food Store");
-	}
-
-	public float add(float pMass) {
-        FoodMatter newFoodMatter = new FoodMatter(pMass, 0,
-                PlantType.UNKNOWN_PLANT);
-        return addFoodMatterMass(newFoodMatter);
-    }
-
-    public void setInitialLevel(float metricAmount) {
-        super.setInitialLevel(metricAmount);
-        setCurrentLevel(metricAmount);
-    }
-
-    public void setCurrentLevel(float metricAmount) {
-        super.setCurrentLevel(metricAmount);
-        currentFoodItems.clear();
-        if (metricAmount > 0) {
-            FoodMatter newFoodMatter = new FoodMatter(metricAmount, 0,
-                    PlantType.UNKNOWN_PLANT);
-            currentFoodItems.add(newFoodMatter);
-            myOriginalMatter = newFoodMatter;
-        }
-    }
-
-    public void setInitialFoodMatterLevel(FoodMatter pMatter) {
-        super.setInitialLevel(pMatter.mass);
-        currentFoodItems.clear();
-        if (pMatter.mass > 0) {
-            myOriginalMatter = cloneMatter(pMatter);
-            currentFoodItems.add(pMatter);
-        }
+        this(0, "Unnamed Food Store");
     }
 
     /**
@@ -66,98 +35,6 @@ public class FoodStore extends Store {
      */
     private static FoodMatter cloneMatter(FoodMatter matter) {
         return new FoodMatter(matter.mass, matter.waterContent, matter.type);
-    }
-
-    public float take(float pMass) {
-        FoodMatter[] massArray = takeFoodMatterMass(pMass);
-        float matterToReturn = 0f;
-        for (int i = 0; i < massArray.length; i++)
-            matterToReturn += massArray[i].mass;
-        return matterToReturn;
-    }
-
-    public float addFoodMatterArray(FoodMatter[] pFood) {
-        float totalAdded = 0f;
-        for (int i = 0; i < pFood.length; i++) {
-            FoodMatter currentFood = pFood[i];
-            if (currentFood != null) {
-                float currentAdded = addFoodMatterMass(currentFood);
-                totalAdded += currentAdded;
-                currentFood.mass -= currentAdded;
-            }
-        }
-        return totalAdded;
-    }
-    
-    /**
-     * Actually performs the malfunctions. Reduces levels/currentCapacity
-     */
-    @Override
-    protected void performMalfunctions() {
-        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext();) {
-            Malfunction currentMalfunction = (Malfunction) (iter.next());
-            setCurrentLevel(0);
-            setCurrentCapacity(0);
-            currentMalfunction.setPerformed(true);
-        }
-    }
-
-    public float addFoodMatterMass(FoodMatter pMatter) {
-        float acutallyAdded = 0f;
-        if ((pMatter.mass + currentLevel) > currentCapacity) {
-            //adding more than currentCapacity
-            acutallyAdded = currentCapacity - currentLevel;
-            currentLevel += acutallyAdded;
-            overflow += (pMatter.mass - acutallyAdded);
-            float fractionOfOriginal = acutallyAdded / pMatter.mass;
-
-            FoodMatter newFoodMatter = new FoodMatter(acutallyAdded,
-                    pMatter.waterContent * fractionOfOriginal, pMatter.type);
-            currentFoodItems.add(newFoodMatter);
-            return acutallyAdded;
-        }
-		acutallyAdded = pMatter.mass;
-		currentLevel += acutallyAdded;
-		currentFoodItems.add(pMatter);
-		return acutallyAdded;
-    }
-
-    public FoodMatter[] takeFoodMatterMass(float pMass) {
-        List<FoodMatter> itemsToReturn = new Vector<FoodMatter>();
-        List<FoodMatter> itemsToRemove = new Vector<FoodMatter>();
-        float collectedMass = 0f;
-        for (Iterator iter = currentFoodItems.iterator(); iter.hasNext()
-                && (collectedMass <= pMass);) {
-            FoodMatter currentFoodMatter = (FoodMatter) (iter.next());
-            float massStillNeeded = pMass - collectedMass;
-            //we need to get more bio matter
-            if (currentFoodMatter.mass < massStillNeeded) {
-                itemsToReturn.add(currentFoodMatter);
-                itemsToRemove.add(currentFoodMatter);
-                collectedMass += currentFoodMatter.mass;
-            }
-            //we have enough, let's cut up the biomass (if too much)
-            else if (currentFoodMatter.mass >= massStillNeeded) {
-                float fractionOfOriginal = massStillNeeded
-                        / currentFoodMatter.mass;
-                FoodMatter partialReturnedFoodMatter = new FoodMatter(
-                        massStillNeeded, currentFoodMatter.waterContent
-                                * fractionOfOriginal, currentFoodMatter.type);
-                currentFoodMatter.mass -= partialReturnedFoodMatter.mass;
-                itemsToReturn.add(partialReturnedFoodMatter);
-                if (currentFoodMatter.mass <= 0)
-                    itemsToRemove.add(currentFoodMatter);
-                collectedMass += partialReturnedFoodMatter.mass;
-            }
-        }
-        //Remove items from List
-        for (Iterator iter = itemsToRemove.iterator(); iter.hasNext();) {
-            currentFoodItems.remove(iter.next());
-        }
-        currentLevel -= collectedMass;
-        //return the array
-        FoodMatter[] returnArrayType = new FoodMatter[0];
-        return (itemsToReturn.toArray(returnArrayType));
     }
 
     private static float calculateCaloriesSingular(FoodMatter pFood) {
@@ -199,15 +76,138 @@ public class FoodStore extends Store {
         return totalCalories;
     }
 
+    public float add(float pMass) {
+        FoodMatter newFoodMatter = new FoodMatter(pMass, 0,
+                PlantType.UNKNOWN_PLANT);
+        return addFoodMatterMass(newFoodMatter);
+    }
+
+    public void setInitialLevel(float metricAmount) {
+        super.setInitialLevel(metricAmount);
+        setCurrentLevel(metricAmount);
+    }
+
+    public void setCurrentLevel(float metricAmount) {
+        super.setCurrentLevel(metricAmount);
+        currentFoodItems.clear();
+        if (metricAmount > 0) {
+            FoodMatter newFoodMatter = new FoodMatter(metricAmount, 0,
+                    PlantType.UNKNOWN_PLANT);
+            currentFoodItems.add(newFoodMatter);
+            myOriginalMatter = newFoodMatter;
+        }
+    }
+
+    public void setInitialFoodMatterLevel(FoodMatter pMatter) {
+        super.setInitialLevel(pMatter.mass);
+        currentFoodItems.clear();
+        if (pMatter.mass > 0) {
+            myOriginalMatter = cloneMatter(pMatter);
+            currentFoodItems.add(pMatter);
+        }
+    }
+
+    public float take(float pMass) {
+        FoodMatter[] massArray = takeFoodMatterMass(pMass);
+        float matterToReturn = 0f;
+        for (int i = 0; i < massArray.length; i++)
+            matterToReturn += massArray[i].mass;
+        return matterToReturn;
+    }
+
+    public float addFoodMatterArray(FoodMatter[] pFood) {
+        float totalAdded = 0f;
+        for (int i = 0; i < pFood.length; i++) {
+            FoodMatter currentFood = pFood[i];
+            if (currentFood != null) {
+                float currentAdded = addFoodMatterMass(currentFood);
+                totalAdded += currentAdded;
+                currentFood.mass -= currentAdded;
+            }
+        }
+        return totalAdded;
+    }
+
+    /**
+     * Actually performs the malfunctions. Reduces levels/currentCapacity
+     */
+    @Override
+    protected void performMalfunctions() {
+        for (Iterator iter = myMalfunctions.values().iterator(); iter.hasNext(); ) {
+            Malfunction currentMalfunction = (Malfunction) (iter.next());
+            setCurrentLevel(0);
+            setCurrentCapacity(0);
+            currentMalfunction.setPerformed(true);
+        }
+    }
+
+    public float addFoodMatterMass(FoodMatter pMatter) {
+        float acutallyAdded = 0f;
+        if ((pMatter.mass + currentLevel) > currentCapacity) {
+            //adding more than currentCapacity
+            acutallyAdded = currentCapacity - currentLevel;
+            currentLevel += acutallyAdded;
+            overflow += (pMatter.mass - acutallyAdded);
+            float fractionOfOriginal = acutallyAdded / pMatter.mass;
+
+            FoodMatter newFoodMatter = new FoodMatter(acutallyAdded,
+                    pMatter.waterContent * fractionOfOriginal, pMatter.type);
+            currentFoodItems.add(newFoodMatter);
+            return acutallyAdded;
+        }
+        acutallyAdded = pMatter.mass;
+        currentLevel += acutallyAdded;
+        currentFoodItems.add(pMatter);
+        return acutallyAdded;
+    }
+
+    public FoodMatter[] takeFoodMatterMass(float pMass) {
+        List<FoodMatter> itemsToReturn = new Vector<FoodMatter>();
+        List<FoodMatter> itemsToRemove = new Vector<FoodMatter>();
+        float collectedMass = 0f;
+        for (Iterator iter = currentFoodItems.iterator(); iter.hasNext()
+                && (collectedMass <= pMass); ) {
+            FoodMatter currentFoodMatter = (FoodMatter) (iter.next());
+            float massStillNeeded = pMass - collectedMass;
+            //we need to get more bio matter
+            if (currentFoodMatter.mass < massStillNeeded) {
+                itemsToReturn.add(currentFoodMatter);
+                itemsToRemove.add(currentFoodMatter);
+                collectedMass += currentFoodMatter.mass;
+            }
+            //we have enough, let's cut up the biomass (if too much)
+            else if (currentFoodMatter.mass >= massStillNeeded) {
+                float fractionOfOriginal = massStillNeeded
+                        / currentFoodMatter.mass;
+                FoodMatter partialReturnedFoodMatter = new FoodMatter(
+                        massStillNeeded, currentFoodMatter.waterContent
+                        * fractionOfOriginal, currentFoodMatter.type);
+                currentFoodMatter.mass -= partialReturnedFoodMatter.mass;
+                itemsToReturn.add(partialReturnedFoodMatter);
+                if (currentFoodMatter.mass <= 0)
+                    itemsToRemove.add(currentFoodMatter);
+                collectedMass += partialReturnedFoodMatter.mass;
+            }
+        }
+        //Remove items from List
+        for (Iterator iter = itemsToRemove.iterator(); iter.hasNext(); ) {
+            currentFoodItems.remove(iter.next());
+        }
+        currentLevel -= collectedMass;
+        //return the array
+        FoodMatter[] returnArrayType = new FoodMatter[0];
+        return (itemsToReturn.toArray(returnArrayType));
+    }
+
     public FoodMatter[] takeFoodMatterCalories(float pCalories,
-            float limitingMass) {
+                                               float limitingMass) {
         List<FoodMatter> itemsToReturn = new Vector<FoodMatter>();
         List<FoodMatter> itemsToRemove = new Vector<FoodMatter>();
         float collectedCalories = 0f;
         float collectedMass = 0f;
         for (Iterator iter = currentFoodItems.iterator(); iter.hasNext()
                 && (collectedCalories < pCalories)
-                && (collectedMass < limitingMass);) {
+                && (collectedMass < limitingMass); ) {
             FoodMatter currentFoodMatter = (FoodMatter) (iter.next());
             float currentCalories = calculateCaloriesSingular(currentFoodMatter);
             float caloriesStillNeeded = pCalories - collectedCalories;
@@ -231,16 +231,16 @@ public class FoodStore extends Store {
                             currentFoodMatter.type);
                     paredToFlowrateCalories = calculateCaloriesSingular(paredToFlowrateFoodMatter);
                 }
-                
+
                 float paredToCaloriesMassToKeep = paredToFlowrateFoodMatter.mass;
                 //pare it to calories if necessary
-                if (paredToFlowrateCalories > caloriesStillNeeded){
+                if (paredToFlowrateCalories > caloriesStillNeeded) {
                     float fractionOfMassToKeepForCalories = (paredToFlowrateCalories - caloriesStillNeeded)
-                        / paredToFlowrateCalories;
+                            / paredToFlowrateCalories;
                     paredToCaloriesMassToKeep = paredToFlowrateFoodMatter.mass
-                        * fractionOfMassToKeepForCalories;
+                            * fractionOfMassToKeepForCalories;
                 }
-                
+
                 float massToReturn = paredToFlowrateFoodMatter.mass - paredToCaloriesMassToKeep;
                 float caloriesFractionOfOriginal = massToReturn
                         / paredToFlowrateFoodMatter.mass;
@@ -288,7 +288,7 @@ public class FoodStore extends Store {
                 currentFoodMatter.mass = massToKeep;
                 FoodMatter partialReturnedFoodMatter = new FoodMatter(
                         massToReturn, currentFoodMatter.waterContent
-                                * fractionOfMassToKeep, currentFoodMatter.type);
+                        * fractionOfMassToKeep, currentFoodMatter.type);
 
                 itemsToReturn.add(partialReturnedFoodMatter);
                 if (currentFoodMatter.mass <= 0)
@@ -305,7 +305,7 @@ public class FoodStore extends Store {
             }
         }
         //Remove items from List
-        for (Iterator iter = itemsToRemove.iterator(); iter.hasNext();) {
+        for (Iterator iter = itemsToRemove.iterator(); iter.hasNext(); ) {
             currentFoodItems.remove(iter.next());
         }
         currentLevel -= collectedMass;

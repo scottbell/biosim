@@ -4,7 +4,7 @@ import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.food.BiomassProducer;
 
-public class BiomassOutFlowRateActuator extends GenericActuator{
+public class BiomassOutFlowRateActuator extends GenericActuator {
     private BiomassProducer myProducer;
 
     private int myIndex;
@@ -18,7 +18,6 @@ public class BiomassOutFlowRateActuator extends GenericActuator{
         getOutput().getBiomassProducerDefinition().setDesiredFlowRate(
                 myFilteredValue, myIndex);
     }
-
 
 
     public void setOutput(BiomassProducer pProducer, int pIndex) {

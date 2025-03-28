@@ -14,12 +14,12 @@ public abstract class StoreSensor extends GenericSensor {
 
     protected abstract void notifyListeners();
 
-    public void setInput(Store source) {
-        myStore = source;
-    }
-
     public Store getInput() {
         return myStore;
+    }
+
+    public void setInput(Store source) {
+        myStore = source;
     }
 
     public float getMax() {

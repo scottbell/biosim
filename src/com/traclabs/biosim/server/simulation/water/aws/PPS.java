@@ -6,7 +6,7 @@ import com.traclabs.biosim.server.simulation.water.WaterRS;
  * The PPS is the last stage of water purification. It takes water from the AES,
  * filters it, and waits for the WaterRS to send the now clean water to the
  * potable water store
- * 
+ *
  * @author Scott Bell
  */
 
@@ -15,9 +15,8 @@ public class PPS extends WaterRSSubSystem {
 
     /**
      * Constructor that creates the PPS, the power required is 168 watts
-     * 
-     * @param pWaterRS
-     *            The Water RS system the AES is contained in
+     *
+     * @param pWaterRS The Water RS system the AES is contained in
      */
     public PPS(WaterRS pWaterRS) {
         super(pWaterRS);

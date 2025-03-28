@@ -11,121 +11,68 @@ import java.util.*;
 
 /**
  * Plant
- * 
+ *
  * @author Scott Bell
  */
 
 public abstract class Plant {
-    Logger myLogger = LoggerFactory.getLogger(Plant.class);
-
-    private static Random myRandomGen = new MersenneTwister();
-
-    protected int myAge = 0;
-
-    private boolean hasDied = false;
-
-    private boolean canopyClosed = false;
-
-    protected Shelf myShelf;
-
-    private float myAveragePPF = 0f;
-
-    private float myTotalPPF = 0f;
-
-    private int myNumberOfPPFReadings = 0;
-
-    private float myAverageWaterNeeded = 0f;
-
-    private float myTotalWaterNeeded = 0f;
-
-    private float myAverageCO2Concentration = 0f;
-
-    private float myTotalCO2Concentration = 0f;
-
-    private int myNumberOfCO2ConcentrationReadings = 0;
-
-    private float myCurrentWaterInsideInedibleBiomass = 0f;
-
-    private float myCurrentWaterInsideEdibleBiomass = 0f;
-
-    private float myCurrentTotalWetBiomass = 0f;
-
-    private float myCurrentEdibleWetBiomass = 0f;
-
-    private float myCurrentEdibleDryBiomass = 0f;
-
-    private float myCurrentDryBiomass = 0f;
-
-    private float myLastTotalWetBiomass = 0f;
-
-    private float myLastEdibleWetBiomass = 0f;
-
-    private float myWaterNeeded = 0f;
-
-    private float myWaterLevel = 0f;
-
-    private float CQY = 0f;
-
-    private float carbonUseEfficiency24 = 0f;
-
-    private float totalO2GramsProduced = 0f;
-
-    private float totalCO2GramsConsumed = 0f;
-
-    private float totalWaterLitersTranspired = 0f;
-
-    private float myTimeTillCanopyClosure = 0f;
-
-    private SimpleBuffer consumedWaterBuffer;
-
-    private SimpleBuffer consumedCO2LowBuffer;
-
-    private SimpleBuffer consumedCO2HighBuffer;
-
-    private SimpleBuffer consumedHeatBuffer;
-
-    private SimpleBuffer consumedLightBuffer;
-
-    protected float[] canopyClosureConstants = new float[25];
-
-    protected float[] canopyQYConstants = new float[25];
-    
-    private float myPPFFractionAbsorbed = 0f;
-
-    private List<Float> myCanopyClosurePPFValues;
-
-    private List<Float>  myCanopyClosureCO2Values;
-
     private static final float WATER_TILL_DEAD = 200f;
-
     private static final float WATER_RECOVERY_RATE = 0.005f;
-
     private static final float CO2_LOW_TILL_DEAD = 52f;
-
     private static final float CO2_LOW_RECOVERY_RATE = 0.005f;
-
     private static final float CO2_RATIO_LOW = 400f;
-
     private static final float CO2_HIGH_TILL_DEAD = 12f;
-
     private static final float CO2_HIGH_RECOVERY_RATE = 0.005f;
-
     private static final float CO2_RATIO_HIGH = 20000f;
-
     private static final float HEAT_TILL_DEAD = 48f;
-
     private static final float HEAT_RECOVERY_RATE = 0.05f;
-
     private static final float DANGEROUS_HEAT_LEVEL = 300000f;
-
     private static final float LIGHT_TILL_DEAD = 150f;
-
     private static final float LIGHT_RECOVERY_RATE = 0.005f;
-
+    private static final Random myRandomGen = new MersenneTwister();
+    protected int myAge = 0;
+    protected Shelf myShelf;
+    protected float[] canopyClosureConstants = new float[25];
+    protected float[] canopyQYConstants = new float[25];
+    Logger myLogger = LoggerFactory.getLogger(Plant.class);
+    private boolean hasDied = false;
+    private boolean canopyClosed = false;
+    private float myAveragePPF = 0f;
+    private float myTotalPPF = 0f;
+    private int myNumberOfPPFReadings = 0;
+    private float myAverageWaterNeeded = 0f;
+    private float myTotalWaterNeeded = 0f;
+    private float myAverageCO2Concentration = 0f;
+    private float myTotalCO2Concentration = 0f;
+    private int myNumberOfCO2ConcentrationReadings = 0;
+    private float myCurrentWaterInsideInedibleBiomass = 0f;
+    private float myCurrentWaterInsideEdibleBiomass = 0f;
+    private float myCurrentTotalWetBiomass = 0f;
+    private float myCurrentEdibleWetBiomass = 0f;
+    private float myCurrentEdibleDryBiomass = 0f;
+    private float myCurrentDryBiomass = 0f;
+    private float myLastTotalWetBiomass = 0f;
+    private float myLastEdibleWetBiomass = 0f;
+    private float myWaterNeeded = 0f;
+    private float myWaterLevel = 0f;
+    private float CQY = 0f;
+    private float carbonUseEfficiency24 = 0f;
+    private float totalO2GramsProduced = 0f;
+    private float totalCO2GramsConsumed = 0f;
+    private float totalWaterLitersTranspired = 0f;
+    private float myTimeTillCanopyClosure = 0f;
+    private final SimpleBuffer consumedWaterBuffer;
+    private final SimpleBuffer consumedCO2LowBuffer;
+    private final SimpleBuffer consumedCO2HighBuffer;
+    private final SimpleBuffer consumedHeatBuffer;
+    private final SimpleBuffer consumedLightBuffer;
+    private float myPPFFractionAbsorbed = 0f;
+    private final List<Float> myCanopyClosurePPFValues;
+    private final List<Float> myCanopyClosureCO2Values;
     private float myProductionRate = 1f;
-    
+
     private float myMolesOfCO2Inhaled = 0f;
-    
+
     public Plant(Shelf pShelf) {
         myShelf = pShelf;
         Arrays.fill(canopyClosureConstants, 0f);
@@ -147,6 +94,33 @@ public abstract class Plant {
 
         myCanopyClosurePPFValues = new Vector<Float>(getTAInitialValue());
         myCanopyClosureCO2Values = new Vector<Float>(getTAInitialValue());
+    }
+
+    private static float waterLitersToMoles(float pLiters) {
+        return (pLiters * 998.23f) / 18.01524f; // 998.23g/liter, 18.01524g/mole
+    }
+
+    public static String getPlantTypeString(PlantType pType) {
+        if (pType == PlantType.DRY_BEAN)
+            return "Dry Bean";
+        else if (pType == PlantType.LETTUCE)
+            return "Lettuce";
+        else if (pType == PlantType.PEANUT)
+            return "Peanut";
+        else if (pType == PlantType.SOYBEAN)
+            return "Soybean";
+        else if (pType == PlantType.RICE)
+            return "Rice";
+        else if (pType == PlantType.SWEET_POTATO)
+            return "Sweet Potato";
+        else if (pType == PlantType.TOMATO)
+            return "Tomato";
+        else if (pType == PlantType.WHEAT)
+            return "Wheat";
+        else if (pType == PlantType.WHITE_POTATO)
+            return "White Potato";
+        else
+            return "Unknown";
     }
 
     protected abstract float getBCF();
@@ -223,7 +197,7 @@ public abstract class Plant {
         totalCO2GramsConsumed = 0f;
         totalWaterLitersTranspired = 0f;
         myTimeTillCanopyClosure = 0f;
-        
+
         //in case crop area has changed
         consumedWaterBuffer.setInitialLevelAndCapacity(WATER_TILL_DEAD
                 * myShelf.getCropAreaUsed(), WATER_TILL_DEAD
@@ -234,7 +208,7 @@ public abstract class Plant {
                 * myShelf.getCropAreaUsed(), LIGHT_TILL_DEAD
                 * myShelf.getCropAreaUsed());
         consumedLightBuffer.reset();
-        
+
         consumedCO2LowBuffer.reset();
         consumedCO2HighBuffer.reset();
         consumedHeatBuffer.reset();
@@ -280,7 +254,7 @@ public abstract class Plant {
         myNumberOfPPFReadings++;
         myAveragePPF = myTotalPPF / myNumberOfPPFReadings;
         if (!canopyClosed)
-        	myCanopyClosurePPFValues.add(pPPF);
+            myCanopyClosurePPFValues.add(pPPF);
         //myLogger.debug("pPPF: " + pPPF);
     }
 
@@ -326,7 +300,7 @@ public abstract class Plant {
         consumedLightBuffer.take(getPPFNeeded() - myAveragePPF);
         if (myAveragePPF > DANGEROUS_HEAT_LEVEL)
             consumedHeatBuffer.take(myAveragePPF - DANGEROUS_HEAT_LEVEL);
-        if (myAverageCO2Concentration < CO2_RATIO_LOW){
+        if (myAverageCO2Concentration < CO2_RATIO_LOW) {
             consumedCO2LowBuffer
                     .take(CO2_RATIO_LOW - myAverageCO2Concentration);
             //myLogger.debug("myAverageCO2Concentration = "+myAverageCO2Concentration);
@@ -354,37 +328,37 @@ public abstract class Plant {
         //myLogger.debug("consumedCO2LowBuffer.getCapacity() = "+consumedCO2LowBuffer.getCapacity());
         //myLogger.debug("CO2RiskLowReturn = "+CO2RiskLowReturn);
         if (CO2RiskLowReturn > randomNumber) {
-        	kill();
+            kill();
             myLogger.info(getPlantTypeString()
                     + " crops have died from low CO2 at " + getDaysOfGrowth()
                     + " days (risk was " + (CO2RiskLowReturn * 100) + "%)");
         } else if (CO2RiskHighReturn > randomNumber) {
-        	kill();
+            kill();
             myLogger.info(getPlantTypeString()
                     + " crops have died from high CO2 at " + getDaysOfGrowth()
                     + " days (risk was " + (CO2RiskHighReturn * 100) + "%)");
         } else if (waterRiskReturn > randomNumber) {
-        	kill();
+            kill();
             myLogger.info(getPlantTypeString()
                     + " crops have died from lack of water at "
                     + getDaysOfGrowth() + " days (risk was "
                     + (waterRiskReturn * 100) + "%)");
         } else if (heatRiskReturn > randomNumber) {
-        	kill();
+            kill();
             myLogger.info(getPlantTypeString()
                     + " crops have died from lack of heat at "
                     + getDaysOfGrowth() + " days (risk was "
                     + (heatRiskReturn * 100) + "%)");
         } else if (lightRiskReturn > randomNumber) {
-        	kill();
+            kill();
             myLogger.info(getPlantTypeString()
                     + " crops have died from lack of light at "
                     + getDaysOfGrowth() + " days (risk was "
                     + (lightRiskReturn * 100) + "%)");
         }
     }
-    
-    public void kill(){
+
+    public void kill() {
         reset();
         hasDied = true;
     }
@@ -415,7 +389,7 @@ public abstract class Plant {
         //myLogger.debug("vaporPressureDeficit:" + vaporPressureDeficit);
         if (vaporPressureDeficit < 0)
             return 0f;
-		return vaporPressureDeficit;
+        return vaporPressureDeficit;
     }
 
     private float calculateSaturatedMoistureVaporPressure() {
@@ -489,7 +463,7 @@ public abstract class Plant {
         // Actual CO2 use may later be reduced even further by waterFraction
         float molesOfCO2Needed = dailyCarbonGain * myShelf.getCropAreaUsed() / 24f;
         float molesOfCO2Available = myShelf.getBiomassPS().getAirConsumerDefinition()
-                                    .getEnvironments()[0].getCO2Store().getCurrentLevel();
+                .getEnvironments()[0].getCO2Store().getCurrentLevel();
         float CO2Fraction = 1f;
         if (molesOfCO2Needed > 0)
             CO2Fraction = molesOfCO2Available / molesOfCO2Needed;
@@ -497,19 +471,19 @@ public abstract class Plant {
             //myLogger.debug("CO2Fraction = " + CO2Fraction);
             dailyCarbonGain *= CO2Fraction;
         }
-        if (myAge % 24 == 0){
-        	myLogger.debug(getDaysOfGrowth() + "\t" + dailyCarbonGain);
+        if (myAge % 24 == 0) {
+            myLogger.debug(getDaysOfGrowth() + "\t" + dailyCarbonGain);
         }
         float cropGrowthRate = molecularWeightOfCarbon
                 * (dailyCarbonGain / getBCF());
         //in kilograms per hour
         myCurrentDryBiomass += (cropGrowthRate / 1000 / 24f
                 * myShelf.getCropAreaUsed() * myProductionRate);
-        
+
         if (getDaysOfGrowth() > getTimeAtOrganFormation())
             myCurrentEdibleDryBiomass += (cropGrowthRate / 1000 / 24f
-                * myShelf.getCropAreaUsed() * getProtectedFractionOfEdibleBiomass()
-                * myProductionRate);
+                    * myShelf.getCropAreaUsed() * getProtectedFractionOfEdibleBiomass()
+                    * myProductionRate);
         myCurrentWaterInsideEdibleBiomass = myCurrentEdibleDryBiomass
                 * getProtectedEdibleFreshBasisWaterContent()
                 / (1f - getProtectedEdibleFreshBasisWaterContent());
@@ -544,9 +518,9 @@ public abstract class Plant {
                     * myShelf.getCropAreaUsed() * myProductionRate);
             if (getDaysOfGrowth() > getTimeAtOrganFormation())
                 myCurrentEdibleDryBiomass -= (1f - waterFraction)
-                    * (cropGrowthRate / 1000 / 24f
-                    * myShelf.getCropAreaUsed() * getProtectedFractionOfEdibleBiomass()
-                    * myProductionRate);
+                        * (cropGrowthRate / 1000 / 24f
+                        * myShelf.getCropAreaUsed() * getProtectedFractionOfEdibleBiomass()
+                        * myProductionRate);
             //myLogger.debug("myCurrentDryBiomass:" + myCurrentDryBiomass);
             //myLogger.debug("myCurrentEdibleDryBiomass:" + myCurrentEdibleDryBiomass);
 
@@ -578,7 +552,7 @@ public abstract class Plant {
         totalCO2GramsConsumed += myMolesOfCO2Inhaled * 44f;
         //myLogger.debug("totalCO2GramsConsumed:" + totalCO2GramsConsumed);
         myShelf.getBiomassPS().addAirInputActualFlowRates(0,
-        		myMolesOfCO2Inhaled);
+                myMolesOfCO2Inhaled);
         //myLogger.debug("molesOfCO2ToInhale:" + molesOfCO2ToInhale);
 
         //Exhale Air
@@ -626,10 +600,6 @@ public abstract class Plant {
         //myLogger.debug("molesOfWaterAdded:" + molesOfWaterAdded);
         //myLogger.debug("consumedWaterBuffer level:" + consumedWaterBuffer.getLevel());
 
-    }
-
-    private static float waterLitersToMoles(float pLiters) {
-        return (pLiters * 998.23f) / 18.01524f; // 998.23g/liter, 18.01524g/mole
     }
 
     //in g/meters^2*day
@@ -706,7 +676,7 @@ public abstract class Plant {
         //myLogger.debug("airMoles: " + airMoles);
         float currentCO2Concentration = (CO2Moles / airMoles);
         if (!canopyClosed)
-        	myCanopyClosureCO2Values.add(currentCO2Concentration);
+            myCanopyClosureCO2Values.add(currentCO2Concentration);
         //myLogger.debug("CO2_Concentration: " + currentCO2Concentration);
         myTotalCO2Concentration += currentCO2Concentration;
         myNumberOfCO2ConcentrationReadings++;
@@ -714,9 +684,9 @@ public abstract class Plant {
                 / myNumberOfCO2ConcentrationReadings;
         //myLogger.debug("myAverageCO2Concentration: " + myAverageCO2Concentration);
     }
-    
-    public float getTimeTillCanopyClosure(){
-    	return myTimeTillCanopyClosure;
+
+    public float getTimeTillCanopyClosure() {
+        return myTimeTillCanopyClosure;
     }
 
     //returns the age in days
@@ -732,7 +702,7 @@ public abstract class Plant {
         if (pList.size() < 2)
             return fillerValue;
         float totalReal = 0f;
-        for (Iterator iter = pList.iterator(); iter.hasNext();) {
+        for (Iterator iter = pList.iterator(); iter.hasNext(); ) {
             Float currentFloat = (Float) (iter.next());
             totalReal += currentFloat.floatValue();
         }
@@ -818,7 +788,7 @@ public abstract class Plant {
         float daDt = PPFFractionAbsorbedMax
                 * getN()
                 * MathUtils.pow((getDaysOfGrowth() / myTimeTillCanopyClosure),
-                        getN() - 1f) * (1f / myTimeTillCanopyClosure);
+                getN() - 1f) * (1f / myTimeTillCanopyClosure);
         //myLogger.debug("daDt: " + daDt);
         return daDt;
     }
@@ -878,18 +848,18 @@ public abstract class Plant {
         if (getDaysOfGrowth() < getTimeAtCanopySenescence()) {
             return CQYMax;
         }
-		float CQYMin = getCQYMin();
-		float daysOfGrowth = getDaysOfGrowth();
-		float timeTillCropMaturity = getTimeAtCropMaturity();
-		float calculatedCQY = CQYMax
-		        - ((CQYMax - CQYMin)
-		                * (daysOfGrowth - timeTillCanopySenescence) / (timeTillCropMaturity - timeTillCanopySenescence));
-		//myLogger.debug("CQYMin: " + CQYMin);
-		//myLogger.debug("daysOfGrowth: " + daysOfGrowth);
-		//myLogger.debug("timeTillCropMaturity: " + timeTillCropMaturity);
-		if (calculatedCQY < 0f)
-		    return 0f;
-		return calculatedCQY;
+        float CQYMin = getCQYMin();
+        float daysOfGrowth = getDaysOfGrowth();
+        float timeTillCropMaturity = getTimeAtCropMaturity();
+        float calculatedCQY = CQYMax
+                - ((CQYMax - CQYMin)
+                * (daysOfGrowth - timeTillCanopySenescence) / (timeTillCropMaturity - timeTillCanopySenescence));
+        //myLogger.debug("CQYMin: " + CQYMin);
+        //myLogger.debug("daysOfGrowth: " + daysOfGrowth);
+        //myLogger.debug("timeTillCropMaturity: " + timeTillCropMaturity);
+        if (calculatedCQY < 0f)
+            return 0f;
+        return calculatedCQY;
     }
 
     private float getAveragePPF() {
@@ -904,38 +874,14 @@ public abstract class Plant {
     }
 
     /**
-     * @param myProductionRate
-     *            The myProductionRate to set.
+     * @param myProductionRate The myProductionRate to set.
      */
     protected void setProductionRate(float myProductionRate) {
         this.myProductionRate = myProductionRate;
     }
 
-	public float getMolesOfCO2Inhaled() {
-		return myMolesOfCO2Inhaled;
-	}
-	
-	public static String getPlantTypeString(PlantType pType){
-		if (pType == PlantType.DRY_BEAN)
-            return "Dry Bean";
-        else if (pType == PlantType.LETTUCE)
-        	return "Lettuce";
-        else if (pType == PlantType.PEANUT)
-        	return "Peanut";
-        else if (pType == PlantType.SOYBEAN)
-        	return "Soybean";
-        else if (pType == PlantType.RICE)
-        	return "Rice";
-        else if (pType == PlantType.SWEET_POTATO)
-        	return "Sweet Potato";
-        else if (pType == PlantType.TOMATO)
-        	return "Tomato";
-        else if (pType == PlantType.WHEAT)
-        	return "Wheat";
-        else if (pType == PlantType.WHITE_POTATO)
-        	return "White Potato";
-        else
-        	return "Unknown";
-	}
+    public float getMolesOfCO2Inhaled() {
+        return myMolesOfCO2Inhaled;
+    }
 }
 

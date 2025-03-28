@@ -1,10 +1,8 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.server.simulation.food.PlantType;
-
 /**
  * WhitePotato
- * 
+ *
  * @author Scott Bell
  */
 
@@ -29,6 +27,25 @@ public class WhitePotato extends Planophile {
         canopyQYConstants[14] = 0.0000000000000043976f;
         canopyQYConstants[17] = -0.000000000015272f;
         canopyQYConstants[21] = -0.000000000019602f;
+    }
+
+    public static float getFractionOfEdibleBiomass() {
+        return 0.3f;
+    }
+
+    /**
+     * Returns calories per kilogram
+     */
+    public static float getCaloriesPerKilogram() {
+        return 760f;
+    }
+
+    public static float getEdibleFreshBasisWaterContent() {
+        return 0.80f;
+    }
+
+    public static float getInedibleFreshBasisWaterContent() {
+        return 0.90f;
     }
 
     protected float getInitialPPFValue() {
@@ -104,27 +121,8 @@ public class WhitePotato extends Planophile {
         return 1.02f;
     }
 
-    public static float getFractionOfEdibleBiomass() {
-        return 0.3f;
-    }
-
     protected float getProtectedFractionOfEdibleBiomass() {
         return getFractionOfEdibleBiomass();
-    }
-
-    /**
-     * Returns calories per kilogram
-     */
-    public static float getCaloriesPerKilogram() {
-        return 760f;
-    }
-
-    public static float getEdibleFreshBasisWaterContent() {
-        return 0.80f;
-    }
-
-    public static float getInedibleFreshBasisWaterContent() {
-        return 0.90f;
     }
 
     protected float getProtectedEdibleFreshBasisWaterContent() {

@@ -15,11 +15,18 @@ public class BiomassConsumerDefinition extends
         StoreFlowRateControllable {
 
     public BiomassConsumerDefinition(BioModule pModule) {
-super(pModule);
+        super(pModule);
+    }
+
+    private static float calculateSizeOfBioMatter(BioMatter[] arrayOfMatter) {
+        float totalSize = 0f;
+        for (int i = 0; i < arrayOfMatter.length; i++)
+            totalSize += arrayOfMatter[i].mass;
+        return totalSize;
     }
 
     public void setBiomassInputs(BiomassStore[] pStores, float[] pMaxFlowRates,
-            float[] pDesiredFlowRates) {
+                                 float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
         setInitialStores(pStores);
@@ -35,7 +42,7 @@ super(pModule);
                     getMaxFlowRate(i));
             float resourceToGatherFinal = Math.min(resourceToGatherFirst,
                     getDesiredFlowRate(i));
-            BiomassStore currentBiomassStore = (BiomassStore)(getStores()[i]);
+            BiomassStore currentBiomassStore = (BiomassStore) (getStores()[i]);
             BioMatter[] takenMatter = currentBiomassStore
                     .takeBioMatterMass(resourceToGatherFinal);
             sizeOfMatterArray += takenMatter.length;
@@ -45,19 +52,12 @@ super(pModule);
         }
         BioMatter[] fullMatterTaken = new BioMatter[sizeOfMatterArray];
         int lastPosition = 0;
-        for (Iterator iter = gatheredBioMatterArrays.iterator(); iter.hasNext();) {
+        for (Iterator iter = gatheredBioMatterArrays.iterator(); iter.hasNext(); ) {
             BioMatter[] matterArray = (BioMatter[]) (iter.next());
             System.arraycopy(matterArray, 0, fullMatterTaken, lastPosition,
                     matterArray.length);
             lastPosition += matterArray.length;
         }
         return fullMatterTaken;
-    }
-
-    private static float calculateSizeOfBioMatter(BioMatter[] arrayOfMatter) {
-        float totalSize = 0f;
-        for (int i = 0; i < arrayOfMatter.length; i++)
-            totalSize += arrayOfMatter[i].mass;
-        return totalSize;
     }
 }

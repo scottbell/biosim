@@ -4,7 +4,7 @@ import com.traclabs.biosim.server.actuator.framework.GenericActuator;
 import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.simulation.air.O2Producer;
 
-public class O2OutFlowRateActuator extends GenericActuator{
+public class O2OutFlowRateActuator extends GenericActuator {
     private O2Producer myProducer;
 
     private int myIndex;
@@ -18,7 +18,6 @@ public class O2OutFlowRateActuator extends GenericActuator{
         getOutput().getO2ProducerDefinition().setDesiredFlowRate(
                 myFilteredValue, myIndex);
     }
-
 
 
     public void setOutput(O2Producer pProducer, int pIndex) {

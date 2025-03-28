@@ -20,7 +20,6 @@ public class NitrogenOutFlowRateSensor extends GenericSensor {
     }
 
 
-
     public void setInput(NitrogenProducer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;

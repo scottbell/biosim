@@ -20,7 +20,6 @@ public class PowerInFlowRateActuator extends GenericActuator {
     }
 
 
-
     public void setOutput(PowerConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;
         myIndex = pIndex;

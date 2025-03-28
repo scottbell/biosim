@@ -11,11 +11,11 @@ public class DryWasteConsumerDefinition extends
         StoreFlowRateControllable {
 
     public DryWasteConsumerDefinition(BioModule pModule) {
-super(pModule);
+        super(pModule);
     }
 
     public void setDryWasteInputs(DryWasteStore[] pStores,
-            float[] pMaxFlowRates, float[] pDesiredFlowRates) {
+                                  float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
         setInitialStores(pStores);

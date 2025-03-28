@@ -7,31 +7,20 @@ import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
 import com.traclabs.biosim.server.simulation.water.PotableWaterProducerDefinition;
 
 public class CRS extends SimBioModule {
-    //Consumers, Producers
-    private PowerConsumerDefinition myPowerConsumerDefinition;
-
-    private PotableWaterProducerDefinition myPotableWaterProducerDefinition;
-
-    private O2ProducerDefinition myO2ProducerDefinition;
-
-    private CO2ConsumerDefinition myCO2ConsumerDefinition;
-
-    private H2ConsumerDefinition myH2ConsumerDefinition;
-
-    private MethaneProducerDefinition myMethaneProducerDefinition;
-
-    private float currentPowerConsumed = 0f;
-
-    private float currentCO2Consumed;
-
-    private float currentH2Consumed;
-
-    private float currentH2OProduced;
-
-    private float currentCH4Produced;
-
     //multiply times power to determine how much air/H2/water we're consuming
     private static final float LINEAR_MULTIPLICATIVE_FACTOR = 0.02777777777777778f;
+    //Consumers, Producers
+    private final PowerConsumerDefinition myPowerConsumerDefinition;
+    private final PotableWaterProducerDefinition myPotableWaterProducerDefinition;
+    private final O2ProducerDefinition myO2ProducerDefinition;
+    private final CO2ConsumerDefinition myCO2ConsumerDefinition;
+    private final H2ConsumerDefinition myH2ConsumerDefinition;
+    private final MethaneProducerDefinition myMethaneProducerDefinition;
+    private float currentPowerConsumed = 0f;
+    private float currentCO2Consumed;
+    private float currentH2Consumed;
+    private float currentH2OProduced;
+    private float currentCH4Produced;
 
     public CRS(int pID, String pName) {
         super(pID, pName);
@@ -124,13 +113,13 @@ public class CRS extends SimBioModule {
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
-            MalfunctionLength pLength) {
+                                        MalfunctionLength pLength) {
         return "None";
     }
 
     protected void performMalfunctions() {
     }
-    
+
     public void log() {
         myLogger.debug("power_consumed=" + currentPowerConsumed);
     }

@@ -20,7 +20,6 @@ public class GreyWaterOutFlowRateSensor extends GenericSensor {
     }
 
 
-
     public void setInput(GreyWaterProducer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;

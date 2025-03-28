@@ -11,17 +11,8 @@ public abstract class GenericActuator extends BioModule {
     public GenericActuator(int pID, String pName) {
         super(pID, pName);
     }
-    
-    protected void notifyListeners(){
-    }
 
-    public void setValue(float pValue) {
-        if (myValue > getMin())
-            myValue = Math.min(pValue, getMax());
-        else
-            myValue = getMin();
-        myValue = pValue;
-        newValueSet = true;
+    protected void notifyListeners() {
     }
 
     public abstract float getMax();
@@ -32,6 +23,15 @@ public abstract class GenericActuator extends BioModule {
 
     public float getValue() {
         return myValue;
+    }
+
+    public void setValue(float pValue) {
+        if (myValue > getMin())
+            myValue = Math.min(pValue, getMax());
+        else
+            myValue = getMin();
+        myValue = pValue;
+        newValueSet = true;
     }
 
     public void tick() {
@@ -50,5 +50,5 @@ public abstract class GenericActuator extends BioModule {
     public void log() {
         myLogger.debug(getModuleName() + ":\toutput=" + getValue());
     }
-    
+
 }

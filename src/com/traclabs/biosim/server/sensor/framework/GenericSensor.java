@@ -1,7 +1,7 @@
 package com.traclabs.biosim.server.sensor.framework;
 
-import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.util.MathUtils;
 
 public abstract class GenericSensor extends BioModule {
@@ -13,7 +13,7 @@ public abstract class GenericSensor extends BioModule {
 
     protected abstract void gatherData();
 
-    protected void notifyListeners(){
+    protected void notifyListeners() {
     }
 
     public float getValue() {
@@ -37,11 +37,11 @@ public abstract class GenericSensor extends BioModule {
     public void log() {
         myLogger.debug("value=" + getValue());
     }
-    
+
     protected void performMalfunctions() {
-    	if (!myMalfunctions.isEmpty()){
+        if (!myMalfunctions.isEmpty()) {
             Double noisyValue = MathUtils.gaussian(myValue, 100);
-    		myValue = noisyValue.floatValue();
-    	}
+            myValue = noisyValue.floatValue();
+        }
     }
 }

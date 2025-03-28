@@ -2,8 +2,7 @@ package com.traclabs.biosim.server.sensor.crew;
 
 import com.traclabs.biosim.server.framework.IBioModule;
 
-public class CrewGroupProductivitySensor extends CrewGroupSensor
-         {
+public class CrewGroupProductivitySensor extends CrewGroupSensor {
     public CrewGroupProductivitySensor(int pID, String pName) {
         super(pID, pName);
     }

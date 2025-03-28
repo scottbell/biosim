@@ -10,11 +10,11 @@ public abstract class FoodProcessorActuator extends GenericActuator {
         super(pID, pName);
     }
 
-    public void setOutput(FoodProcessor source) {
-        myFoodProcessor = source;
-    }
-
     public FoodProcessor getOutput() {
         return myFoodProcessor;
+    }
+
+    public void setOutput(FoodProcessor source) {
+        myFoodProcessor = source;
     }
 }

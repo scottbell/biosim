@@ -1,14 +1,14 @@
 package com.traclabs.biosim.server.simulation.air.vccr;
 
 public class Valve extends VCCRSubsystem {
-	private int state = 0;
+    private int state = 0;
 
-	public int getState() {
-		return state;
-	}
+    public int getState() {
+        return state;
+    }
 
-	public void setState(int state) {
-		this.state = state;
-	}
+    public void setState(int state) {
+        this.state = state;
+    }
 
 }

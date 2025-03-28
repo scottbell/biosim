@@ -7,7 +7,7 @@ import java.util.*;
  * The Schedule dictates what each crew member shall do at what time, for how
  * long, and at what intensity. You cannot have two activities at the same time
  * and each name must be unique.
- * 
+ *
  * @author Scott Bell
  */
 
@@ -25,14 +25,14 @@ public class Schedule {
     private Activity mySickActivity;
 
     private Activity myAbsentActivity;
-    
-    private CrewGroup myCrewGroup;
+
+    private final CrewGroup myCrewGroup;
 
     /**
      * Constructor that creates a new default schedule.
      */
     public Schedule(CrewGroup pCrewGroup) {
-    	myCrewGroup = pCrewGroup;
+        myCrewGroup = pCrewGroup;
         createDefaultActivites();
     }
 
@@ -42,7 +42,7 @@ public class Schedule {
         myBornActivity = new Activity("born", 0, 0);
         myDeadActivity = new Activity("dead", 0, 0);
         myAbsentActivity = new Activity("absent", 0, 0);
-        mySickActivity = new Activity("sick", (int)(Math.ceil(12 / myCrewGroup.getTickLength())), 1);
+        mySickActivity = new Activity("sick", (int) (Math.ceil(12 / myCrewGroup.getTickLength())), 1);
 
         allActivities.put("born", myBornActivity);
         orderedSchedule.add(0, myBornActivity);
@@ -53,9 +53,8 @@ public class Schedule {
 
     /**
      * Finds and returns an activity specified by a name
-     * 
-     * @param activityName
-     *            the name of the activity wanted
+     *
+     * @param activityName the name of the activity wanted
      * @return the activity sought
      */
     public Activity getActivityByName(String activityName) {
@@ -65,7 +64,7 @@ public class Schedule {
     public String toString() {
         StringBuffer buffer = new StringBuffer();
         buffer.append("-Ordered Schedule-\n");
-        for (Iterator iter = orderedSchedule.iterator(); iter.hasNext();) {
+        for (Iterator iter = orderedSchedule.iterator(); iter.hasNext(); ) {
             Activity currentActivity = (Activity) (iter.next());
             buffer.append(orderedSchedule.indexOf(currentActivity) + ":  (");
             buffer.append(currentActivity.getName() + ", "
@@ -73,7 +72,7 @@ public class Schedule {
                     + currentActivity.getActivityIntensity() + ")\n");
         }
         buffer.append("\n-All Activities-\n");
-        for (Iterator iter = allActivities.values().iterator(); iter.hasNext();) {
+        for (Iterator iter = allActivities.values().iterator(); iter.hasNext(); ) {
             Activity currentActivity = (Activity) (iter.next());
             buffer.append("(" + currentActivity.getName() + ", "
                     + currentActivity.getTimeLength() + "h, "
@@ -86,14 +85,13 @@ public class Schedule {
         Object foundActivity = allActivities.get(activityName);
         if (foundActivity != null)
             return orderedSchedule.indexOf(foundActivity);
-		return -1;
+        return -1;
     }
 
     /**
      * Finds and returns an activity specified by the order
-     * 
-     * @param order
-     *            the order of the activity wanted
+     *
+     * @param order the order of the activity wanted
      * @return the activity sought
      */
     public Activity getScheduledActivityByOrder(int order) {
@@ -102,7 +100,7 @@ public class Schedule {
 
     /**
      * Returns the number of activities in the schedule
-     * 
+     *
      * @return the number of activities in the schedule
      */
     public int getNumberOfScheduledActivities() {
@@ -120,6 +118,6 @@ public class Schedule {
             allActivities.put(pActivity.getName(), pActivity);
         orderedSchedule.add(pOrder, pActivity);
     }
-    
+
 
 }

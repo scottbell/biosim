@@ -1,45 +1,36 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Tray contains Plants
- * 
+ *
  * @author Scott Bell
  */
 
 public class Shelf {
-    private Logger myLogger = LoggerFactory.getLogger(Shelf.class);
-    private Plant myCrop;
-
-    private float cropAreaTotal = 0f;
-
-    private float cropAreaUsed = 0f;
-
-    private BiomassPS myBiomassPS;
-
-    private float waterLevel = 0f;
-
     /* grab up to 50 liters per meters squared of crops per hour (WAG) */
     private static final float waterNeededPerMeterSquared = 50f;
-
-    private float waterNeeded = 0f;
-
-    private float powerLevel = 0f;
-
     /* grab 1520 watts per square meter (from table 4.2.2 in BVAD) */
     private static final float POWER_PER_SQUARE_METER = 1520f;
-
+    private final Logger myLogger = LoggerFactory.getLogger(Shelf.class);
+    private Plant myCrop;
+    private float cropAreaTotal = 0f;
+    private float cropAreaUsed = 0f;
+    private final BiomassPS myBiomassPS;
+    private float waterLevel = 0f;
+    private float waterNeeded = 0f;
+    private float powerLevel = 0f;
     private int myStartTick;
 
     public Shelf(PlantType pType, float pCropAreaTotal,
-            BiomassPS pBiomass) {
+                 BiomassPS pBiomass) {
         this(pType, pCropAreaTotal, pBiomass, 0);
     }
 
     public Shelf(PlantType pType, float pCropAreaTotal,
-            BiomassPS pBiomass, int pStartTick) {
+                 BiomassPS pBiomass, int pStartTick) {
         myStartTick = pStartTick;
         cropAreaTotal = pCropAreaTotal;
         myBiomassPS = pBiomass;
@@ -56,9 +47,9 @@ public class Shelf {
         powerLevel = 0f;
         myCrop.reset();
     }
-    
-    public float getTimeTillCanopyClosure(){
-    	return myCrop.getTimeTillCanopyClosure();
+
+    public float getTimeTillCanopyClosure() {
+        return myCrop.getTimeTillCanopyClosure();
     }
 
     public PlantType getCropType() {
@@ -115,8 +106,8 @@ public class Shelf {
             waterLevel = 0;
             return waterTaken;
         }
-		waterLevel -= pLiters;
-		return pLiters;
+        waterLevel -= pLiters;
+        return pLiters;
     }
 
     private void lightPlants() {
@@ -163,13 +154,13 @@ public class Shelf {
     private void tryHarvesting() {
         if (myBiomassPS.autoHarvestAndReplantEnabled()) {
             if (myCrop.readyForHarvest() || myCrop.isDead()) {
-            	float age = myCrop.getDaysOfGrowth();
+                float age = myCrop.getDaysOfGrowth();
                 BioMatter biomassProduced = myCrop.harvest();
-            	float inedible = biomassProduced.inedibleFraction;
-            	if (Float.isNaN(inedible))
-            		inedible = 0;
+                float inedible = biomassProduced.inedibleFraction;
+                if (Float.isNaN(inedible))
+                    inedible = 0;
                 myLogger.info("Shelf: Harvested " + biomassProduced.mass
-                        + "kg of " + myCrop.getPlantTypeString() + " ("+ inedible * 100 +"% inedible) after " +age+ " days of growth on tick " + myBiomassPS.getMyTicks());
+                        + "kg of " + myCrop.getPlantTypeString() + " (" + inedible * 100 + "% inedible) after " + age + " days of growth on tick " + myBiomassPS.getMyTicks());
                 myBiomassPS
                         .getBiomassProducerDefinition()
                         .pushFractionalResourceToBiomassStore(biomassProduced,
@@ -198,10 +189,10 @@ public class Shelf {
             cropAreaUsed = cropAreaTotal;
         else
             cropAreaUsed = pArea;
-        
-    	if ((myCrop != null) && (pType == myCrop.getPlantType()))
-        	myCrop.reset();
-    	else if (pType == PlantType.DRY_BEAN)
+
+        if ((myCrop != null) && (pType == myCrop.getPlantType()))
+            myCrop.reset();
+        else if (pType == PlantType.DRY_BEAN)
             myCrop = new DryBean(this);
         else if (pType == PlantType.LETTUCE)
             myCrop = new Lettuce(this);
@@ -221,9 +212,9 @@ public class Shelf {
             myCrop = new WhitePotato(this);
         waterNeeded = cropAreaUsed * waterNeededPerMeterSquared;
     }
-    
-    public void kill(){
-    	myCrop.kill();
+
+    public void kill() {
+        myCrop.kill();
     }
-    
+
 }

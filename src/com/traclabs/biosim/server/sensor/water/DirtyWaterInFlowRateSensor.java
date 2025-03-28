@@ -20,7 +20,6 @@ public class DirtyWaterInFlowRateSensor extends GenericSensor {
     }
 
 
-
     public void setInput(DirtyWaterConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;
         myIndex = pIndex;

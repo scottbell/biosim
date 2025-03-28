@@ -5,7 +5,7 @@ import com.traclabs.biosim.server.simulation.water.WaterRS;
 /**
  * The RO is the second stage of water purification. It takes water from the
  * BWP, filters it some, and sends the water to the AES
- * 
+ *
  * @author Scott Bell
  */
 
@@ -16,9 +16,8 @@ public class RO extends WaterRSSubSystem {
 
     /**
      * Constructor that creates the RO
-     * 
-     * @param pWaterRS
-     *            The Water RS system the RO is contained in
+     *
+     * @param pWaterRS The Water RS system the RO is contained in
      */
     public RO(WaterRS pWaterRS) {
         super(pWaterRS);

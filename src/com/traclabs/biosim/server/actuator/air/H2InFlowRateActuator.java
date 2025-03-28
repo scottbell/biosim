@@ -20,7 +20,6 @@ public class H2InFlowRateActuator extends GenericActuator {
     }
 
 
-
     public void setOutput(H2Consumer pConsumer, int pIndex) {
         myConsumer = pConsumer;
         myIndex = pIndex;

@@ -1,8 +1,7 @@
 package com.traclabs.biosim.server.sensor.food;
 
 
-public class BiomassStoreWaterContentSensor extends BiomassStoreSensor
-         {
+public class BiomassStoreWaterContentSensor extends BiomassStoreSensor {
     public BiomassStoreWaterContentSensor(int pID, String pName) {
         super(pID, pName);
     }

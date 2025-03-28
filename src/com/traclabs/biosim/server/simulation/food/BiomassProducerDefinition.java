@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.simulation.food;
 
 import com.traclabs.biosim.server.framework.BioModule;
-import com.traclabs.biosim.server.simulation.food.BioMatter;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
 
 /**
@@ -13,18 +12,18 @@ public class BiomassProducerDefinition extends
     private BiomassProducerDefinition myBiomassProducerDefinition;
 
     public BiomassProducerDefinition(BioModule pModule) {
-    	super(pModule);
+        super(pModule);
     }
 
     public void setBiomassOutputs(BiomassStore[] pStores,
-            float[] pMaxFlowRates, float[] pDesiredFlowRates) {
+                                  float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
         setInitialStores(pStores);
     }
 
     public float pushFractionalResourceToBiomassStore(BioMatter matterToPush,
-            float shelfFraction) {
+                                                      float shelfFraction) {
         float resourceDistributed = matterToPush.mass;
         for (int i = 0; (i < getStores().length) && (resourceDistributed > 0); i++) {
             float resourceToDistributeFirst = Math.min(resourceDistributed,
@@ -40,7 +39,7 @@ public class BiomassProducerDefinition extends
                     matterToPush.edibleWaterContent * fractionOfOriginal,
                     matterToPush.inedibleWaterContent * fractionOfOriginal,
                     matterToPush.type);
-            BiomassStore currentBiomassStore = (BiomassStore)(getStores()[i]);
+            BiomassStore currentBiomassStore = (BiomassStore) (getStores()[i]);
             getActualFlowRates()[i] += currentBiomassStore
                     .addBioMatter(newBioMatter);
             resourceDistributed -= getActualFlowRate(i);

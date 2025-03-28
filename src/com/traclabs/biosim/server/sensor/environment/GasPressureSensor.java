@@ -4,9 +4,9 @@ import com.traclabs.biosim.server.framework.IBioModule;
 import com.traclabs.biosim.server.sensor.framework.GenericSensor;
 import com.traclabs.biosim.server.simulation.environment.EnvironmentStore;
 
-public class GasPressureSensor extends GenericSensor  {
+public class GasPressureSensor extends GenericSensor {
     private EnvironmentStore myEnvironmentStore;
-    
+
     public GasPressureSensor() {
         super(0, "Unnamed GasPressureSensor");
     }
@@ -15,7 +15,7 @@ public class GasPressureSensor extends GenericSensor  {
         super(pID, pName);
     }
 
-    protected void gatherData(){
+    protected void gatherData() {
         float preFilteredValue = getInput().getPressure();
         myValue = getStochasticFilter().randomFilter(preFilteredValue);
     }
@@ -24,16 +24,16 @@ public class GasPressureSensor extends GenericSensor  {
         return getInput();
     }
 
-	@Override
-	public float getMax() {
-		return myEnvironmentStore.getCurrentCapacity();
-	}
+    @Override
+    public float getMax() {
+        return myEnvironmentStore.getCurrentCapacity();
+    }
 
-	public void setInput(EnvironmentStore source) {
-		myEnvironmentStore = source;
-	}
+    public EnvironmentStore getInput() {
+        return myEnvironmentStore;
+    }
 
-	public EnvironmentStore getInput() {
-		return myEnvironmentStore;
-	}
+    public void setInput(EnvironmentStore source) {
+        myEnvironmentStore = source;
+    }
 }

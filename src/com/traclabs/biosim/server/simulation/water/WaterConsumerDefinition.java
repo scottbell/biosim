@@ -10,11 +10,11 @@ import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable
 public class WaterConsumerDefinition extends StoreFlowRateControllable {
 
     public WaterConsumerDefinition(BioModule pModule) {
-super(pModule);
+        super(pModule);
     }
 
     public void setWaterInputs(WaterStore[] pStores, float[] pMaxFlowRates,
-            float[] pDesiredFlowRates) {
+                               float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
         setInitialStores(pStores);

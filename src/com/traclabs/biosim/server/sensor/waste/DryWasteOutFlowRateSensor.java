@@ -20,7 +20,6 @@ public class DryWasteOutFlowRateSensor extends GenericSensor {
     }
 
 
-
     public void setInput(DryWasteProducer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;

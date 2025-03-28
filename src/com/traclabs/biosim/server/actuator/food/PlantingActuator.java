@@ -16,7 +16,6 @@ public class PlantingActuator extends ShelfActuator {
     }
 
 
-
     public float getMax() {
         return myShelf.getCropAreaTotal();
     }

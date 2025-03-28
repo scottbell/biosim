@@ -10,11 +10,11 @@ import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable
 public class CO2ProducerDefinition extends StoreFlowRateControllable {
 
     public CO2ProducerDefinition(BioModule pModule) {
-    	super(pModule);
+        super(pModule);
     }
 
     public void setCO2Outputs(ICO2Store[] pStores, float[] pMaxFlowRates,
-            float[] pDesiredFlowRates) {
+                              float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
         setInitialStores(pStores);

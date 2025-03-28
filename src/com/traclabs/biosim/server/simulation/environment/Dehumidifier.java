@@ -7,18 +7,16 @@ import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinition;
 
 /**
  * The basic Dehimidifier implementation.
- * 
+ *
  * @author Scott Bell
  */
 
 public class Dehumidifier extends SimBioModule {
 
-    //Consumers, Producers
-    private AirConsumerDefinition myAirConsumerDefinition;
-
-    private DirtyWaterProducerDefinition myDirtyWaterProducerDefinition;
-    
     public static final float OPTIMAL_MOISTURE_CONCENTRATION = 0.0218910f;
+    //Consumers, Producers
+    private final AirConsumerDefinition myAirConsumerDefinition;
+    private final DirtyWaterProducerDefinition myDirtyWaterProducerDefinition;
     //  in kPA assuming 101 kPa total pressure and air temperature of 23C and relative humidity of 80%
 
     public Dehumidifier(int pID, String pName) {
@@ -26,9 +24,26 @@ public class Dehumidifier extends SimBioModule {
         myAirConsumerDefinition = new AirConsumerDefinition(this);
         myDirtyWaterProducerDefinition = new DirtyWaterProducerDefinition(this);
     }
-    
+
     public Dehumidifier() {
         this(0, "Unnamed Dehumidifier");
+    }
+
+    private static float calculateMolesNeededToRemove(
+            SimEnvironment pEnvironment) {
+        float currentWaterMolesInEnvironment = pEnvironment.getVaporStore().getCurrentLevel();
+        float totalMolesInEnvironment = pEnvironment.getTotalMoles();
+        if ((currentWaterMolesInEnvironment / totalMolesInEnvironment) > OPTIMAL_MOISTURE_CONCENTRATION) {
+            float waterMolesAtOptimalConcentration = ((totalMolesInEnvironment - currentWaterMolesInEnvironment) * OPTIMAL_MOISTURE_CONCENTRATION)
+                    / (1 - OPTIMAL_MOISTURE_CONCENTRATION);
+            return currentWaterMolesInEnvironment
+                    - waterMolesAtOptimalConcentration;
+        }
+        return 0f;
+    }
+
+    private static float waterMolesToLiters(float pMoles) {
+        return (pMoles * 18.01524f) / 1000f; // 1000g/liter, 18.01524g/mole
     }
 
     public AirConsumerDefinition getAirConsumerDefinition() {
@@ -53,7 +68,7 @@ public class Dehumidifier extends SimBioModule {
                     .getEnvironments()[0].getTotalMoles();
             //myAirInputs[0].printCachedEnvironment();
             //myLogger.debug("Before: Water concentration"
-             //       + currentWaterMolesInEnvironment / totalMolesInEnvironment);
+            //       + currentWaterMolesInEnvironment / totalMolesInEnvironment);
         }
         float molesOfWaterGathered = 0f;
         for (int i = 0; i < myAirConsumerDefinition.getEnvironments().length; i++) {
@@ -68,7 +83,7 @@ public class Dehumidifier extends SimBioModule {
                         myAirConsumerDefinition.getDesiredFlowRate(i));
                 myAirConsumerDefinition.getActualFlowRates()[i] = myAirConsumerDefinition
                         .getEnvironments()[i].getVaporStore().take(resourceToGatherFinal);
-               // myLogger.debug("Going to remove " + resourceToGatherFinal
+                // myLogger.debug("Going to remove " + resourceToGatherFinal
                 //        + " moles of water");
                 molesOfWaterGathered += myAirConsumerDefinition
                         .getActualFlowRate(i);
@@ -90,25 +105,8 @@ public class Dehumidifier extends SimBioModule {
         }
     }
 
-    private static float calculateMolesNeededToRemove(
-            SimEnvironment pEnvironment) {
-        float currentWaterMolesInEnvironment = pEnvironment.getVaporStore().getCurrentLevel();
-        float totalMolesInEnvironment = pEnvironment.getTotalMoles();
-        if ((currentWaterMolesInEnvironment / totalMolesInEnvironment) > OPTIMAL_MOISTURE_CONCENTRATION) {
-            float waterMolesAtOptimalConcentration = ((totalMolesInEnvironment - currentWaterMolesInEnvironment) * OPTIMAL_MOISTURE_CONCENTRATION)
-                    / (1 - OPTIMAL_MOISTURE_CONCENTRATION);
-            return currentWaterMolesInEnvironment
-                    - waterMolesAtOptimalConcentration;
-        }
-		return 0f;
-    }
-
-    private static float waterMolesToLiters(float pMoles) {
-        return (pMoles * 18.01524f) / 1000f; // 1000g/liter, 18.01524g/mole
-    }
-
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,
-            MalfunctionLength pLength) {
+                                        MalfunctionLength pLength) {
         StringBuffer returnBuffer = new StringBuffer();
         if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
             returnBuffer.append("Severe ");

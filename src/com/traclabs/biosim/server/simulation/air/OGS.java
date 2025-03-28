@@ -8,13 +8,13 @@ import com.traclabs.biosim.server.simulation.water.PotableWaterConsumerDefinitio
 public class OGS extends SimBioModule {
 
     //Consumers, Producers
-    private PowerConsumerDefinition myPowerConsumerDefinition;
+    private final PowerConsumerDefinition myPowerConsumerDefinition;
 
-    private PotableWaterConsumerDefinition myPotableWaterConsumerDefinition;
+    private final PotableWaterConsumerDefinition myPotableWaterConsumerDefinition;
 
-    private O2ProducerDefinition myO2ProducerDefinition;
+    private final O2ProducerDefinition myO2ProducerDefinition;
 
-    private H2ProducerDefinition myH2ProducerDefinition;
+    private final H2ProducerDefinition myH2ProducerDefinition;
 
     private float currentH2OConsumed = 0;
 
@@ -22,7 +22,7 @@ public class OGS extends SimBioModule {
 
     private float currentH2Produced = 0;
 
-    private float myProductionRate = 1f;
+    private final float myProductionRate = 1f;
 
     private float currentPowerConsumed = 0f;
 
@@ -33,18 +33,18 @@ public class OGS extends SimBioModule {
         myO2ProducerDefinition = new O2ProducerDefinition(this);
         myH2ProducerDefinition = new H2ProducerDefinition(this);
     }
-    
+
     @Override
     protected void performMalfunctions() {
-		for (Malfunction malfunction : myMalfunctions.values()) {
-			malfunction.setPerformed(true);
-		}
-		if (myMalfunctions.values().size() > 0) {
-	        myPowerConsumerDefinition.malfunction();
-	        myPotableWaterConsumerDefinition.malfunction();
-	        myO2ProducerDefinition.malfunction();
-	        myH2ProducerDefinition.malfunction();
-		}
+        for (Malfunction malfunction : myMalfunctions.values()) {
+            malfunction.setPerformed(true);
+        }
+        if (myMalfunctions.size() > 0) {
+            myPowerConsumerDefinition.malfunction();
+            myPotableWaterConsumerDefinition.malfunction();
+            myO2ProducerDefinition.malfunction();
+            myH2ProducerDefinition.malfunction();
+        }
     }
 
     public PowerConsumerDefinition getPowerConsumerDefinition() {
@@ -89,7 +89,7 @@ public class OGS extends SimBioModule {
         gatherWater();
         pushGasses();
     }
-    
+
     public void log() {
         myLogger.debug("power_consumed=" + currentPowerConsumed);
     }

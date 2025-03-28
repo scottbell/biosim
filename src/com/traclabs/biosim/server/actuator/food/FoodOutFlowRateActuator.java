@@ -20,7 +20,6 @@ public class FoodOutFlowRateActuator extends GenericActuator {
     }
 
 
-
     public void setOutput(FoodProducer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;

@@ -12,11 +12,11 @@ public class MethaneProducerDefinition extends
     private MethaneProducerDefinition myMethaneProducerDefinition;
 
     public MethaneProducerDefinition(BioModule pModule) {
-     super(pModule);
+        super(pModule);
     }
 
     public void setMethaneOutputs(MethaneStore[] pStores,
-            float[] pMaxFlowRates, float[] pDesiredFlowRates) {
+                                  float[] pMaxFlowRates, float[] pDesiredFlowRates) {
         setInitialMaxFlowRates(pMaxFlowRates);
         setInitialDesiredFlowRates(pDesiredFlowRates);
         setInitialStores(pStores);

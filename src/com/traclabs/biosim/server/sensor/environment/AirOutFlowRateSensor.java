@@ -20,7 +20,6 @@ public class AirOutFlowRateSensor extends GenericSensor {
     }
 
 
-
     public void setInput(AirProducer pProducer, int pIndex) {
         myProducer = pProducer;
         myIndex = pIndex;

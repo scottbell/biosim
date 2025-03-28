@@ -6,17 +6,17 @@ package com.traclabs.biosim.server.simulation.crew;
  * detaches herself from the current environment and attachs to another (for the
  * length of the activity). When the activity is finished, the crewmember
  * reattachs herself to the original environment.
- * 
+ *
  * @author Scott Bell
  */
 
 public class EVAActivity extends Activity {
-    private String myBaseCrewGroupName;
+    private final String myBaseCrewGroupName;
 
-    private String myEVACrewGroupName;
+    private final String myEVACrewGroupName;
 
     public EVAActivity(String pName, int pTimeLength, int pIntensity,
-            String pBaseCrewGroupName, String pEVACrewGroupName) {
+                       String pBaseCrewGroupName, String pEVACrewGroupName) {
         super(pName, pTimeLength, pIntensity);
         myBaseCrewGroupName = pBaseCrewGroupName;
         myEVACrewGroupName = pEVACrewGroupName;

@@ -20,7 +20,6 @@ public class MethaneInFlowRateSensor extends GenericSensor {
     }
 
 
-
     public void setInput(MethaneConsumer pConsumer, int pIndex) {
         myConsumer = pConsumer;
         myIndex = pIndex;
