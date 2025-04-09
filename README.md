@@ -32,8 +32,6 @@ docker compose up
 This command builds (if needed) and starts the BioSim container, with the server listening on port `8009`.
 
 
-This command builds (if needed) and starts the BioSim container, with the server listening on port `8009`.
-
 ## REST API Endpoints
 
 The simulation exposes several REST endpoints:
