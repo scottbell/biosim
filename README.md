@@ -224,5 +224,9 @@ The simulation exposes several REST endpoints:
   curl -X DELETE http://localhost:8009/api/simulation/1/modules/OGS/malfunctions
   ```
 
+## Configuring BioSim
+
+For more detailed instructions on configuring BioSim, please refer to the [Users Manual](doc/users_manual.md#configuring-the-simulation). This manual covers configuration options such as initial conditions and stochastic processes.
+
 ## License
 GPL v3
