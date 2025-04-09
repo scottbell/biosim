@@ -177,7 +177,6 @@ The simulation exposes several REST endpoints:
       "doneEnoughRepairWork": false
     }
   ]
-  ````
 
 - **POST** `/api/simulation/{simID}/modules/{moduleName}/malfunctions`  
   Starts or schedules a malfunction for a specific module.  
