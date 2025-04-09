@@ -1,0 +1,47 @@
+package com.traclabs.biosim.server.sensor.framework;
+
+import com.traclabs.biosim.server.framework.BioModule;
+import com.traclabs.biosim.server.framework.IBioModule;
+import com.traclabs.biosim.server.util.MathUtils;
+
+public abstract class GenericSensor extends BioModule {
+    protected float myValue;
+
+    public GenericSensor(int pID, String pName) {
+        super(pID, pName);
+    }
+
+    protected abstract void gatherData();
+
+    protected void notifyListeners() {
+    }
+
+    public float getValue() {
+        return myValue;
+    }
+
+    public abstract float getMax();
+
+    public float getMin() {
+        return 0f;
+    }
+
+    public void tick() {
+        gatherData();
+        super.tick();
+        notifyListeners();
+    }
+
+    public abstract IBioModule getInputModule();
+
+    public void log() {
+        myLogger.debug("value=" + getValue());
+    }
+
+    protected void performMalfunctions() {
+        if (!myMalfunctions.isEmpty()) {
+            Double noisyValue = MathUtils.gaussian(myValue, 100);
+            myValue = noisyValue.floatValue();
+        }
+    }
+}

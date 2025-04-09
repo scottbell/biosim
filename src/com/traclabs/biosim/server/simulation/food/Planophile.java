@@ -1,14 +1,16 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
-
 /**
  * Planophile
- * 
+ *
  * @author Scott Bell
  */
 
-public abstract class Planophile extends PlantImpl {
+public abstract class Planophile extends Plant {
+    public Planophile(Shelf pShelf) {
+        super(pShelf);
+    }
+
     protected abstract float getBCF();
 
     protected abstract float getCarbonUseEfficiency24();
@@ -45,12 +47,8 @@ public abstract class Planophile extends PlantImpl {
 
     protected abstract int getTAInitialValue();
 
-    public Planophile(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
-    }
-
     protected float calculateCanopyStomatalConductance() {
-        float temperature = myShelfImpl.getBiomassPSImpl()
+        float temperature = myShelf.getBiomassPS()
                 .getAirProducerDefinition().getEnvironments()[0]
                 .getTemperature();
         float vaporPressureDeficit = calculateVaporPressureDeficit();
@@ -66,7 +64,7 @@ public abstract class Planophile extends PlantImpl {
                 * (netCanopyPhotosynthesis / getAverageCO2Concentration());
         if (canopyStomatalConductance <= 0)
             return Float.MIN_VALUE;
-		return canopyStomatalConductance;
+        return canopyStomatalConductance;
     }
 
     protected float calculateAtmosphericAeroDynamicConductance() {

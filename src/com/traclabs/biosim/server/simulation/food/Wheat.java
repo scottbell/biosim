@@ -1,10 +1,8 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
-
 /**
  * Wheat
- * 
+ *
  * @author Scott Bell
  */
 
@@ -16,8 +14,8 @@ public class Wheat extends Erectophile {
     //private static final float initialPPFValue = 1402.778f;
     private static final float initialCO2Value = 1200f;
 
-    public Wheat(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public Wheat(Shelf pShelf) {
+        super(pShelf);
         canopyClosureConstants[0] = 95488f;
         canopyClosureConstants[1] = 1068.6f;
         canopyClosureConstants[6] = 15.977f;
@@ -31,6 +29,25 @@ public class Wheat extends Erectophile {
         canopyQYConstants[11] = -0.0000051946f;
         canopyQYConstants[17] = -0.0000000000049303f;
         canopyQYConstants[18] = 0.0000000000000022255f;
+    }
+
+    public static float getFractionOfEdibleBiomass() {
+        return 0.4f;
+    }
+
+    /**
+     * Returns calories per kilogram
+     */
+    public static float getCaloriesPerKilogram() {
+        return 3300f;
+    }
+
+    public static float getEdibleFreshBasisWaterContent() {
+        return 0.12f;
+    }
+
+    public static float getInedibleFreshBasisWaterContent() {
+        return 0.9f;
     }
 
     protected float getInitialPPFValue() {
@@ -100,27 +117,8 @@ public class Wheat extends Erectophile {
         return 1.07f;
     }
 
-    public static float getFractionOfEdibleBiomass() {
-        return 0.4f;
-    }
-
     protected float getProtectedFractionOfEdibleBiomass() {
         return getFractionOfEdibleBiomass();
-    }
-
-    /**
-     * Returns calories per kilogram
-     */
-    public static float getCaloriesPerKilogram() {
-        return 3300f;
-    }
-
-    public static float getEdibleFreshBasisWaterContent() {
-        return 0.12f;
-    }
-
-    public static float getInedibleFreshBasisWaterContent() {
-        return 0.9f;
     }
 
     protected float getProtectedEdibleFreshBasisWaterContent() {

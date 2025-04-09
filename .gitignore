@@ -1,5 +1,4 @@
-build/
+target/
 dist/
-tmp/
-bin/_nsdb*
+build/
 .DS_Store

@@ -1,10 +1,8 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
-
 /**
  * Rice
- * 
+ *
  * @author Scott Bell
  */
 
@@ -15,8 +13,8 @@ public class Rice extends Erectophile {
 
     private static final float initialCO2Value = 1200f;
 
-    public Rice(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public Rice(Shelf pShelf) {
+        super(pShelf);
         canopyClosureConstants[0] = 6591400f;
         canopyClosureConstants[1] = 25776f;
         canopyClosureConstants[3] = .0064532f;
@@ -32,6 +30,25 @@ public class Rice extends Erectophile {
         canopyQYConstants[12] = -0.0000000091477f;
         canopyQYConstants[13] = 0.000000000003889f;
         canopyQYConstants[16] = -0.0000000026712f;
+    }
+
+    public static float getFractionOfEdibleBiomass() {
+        return 0.3f;
+    }
+
+    /**
+     * Returns calories per kilogram
+     */
+    public static float getCaloriesPerKilogram() {
+        return 3630f;
+    }
+
+    public static float getEdibleFreshBasisWaterContent() {
+        return 0.12f;
+    }
+
+    public static float getInedibleFreshBasisWaterContent() {
+        return 0.90f;
     }
 
     protected float getInitialPPFValue() {
@@ -100,27 +117,8 @@ public class Rice extends Erectophile {
         return 1.08f;
     }
 
-    public static float getFractionOfEdibleBiomass() {
-        return 0.3f;
-    }
-
     protected float getProtectedFractionOfEdibleBiomass() {
         return getFractionOfEdibleBiomass();
-    }
-
-    /**
-     * Returns calories per kilogram
-     */
-    public static float getCaloriesPerKilogram() {
-        return 3630f;
-    }
-
-    public static float getEdibleFreshBasisWaterContent() {
-        return 0.12f;
-    }
-
-    public static float getInedibleFreshBasisWaterContent() {
-        return 0.90f;
     }
 
     protected float getProtectedEdibleFreshBasisWaterContent() {

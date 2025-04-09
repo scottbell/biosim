@@ -1,23 +1,24 @@
-FROM ubuntu:22.04
+# Use a Java 21 base image
+FROM eclipse-temurin:21-jdk
 
 # Set the working directory
-WORKDIR /biosim
+WORKDIR /app
 
-# Install dependencies
-RUN apt-get update && \
-    apt-get install -y ant openjdk-11-jdk
+# Copy the Maven project files
+COPY pom.xml .
+COPY src/ ./src/
+COPY etc/ ./etc/
+COPY bin/ ./bin/
 
-# Copy project from disk to container
-COPY . /biosim
+# Install Maven and build the project
+RUN apt-get update && apt-get install -y maven
+RUN mvn clean package
 
-# Build the project
-RUN ant
+# Make the scripts in bin executable
+RUN chmod +x bin/*
 
-# Indicate that the container listens on port 16315 at runtime
-EXPOSE 16315
+# Expose the port for the REST API
+EXPOSE 8009
 
-# Change to the directory where the BioSim binaries are located
-WORKDIR /biosim/bin
-
-# Start the biosim headless version (ensure that the ant run-biosim-headless target starts a long-running process)
-CMD ["bash", "run-biosim-headless"]
+# Run the BioSim server using the start script
+CMD ["./bin/start-biosim-server", "0.0.0.0", "8009"]

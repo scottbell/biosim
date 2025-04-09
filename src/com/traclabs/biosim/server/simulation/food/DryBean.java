@@ -1,10 +1,8 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
-
 /**
  * DryBean
- * 
+ *
  * @author Scott Bell
  */
 
@@ -15,8 +13,8 @@ public class DryBean extends Legume {
 
     private static final float initialCO2Value = 1200f;
 
-    public DryBean(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public DryBean(Shelf pShelf) {
+        super(pShelf);
         canopyClosureConstants[0] = 290410f;
         canopyClosureConstants[1] = 1559.4f;
         canopyClosureConstants[6] = 15.840f;
@@ -30,6 +28,25 @@ public class DryBean extends Legume {
         canopyQYConstants[11] = -0.00001238f;
         canopyQYConstants[17] = -0.00000000001544f;
         canopyQYConstants[18] = 0.000000000000006469f;
+    }
+
+    public static float getFractionOfEdibleBiomass() {
+        return 0.4f;
+    }
+
+    /**
+     * Returns calories per kilogram
+     */
+    public static float getCaloriesPerKilogram() {
+        return 3490f;
+    }
+
+    public static float getEdibleFreshBasisWaterContent() {
+        return 0.10f;
+    }
+
+    public static float getInedibleFreshBasisWaterContent() {
+        return 0.90f;
     }
 
     protected float getInitialPPFValue() {
@@ -103,27 +120,8 @@ public class DryBean extends Legume {
         return 1.1f;
     }
 
-    public static float getFractionOfEdibleBiomass() {
-        return 0.4f;
-    }
-
     protected float getProtectedFractionOfEdibleBiomass() {
         return getFractionOfEdibleBiomass();
-    }
-
-    /**
-     * Returns calories per kilogram
-     */
-    public static float getCaloriesPerKilogram() {
-        return 3490f;
-    }
-
-    public static float getEdibleFreshBasisWaterContent() {
-        return 0.10f;
-    }
-
-    public static float getInedibleFreshBasisWaterContent() {
-        return 0.90f;
     }
 
     protected float getProtectedEdibleFreshBasisWaterContent() {

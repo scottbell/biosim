@@ -1,13 +1,13 @@
 package com.traclabs.biosim.server.simulation.water.aws;
 
-import org.apache.log4j.Logger;
-
-import com.traclabs.biosim.server.simulation.water.WaterRSImpl;
+import com.traclabs.biosim.server.simulation.water.WaterRS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The abstract class all the water subsystems derive from (the AES, BWP, PPS,
  * and RO).
- * 
+ *
  * @author Scott Bell
  */
 
@@ -28,7 +28,7 @@ public abstract class WaterRSSubSystem {
     protected float waterNeeded = 57.6f;
 
     //Reference to the WaterRS to get other watersubsystems
-    protected WaterRSImpl myWaterRS;
+    protected WaterRS myWaterRS;
 
     //Flag to determine whether the water subsystem has received enough power
     // for this tick
@@ -42,20 +42,17 @@ public abstract class WaterRSSubSystem {
     protected float waterLevel = 0;
 
     protected boolean enabled = true;
-
-    private boolean malfunctioning = false;
-
     protected Logger myLogger;
+    private boolean malfunctioning = false;
 
     /**
      * Constructor that creates the subsystem
-     * 
-     * @param pWaterRSImpl
-     *            The Water RS system this subsystem is contained in
+     *
+     * @param pWaterRS The Water RS system this subsystem is contained in
      */
-    public WaterRSSubSystem(WaterRSImpl pWaterRSImpl) {
-        myWaterRS = pWaterRSImpl;
-        myLogger = Logger.getLogger(this.getClass());
+    public WaterRSSubSystem(WaterRS pWaterRS) {
+        myWaterRS = pWaterRS;
+        myLogger = LoggerFactory.getLogger(this.getClass());
         currentPowerNeeded = basePowerNeeded * myWaterRS.getTickLength();
     }
 
@@ -77,9 +74,9 @@ public abstract class WaterRSSubSystem {
 
     /**
      * Returns whether the water subsytem has enough power at the current tick.
-     * 
+     *
      * @return <code>true</code> if the water subsytem has enough power to
-     *         function, <code>false</code> if not
+     * function, <code>false</code> if not
      */
     public boolean hasPower() {
         return hasEnoughPower;
@@ -98,21 +95,21 @@ public abstract class WaterRSSubSystem {
             currentPowerNeeded = basePowerNeeded * myWaterRS.getTickLength();
     }
 
+    public boolean isMalfunctioning() {
+        return malfunctioning;
+    }
+
     public void setMalfunctioning(boolean pMalfunctioning) {
         malfunctioning = pMalfunctioning;
         if (malfunctioning)
             enabled = false;
     }
 
-    public boolean isMalfunctioning() {
-        return malfunctioning;
-    }
-
     /**
      * Returns whether the water subsytem has enough water at the current tick.
-     * 
+     *
      * @return <code>true</code> if the water subsytem has enough water to
-     *         function, <code>false</code> if not
+     * function, <code>false</code> if not
      */
     public boolean hasWater() {
         return hasEnoughWater;
@@ -123,30 +120,21 @@ public abstract class WaterRSSubSystem {
      */
     protected void gatherPower() {
         float gatheredPower = 0f;
-        gatheredPower = myWaterRS.getPowerConsumerDefinitionImpl()
+        gatheredPower = myWaterRS.getPowerConsumerDefinition()
                 .getFractionalResourceFromStores(currentPowerNeeded,
                         1f / myWaterRS.getSubsystemsConsumingPower());
         currentPowerConsumed = gatheredPower;
-        if (currentPowerConsumed < currentPowerNeeded) {
-            hasEnoughPower = false;
-        } else {
-            hasEnoughPower = true;
-        }
+        hasEnoughPower = !(currentPowerConsumed < currentPowerNeeded);
     }
 
     /**
      * Adds water to the subsystem for this tick
-     * 
-     * @param pWater
-     *            the amount of water to add (in liters)
+     *
+     * @param pWater the amount of water to add (in liters)
      */
     public void addWater(float pWater) {
         waterLevel += pWater;
-        if (waterLevel < 0) {
-            hasEnoughWater = false;
-        } else {
-            hasEnoughWater = true;
-        }
+        hasEnoughWater = !(waterLevel < 0);
     }
 
     /**

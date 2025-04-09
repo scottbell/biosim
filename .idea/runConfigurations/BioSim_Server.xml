@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="BioSim Server" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.traclabs.biosim.server.framework.BiosimServer" />
+    <module name="biosim" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

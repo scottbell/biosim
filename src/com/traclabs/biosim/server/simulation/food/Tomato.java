@@ -1,10 +1,8 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
-
 /**
  * Tomato
- * 
+ *
  * @author Scott Bell
  */
 
@@ -15,8 +13,8 @@ public class Tomato extends Planophile {
 
     private static final float initialCO2Value = 1200f;
 
-    public Tomato(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public Tomato(Shelf pShelf) {
+        super(pShelf);
         canopyClosureConstants[0] = 627740f;
         canopyClosureConstants[1] = 3172.4f;
         canopyClosureConstants[6] = 24.281f;
@@ -30,6 +28,25 @@ public class Tomato extends Planophile {
         canopyQYConstants[12] = -0.00000001182f;
         canopyQYConstants[13] = 0.00000000000550264f;
         canopyQYConstants[16] = -0.0000000071241f;
+    }
+
+    public static float getFractionOfEdibleBiomass() {
+        return 0.45f;
+    }
+
+    /**
+     * Returns calories per kilogram
+     */
+    public static float getCaloriesPerKilogram() {
+        return 220f;
+    }
+
+    public static float getEdibleFreshBasisWaterContent() {
+        return 0.94f;
+    }
+
+    public static float getInedibleFreshBasisWaterContent() {
+        return 0.90f;
     }
 
     protected float getInitialPPFValue() {
@@ -106,27 +123,8 @@ public class Tomato extends Planophile {
         return 1.09f;
     }
 
-    public static float getFractionOfEdibleBiomass() {
-        return 0.45f;
-    }
-
     protected float getProtectedFractionOfEdibleBiomass() {
         return getFractionOfEdibleBiomass();
-    }
-
-    /**
-     * Returns calories per kilogram
-     */
-    public static float getCaloriesPerKilogram() {
-        return 220f;
-    }
-
-    public static float getEdibleFreshBasisWaterContent() {
-        return 0.94f;
-    }
-
-    public static float getInedibleFreshBasisWaterContent() {
-        return 0.90f;
     }
 
     protected float getProtectedEdibleFreshBasisWaterContent() {

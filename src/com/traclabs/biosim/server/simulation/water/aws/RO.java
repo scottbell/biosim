@@ -1,11 +1,11 @@
 package com.traclabs.biosim.server.simulation.water.aws;
 
-import com.traclabs.biosim.server.simulation.water.WaterRSImpl;
+import com.traclabs.biosim.server.simulation.water.WaterRS;
 
 /**
  * The RO is the second stage of water purification. It takes water from the
  * BWP, filters it some, and sends the water to the AES
- * 
+ *
  * @author Scott Bell
  */
 
@@ -16,12 +16,11 @@ public class RO extends WaterRSSubSystem {
 
     /**
      * Constructor that creates the RO
-     * 
-     * @param pWaterRSImpl
-     *            The Water RS system the RO is contained in
+     *
+     * @param pWaterRS The Water RS system the RO is contained in
      */
-    public RO(WaterRSImpl pWaterRSImpl) {
-        super(pWaterRSImpl);
+    public RO(WaterRS pWaterRS) {
+        super(pWaterRS);
     }
 
     public void log() {
@@ -44,7 +43,7 @@ public class RO extends WaterRSSubSystem {
     private void pushWater() {
         //if AES is enabled, send 15% of water to it
         if (myWaterRS.getAES().isEnabled()) {
-            currentAESWaterProduced = (new Double(waterLevel * 0.15f))
+            currentAESWaterProduced = (Double.valueOf(waterLevel * 0.15f))
                     .floatValue();
             myWaterRS.getAES().addWater(currentAESWaterProduced);
         }
@@ -54,14 +53,14 @@ public class RO extends WaterRSSubSystem {
         }
         //if PPS is enabled, give it to it
         if (myWaterRS.getPPS().isEnabled()) {
-            currentPPSWaterProduced = (new Double(waterLevel * 0.85f))
+            currentPPSWaterProduced = (Double.valueOf(waterLevel * 0.85f))
                     .floatValue();
             myWaterRS.getPPS().addWater(currentPPSWaterProduced);
             waterLevel = 0;
         }
         //if not, send it to grey water tank
         else {
-            waterLevel = myWaterRS.getGreyWaterConsumerDefinitionImpl()
+            waterLevel = myWaterRS.getGreyWaterConsumerDefinition()
                     .pushResourceToStores(waterLevel);
         }
     }
@@ -77,7 +76,7 @@ public class RO extends WaterRSSubSystem {
                 pushWater();
             } else {
                 //try to put back into dirtyWater Store.
-                waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl()
+                waterLevel = myWaterRS.getDirtyWaterConsumerDefinition()
                         .pushResourceToStores(waterLevel);
                 //dump extra water
                 waterLevel = 0f;
@@ -86,7 +85,7 @@ public class RO extends WaterRSSubSystem {
             }
         } else {
             //try to put back into dirtyWater Store.
-            waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl()
+            waterLevel = myWaterRS.getDirtyWaterConsumerDefinition()
                     .pushResourceToStores(waterLevel);
             //dump extra water
             waterLevel = 0f;

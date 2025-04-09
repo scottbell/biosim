@@ -1,49 +1,49 @@
 package com.traclabs.biosim.server.util.failure;
 
 public class ExpDecider extends FailureDecider {
-	private double myLambda;
+    private final double myLambda;
 
-	public ExpDecider(double lambda) {
-		this.myLambda = lambda;
-	}
-	
-	@Override
-	public void reset() {
-	}
+    public ExpDecider(double lambda) {
+        this.myLambda = lambda;
+    }
 
-	@Override
-	protected double getReliability(double timeElapsed) {
-		return expFailureRate(myLambda, timeElapsed);
-	}
+    public static double expdensity(double lambda, double x) {
 
-	public static double expdensity(double lambda, double x) {
+        double f;
 
-		double f;
+        f = lambda * Math.exp(-lambda * x);
 
-		f = lambda * Math.exp(-lambda * x);
+        return f;
 
-		return f;
+    }
 
-	}
+    public static double expReliability(double lambda, double x) {
 
-	public static double expReliability(double lambda, double x) {
+        double R;
 
-		double R;
+        R = Math.exp(-lambda * x);
 
-		R = Math.exp(-lambda * x);
+        return R;
 
-		return R;
+    }
 
-	}
+    public static double expFailureRate(double lambda, double x) {
 
-	public static double expFailureRate(double lambda, double x) {
+        double z;
 
-		double z;
+        z = lambda;
 
-		z = lambda;
+        return z;
 
-		return z;
+    }
 
-	}
+    @Override
+    public void reset() {
+    }
+
+    @Override
+    protected double getReliability(double timeElapsed) {
+        return expFailureRate(myLambda, timeElapsed);
+    }
 
 }

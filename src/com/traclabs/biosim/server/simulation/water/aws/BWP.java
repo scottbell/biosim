@@ -1,39 +1,32 @@
 package com.traclabs.biosim.server.simulation.water.aws;
 
-import com.traclabs.biosim.server.simulation.water.WaterRSImpl;
+import com.traclabs.biosim.server.simulation.water.WaterRS;
 
 /**
  * The Biological Waste Processor is the first stage of water purification. It
  * takes dirty/grey water, filters it some, and sends the water to the RO
- * 
+ *
  * @author Scott Bell
  */
 
 public class BWP extends WaterRSSubSystem {
+    private final static float BOTH_DISABLED_WATER_NEEDED = 0f;
+    private final float NORMAL_WATER_NEEDED = waterNeeded;
+    private final float RO_DISABLED_WATER_NEEDED = Double.valueOf(
+            waterNeeded * 0.15f).floatValue();
     //The subsystem to send the water to next
     private float currentDirtyWaterConsumed = 0f;
-
     private float currentGreyWaterConsumed = 0f;
-
     private float currentROWaterProduced = 0f;
-
     private float currentAESWaterProduced = 0f;
-
-    private final float NORMAL_WATER_NEEDED = waterNeeded;
-
-    private final float RO_DISABLED_WATER_NEEDED = new Double(
-            waterNeeded * 0.15f).floatValue();
-
-    private final static float BOTH_DISABLED_WATER_NEEDED = 0f;
 
     /**
      * Constructor that creates the BWP
-     * 
-     * @param pWaterRSImpl
-     *            The Water RS system the BWP is contained in
+     *
+     * @param pWaterRS The Water RS system the BWP is contained in
      */
-    public BWP(WaterRSImpl pWaterRSImpl) {
-        super(pWaterRSImpl);
+    public BWP(WaterRS pWaterRS) {
+        super(pWaterRS);
     }
 
     public void log() {
@@ -70,18 +63,14 @@ public class BWP extends WaterRSSubSystem {
         }
         waterNeeded *= myWaterRS.getTickLength();
         currentDirtyWaterConsumed = myWaterRS
-                .getDirtyWaterConsumerDefinitionImpl().getResourceFromStores(
+                .getDirtyWaterConsumerDefinition().getResourceFromStores(
                         waterNeeded);
         currentGreyWaterConsumed = myWaterRS
-                .getGreyWaterConsumerDefinitionImpl().getResourceFromStores(
+                .getGreyWaterConsumerDefinition().getResourceFromStores(
                         waterNeeded - currentDirtyWaterConsumed);
         float gatheredWater = currentDirtyWaterConsumed
                 + currentGreyWaterConsumed;
-        if (gatheredWater < waterNeeded) {
-            hasEnoughWater = false;
-        } else {
-            hasEnoughWater = true;
-        }
+        hasEnoughWater = !(gatheredWater < waterNeeded);
         addWater(currentDirtyWaterConsumed + currentGreyWaterConsumed);
     }
 
@@ -99,7 +88,7 @@ public class BWP extends WaterRSSubSystem {
             myWaterRS.getAES().addWater(currentAESWaterProduced);
         } else {
             //dump water back to dirty water store
-            waterLevel = myWaterRS.getDirtyWaterConsumerDefinitionImpl()
+            waterLevel = myWaterRS.getDirtyWaterConsumerDefinition()
                     .pushResourceToStores(waterLevel);
             //dump rest
             waterLevel = 0f;

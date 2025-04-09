@@ -1,10 +1,8 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
-
 /**
  * Peanut
- * 
+ *
  * @author Scott Bell
  */
 
@@ -15,8 +13,8 @@ public class Peanut extends Legume {
 
     private static final float initialCO2Value = 1200f;
 
-    public Peanut(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public Peanut(Shelf pShelf) {
+        super(pShelf);
         canopyClosureConstants[0] = 3748700f;
         canopyClosureConstants[1] = 2920f;
         canopyClosureConstants[4] = .000000094008f;
@@ -35,6 +33,25 @@ public class Peanut extends Legume {
         canopyQYConstants[17] = -0.00000000010468f;
         canopyQYConstants[22] = 0.000000000000048541f;
         canopyQYConstants[24] = 0.0000000000000000000039259f;
+    }
+
+    public static float getFractionOfEdibleBiomass() {
+        return 0.25f;
+    }
+
+    /**
+     * Returns calories per kilogram
+     */
+    public static float getCaloriesPerKilogram() {
+        return 5680f;
+    }
+
+    public static float getEdibleFreshBasisWaterContent() {
+        return 0.056f;
+    }
+
+    public static float getInedibleFreshBasisWaterContent() {
+        return 0.90f;
     }
 
     protected float getInitialPPFValue() {
@@ -111,27 +128,8 @@ public class Peanut extends Legume {
         return 7.7614f;
     }
 
-    public static float getFractionOfEdibleBiomass() {
-        return 0.25f;
-    }
-
     protected float getProtectedFractionOfEdibleBiomass() {
         return getFractionOfEdibleBiomass();
-    }
-
-    /**
-     * Returns calories per kilogram
-     */
-    public static float getCaloriesPerKilogram() {
-        return 5680f;
-    }
-
-    public static float getEdibleFreshBasisWaterContent() {
-        return 0.056f;
-    }
-
-    public static float getInedibleFreshBasisWaterContent() {
-        return 0.90f;
     }
 
     protected float getProtectedEdibleFreshBasisWaterContent() {

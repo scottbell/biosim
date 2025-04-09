@@ -1,10 +1,8 @@
 package com.traclabs.biosim.server.simulation.food;
 
-import com.traclabs.biosim.idl.simulation.food.PlantType;
-
 /**
  * Lettuce
- * 
+ *
  * @author Scott Bell
  */
 
@@ -15,8 +13,8 @@ public class Lettuce extends Planophile {
 
     private static final float initialCO2Value = 1200f;
 
-    public Lettuce(ShelfImpl pShelfImpl) {
-        super(pShelfImpl);
+    public Lettuce(Shelf pShelf) {
+        super(pShelf);
         canopyClosureConstants[1] = 10289f;
         canopyClosureConstants[2] = -3.7018f;
         canopyClosureConstants[4] = .00000036648f;
@@ -30,6 +28,25 @@ public class Lettuce extends Planophile {
         canopyQYConstants[11] = -0.000011701f;
         canopyQYConstants[17] = -0.000000000019731f;
         canopyQYConstants[18] = 0.0000000000000089265f;
+    }
+
+    public static float getFractionOfEdibleBiomass() {
+        return 0.9f;
+    }
+
+    /**
+     * Returns calories per kilogram
+     */
+    public static float getCaloriesPerKilogram() {
+        return 180f;
+    }
+
+    public static float getEdibleFreshBasisWaterContent() {
+        return 0.95f;
+    }
+
+    public static float getInedibleFreshBasisWaterContent() {
+        return 0.90f;
     }
 
     protected float getInitialPPFValue() {
@@ -101,27 +118,8 @@ public class Lettuce extends Planophile {
         return 1.08f;
     }
 
-    public static float getFractionOfEdibleBiomass() {
-        return 0.9f;
-    }
-
     protected float getProtectedFractionOfEdibleBiomass() {
         return getFractionOfEdibleBiomass();
-    }
-
-    /**
-     * Returns calories per kilogram
-     */
-    public static float getCaloriesPerKilogram() {
-        return 180f;
-    }
-
-    public static float getEdibleFreshBasisWaterContent() {
-        return 0.95f;
-    }
-
-    public static float getInedibleFreshBasisWaterContent() {
-        return 0.90f;
     }
 
     protected float getProtectedEdibleFreshBasisWaterContent() {

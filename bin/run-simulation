@@ -1,0 +1,94 @@
+#!/bin/bash
+#
+# Test script for starting a BioSim simulation.
+#
+# This script posts a configuration file (default is ../configuration/default.biosim)
+# to the /api/simulation/start endpoint
+#
+
+usage() {
+    cat <<EOF
+Usage: $(basename "$0") [OPTIONS]
+
+Options:
+  -c, --config PATH    Path to configuration file to use
+                       (default: ../configuration/default.biosim)
+  -u, --url URL        Base URL of the BioSim server
+                       (default: http://localhost:8009)
+  -w, --wait SECONDS   Seconds to wait after starting the simulation
+                       (default: 1)
+  -h, --help           Display this help message and exit
+
+Example:
+  $(basename "$0") --config /path/to/default.biosim --url http://localhost:8009 --wait 2
+EOF
+}
+
+# Default values
+SCRIPT_DIR="$(dirname "$0")"
+CONFIG_FILE="$SCRIPT_DIR/../configuration/default.biosim"
+URL="http://localhost:8009"
+WAIT_SECONDS=1
+
+# Parse command-line options
+while [[ "$#" -gt 0 ]]; do
+    case "$1" in
+        -c|--config)
+            if [[ -n "$2" ]]; then
+                CONFIG_FILE="$2"
+                shift
+            else
+                echo "🛑 Error: --config requires a non-empty option argument."
+                usage
+                exit 1
+            fi
+            ;;
+        -u|--url)
+            if [[ -n "$2" ]]; then
+                URL="$2"
+                shift
+            else
+                echo "🛑 Error: --url requires a non-empty option argument."
+                usage
+                exit 1
+            fi
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1"
+            usage
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+# Check if the configuration file exists
+if [[ ! -f "$CONFIG_FILE" ]]; then
+    echo "Error: Configuration file '$CONFIG_FILE' does not exist."
+    exit 1
+fi
+
+START_ENDPOINT="$URL/api/simulation/start"
+echo "🏁 Starting simulation using configuration file: $CONFIG_FILE"
+echo "📫 Posting to: $START_ENDPOINT"
+
+# POST the configuration file using curl.
+# Capture both the response body and HTTP status code.
+RESPONSE=$(curl -s -w "\n%{http_code}" -X POST -H "Content-Type: application/xml" --data-binary @"$CONFIG_FILE" "$START_ENDPOINT")
+STATUS_CODE=$(echo "$RESPONSE" | tail -n1)
+# Replace head -n -1 with sed "$d" for portability.
+BODY=$(echo "$RESPONSE" | sed '$d')
+
+if [[ "$STATUS_CODE" -ne 200 ]]; then
+    echo "🛑 Error: Failed to start simulation. HTTP Status: $STATUS_CODE"
+    echo "Response: $BODY"
+    exit 1
+fi
+
+echo "👀 Response body: $BODY"
+
+echo "✅ Simulation started"
