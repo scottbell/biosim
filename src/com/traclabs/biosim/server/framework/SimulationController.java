@@ -44,28 +44,34 @@ public class SimulationController {
         app.post("/api/simulation/start", this::startSimulation);
         app.post("/api/simulation/{simID}/tick", this::tickSimulation);
         app.get("/api/simulation/{simID}/modules/{moduleName}", this::getModuleInfo);
+        app.post("/api/simulation/{simID}/modules/{moduleName}/consumers/{type}", this::updateConsumerDefinition);
+        app.post("/api/simulation/{simID}/modules/{moduleName}/producers/{type}", this::updateProducerDefinition);
         app.get("/api/simulation/{simID}", this::getSimulationDetails);
+        app.post("/api/simulation/{simID}/modules/{moduleName}/malfunctions", this::postMalfunction);
+        app.get("/api/simulation/{simID}/modules/{moduleName}/malfunctions", this::getModuleMalfunctions);
+        app.delete("/api/simulation/{simID}/modules/{moduleName}/malfunctions/{malfunctionID}", this::deleteMalfunction);
+        app.delete("/api/simulation/{simID}/modules/{moduleName}/malfunctions", this::deleteAllMalfunctions);
     }
 
     /**
      * Gets the list of all simulation IDs.
      *
-     * @param ctx The Javalin context
+     * @param context The Javalin context
      */
-    private void listSimulations(Context ctx) {
+    private void listSimulations(Context context) {
         // Return the keys of the simulations map as a JSON response.
-        ctx.json(Map.of("simulations", simulations.keySet()));
+        context.json(Map.of("simulations", simulations.keySet()));
     }
 
     /**
      * Starts a new simulation with the given XML configuration.
      *
-     * @param ctx The Javalin context
+     * @param context The Javalin context
      */
-    private void startSimulation(Context ctx) {
-        String xmlConfig = ctx.body();
+    private void startSimulation(Context context) {
+        String xmlConfig = context.body();
         if (xmlConfig == null || xmlConfig.isEmpty()) {
-            ctx.status(400).json(Map.of("error", "XML configuration is required in the request body."));
+            context.status(400).json(Map.of("error", "XML configuration is required in the request body."));
             return;
         }
 
@@ -83,34 +89,33 @@ public class SimulationController {
             // Start the simulation (without ticking)
             bioDriver.startSimulation();
 
-            ctx.json(Map.of("simId", simID));
+            context.json(Map.of("simId", simID));
             logger.info("🏃‍♂️ Started simulation with ID {}", simID);
         } catch (Exception e) {
             logger.error("Failed to start simulation: {}", e.getMessage());
             e.printStackTrace();
-            ctx.status(500).json(Map.of("error", "Failed to start simulation: " + e.getMessage()));
+            context.status(500).json(Map.of("error", "Failed to start simulation: " + e.getMessage()));
         }
     }
 
     /**
      * Advances the simulation by one tick.
      *
-     * @param ctx The Javalin context
+     * @param context The Javalin context
      */
-    private void tickSimulation(Context ctx) {
-        int simID = Integer.parseInt(ctx.pathParam("simID"));
+    private void tickSimulation(Context context) {
+        int simID = Integer.parseInt(context.pathParam("simID"));
         BioDriver bioDriver = simulations.get(simID);
 
         if (bioDriver == null) {
-            ctx.status(404).json(Map.of("error", "Simulation ID not found."));
+            context.status(404).json(Map.of("error", "Simulation ID not found."));
             return;
         }
 
         bioDriver.advanceOneTick();
-        ctx.json(Map.of("ticks", bioDriver.getTicks()));
+        context.json(Map.of("ticks", bioDriver.getTicks()));
         logger.info("Simulation {} advanced to tick {}", simID, bioDriver.getTicks());
     }
-
 
     /**
      * Returns detailed information for a module of a simulation.
@@ -118,32 +123,21 @@ public class SimulationController {
      * along with flow rate arrays and connection info (from the underlying
      * definition objects) or store properties if it is a store.
      *
-     * @param ctx the Javalin context from the request.
+     * @param context the Javalin context from the request.
      */
-    private void getModuleInfo(Context ctx) {
-        int simID = Integer.parseInt(ctx.pathParam("simID"));
-        String moduleName = ctx.pathParam("moduleName");
-        BioDriver bioDriver = simulations.get(simID);
-
-        if (bioDriver == null) {
-            ctx.status(404).json(Map.of("error", "Simulation ID not found."));
+    private void getModuleInfo(Context context) {
+        BioDriver bioDriver = getBioDriver(context);
+        if (bioDriver == null)
             return;
-        }
 
-        IBioModule[] modules = bioDriver.getModules();
-        IBioModule targetModule = null;
-        for (IBioModule module : modules) {
-            if (module.getModuleName().equalsIgnoreCase(moduleName)) {
-                targetModule = module;
-                break;
-            }
-        }
+        String moduleName = context.pathParam("moduleName");
+        IBioModule targetModule = findModule(bioDriver, moduleName);
         if (targetModule == null) {
-            ctx.status(404).json(Map.of("error", "Module not found."));
+            context.status(404).json(Map.of("error", "Module not found."));
             return;
         }
         Map<String, Object> moduleInfo = buildModuleInfo(targetModule);
-        ctx.json(moduleInfo);
+        context.json(moduleInfo);
     }
 
     /**
@@ -161,16 +155,12 @@ public class SimulationController {
      *   }
      * }
      *
-     * @param ctx the Javalin context from the request.
+     * @param context the Javalin context from the request.
      */
-    private void getSimulationDetails(Context ctx) {
-        int simID = Integer.parseInt(ctx.pathParam("simID"));
-        BioDriver bioDriver = simulations.get(simID);
-
-        if (bioDriver == null) {
-            ctx.status(404).json(Map.of("error", "Simulation ID not found."));
+    private void getSimulationDetails(Context context) {
+        BioDriver bioDriver = getBioDriver(context);
+        if (bioDriver == null)
             return;
-        }
 
         Map<String, Object> result = new LinkedHashMap<>();
         // Build globals from BioDriver
@@ -183,17 +173,17 @@ public class SimulationController {
             modulesMap.put(module.getModuleName(), buildModuleInfo(module));
         }
         result.put("modules", modulesMap);
-        ctx.json(result);
+        context.json(result);
     }
 
     // Helper method to extract the definition type from a method name.
     private String getDefinitionType(String methodName) {
         if (methodName.contains("ConsumerDefinition")) {
             String type = methodName.substring(3, methodName.indexOf("ConsumerDefinition"));
-            return type.substring(0, 1).toLowerCase() + type.substring(1);
+            return type.charAt(0) + type.substring(1);
         } else if (methodName.contains("ProducerDefinition")) {
             String type = methodName.substring(3, methodName.indexOf("ProducerDefinition"));
-            return type.substring(0, 1).toLowerCase() + type.substring(1);
+            return type.charAt(0) + type.substring(1);
         }
         return "";
     }
@@ -404,30 +394,13 @@ public class SimulationController {
         Map<String, Object> definitions = buildDefinitionInfo(module);
         info.putAll(definitions);
 
-        // If it's a store module, append its property details.
-        if (module instanceof Store) {
-            info.put("properties", buildStoreInfo((Store) module));
+        // Add properties based on module type.
+        Map<String, Object> properties = buildModuleProperties(module);
+        if (!properties.isEmpty()) {
+            info.put("properties", properties);
         }
 
-        // Add environment details for SimEnvironment types.
-        if (module instanceof SimEnvironment) {
-            info.put("environment", buildEnvironmentInfo((SimEnvironment) module));
-        }
-
-        // Add crew group details if module is a CrewGroup.
-        if (module instanceof CrewGroup) {
-            info.put("people", buildCrewGroupPeopleInfo((CrewGroup) module));
-        }
-
-        // Add crew group details if module is a CrewGroup.
-        if (module instanceof CrewGroup) {
-            info.put("people", buildCrewGroupPeopleInfo((CrewGroup) module));
-        }
-
-        // Add sensor details if module is a GenericSensor.
-        if (module instanceof GenericSensor sensor) {
-            info.put("sensor", buildSensorInfo(sensor));
-        }
+        info.put("malfunctions", buildMalfunctionsInfo(module));
 
         return info;
     }
@@ -464,9 +437,9 @@ public class SimulationController {
         try {
             Field nTicksField = bioDriver.getClass().getDeclaredField("nTicks");
             nTicksField.setAccessible(true);
-            globals.put("nTicks", nTicksField.get(bioDriver));
+            globals.put("runTillN", nTicksField.get(bioDriver));
         } catch (Exception e) {
-            globals.put("nTicks", 0);
+            globals.put("runTillN", 0);
         }
         try {
             Field runTillCrewDeathField = bioDriver.getClass().getDeclaredField("runTillCrewDeath");
@@ -507,5 +480,310 @@ public class SimulationController {
             // If not available, omit isPipe.
         }
         return properties;
+    }
+
+    /**
+     * Updates a definition (consumer or producer) of a module based on the given suffixes.
+     */
+    private void updateDefinition(Context context, String definitionSuffix, String setterSuffix, String definitionLabel) {
+        try {
+            int simID = Integer.parseInt(context.pathParam("simID"));
+            String moduleName = context.pathParam("moduleName");
+            String type = context.pathParam("type");
+
+            BioDriver bioDriver = getBioDriver(context);
+            if (bioDriver == null)
+                return;
+
+            IBioModule targetModule = findModule(bioDriver, moduleName);
+            if (targetModule == null) {
+                context.status(404).json(Map.of("error", "Module not found."));
+                return;
+            }
+            Object definition = findDefinition(targetModule, definitionSuffix, type);
+            if (definition == null) {
+                context.status(404).json(Map.of("error", definitionLabel + " type '" + type + "' not found for module " + moduleName + "."));
+                return;
+            }
+            SingleFlowRateControllable sfc = (SingleFlowRateControllable) definition;
+            float[] oldDesired = sfc.getDesiredFlowRates();
+            float[] oldMax = sfc.getMaxFlowRates();
+
+            String[] oldConnections = null;
+            if (definition instanceof StoreFlowRateControllable sfg) {
+                IBioModule[] stores = sfg.getStores();
+                oldConnections = new String[stores.length];
+                for (int i = 0; i < stores.length; i++) {
+                    oldConnections[i] = (stores[i] != null ? stores[i].getModuleName() : null);
+                }
+            }
+            Map<String, Object> payload = context.bodyAsClass(Map.class);
+            List<?> desiredList = (List<?>) payload.get("desiredFlowRates");
+            List<?> connectionsList = (List<?>) payload.get("connections");
+
+            float[] newDesired = (desiredList != null) ? convertListToFloatArray(desiredList, oldDesired) : oldDesired;
+            String[] newConnections = oldConnections;
+            if (connectionsList != null) {
+                if (connectionsList.size() != newDesired.length) {
+                    context.status(400).json(Map.of("error", "Length of connections array does not match desiredFlowRates array."));
+                    return;
+                }
+                newConnections = new String[connectionsList.size()];
+                for (int i = 0; i < connectionsList.size(); i++) {
+                    newConnections[i] = connectionsList.get(i).toString();
+                }
+            }
+
+            // Fix setter name casing for potable water
+            if (type.equalsIgnoreCase("potablewater")) {
+                type = "potableWater";
+            }
+            String setterName = "set" + Character.toUpperCase(type.charAt(0)) + type.substring(1) + setterSuffix;
+            Method setter = findSetter(definition, setterName);
+            if (setter == null) {
+                context.status(500).json(Map.of("error", "Setter method " + setterName + " not found."));
+                return;
+            }
+
+            Object newInputs = null;
+            if (definition instanceof StoreFlowRateControllable) {
+                int n = newConnections.length;
+                // Create an array of the expected type using reflection.
+                Class<?> expectedInputType = setter.getParameterTypes()[0].getComponentType();
+                newInputs = java.lang.reflect.Array.newInstance(expectedInputType, n);
+                for (int i = 0; i < n; i++) {
+                    IBioModule inputModule = findModule(bioDriver, newConnections[i]);
+                    if (inputModule == null) {
+                        context.status(400).json(Map.of("error", "Connection module '" + newConnections[i] + "' not found."));
+                        return;
+                    }
+                    java.lang.reflect.Array.set(newInputs, i, inputModule);
+                }
+            }
+            setter.invoke(definition, newInputs, oldMax, newDesired);
+            context.json(Map.of("message", definitionLabel + " " + type + " updated successfully."));
+        } catch (Exception e) {
+            context.status(500).json(Map.of("error", "Failed to update " + definitionLabel.toLowerCase() + ": " + e.getMessage()));
+        }
+    }
+
+    // Updated consumer definition update method
+    private void updateConsumerDefinition(Context context) {
+        updateDefinition(context, "ConsumerDefinition", "Inputs", "Consumer");
+    }
+
+    // Updated producer definition update method
+    private void updateProducerDefinition(Context context) {
+        updateDefinition(context, "ProducerDefinition", "Outputs", "Producer");
+    }
+
+    /**
+     * Retrieves the BioDriver instance for a given simulation context.
+     */
+    private BioDriver getBioDriver(Context context) {
+        int simID = Integer.parseInt(context.pathParam("simID"));
+        BioDriver bioDriver = simulations.get(simID);
+        if (bioDriver == null) {
+            context.status(404).json(Map.of("error", "Simulation ID not found."));
+        }
+        return bioDriver;
+    }
+
+    /**
+     * Finds a module within a BioDriver based on its name.
+     */
+    private IBioModule findModule(BioDriver bioDriver, String moduleName) {
+        for (IBioModule module : bioDriver.getModules()) {
+            if (module.getModuleName().equalsIgnoreCase(moduleName)) {
+                return module;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Finds the definition object (consumer or producer) from a module based on the specified suffix and type.
+     */
+    private Object findDefinition(IBioModule module, String definitionSuffix, String type) throws Exception {
+        for (Method m : module.getClass().getMethods()) {
+            String mName = m.getName();
+            if (mName.startsWith("get") && mName.endsWith(definitionSuffix) && m.getParameterCount() == 0) {
+                String defType = getDefinitionType(mName);
+                if (defType.equalsIgnoreCase(type)) {
+                    return m.invoke(module);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Finds a setter method with the given name that takes 3 parameters.
+     */
+    private Method findSetter(Object definition, String setterName) {
+        for (Method m : definition.getClass().getMethods()) {
+            if (m.getName().equals(setterName) && m.getParameterCount() == 3) {
+                return m;
+            }
+        }
+        return null;
+    }
+
+    private List<Map<String, Object>> buildMalfunctionsInfo(IBioModule module) {
+        List<Map<String, Object>> malfunctionList = new ArrayList<>();
+        Malfunction[] malfunctions = module.getMalfunctions();
+        if (malfunctions != null) {
+            for (Malfunction m : malfunctions) {
+                Map<String, Object> malfunctionInfo = new LinkedHashMap<>();
+                malfunctionInfo.put("id", m.getID());
+                malfunctionInfo.put("name", m.getName());
+                malfunctionInfo.put("intensity", m.getIntensity().toString());
+                malfunctionInfo.put("length", m.getLength().toString());
+                malfunctionInfo.put("performed", m.hasPerformed());
+                malfunctionInfo.put("tickToMalfunction", m.getTickToMalfunction());
+                malfunctionInfo.put("doneEnoughRepairWork", m.doneEnoughRepairWork());
+                malfunctionList.add(malfunctionInfo);
+            }
+        }
+        return malfunctionList;
+    }
+
+    private void getModuleMalfunctions(Context context) {
+        BioDriver bioDriver = getBioDriver(context);
+        if (bioDriver == null)
+            return;
+        String moduleName = context.pathParam("moduleName");
+        IBioModule targetModule = findModule(bioDriver, moduleName);
+        if (targetModule == null) {
+            context.status(404).json(Map.of("error", "Module not found."));
+            return;
+        }
+        List<Map<String, Object>> malfunctionList = buildMalfunctionsInfo(targetModule);
+        context.json(malfunctionList);
+    }
+
+    /**
+     * Converts a list of numbers to a float array, or returns the fallback if the list is null.
+     */
+    private float[] convertListToFloatArray(List<?> list, float[] fallback) {
+        if (list != null) {
+            float[] result = new float[list.size()];
+            for (int i = 0; i < list.size(); i++) {
+                result[i] = ((Number) list.get(i)).floatValue();
+            }
+            return result;
+        }
+        return fallback;
+    }
+
+    /**
+     * Consolidates property information from a module. Returns the evaluated properties based on module type.
+     */
+    private Map<String, Object> buildModuleProperties(IBioModule module) {
+        if (module instanceof Store) {
+            return buildStoreInfo((Store) module);
+        } else if (module instanceof SimEnvironment) {
+            return buildEnvironmentInfo((SimEnvironment) module);
+        } else if (module instanceof CrewGroup) {
+            Map<String, Object> crewGroupProps = new LinkedHashMap<>();
+            crewGroupProps.put("crewPeople", buildCrewGroupPeopleInfo((CrewGroup) module));
+            return crewGroupProps;
+        } else if (module instanceof GenericSensor) {
+            return buildSensorInfo((GenericSensor) module);
+        } else if (module instanceof GenericActuator) {
+            return buildActuatorInfo((GenericActuator) module);
+        }
+        return new LinkedHashMap<>();
+    }
+
+    private void postMalfunction(Context context) {
+        try {
+            String moduleName = context.pathParam("moduleName");
+
+            BioDriver bioDriver = getBioDriver(context);
+            if (bioDriver == null) return;
+
+            IBioModule targetModule = findModule(bioDriver, moduleName);
+            if (targetModule == null) {
+                context.status(404).json(Map.of("error", "Module not found."));
+                return;
+            }
+            Map<String, Object> payload = context.bodyAsClass(Map.class);
+            if (payload.get("intensity") == null || payload.get("length") == null) {
+                context.status(400).json(Map.of("error", "Both 'intensity' and 'length' fields are required."));
+                return;
+            }
+            String intensityStr = payload.get("intensity").toString();
+            String lengthStr = payload.get("length").toString();
+            MalfunctionIntensity intensity;
+            MalfunctionLength length;
+            try {
+                intensity = MalfunctionIntensity.valueOf(intensityStr);
+                length = MalfunctionLength.valueOf(lengthStr);
+            } catch (IllegalArgumentException e) {
+                context.status(400).json(Map.of("error", "Invalid 'intensity' or 'length' value."));
+                return;
+            }
+            long malfunctionID = -1;
+            Object tickObj = payload.get("tickToOccur");
+            if (tickObj != null) {
+                int tickToOccur = Integer.parseInt(tickObj.toString());
+                targetModule.scheduleMalfunction(intensity, length, tickToOccur);
+                context.json(Map.of("message", "Malfunction scheduled for tick " + tickToOccur));
+                return;
+            } else {
+                Malfunction malfunction = targetModule.startMalfunction(intensity, length);
+                if (malfunction == null) {
+                    context.status(500).json(Map.of("error", "Failed to start malfunction."));
+                    return;
+                }
+                malfunctionID = malfunction.getID();
+            }
+            context.json(Map.of("malfunctionID", malfunctionID));
+        } catch (Exception e) {
+            context.status(500).json(Map.of("error", "Error processing malfunction: " + e.getMessage()));
+        }
+    }
+
+    private void deleteMalfunction(Context context) {
+        try {
+            String moduleName = context.pathParam("moduleName");
+            long malfunctionID = Long.parseLong(context.pathParam("malfunctionID"));
+
+            BioDriver bioDriver = getBioDriver(context);
+            if (bioDriver == null) return;
+
+            IBioModule targetModule = findModule(bioDriver, moduleName);
+            if (targetModule == null) {
+                context.status(404).json(Map.of("error", "Module not found."));
+                return;
+            }
+
+            targetModule.clearMalfunction(malfunctionID);
+            context.json(Map.of("message", "Malfunction " + malfunctionID + " cleared."));
+        } catch (Exception e) {
+            context.status(500).json(Map.of("error", "Error clearing malfunction: " + e.getMessage()));
+        }
+    }
+
+    private void deleteAllMalfunctions(Context context) {
+        try {
+            int simID = Integer.parseInt(context.pathParam("simID"));
+            String moduleName = context.pathParam("moduleName");
+
+            BioDriver bioDriver = getBioDriver(context);
+            if (bioDriver == null) return;
+
+            IBioModule targetModule = findModule(bioDriver, moduleName);
+            if (targetModule == null) {
+                context.status(404).json(Map.of("error", "Module not found."));
+                return;
+            }
+
+            targetModule.clearAllMalfunctions();
+            context.json(Map.of("message", "All malfunctions cleared."));
+        } catch (Exception e) {
+            context.status(500).json(Map.of("error", "Error clearing all malfunctions: " + e.getMessage()));
+        }
     }
 }

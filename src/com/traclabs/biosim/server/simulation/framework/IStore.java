@@ -1,6 +1,6 @@
 package com.traclabs.biosim.server.simulation.framework;
 
-public interface IStore {
+public interface IStore extends ISimBioModule {
 
     boolean isPipe();
 

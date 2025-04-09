@@ -143,7 +143,7 @@
 			<xsd:element maxOccurs="1" minOccurs="0" name="nameServiceLocation" type="NameServiceLocationType"/>
 		</xsd:sequence>
 		<xsd:attribute default="true" name="startPaused" type="xsd:boolean"/>
-		<xsd:attribute default="0" name="runTillN" type="xsd:nonNegativeInteger"/>
+		<xsd:attribute default="-1" name="runTillN" type="xsd:integer"/>
 		<xsd:attribute default="true" name="runTillCrewDeath" type="xsd:boolean"/>
 		<xsd:attribute default="false" name="runTillPlantDeath" type="xsd:boolean"/>
 		<xsd:attribute name="crewsToWatch" type="stringList" use="optional"/>

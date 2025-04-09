@@ -25,7 +25,7 @@ public class BioDriver {
     // Flag to see whether the BioDriver is started at all
     private boolean simulationStarted = false;
     // If <runTillN == true, this is the number of ticks to run for.
-    private int nTicks;
+    private int nTicks = -1;
     // The number of ticks gone by
     private int ticksGoneBy;
     // Tells whether simulation runs until crew death
