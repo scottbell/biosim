@@ -389,6 +389,7 @@ public class SimulationController {
     private Map<String, Object> buildModuleInfo(IBioModule module) {
         Map<String, Object> info = new LinkedHashMap<>();
         info.put("moduleName", module.getModuleName());
+        info.put("moduleType", module.getClass().getSimpleName());
 
         // Add definitions (consumers & producers) if any.
         Map<String, Object> definitions = buildDefinitionInfo(module);
