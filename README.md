@@ -62,7 +62,8 @@ The simulation exposes several REST endpoints:
     },
     "modules": {
       "CO2_Store": {
-        "moduleName": "CO2_Store",
+        "moduleName": "Backup_CO2_Store",
+        "moduleType": "CO2Store",
         "properties": {
           "currentLevel": 0,
           "currentCapacity": 1000,
@@ -78,7 +79,8 @@ The simulation exposes several REST endpoints:
   Provides detailed information about a specific module, including consumer/producer definitions, flow rate arrays, or store properties if it is a store. E.g.:
   ```json
   {
-    "moduleName": "CO2_Store",
+    "moduleName": "Backup_CO2_Store",
+    "moduleType": "CO2Store",
     "properties": {
       "currentLevel": 0,
       "currentCapacity": 1000,
