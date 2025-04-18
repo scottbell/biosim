@@ -29,8 +29,10 @@ You can also run BioSim using Docker. The repository includes a `docker-compose.
 ```
 docker compose up
 ```
-This command builds (if needed) and starts the BioSim container, with the server listening on port `8009`.
+This command builds (if needed) and starts the BioSim container, with the server listening on http://localhost:8009/api/simulation
+It also starts the [Open MCT](https://github.com/nasa/openmct) [plugin for BioSim](https://github.com/scottbell/openmct-biosim/) on http://localhost:9091, allowing you to graph and view details in the simulation.
 
+<img width="1607" alt="biosim-with-openmct" src="https://github.com/user-attachments/assets/0812e361-6a93-4dd9-8006-8a2b6e21133f" />
 
 ## REST API Endpoints
 
