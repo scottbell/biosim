@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
 	<Globals driverStutterLength="0"
 		crewsToWatch="HALO_Group IHab_Group"
-		runTillCrewDeath="false" runTillN="300">
+		runTillCrewDeath="false" runTillN="300" startPaused="false">
 	</Globals>
 	<SimBioModules>
 		<environment>
@@ -313,7 +313,13 @@
 			<AirOutFlowRateSensor input="HALO_to_Orion_Fan" moduleName="HALO_to_Orion_Fan-OutSensor" index="0" logLevel="INFO"></AirOutFlowRateSensor>
 			<AirInFlowRateSensor input="Orion_to_HALO_Fan" moduleName="Orion_to_HALO_Fan-InSensor" index="0" logLevel="INFO"></AirInFlowRateSensor>
 			<AirOutFlowRateSensor input="Orion_to_HALO_Fan" moduleName="Orion_to_HALO_Fan-OutSensor" index="0" logLevel="INFO"></AirOutFlowRateSensor>
-			
+			<GasPressureSensor input="HALO" moduleName="Co2GasPressureSensor" gasType="CO2"/>
+			<GasPressureSensor input="IHab" moduleName="Co2GasPressureSensor" gasType="CO2"/>
+			<GasPressureSensor input="HALO" moduleName="O2GasPressureSensor" gasType="O2"/>
+			<GasPressureSensor input="IHab" moduleName="O2GasPressureSensor" gasType="O2"/>
+			<GasPressureSensor input="IHab" moduleName="VaporGasPressureSensor" gasType="VAPOR"/>
+			<TotalPressureSensor input="HALO" moduleName="TotalPressureSensor"/>
+			<TotalPressureSensor input="IHab" moduleName="TotalPressureSensor"/>
 		</environment>
 	</Sensors>
 	<Actuators>
