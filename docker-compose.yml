@@ -4,3 +4,10 @@ services:
     ports:
       - "8009:8009"
     command: ["./bin/start-biosim-server", "0.0.0.0", "8009"]
+
+  openmct:
+    build:
+      context: "https://github.com/scottbell/openmct-biosim.git"
+      dockerfile: Dockerfile  # use this only if the remote repo's Dockerfile is not named 'Dockerfile'
+    ports:
+      - "9091:9091"
