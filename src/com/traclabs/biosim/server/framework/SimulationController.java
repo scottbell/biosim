@@ -289,14 +289,19 @@ public class SimulationController {
         envInfo.put("dayLength", simEnv.getDayLength());
         envInfo.put("hourOfDayStart", simEnv.getHourOfDayStart());
         envInfo.put("maxLumens", simEnv.getMaxLumens());
+        envInfo.put("relativeHumidity", simEnv.getRelativeHumidity());
+        envInfo.put("airLockVolume", simEnv.getAirlockVolume());
+        envInfo.put("totalPressure", simEnv.getTotalPressure());
+        envInfo.put("totalMoles", simEnv.getTotalMoles());
+        envInfo.put("dangerousOxygenThreshold", simEnv.getDangerousOxygenThreshold());
+        envInfo.put("leakRate", simEnv.getLeakRate());
+        envInfo.put("initialTotalPressure", simEnv.getInitialTotalPressure());
+        envInfo.put("o2Moles", simEnv.getO2Store().getCurrentLevel());
+        envInfo.put("co2Moles", simEnv.getCO2Store().getCurrentLevel());
+        envInfo.put("otherMoles", simEnv.getOtherStore().getCurrentLevel());
+        envInfo.put("vaporMoles", simEnv.getVaporStore().getCurrentLevel());
+        envInfo.put("nitrogenMoles", simEnv.getNitrogenStore().getCurrentLevel());
 
-        Map<String, Object> stores = new LinkedHashMap<>();
-        stores.put("O2Store", buildStoreInfo(simEnv.getO2Store()));
-        stores.put("CO2Store", buildStoreInfo(simEnv.getCO2Store()));
-        stores.put("NitrogenStore", buildStoreInfo(simEnv.getNitrogenStore()));
-        stores.put("OtherStore", buildStoreInfo(simEnv.getOtherStore()));
-        stores.put("VaporStore", buildStoreInfo(simEnv.getVaporStore()));
-        envInfo.put("stores", stores);
 
         return envInfo;
     }
@@ -341,6 +346,8 @@ public class SimulationController {
                 activityInfo.put("activityIntensity", currentActivity.getActivityIntensity());
             }
             personInfo.put("currentActivity", activityInfo);
+            personInfo.put("currentActivityIntensity", currentActivity.getActivityIntensity());
+            personInfo.put("currentActivityTimeLength", currentActivity.getTimeLength());
             personInfo.put("timeActivityPerformed", person.getTimeActivityPerformed());
             
             // Resource metrics (if getters are available)
