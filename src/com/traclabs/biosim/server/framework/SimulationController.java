@@ -43,6 +43,7 @@ public class SimulationController {
         app.get("/api/simulation", this::listSimulations);
         app.post("/api/simulation/start", this::startSimulation);
         app.post("/api/simulation/{simID}/tick", this::tickSimulation);
+        app.get("/api/simulation/{simID}/globals", this::getGlobalInfo);
         app.get("/api/simulation/{simID}/modules/{moduleName}", this::getModuleInfo);
         app.post("/api/simulation/{simID}/modules/{moduleName}/consumers/{type}", this::updateConsumerDefinition);
         app.post("/api/simulation/{simID}/modules/{moduleName}/producers/{type}", this::updateProducerDefinition);
@@ -164,7 +165,7 @@ public class SimulationController {
 
         Map<String, Object> result = new LinkedHashMap<>();
         // Build globals from BioDriver
-        result.put("globals", getGlobalInfo(bioDriver));
+        result.put("globals", getGlobalDetails(bioDriver));
 
         // Build module info for each module in BioDriver
         Map<String, Object> modulesMap = new LinkedHashMap<>();
@@ -422,6 +423,15 @@ public class SimulationController {
         return list;
     }
 
+    private void getGlobalInfo(Context context) {
+        BioDriver bioDriver = getBioDriver(context);
+        if (bioDriver == null)
+            return;
+
+        Map<String, Object> globals = getGlobalDetails(bioDriver);
+        context.json(globals);
+    }
+
     /**
      * Builds a globals map containing primitive properties from the BioDriver.
      * It uses public getters and reflection for fields without public accessors.
@@ -429,7 +439,7 @@ public class SimulationController {
      * @param bioDriver the BioDriver instance
      * @return a Map of global simulation properties
      */
-    private Map<String, Object> getGlobalInfo(BioDriver bioDriver) {
+    private Map<String, Object> getGlobalDetails(BioDriver bioDriver) {
         Map<String, Object> globals = new LinkedHashMap<>();
         globals.put("myID", bioDriver.getID());
         globals.put("simulationIsPaused", bioDriver.isPaused());
