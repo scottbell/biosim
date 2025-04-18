@@ -4,16 +4,10 @@ import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.air.*;
-import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
-import com.traclabs.biosim.server.simulation.environment.AirProducerDefinition;
-import com.traclabs.biosim.server.simulation.food.BiomassConsumerDefinition;
-import com.traclabs.biosim.server.simulation.food.BiomassProducerDefinition;
-import com.traclabs.biosim.server.simulation.food.FoodConsumerDefinition;
-import com.traclabs.biosim.server.simulation.food.FoodProducerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
-import com.traclabs.biosim.server.simulation.power.PowerProducerDefinition;
-import com.traclabs.biosim.server.simulation.waste.DryWasteConsumerDefinition;
-import com.traclabs.biosim.server.simulation.waste.DryWasteProducerDefinition;
+import com.traclabs.biosim.server.simulation.environment.*;
+import com.traclabs.biosim.server.simulation.food.*;
+import com.traclabs.biosim.server.simulation.power.*;
+import com.traclabs.biosim.server.simulation.waste.*;
 import com.traclabs.biosim.server.simulation.water.*;
 
 /**
@@ -22,7 +16,7 @@ import com.traclabs.biosim.server.simulation.water.*;
  * @author Scott Bell
  */
 
-public class InfluentValve extends SimBioModule {
+public class InfluentValve extends SimBioModule implements PowerConsumer, PotableWaterConsumer, GreyWaterConsumer, DirtyWaterConsumer, WaterConsumer, O2Consumer, CO2Consumer, NitrogenConsumer, AirConsumer, BiomassConsumer, FoodConsumer, DryWasteConsumer, PowerProducer, PotableWaterProducer, GreyWaterProducer, DirtyWaterProducer, O2Producer, CO2Producer, NitrogenProducer, AirProducer, BiomassProducer, FoodProducer, DryWasteProducer {
 
     // Consumers, Producers
     private final PowerConsumerDefinition myPowerConsumerDefinition;

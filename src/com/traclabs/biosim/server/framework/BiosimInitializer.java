@@ -146,6 +146,8 @@ public class BiosimInitializer {
     }
 
     public static Level getLogLevel(Node pNode) {
+        if (pNode.getAttributes().getNamedItem("logLevel") == null)
+            return null;
         String logString = pNode.getAttributes().getNamedItem("logLevel")
                 .getNodeValue();
         if (logString.equals("OFF"))
