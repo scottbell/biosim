@@ -273,7 +273,7 @@ public abstract class BaseCrewPerson {
         // attach to eva crew group
         // first check if the EVA group exists
         if (BiosimInitializer.getModule(myCurrentCrewGroup.getID(), evaCrewGroupName) == null) {
-            myLogger.error("EVA crew group " + evaCrewGroupName + " does not exist");
+            myLogger.error("🛑 EVA crew group " + evaCrewGroupName + " does not exist");
             return;
         }
         myCurrentCrewGroup = (CrewGroup) BiosimInitializer.getModule(myCurrentCrewGroup.getID(), evaCrewGroupName);
