@@ -6,6 +6,7 @@ import com.traclabs.biosim.server.simulation.crew.Activity;
 import com.traclabs.biosim.server.simulation.crew.CrewGroup;
 import com.traclabs.biosim.server.simulation.crew.CrewPerson;
 import com.traclabs.biosim.server.simulation.crew.Schedule;
+import com.traclabs.biosim.server.simulation.environment.EnvironmentFlowRateControllable;
 import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
 import com.traclabs.biosim.server.simulation.framework.SingleFlowRateControllable;
 import com.traclabs.biosim.server.simulation.framework.Store;
@@ -14,17 +15,12 @@ import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.websocket.WsConfig;
 import io.javalin.websocket.WsContext;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -144,7 +140,7 @@ public class SimulationController implements TickListener {
      */
     private void startSimulation(Context context) {
         String xmlConfig = context.body();
-        if (xmlConfig == null || xmlConfig.isEmpty()) {
+        if (xmlConfig.isEmpty()) {
             context.status(400).json(Map.of("error", "XML configuration is required in the request body."));
             return;
         }
@@ -308,29 +304,57 @@ public class SimulationController implements TickListener {
         return rates;
     }
 
-    // Helper method to extract store connections from a StoreFlowRateControllable.
-    private List<String> getConnections(StoreFlowRateControllable sfg) {
-        List<String> connections = new ArrayList<>();
-        try {
-            Method getStoresMethod = sfg.getClass().getMethod("getStores");
-            Object storesObj = getStoresMethod.invoke(sfg);
-            if (storesObj instanceof Object[] stores) {
-                for (Object storeObj : stores) {
-                    if (storeObj != null) {
-                        try {
-                            Method getModuleNameMethod = storeObj.getClass().getMethod("getModuleName");
-                            String storeName = (String) getModuleNameMethod.invoke(storeObj);
-                            connections.add(storeName);
-                        } catch (Exception ex) {
-                            // If unable to obtain store name, skip this store.
+    private List<String> extractConnectionsFromDefinition(SingleFlowRateControllable sfc, String getterName) {
+        List<String> names = new ArrayList<>();
+        Method methodToCall = null;
+        for (Method method : sfc.getClass().getMethods()) {
+            if (getterName.equals(method.getName()) && method.getParameterCount() == 0) {
+                methodToCall = method;
+                break;
+            }
+        }
+        if (methodToCall != null) {
+            try {
+                Object result = methodToCall.invoke(sfc);
+                if (result instanceof Object[] array) {
+                    for (Object item : array) {
+                        if (item != null) {
+                            String name = getModuleNameFromConnection(item);
+                            if (name == null) {
+                                name = item.toString();
+                            }
+                            names.add(name);
                         }
                     }
                 }
+            } catch (Exception e) { // ignore
             }
-        } catch (Exception ex) {
-            // If the getStores method is not available, return an empty list.
         }
-        return connections;
+        return names;
+    }
+
+    private String getModuleNameFromConnection(Object obj) {
+        for (Method method : obj.getClass().getMethods()) {
+            if ("getModuleName".equals(method.getName()) && method.getParameterCount() == 0) {
+                try {
+                    Object result = method.invoke(obj);
+                    if (result instanceof String) {
+                        return (String) result;
+                    }
+                } catch (Exception e) {
+                    // Ignore exception and continue
+                }
+            }
+        }
+        return null;
+    }
+
+    private List<String> getConnections(EnvironmentFlowRateControllable efc) {
+        return extractConnectionsFromDefinition(efc, "getEnvironments");
+    }
+
+    private List<String> getConnections(SingleFlowRateControllable sfc) {
+        return extractConnectionsFromDefinition(sfc, "getStores");
     }
 
     /**
@@ -361,6 +385,8 @@ public class SimulationController implements TickListener {
                         // Also check if store connections are available.
                         if (defObject instanceof StoreFlowRateControllable sfg) {
                             defMap.put("connections", getConnections(sfg));
+                        } else if (defObject instanceof EnvironmentFlowRateControllable efg) {
+                            defMap.put("connections", getConnections(efg));
                         } else {
                             defMap.put("connections", new ArrayList<String>());
                         }
