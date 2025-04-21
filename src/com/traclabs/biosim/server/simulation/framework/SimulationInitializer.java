@@ -595,6 +595,9 @@ public class SimulationInitializer {
         for (int i = 0; i < inputs.length; i++) {
             String inputName = inputNames[i];
             inputs[i] = BiosimInitializer.getModule(myID, inputName);
+            if (inputs[i] == null) {
+                throw new IllegalArgumentException("🛑 Module " + inputName + " not found in the simulation.");
+            }
         }
         return inputs;
     }

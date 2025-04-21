@@ -8,8 +8,6 @@ import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable
  */
 
 public class CO2ConsumerDefinition extends StoreFlowRateControllable {
-    private CO2ConsumerDefinition myCO2ConsumerDefinition;
-
     public CO2ConsumerDefinition(BioModule pModule) {
         super(pModule);
     }

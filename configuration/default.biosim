@@ -95,6 +95,17 @@
 		</power>
 		<food>
 			<FoodStore capacity="10000" level="10000" moduleName="Food_Store"/>
+			<BiomassStore capacity="10000" level="10000" moduleName="Biomass_Store"/>
+			<BiomassPS moduleName="BiomassPS" autoHarvestAndReplant="true">
+				<shelf cropArea="1" cropType="SOYBEAN"/>
+				<powerConsumer maxFlowRates="400" desiredFlowRates="400" inputs="General_Power_Store"/>
+				<potableWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="Potable_Water_Store"/>
+				<greyWaterConsumer maxFlowRates="100" desiredFlowRates="100" inputs="Grey_Water_Store"/>
+				<airConsumer maxFlowRates="0" desiredFlowRates="0" inputs="Crew_Quarters"/>
+				<dirtyWaterProducer maxFlowRates="100" desiredFlowRates="100" outputs="Dirty_Water_Store"/>
+				<biomassProducer maxFlowRates="100" desiredFlowRates="100" outputs="Biomass_Store"/>
+				<airProducer maxFlowRates="0" desiredFlowRates="0" outputs="Crew_Quarters"/>
+			</BiomassPS>
 		</food>
 		<thermal>
 			<IATCS moduleName="IATCS">
