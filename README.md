@@ -236,9 +236,5 @@ Upon connection, the server immediately sends the current simulation state and t
 ## Configuring BioSim
 For more detailed instructions on configuring BioSim, please refer to the [Users Manual](doc/users_manual.md#configuring-the-simulation). This manual covers configuration options such as initial conditions and stochastic processes.
 
-## Configuring BioSim
-
-For more detailed instructions on configuring BioSim, please refer to the [Users Manual](doc/users_manual.md#configuring-the-simulation). This manual covers configuration options such as initial conditions and stochastic processes.
-
 ## License
 GPL v3
