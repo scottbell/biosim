@@ -338,7 +338,7 @@ public class BiosimInitializer {
      */
     public void parseXmlConfiguration(String xmlConfig) {
         try {
-            myLogger.info("Initializing...");
+            myLogger.debug("Initializing...");
             InputSource is = new InputSource(new StringReader(xmlConfig));
             Document document = myDocumentBuilder.parse(is);
 
@@ -361,7 +361,7 @@ public class BiosimInitializer {
             myBioDriver.setPassiveSimModules(passiveSimModulesArray);
             myBioDriver.setPrioritySimModules(prioritySimModulesArray);
 
-            myLogger.info("Initialization complete.");
+            myLogger.debug("Initialization complete.");
         } catch (SAXException e) {
             myLogger.error("Parse error occurred: {}", e.getMessage());
             throw new RuntimeException(e);

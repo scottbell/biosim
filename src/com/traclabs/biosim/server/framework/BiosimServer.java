@@ -42,13 +42,15 @@ public class BiosimServer {
             config.http.defaultContentType = "application/json";
         });
 
-        // Register REST endpoints
+        // Create controller and WebSocket handler
         SimulationController simulationController = new SimulationController();
+        
+        // Register REST endpoints
         simulationController.registerEndpoints(app);
-
+        
         // Bind to the host and port provided
         app.start(host, port);
-        logger.info("🌎 BioSim server started 🌎 on {}:{}", host, port);
+        logger.info("🌎 BioSim server started 🌎 on {}:{} with WebSocket support", host, port);
 
         // Add shutdown hook to stop the server gracefully
         Runtime.getRuntime().addShutdownHook(new Thread(app::stop));

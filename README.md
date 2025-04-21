@@ -228,6 +228,14 @@ The simulation exposes several REST endpoints:
   curl -X DELETE http://localhost:8009/api/simulation/1/modules/OGS/malfunctions
   ```
 
+## WebSocket Interface
+In addition to the REST API endpoints, there is a WebSocket interface for real-time simulation updates. To subscribe to live simulation state updates, connect to:  
+  ws://<host>:<port>/ws/simulation/{simID}
+Upon connection, the server immediately sends the current simulation state and then broadcasts further updates on each tick.
+
+## Configuring BioSim
+For more detailed instructions on configuring BioSim, please refer to the [Users Manual](doc/users_manual.md#configuring-the-simulation). This manual covers configuration options such as initial conditions and stochastic processes.
+
 ## Configuring BioSim
 
 For more detailed instructions on configuring BioSim, please refer to the [Users Manual](doc/users_manual.md#configuring-the-simulation). This manual covers configuration options such as initial conditions and stochastic processes.

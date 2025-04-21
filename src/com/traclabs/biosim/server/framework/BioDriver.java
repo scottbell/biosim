@@ -5,7 +5,9 @@ import com.traclabs.biosim.server.simulation.food.BiomassPS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /*
@@ -58,6 +60,8 @@ public class BioDriver {
     private IBioModule[] actuators;
 
     private float myTickLength = 1f;
+    
+    private final List<TickListener> tickListeners = new ArrayList<>();
 
     /**
      * Constructs the BioDriver
@@ -442,7 +446,7 @@ public class BioDriver {
      * levels, etc.
      */
     public void reset() {
-        myLogger.info("BioDriver" + myID + ": Resetting simulation");
+        myLogger.debug("BioDriver" + myID + ": Resetting simulation");
         ticksGoneBy = 0;
         for (IBioModule currentBioModule : modules) {
             myLogger.debug("resetting " + currentBioModule.getModuleName());
@@ -523,6 +527,10 @@ public class BioDriver {
         // Iterate through the sensors and tick them
         for (IBioModule currentBioModule : sensors)
             currentBioModule.tick();
+        
+        // Notify listeners after the tick is complete
+        notifyTickListeners();
+        
         ticksGoneBy++;
     }
 
@@ -539,6 +547,35 @@ public class BioDriver {
     public void setTickLength(float pTickLength) {
         myTickLength = pTickLength;
     }
+    
+    /**
+     * Adds a listener to be notified when a tick occurs.
+     * 
+     * @param listener The listener to add
+     */
+    public void addTickListener(TickListener listener) {
+        if (!tickListeners.contains(listener)) {
+            tickListeners.add(listener);
+        }
+    }
+    
+    /**
+     * Removes a previously registered tick listener.
+     * 
+     * @param listener The listener to remove
+     */
+    public void removeTickListener(TickListener listener) {
+        tickListeners.remove(listener);
+    }
+    
+    /**
+     * Notifies all registered listeners that a tick has occurred.
+     */
+    private void notifyTickListeners() {
+        for (TickListener listener : tickListeners) {
+            listener.tickOccurred(myID, ticksGoneBy);
+        }
+    }
 
     private class Ticker implements Runnable {
         /**
@@ -547,7 +584,7 @@ public class BioDriver {
          * servers (if applicable), then begins ticking them.
          */
         public void run() {
-            myLogger.info("BioDriver" + myID + ": Running simulation...");
+            myLogger.debug("BioDriver" + myID + ": Running simulation...");
             simulationStarted = true;
             runSimulation();
         }

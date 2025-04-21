@@ -12,6 +12,9 @@ import com.traclabs.biosim.server.simulation.framework.Store;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import io.javalin.websocket.WsConfig;
+import io.javalin.websocket.WsContext;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,18 +24,23 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Controller class to handle simulation REST endpoints.
  */
-public class SimulationController {
+public class SimulationController implements TickListener {
     private static final Logger logger = LoggerFactory.getLogger(SimulationController.class);
     private final AtomicInteger simInitializerCounter = new AtomicInteger();
 
     // Map to store simulation IDs and their corresponding BioDriver instances
     private final Map<Integer, BioDriver> simulations = new ConcurrentHashMap<>();
+    
+    // Reference to the WebSocket handler
+    
+    private final Map<Integer, Set<WsContext>> websocketSessions = new ConcurrentHashMap<>();
 
     /**
      * Registers the simulation endpoints with the Javalin app.
@@ -52,6 +60,71 @@ public class SimulationController {
         app.get("/api/simulation/{simID}/modules/{moduleName}/malfunctions", this::getModuleMalfunctions);
         app.delete("/api/simulation/{simID}/modules/{moduleName}/malfunctions/{malfunctionID}", this::deleteMalfunction);
         app.delete("/api/simulation/{simID}/modules/{moduleName}/malfunctions", this::deleteAllMalfunctions);
+        app.ws("/ws/simulation/{simID}", this::simulationWebsocketHandler);
+    }
+
+    /**
+     * Sends a simulation update to a specific client.
+     * 
+     * @param simID the simulation ID
+     * @param ctx the WebSocket context
+     */
+    private void sendSimUpdateToSingleClient(int simID, WsContext ctx) {
+        Map<String, Object> details = generateSimulationDetails(simID);
+        if (details != null && ctx.session.isOpen()) {
+            ctx.send(details);
+        }
+    }
+    
+
+    /**
+     * Configures WebSocket handlers for the given WsConfig.
+     * 
+     * @param wsConfig the Javalin WebSocket configuration
+     */
+    private void simulationWebsocketHandler(WsConfig wsConfig) {
+        wsConfig.onConnect(ctx -> {
+            int simID = Integer.parseInt(ctx.pathParam("simID"));
+            websocketSessions.computeIfAbsent(simID, k -> ConcurrentHashMap.newKeySet()).add(ctx);
+            logger.debug("🔌 WebSocket client connected to simulation {}", simID);
+            
+            // Send initial simulation state
+            sendSimUpdateToSingleClient(simID, ctx);
+        });
+        
+        wsConfig.onClose(ctx -> {
+            int simID = Integer.parseInt(ctx.pathParam("simID"));
+            Set<WsContext> sessions = websocketSessions.get(simID);
+            if (sessions != null) {
+                sessions.remove(ctx);
+                logger.debug("👋 WebSocket client disconnected from simulation {}", simID);
+            }
+        });
+        
+        wsConfig.onError(ctx -> {
+            logger.error("🛑 WebSocket error: {}", ctx.error().getMessage());
+        });
+    }
+    
+    /**
+     * Broadcasts a simulation update to all clients subscribed to a simulation.
+     * 
+     * @param simID the simulation ID
+     */
+    private void broadcastUpdate(int simID) {
+        logger.debug("📡 Broadcasting update for simulation {}", simID);
+        Set<WsContext> sessions = websocketSessions.get(simID);
+        if (sessions != null && !sessions.isEmpty()) {
+            Map<String, Object> details = generateSimulationDetails(simID);
+            if (details != null) {
+                sessions.forEach(session -> {
+                    if (session.session.isOpen()) {
+                        session.send(details);
+                    }
+                });
+                logger.debug("🛜 Broadcast update to {} clients for simulation {}", sessions.size(), simID);
+            }
+        }
     }
 
     /**
@@ -86,6 +159,9 @@ public class SimulationController {
             // Create a new BioDriver instance for the simulation
             BioDriver bioDriver = initializer.getBioDriver();
             simulations.put(simID, bioDriver);
+            
+            // Register as a tick listener
+            bioDriver.addTickListener(this);
 
             // Start the simulation (without ticking)
             bioDriver.startSimulation();
@@ -101,6 +177,7 @@ public class SimulationController {
 
     /**
      * Advances the simulation by one tick.
+     * If a WebSocket handler is set, it will broadcast the simulation details to all connected clients.
      *
      * @param context The Javalin context
      */
@@ -114,8 +191,21 @@ public class SimulationController {
         }
 
         bioDriver.advanceOneTick();
+        
         context.json(Map.of("ticks", bioDriver.getTicks()));
         logger.info("Simulation {} advanced to tick {}", simID, bioDriver.getTicks());
+    }
+    
+    /**
+     * Implementation of the TickListener interface.
+     * Called when a tick occurs in a BioDriver.
+     * 
+     * @param simID The ID of the simulation that ticked
+     * @param tickCount The current tick count after the tick
+     */
+    @Override
+    public void tickOccurred(int simID, int tickCount) {
+        broadcastUpdate(simID);
     }
 
     /**
@@ -159,9 +249,28 @@ public class SimulationController {
      * @param context the Javalin context from the request.
      */
     private void getSimulationDetails(Context context) {
-        BioDriver bioDriver = getBioDriver(context);
-        if (bioDriver == null)
-            return;
+        int simID = Integer.parseInt(context.pathParam("simID"));
+        Map<String, Object> simulationDetails = generateSimulationDetails(simID);
+        if (simulationDetails != null) {
+            context.json(simulationDetails);
+        } else {
+            context.status(404).json(Map.of("error", "Simulation ID not found."));
+        }
+    }
+    
+    /**
+     * Generates detailed information for a simulation including global simulation properties
+     * and detailed module information for each module declared in BioDriver.
+     * This method is used by both REST endpoints and WebSocket updates.
+     *
+     * @param simID the simulation ID
+     * @return a Map containing the simulation details, or null if the simulation ID is not found
+     */
+    public Map<String, Object> generateSimulationDetails(int simID) {
+        BioDriver bioDriver = simulations.get(simID);
+        if (bioDriver == null) {
+            return null;
+        }
 
         Map<String, Object> result = new LinkedHashMap<>();
         // Build globals from BioDriver
@@ -174,7 +283,7 @@ public class SimulationController {
             modulesMap.put(module.getModuleName(), buildModuleInfo(module));
         }
         result.put("modules", modulesMap);
-        context.json(result);
+        return result;
     }
 
     // Helper method to extract the definition type from a method name.
