@@ -8,6 +8,8 @@ import com.traclabs.biosim.server.simulation.crew.CrewPerson;
 import com.traclabs.biosim.server.simulation.crew.Schedule;
 import com.traclabs.biosim.server.simulation.environment.EnvironmentFlowRateControllable;
 import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.server.simulation.food.BiomassPS;
+import com.traclabs.biosim.server.simulation.food.Shelf;
 import com.traclabs.biosim.server.simulation.framework.SingleFlowRateControllable;
 import com.traclabs.biosim.server.simulation.framework.Store;
 import com.traclabs.biosim.server.simulation.framework.StoreFlowRateControllable;
@@ -441,6 +443,22 @@ public class SimulationController implements TickListener {
         return envInfo;
     }
 
+    private List<Map<String, Object>> buildBiomassShelvesInfo(BiomassPS biomassPS) {
+        List<Map<String, Object>> shelvesInfo = new ArrayList<>();
+        for (Shelf shelf : biomassPS.getShelves()) {
+            Map<String, Object> shelfInfo = new LinkedHashMap<>();
+            shelfInfo.put("plantType", shelf.getCropTypeString());
+            shelfInfo.put("cropAreaUsed", shelf.getCropAreaUsed());
+            shelfInfo.put("cropAreaTotal", shelf.getCropAreaTotal());
+            shelfInfo.put("timeTillCanopyClosure", shelf.getTimeTillCanopyClosure());
+            shelfInfo.put("harvestInterval", shelf.getHarvestInterval());
+            shelfInfo.put("ppfNeeded", shelf.getPlant().getPPFNeeded());
+            shelfInfo.put("molesOfCO2Inhaled", shelf.getPlant().getMolesOfCO2Inhaled());
+            shelvesInfo.add(shelfInfo);
+        }
+        return shelvesInfo;
+    }
+
     /**
      * Helper method to build a schedule's information.
      * It outputs the ordered schedule as a list of activities and a string representation of all activities.
@@ -841,6 +859,10 @@ public class SimulationController implements TickListener {
             Map<String, Object> crewGroupProps = new LinkedHashMap<>();
             crewGroupProps.put("crewPeople", buildCrewGroupPeopleInfo((CrewGroup) module));
             return crewGroupProps;
+        } else if (module instanceof BiomassPS) {
+            Map<String, Object> shelvesProps = new LinkedHashMap<>();
+            shelvesProps.put("shelves", buildBiomassShelvesInfo((BiomassPS) module));
+            return shelvesProps;
         } else if (module instanceof GenericSensor) {
             return buildSensorInfo((GenericSensor) module);
         } else if (module instanceof GenericActuator) {
