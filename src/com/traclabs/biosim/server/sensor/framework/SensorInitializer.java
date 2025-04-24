@@ -1,6 +1,7 @@
 package com.traclabs.biosim.server.sensor.framework;
 
 import com.traclabs.biosim.server.framework.BiosimInitializer;
+import com.traclabs.biosim.util.XMLUtils;
 import com.traclabs.biosim.server.sensor.air.*;
 import com.traclabs.biosim.server.sensor.crew.CrewGroupAnyDeadSensor;
 import com.traclabs.biosim.server.sensor.crew.CrewGroupDeathSensor;
@@ -27,7 +28,6 @@ import com.traclabs.biosim.server.simulation.power.PowerProducer;
 import com.traclabs.biosim.server.simulation.waste.DryWasteConsumer;
 import com.traclabs.biosim.server.simulation.waste.DryWasteProducer;
 import com.traclabs.biosim.server.simulation.water.*;
-import com.traclabs.biosim.util.XMLUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
@@ -52,6 +52,41 @@ public class SensorInitializer {
 
     private static int getFlowRateIndex(Node pNode) {
         return Integer.parseInt(pNode.getAttributes().getNamedItem("index").getNodeValue());
+    }
+    
+    /**
+     * Sets alarm thresholds on a sensor if they are specified in the XML.
+     * If not specified, default values will be used.
+     * 
+     * @param sensor The sensor to configure
+     * @param node The XML node containing threshold attributes
+     */
+    private void configureAlarmThresholds(GenericSensor sensor, Node node) {
+        // Get threshold attributes if they exist, otherwise use defaults
+        if (node.getAttributes().getNamedItem("watchThreshold") != null) {
+            float watchThreshold = Float.parseFloat(node.getAttributes().getNamedItem("watchThreshold").getNodeValue());
+            sensor.setWatchThreshold(watchThreshold);
+        }
+        
+        if (node.getAttributes().getNamedItem("warningThreshold") != null) {
+            float warningThreshold = Float.parseFloat(node.getAttributes().getNamedItem("warningThreshold").getNodeValue());
+            sensor.setWarningThreshold(warningThreshold);
+        }
+        
+        if (node.getAttributes().getNamedItem("distressThreshold") != null) {
+            float distressThreshold = Float.parseFloat(node.getAttributes().getNamedItem("distressThreshold").getNodeValue());
+            sensor.setDistressThreshold(distressThreshold);
+        }
+        
+        if (node.getAttributes().getNamedItem("criticalThreshold") != null) {
+            float criticalThreshold = Float.parseFloat(node.getAttributes().getNamedItem("criticalThreshold").getNodeValue());
+            sensor.setCriticalThreshold(criticalThreshold);
+        }
+        
+        if (node.getAttributes().getNamedItem("severeThreshold") != null) {
+            float severeThreshold = Float.parseFloat(node.getAttributes().getNamedItem("severeThreshold").getNodeValue());
+            sensor.setSevereThreshold(severeThreshold);
+        }
     }
 
     public void crawlSensors(Node node, boolean firstPass) {
@@ -92,6 +127,7 @@ public class SensorInitializer {
     private void configureCO2InFlowRateSensor(Node node) {
         CO2InFlowRateSensor sensor = (CO2InFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((CO2Consumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
+        configureAlarmThresholds(sensor, node);
         mySensors.add(sensor);
     }
 
@@ -116,6 +152,7 @@ public class SensorInitializer {
     private void configureO2InFlowRateSensor(Node node) {
         O2InFlowRateSensor sensor = (O2InFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((O2Consumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
+        configureAlarmThresholds(sensor, node);
         mySensors.add(sensor);
     }
 
@@ -277,6 +314,7 @@ public class SensorInitializer {
         GasConcentrationSensor sensor = (GasConcentrationSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         SimEnvironment inputEnvironment = (SimEnvironment) BiosimInitializer.getModule(myID, getInputName(node));
         sensor.setInput(inputEnvironment, getGasStore(node, inputEnvironment));
+        configureAlarmThresholds(sensor, node);
         mySensors.add(sensor);
     }
 
@@ -316,6 +354,7 @@ public class SensorInitializer {
         TotalPressureSensor sensor = (TotalPressureSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         SimEnvironment inputEnvironment = (SimEnvironment) BiosimInitializer.getModule(myID, getInputName(node));
         sensor.setInput(inputEnvironment);
+        configureAlarmThresholds(sensor, node);
         mySensors.add(sensor);
     }
 
@@ -431,6 +470,7 @@ public class SensorInitializer {
     private void configureStoreLevelSensor(Node node) {
         StoreLevelSensor sensor = (StoreLevelSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((Store) BiosimInitializer.getModule(myID, getInputName(node)));
+        configureAlarmThresholds(sensor, node);
         mySensors.add(sensor);
     }
 
@@ -443,6 +483,7 @@ public class SensorInitializer {
     private void configureStoreOverflowSensor(Node node) {
         StoreOverflowSensor sensor = (StoreOverflowSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((Store) BiosimInitializer.getModule(myID, getInputName(node)));
+        configureAlarmThresholds(sensor, node);
         mySensors.add(sensor);
     }
 
@@ -455,6 +496,7 @@ public class SensorInitializer {
     private void configureInfluentValveStateSensor(Node node) {
         InfluentValveStateSensor sensor = (InfluentValveStateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((InfluentValve) BiosimInitializer.getModule(myID, getInputName(node)));
+        configureAlarmThresholds(sensor, node);
         mySensors.add(sensor);
     }
 
@@ -467,6 +509,7 @@ public class SensorInitializer {
     private void configureEffluentValveStateSensor(Node node) {
         EffluentValveStateSensor sensor = (EffluentValveStateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((EffluentValve) BiosimInitializer.getModule(myID, getInputName(node)));
+        configureAlarmThresholds(sensor, node);
         mySensors.add(sensor);
     }
 
@@ -478,6 +521,7 @@ public class SensorInitializer {
 
     private void configureTimeSensor(Node node) {
         TimeSensor sensor = (TimeSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
+        configureAlarmThresholds(sensor, node);
         mySensors.add(sensor);
     }
 
@@ -492,6 +536,7 @@ public class SensorInitializer {
     private void configurePowerInFlowRateSensor(Node node) {
         PowerInFlowRateSensor sensor = (PowerInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((PowerConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
+        configureAlarmThresholds(sensor, node);
         mySensors.add(sensor);
     }
 
@@ -518,6 +563,7 @@ public class SensorInitializer {
     private void configurePotableWaterInFlowRateSensor(Node node) {
         PotableWaterInFlowRateSensor sensor = (PotableWaterInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((PotableWaterConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
+        configureAlarmThresholds(sensor, node);
         mySensors.add(sensor);
     }
 

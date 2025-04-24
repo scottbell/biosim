@@ -4,13 +4,18 @@
 	elementFormDefault="qualified">
 	
 	<!-- Sensor declarations -->
-	<xsd:complexType name="SensorType">  
-		<xsd:complexContent>
-			<xsd:extension base="BioModuleType">
-				<xsd:attribute name="input" type="xsd:string" use="required"/>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
+<xsd:complexType name="SensorType">  
+	<xsd:complexContent>
+		<xsd:extension base="BioModuleType">
+			<xsd:attribute name="input" type="xsd:string" use="required"/>
+			<xsd:attribute name="watchThreshold" type="xsd:float" use="optional"/>
+			<xsd:attribute name="warningThreshold" type="xsd:float" use="optional"/>
+			<xsd:attribute name="distressThreshold" type="xsd:float" use="optional"/>
+			<xsd:attribute name="criticalThreshold" type="xsd:float" use="optional"/>
+			<xsd:attribute name="severeThreshold" type="xsd:float" use="optional"/>
+		</xsd:extension>
+	</xsd:complexContent>
+</xsd:complexType>
 	
 	<xsd:complexType name="FlowRateSensorType">  
 		<xsd:complexContent>

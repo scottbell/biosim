@@ -534,8 +534,19 @@ public class SimulationController implements TickListener {
     private Map<String, Object> buildSensorInfo(GenericSensor sensor) {
         Map<String, Object> sensorInfo = new LinkedHashMap<>();
         sensorInfo.put("value", sensor.getValue());
-        sensorInfo.put("max", sensor.getMax());
-        sensorInfo.put("min", sensor.getMin());
+        sensorInfo.put("monitoringResult", sensor.getMonitoringResult().toString());
+        sensorInfo.put("normalizedMonitoringValue", sensor.getNormalizedMonitoringValue());
+        sensorInfo.put("range", new LinkedHashMap<String, Object>() {{
+            put("min", sensor.getMin());
+            put("max", sensor.getMax());
+        }});
+        sensorInfo.put("alarmThresholds", new LinkedHashMap<String, Object>() {{
+            put("WATCH", sensor.getWatchThreshold());
+            put("WARNING", sensor.getWarningThreshold());
+            put("DISTRESS", sensor.getDistressThreshold());
+            put("CRITICAL", sensor.getCriticalThreshold());
+            put("SEVERE", sensor.getSevereThreshold());
+        }});
         IBioModule inputModule = sensor.getInputModule();
         sensorInfo.put("input", inputModule != null ? inputModule.getModuleName() : "none");
         return sensorInfo;
