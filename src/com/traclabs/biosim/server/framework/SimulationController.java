@@ -82,20 +82,28 @@ public class SimulationController implements TickListener {
      */
     private void simulationWebsocketHandler(WsConfig wsConfig) {
         wsConfig.onConnect(ctx -> {
-            int simID = Integer.parseInt(ctx.pathParam("simID"));
-            websocketSessions.computeIfAbsent(simID, k -> ConcurrentHashMap.newKeySet()).add(ctx);
-            logger.debug("🔌 WebSocket client connected to simulation {}", simID);
-            
-            // Send initial simulation state
-            sendSimUpdateToSingleClient(simID, ctx);
+            try {
+                int simID = Integer.parseInt(ctx.pathParam("simID"));
+                websocketSessions.computeIfAbsent(simID, k -> ConcurrentHashMap.newKeySet()).add(ctx);
+                logger.debug("🔌 WebSocket client connected to simulation {}", simID);
+                // Send initial simulation state
+                sendSimUpdateToSingleClient(simID, ctx);
+            } catch (NumberFormatException e) {
+                logger.error("🛑 Invalid simulation ID: {}. Closing connection.", ctx.pathParam("simID"));
+                ctx.session.close();
+            }
         });
         
         wsConfig.onClose(ctx -> {
-            int simID = Integer.parseInt(ctx.pathParam("simID"));
-            Set<WsContext> sessions = websocketSessions.get(simID);
-            if (sessions != null) {
-                sessions.remove(ctx);
-                logger.debug("👋 WebSocket client disconnected from simulation {}", simID);
+            try {
+                int simID = Integer.parseInt(ctx.pathParam("simID"));
+                Set<WsContext> sessions = websocketSessions.get(simID);
+                if (sessions != null) {
+                    sessions.remove(ctx);
+                    logger.debug("👋 WebSocket client disconnected from simulation {}", simID);
+                }
+            } catch (NumberFormatException e) {
+                logger.error("🛑 Invalid simulation ID on disconnection: {}.", ctx.pathParam("simID"));
             }
         });
         
