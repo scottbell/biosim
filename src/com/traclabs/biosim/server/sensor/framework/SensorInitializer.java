@@ -55,6 +55,37 @@ public class SensorInitializer {
     }
 
     /**
+     * Generic method to configure a sensor with common operations:
+     * 1. Add to mySensors collection
+     * 2. Configure alarm thresholds
+     * 3. Check if sensor alarms are valid
+     * 4. Validate input module is set
+     *
+     * @param sensor The sensor to configure
+     * @param node The XML node containing configuration data
+     * @return The configured sensor (for method chaining if needed)
+     */
+    private GenericSensor configureSensor(GenericSensor sensor, Node node) {
+        // 1. Add sensor to mySensors collection
+        mySensors.add(sensor);
+        
+        // 2. Configure alarm thresholds
+        configureAlarmThresholds(sensor, node);
+        
+        // 3. Check if sensor alarms are valid
+        if (!sensor.areAlarmRangesValid()) {
+            myLogger.warn("🛑 Sensor " + sensor.getModuleName() + " has invalid alarm ranges (min > max)!");
+        }
+        
+        // 4. Validate input module is set
+        if (sensor.getInputModule() == null) {
+            myLogger.warn("⚠️ Sensor " + sensor.getModuleName() + " has no input module set!");
+        }
+        
+        return sensor;
+    }
+
+    /**
      * Sets alarm range boundaries on a sensor if they are specified in the XML.
      * Supports both attribute-based configuration and nested alarms element.
      *
@@ -64,21 +95,14 @@ public class SensorInitializer {
     private void configureAlarmThresholds(GenericSensor sensor, Node node) {
         // First check for nested alarms element
         Node child = node.getFirstChild();
-        boolean alarmsElementFound = false;
 
         while (child != null) {
             String childName = child.getLocalName();
             if (childName != null && childName.equals("alarms")) {
-                alarmsElementFound = true;
                 parseAlarmsElement(sensor, child);
                 break;
             }
             child = child.getNextSibling();
-        }
-
-        // If no alarms element found, use the legacy attribute-based configuration
-        if (!alarmsElementFound) {
-            configureLegacyAlarmThresholds(sensor, node);
         }
     }
 
@@ -94,115 +118,55 @@ public class SensorInitializer {
         while (child != null) {
             String childName = child.getLocalName();
             if (childName != null) {
-                if (childName.equals("watch")) {
-                    if (child.getAttributes().getNamedItem("min") != null &&
-                            child.getAttributes().getNamedItem("max") != null) {
-                        float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
-                        float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
-                        sensor.setWatchMin(min);
-                        sensor.setWatchMax(max);
+                switch (childName) {
+                    case "watch" -> {
+                        if (child.getAttributes().getNamedItem("min") != null &&
+                                child.getAttributes().getNamedItem("max") != null) {
+                            float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
+                            float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
+                            sensor.setWatchMin(min);
+                            sensor.setWatchMax(max);
+                        }
                     }
-                } else if (childName.equals("warning")) {
-                    if (child.getAttributes().getNamedItem("min") != null &&
-                            child.getAttributes().getNamedItem("max") != null) {
-                        float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
-                        float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
-                        sensor.setWarningMin(min);
-                        sensor.setWarningMax(max);
+                    case "warning" -> {
+                        if (child.getAttributes().getNamedItem("min") != null &&
+                                child.getAttributes().getNamedItem("max") != null) {
+                            float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
+                            float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
+                            sensor.setWarningMin(min);
+                            sensor.setWarningMax(max);
+                        }
                     }
-                } else if (childName.equals("distress")) {
-                    if (child.getAttributes().getNamedItem("min") != null &&
-                            child.getAttributes().getNamedItem("max") != null) {
-                        float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
-                        float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
-                        sensor.setDistressMin(min);
-                        sensor.setDistressMax(max);
+                    case "distress" -> {
+                        if (child.getAttributes().getNamedItem("min") != null &&
+                                child.getAttributes().getNamedItem("max") != null) {
+                            float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
+                            float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
+                            sensor.setDistressMin(min);
+                            sensor.setDistressMax(max);
+                        }
                     }
-                } else if (childName.equals("critical")) {
-                    if (child.getAttributes().getNamedItem("min") != null &&
-                            child.getAttributes().getNamedItem("max") != null) {
-                        float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
-                        float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
-                        sensor.setCriticalMin(min);
-                        sensor.setCriticalMax(max);
+                    case "critical" -> {
+                        if (child.getAttributes().getNamedItem("min") != null &&
+                                child.getAttributes().getNamedItem("max") != null) {
+                            float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
+                            float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
+                            sensor.setCriticalMin(min);
+                            sensor.setCriticalMax(max);
+                        }
                     }
-                } else if (childName.equals("severe")) {
-                    if (child.getAttributes().getNamedItem("min") != null &&
-                            child.getAttributes().getNamedItem("max") != null) {
-                        float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
-                        float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
-                        sensor.setSevereMin(min);
-                        sensor.setSevereMax(max);
+                    case "severe" -> {
+                        if (child.getAttributes().getNamedItem("min") != null &&
+                                child.getAttributes().getNamedItem("max") != null) {
+                            float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
+                            float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
+                            sensor.setSevereMin(min);
+                            sensor.setSevereMax(max);
+                        }
                     }
                 }
             }
-            // check if sensor alarms are valid
-            if (!sensor.areAlarmRangesValid()) {
-                myLogger.warn("🛑 Sensor " + sensor.getModuleName() + " has invalid alarm ranges (min > max)!");
-            }
             child = child.getNextSibling();
-        }
-    }
-
-    /**
-     * Sets alarm range boundaries on a sensor using the legacy attribute-based configuration.
-     *
-     * @param sensor The sensor to configure
-     * @param node   The XML node containing range attributes
-     */
-    private void configureLegacyAlarmThresholds(GenericSensor sensor, Node node) {
-        if (node.getAttributes().getNamedItem("watchMin") != null) {
-            float watchMin = Float.parseFloat(node.getAttributes().getNamedItem("watchMin").getNodeValue());
-            sensor.setWatchMin(watchMin);
-        }
-
-        if (node.getAttributes().getNamedItem("watchMax") != null) {
-            float watchMax = Float.parseFloat(node.getAttributes().getNamedItem("watchMax").getNodeValue());
-            sensor.setWatchMax(watchMax);
-        }
-
-        // Warning range
-        if (node.getAttributes().getNamedItem("warningMin") != null) {
-            float warningMin = Float.parseFloat(node.getAttributes().getNamedItem("warningMin").getNodeValue());
-            sensor.setWarningMin(warningMin);
-        }
-
-        if (node.getAttributes().getNamedItem("warningMax") != null) {
-            float warningMax = Float.parseFloat(node.getAttributes().getNamedItem("warningMax").getNodeValue());
-            sensor.setWarningMax(warningMax);
-        }
-
-        // Distress range
-        if (node.getAttributes().getNamedItem("distressMin") != null) {
-            float distressMin = Float.parseFloat(node.getAttributes().getNamedItem("distressMin").getNodeValue());
-            sensor.setDistressMin(distressMin);
-        }
-
-        if (node.getAttributes().getNamedItem("distressMax") != null) {
-            float distressMax = Float.parseFloat(node.getAttributes().getNamedItem("distressMax").getNodeValue());
-            sensor.setDistressMax(distressMax);
-        }
-
-        // Critical range
-        if (node.getAttributes().getNamedItem("criticalMin") != null) {
-            float criticalMin = Float.parseFloat(node.getAttributes().getNamedItem("criticalMin").getNodeValue());
-            sensor.setCriticalMin(criticalMin);
-        }
-
-        if (node.getAttributes().getNamedItem("criticalMax") != null) {
-            float criticalMax = Float.parseFloat(node.getAttributes().getNamedItem("criticalMax").getNodeValue());
-            sensor.setCriticalMax(criticalMax);
-        }
-
-        // Severe range
-        if (node.getAttributes().getNamedItem("severeMin") != null) {
-            float severeMin = Float.parseFloat(node.getAttributes().getNamedItem("severeMin").getNodeValue());
-            sensor.setSevereMin(severeMin);
-        }
-
-        if (node.getAttributes().getNamedItem("severeMax") != null) {
-            float severeMax = Float.parseFloat(node.getAttributes().getNamedItem("severeMax").getNodeValue());
-            sensor.setSevereMax(severeMax);
         }
     }
 
@@ -244,8 +208,7 @@ public class SensorInitializer {
     private void configureCO2InFlowRateSensor(Node node) {
         CO2InFlowRateSensor sensor = (CO2InFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((CO2Consumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        configureAlarmThresholds(sensor, node);
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createCO2OutFlowRateSensor(Node node) {
@@ -257,7 +220,7 @@ public class SensorInitializer {
     private void configureCO2OutFlowRateSensor(Node node) {
         CO2OutFlowRateSensor sensor = (CO2OutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((CO2Producer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createO2InFlowRateSensor(Node node) {
@@ -269,8 +232,7 @@ public class SensorInitializer {
     private void configureO2InFlowRateSensor(Node node) {
         O2InFlowRateSensor sensor = (O2InFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((O2Consumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        configureAlarmThresholds(sensor, node);
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createO2OutFlowRateSensor(Node node) {
@@ -282,7 +244,7 @@ public class SensorInitializer {
     private void configureO2OutFlowRateSensor(Node node) {
         O2OutFlowRateSensor sensor = (O2OutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((O2Producer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createH2InFlowRateSensor(Node node) {
@@ -294,7 +256,7 @@ public class SensorInitializer {
     private void configureH2InFlowRateSensor(Node node) {
         H2InFlowRateSensor sensor = (H2InFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((H2Consumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createH2OutFlowRateSensor(Node node) {
@@ -306,7 +268,7 @@ public class SensorInitializer {
     private void configureH2OutFlowRateSensor(Node node) {
         H2OutFlowRateSensor sensor = (H2OutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((H2Producer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createNitrogenInFlowRateSensor(Node node) {
@@ -318,7 +280,7 @@ public class SensorInitializer {
     private void configureNitrogenInFlowRateSensor(Node node) {
         NitrogenInFlowRateSensor sensor = (NitrogenInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((NitrogenConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createNitrogenOutFlowRateSensor(Node node) {
@@ -330,7 +292,7 @@ public class SensorInitializer {
     private void configureNitrogenOutFlowRateSensor(Node node) {
         NitrogenOutFlowRateSensor sensor = (NitrogenOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((NitrogenProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createMethaneInFlowRateSensor(Node node) {
@@ -342,7 +304,7 @@ public class SensorInitializer {
     private void configureMethaneInFlowRateSensor(Node node) {
         MethaneInFlowRateSensor sensor = (MethaneInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((MethaneConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createMethaneOutFlowRateSensor(Node node) {
@@ -354,7 +316,7 @@ public class SensorInitializer {
     private void configureMethaneOutFlowRateSensor(Node node) {
         MethaneOutFlowRateSensor sensor = (MethaneOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((MethaneProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     // **************** Crew Sensors ********************
@@ -368,7 +330,7 @@ public class SensorInitializer {
     private void configureCrewGroupDeathSensor(Node node) {
         CrewGroupDeathSensor sensor = (CrewGroupDeathSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((CrewGroup) BiosimInitializer.getModule(myID, getInputName(node)));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createCrewGroupAnyDeadSensor(Node node) {
@@ -380,7 +342,7 @@ public class SensorInitializer {
     private void configureCrewGroupAnyDeadSensor(Node node) {
         CrewGroupAnyDeadSensor sensor = (CrewGroupAnyDeadSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((CrewGroup) BiosimInitializer.getModule(myID, getInputName(node)));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createCrewGroupProductivitySensor(Node node) {
@@ -392,7 +354,7 @@ public class SensorInitializer {
     private void configureCrewGroupProductivitySensor(Node node) {
         CrewGroupProductivitySensor sensor = (CrewGroupProductivitySensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((CrewGroup) BiosimInitializer.getModule(myID, getInputName(node)));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     // **************** Environment Sensors ********************
@@ -406,7 +368,7 @@ public class SensorInitializer {
     private void configureAirInFlowRateSensor(Node node) {
         AirInFlowRateSensor sensor = (AirInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((AirConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createAirOutFlowRateSensor(Node node) {
@@ -418,7 +380,7 @@ public class SensorInitializer {
     private void configureAirOutFlowRateSensor(Node node) {
         AirOutFlowRateSensor sensor = (AirOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((AirProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createGasConcentrationSensor(Node node) {
@@ -431,8 +393,7 @@ public class SensorInitializer {
         GasConcentrationSensor sensor = (GasConcentrationSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         SimEnvironment inputEnvironment = (SimEnvironment) BiosimInitializer.getModule(myID, getInputName(node));
         sensor.setInput(inputEnvironment, getGasStore(node, inputEnvironment));
-        configureAlarmThresholds(sensor, node);
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createGasPressureSensor(Node node) {
@@ -445,7 +406,7 @@ public class SensorInitializer {
         GasPressureSensor sensor = (GasPressureSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         SimEnvironment inputEnvironment = (SimEnvironment) BiosimInitializer.getModule(myID, getInputName(node));
         sensor.setInput(getGasStore(node, inputEnvironment));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createTotalMolesSensor(Node node) {
@@ -458,7 +419,7 @@ public class SensorInitializer {
         TotalMolesSensor sensor = (TotalMolesSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         SimEnvironment inputEnvironment = (SimEnvironment) BiosimInitializer.getModule(myID, getInputName(node));
         sensor.setInput(inputEnvironment);
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createTotalPressureSensor(Node node) {
@@ -471,8 +432,7 @@ public class SensorInitializer {
         TotalPressureSensor sensor = (TotalPressureSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         SimEnvironment inputEnvironment = (SimEnvironment) BiosimInitializer.getModule(myID, getInputName(node));
         sensor.setInput(inputEnvironment);
-        configureAlarmThresholds(sensor, node);
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     // **************** Food Sensors ********************
@@ -486,7 +446,7 @@ public class SensorInitializer {
     private void configureBiomassInFlowRateSensor(Node node) {
         BiomassInFlowRateSensor sensor = (BiomassInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((BiomassConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createBiomassOutFlowRateSensor(Node node) {
@@ -498,7 +458,7 @@ public class SensorInitializer {
     private void configureBiomassOutFlowRateSensor(Node node) {
         BiomassOutFlowRateSensor sensor = (BiomassOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((BiomassProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createFoodInFlowRateSensor(Node node) {
@@ -510,7 +470,7 @@ public class SensorInitializer {
     private void configureFoodInFlowRateSensor(Node node) {
         FoodInFlowRateSensor sensor = (FoodInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((FoodConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createFoodOutFlowRateSensor(Node node) {
@@ -522,7 +482,7 @@ public class SensorInitializer {
     private void configureFoodOutFlowRateSensor(Node node) {
         FoodOutFlowRateSensor sensor = (FoodOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((FoodProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createBiomassStoreWaterContentSensor(Node node) {
@@ -534,7 +494,7 @@ public class SensorInitializer {
     private void configureBiomassStoreWaterContentSensor(Node node) {
         BiomassStoreWaterContentSensor sensor = (BiomassStoreWaterContentSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((BiomassStore) BiosimInitializer.getModule(myID, getInputName(node)));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createHarvestSensor(Node node) {
@@ -547,7 +507,7 @@ public class SensorInitializer {
         int index = XMLUtils.getIntAttribute(node, "shelfIndex");
         HarvestSensor sensor = (HarvestSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((BiomassPS) BiosimInitializer.getModule(myID, getInputName(node)), index);
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createPlantDeathSensor(Node node) {
@@ -560,7 +520,7 @@ public class SensorInitializer {
         int index = XMLUtils.getIntAttribute(node, "shelfIndex");
         PlantDeathSensor sensor = (PlantDeathSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((BiomassPS) BiosimInitializer.getModule(myID, getInputName(node)), index);
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createTimeTillCanopyClosureSensor(Node node) {
@@ -573,7 +533,7 @@ public class SensorInitializer {
         int index = XMLUtils.getIntAttribute(node, "shelfIndex");
         TimeTillCanopyClosureSensor sensor = (TimeTillCanopyClosureSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((BiomassPS) BiosimInitializer.getModule(myID, getInputName(node)), index);
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     // **************** Framework Sensors ********************
@@ -587,8 +547,7 @@ public class SensorInitializer {
     private void configureStoreLevelSensor(Node node) {
         StoreLevelSensor sensor = (StoreLevelSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((Store) BiosimInitializer.getModule(myID, getInputName(node)));
-        configureAlarmThresholds(sensor, node);
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createStoreOverflowSensor(Node node) {
@@ -600,8 +559,7 @@ public class SensorInitializer {
     private void configureStoreOverflowSensor(Node node) {
         StoreOverflowSensor sensor = (StoreOverflowSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((Store) BiosimInitializer.getModule(myID, getInputName(node)));
-        configureAlarmThresholds(sensor, node);
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createInfluentValveStateSensor(Node node) {
@@ -613,8 +571,7 @@ public class SensorInitializer {
     private void configureInfluentValveStateSensor(Node node) {
         InfluentValveStateSensor sensor = (InfluentValveStateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((InfluentValve) BiosimInitializer.getModule(myID, getInputName(node)));
-        configureAlarmThresholds(sensor, node);
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createEffluentValveStateSensor(Node node) {
@@ -626,8 +583,7 @@ public class SensorInitializer {
     private void configureEffluentValveStateSensor(Node node) {
         EffluentValveStateSensor sensor = (EffluentValveStateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((EffluentValve) BiosimInitializer.getModule(myID, getInputName(node)));
-        configureAlarmThresholds(sensor, node);
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createTimeSensor(Node node) {
@@ -638,8 +594,7 @@ public class SensorInitializer {
 
     private void configureTimeSensor(Node node) {
         TimeSensor sensor = (TimeSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
-        configureAlarmThresholds(sensor, node);
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     // **************** Power Sensors ********************
@@ -653,8 +608,7 @@ public class SensorInitializer {
     private void configurePowerInFlowRateSensor(Node node) {
         PowerInFlowRateSensor sensor = (PowerInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((PowerConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        configureAlarmThresholds(sensor, node);
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createPowerOutFlowRateSensor(Node node) {
@@ -666,7 +620,7 @@ public class SensorInitializer {
     private void configurePowerOutFlowRateSensor(Node node) {
         PowerOutFlowRateSensor sensor = (PowerOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((PowerProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     // **************** Water Sensors ********************
@@ -680,8 +634,7 @@ public class SensorInitializer {
     private void configurePotableWaterInFlowRateSensor(Node node) {
         PotableWaterInFlowRateSensor sensor = (PotableWaterInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((PotableWaterConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        configureAlarmThresholds(sensor, node);
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createPotableWaterOutFlowRateSensor(Node node) {
@@ -693,7 +646,7 @@ public class SensorInitializer {
     private void configurePotableWaterOutFlowRateSensor(Node node) {
         PotableWaterOutFlowRateSensor sensor = (PotableWaterOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((PotableWaterProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createGreyWaterInFlowRateSensor(Node node) {
@@ -705,7 +658,7 @@ public class SensorInitializer {
     private void configureGreyWaterInFlowRateSensor(Node node) {
         GreyWaterInFlowRateSensor sensor = (GreyWaterInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((GreyWaterConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createGreyWaterOutFlowRateSensor(Node node) {
@@ -717,7 +670,7 @@ public class SensorInitializer {
     private void configureGreyWaterOutFlowRateSensor(Node node) {
         GreyWaterOutFlowRateSensor sensor = (GreyWaterOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((GreyWaterProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createDirtyWaterInFlowRateSensor(Node node) {
@@ -729,7 +682,7 @@ public class SensorInitializer {
     private void configureDirtyWaterInFlowRateSensor(Node node) {
         DirtyWaterInFlowRateSensor sensor = (DirtyWaterInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((DirtyWaterConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createDirtyWaterOutFlowRateSensor(Node node) {
@@ -741,7 +694,7 @@ public class SensorInitializer {
     private void configureDirtyWaterOutFlowRateSensor(Node node) {
         DirtyWaterOutFlowRateSensor sensor = (DirtyWaterOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((DirtyWaterProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     // **************** Waste Sensors ********************
@@ -755,7 +708,7 @@ public class SensorInitializer {
     private void configureDryWasteInFlowRateSensor(Node node) {
         DryWasteInFlowRateSensor sensor = (DryWasteInFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((DryWasteConsumer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     private void createDryWasteOutFlowRateSensor(Node node) {
@@ -767,7 +720,7 @@ public class SensorInitializer {
     private void configureDryWasteOutFlowRateSensor(Node node) {
         DryWasteOutFlowRateSensor sensor = (DryWasteOutFlowRateSensor) BiosimInitializer.getModule(myID, BiosimInitializer.getModuleName(node));
         sensor.setInput((DryWasteProducer) BiosimInitializer.getModule(myID, getInputName(node)), getFlowRateIndex(node));
-        mySensors.add(sensor);
+        configureSensor(sensor, node);
     }
 
     // **************** Crawling Methods ********************
