@@ -85,12 +85,12 @@ public class BiosimInitializer {
         return getInstance(id).getModule(name);
     }
 
-	public synchronized void addModule(IBioModule module) {
-		myModules.put(module.getModuleName(), module);
-	}
-
     public static synchronized void addModule(int id, IBioModule module) {
-		BiosimInitializer.getInstance(id).addModule(module);
+        BiosimInitializer.getInstance(id).addModule(module);
+    }
+
+    public synchronized void addModule(IBioModule module) {
+        myModules.put(module.getModuleName(), module);
     }
 
     public static synchronized void testConfiguration() {

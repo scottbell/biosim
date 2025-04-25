@@ -5,10 +5,10 @@ package com.traclabs.biosim.server.sensor.framework;
  */
 public enum MonitoringResult {
     NULL,       // No alarm specification applies
-    NOMINAL,  // Value is within limits
-    WATCH,      // Value exceeds watch threshold
-    WARNING,    // Value exceeds warning threshold
-    DISTRESS,   // Value exceeds distress threshold
-    CRITICAL,   // Value exceeds critical threshold
-    SEVERE      // Value exceeds severe threshold
+    NOMINAL,    // Value is within normal operating range
+    WATCH,      // Value is outside watch range
+    WARNING,    // Value is outside warning range
+    DISTRESS,   // Value is outside distress range
+    CRITICAL,   // Value is outside critical range
+    SEVERE      // Value is outside severe range
 }

@@ -10,7 +10,7 @@ package com.traclabs.biosim.server.simulation.framework;
  * @author Scott Bell
  */
 
-public class Injector extends ResourceMover  {
+public class Injector extends ResourceMover {
 
     public Injector(int pID, String pName) {
         super(pID, pName);

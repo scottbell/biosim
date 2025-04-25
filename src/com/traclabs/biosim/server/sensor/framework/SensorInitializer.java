@@ -1,7 +1,6 @@
 package com.traclabs.biosim.server.sensor.framework;
 
 import com.traclabs.biosim.server.framework.BiosimInitializer;
-import com.traclabs.biosim.util.XMLUtils;
 import com.traclabs.biosim.server.sensor.air.*;
 import com.traclabs.biosim.server.sensor.crew.CrewGroupAnyDeadSensor;
 import com.traclabs.biosim.server.sensor.crew.CrewGroupDeathSensor;
@@ -28,6 +27,7 @@ import com.traclabs.biosim.server.simulation.power.PowerProducer;
 import com.traclabs.biosim.server.simulation.waste.DryWasteConsumer;
 import com.traclabs.biosim.server.simulation.waste.DryWasteProducer;
 import com.traclabs.biosim.server.simulation.water.*;
+import com.traclabs.biosim.util.XMLUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
@@ -53,39 +53,156 @@ public class SensorInitializer {
     private static int getFlowRateIndex(Node pNode) {
         return Integer.parseInt(pNode.getAttributes().getNamedItem("index").getNodeValue());
     }
-    
+
     /**
-     * Sets alarm thresholds on a sensor if they are specified in the XML.
-     * If not specified, default values will be used.
-     * 
+     * Sets alarm range boundaries on a sensor if they are specified in the XML.
+     * Supports both attribute-based configuration and nested alarms element.
+     *
      * @param sensor The sensor to configure
-     * @param node The XML node containing threshold attributes
+     * @param node   The XML node containing range attributes or alarms element
      */
     private void configureAlarmThresholds(GenericSensor sensor, Node node) {
-        // Get threshold attributes if they exist, otherwise use defaults
-        if (node.getAttributes().getNamedItem("watchThreshold") != null) {
-            float watchThreshold = Float.parseFloat(node.getAttributes().getNamedItem("watchThreshold").getNodeValue());
-            sensor.setWatchThreshold(watchThreshold);
+        // First check for nested alarms element
+        Node child = node.getFirstChild();
+        boolean alarmsElementFound = false;
+
+        while (child != null) {
+            String childName = child.getLocalName();
+            if (childName != null && childName.equals("alarms")) {
+                alarmsElementFound = true;
+                parseAlarmsElement(sensor, child);
+                break;
+            }
+            child = child.getNextSibling();
         }
-        
-        if (node.getAttributes().getNamedItem("warningThreshold") != null) {
-            float warningThreshold = Float.parseFloat(node.getAttributes().getNamedItem("warningThreshold").getNodeValue());
-            sensor.setWarningThreshold(warningThreshold);
+
+        // If no alarms element found, use the legacy attribute-based configuration
+        if (!alarmsElementFound) {
+            configureLegacyAlarmThresholds(sensor, node);
         }
-        
-        if (node.getAttributes().getNamedItem("distressThreshold") != null) {
-            float distressThreshold = Float.parseFloat(node.getAttributes().getNamedItem("distressThreshold").getNodeValue());
-            sensor.setDistressThreshold(distressThreshold);
+    }
+
+    /**
+     * Parses the alarms element and configures the sensor accordingly.
+     *
+     * @param sensor     The sensor to configure
+     * @param alarmsNode The alarms XML node
+     */
+    private void parseAlarmsElement(GenericSensor sensor, Node alarmsNode) {
+        Node child = alarmsNode.getFirstChild();
+
+        while (child != null) {
+            String childName = child.getLocalName();
+            if (childName != null) {
+                if (childName.equals("watch")) {
+                    if (child.getAttributes().getNamedItem("min") != null &&
+                            child.getAttributes().getNamedItem("max") != null) {
+                        float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
+                        float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
+                        sensor.setWatchMin(min);
+                        sensor.setWatchMax(max);
+                    }
+                } else if (childName.equals("warning")) {
+                    if (child.getAttributes().getNamedItem("min") != null &&
+                            child.getAttributes().getNamedItem("max") != null) {
+                        float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
+                        float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
+                        sensor.setWarningMin(min);
+                        sensor.setWarningMax(max);
+                    }
+                } else if (childName.equals("distress")) {
+                    if (child.getAttributes().getNamedItem("min") != null &&
+                            child.getAttributes().getNamedItem("max") != null) {
+                        float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
+                        float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
+                        sensor.setDistressMin(min);
+                        sensor.setDistressMax(max);
+                    }
+                } else if (childName.equals("critical")) {
+                    if (child.getAttributes().getNamedItem("min") != null &&
+                            child.getAttributes().getNamedItem("max") != null) {
+                        float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
+                        float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
+                        sensor.setCriticalMin(min);
+                        sensor.setCriticalMax(max);
+                    }
+                } else if (childName.equals("severe")) {
+                    if (child.getAttributes().getNamedItem("min") != null &&
+                            child.getAttributes().getNamedItem("max") != null) {
+                        float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
+                        float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
+                        sensor.setSevereMin(min);
+                        sensor.setSevereMax(max);
+                    }
+                }
+            }
+            // check if sensor alarms are valid
+            if (!sensor.areAlarmRangesValid()) {
+                myLogger.warn("🛑 Sensor " + sensor.getModuleName() + " has invalid alarm ranges (min > max)!");
+            }
+            child = child.getNextSibling();
         }
-        
-        if (node.getAttributes().getNamedItem("criticalThreshold") != null) {
-            float criticalThreshold = Float.parseFloat(node.getAttributes().getNamedItem("criticalThreshold").getNodeValue());
-            sensor.setCriticalThreshold(criticalThreshold);
+    }
+
+    /**
+     * Sets alarm range boundaries on a sensor using the legacy attribute-based configuration.
+     *
+     * @param sensor The sensor to configure
+     * @param node   The XML node containing range attributes
+     */
+    private void configureLegacyAlarmThresholds(GenericSensor sensor, Node node) {
+        if (node.getAttributes().getNamedItem("watchMin") != null) {
+            float watchMin = Float.parseFloat(node.getAttributes().getNamedItem("watchMin").getNodeValue());
+            sensor.setWatchMin(watchMin);
         }
-        
-        if (node.getAttributes().getNamedItem("severeThreshold") != null) {
-            float severeThreshold = Float.parseFloat(node.getAttributes().getNamedItem("severeThreshold").getNodeValue());
-            sensor.setSevereThreshold(severeThreshold);
+
+        if (node.getAttributes().getNamedItem("watchMax") != null) {
+            float watchMax = Float.parseFloat(node.getAttributes().getNamedItem("watchMax").getNodeValue());
+            sensor.setWatchMax(watchMax);
+        }
+
+        // Warning range
+        if (node.getAttributes().getNamedItem("warningMin") != null) {
+            float warningMin = Float.parseFloat(node.getAttributes().getNamedItem("warningMin").getNodeValue());
+            sensor.setWarningMin(warningMin);
+        }
+
+        if (node.getAttributes().getNamedItem("warningMax") != null) {
+            float warningMax = Float.parseFloat(node.getAttributes().getNamedItem("warningMax").getNodeValue());
+            sensor.setWarningMax(warningMax);
+        }
+
+        // Distress range
+        if (node.getAttributes().getNamedItem("distressMin") != null) {
+            float distressMin = Float.parseFloat(node.getAttributes().getNamedItem("distressMin").getNodeValue());
+            sensor.setDistressMin(distressMin);
+        }
+
+        if (node.getAttributes().getNamedItem("distressMax") != null) {
+            float distressMax = Float.parseFloat(node.getAttributes().getNamedItem("distressMax").getNodeValue());
+            sensor.setDistressMax(distressMax);
+        }
+
+        // Critical range
+        if (node.getAttributes().getNamedItem("criticalMin") != null) {
+            float criticalMin = Float.parseFloat(node.getAttributes().getNamedItem("criticalMin").getNodeValue());
+            sensor.setCriticalMin(criticalMin);
+        }
+
+        if (node.getAttributes().getNamedItem("criticalMax") != null) {
+            float criticalMax = Float.parseFloat(node.getAttributes().getNamedItem("criticalMax").getNodeValue());
+            sensor.setCriticalMax(criticalMax);
+        }
+
+        // Severe range
+        if (node.getAttributes().getNamedItem("severeMin") != null) {
+            float severeMin = Float.parseFloat(node.getAttributes().getNamedItem("severeMin").getNodeValue());
+            sensor.setSevereMin(severeMin);
+        }
+
+        if (node.getAttributes().getNamedItem("severeMax") != null) {
+            float severeMax = Float.parseFloat(node.getAttributes().getNamedItem("severeMax").getNodeValue());
+            sensor.setSevereMax(severeMax);
         }
     }
 

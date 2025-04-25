@@ -4,15 +4,39 @@
 	elementFormDefault="qualified">
 	
 	<!-- Sensor declarations -->
-<xsd:complexType name="SensorType">  
+    <xsd:complexType name="AlarmRangeType">
+        <xsd:attribute name="min" type="xsd:float" use="required"/>
+        <xsd:attribute name="max" type="xsd:float" use="required"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="AlarmsType">
+        <xsd:sequence>
+            <xsd:element name="watch" type="AlarmRangeType" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="warning" type="AlarmRangeType" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="distress" type="AlarmRangeType" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="critical" type="AlarmRangeType" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="severe" type="AlarmRangeType" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="SensorType">
 	<xsd:complexContent>
 		<xsd:extension base="BioModuleType">
+            <xsd:sequence>
+                <xsd:element name="alarms" type="AlarmsType" minOccurs="0" maxOccurs="1"/>
+            </xsd:sequence>
 			<xsd:attribute name="input" type="xsd:string" use="required"/>
-			<xsd:attribute name="watchThreshold" type="xsd:float" use="optional"/>
-			<xsd:attribute name="warningThreshold" type="xsd:float" use="optional"/>
-			<xsd:attribute name="distressThreshold" type="xsd:float" use="optional"/>
-			<xsd:attribute name="criticalThreshold" type="xsd:float" use="optional"/>
-			<xsd:attribute name="severeThreshold" type="xsd:float" use="optional"/>
+            <!-- Legacy alarm attributes, kept for backward compatibility -->
+            <xsd:attribute name="watchMin" type="xsd:float" use="optional"/>
+            <xsd:attribute name="watchMax" type="xsd:float" use="optional"/>
+            <xsd:attribute name="warningMin" type="xsd:float" use="optional"/>
+            <xsd:attribute name="warningMax" type="xsd:float" use="optional"/>
+            <xsd:attribute name="distressMin" type="xsd:float" use="optional"/>
+            <xsd:attribute name="distressMax" type="xsd:float" use="optional"/>
+            <xsd:attribute name="criticalMin" type="xsd:float" use="optional"/>
+            <xsd:attribute name="criticalMax" type="xsd:float" use="optional"/>
+            <xsd:attribute name="severeMin" type="xsd:float" use="optional"/>
+            <xsd:attribute name="severeMax" type="xsd:float" use="optional"/>
 		</xsd:extension>
 	</xsd:complexContent>
 </xsd:complexType>

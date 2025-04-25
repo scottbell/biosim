@@ -6,8 +6,14 @@ import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.air.*;
 import com.traclabs.biosim.server.simulation.environment.*;
 import com.traclabs.biosim.server.simulation.food.*;
-import com.traclabs.biosim.server.simulation.power.*;
-import com.traclabs.biosim.server.simulation.waste.*;
+import com.traclabs.biosim.server.simulation.power.PowerConsumer;
+import com.traclabs.biosim.server.simulation.power.PowerConsumerDefinition;
+import com.traclabs.biosim.server.simulation.power.PowerProducer;
+import com.traclabs.biosim.server.simulation.power.PowerProducerDefinition;
+import com.traclabs.biosim.server.simulation.waste.DryWasteConsumer;
+import com.traclabs.biosim.server.simulation.waste.DryWasteConsumerDefinition;
+import com.traclabs.biosim.server.simulation.waste.DryWasteProducer;
+import com.traclabs.biosim.server.simulation.waste.DryWasteProducerDefinition;
 import com.traclabs.biosim.server.simulation.water.*;
 
 /**

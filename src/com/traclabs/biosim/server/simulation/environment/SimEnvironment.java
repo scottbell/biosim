@@ -160,23 +160,25 @@ public class SimEnvironment extends PassiveModule {
      * @param pInitialVolume the new currentVolume of the environment (in liters)
      */
     public void setInitialVolumeAtSeaLevel(float pInitialVolume) {
-        float moleOfHumidAirPerLiter = 0.04115f;    //	assuming air temperature of 23C
+        float moleOfHumidAirPerLiter = 0.04115f; // assuming air temperature of 23°C
         currentVolume = initialVolume = pInitialVolume;
-        myO2Store.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * 0.185f);
-        myCO2Store.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * 0.117f / 101f);
+        myO2Store.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * 0.21f);
+        myCO2Store.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * 0.039f / 101f);
         myOtherStore.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * 0.0f);
         myVaporStore.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * 0.0218910f);
-        myNitrogenStore.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * (1f - 0.185f - 0.117f / 101f - 0.0f - 0.0218910f));
+        myNitrogenStore.setInitialLevel(currentVolume * moleOfHumidAirPerLiter *
+                (1f - 0.21f - 0.039f / 101f - 0.0f - 0.0218910f));
     }
 
     public void setCurrentVolumeAtSeaLevel(float pVolume) {
-        float moleOfHumidAirPerLiter = 0.04115f;    //	assuming air temperature of 23C
+        float moleOfHumidAirPerLiter = 0.04115f; // assuming air temperature of 23°C
         currentVolume = pVolume;
-        myO2Store.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * 0.185f);
-        myCO2Store.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * 0.117f / 101f);
+        myO2Store.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * 0.21f);
+        myCO2Store.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * 0.039f / 101f);
         myOtherStore.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * 0.0f);
         myVaporStore.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * 0.0218910f);
-        myNitrogenStore.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * (1f - 0.185f - 0.117f / 101f - 0.0f - 0.0218910f));
+        myNitrogenStore.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter *
+                (1f - 0.21f - 0.039f / 101f - 0.0f - 0.0218910f));
     }
 
     public float getInitialTotalPressure() {

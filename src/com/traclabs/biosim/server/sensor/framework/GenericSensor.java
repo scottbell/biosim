@@ -7,14 +7,25 @@ import com.traclabs.biosim.server.util.MathUtils;
 public abstract class GenericSensor extends BioModule {
     protected float myValue;
     private MonitoringResult myMonitoringResult = MonitoringResult.NOMINAL;
-    private float myNormalizedMonitoringValue = 0.0f;
-    
-    // Alarm thresholds as percentages of the range between min and max
-    private float myWatchThreshold = 0.8f;
-    private float myWarningThreshold = 0.85f;
-    private float myDistressThreshold = 0.9f;
-    private float myCriticalThreshold = 0.95f;
-    private float mySevereThreshold = 0.99f;
+
+    // Alarm range boundaries
+    private float myWatchMin = 0f;
+    private float myWatchMax = 0f;
+    private float myWarningMin = 0f;
+    private float myWarningMax = 0f;
+    private float myDistressMin = 0f;
+    private float myDistressMax = 0f;
+    private float myCriticalMin = 0f;
+    private float myCriticalMax = 0f;
+    private float mySevereMin = 0f;
+    private float mySevereMax = 0f;
+
+    // Flags to track which alarm ranges are enabled
+    private boolean myWatchEnabled = false;
+    private boolean myWarningEnabled = false;
+    private boolean myDistressEnabled = false;
+    private boolean myCriticalEnabled = false;
+    private boolean mySevereEnabled = false;
 
     public GenericSensor(int pID, String pName) {
         super(pID, pName);
@@ -34,144 +45,193 @@ public abstract class GenericSensor extends BioModule {
     public float getMin() {
         return 0f;
     }
-    
+
     /**
      * Gets the current monitoring result for this sensor.
-     * 
+     *
      * @return The current monitoring result
      */
     public MonitoringResult getMonitoringResult() {
         return myMonitoringResult;
     }
-    
-    /**
-     * Gets the normalized monitoring value, which is a percentage of the range between min and max.
-     * 
-     * @return The normalized monitoring value (0.0 to 1.0)
-     *         or NaN if the range is zero or negative
-     */
-    public float getNormalizedMonitoringValue() {
-        return myNormalizedMonitoringValue;
+
+    // Watch range getters and setters
+    public float getWatchMin() {
+        return myWatchMin;
     }
-    
-    /**
-     * Sets the watch threshold as a percentage of the range between min and max.
-     * 
-     * @param threshold The threshold value (0.0 to 1.0)
-     */
-    public void setWatchThreshold(float threshold) {
-        myWatchThreshold = threshold;
+
+    public void setWatchMin(float min) {
+        myWatchMin = min;
+        myWatchEnabled = true;
     }
-    
-    /**
-     * Sets the warning threshold as a percentage of the range between min and max.
-     * 
-     * @param threshold The threshold value (0.0 to 1.0)
-     */
-    public void setWarningThreshold(float threshold) {
-        myWarningThreshold = threshold;
+
+    public float getWatchMax() {
+        return myWatchMax;
     }
-    
-    /**
-     * Sets the distress threshold as a percentage of the range between min and max.
-     * 
-     * @param threshold The threshold value (0.0 to 1.0)
-     */
-    public void setDistressThreshold(float threshold) {
-        myDistressThreshold = threshold;
+
+    public void setWatchMax(float max) {
+        myWatchMax = max;
+        myWatchEnabled = true;
     }
-    
-    /**
-     * Sets the critical threshold as a percentage of the range between min and max.
-     * 
-     * @param threshold The threshold value (0.0 to 1.0)
-     */
-    public void setCriticalThreshold(float threshold) {
-        myCriticalThreshold = threshold;
+
+    public boolean isWatchEnabled() {
+        return myWatchEnabled;
     }
-    
-    /**
-     * Sets the severe threshold as a percentage of the range between min and max.
-     * 
-     * @param threshold The threshold value (0.0 to 1.0)
-     */
-    public void setSevereThreshold(float threshold) {
-        mySevereThreshold = threshold;
+
+    public void setWatchEnabled(boolean enabled) {
+        myWatchEnabled = enabled;
     }
-    
-    /**
-     * Gets the watch threshold.
-     * 
-     * @return The watch threshold value
-     */
-    public float getWatchThreshold() {
-        return myWatchThreshold;
+
+    // Warning range getters and setters
+    public float getWarningMin() {
+        return myWarningMin;
     }
-    
-    /**
-     * Gets the warning threshold.
-     * 
-     * @return The warning threshold value
-     */
-    public float getWarningThreshold() {
-        return myWarningThreshold;
+
+    public void setWarningMin(float min) {
+        myWarningMin = min;
+        myWarningEnabled = true;
     }
-    
-    /**
-     * Gets the distress threshold.
-     * 
-     * @return The distress threshold value
-     */
-    public float getDistressThreshold() {
-        return myDistressThreshold;
+
+    public float getWarningMax() {
+        return myWarningMax;
     }
-    
-    /**
-     * Gets the critical threshold.
-     * 
-     * @return The critical threshold value
-     */
-    public float getCriticalThreshold() {
-        return myCriticalThreshold;
+
+    public void setWarningMax(float max) {
+        myWarningMax = max;
+        myWarningEnabled = true;
     }
-    
-    /**
-     * Gets the severe threshold.
-     * 
-     * @return The severe threshold value
-     */
-    public float getSevereThreshold() {
-        return mySevereThreshold;
+
+    public boolean isWarningEnabled() {
+        return myWarningEnabled;
     }
-    
-    /**
-     * Evaluates the current value against thresholds and updates the monitoring result.
-     */
-    protected void evaluateAlarmsAndRange() {
-        float min = getMin();
-        float max = getMax();
-        float range = max - min;
-        
-        if (range <= 0) {
-            myMonitoringResult = MonitoringResult.NULL;
-            return;
+
+    public void setWarningEnabled(boolean enabled) {
+        myWarningEnabled = enabled;
+    }
+
+    // Distress range getters and setters
+    public float getDistressMin() {
+        return myDistressMin;
+    }
+
+    public void setDistressMin(float min) {
+        myDistressMin = min;
+        myDistressEnabled = true;
+    }
+
+    public float getDistressMax() {
+        return myDistressMax;
+    }
+
+    public void setDistressMax(float max) {
+        myDistressMax = max;
+        myDistressEnabled = true;
+    }
+
+    public boolean isDistressEnabled() {
+        return myDistressEnabled;
+    }
+
+    public void setDistressEnabled(boolean enabled) {
+        myDistressEnabled = enabled;
+    }
+
+    // Critical range getters and setters
+    public float getCriticalMin() {
+        return myCriticalMin;
+    }
+
+    public void setCriticalMin(float min) {
+        myCriticalMin = min;
+        myCriticalEnabled = true;
+    }
+
+    public float getCriticalMax() {
+        return myCriticalMax;
+    }
+
+    public void setCriticalMax(float max) {
+        myCriticalMax = max;
+        myCriticalEnabled = true;
+    }
+
+    public boolean isCriticalEnabled() {
+        return myCriticalEnabled;
+    }
+
+    public void setCriticalEnabled(boolean enabled) {
+        myCriticalEnabled = enabled;
+    }
+
+    // Severe range getters and setters
+    public float getSevereMin() {
+        return mySevereMin;
+    }
+
+    public void setSevereMin(float min) {
+        mySevereMin = min;
+        mySevereEnabled = true;
+    }
+
+    public float getSevereMax() {
+        return mySevereMax;
+    }
+
+    public void setSevereMax(float max) {
+        mySevereMax = max;
+        mySevereEnabled = true;
+    }
+
+    public boolean isSevereEnabled() {
+        return mySevereEnabled;
+    }
+
+    public void setSevereEnabled(boolean enabled) {
+        mySevereEnabled = enabled;
+    }
+
+    public boolean areAlarmRangesValid() {
+        if (myWatchEnabled && myWatchMin > myWatchMax) {
+            return false;
         }
-        
-        // Calculate the normalized position of the current value in the range
-        myNormalizedMonitoringValue = (myValue - min) / range;
-        
-        // Determine the monitoring result based on thresholds
-        if (myNormalizedMonitoringValue >= mySevereThreshold) {
+        if (myWarningEnabled && myWarningMin > myWarningMax) {
+            return false;
+        }
+        if (myDistressEnabled && myDistressMin > myDistressMax) {
+            return false;
+        }
+        if (myCriticalEnabled && myCriticalMin > myCriticalMax) {
+            return false;
+        }
+        return !mySevereEnabled || !(mySevereMin > mySevereMax);
+    }
+
+    /**
+     * Evaluates the current value against range boundaries and updates the monitoring result.
+     */
+    protected void evaluateAlarms() {
+        // Check if value falls within the severe alarm range
+        if (mySevereEnabled && (myValue >= mySevereMin && myValue <= mySevereMax)) {
             myMonitoringResult = MonitoringResult.SEVERE;
-        } else if (myNormalizedMonitoringValue >= myCriticalThreshold) {
+        }
+        // Check if value falls within the critical alarm range
+        else if (myCriticalEnabled && (myValue >= myCriticalMin && myValue <= myCriticalMax)) {
             myMonitoringResult = MonitoringResult.CRITICAL;
-        } else if (myNormalizedMonitoringValue >= myDistressThreshold) {
+        }
+        // Check if value falls within the distress alarm range
+        else if (myDistressEnabled && (myValue >= myDistressMin && myValue <= myDistressMax)) {
             myMonitoringResult = MonitoringResult.DISTRESS;
-        } else if (myNormalizedMonitoringValue >= myWarningThreshold) {
+        }
+        // Check if value falls within the warning alarm range
+        else if (myWarningEnabled && (myValue >= myWarningMin && myValue <= myWarningMax)) {
             myMonitoringResult = MonitoringResult.WARNING;
-        } else if (myNormalizedMonitoringValue >= myWatchThreshold) {
+        }
+        // Check if value falls within the watch alarm range
+        else if (myWatchEnabled && (myValue >= myWatchMin && myValue <= myWatchMax)) {
             myMonitoringResult = MonitoringResult.WATCH;
-        } else {
+        }
+        // Otherwise, flag as nominal
+        else {
             myMonitoringResult = MonitoringResult.NOMINAL;
         }
     }
@@ -179,7 +239,7 @@ public abstract class GenericSensor extends BioModule {
     public void tick() {
         gatherData();
         super.tick();
-        evaluateAlarmsAndRange();
+        evaluateAlarms();
         notifyListeners();
     }
 

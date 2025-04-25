@@ -35,9 +35,9 @@ public class SimulationController implements TickListener {
 
     // Map to store simulation IDs and their corresponding BioDriver instances
     private final Map<Integer, BioDriver> simulations = new ConcurrentHashMap<>();
-    
+
     // Reference to the WebSocket handler
-    
+
     private final Map<Integer, Set<WsContext>> websocketSessions = new ConcurrentHashMap<>();
 
     /**
@@ -63,9 +63,9 @@ public class SimulationController implements TickListener {
 
     /**
      * Sends a simulation update to a specific client.
-     * 
+     *
      * @param simID the simulation ID
-     * @param ctx the WebSocket context
+     * @param ctx   the WebSocket context
      */
     private void sendSimUpdateToSingleClient(int simID, WsContext ctx) {
         Map<String, Object> details = generateSimulationDetails(simID);
@@ -73,11 +73,11 @@ public class SimulationController implements TickListener {
             ctx.send(details);
         }
     }
-    
+
 
     /**
      * Configures WebSocket handlers for the given WsConfig.
-     * 
+     *
      * @param wsConfig the Javalin WebSocket configuration
      */
     private void simulationWebsocketHandler(WsConfig wsConfig) {
@@ -93,7 +93,7 @@ public class SimulationController implements TickListener {
                 ctx.session.close();
             }
         });
-        
+
         wsConfig.onClose(ctx -> {
             try {
                 int simID = Integer.parseInt(ctx.pathParam("simID"));
@@ -106,15 +106,15 @@ public class SimulationController implements TickListener {
                 logger.error("🛑 Invalid simulation ID on disconnection: {}.", ctx.pathParam("simID"));
             }
         });
-        
+
         wsConfig.onError(ctx -> {
-            logger.error("🛑 WebSocket error: {}", ctx.error().getMessage());
+            // ignore on hangup
         });
     }
-    
+
     /**
      * Broadcasts a simulation update to all clients subscribed to a simulation.
-     * 
+     *
      * @param simID the simulation ID
      */
     private void broadcastUpdate(int simID) {
@@ -165,7 +165,7 @@ public class SimulationController implements TickListener {
             // Create a new BioDriver instance for the simulation
             BioDriver bioDriver = initializer.getBioDriver();
             simulations.put(simID, bioDriver);
-            
+
             // Register as a tick listener
             bioDriver.addTickListener(this);
 
@@ -197,16 +197,16 @@ public class SimulationController implements TickListener {
         }
 
         bioDriver.advanceOneTick();
-        
+
         context.json(Map.of("ticks", bioDriver.getTicks()));
         logger.info("Simulation {} advanced to tick {}", simID, bioDriver.getTicks());
     }
-    
+
     /**
      * Implementation of the TickListener interface.
      * Called when a tick occurs in a BioDriver.
-     * 
-     * @param simID The ID of the simulation that ticked
+     *
+     * @param simID     The ID of the simulation that ticked
      * @param tickCount The current tick count after the tick
      */
     @Override
@@ -240,16 +240,16 @@ public class SimulationController implements TickListener {
     /**
      * Returns detailed information for a simulation including global simulation properties
      * and detailed module information for each module declared in BioDriver.
-     *
+     * <p>
      * The JSON structure looks like:
-     *
+     * <p>
      * {
-     *   "globals": { ... },
-     *   "modules": {
-     *       "FoodProcessor": { ... },
-     *       "O2Store": { ... },
-     *       ...
-     *   }
+     * "globals": { ... },
+     * "modules": {
+     * "FoodProcessor": { ... },
+     * "O2Store": { ... },
+     * ...
+     * }
      * }
      *
      * @param context the Javalin context from the request.
@@ -263,7 +263,7 @@ public class SimulationController implements TickListener {
             context.status(404).json(Map.of("error", "Simulation ID not found."));
         }
     }
-    
+
     /**
      * Generates detailed information for a simulation including global simulation properties
      * and detailed module information for each module declared in BioDriver.
@@ -497,7 +497,7 @@ public class SimulationController implements TickListener {
             personInfo.put("age", person.getAge());
             personInfo.put("weight", person.getWeight());
             personInfo.put("sex", person.getSex().toString());
-            
+
             // Current Activity Info
             Activity currentActivity = person.getCurrentActivity();
             Map<String, Object> activityInfo = new LinkedHashMap<>();
@@ -510,7 +510,7 @@ public class SimulationController implements TickListener {
             personInfo.put("currentActivityIntensity", currentActivity.getActivityIntensity());
             personInfo.put("currentActivityTimeLength", currentActivity.getTimeLength());
             personInfo.put("timeActivityPerformed", person.getTimeActivityPerformed());
-            
+
             // Resource metrics (if getters are available)
             personInfo.put("O2Consumed", person.getO2Consumed());
             personInfo.put("CO2Produced", person.getCO2Produced());
@@ -522,7 +522,7 @@ public class SimulationController implements TickListener {
 
             // Attach schedule details. Here we assume a getSchedule() method exists on CrewPerson.
             personInfo.put("schedule", buildScheduleInfo(person.getSchedule()));
-            
+
             peopleList.add(personInfo);
         }
         return peopleList;
@@ -535,18 +535,50 @@ public class SimulationController implements TickListener {
         Map<String, Object> sensorInfo = new LinkedHashMap<>();
         sensorInfo.put("value", sensor.getValue());
         sensorInfo.put("monitoringResult", sensor.getMonitoringResult().toString());
-        sensorInfo.put("normalizedMonitoringValue", sensor.getNormalizedMonitoringValue());
         sensorInfo.put("range", new LinkedHashMap<String, Object>() {{
             put("min", sensor.getMin());
             put("max", sensor.getMax());
         }});
-        sensorInfo.put("alarmThresholds", new LinkedHashMap<String, Object>() {{
-            put("WATCH", sensor.getWatchThreshold());
-            put("WARNING", sensor.getWarningThreshold());
-            put("DISTRESS", sensor.getDistressThreshold());
-            put("CRITICAL", sensor.getCriticalThreshold());
-            put("SEVERE", sensor.getSevereThreshold());
-        }});
+
+        // Only include enabled alarm thresholds
+        Map<String, Object> alarmThresholds = new LinkedHashMap<>();
+
+        if (sensor.isWatchEnabled()) {
+            alarmThresholds.put("WATCH", new LinkedHashMap<String, Object>() {{
+                put("min", sensor.getWatchMin());
+                put("max", sensor.getWatchMax());
+            }});
+        }
+
+        if (sensor.isWarningEnabled()) {
+            alarmThresholds.put("WARNING", new LinkedHashMap<String, Object>() {{
+                put("min", sensor.getWarningMin());
+                put("max", sensor.getWarningMax());
+            }});
+        }
+
+        if (sensor.isDistressEnabled()) {
+            alarmThresholds.put("DISTRESS", new LinkedHashMap<String, Object>() {{
+                put("min", sensor.getDistressMin());
+                put("max", sensor.getDistressMax());
+            }});
+        }
+
+        if (sensor.isCriticalEnabled()) {
+            alarmThresholds.put("CRITICAL", new LinkedHashMap<String, Object>() {{
+                put("min", sensor.getCriticalMin());
+                put("max", sensor.getCriticalMax());
+            }});
+        }
+
+        if (sensor.isSevereEnabled()) {
+            alarmThresholds.put("SEVERE", new LinkedHashMap<String, Object>() {{
+                put("min", sensor.getSevereMin());
+                put("max", sensor.getSevereMax());
+            }});
+        }
+
+        sensorInfo.put("alarmThresholds", alarmThresholds);
         IBioModule inputModule = sensor.getInputModule();
         sensorInfo.put("input", inputModule != null ? inputModule.getModuleName() : "none");
         return sensorInfo;

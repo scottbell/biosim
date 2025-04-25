@@ -60,7 +60,7 @@ public class BioDriver {
     private IBioModule[] actuators;
 
     private float myTickLength = 1f;
-    
+
     private final List<TickListener> tickListeners = new ArrayList<>();
 
     /**
@@ -354,7 +354,7 @@ public class BioDriver {
                 if (crewsToWatch[i].anyDead()) {
                     myLogger.info("BioDriver" + myID
                             + ": simulation ended due to crew death at "
-                            + nTicks);
+                            + ticksGoneBy);
                     return true;
                 }
             }
@@ -364,7 +364,7 @@ public class BioDriver {
                 if (plantsToWatch[i].isAnyPlantDead()) {
                     myLogger.info("BioDriver" + myID
                             + ": simulation ended due to plant death at "
-                            + nTicks);
+                            + ticksGoneBy);
                     return true;
 
                 }
@@ -431,14 +431,14 @@ public class BioDriver {
         }
     }
 
-	private String getTicksInHumanReadableFormat() {
-		// ticks are 1 hour by default, but need to multiply by tick length
-		// to get actual hours
-		float hours = ticksGoneBy * getTickLength();
-		int days = (int) (hours / 24);
-		hours = hours % 24;
-		return days + " days, " + hours + " hours";
-	}
+    private String getTicksInHumanReadableFormat() {
+        // ticks are 1 hour by default, but need to multiply by tick length
+        // to get actual hours
+        float hours = ticksGoneBy * getTickLength();
+        int days = (int) (hours / 24);
+        hours = hours % 24;
+        return days + " days, " + hours + " hours";
+    }
 
     /**
      * Resets the simulation by calling every known server's reset method.
@@ -461,46 +461,46 @@ public class BioDriver {
      * pause or die.
      */
     private void runSimulation() {
-		Thread currentThread = Thread.currentThread();
-		if (!simulationStarted) {
-			reset();
-		}
-		while (myTickThread == currentThread) {
-			// Wait immediately if the simulation is paused to avoid busy waiting
-			synchronized (this) {
-				while (simulationIsPaused && (myTickThread == currentThread)) {
-					try {
-						wait();
-					} catch (InterruptedException e) {
-						Thread.currentThread().interrupt();
-						return; // exit if the thread is interrupted
-					}
-				}
-			}
-			
-			// Perform the simulation tick once resumed
-			tick();
-			
-			// Check if an end condition has been met
-			if (isDone()) {
-				myLogger.info("🎬 Simulation ended after " + getTicksInHumanReadableFormat());
-				endSimulation();
-				if (looping) {
-					startSimulation();
-				} else {
-					break;
-				}
-			}
-			
-			// Pause between ticks to throttle simulation speed
-			try {
-				Thread.sleep(myDriverStutterLength);
-			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-				break;
-			}
-		}
-	}
+        Thread currentThread = Thread.currentThread();
+        if (!simulationStarted) {
+            reset();
+        }
+        while (myTickThread == currentThread) {
+            // Wait immediately if the simulation is paused to avoid busy waiting
+            synchronized (this) {
+                while (simulationIsPaused && (myTickThread == currentThread)) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        return; // exit if the thread is interrupted
+                    }
+                }
+            }
+
+            // Perform the simulation tick once resumed
+            tick();
+
+            // Check if an end condition has been met
+            if (isDone()) {
+                myLogger.info("🎬 Simulation ended after " + getTicksInHumanReadableFormat());
+                endSimulation();
+                if (looping) {
+                    startSimulation();
+                } else {
+                    break;
+                }
+            }
+
+            // Pause between ticks to throttle simulation speed
+            try {
+                Thread.sleep(myDriverStutterLength);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
+    }
 
     /**
      * Ticks every server. The SimEnvironment is ticked first as it keeps track
@@ -527,10 +527,10 @@ public class BioDriver {
         // Iterate through the sensors and tick them
         for (IBioModule currentBioModule : sensors)
             currentBioModule.tick();
-        
+
         // Notify listeners after the tick is complete
         notifyTickListeners();
-        
+
         ticksGoneBy++;
     }
 
@@ -547,10 +547,10 @@ public class BioDriver {
     public void setTickLength(float pTickLength) {
         myTickLength = pTickLength;
     }
-    
+
     /**
      * Adds a listener to be notified when a tick occurs.
-     * 
+     *
      * @param listener The listener to add
      */
     public void addTickListener(TickListener listener) {
@@ -558,16 +558,16 @@ public class BioDriver {
             tickListeners.add(listener);
         }
     }
-    
+
     /**
      * Removes a previously registered tick listener.
-     * 
+     *
      * @param listener The listener to remove
      */
     public void removeTickListener(TickListener listener) {
         tickListeners.remove(listener);
     }
-    
+
     /**
      * Notifies all registered listeners that a tick has occurred.
      */
