@@ -23,7 +23,7 @@
 			</NitrogenStore>
 			<VCCR moduleName="Main_VCCR" logLevel="INFO">
 				<powerConsumer inputs="General_Power_Store"
-					desiredFlowRates="300" maxFlowRates="300" ></powerConsumer>
+					desiredFlowRates="340" maxFlowRates="1000" ></powerConsumer>
 				<airConsumer inputs="IHab"
 					desiredFlowRates="10000" maxFlowRates="10000"></airConsumer>
 				<airProducer desiredFlowRates="10000"
@@ -161,6 +161,7 @@
 					<!-- critical: Elevated CO2 partial pressure (0.5 to 1.0 kPa) -->
 					<critical min="0.5" max="1.0"/>
 				</alarms>
+				<normalStochasticFilter deviation="0.03"/>
 			</GasPressureSensor>
 			<GasPressureSensor input="IHab" moduleName="IHab_O2_Sensor" gasType="O2">
 				<alarms>
@@ -169,8 +170,11 @@
 					<!-- critical: More critical oxygen deficiency (below 19.0 kPa) -->
 					<critical min="0.0" max="19.0"/>
 				</alarms>
+				<normalStochasticFilter deviation="0.03"/>
 			</GasPressureSensor>
-    		<GasPressureSensor input="IHab" moduleName="IHab_Vapor_Sensor" gasType="VAPOR"/>
+    		<GasPressureSensor input="IHab" moduleName="IHab_Vapor_Sensor" gasType="VAPOR">
+				<normalStochasticFilter deviation="0.03"/>
+			</GasPressureSensor>
 		</environment>
 	</Sensors>
 </biosim>
