@@ -1,7 +1,7 @@
 package com.traclabs.biosim.server.framework;
 
 public enum MalfunctionIntensity {
-    SEVERE_MALF,
+    LOW_MALF,
     MEDIUM_MALF,
-    LOW_MALF
+    SEVERE_MALF,
 }

@@ -18,8 +18,6 @@ import java.util.*;
  */
 
 public abstract class BioModule implements IBioModule {
-    //The random number generator used for gaussian function (stochastic stuff)
-    private static final Random myRandomGen = new MersenneTwister();
     protected Map<Long, Malfunction> myMalfunctions;
     protected List<Malfunction> myScheduledMalfunctions;
     protected Logger myLogger;
@@ -95,8 +93,10 @@ public abstract class BioModule implements IBioModule {
 
     private void checkForScheduledMalfunctions() {
         for (Malfunction currentMalfunction : myScheduledMalfunctions) {
-            if (currentMalfunction.getTickToMalfunction() == getMyTicks())
+            if (currentMalfunction.getTickToMalfunction() == getMyTicks()) {
+                myLogger.info("😬 " + getModuleName() + " has malfunctioned on tick " + getMyTicks());
                 startMalfunction(currentMalfunction);
+            }
         }
     }
 
