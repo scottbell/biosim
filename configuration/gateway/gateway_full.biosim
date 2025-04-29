@@ -3,7 +3,7 @@
 <biosim xmlns="http://www.traclabs.com/biosim"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
-	<Globals driverStutterLength="100"
+	<Globals driverStutterLength="200"
 		crewsToWatch="IHab_Group"
 		runTillCrewDeath="false" runTillN="-1" startPaused="false" tickLength="0.1">
 	</Globals>
@@ -30,7 +30,7 @@
 					outputs="IHab" maxFlowRates="10000" />
 				<CO2Producer desiredFlowRates="10000" outputs="CO2_Store"
 					maxFlowRates="10000"></CO2Producer>
-				<malfunction intensity="MEDIUM_MALF" length="PERMANENT_MALF" occursAtTick="400"/>
+				<malfunction intensity="MEDIUM_MALF" length="PERMANENT_MALF" occursAtTick="200"/>
 			</VCCR>
 			<OGS moduleName="OGS">
 				<powerConsumer inputs="General_Power_Store"
