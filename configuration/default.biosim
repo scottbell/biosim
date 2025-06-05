@@ -85,16 +85,16 @@
 		<environment>
 			<GasConcentrationSensor input="Crew_Quarters_Environment" moduleName="Co2GasConcentrationSensor" gasType="CO2">
 				<alarms>
-					<distress min="0.002" max="0.003"/>
-					<critical min="0.003" max="0.004"/>
-					<severe min="0.004" max="1"/>
+					<distress_high min="0.002" max="0.003"/>
+					<critical_high min="0.003" max="0.004"/>
+					<severe_high min="0.004" max="1"/>
 				</alarms>
 			</GasConcentrationSensor>
 			<GasConcentrationSensor input="Crew_Quarters_Environment" moduleName="O22GasConcentrationSensor" gasType="O2">
 				<alarms>
-					<watch min="0.17" max="0.19"/>
-					<warning min="0.15" max="0.17"/>
-					<severe min="0.0" max="0.15"/>
+					<watch_low min="0.17" max="0.19"/>
+					<warning_low min="0.15" max="0.17"/>
+					<severe_low min="0" max="0.15"/>
 				</alarms>
 			</GasConcentrationSensor>
 		</environment>

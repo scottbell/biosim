@@ -540,43 +540,46 @@ public class SimulationController implements TickListener {
             put("max", sensor.getMax());
         }});
 
-        // Only include enabled alarm thresholds
+        // Only include enabled alarm thresholds (new low/high band model)
         Map<String, Object> alarmThresholds = new LinkedHashMap<>();
 
-        if (sensor.isWatchEnabled()) {
-            alarmThresholds.put("WATCH", new LinkedHashMap<String, Object>() {{
-                put("min", sensor.getWatchMin());
-                put("max", sensor.getWatchMax());
-            }});
-        }
+        // helper lambda
+        java.util.function.BiConsumer<String, java.util.function.Supplier<Boolean>> addBand =
+                (label, enabledSupplier) -> {
+                    if (enabledSupplier.get()) {
+                        switch (label) { // map label to values
+                            case "WATCH_LOW"  -> alarmThresholds.put(label, Map.of("min", sensor.getWatchLowMin(),  "max", sensor.getWatchLowMax()));
+                            case "WATCH_HIGH" -> alarmThresholds.put(label, Map.of("min", sensor.getWatchHighMin(), "max", sensor.getWatchHighMax()));
 
-        if (sensor.isWarningEnabled()) {
-            alarmThresholds.put("WARNING", new LinkedHashMap<String, Object>() {{
-                put("min", sensor.getWarningMin());
-                put("max", sensor.getWarningMax());
-            }});
-        }
+                            case "WARNING_LOW"  -> alarmThresholds.put(label, Map.of("min", sensor.getWarningLowMin(),  "max", sensor.getWarningLowMax()));
+                            case "WARNING_HIGH" -> alarmThresholds.put(label, Map.of("min", sensor.getWarningHighMin(), "max", sensor.getWarningHighMax()));
 
-        if (sensor.isDistressEnabled()) {
-            alarmThresholds.put("DISTRESS", new LinkedHashMap<String, Object>() {{
-                put("min", sensor.getDistressMin());
-                put("max", sensor.getDistressMax());
-            }});
-        }
+                            case "DISTRESS_LOW"  -> alarmThresholds.put(label, Map.of("min", sensor.getDistressLowMin(),  "max", sensor.getDistressLowMax()));
+                            case "DISTRESS_HIGH" -> alarmThresholds.put(label, Map.of("min", sensor.getDistressHighMin(), "max", sensor.getDistressHighMax()));
 
-        if (sensor.isCriticalEnabled()) {
-            alarmThresholds.put("CRITICAL", new LinkedHashMap<String, Object>() {{
-                put("min", sensor.getCriticalMin());
-                put("max", sensor.getCriticalMax());
-            }});
-        }
+                            case "CRITICAL_LOW"  -> alarmThresholds.put(label, Map.of("min", sensor.getCriticalLowMin(),  "max", sensor.getCriticalLowMax()));
+                            case "CRITICAL_HIGH" -> alarmThresholds.put(label, Map.of("min", sensor.getCriticalHighMin(), "max", sensor.getCriticalHighMax()));
 
-        if (sensor.isSevereEnabled()) {
-            alarmThresholds.put("SEVERE", new LinkedHashMap<String, Object>() {{
-                put("min", sensor.getSevereMin());
-                put("max", sensor.getSevereMax());
-            }});
-        }
+                            case "SEVERE_LOW"  -> alarmThresholds.put(label, Map.of("min", sensor.getSevereLowMin(),  "max", sensor.getSevereLowMax()));
+                            case "SEVERE_HIGH" -> alarmThresholds.put(label, Map.of("min", sensor.getSevereHighMin(), "max", sensor.getSevereHighMax()));
+                        }
+                    }
+                };
+
+        addBand.accept("WATCH_LOW",     sensor::isWatchLowEnabled);
+        addBand.accept("WATCH_HIGH",    sensor::isWatchHighEnabled);
+
+        addBand.accept("WARNING_LOW",   sensor::isWarningLowEnabled);
+        addBand.accept("WARNING_HIGH",  sensor::isWarningHighEnabled);
+
+        addBand.accept("DISTRESS_LOW",  sensor::isDistressLowEnabled);
+        addBand.accept("DISTRESS_HIGH", sensor::isDistressHighEnabled);
+
+        addBand.accept("CRITICAL_LOW",  sensor::isCriticalLowEnabled);
+        addBand.accept("CRITICAL_HIGH", sensor::isCriticalHighEnabled);
+
+        addBand.accept("SEVERE_LOW",    sensor::isSevereLowEnabled);
+        addBand.accept("SEVERE_HIGH",   sensor::isSevereHighEnabled);
 
         sensorInfo.put("alarmThresholds", alarmThresholds);
         IBioModule inputModule = sensor.getInputModule();

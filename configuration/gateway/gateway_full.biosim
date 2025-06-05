@@ -10,6 +10,7 @@
 	<SimBioModules>
 		<environment>
 			<SimEnvironment moduleName="IHab" initialVolume="22900" />
+			<SimEnvironment moduleName="HALO" initialVolume="22900" />
 			<Dehumidifier moduleName="Main_Dehumidifier">
 				<airConsumer inputs="IHab"
 					desiredFlowRates="10000" maxFlowRates="10000"></airConsumer>
@@ -147,34 +148,24 @@
 		</crew>
 	</SimBioModules>
 	<Sensors>
-		<power>
-			<PowerInFlowRateSensor input="Main_VCCR"
-				moduleName="MainVccrPowerSensor" index="0" logLevel="INFO"
-				isBionetEnabled="false">
-			</PowerInFlowRateSensor>
-		</power>
 		<environment>
-			<GasPressureSensor input="IHab" moduleName="IHab_Co2_Sensor" gasType="CO2">
+			<GasPressureSensor input="IHab" moduleName="ppCO2" gasType="CO2">
 				<alarms>
-					<!-- warning: CO2 partial pressure rising (0.3 to 0.5 kPa) -->
-					<warning min="0.3" max="0.5"/>
-					<!-- critical: Elevated CO2 partial pressure (0.5 to 1.0 kPa) -->
-					<critical min="0.5" max="1.0"/>
+					<warning_high min="0.3" max="0.5"/>
+					<critical_high min="0.5" max="1"/>
 				</alarms>
-				<normalStochasticFilter deviation="0.03"/>
+				<normalStochasticFilter deviation="0.00"/>
 			</GasPressureSensor>
-			<GasPressureSensor input="IHab" moduleName="IHab_O2_Sensor" gasType="O2">
+			<GasPressureSensor input="IHab" moduleName="ppO2" gasType="O2">
 				<alarms>
-					<!-- warning: O2 partial pressure slightly below normal (19.0 to 21.0 kPa) -->
-					<warning min="19.0" max="21.0"/>
-					<!-- critical: More critical oxygen deficiency (below 19.0 kPa) -->
-					<critical min="0.0" max="19.0"/>
+					<warning_low min="19" max="21"/>
+					<critical_low min="0" max="19"/>
 				</alarms>
-				<normalStochasticFilter deviation="0.03"/>
+				<normalStochasticFilter deviation="0.00"/>
 			</GasPressureSensor>
-    		<GasPressureSensor input="IHab" moduleName="IHab_Vapor_Sensor" gasType="VAPOR">
+    		<GasConcentrationSensor input="IHab" moduleName="Humidity" gasType="VAPOR">
 				<normalStochasticFilter deviation="0.03"/>
-			</GasPressureSensor>
+			</GasConcentrationSensor>
 		</environment>
 	</Sensors>
 </biosim>

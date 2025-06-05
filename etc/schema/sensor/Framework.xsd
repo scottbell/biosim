@@ -3,19 +3,27 @@
 	targetNamespace="http://www.traclabs.com/biosim"
 	elementFormDefault="qualified">
 	
-	<!-- Sensor declarations -->
-    <xsd:complexType name="AlarmRangeType">
+    <xsd:complexType name="AlarmBandType">
         <xsd:attribute name="min" type="xsd:float" use="required"/>
         <xsd:attribute name="max" type="xsd:float" use="required"/>
     </xsd:complexType>
 
     <xsd:complexType name="AlarmsType">
         <xsd:sequence>
-            <xsd:element name="watch" type="AlarmRangeType" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="warning" type="AlarmRangeType" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="distress" type="AlarmRangeType" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="critical" type="AlarmRangeType" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="severe" type="AlarmRangeType" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="watch_low"    type="AlarmBandType" minOccurs="0"/>
+            <xsd:element name="watch_high"   type="AlarmBandType" minOccurs="0"/>
+
+            <xsd:element name="warning_low"  type="AlarmBandType" minOccurs="0"/>
+            <xsd:element name="warning_high" type="AlarmBandType" minOccurs="0"/>
+
+            <xsd:element name="distress_low"  type="AlarmBandType" minOccurs="0"/>
+            <xsd:element name="distress_high" type="AlarmBandType" minOccurs="0"/>
+
+            <xsd:element name="critical_low"  type="AlarmBandType" minOccurs="0"/>
+            <xsd:element name="critical_high" type="AlarmBandType" minOccurs="0"/>
+
+            <xsd:element name="severe_low"    type="AlarmBandType" minOccurs="0"/>
+            <xsd:element name="severe_high"   type="AlarmBandType" minOccurs="0"/>
         </xsd:sequence>
     </xsd:complexType>
 

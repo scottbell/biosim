@@ -108,61 +108,66 @@ public class SensorInitializer {
 
     /**
      * Parses the alarms element and configures the sensor accordingly.
-     *
-     * @param sensor     The sensor to configure
-     * @param alarmsNode The alarms XML node
+     * Expected XML children (all optional):
+     *   watch_low,  watch_high,
+     *   warning_low, warning_high,
+     *   distress_low, distress_high,
+     *   critical_low, critical_high,
+     *   severe_low,  severe_high
+     * Each child element must carry both "min" and "max" attributes.
      */
     private void parseAlarmsElement(GenericSensor sensor, Node alarmsNode) {
         Node child = alarmsNode.getFirstChild();
-
         while (child != null) {
             String childName = child.getLocalName();
-            if (childName != null) {
+            if (childName != null &&
+                child.getAttributes() != null &&
+                child.getAttributes().getNamedItem("min") != null &&
+                child.getAttributes().getNamedItem("max") != null) {
+
+                float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
+                float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
+
                 switch (childName) {
-                    case "watch" -> {
-                        if (child.getAttributes().getNamedItem("min") != null &&
-                                child.getAttributes().getNamedItem("max") != null) {
-                            float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
-                            float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
-                            sensor.setWatchMin(min);
-                            sensor.setWatchMax(max);
-                        }
+                    case "watch_low" -> {
+                        sensor.setWatchLowMin(min);
+                        sensor.setWatchLowMax(max);
                     }
-                    case "warning" -> {
-                        if (child.getAttributes().getNamedItem("min") != null &&
-                                child.getAttributes().getNamedItem("max") != null) {
-                            float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
-                            float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
-                            sensor.setWarningMin(min);
-                            sensor.setWarningMax(max);
-                        }
+                    case "watch_high" -> {
+                        sensor.setWatchHighMin(min);
+                        sensor.setWatchHighMax(max);
                     }
-                    case "distress" -> {
-                        if (child.getAttributes().getNamedItem("min") != null &&
-                                child.getAttributes().getNamedItem("max") != null) {
-                            float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
-                            float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
-                            sensor.setDistressMin(min);
-                            sensor.setDistressMax(max);
-                        }
+                    case "warning_low" -> {
+                        sensor.setWarningLowMin(min);
+                        sensor.setWarningLowMax(max);
                     }
-                    case "critical" -> {
-                        if (child.getAttributes().getNamedItem("min") != null &&
-                                child.getAttributes().getNamedItem("max") != null) {
-                            float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
-                            float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
-                            sensor.setCriticalMin(min);
-                            sensor.setCriticalMax(max);
-                        }
+                    case "warning_high" -> {
+                        sensor.setWarningHighMin(min);
+                        sensor.setWarningHighMax(max);
                     }
-                    case "severe" -> {
-                        if (child.getAttributes().getNamedItem("min") != null &&
-                                child.getAttributes().getNamedItem("max") != null) {
-                            float min = Float.parseFloat(child.getAttributes().getNamedItem("min").getNodeValue());
-                            float max = Float.parseFloat(child.getAttributes().getNamedItem("max").getNodeValue());
-                            sensor.setSevereMin(min);
-                            sensor.setSevereMax(max);
-                        }
+                    case "distress_low" -> {
+                        sensor.setDistressLowMin(min);
+                        sensor.setDistressLowMax(max);
+                    }
+                    case "distress_high" -> {
+                        sensor.setDistressHighMin(min);
+                        sensor.setDistressHighMax(max);
+                    }
+                    case "critical_low" -> {
+                        sensor.setCriticalLowMin(min);
+                        sensor.setCriticalLowMax(max);
+                    }
+                    case "critical_high" -> {
+                        sensor.setCriticalHighMin(min);
+                        sensor.setCriticalHighMax(max);
+                    }
+                    case "severe_low" -> {
+                        sensor.setSevereLowMin(min);
+                        sensor.setSevereLowMax(max);
+                    }
+                    case "severe_high" -> {
+                        sensor.setSevereHighMin(min);
+                        sensor.setSevereHighMax(max);
                     }
                 }
             }
