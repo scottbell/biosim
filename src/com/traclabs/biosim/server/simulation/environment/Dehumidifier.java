@@ -16,7 +16,7 @@ import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinition;
  */
 public class Dehumidifier extends SimBioModule implements AirConsumer, DirtyWaterProducer {
 
-    public static final float OPTIMAL_MOISTURE_CONCENTRATION = 0.0218910f;
+    public static final float OPTIMAL_MOISTURE_CONCENTRATION = 0.52f;
 
     // Consumers, Producers
     private final AirConsumerDefinition myAirConsumerDefinition;
@@ -69,7 +69,7 @@ public class Dehumidifier extends SimBioModule implements AirConsumer, DirtyWate
         if (myLogger.isDebugEnabled()) {
             float beforeWater = myAirConsumerDefinition.getEnvironments()[0].getVaporStore().getCurrentLevel();
             float beforeTotal = myAirConsumerDefinition.getEnvironments()[0].getTotalMoles();
-            // myLogger.debug("Before: Water concentration " + (beforeWater / beforeTotal));
+            myLogger.debug("Before: Water concentration " + (beforeWater / beforeTotal));
         }
 
         float molesOfWaterGathered = 0f;

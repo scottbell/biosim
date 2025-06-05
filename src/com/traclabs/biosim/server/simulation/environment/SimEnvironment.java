@@ -165,9 +165,9 @@ public class SimEnvironment extends PassiveModule {
         myO2Store.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * 0.21f);
         myCO2Store.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * 0.039f / 101f);
         myOtherStore.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * 0.0f);
-        myVaporStore.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * 0.0218910f);
+        myVaporStore.setInitialLevel(currentVolume * moleOfHumidAirPerLiter * 0.52f);
         myNitrogenStore.setInitialLevel(currentVolume * moleOfHumidAirPerLiter *
-                (1f - 0.21f - 0.039f / 101f - 0.0f - 0.0218910f));
+                (1f - 0.21f - 0.039f / 101f - 0.0f - 0.52f));
     }
 
     public void setCurrentVolumeAtSeaLevel(float pVolume) {
@@ -176,9 +176,9 @@ public class SimEnvironment extends PassiveModule {
         myO2Store.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * 0.21f);
         myCO2Store.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * 0.039f / 101f);
         myOtherStore.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * 0.0f);
-        myVaporStore.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * 0.0218910f);
+        myVaporStore.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter * 0.52f);
         myNitrogenStore.setCurrentLevel(currentVolume * moleOfHumidAirPerLiter *
-                (1f - 0.21f - 0.039f / 101f - 0.0f - 0.0218910f));
+                (1f - 0.21f - 0.039f / 101f - 0.0f - 0.52f));
     }
 
     public float getInitialTotalPressure() {
