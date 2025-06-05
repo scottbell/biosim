@@ -1,24 +1,29 @@
 package com.traclabs.biosim.server.simulation.environment;
 
+import com.traclabs.biosim.server.framework.Malfunction;
 import com.traclabs.biosim.server.framework.MalfunctionIntensity;
 import com.traclabs.biosim.server.framework.MalfunctionLength;
 import com.traclabs.biosim.server.simulation.framework.SimBioModule;
+import com.traclabs.biosim.server.simulation.environment.SimEnvironment;
+import com.traclabs.biosim.server.simulation.environment.AirConsumerDefinition;
 import com.traclabs.biosim.server.simulation.water.DirtyWaterProducer;
 import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinition;
 
 /**
- * The basic Dehimidifier implementation.
+ * The basic Dehumidifier implementation.
  *
  * @author Scott Bell
  */
-
 public class Dehumidifier extends SimBioModule implements AirConsumer, DirtyWaterProducer {
 
     public static final float OPTIMAL_MOISTURE_CONCENTRATION = 0.0218910f;
-    //Consumers, Producers
+
+    // Consumers, Producers
     private final AirConsumerDefinition myAirConsumerDefinition;
     private final DirtyWaterProducerDefinition myDirtyWaterProducerDefinition;
-    //  in kPA assuming 101 kPa total pressure and air temperature of 23C and relative humidity of 80%
+
+    // 1.0 = fully operational, 0.0 = completely non-operational
+    private float operationalEfficiency = 1.0f;
 
     public Dehumidifier(int pID, String pName) {
         super(pID, pName);
@@ -30,15 +35,14 @@ public class Dehumidifier extends SimBioModule implements AirConsumer, DirtyWate
         this(0, "Unnamed Dehumidifier");
     }
 
-    private static float calculateMolesNeededToRemove(
-            SimEnvironment pEnvironment) {
+    private static float calculateMolesNeededToRemove(SimEnvironment pEnvironment) {
         float currentWaterMolesInEnvironment = pEnvironment.getVaporStore().getCurrentLevel();
         float totalMolesInEnvironment = pEnvironment.getTotalMoles();
         if ((currentWaterMolesInEnvironment / totalMolesInEnvironment) > OPTIMAL_MOISTURE_CONCENTRATION) {
-            float waterMolesAtOptimalConcentration = ((totalMolesInEnvironment - currentWaterMolesInEnvironment) * OPTIMAL_MOISTURE_CONCENTRATION)
+            float waterMolesAtOptimalConcentration =
+                    ((totalMolesInEnvironment - currentWaterMolesInEnvironment) * OPTIMAL_MOISTURE_CONCENTRATION)
                     / (1 - OPTIMAL_MOISTURE_CONCENTRATION);
-            return currentWaterMolesInEnvironment
-                    - waterMolesAtOptimalConcentration;
+            return currentWaterMolesInEnvironment - waterMolesAtOptimalConcentration;
         }
         return 0f;
     }
@@ -55,82 +59,88 @@ public class Dehumidifier extends SimBioModule implements AirConsumer, DirtyWate
         return myDirtyWaterProducerDefinition;
     }
 
+    @Override
     public void tick() {
         super.tick();
         dehumidifyEnvironments();
-        //myLogger.debug(getModuleName() + " ticked");
     }
 
     private void dehumidifyEnvironments() {
         if (myLogger.isDebugEnabled()) {
-            float currentWaterMolesInEnvironment = myAirConsumerDefinition
-                    .getEnvironments()[0].getVaporStore().getCurrentLevel();
-            float totalMolesInEnvironment = myAirConsumerDefinition
-                    .getEnvironments()[0].getTotalMoles();
-            //myAirInputs[0].printCachedEnvironment();
-            //myLogger.debug("Before: Water concentration"
-            //       + currentWaterMolesInEnvironment / totalMolesInEnvironment);
+            float beforeWater = myAirConsumerDefinition.getEnvironments()[0].getVaporStore().getCurrentLevel();
+            float beforeTotal = myAirConsumerDefinition.getEnvironments()[0].getTotalMoles();
+            // myLogger.debug("Before: Water concentration " + (beforeWater / beforeTotal));
         }
+
         float molesOfWaterGathered = 0f;
         for (int i = 0; i < myAirConsumerDefinition.getEnvironments().length; i++) {
-            float molesNeededToRemove = calculateMolesNeededToRemove(myAirConsumerDefinition
-                    .getEnvironments()[i]);
+            float molesNeededToRemove = calculateMolesNeededToRemove(myAirConsumerDefinition.getEnvironments()[i]);
             if (molesNeededToRemove > 0) {
-                //cycle through and take molesNeededToRemove (or less if
-                // desired is less)
-                float resourceToGatherFirst = Math.min(molesNeededToRemove,
-                        myAirConsumerDefinition.getMaxFlowRate(i));
-                float resourceToGatherFinal = Math.min(resourceToGatherFirst,
-                        myAirConsumerDefinition.getDesiredFlowRate(i));
-                myAirConsumerDefinition.getActualFlowRates()[i] = myAirConsumerDefinition
-                        .getEnvironments()[i].getVaporStore().take(resourceToGatherFinal);
-                // myLogger.debug("Going to remove " + resourceToGatherFinal
-                //        + " moles of water");
-                molesOfWaterGathered += myAirConsumerDefinition
-                        .getActualFlowRate(i);
+                float resourceToGatherFirst = Math.min(molesNeededToRemove, myAirConsumerDefinition.getMaxFlowRate(i));
+                float desired = myAirConsumerDefinition.getDesiredFlowRate(i) * operationalEfficiency;
+                float resourceToGatherFinal = Math.min(resourceToGatherFirst, desired);
+
+                float taken = myAirConsumerDefinition.getEnvironments()[i]
+                        .getVaporStore().take(resourceToGatherFinal);
+                myAirConsumerDefinition.getActualFlowRates()[i] = taken;
+                molesOfWaterGathered += taken;
             }
         }
+
         float waterPushedToStore = myDirtyWaterProducerDefinition
                 .pushResourceToStores(waterMolesToLiters(molesOfWaterGathered));
 
         if (myLogger.isDebugEnabled()) {
-            float currentWaterMolesInEnvironment = myAirConsumerDefinition
-                    .getEnvironments()[0].getVaporStore().getCurrentLevel();
-            float totalMolesInEnvironment = myAirConsumerDefinition
-                    .getEnvironments()[0].getTotalMoles();
+            float afterWater = myAirConsumerDefinition.getEnvironments()[0].getVaporStore().getCurrentLevel();
+            float afterTotal = myAirConsumerDefinition.getEnvironments()[0].getTotalMoles();
             myLogger.debug("After: Pushed " + waterPushedToStore
-                    + " liters of water to the store (gathered "
-                    + molesOfWaterGathered
-                    + " moles), water concentration now "
-                    + currentWaterMolesInEnvironment / totalMolesInEnvironment);
+                    + " liters (gathered " + molesOfWaterGathered
+                    + " moles), concentration now " + (afterWater / afterTotal));
         }
     }
 
-    protected String getMalfunctionName(MalfunctionIntensity pIntensity,
-                                        MalfunctionLength pLength) {
-        StringBuffer returnBuffer = new StringBuffer();
-        if (pIntensity == MalfunctionIntensity.SEVERE_MALF)
-            returnBuffer.append("Severe ");
-        else if (pIntensity == MalfunctionIntensity.MEDIUM_MALF)
-            returnBuffer.append("Medium ");
-        else if (pIntensity == MalfunctionIntensity.LOW_MALF)
-            returnBuffer.append("Low ");
-        if (pLength == MalfunctionLength.TEMPORARY_MALF)
-            returnBuffer.append("Temporary Production Reduction");
-        else if (pLength == MalfunctionLength.PERMANENT_MALF)
-            returnBuffer.append("Permanent Production Reduction");
-        return returnBuffer.toString();
-    }
-
+    @Override
     protected void performMalfunctions() {
+        if (!myMalfunctions.isEmpty()) {
+            // Default to fully operational
+            operationalEfficiency = 1.0f;
+
+            // Get the most severe malfunction
+            MalfunctionIntensity worstIntensity = MalfunctionIntensity.LOW_MALF;
+            for (Malfunction malfunction : myMalfunctions.values()) {
+                if (malfunction.getIntensity().ordinal() > worstIntensity.ordinal()) {
+                    worstIntensity = malfunction.getIntensity();
+                }
+                if (!malfunction.hasPerformed()) {
+                    myLogger.debug("Performing malfunction: " + malfunction);
+                    malfunction.setPerformed(true);
+                }
+            }
+
+            // Apply reduction based on intensity
+            if (worstIntensity == MalfunctionIntensity.LOW_MALF) {
+                operationalEfficiency = 0.75f;
+            } else if (worstIntensity == MalfunctionIntensity.MEDIUM_MALF) {
+                operationalEfficiency = 0.25f;
+            } else if (worstIntensity == MalfunctionIntensity.SEVERE_MALF) {
+                operationalEfficiency = 0.0f;
+            }
+        } else {
+            // No malfunctions, fully operational
+            operationalEfficiency = 1.0f;
+        }
     }
 
+    @Override
     public void reset() {
         super.reset();
         myAirConsumerDefinition.reset();
         myDirtyWaterProducerDefinition.reset();
+        operationalEfficiency = 1.0f;
     }
 
+    @Override
     public void log() {
+        myLogger.debug("operational_efficiency=" + operationalEfficiency);
     }
 }
