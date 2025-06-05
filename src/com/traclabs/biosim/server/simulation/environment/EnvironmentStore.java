@@ -10,7 +10,7 @@ public class EnvironmentStore extends Store {
     private float totalAdded = 0;
 
     public EnvironmentStore(SimEnvironment pSimEnvironment, String storeName) {
-        super(0, pSimEnvironment.getModuleName() + storeName, 0, Float.MAX_VALUE, false);
+        super(0, pSimEnvironment.getModuleName()+ "." + storeName, 0, Float.MAX_VALUE, false);
         mySimEnvironment = pSimEnvironment;
     }
 
