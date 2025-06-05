@@ -13,7 +13,7 @@
 			<SimEnvironment moduleName="HALO" initialVolume="22900" />
 			<Dehumidifier moduleName="Main_Dehumidifier">
 				<airConsumer inputs="IHab"
-					desiredFlowRates="0.3" maxFlowRates="0.3"></airConsumer>
+					desiredFlowRates="0.4" maxFlowRates="0.4"></airConsumer>
 				<dirtyWaterProducer desiredFlowRates="10000"
 					outputs="Dirty_Water_Store" maxFlowRates="10000" />
 				<malfunction intensity="SEVERE_MALF" length="PERMANENT_MALF" occursAtTick="200"/>
@@ -150,7 +150,7 @@
 	</SimBioModules>
 	<Sensors>
 		<environment>
-			<GasPressureSensor input="IHab" moduleName="ppCO2_IHab)" gasType="CO2">
+			<GasPressureSensor input="IHab" moduleName="ppCO2_IHab" gasType="CO2">
 				<alarms>
 					<warning_high min="0.5999507" max="0.799934"/>
 					<critical_high min="0.799934" max="100"/>
@@ -168,14 +168,48 @@
 			</GasPressureSensor>
     		<GasConcentrationSensor input="IHab" moduleName="Humidity_IHab" gasType="VAPOR">
 				<alarms>
-					<critical_low min="0" max="40"/>
-					<warning_low min="40" max="50"/>
-					<warning_high min="61" max="70"/>
-					<critical_high min="70" max="100"/>
+					<critical_low min="0" max="0.40"/>
+					<warning_low min="0.40" max="0.50"/>
+					<warning_high min="0.61" max="0.70"/>
+					<critical_high min="0.70" max="1.00"/>
 				</alarms>
 				<normalStochasticFilter deviation="0.03"/>
 			</GasConcentrationSensor>
 			<TotalPressureSensor input="IHab" moduleName="Total_Cabin_Pressure_IHab">
+				<alarms>
+					<critical_low min="0" max="87.56342"/>
+					<warning_low min="87.56342" max="100.31872"/>
+					<warning_high min="102.7319" max="104.8003"/>
+					<critical_high min="102.7319" max="104.8003"/>
+				</alarms>
+				<normalStochasticFilter deviation="0.03"/>
+			</TotalPressureSensor>
+			<GasPressureSensor input="HALO" moduleName="ppCO2_HALO" gasType="CO2">
+				<alarms>
+					<warning_high min="0.5999507" max="0.799934"/>
+					<critical_high min="0.799934" max="100"/>
+				</alarms>
+				<normalStochasticFilter deviation="0.00"/>
+			</GasPressureSensor>
+			<GasPressureSensor input="HALO" moduleName="ppO2_HALO" gasType="O2">
+				<alarms>
+					<critical_low min="0" max="19"/>
+					<warning_low min="19" max="20.665"/>
+					<warning_high min="23.3314" max="24.6646"/>
+					<critical_high min="24.6646" max="4000"/>
+				</alarms>
+				<normalStochasticFilter deviation="0.00"/>
+			</GasPressureSensor>
+    		<GasConcentrationSensor input="HALO" moduleName="Humidity_HALO" gasType="VAPOR">
+				<alarms>
+					<critical_low min="0" max="0.40"/>
+					<warning_low min="0.40" max="0.50"/>
+					<warning_high min="0.61" max="0.70"/>
+					<critical_high min="0.70" max="1.00"/>
+				</alarms>
+				<normalStochasticFilter deviation="0.03"/>
+			</GasConcentrationSensor>
+			<TotalPressureSensor input="HALO" moduleName="Total_Cabin_Pressure_HALO">
 				<alarms>
 					<critical_low min="0" max="87.56342"/>
 					<warning_low min="87.56342" max="100.31872"/>
