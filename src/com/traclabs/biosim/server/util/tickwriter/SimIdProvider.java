@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 public class SimIdProvider {
     private static final AtomicInteger counter = new AtomicInteger();
@@ -42,21 +43,23 @@ public class SimIdProvider {
             Files.createDirectories(logRoot);
             return 1;
         }
-        Optional<Integer> maxId = Files.list(logRoot)
-            .filter(Files::isDirectory)
-            .map(path -> {
-                String name = path.getFileName().toString();
-                if (name.startsWith("sim_")) {
-                    try {
-                        return Integer.parseInt(name.substring(4));
-                    } catch (NumberFormatException e) {
-                        return null;
+        try (Stream<Path> stream = Files.list(logRoot)) {
+            Optional<Integer> maxId = stream
+                .filter(Files::isDirectory)
+                .map(path -> {
+                    String name = path.getFileName().toString();
+                    if (name.startsWith("sim_")) {
+                        try {
+                            return Integer.parseInt(name.substring(4));
+                        } catch (NumberFormatException e) {
+                            return null;
+                        }
                     }
-                }
-                return null;
-            })
-            .filter(id -> id != null)
-            .max(Comparator.naturalOrder());
-        return maxId.isPresent() ? maxId.get() + 1 : 0;
+                    return null;
+                })
+                .filter(id -> id != null)
+                .max(Comparator.naturalOrder());
+            return maxId.isPresent() ? maxId.get() + 1 : 0;
+        }
     }
 }
