@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<biosim xmlns="http://www.traclabs.com/biosim"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.traclabs.com/biosim ../../schema/BiosimInitSchema.xsd">
+    <Globals tickLength="1" runTillN="0" runTillCrewDeath="false"
+             runTillPlantDeath="false" startPaused="true"
+             exitWhenFinished="false" isLooping="false"
+             driverStutterLength="0">
+        <comment>
+            Vapor Compression Distillation (VCD) water-recovery scenario, modeled on the ISS
+            Urine Processor Assembly. The VCD WaterRS consumes power plus dirty (urine) water
+            and grey water, and produces potable water at an 85% recovery ratio; the
+            remaining 15% is rejected as brine. The stores are sized so the per-tick
+            throughput is energy-limited rather than flow- or store-limited.
+        </comment>
+        <author>BioSim</author>
+    </Globals>
+    <SimBioModules>
+        <power>
+            <PowerStore moduleName="PowerStore" capacity="100000000.0" level="10000000.0"/>
+        </power>
+        <water>
+            <DirtyWaterStore moduleName="DirtyWaterStore" capacity="1000000.0" level="100000.0"/>
+            <GreyWaterStore moduleName="GreyWaterStore" capacity="1000000.0" level="100000.0"/>
+            <PotableWaterStore moduleName="PotableWaterStore" capacity="1000000.0" level="0.0"/>
+            <WaterRS moduleName="VCDWaterRS" implementation="VCD"
+                     waterRecoveryRatio="0.85" processingEnergyPerLiter="361.5">
+                <powerConsumer desiredFlowRates="1540.0" maxFlowRates="1540.0" inputs="PowerStore"/>
+                <dirtyWaterConsumer desiredFlowRates="1000.0" maxFlowRates="1000.0" inputs="DirtyWaterStore"/>
+                <greyWaterConsumer desiredFlowRates="1000.0" maxFlowRates="1000.0" inputs="GreyWaterStore"/>
+                <potableWaterProducer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="PotableWaterStore"/>
+            </WaterRS>
+        </water>
+    </SimBioModules>
+</biosim>
