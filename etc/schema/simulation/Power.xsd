@@ -9,6 +9,7 @@
 			<xsd:enumeration value="SOLAR"/>
 			<xsd:enumeration value="NUCLEAR"/>
 			<xsd:enumeration value="STATE_MACHINE"/>
+			<xsd:enumeration value="RTG"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	
@@ -28,6 +29,7 @@
 				</xsd:sequence>
 				<xsd:attribute name="generationType" type="GenerationType" default="NUCLEAR"/>
 				<xsd:attribute name="upperPowerGeneration" type="nonNegativeFloat" default="500"/>
+				<xsd:attribute name="halfLife" type="nonNegativeFloat" default="87600"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
