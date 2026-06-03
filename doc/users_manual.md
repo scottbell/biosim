@@ -543,8 +543,52 @@ power, produces food, dry waste, and water). The related stores carry extra attr
 `<WaterRS>` is the Water Recovery System (its internal subsystems are the Biological Water
 Processor, Reverse Osmosis, Air Evaporation System, and Post-Processing System). Required
 flow children: `powerConsumer`, `dirtyWaterConsumer`, `greyWaterConsumer`,
-`potableWaterProducer`. Special attribute `implementation` = `LINEAR` (default) or
-`NORMAL`.
+`potableWaterProducer`. Special attribute `implementation` = `LINEAR` (default),
+`NORMAL`, or `VCD`.
+
+#### `VCD` water recovery (Vapor Compression Distillation)
+
+The `VCD` implementation models a distillation-based water recovery system after the
+International Space Station Urine Processor Assembly (UPA). Unlike `LINEAR`, which recovers
+potable water in direct proportion to power with no losses, the `VCD` system processes an
+*energy-limited* amount of waste water each tick (dirty/urine water first, then grey water)
+and recovers only a configurable fraction of it as potable water; the remainder is rejected
+as brine that leaves the recovery loop.
+
+Per tick: `processed = (powerConsumed / processingEnergyPerLiter) * tickLength`, drawn from
+the dirty-water store first and then the grey-water store (bounded by the consumer flow
+rates and store availability); `potable = waterRecoveryRatio * processed` is pushed to the
+potable-water store, and `(1 - waterRecoveryRatio) * processed` is accounted as brine. With
+no power or no waste water, the system produces nothing and never drives a store negative.
+Malfunctions reduce throughput (LOW → 75%, MEDIUM → 50%, SEVERE → 0%) and a cleared
+temporary malfunction restores nominal throughput.
+
+| Attribute | Type | Default | Meaning |
+|-----------|------|---------|---------|
+| `waterRecoveryRatio` | float `(0, 1]` | `0.85` | Fraction of processed waste water recovered as potable water (ISS UPA single-pass ≈ 85%). Values `> 1` are clamped to `1`; non-positive values are ignored. |
+| `processingEnergyPerLiter` | float `> 0` | `361.5` | Power (watts) required to process one liter of waste water per tick. The default matches BioSim's existing linear water relationship (1540 W → 4.26 L/tick). |
+
+Both attributes are optional; omit them to use the defaults. Existing `LINEAR`/`NORMAL`
+configurations are unaffected.
+
+Example:
+
+```xml
+<water>
+    <DirtyWaterStore moduleName="DirtyWaterStore" capacity="1000000.0" level="100000.0"/>
+    <GreyWaterStore moduleName="GreyWaterStore" capacity="1000000.0" level="100000.0"/>
+    <PotableWaterStore moduleName="PotableWaterStore" capacity="1000000.0" level="0.0"/>
+    <WaterRS moduleName="VCDWaterRS" implementation="VCD"
+             waterRecoveryRatio="0.85" processingEnergyPerLiter="361.5">
+        <powerConsumer desiredFlowRates="1540.0" maxFlowRates="1540.0" inputs="PowerStore"/>
+        <dirtyWaterConsumer desiredFlowRates="1000.0" maxFlowRates="1000.0" inputs="DirtyWaterStore"/>
+        <greyWaterConsumer desiredFlowRates="1000.0" maxFlowRates="1000.0" inputs="GreyWaterStore"/>
+        <potableWaterProducer desiredFlowRates="1000.0" maxFlowRates="1000.0" outputs="PotableWaterStore"/>
+    </WaterRS>
+</water>
+```
+
+A ready-to-run sample is provided at `configuration/test/VCDWaterInit.xml`.
 
 ### Power Generation and Distribution
 

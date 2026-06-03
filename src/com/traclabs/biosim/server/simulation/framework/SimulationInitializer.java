@@ -1351,10 +1351,27 @@ public class SimulationInitializer {
             myLogger.debug("Creating linear WaterRS with moduleName: " + moduleName);
             WaterRSLinear waterRS = new WaterRSLinear(myID, moduleName);
             BiosimInitializer.setupBioModule(myID, waterRS, node);
+        } else if (implementationString.equals("VCD")) {
+            myLogger.debug("Creating VCD WaterRS with moduleName: " + moduleName);
+            VCDWaterRS waterRS = new VCDWaterRS(myID, moduleName);
+            Float recoveryRatio = getOptionalFloatAttribute(node, "waterRecoveryRatio");
+            if (recoveryRatio != null)
+                waterRS.setRecoveryRatio(recoveryRatio);
+            Float processingEnergyPerLiter = getOptionalFloatAttribute(node, "processingEnergyPerLiter");
+            if (processingEnergyPerLiter != null)
+                waterRS.setProcessingEnergyPerLiter(processingEnergyPerLiter);
+            BiosimInitializer.setupBioModule(myID, waterRS, node);
         } else {
             WaterRS waterRS = new WaterRS(myID, moduleName);
             BiosimInitializer.setupBioModule(myID, waterRS, node);
         }
+    }
+
+    private static Float getOptionalFloatAttribute(Node node, String attributeName) {
+        Node attribute = node.getAttributes().getNamedItem(attributeName);
+        if (attribute == null)
+            return null;
+        return Float.parseFloat(attribute.getNodeValue());
     }
 
     private void configureWaterRS(Node node) {

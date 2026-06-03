@@ -8,6 +8,7 @@
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="NORMAL"/>
 			<xsd:enumeration value="LINEAR"/>
+			<xsd:enumeration value="VCD"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	
@@ -63,6 +64,10 @@
 				</xsd:sequence>
 				<xsd:attribute name="implementation"
 					type="WaterRSImplementationType" default="LINEAR"/>
+				<xsd:attribute name="waterRecoveryRatio"
+					type="xsd:float" use="optional"/>
+				<xsd:attribute name="processingEnergyPerLiter"
+					type="xsd:float" use="optional"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
