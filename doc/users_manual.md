@@ -136,7 +136,7 @@ The thermal control component regulates the air temperature in the habitat. This
 
 **Produces:** Power
 
-The power component supplies power to all of the other components that need it. There are two choices for power in the simulation. The first is nuclear power, which supplies a fixed amount throughout the lifetime of the simulation. The second is solar power, which supplies a varying amount (day/night cycle) of power to each component.
+The power component supplies power to all of the other components that need it. There are three choices for power in the simulation. The first is nuclear power, which supplies a fixed amount throughout the lifetime of the simulation. The second is solar power, which supplies a varying amount (day/night cycle) of power to each component. The third is RTG (Radioisotope Thermoelectric Generator) power, which starts at a configured beginning-of-life output and decays exponentially over mission time, modeling a deep-space radioisotope source.
 
 #### Accumulators
 
@@ -550,12 +550,33 @@ flow children: `powerConsumer`, `dirtyWaterConsumer`, `greyWaterConsumer`,
 
 | Module | Role | Required flow children | Special attributes |
 |--------|------|------------------------|--------------------|
-| `PowerPS` | Power Production System | `powerProducer` (and optional `lightConsumer`) | `generationType` = `NUCLEAR` (default), `SOLAR`, or `STATE_MACHINE`; `upperPowerGeneration` (float, default `500`) |
+| `PowerPS` | Power Production System | `powerProducer` (and optional `lightConsumer`) | `generationType` = `NUCLEAR` (default), `SOLAR`, `STATE_MACHINE`, or `RTG`; `upperPowerGeneration` (float, default `500`); `halfLife` (float, default `87600`, RTG only) |
 | `RPCM` | Remote Power Controller Module (switchable distribution) | `powerConsumer`, `powerProducer` | `switchValues` = list of `0`/`1` |
 | `GenericPowerConsumer` | A generic load | `powerConsumer` | `powerRequired` (float, required) |
 
 `NUCLEAR` supplies a constant amount; `SOLAR` varies with the environment's day/night
 cycle (and may draw from a `lightConsumer`).
+
+`RTG` (Radioisotope Thermoelectric Generator) supplies a decaying amount of power. Its
+output starts at `upperPowerGeneration` (the beginning-of-life output) and decays over
+mission time following `P(t) = upperPowerGeneration * 2 ^ (-elapsedTime / halfLife)`,
+where `elapsedTime` is the mission time accumulated from ticks (`ticks * tickLength`).
+The `halfLife` attribute is the time after which output falls to half of its
+beginning-of-life value and is expressed in the **same time unit as the accumulated
+elapsed time** (i.e. ticks × `tickLength`, which equals hours when `tickLength="1"`). It
+defaults to `87600` (≈ the Pu-238 half-life of ~87.7 years expressed in hours). RTG output
+is non-increasing across ticks and never negative.
+
+```xml
+<power>
+  <PowerStore moduleName="General_Power_Store" capacity="100000" level="0"/>
+  <PowerPS moduleName="RTG_Source" generationType="RTG"
+           upperPowerGeneration="3000" halfLife="87600">
+    <powerProducer outputs="General_Power_Store"
+                   desiredFlowRates="3000" maxFlowRates="3000"/>
+  </PowerPS>
+</power>
+```
 
 ### Waste Processing
 

@@ -1268,11 +1268,16 @@ public class SimulationInitializer {
             powerPS = new SolarPowerPS(myID, moduleName);
         } else if (generationType.equals("STATE_MACHINE")) {
             powerPS = new StateMachinePowerPS(myID, moduleName);
+        } else if (generationType.equals("RTG")) {
+            powerPS = new RTGPowerPS(myID, moduleName);
         } else {
             powerPS = new NuclearPowerPS(myID, moduleName);
         }
         float upperPowerGeneration = Float.parseFloat(node.getAttributes().getNamedItem("upperPowerGeneration").getNodeValue());
         powerPS.setInitialUpperPowerGeneration(upperPowerGeneration);
+        if (powerPS instanceof RTGPowerPS) {
+            ((RTGPowerPS) powerPS).setHalfLife(getAttributeFloat(node, "halfLife"));
+        }
         BiosimInitializer.setupBioModule(myID, powerPS, node);
     }
 
