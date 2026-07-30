@@ -8,6 +8,6 @@ services:
 
   openmct-biosim:
     build:
-      context: "https://github.com/scottbell/openmct-biosim.git"
+      context: ./docker/openmct-biosim
     ports:
       - "9091:80"   # map host port 9091 to container port 80
