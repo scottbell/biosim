@@ -265,18 +265,22 @@ public abstract class BaseCrewPerson {
      */
     private void startEVA(String evaCrewGroupName) {
         myLogger.debug("Starting EVA");
+        // look up the destination group BEFORE detaching, so a bad name
+        // fails loud instead of stranding the person with no group at all
+        IBioModule evaModule = BiosimInitializer.getModule(myCurrentCrewGroup.getID(), evaCrewGroupName);
+        if (evaModule == null) {
+            myLogger.error("🛑 EVA crew group " + evaCrewGroupName + " does not exist");
+            return;
+        }
+        CrewGroup evaCrewGroup = (CrewGroup) evaModule;
         // remove 5% from base environment (assume 3.7 m3 airlock)
         myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0]
                 .removeAirlockPercentage(0.05f);
         // detach from current crew group
         myCurrentCrewGroup.detachCrewPerson(getName());
         // attach to eva crew group
-        // first check if the EVA group exists
-        if (BiosimInitializer.getModule(myCurrentCrewGroup.getID(), evaCrewGroupName) == null) {
-            myLogger.error("🛑 EVA crew group " + evaCrewGroupName + " does not exist");
-            return;
-        }
-        myCurrentCrewGroup = (CrewGroup) BiosimInitializer.getModule(myCurrentCrewGroup.getID(), evaCrewGroupName);
+        evaCrewGroup.attachCrewPerson((CrewPerson) this);
+        myCurrentCrewGroup = evaCrewGroup;
         // perform activity for X ticks
     }
 
@@ -285,10 +289,16 @@ public abstract class BaseCrewPerson {
      */
     private void endEVA(String baseCrewGroupName) {
         myLogger.debug("Ending EVA");
+        // use the base crew group directly rather than a name lookup
+        if (myBaseCrewGroup == null) {
+            myLogger.error("🛑 base crew group is null, cannot end EVA");
+            return;
+        }
         // detach from EVA crew group
         myCurrentCrewGroup.detachCrewPerson(getName());
         // reattach to base crew group
-        myCurrentCrewGroup = (CrewGroup) BiosimInitializer.getModule(myCurrentCrewGroup.getID(), baseCrewGroupName);
+        myBaseCrewGroup.attachCrewPerson((CrewPerson) this);
+        myCurrentCrewGroup = myBaseCrewGroup;
         // remove 5% from base environment (assume 3.7 m3 airlock)
         myCurrentCrewGroup.getAirConsumerDefinition().getEnvironments()[0]
                 .removeAirlockPercentage(0.05f);
