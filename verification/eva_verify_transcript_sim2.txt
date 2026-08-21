@@ -1,0 +1,217 @@
+--- t=0 ---
+  Crew_Quarters_Group: Buck Rogers (activity=born)
+  Galley_Group: Wilma Deering (activity=born)
+  Labs_Group: Tim O'Connor (activity=born)
+  Maintenance_Group: Kane (activity=born)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=1 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Galley_Group: Wilma Deering (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=2 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Galley_Group: Wilma Deering (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=3 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Galley_Group: Wilma Deering (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=4 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Galley_Group: Wilma Deering (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=5 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Galley_Group: Wilma Deering (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=6 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Galley_Group: Wilma Deering (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=7 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Galley_Group: Wilma Deering (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=8 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Galley_Group: Wilma Deering (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=9 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Galley_Group: Wilma Deering (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=10 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Galley_Group: Wilma Deering (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=11 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Galley_Group: Wilma Deering (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=12 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Galley_Group: Wilma Deering (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=13 ---
+  Crew_Quarters_Group: Buck Rogers (activity=sleep)
+  Galley_Group: Wilma Deering (activity=sleep)
+  Labs_Group: Tim O'Connor (activity=sleep)
+  Maintenance_Group: Kane (activity=sleep)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=14 ---
+  Crew_Quarters_Group: Buck Rogers (activity=sleep)
+  Galley_Group: Wilma Deering (activity=sleep)
+  Labs_Group: Tim O'Connor (activity=sleep)
+  Maintenance_Group: Kane (activity=sleep)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=15 ---
+  Crew_Quarters_Group: Buck Rogers (activity=sleep)
+  Galley_Group: Wilma Deering (activity=sleep)
+  Labs_Group: Tim O'Connor (activity=sleep)
+  Maintenance_Group: Kane (activity=sleep)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=16 ---
+  Crew_Quarters_Group: Buck Rogers (activity=sleep)
+  Galley_Group: Wilma Deering (activity=sleep)
+  Labs_Group: Tim O'Connor (activity=sleep)
+  Maintenance_Group: Kane (activity=sleep)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=17 ---
+  Crew_Quarters_Group: Buck Rogers (activity=sleep)
+  Galley_Group: Wilma Deering (activity=sleep)
+  Labs_Group: Tim O'Connor (activity=sleep)
+  Maintenance_Group: Kane (activity=sleep)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=18 ---
+  Crew_Quarters_Group: Buck Rogers (activity=sleep)
+  Galley_Group: Wilma Deering (activity=sleep)
+  Labs_Group: Tim O'Connor (activity=sleep)
+  Maintenance_Group: Kane (activity=sleep)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=19 ---
+  Crew_Quarters_Group: Buck Rogers (activity=sleep)
+  Galley_Group: Wilma Deering (activity=sleep)
+  Labs_Group: Tim O'Connor (activity=sleep)
+  Maintenance_Group: Kane (activity=sleep)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=20 ---
+  Crew_Quarters_Group: Buck Rogers (activity=sleep)
+  Galley_Group: Wilma Deering (activity=sleep)
+  Labs_Group: Tim O'Connor (activity=sleep)
+  Maintenance_Group: Kane (activity=sleep)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=21 ---
+  Crew_Quarters_Group: Buck Rogers (activity=excercise)
+  Galley_Group: Wilma Deering (activity=excercise)
+  Labs_Group: Tim O'Connor (activity=excercise)
+  Maintenance_Group: Kane (activity=excercise)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=22 ---
+  Crew_Quarters_Group: Buck Rogers (activity=excercise)
+  Galley_Group: Wilma Deering (activity=excercise)
+  Labs_Group: Tim O'Connor (activity=excercise)
+  Maintenance_Group: Kane (activity=excercise)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=23 ---
+  Crew_Quarters_Group: Buck Rogers (activity=EVA)
+  Galley_Group: Wilma Deering (activity=excercise)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=24 ---
+  Galley_Group: Wilma Deering (activity=excercise)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 3 -> ['Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=25 ---
+  Galley_Group: Wilma Deering (activity=EVA)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  EVA_Crew_Group: Buck Rogers (activity=EVA)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=26 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 3 -> ['Buck Rogers', 'Kane', "Tim O'Connor"]
+--- t=27 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  EVA_Crew_Group: Wilma Deering (activity=EVA)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=28 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Galley_Group: Wilma Deering (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=29 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Galley_Group: Wilma Deering (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+--- t=30 ---
+  Crew_Quarters_Group: Buck Rogers (activity=ruminating)
+  Galley_Group: Wilma Deering (activity=ruminating)
+  Labs_Group: Tim O'Connor (activity=ruminating)
+  Maintenance_Group: Kane (activity=ruminating)
+  total crew visible: 4 -> ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+
+=== SUMMARY ===
+t=0: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=1: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=2: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=3: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=4: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=5: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=6: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=7: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=8: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=9: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=10: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=11: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=12: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=13: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=14: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=15: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=16: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=17: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=18: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=19: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=20: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=21: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=22: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=23: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=24: ['Kane', "Tim O'Connor", 'Wilma Deering']
+t=25: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=26: ['Buck Rogers', 'Kane', "Tim O'Connor"]
+t=27: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=28: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=29: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']
+t=30: ['Buck Rogers', 'Kane', "Tim O'Connor", 'Wilma Deering']

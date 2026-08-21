@@ -8,6 +8,7 @@ import com.traclabs.biosim.server.simulation.food.BiomassPS;
 import com.traclabs.biosim.server.simulation.framework.SimulationInitializer;
 import com.traclabs.biosim.server.util.failure.*;
 import com.traclabs.biosim.server.util.stochastic.NormalFilter;
+import com.traclabs.biosim.server.util.stochastic.RelativeFilter;
 import com.traclabs.biosim.server.util.stochastic.StochasticFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -208,6 +209,12 @@ public class BiosimInitializer {
             NormalFilter filter = new NormalFilter(deviation);
             filter.setEnabled(getFilterEnabled(child));
             return filter;
+        } else if (childName.equals("relativeStochasticFilter")) {
+            double sigma = getDoubleFromAttribute(child, "sigma");
+            RelativeFilter filter = new RelativeFilter(sigma);
+            // Opt-in. Absent isFilterEnabled ⇒ off. Do not reuse NormalFilter.
+            filter.setEnabled(getFilterEnabledDefaultOff(child));
+            return filter;
         } else
             return null;
     }
@@ -215,6 +222,13 @@ public class BiosimInitializer {
     private static boolean getFilterEnabled(Node pNode) {
         return pNode.getAttributes().getNamedItem("isFilterEnabled")
                 .getNodeValue().equals("true");
+    }
+
+    private static boolean getFilterEnabledDefaultOff(Node pNode) {
+        if (pNode.getAttributes() == null)
+            return false;
+        Node attr = pNode.getAttributes().getNamedItem("isFilterEnabled");
+        return attr != null && "true".equals(attr.getNodeValue());
     }
 
     private static boolean checkForFailureDecider(String childName,

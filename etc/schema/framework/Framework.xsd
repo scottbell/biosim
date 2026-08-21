@@ -17,6 +17,7 @@
 			</xsd:choice>
 			<xsd:choice maxOccurs="1" minOccurs="0">
 					<xsd:element name="normalStochasticFilter" type="NormalStochasticFilterType"/>
+					<xsd:element name="relativeStochasticFilter" type="RelativeStochasticFilterType"/>
 			</xsd:choice>
 		</xsd:sequence>
 		<xsd:attribute name="moduleName" type="xsd:string" use="required"/>
@@ -35,6 +36,11 @@
 				<xsd:attribute name="deviation" type="xsd:double" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="RelativeStochasticFilterType">
+		<xsd:attribute name="sigma" type="xsd:double" use="required"/>
+		<xsd:attribute default="false" name="isFilterEnabled" type="xsd:boolean"/>
 	</xsd:complexType>
 
 	<xsd:complexType name="FailureDeciderType">

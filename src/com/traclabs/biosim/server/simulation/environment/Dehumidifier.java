@@ -16,7 +16,8 @@ import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinition;
  */
 public class Dehumidifier extends SimBioModule implements AirConsumer, DirtyWaterProducer {
 
-    public static final float OPTIMAL_MOISTURE_CONCENTRATION = 0.52f;
+    // Cabin XML holds ~1 % H₂O. 0.52 never condensed. CCAA target ~2 %.
+    public static final float OPTIMAL_MOISTURE_CONCENTRATION = 0.02f;
 
     // Consumers, Producers
     private final AirConsumerDefinition myAirConsumerDefinition;
@@ -76,8 +77,9 @@ public class Dehumidifier extends SimBioModule implements AirConsumer, DirtyWate
         for (int i = 0; i < myAirConsumerDefinition.getEnvironments().length; i++) {
             float molesNeededToRemove = calculateMolesNeededToRemove(myAirConsumerDefinition.getEnvironments()[i]);
             if (molesNeededToRemove > 0) {
-                float resourceToGatherFirst = Math.min(molesNeededToRemove, myAirConsumerDefinition.getMaxFlowRate(i));
-                float desired = myAirConsumerDefinition.getDesiredFlowRate(i) * operationalEfficiency;
+                float tick = getTickLength();
+                float resourceToGatherFirst = Math.min(molesNeededToRemove, myAirConsumerDefinition.getMaxFlowRate(i) * tick);
+                float desired = myAirConsumerDefinition.getDesiredFlowRate(i) * operationalEfficiency * tick;
                 float resourceToGatherFinal = Math.min(resourceToGatherFirst, desired);
 
                 float taken = myAirConsumerDefinition.getEnvironments()[i]

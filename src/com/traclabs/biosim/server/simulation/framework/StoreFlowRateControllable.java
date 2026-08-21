@@ -144,6 +144,31 @@ public abstract class StoreFlowRateControllable extends
     }
 
     /**
+     * Like {@link #getMostResourceFromStores()} but XML desired/max are
+     * per hour. Scale by the module tickLength so a tick shorter than one
+     * hour does not take a full hour of mass.
+     */
+    public float getMostResourceFromStoresHourly() {
+        if (getStores() == null)
+            return 0f;
+        float tick = 1f;
+        if (getModule() != null)
+            tick = getModule().getTickLength();
+        float gatheredResource = 0f;
+        for (int i = 0; i < getStores().length; i++) {
+            // Filter the hourly setpoint, then scale. Filtering after
+            // *tick would apply absolute noise once per tick instead of
+            // once per hour when desired is 0.
+            float hourly = randomFilter(Math.min(getMaxFlowRate(i),
+                    getDesiredFlowRate(i)));
+            float amountToTake = hourly * tick;
+            getActualFlowRates()[i] = getStores()[i].take(amountToTake);
+            gatheredResource += getActualFlowRate(i);
+        }
+        return gatheredResource;
+    }
+
+    /**
      * Grabs as much resources as it can (i.e., the maxFlowRate) from a store.
      *
      * @param indexOfStore The store to get from
