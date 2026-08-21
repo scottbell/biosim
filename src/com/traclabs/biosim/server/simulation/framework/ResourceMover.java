@@ -173,50 +173,50 @@ public class ResourceMover extends SimBioModule implements PowerConsumer, Potabl
 
     private void getAndPushResources() {
         float powerGathered = myPowerConsumerDefinition
-                .getMostResourceFromStores();
+                .getMostResourceFromStoresHourly();
         myPowerProducerDefinition.pushResourceToStores(powerGathered);
 
         float potableWaterGathered = myPotableWaterConsumerDefinition
-                .getMostResourceFromStores();
+                .getMostResourceFromStoresHourly();
         myPotableWaterProducerDefinition
                 .pushResourceToStores(potableWaterGathered);
 
         float greyWaterGathered = myGreyWaterConsumerDefinition
-                .getMostResourceFromStores();
+                .getMostResourceFromStoresHourly();
         myGreyWaterProducerDefinition
                 .pushResourceToStores(greyWaterGathered);
 
         float dirtyWaterGathered = myDirtyWaterConsumerDefinition
-                .getMostResourceFromStores();
+                .getMostResourceFromStoresHourly();
         myDirtyWaterProducerDefinition
                 .pushResourceToStores(dirtyWaterGathered);
 
         float biomassGathered = myBiomassConsumerDefinition
-                .getMostResourceFromStores();
+                .getMostResourceFromStoresHourly();
         myBiomassProducerDefinition.pushResourceToStores(biomassGathered);
 
         float foodGathered = myFoodConsumerDefinition
-                .getMostResourceFromStores();
+                .getMostResourceFromStoresHourly();
         myFoodProducerDefinition.pushResourceToStores(foodGathered);
 
         float dryWasteGathered = myDryWasteConsumerDefinition
-                .getMostResourceFromStores();
+                .getMostResourceFromStoresHourly();
         myDryWasteProducerDefinition.pushResourceToStores(dryWasteGathered);
 
         float O2Gathered = myO2ConsumerDefinition
-                .getMostResourceFromStores();
+                .getMostResourceFromStoresHourly();
         myO2ProducerDefinition.pushResourceToStores(O2Gathered);
 
         float CO2Gathered = myCO2ConsumerDefinition
-                .getMostResourceFromStores();
+                .getMostResourceFromStoresHourly();
         myCO2ProducerDefinition.pushResourceToStores(CO2Gathered);
 
         float nitrogenGathered = myNitrogenConsumerDefinition
-                .getMostResourceFromStores();
+                .getMostResourceFromStoresHourly();
         myNitrogenProducerDefinition.pushResourceToStores(nitrogenGathered);
 
         float H2Gathered = myH2ConsumerDefinition
-                .getMostResourceFromStores();
+                .getMostResourceFromStoresHourly();
         myH2ProducerDefinition.pushResourceToStores(H2Gathered);
 
         Air airGathered = myAirConsumerDefinition

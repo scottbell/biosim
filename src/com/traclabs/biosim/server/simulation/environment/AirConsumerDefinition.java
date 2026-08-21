@@ -74,8 +74,9 @@ public class AirConsumerDefinition extends EnvironmentFlowRateControllable {
         Air airToReturn = new Air();
         for (int i = 0; i < getEnvironments().length; i++) {
             SimEnvironment environment = getEnvironments()[i];
-            float airMolesToTake = Math.min(getMaxFlowRate(i), getDesiredFlowRate(i));
-            airMolesToTake = randomFilter(airMolesToTake);
+            float tick = getModule() != null ? getModule().getTickLength() : 1f;
+            float hourly = randomFilter(Math.min(getMaxFlowRate(i), getDesiredFlowRate(i)));
+            float airMolesToTake = hourly * tick;
             float molesTakenForThisFlowrate = 0f;
             molesTakenForThisFlowrate += airToReturn.o2Moles += takeGasFromAir(airMolesToTake, environment.getO2Store(), environment);
             molesTakenForThisFlowrate += airToReturn.co2Moles += takeGasFromAir(airMolesToTake, environment.getCO2Store(), environment);

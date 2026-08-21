@@ -412,12 +412,24 @@ public class BioDriver {
      * before using this method can be very risky. Don't do it.
      */
     public synchronized void advanceOneTick() {
+        advanceTicks(1);
+    }
+
+    /**
+     * Advance n ticks while paused. One REST round-trip for a dry-run hour
+     * (60 one-minute ticks) instead of 60 HTTP posts.
+     */
+    public synchronized void advanceTicks(int n) {
+        if (n < 1)
+            return;
         if (!simulationIsPaused)
             setPauseSimulation(true);
-        tick();
-        // Check if an end condition has been met after manual tick
-        if (isDone()) {
-            endSimulation();
+        for (int i = 0; i < n; i++) {
+            tick();
+            if (isDone()) {
+                endSimulation();
+                return;
+            }
         }
     }
 

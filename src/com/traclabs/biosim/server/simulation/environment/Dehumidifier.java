@@ -76,8 +76,9 @@ public class Dehumidifier extends SimBioModule implements AirConsumer, DirtyWate
         for (int i = 0; i < myAirConsumerDefinition.getEnvironments().length; i++) {
             float molesNeededToRemove = calculateMolesNeededToRemove(myAirConsumerDefinition.getEnvironments()[i]);
             if (molesNeededToRemove > 0) {
-                float resourceToGatherFirst = Math.min(molesNeededToRemove, myAirConsumerDefinition.getMaxFlowRate(i));
-                float desired = myAirConsumerDefinition.getDesiredFlowRate(i) * operationalEfficiency;
+                float tick = getTickLength();
+                float resourceToGatherFirst = Math.min(molesNeededToRemove, myAirConsumerDefinition.getMaxFlowRate(i) * tick);
+                float desired = myAirConsumerDefinition.getDesiredFlowRate(i) * operationalEfficiency * tick;
                 float resourceToGatherFinal = Math.min(resourceToGatherFirst, desired);
 
                 float taken = myAirConsumerDefinition.getEnvironments()[i]

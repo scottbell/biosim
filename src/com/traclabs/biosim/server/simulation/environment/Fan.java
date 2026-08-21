@@ -61,7 +61,9 @@ public class Fan extends SimBioModule implements AirConsumer, PowerConsumer, Air
     }
 
     private float calculateAirToConsume(float powerReceived) {
-        return powerReceived * 4;
+        // XML rates are per hour. tickLength is hours/tick (1 at stock,
+        // 1/60 when the operator watch is one-minute ticks).
+        return powerReceived * 4f * getTickLength();
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,

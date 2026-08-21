@@ -231,10 +231,30 @@ public class SimulationController implements TickListener {
             return;
         }
 
-        bioDriver.advanceOneTick();
-
-        context.json(Map.of("ticks", bioDriver.getTicks()));
-        logger.info("Simulation {} advanced to tick {}", simID, bioDriver.getTicks());
+        int n = 1;
+        String rawN = context.queryParam("n");
+        if (rawN != null) {
+            try {
+                n = Integer.parseInt(rawN);
+            } catch (NumberFormatException e) {
+                context.status(400).json(Map.of("error", "n must be an integer"));
+                return;
+            }
+        }
+        if (n < 1) {
+            context.status(400).json(Map.of("error", "n must be >= 1"));
+            return;
+        }
+        int before = bioDriver.getTicks();
+        bioDriver.advanceTicks(n);
+        int after = bioDriver.getTicks();
+        int advanced = after - before;
+        context.json(Map.of("ticks", after, "advanced", advanced));
+        if (n == 1) {
+            logger.info("Simulation {} advanced to tick {}", simID, after);
+        } else {
+            logger.info("Simulation {} advanced {} ticks to {}", simID, advanced, after);
+        }
     }
 
     /**

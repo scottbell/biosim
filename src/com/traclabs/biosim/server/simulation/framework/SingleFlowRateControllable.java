@@ -25,6 +25,10 @@ public abstract class SingleFlowRateControllable {
         myModule = pModule;
     }
 
+    protected BioModule getModule() {
+        return myModule;
+    }
+
     public void malfunction() {
         Arrays.fill(myMaxFlowRates, 0);
         Arrays.fill(myDesiredFlowRates, 0);
