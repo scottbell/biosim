@@ -16,7 +16,8 @@ import com.traclabs.biosim.server.simulation.water.DirtyWaterProducerDefinition;
  */
 public class Dehumidifier extends SimBioModule implements AirConsumer, DirtyWaterProducer {
 
-    public static final float OPTIMAL_MOISTURE_CONCENTRATION = 0.52f;
+    // Cabin XML holds ~1 % H₂O. 0.52 never condensed. CCAA target ~2 %.
+    public static final float OPTIMAL_MOISTURE_CONCENTRATION = 0.02f;
 
     // Consumers, Producers
     private final AirConsumerDefinition myAirConsumerDefinition;

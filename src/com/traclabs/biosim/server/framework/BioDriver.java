@@ -416,8 +416,8 @@ public class BioDriver {
     }
 
     /**
-     * Advance n ticks while paused. One REST round-trip for a dry-run hour
-     * (60 one-minute ticks) instead of 60 HTTP posts.
+     * Advance n ticks while paused. Lets a REST client batch ticks in one
+     * request instead of posting /tick once per tick.
      */
     public synchronized void advanceTicks(int n) {
         if (n < 1)

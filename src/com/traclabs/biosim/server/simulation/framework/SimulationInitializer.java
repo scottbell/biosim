@@ -631,8 +631,11 @@ public class SimulationInitializer {
     private void createVCCR(Node node) {
         String moduleName = BiosimInitializer.getModuleName(node);
         myLogger.debug("Creating VCCR with moduleName: " + moduleName);
-        String implementationString = node.getAttributes().getNamedItem(
-                "implementation").getNodeValue();
+        String implementationString = "LINEAR";
+        if (node.getAttributes() != null
+                && node.getAttributes().getNamedItem("implementation") != null)
+            implementationString = node.getAttributes()
+                    .getNamedItem("implementation").getNodeValue();
         if (implementationString.equals("LINEAR")) {
             myLogger.debug("created linear VCCR...");
             VCCRLinear myVCCR = new VCCRLinear(myID, moduleName);

@@ -212,8 +212,6 @@ public class Store extends PassiveModule implements IStore {
      * @return the amount actually retrieved
      */
     public float take(float amountRequested) {
-        if (pipe)
-            currentCapacity -= amountRequested;
         //idiot check
         if (Float.isNaN(amountRequested)) {
             myLogger
@@ -224,17 +222,17 @@ public class Store extends PassiveModule implements IStore {
         }
         if (amountRequested <= 0)
             return 0f;
-        float takenAmount;
-        //asking for more stuff than exists
-        if (amountRequested > currentLevel) {
-            takenAmount = getStochasticFilter().randomFilter(currentLevel);
+        if (currentLevel < 0f)
             currentLevel = 0f;
-        }
-        //stuff exists for request
-        else {
-            takenAmount = getStochasticFilter().randomFilter(amountRequested);
-            currentLevel -= takenAmount;
-        }
+        float available = currentLevel;
+        float takenAmount = getStochasticFilter().randomFilter(amountRequested);
+        if (takenAmount < 0f)
+            takenAmount = 0f;
+        if (takenAmount > available)
+            takenAmount = available;
+        currentLevel = available - takenAmount;
+        if (pipe)
+            currentCapacity -= takenAmount;
         return takenAmount;
     }
 

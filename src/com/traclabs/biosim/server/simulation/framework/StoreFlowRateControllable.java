@@ -145,8 +145,8 @@ public abstract class StoreFlowRateControllable extends
 
     /**
      * Like {@link #getMostResourceFromStores()} but XML desired/max are
-     * per hour. Scale by the module tickLength so a 1-minute tick does
-     * not take a full hour of mass.
+     * per hour. Scale by the module tickLength so a tick shorter than one
+     * hour does not take a full hour of mass.
      */
     public float getMostResourceFromStoresHourly() {
         if (getStores() == null)
@@ -157,8 +157,8 @@ public abstract class StoreFlowRateControllable extends
         float gatheredResource = 0f;
         for (int i = 0; i < getStores().length; i++) {
             // Filter the hourly setpoint, then scale. Filtering after
-            // *tick would make N(0, σ) leak σ moles every 1-minute tick
-            // when desired is 0.
+            // *tick would apply absolute noise once per tick instead of
+            // once per hour when desired is 0.
             float hourly = randomFilter(Math.min(getMaxFlowRate(i),
                     getDesiredFlowRate(i)));
             float amountToTake = hourly * tick;

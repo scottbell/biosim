@@ -435,8 +435,13 @@ public class CrewPerson extends BaseCrewPerson {
      * @param potableWaterConsumed the potable water consumed (in liters) during this tick
      * @return dirty water produced in liters
      */
+    // Was 0.3625 + 0.5375 + 0.175 = 1.075 of *need*. Sum to 1.0 of consumed.
+    private static final float WATER_RETURN_DIRTY = 0.3625f / 1.075f;
+    private static final float WATER_RETURN_GREY = 0.5375f / 1.075f;
+    private static final float WATER_RETURN_VAPOR = 0.175f / 1.075f;
+
     private float calculateDirtyWaterProduced(float pPotableWaterConsumed) {
-        return pPotableWaterConsumed * 0.3625f;
+        return pPotableWaterConsumed * WATER_RETURN_DIRTY;
     }
 
     /**
@@ -458,7 +463,7 @@ public class CrewPerson extends BaseCrewPerson {
      * @return grey water produced in liters
      */
     private float calculateGreyWaterProduced(float pPotableWaterConsumed) {
-        return pPotableWaterConsumed * 0.5375f;
+        return pPotableWaterConsumed * WATER_RETURN_GREY;
     }
 
     /**
@@ -469,7 +474,7 @@ public class CrewPerson extends BaseCrewPerson {
      * @return vapor produced in moles
      */
     private float calculateVaporProduced(float pPotableWaterConsumed) {
-        return waterLitersToMoles(pPotableWaterConsumed * 0.175f);
+        return waterLitersToMoles(pPotableWaterConsumed * WATER_RETURN_VAPOR);
     }
 
     /**
@@ -756,11 +761,6 @@ public class CrewPerson extends BaseCrewPerson {
         O2Needed = calculateO2Needed(currentActivityIntensity);
         potableWaterNeeded = calculateCleanWaterNeeded(currentActivityIntensity);
         caloriesNeeded = calculateFoodNeeded(currentActivityIntensity);
-        dirtyWaterProduced = calculateDirtyWaterProduced(potableWaterNeeded);
-        dryWasteProduced = calculateDryWasteProduced(foodMassConsumed);
-        greyWaterProduced = calculateGreyWaterProduced(potableWaterNeeded);
-        CO2Produced = calculateCO2Produced(O2Needed);
-        vaporProduced = calculateVaporProduced(potableWaterNeeded);
 
         // consume
         eatFood();
@@ -780,7 +780,13 @@ public class CrewPerson extends BaseCrewPerson {
             O2Consumed = myAirInputs[0].getO2Store().take(O2Needed);
         }
 
-        // produce
+        // produce from *consumed*, not need (empty tank must not exhale CO₂)
+        dirtyWaterProduced = calculateDirtyWaterProduced(potableWaterConsumed);
+        greyWaterProduced = calculateGreyWaterProduced(potableWaterConsumed);
+        vaporProduced = calculateVaporProduced(potableWaterConsumed);
+        dryWasteProduced = calculateDryWasteProduced(foodMassConsumed);
+        CO2Produced = calculateCO2Produced(O2Consumed);
+
         StoreFlowRateControllable.pushFractionalResourceToStores(
                 getCurrentCrewGroup(), getCurrentCrewGroup()
                         .getDirtyWaterProducerDefinition(), dirtyWaterProduced,
