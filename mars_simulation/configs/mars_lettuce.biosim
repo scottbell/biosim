@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mars greenhouse, one lettuce shelf, solar power.
+  Must stay: tickLength=1 (crop model assumes 1 tick = 1 hour) and startPaused=true
+  (otherwise the server ticks on its own thread and Python loses control of time).
+  maxFlowRates set the ceiling for every command; REST cannot raise them.
+  Module names here are referenced in interface/bindings.py. Rename in both places.
+-->
+<biosim xmlns="http://www.traclabs.com/biosim"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.traclabs.com/biosim ../../etc/schema/BiosimInitSchema.xsd">
+  <Globals runTillCrewDeath="false" runTillPlantDeath="false" tickLength="1" startPaused="true">
+    <comment>Mars lettuce greenhouse for the CPS project</comment>
+  </Globals>
+  <SimBioModules>
+    <environment>
+      <SimEnvironment moduleName="Greenhouse" initialVolume="50000" dayLength="24.66">
+        <percentageInitialization totalPressure="101"
+            o2Percentage="0.21" co2Percentage="0.0012" nitrogenPercentage="0.7688"
+            waterPercentage="0.02" otherPercentage="0.0"/>
+      </SimEnvironment>
+      <Dehumidifier moduleName="Dehumidifier">
+        <airConsumer        inputs="Greenhouse"        desiredFlowRates="1000" maxFlowRates="1000"/>
+        <dirtyWaterProducer outputs="Dirty_Water_Store" desiredFlowRates="1000" maxFlowRates="1000"/>
+      </Dehumidifier>
+    </environment>
+    <air>
+      <CO2Store moduleName="CO2_Store" capacity="500" level="200"/>
+    </air>
+    <water>
+      <PotableWaterStore moduleName="Potable_Water_Store" capacity="1000" level="1000"/>
+      <GreyWaterStore    moduleName="Grey_Water_Store"    capacity="2000" level="2000"/>
+      <DirtyWaterStore   moduleName="Dirty_Water_Store"   capacity="5000" level="0"/>
+    </water>
+    <power>
+      <PowerStore moduleName="Power_Store" capacity="200000" level="100000"/>
+      <PowerPS moduleName="Solar_Array" generationType="SOLAR" upperPowerGeneration="20000">
+        <powerProducer outputs="Power_Store" desiredFlowRates="20000" maxFlowRates="20000"/>
+        <lightConsumer inputs="Greenhouse"   desiredFlowRates="0"     maxFlowRates="0"/>
+      </PowerPS>
+    </power>
+    <food>
+      <BiomassStore moduleName="Biomass_Store" capacity="1000" level="0" cropType="LETTUCE"/>
+      <BiomassPS moduleName="Lettuce_Bed" autoHarvestAndReplant="true">
+        <shelf cropType="LETTUCE" cropArea="10"/>
+        <powerConsumer        inputs="Power_Store"         desiredFlowRates="2000" maxFlowRates="20000"/>
+        <potableWaterConsumer inputs="Potable_Water_Store" desiredFlowRates="0"    maxFlowRates="0"/>
+        <greyWaterConsumer    inputs="Grey_Water_Store"    desiredFlowRates="20"   maxFlowRates="200"/>
+        <airConsumer          inputs="Greenhouse"          desiredFlowRates="0"    maxFlowRates="0"/>
+        <dirtyWaterProducer   outputs="Dirty_Water_Store"  desiredFlowRates="100"  maxFlowRates="100"/>
+        <biomassProducer      outputs="Biomass_Store"      desiredFlowRates="100"  maxFlowRates="100"/>
+        <airProducer          outputs="Greenhouse"         desiredFlowRates="0"    maxFlowRates="0"/>
+      </BiomassPS>
+    </food>
+    <framework>
+      <!-- Only the consumer side is commanded. The producer writes into the Greenhouse
+           environment, and REST updates on environment-connected flows fail (see plant_next_steps.md). -->
+      <Injector moduleName="CO2_Injector">
+        <CO2Consumer inputs="CO2_Store"   desiredFlowRates="0" maxFlowRates="5"/>
+        <CO2Producer outputs="Greenhouse" desiredFlowRates="5" maxFlowRates="5"/>
+      </Injector>
+    </framework>
+  </SimBioModules>
+</biosim>
