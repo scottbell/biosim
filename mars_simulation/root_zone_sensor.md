@@ -16,7 +16,11 @@ This adds a simulated level sensor and uses the sensor and the estimator to chec
 - **Quantity:** reservoir level in **litres**, from truth `crop.s0.reservoir_L`.
 - **Why litres and not "% full":** with the irrigation controller the reservoir sits around 5 L out of 500 L. A % reading would hover near 1 %, and its noise would swamp the signal.
 - **New observation key:** `crop.s0.root_zone_L` (L). It's `None` when the sensor has no reading.
-- **Accuracy matters at the low end.** A sensor quoted as ±0.25 % of full scale is ±1.25 L on a 500 L tank. That's a quarter of the 5 L buffer. Sensor parameters need a sourced datasheet number before we use them (to do).
+- **Accuracy matters at the low end, and the geometry makes it hard.** The reservoir is 500 L under a 10 m² shelf, so it's only 50 mm deep. 1 L of water is 0.1 mm of depth.
+  - Typical tank level sensors are good to about ±1 to ±3 mm. That covers ultrasonic sensors, and hydrostatic ones at 0.1 % of a 1 m range ([Gems](https://www.gemssensors.com/knowledge/technology-functionality/ultrasonic-level-transmitter-accuracy), [Farnell LVU datasheet](https://www.farnell.com/datasheets/3749935.pdf), [Holykell UE3006](https://www.holykell.com/products/UE3006_Ultrasonic_Water_Level_Sensor.html), [Omega PX633](https://www.globaltestsupply.com/product/omega-px633a1-100gi-submersible-level-transmitter)).
+  - Measured straight in the shelf, ±1 mm is **±10 L**. That's twice the whole 5 L buffer.
+  - **Assumption:** the bed drains to a narrow sump, and the sensor measures that. With a 0.1 m² sump, ±1 mm becomes ±0.1 L, which is the default `sigma_L = 0.1`. In general $\sigma_L = \sigma_{mm} \times A_{sump}$ (1 mm × 1 m² = 1 L).
+  - Weighing the reservoir with load cells is the other realistic option.
 
 ## 2. How the sensor sees a hidden value (needs agreement)
 
@@ -77,6 +81,26 @@ This should beat either source alone. I'd write it as a wrapper around `Reservoi
 - **Live:** a `scripts/root_zone_check.py` scenario run.
   - Nominal run, then each fault kind injected at tick 300 for 120 ticks.
   - Report detection delay, false alarms, the fused level's error against truth, and harvest.
+
+## Results so far (2026-11-02)
+
+Steps 2 and 4 are built: `sensors/root_zone.py` (`RootZoneSensor`) and `estimators/root_zone.py` (`RootZoneMonitor`), with offline tests in `tests/test_root_zone.py`.
+
+To check them live without the loop change, I ran one cycle on the patched server with `IrrigationController` and CO2 held at 1200 ppm, then replayed the log through the sensor and monitor (sensor σ = 0.1 L, each fault at tick 300 for 120 ticks):
+
+| | Result |
+|---|---|
+| Level error, ticks 30–671 (RMS) | estimate 0.184 L, sensor 0.100 L, **combined 0.092 L** |
+| False alarms before harvest | 0 |
+| False alarms after harvest (ticks 692–699) | 8 "offset" alarms |
+| Bias −2 L | caught after 1 tick, worst level error 1.65 L |
+| Drift +0.05 L/tick | caught after 27 ticks, worst level error 1.30 L |
+| Stuck | caught after 1 tick, worst level error 0.14 L |
+| Dropout | caught immediately, worst level error 0.12 L |
+
+- **Combining helps live.** The combined level is better than either source on its own.
+- **The worst errors are the ticks before an offset is caught.** Until then the combined level still trusts the sensor at about 90 % weight.
+- **The post-harvest alarms are the known estimator weakness.** After harvest the estimate drifts low until the new crop reports its own CO2 uptake (`plant_next_steps.md` item 8). The monitor reads that as a sensor offset. The fix is either in the estimator (Sophia) or by treating the hours after a harvest as an estimator fault. To discuss.
 
 ## 7. Steps (one commit each)
 
