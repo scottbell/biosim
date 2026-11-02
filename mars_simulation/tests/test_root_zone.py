@@ -71,36 +71,24 @@ def test_unknown_fault_kind_is_an_error():
 
 # monitor: sensor vs estimator, on a FakePlant cycle with the irrigation controller
 
-from controllers import IrrigationController  # noqa: E402
-from estimators import ReservoirEstimator, RootZoneMonitor  # noqa: E402
-from interface import FakePlant, TickLogger, run  # noqa: E402
+import sys  # noqa: E402
+from pathlib import Path  # noqa: E402
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+
+import root_zone_check as rzc  # noqa: E402
+from interface import FakePlant  # noqa: E402
 
 SIGMA = 0.1
 
 
 @pytest.fixture(scope="module")
 def cycle():
-    def atmo(obs):
-        return {"cmd.crop_power_W": 10.0, "cmd.co2_inject_mol": 0.6 if obs["gh.co2_ppm"] < 1200 else 0.0}
-    log = TickLogger()
-    run(FakePlant(), {"irrigation": IrrigationController(), "atmo": atmo}, 700, logger=log)
-    return log.records
+    return rzc.run_cycle(FakePlant())
 
 
 def monitor_run(records, faults=(), degrade_from=None):
-    """Replays a logged cycle through estimator, sensor and monitor. Returns per-tick rows."""
-    est, sensor, mon, cap, rows = ReservoirEstimator(), RootZoneSensor(sigma_L=SIGMA), RootZoneMonitor(SIGMA), 0.0, []
-    for rec in records:
-        e = est.update(rec["obs"], cap)
-        cap = rec["applied"]["cmd.crop_water_L"]
-        if degrade_from is not None and rec["tick"] >= degrade_from:
-            e = dict(e, **{"est.degraded": True})
-        t = rec["tick"]
-        true_L = rec["truth"]["crop.s0.reservoir_L"]
-        reading = sensor.read(true_L, t, [f for f in faults if f.active_at(t)])
-        out = mon.update(reading, e, rec["obs"]["gh.co2_ppm"])
-        rows.append(dict(out, tick=t, true_L=true_L, est_L=e["est.reservoir_L"], sensor_L=reading))
-    return rows
+    return rzc.replay(records, faults, SIGMA, degrade_from=degrade_from)
 
 
 def first_tick_with(rows, label, after=0):

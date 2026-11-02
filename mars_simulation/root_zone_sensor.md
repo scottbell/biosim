@@ -86,13 +86,21 @@ This should beat either source alone. I'd write it as a wrapper around `Reservoi
 
 Steps 2 and 4 are built: `sensors/root_zone.py` (`RootZoneSensor`) and `estimators/root_zone.py` (`RootZoneMonitor`), with offline tests in `tests/test_root_zone.py`.
 
-To check them live without the loop change, I ran one cycle on the patched server with `IrrigationController` and CO2 held at 1200 ppm, then replayed the log through the sensor and monitor (sensor σ = 0.1 L, each fault at tick 300 for 120 ticks):
+`scripts/root_zone_check.py` checks them live without the loop change:
+
+- It runs one cycle on the patched server with `IrrigationController` and CO2 held at 1200 ppm.
+- It then replays the log through the sensor and monitor once per scenario: sensor σ = 0.1 L, each fault at tick 300 for 120 ticks.
+- `--fake` runs it on FakePlant instead.
+
+Typical run:
 
 | | Result |
 |---|---|
 | Level error, ticks 30–671 (RMS) | estimate 0.184 L, sensor 0.100 L, **combined 0.092 L** |
 | False alarms before harvest | 0 |
-| False alarms after harvest (ticks 692–699) | 8 "offset" alarms |
+| False alarms after harvest (ticks 692–699) | 8 "offset" alarms, in 2 of 3 runs (BioSim varies a little between runs) |
+| Estimator marked broken | caught immediately, sensor takes over, worst level error 0.24 L |
+| Alarm clears after the fault ends | offsets 23 h, stuck and dropout immediately |
 | Bias −2 L | caught after 1 tick, worst level error 1.65 L |
 | Drift +0.05 L/tick | caught after 27 ticks, worst level error 1.30 L |
 | Stuck | caught after 1 tick, worst level error 0.14 L |
