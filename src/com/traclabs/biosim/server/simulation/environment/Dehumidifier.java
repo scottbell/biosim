@@ -25,6 +25,10 @@ public class Dehumidifier extends SimBioModule implements AirConsumer, DirtyWate
     // 1.0 = fully operational, 0.0 = completely non-operational
     private float operationalEfficiency = 1.0f;
 
+    // Relative humidity (0-1) to hold the environment at. Negative keeps the original
+    // behaviour: only remove vapor above OPTIMAL_MOISTURE_CONCENTRATION mole fraction.
+    private float targetRelativeHumidity = -1f;
+
     public Dehumidifier(int pID, String pName) {
         super(pID, pName);
         myAirConsumerDefinition = new AirConsumerDefinition(this);
@@ -35,7 +39,23 @@ public class Dehumidifier extends SimBioModule implements AirConsumer, DirtyWate
         this(0, "Unnamed Dehumidifier");
     }
 
-    private static float calculateMolesNeededToRemove(SimEnvironment pEnvironment) {
+    public float getTargetRelativeHumidity() {
+        return targetRelativeHumidity;
+    }
+
+    public void setTargetRelativeHumidity(float pTarget) {
+        targetRelativeHumidity = pTarget;
+    }
+
+    private float calculateMolesNeededToRemove(SimEnvironment pEnvironment) {
+        if (targetRelativeHumidity >= 0) {
+            // vapor pressure is proportional to vapor moles at fixed volume and temperature
+            float vaporMoles = pEnvironment.getVaporStore().getCurrentLevel();
+            float relativeHumidity = pEnvironment.getRelativeHumidity();
+            if (relativeHumidity > targetRelativeHumidity && relativeHumidity > 0)
+                return vaporMoles * (1f - targetRelativeHumidity / relativeHumidity);
+            return 0f;
+        }
         float currentWaterMolesInEnvironment = pEnvironment.getVaporStore().getCurrentLevel();
         float totalMolesInEnvironment = pEnvironment.getTotalMoles();
         if ((currentWaterMolesInEnvironment / totalMolesInEnvironment) > OPTIMAL_MOISTURE_CONCENTRATION) {

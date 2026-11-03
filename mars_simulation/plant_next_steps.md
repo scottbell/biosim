@@ -1,12 +1,21 @@
 # Plant model: decisions and next steps
 
-Status as of 2026-10-15. The Python interface to BioSim exists (`interface/`). Nothing in this file is built yet. Each numbered item is a task or decision to split between the two of us working on the plant model.
+Status as of 2026-10-30. The Python interface to BioSim exists (`interface/`). Water and irrigation (tasks 8 and 9) are built on the `water-irrigation` branch. The thermal tasks are still open. Each numbered item is a task or decision to split between the two of us working on the plant model.
 
 ## Decided
 
 - **Hybrid plant.** BioSim models crops, air, water and power. We write our own Python thermal model for the greenhouse. Both feed one state dict.
 - **BioSim is the plant for everything except temperature.** We don't write our own crop model.
-- **No Java changes.** Everything lives in `mars_simulation/` in this repo.
+- **Java changes only where BioSim is broken or hides something we need.** Originally "no Java changes". The water work needed four small patches (below). Ameya's thermal branch makes its own, separate Java changes; that still needs a team decision.
+
+## BioSim patches (water-irrigation branch)
+
+1. **`MathUtils.exp` returned `Math.abs(a)` instead of $e^a$** (`util/MathUtils.java:32`). It's been that way since at least 2008. Its only caller is the crop's saturation vapor pressure (`Plant.java:406`). The plant computed 0.93 kPa instead of 2.81 kPa at 23 °C, so the vapor pressure deficit was clamped to 0 and **no crop in BioSim ever transpired**. Measured before the fix: greenhouse vapor stayed at 41.02 mol for a whole lettuce cycle.
+2. **Relative humidity uses the same saturation curve as the plant** (`SimEnvironment.saturatedVaporPressure`, $0.611\,e^{17.4T/(T+239)}$ kPa). Before, `getRelativeHumidity` used $17.4T/(T+273.15)$, so `gh.rh` disagreed with what the plant saw.
+3. **`Dehumidifier` takes an optional `targetRelativeHumidity`.** Without it, the dehumidifier only acts above a 0.52 vapor mole fraction, about 18 times saturation, so it never ran. Measured with fix 1 but no target: RH reached 1.000 by tick 201 and transpiration stopped again. With `targetRelativeHumidity="0.7"`, RH holds at 0.700 to 0.718.
+4. **The shelf's reservoir is reported over REST** (`waterLevel`, `waterCapacity`). The interface exposes `crop.s0.reservoir_capacity_L` to controllers. `crop.s0.reservoir_L` is truth-only, used to score the estimator.
+
+Java tests: `test/.../environment/HumidityAndTranspirationTest.java` (5 tests). The transpiration test fails on the old `exp`. All 10 Java tests pass.
 
 ## Facts we found in the BioSim source
 
@@ -22,8 +31,9 @@ These limit what the thermal model can do.
 - **REST can't change a flow that writes into the greenhouse air.**
   - Environment gas stores are named like `Greenhouse.CO2Store` and aren't registered modules. REST updates on those flows fail (`SimulationController.java:892-902`).
   - This is why only the CO2 injector's input side is commanded.
-  - This is from reading the code. Confirm it on a live server.
-- **No shelf water level, crop biomass, water stress or dead flag over REST.** See `SimulationController.java:572-582` for what a shelf does report.
+  - Confirmed live on 2026-10-30: 400 without `connections`, 500 with them.
+- **No crop biomass, water stress or dead flag over REST.** The shelf water level is now reported (patch 4).
+- **Malfunctions on the recycler, injectors and RPCMs are permanent.** They set `maxFlowRates` to 0 (`SingleFlowRateControllable.malfunction`), and clearing doesn't restore them. Measured: recycler broken at tick 300, cleared at 420, and it never treated water again.
 - **The crop model assumes `tickLength=1`** (`Plant.java:697-702`). Lettuce matures in 672 ticks.
 - **Our config uses a Mars sol** (`dayLength="24.66"`) for solar power and light. BioSim's crop clock still counts 24-hour days internally.
 
@@ -57,17 +67,34 @@ These limit what the thermal model can do.
    - Check on a live server whether clearing a `PERMANENT_MALF` restores full output. Also check what `TEMPORARY_MALF` does to `PowerPS`, since `PowerPS.java:64-85` has to be read for that.
    - For a smooth dimming curve we'd need a Java change. Decide whether stepped is good enough.
 
-8. **Irrigation observability.** The shelf has a 50 L/m² internal reservoir that isn't visible over REST. Decide between:
-   - (a) estimating the reservoir from cumulative `water.crop_draw_L` minus transpiration (vapour added to `Greenhouse`);
-   - (b) flow-only control on `water.grey_L` and `water.crop_draw_L`.
-   Either way, short shortfalls are hidden by the reservoir.
+8. **Irrigation observability.** Done: option (a), in `estimators/water.py`.
+   - Uptake = transpiration from the vapor balance, $0.018015\,(\Delta n_{vapor} + n_{dehum})$ L, plus 0.61 L per mol of CO2 taken up. The 0.61 was measured live: 0.608 to 0.610 from tick 60 to tick 660.
+   - When the draw is under the cap, the shelf refilled to full, so the previous level is known exactly.
+   - Live, one cycle with the controller: RMS error 0.33 L. Within 0.12 L until harvest, then it drifts low (about 0.08 L/tick) because the replanted crop reports the old CO2 uptake. Drifting low is the safe direction.
+   - Breaks if greenhouse CO2 runs out: water built into the plant goes to zero, and the estimate drifts high.
 
-9. **Water recycling.** The config has no `WaterRS`, so dirty water from the dehumidifier is never turned back into grey water. 2000 L of grey water should outlast one lettuce cycle, but check that on a live run. Add `WaterRS` if irrigation is going to be a closed loop.
+9. **Water recycling.** Done.
+   - Irrigation now draws from `Potable_Water_Store`. `Water_Recycler` (WaterRS, LINEAR) turns dehumidifier water back into potable water. `Grey_Water_Store` is an unused reserve.
+   - `controllers/irrigation.py` keeps a 24 h buffer in the reservoir and runs the recycler on waiting dirty water.
 
-10. **Live checks once Docker works.**
-    - Run `scripts/smoke_test.py` and commit the captured `tests/fixtures/state_sample.json`. The offline tests then run against real output.
-    - Confirm REST rejects environment-connected flow updates.
-    - Measure milliseconds per tick for 672 ticks.
-    - Restart the container between batches, because BioSim never frees old sims.
+   Live results (`scripts/water_check.py`, 700 ticks):
+
+   | | Fixed cap 20 L/tick | Irrigation controller | Controller, recycler broken from tick 300 |
+   |---|---|---|---|
+   | Harvest | 35.46 kg | 35.46 kg | 35.46 kg |
+   | Drawn into reservoir | 633.2 L | 149.8 L | 149.8 L |
+   | Lowest true reservoir | 499.4 L | 4.79 L | 4.79 L |
+   | Tank at end | 459.4 L | 942.8 L | 854.4 L |
+
+   Drought sweep (fixed caps): 0.2 L/tick still gave 35.52 kg. 0.1 L/tick gave 19.64 kg. At 0.05 L/tick the crop died.
+
+   Open:
+   - Does the team still want irrigation as a headline loop? The reservoir makes it slow and forgiving.
+   - Humidity is now a real variable, but its setpoint is fixed in the XML.
+
+10. **Live checks.** Done 2026-10-30, on a local Java 21 build.
+    - REST does reject environment-connected flows.
+    - 1.4 to 2.4 ms per tick, so a 672-tick cycle takes about 2 s.
+    - The captured fixture is regenerated from the patched build. Siddhant's branch has an older one without the new shelf fields; keep the new one when merging.
 
 11. **Fault detection.** Ask whoever owns detection whether `obs`, plus `truth["faults.active"]` and the logged fault schedule, is enough for them to score against.

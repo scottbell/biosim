@@ -19,7 +19,9 @@
             o2Percentage="0.21" co2Percentage="0.0012" nitrogenPercentage="0.7688"
             waterPercentage="0.02" otherPercentage="0.0"/>
       </SimEnvironment>
-      <Dehumidifier moduleName="Dehumidifier">
+      <!-- targetRelativeHumidity needs the patched BioSim (Dehumidifier.java). Without it the
+           dehumidifier only acts above a 52% vapor mole fraction and the air saturates. -->
+      <Dehumidifier moduleName="Dehumidifier" targetRelativeHumidity="0.7">
         <airConsumer        inputs="Greenhouse"        desiredFlowRates="1000" maxFlowRates="1000"/>
         <dirtyWaterProducer outputs="Dirty_Water_Store" desiredFlowRates="1000" maxFlowRates="1000"/>
       </Dehumidifier>
@@ -27,10 +29,21 @@
     <air>
       <CO2Store moduleName="CO2_Store" capacity="500" level="200"/>
     </air>
+    <!-- Water loop: Potable_Water_Store (irrigation tank) -> Lettuce_Bed -> transpired vapor
+         -> Dehumidifier -> Dirty_Water_Store -> Water_Recycler -> Potable_Water_Store.
+         Grey_Water_Store is an untouched reserve; nothing draws from it by default. -->
     <water>
       <PotableWaterStore moduleName="Potable_Water_Store" capacity="1000" level="1000"/>
       <GreyWaterStore    moduleName="Grey_Water_Store"    capacity="2000" level="2000"/>
       <DirtyWaterStore   moduleName="Dirty_Water_Store"   capacity="5000" level="0"/>
+      <!-- LINEAR: treats power / 1540 * 4.26 L per tick, dirty water first. It draws all the
+           power it is allowed even with nothing to treat, so cmd.recycler_power_W matters. -->
+      <WaterRS moduleName="Water_Recycler" implementation="LINEAR">
+        <powerConsumer        inputs="Power_Store"         desiredFlowRates="0"    maxFlowRates="1540"/>
+        <dirtyWaterConsumer   inputs="Dirty_Water_Store"   desiredFlowRates="10"   maxFlowRates="10"/>
+        <greyWaterConsumer    inputs="Grey_Water_Store"    desiredFlowRates="0"    maxFlowRates="10"/>
+        <potableWaterProducer outputs="Potable_Water_Store" desiredFlowRates="10"  maxFlowRates="10"/>
+      </WaterRS>
     </water>
     <power>
       <PowerStore moduleName="Power_Store" capacity="200000" level="100000"/>
@@ -44,8 +57,8 @@
       <BiomassPS moduleName="Lettuce_Bed" autoHarvestAndReplant="true">
         <shelf cropType="LETTUCE" cropArea="10"/>
         <powerConsumer        inputs="Power_Store"         desiredFlowRates="2000" maxFlowRates="20000"/>
-        <potableWaterConsumer inputs="Potable_Water_Store" desiredFlowRates="0"    maxFlowRates="0"/>
-        <greyWaterConsumer    inputs="Grey_Water_Store"    desiredFlowRates="20"   maxFlowRates="200"/>
+        <potableWaterConsumer inputs="Potable_Water_Store" desiredFlowRates="20"   maxFlowRates="200"/>
+        <greyWaterConsumer    inputs="Grey_Water_Store"    desiredFlowRates="0"    maxFlowRates="0"/>
         <airConsumer          inputs="Greenhouse"          desiredFlowRates="0"    maxFlowRates="0"/>
         <dirtyWaterProducer   outputs="Dirty_Water_Store"  desiredFlowRates="100"  maxFlowRates="100"/>
         <biomassProducer      outputs="Biomass_Store"      desiredFlowRates="100"  maxFlowRates="100"/>

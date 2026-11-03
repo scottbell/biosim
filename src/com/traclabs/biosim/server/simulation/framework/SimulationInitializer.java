@@ -1037,6 +1037,8 @@ public class SimulationInitializer {
         String moduleName = BiosimInitializer.getModuleName(node);
         myLogger.debug("Creating Dehumidifier with moduleName: " + moduleName);
         Dehumidifier dehumidifier = new Dehumidifier(myID, moduleName);
+        if (node.getAttributes().getNamedItem("targetRelativeHumidity") != null)
+            dehumidifier.setTargetRelativeHumidity(getAttributeFloat(node, "targetRelativeHumidity"));
         BiosimInitializer.setupBioModule(myID, dehumidifier, node);
     }
 

@@ -1,20 +1,37 @@
 # mars_simulation
 
-Python side of the Mars lettuce greenhouse project. BioSim (the Java server in this repo) is the plant. This folder holds the interface, configs, controllers and analysis. Nothing in here changes BioSim's Java code, and the Docker image doesn't include this folder.
+Python side of the Mars lettuce greenhouse project. BioSim (the Java server in this repo) is the plant. This folder holds the interface, configs, controllers and analysis. The Docker image doesn't include this folder.
+
+This branch needs a **patched BioSim build** (see `plant_next_steps.md`, "BioSim patches"): it fixes a bug that stopped crops transpiring, makes the dehumidifier hold a humidity target, and reports the shelf reservoir. `BioSimPlant.reset()` refuses to run against an old build. Rebuild after pulling: `docker compose build`, or without Docker, `mvn -DskipTests package` with Java 21.
 
 ## Setup
 
 ```bash
 # from the repo root
-docker compose up biosim-server            # BioSim on localhost:8009
+docker compose up --build biosim-server    # BioSim on localhost:8009
+# or without Docker (Java 21 + Maven):
+#   mvn -DskipTests package && java -jar target/biosim-2.0.0-jar-with-dependencies.jar
 
 cd mars_simulation
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
 python scripts/smoke_test.py               # first check against the live server
+python scripts/water_check.py              # one lettuce cycle with the irrigation controller
 pytest                                     # offline tests (no server needed)
 pytest -m live                             # tests against the live server
+```
+
+## Water and irrigation
+
+The water loop: `Potable_Water_Store` (irrigation tank) → lettuce bed reservoir → transpired vapor → `Dehumidifier` (holds RH 0.7) → `Dirty_Water_Store` → `Water_Recycler` → back to the tank.
+
+- **`estimators.ReservoirEstimator`** estimates the bed's reservoir level. BioSim hides it from controllers; the true value is the truth-only key `crop.s0.reservoir_L`. The estimate is uptake = transpiration (from the greenhouse vapor balance) + 0.61 L per mol of CO2 taken up. It gets an exact reading whenever the draw comes in under the cap.
+- **`controllers.IrrigationController`** keeps a small buffer in the reservoir (24 h of uptake, at least 5 L) instead of keeping it full, and runs the recycler on whatever dirty water is waiting. It sets `cmd.crop_water_L` and `cmd.recycler_power_W`.
+
+```python
+from controllers import IrrigationController
+run(BioSimPlant(), {"irrigation": IrrigationController(), ...}, n_ticks=700)
 ```
 
 ## How to use it
@@ -103,7 +120,10 @@ All faults go into the log, so detection can be scored against them.
 | `interface/plant.py` | `BioSimPlant`, `FakePlant`. A future `HybridPlant` (BioSim + thermal model) goes here. |
 | `interface/loop.py` | `run()`, the per-tick pipeline. |
 | `interface/log.py` | JSONL tick log, read by the dashboard and evaluation. |
-| `configs/mars_lettuce.biosim` | Greenhouse, 10 m² lettuce, solar power, water stores, CO2 injector. |
+| `configs/mars_lettuce.biosim` | Greenhouse, 10 m² lettuce, solar power, water loop with recycler, CO2 injector. |
+| `estimators/water.py` | `ReservoirEstimator`, the hidden reservoir level from observable flows. |
+| `controllers/irrigation.py` | `IrrigationController`, reservoir buffer and recycler. |
+| `scripts/water_check.py` | Live check: one cycle, estimator scored against BioSim's true reservoir. |
 | `plant_next_steps.md` | Open decisions for the thermal model and plant coupling. |
 
 ## Things that will bite you
@@ -113,3 +133,5 @@ All faults go into the log, so detection can be scored against them.
 - **The XML sets the command ceilings.** `maxFlowRates` in the config is the upper limit for each command, and REST can't raise it. `BioSimPlant.reset()` refuses to run if a ceiling is below the range in `schema.COMMAND_KEYS`.
 - **Two settings in the config must stay.** `tickLength="1"` (the crop model assumes it) and `startPaused="true"` (otherwise BioSim ticks on its own). Both are checked at reset.
 - **Restart the container now and then.** Every `reset()` starts a new sim on the server, and BioSim never frees old ones.
+- **Some malfunctions are permanent no matter what.** A malfunction on `Water_Recycler`, `CO2_Injector` (any injector) or an RPCM sets its `maxFlowRates` to 0, and clearing the malfunction doesn't restore them. The module stays dead for the rest of the run, even with `TEMPORARY_MALF`.
+- **Hold CO2 or the crop stops.** With `CO2_Store` at 200 mol and a simple 1200 ppm hold, the tank ran empty at tick 1140, in the second cycle. One cycle is fine.

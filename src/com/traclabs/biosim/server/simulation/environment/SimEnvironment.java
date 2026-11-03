@@ -117,10 +117,14 @@ public class SimEnvironment extends PassiveModule {
         return 998.23f;
     }
 
+    // Same saturation curve the crop model uses (Plant.calculateSaturatedMoistureVaporPressure),
+    // so reported humidity matches the vapor pressure deficit the plants see. kPa.
+    public static float saturatedVaporPressure(float temperatureC) {
+        return 0.611f * (float) Math.exp((17.4f * temperatureC) / (temperatureC + 239f));
+    }
+
     public float getRelativeHumidity() {
-        float exponent = (17.4f * getTemperature()) / getTemperatureInKelvin();
-        float saturatedVaporPressure = .611f * (float) (Math.exp(exponent));
-        return myVaporStore.getPressure() / saturatedVaporPressure;
+        return myVaporStore.getPressure() / saturatedVaporPressure(getTemperature());
     }
 
     //returns temperature in celsius

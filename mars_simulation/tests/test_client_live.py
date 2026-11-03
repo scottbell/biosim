@@ -30,8 +30,8 @@ def test_command_reaches_biosim(client):
     plant.reset()
     plant.apply({"cmd.crop_water_L": 7.0})
     bed = client.module("Lettuce_Bed")
-    grey = next(d for d in bed["consumers"] if d["type"] == "GreyWater")
-    assert grey["rates"]["desiredFlowRates"] == [7.0]
+    potable = next(d for d in bed["consumers"] if d["type"] == "PotableWater")
+    assert potable["rates"]["desiredFlowRates"] == [7.0]
 
 
 def test_malfunction_round_trip(client):

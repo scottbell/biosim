@@ -30,7 +30,7 @@ public class MathUtils {
     }
 
     public static float exp(float a) {
-        return (Math.abs(a));
+        return (float) Math.exp(a);
     }
 
     public static float pow(float a, float b) {

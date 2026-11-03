@@ -25,14 +25,18 @@ STATE_KEYS: Dict[str, Key] = {
     "gh.rh":                 Key("-", "greenhouse relative humidity, 0-1"),
     "gh.pressure_kPa":       Key("kPa", "greenhouse total pressure"),
     "gh.light":              Key("lumens", "outside light used by the solar array (day/night shape)"),
+    "gh.vapor_mol":          Key("mol", "water vapor in the greenhouse air"),
     "power.store_level":     Key("W*tick", "energy in Power_Store"),
     "power.store_capacity":  Key("W*tick", "Power_Store capacity"),
     "power.solar_out":       Key("W", "solar array output this tick"),
     "power.crop_draw":       Key("W", "power actually drawn by the lettuce bed (lamps) this tick"),
-    "water.potable_L":       Key("L", "potable water store level"),
-    "water.grey_L":          Key("L", "grey water store level (irrigation tank)"),
-    "water.dirty_L":         Key("L", "dirty water store level (dehumidifier output)"),
-    "water.crop_draw_L":     Key("L", "water actually drawn by the lettuce bed this tick"),
+    "power.recycler_draw":   Key("W", "power actually drawn by the water recycler this tick"),
+    "water.potable_L":       Key("L", "potable water store level (irrigation tank, receives recycled water)"),
+    "water.grey_L":          Key("L", "grey water store level (reserve, unused by default)"),
+    "water.dirty_L":         Key("L", "dirty water store level (dehumidifier output, recycler input)"),
+    "water.crop_draw_L":     Key("L", "water actually drawn into the lettuce bed reservoir this tick"),
+    "water.dehumidified_L":  Key("L", "vapor the dehumidifier condensed out of the air this tick"),
+    "water.recycled_L":      Key("L", "water the recycler returned to the potable tank this tick"),
     "co2.store_mol":         Key("mol", "CO2 tank level for injection"),
     "co2.injected_mol":      Key("mol", "CO2 actually injected this tick"),
     "crop.biomass_store_kg": Key("kg", "harvested biomass in Biomass_Store"),
@@ -44,38 +48,53 @@ SHELF_FIELDS: Dict[str, Key] = {
     "harvest_interval":         Key("days", "days from planting to harvest"),
     "co2_inhaled_mol":          Key("mol", "CO2 taken up by the shelf this tick"),
     "ppf_needed":               Key("umol/m2/s", "light the crop asks for"),
+    "reservoir_capacity_L":     Key("L", "size of the shelf's internal water reservoir (50 L/m2)"),
 }
 
 # Present in truth only. The loop strips these before the sensor layer, so controllers
-# never see them. Fault detection is scored against them.
+# never see them. Fault detection and estimators are scored against them.
 TRUTH_ONLY_KEYS: Dict[str, Key] = {
     "sim.ended":     Key("bool", "BioSim reports the run met an end criterion"),
     "faults.active": Key("list", "malfunctions BioSim has actually applied"),
 }
+SHELF_TRUTH_ONLY_FIELDS: Dict[str, Key] = {
+    "reservoir_L": Key("L", "water left in the shelf reservoir at the end of the tick"),
+}
 
 COMMAND_KEYS: Dict[str, Key] = {
-    "cmd.crop_water_L":   Key("L/tick", "max grey water the lettuce bed may draw per tick", 0, 200),
-    "cmd.crop_power_W":   Key("W", "max power the lettuce bed (lamps) may draw per tick", 0, 20000),
-    "cmd.co2_inject_mol": Key("mol/tick", "CO2 moved from CO2_Store into the greenhouse", 0, 5),
+    "cmd.crop_water_L":      Key("L/tick", "max potable water the lettuce bed may draw per tick", 0, 200),
+    "cmd.crop_power_W":      Key("W", "max power the lettuce bed (lamps) may draw per tick", 0, 20000),
+    "cmd.co2_inject_mol":    Key("mol/tick", "CO2 moved from CO2_Store into the greenhouse", 0, 5),
+    "cmd.recycler_power_W":  Key("W", "power the water recycler draws; 1540 W treats 4.26 L/tick", 0, 1540),
 }
 
 
 def shelf_key(i: int, name: str) -> str:
-    if name not in SHELF_FIELDS:
+    if name not in SHELF_FIELDS and name not in SHELF_TRUTH_ONLY_FIELDS:
         raise KeyError(f"unknown shelf field {name!r}")
     return f"crop.s{i}.{name}"
+
+
+def _shelf_field(key: str) -> Optional[str]:
+    parts = key.split(".")
+    if len(parts) == 3 and parts[0] == "crop" and parts[1].startswith("s") and parts[1][1:].isdigit():
+        return parts[2]
+    return None
 
 
 def is_state_key(key: str) -> bool:
     if key in STATE_KEYS or key in TRUTH_ONLY_KEYS:
         return True
-    parts = key.split(".")
-    return (len(parts) == 3 and parts[0] == "crop" and parts[1].startswith("s")
-            and parts[1][1:].isdigit() and parts[2] in SHELF_FIELDS)
+    name = _shelf_field(key)
+    return name in SHELF_FIELDS or name in SHELF_TRUTH_ONLY_FIELDS
+
+
+def is_truth_only(key: str) -> bool:
+    return key in TRUTH_ONLY_KEYS or _shelf_field(key) in SHELF_TRUTH_ONLY_FIELDS
 
 
 def public(truth: Dict[str, Any]) -> Dict[str, Any]:
-    return {k: v for k, v in truth.items() if k not in TRUTH_ONLY_KEYS}
+    return {k: v for k, v in truth.items() if not is_truth_only(k)}
 
 
 @dataclass

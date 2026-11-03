@@ -578,6 +578,8 @@ public class SimulationController implements TickListener {
             shelfInfo.put("harvestInterval", shelf.getHarvestInterval());
             shelfInfo.put("ppfNeeded", shelf.getPlant().getPPFNeeded());
             shelfInfo.put("molesOfCO2Inhaled", shelf.getPlant().getMolesOfCO2Inhaled());
+            shelfInfo.put("waterLevel", shelf.getWaterLevel());
+            shelfInfo.put("waterCapacity", shelf.getWaterCapacity());
             shelvesInfo.add(shelfInfo);
         }
         return shelvesInfo;

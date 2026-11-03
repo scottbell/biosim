@@ -46,6 +46,11 @@ public class Shelf {
         return waterLevel;
     }
 
+    // reservoir size gatherWater() refills toward each tick
+    public float getWaterCapacity() {
+        return waterNeeded;
+    }
+
     public void reset() {
         waterLevel = 0f;
         powerLevel = 0f;
