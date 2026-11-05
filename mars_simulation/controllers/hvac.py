@@ -39,8 +39,13 @@ class HVACTemperatureController:
         self._last_error = None
 
     def __call__(self, obs: Dict[str, Any]) -> Dict[str, float]:
-        """Calculates heating power command from sensed temperature observation."""
-        temp_sensed = float(obs.get("gh.temp_C", 22.0))
+        """Calculates heating power command from sensed or fused temperature observation."""
+        temp_val = obs.get("fused_temp_C")
+        if temp_val is None:
+            temp_val = obs.get("gh.temp_C")
+        if temp_val is None:
+            temp_val = self.setpoint_C
+        temp_sensed = float(temp_val)
         error = self.setpoint_C - temp_sensed
 
         # Derivative term
