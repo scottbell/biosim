@@ -2,5 +2,7 @@
 from __future__ import annotations
 
 from .hvac import HVACTemperatureController
+from .irrigation import IrrigationController
 
-__all__ = ["HVACTemperatureController"]
+__all__ = ["HVACTemperatureController", "IrrigationController"]
+

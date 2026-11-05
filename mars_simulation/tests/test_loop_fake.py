@@ -1,7 +1,7 @@
 import pytest
 
 from interface import FakePlant, Fault, TickLogger, read_log, run
-from interface.schema import TRUTH_ONLY_KEYS
+from interface.schema import is_truth_only
 
 
 def water_controller(obs):
@@ -28,7 +28,7 @@ def test_full_lettuce_cycle_runs_and_logs(tmp_path):
 def test_controllers_never_see_truth_only_keys():
     seen = []
     run(FakePlant(), {"spy": lambda obs: seen.append(set(obs)) or {}}, 3)
-    assert all(not keys & set(TRUTH_ONLY_KEYS) for keys in seen)
+    assert seen and all(not any(is_truth_only(k) for k in keys) for keys in seen)
 
 
 def test_conflicting_controllers_need_a_supervisor():

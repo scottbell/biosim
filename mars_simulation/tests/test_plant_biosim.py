@@ -48,7 +48,7 @@ def plant():
 def test_commands_map_to_rest_targets(plant):
     plant.apply({"cmd.crop_water_L": 5, "cmd.crop_power_W": 1000, "cmd.co2_inject_mol": 0.5})
     assert plant.client.calls == [
-        ("consumer", "Lettuce_Bed", "GreyWater", [5.0]),
+        ("consumer", "Lettuce_Bed", "PotableWater", [5.0]),
         ("consumer", "Lettuce_Bed", "Power", [1000.0]),
         ("consumer", "CO2_Injector", "CO2", [0.5]),
     ]

@@ -55,6 +55,7 @@
 					<xsd:element name="dirtyWaterProducer"
 							type="DirtyWaterProducerType" minOccurs="1" maxOccurs="1"/>
 				</xsd:sequence>
+				<xsd:attribute name="targetRelativeHumidity" type="nonNegativeFloat" use="optional"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

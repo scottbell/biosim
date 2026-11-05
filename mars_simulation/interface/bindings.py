@@ -9,7 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, List
 
-from .schema import COMMAND_KEYS, SHELF_FIELDS, shelf_key
+from .schema import COMMAND_KEYS, SHELF_FIELDS, SHELF_TRUTH_ONLY_FIELDS, shelf_key
 
 GREENHOUSE = "Greenhouse"
 CROP_BED = "Lettuce_Bed"
@@ -23,9 +23,13 @@ CO2_INJECTOR = "CO2_Injector"
 BIOMASS_STORE = "Biomass_Store"
 HEATER = "Greenhouse_Heater"
 HEATER_SINK = "Heater_Sink"
+DEHUMIDIFIER = "Dehumidifier"
+RECYCLER = "Water_Recycler"
 
 REQUIRED_MODULES = [GREENHOUSE, CROP_BED, SOLAR, POWER_STORE, POTABLE, GREY, DIRTY,
-                    CO2_STORE, CO2_INJECTOR, BIOMASS_STORE]
+                    CO2_STORE, CO2_INJECTOR, BIOMASS_STORE, DEHUMIDIFIER, RECYCLER]
+
+L_PER_MOL_WATER = 18.01524 / 1000.0
 
 # Modules whose malfunctions are reported in faults.active.
 FAULT_WATCH = REQUIRED_MODULES
@@ -45,11 +49,12 @@ class FlowTarget:
 # Each command writes desiredFlowRates[0] of every target. Targets must have exactly one
 # connection, and none may connect to an environment (REST rejects those updates).
 COMMAND_BINDINGS: Dict[str, List[FlowTarget]] = {
-    "cmd.crop_water_L":   [FlowTarget(CROP_BED, "consumers", "GreyWater")],
-    "cmd.crop_power_W":   [FlowTarget(CROP_BED, "consumers", "Power")],
-    "cmd.co2_inject_mol": [FlowTarget(CO2_INJECTOR, "consumers", "CO2")],
-    "cmd.heater_W":       [FlowTarget(HEATER, "consumers", "Power")],
-    "cmd.isru_co2_mol":   [],
+    "cmd.crop_water_L":     [FlowTarget(CROP_BED, "consumers", "PotableWater")],
+    "cmd.crop_power_W":     [FlowTarget(CROP_BED, "consumers", "Power")],
+    "cmd.co2_inject_mol":   [FlowTarget(CO2_INJECTOR, "consumers", "CO2")],
+    "cmd.recycler_power_W": [FlowTarget(RECYCLER, "consumers", "Power")],
+    "cmd.heater_W":         [FlowTarget(HEATER, "consumers", "Power")],
+    "cmd.isru_co2_mol":     [],
 }
 assert set(COMMAND_BINDINGS) == set(COMMAND_KEYS)
 
@@ -124,6 +129,7 @@ STATE_READERS: Dict[str, Callable[[Dict[str, Any]], Any]] = {
     "gh.rh":                 lambda r: float(_props(r, GREENHOUSE)["relativeHumidity"]),
     "gh.pressure_kPa":       lambda r: float(_props(r, GREENHOUSE)["totalPressure"]),
     "gh.light":              lambda r: float(_props(r, GREENHOUSE)["lightIntensity"]),
+    "gh.vapor_mol":          lambda r: float(_props(r, GREENHOUSE)["vaporMoles"]),
     "gh.temp_C":             _gh_temp,
     "gh.temp_truth_C":       _gh_temp,
     "gh.temp_alarm":         lambda r: "NOMINAL",
@@ -132,12 +138,16 @@ STATE_READERS: Dict[str, Callable[[Dict[str, Any]], Any]] = {
     "power.store_capacity":  lambda r: float(_props(r, POWER_STORE)["currentCapacity"]),
     "power.solar_out":       lambda r: _actual(r, FlowTarget(SOLAR, "producers", "Power")),
     "power.crop_draw":       lambda r: _actual(r, FlowTarget(CROP_BED, "consumers", "Power")),
+    "power.recycler_draw":   lambda r: _actual(r, FlowTarget(RECYCLER, "consumers", "Power")),
     "power.heater_draw":     _heater_draw,
     "water.potable_L":       lambda r: _level(r, POTABLE),
     "water.grey_L":          lambda r: _level(r, GREY),
     "water.dirty_L":         lambda r: _level(r, DIRTY),
     "water.crop_draw_L":     lambda r: (_actual(r, FlowTarget(CROP_BED, "consumers", "GreyWater"))
                                         + _actual(r, FlowTarget(CROP_BED, "consumers", "PotableWater"))),
+    # the dehumidifier's air consumer reports moles of vapor taken (Dehumidifier.dehumidifyEnvironments)
+    "water.dehumidified_L":  lambda r: _actual(r, FlowTarget(DEHUMIDIFIER, "consumers", "Air")) * L_PER_MOL_WATER,
+    "water.recycled_L":      lambda r: _actual(r, FlowTarget(RECYCLER, "producers", "PotableWater")),
     "co2.store_mol":         lambda r: _level(r, CO2_STORE),
     "co2.injected_mol":      lambda r: _actual(r, FlowTarget(CO2_INJECTOR, "consumers", "CO2")),
     "crop.biomass_store_kg": lambda r: _level(r, BIOMASS_STORE),
@@ -150,8 +160,12 @@ _SHELF_JSON = {
     "harvest_interval": "harvestInterval",
     "co2_inhaled_mol": "molesOfCO2Inhaled",
     "ppf_needed": "ppfNeeded",
+    "reservoir_capacity_L": "waterCapacity",
+    "reservoir_L": "waterLevel",
 }
-assert set(_SHELF_JSON) == set(SHELF_FIELDS)
+assert set(_SHELF_JSON) == set(SHELF_FIELDS) | set(SHELF_TRUTH_ONLY_FIELDS)
+
+PATCHED_SHELF_FIELDS = ("waterLevel", "waterCapacity")
 
 
 def to_state(raw: Dict[str, Any]) -> Dict[str, Any]:
@@ -159,6 +173,9 @@ def to_state(raw: Dict[str, Any]) -> Dict[str, Any]:
     state = {key: read(raw) for key, read in STATE_READERS.items()}
     for i, shelf in enumerate(_props(raw, CROP_BED).get("shelves", [])):
         for name, json_key in _SHELF_JSON.items():
+            if json_key not in shelf:
+                raise BindingError(f"shelf field {json_key!r} missing; the server is an unpatched "
+                                   "BioSim build. Rebuild it from this branch (see README).")
             state[shelf_key(i, name)] = float(shelf[json_key])
     return state
 
@@ -178,6 +195,8 @@ def validate(raw: Dict[str, Any]) -> List[str]:
     for key, targets in COMMAND_BINDINGS.items():
         if not targets:
             continue
+        if key == "cmd.heater_W" and HEATER not in raw.get("modules", {}):
+            continue
         hi = COMMAND_KEYS[key].hi
         for t in targets:
             try:
@@ -195,6 +214,10 @@ def validate(raw: Dict[str, Any]) -> List[str]:
             if hi is not None and max_rate < hi:
                 problems.append(f"{key}: maxFlowRates of {t.module}.{t.flow_type} is {max_rate}, "
                                 f"below command range {hi}; raise it in the XML")
-    if not _props(raw, CROP_BED).get("shelves"):
+    shelves = _props(raw, CROP_BED).get("shelves")
+    if not shelves:
         problems.append(f"{CROP_BED} has no shelves")
+    elif any(f not in shelves[0] for f in PATCHED_SHELF_FIELDS):
+        problems.append("server is an unpatched BioSim build (no shelf waterLevel); without the patch "
+                        "lettuce never transpires and the dehumidifier target is ignored. Rebuild BioSim.")
     return problems

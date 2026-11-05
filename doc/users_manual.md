@@ -448,7 +448,9 @@ a sea-level-equivalent default):
 
 Two helper modules also live in `<environment>`: `Dehumidifier` (consumes air, produces
 dirty water) and `Fan` (consumes air + power, produces air), each wired with the usual
-producer/consumer children.
+producer/consumer children. `Dehumidifier` takes an optional `targetRelativeHumidity`
+(0-1): each tick it condenses enough vapor to bring the environment down to that relative
+humidity. Without it, the dehumidifier only removes vapor above a 0.52 vapor mole fraction.
 
 ### Crew Configuration
 
