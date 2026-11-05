@@ -40,6 +40,11 @@ STATE_KEYS: Dict[str, Key] = {
     "co2.store_mol":         Key("mol", "CO2 tank level for injection"),
     "co2.injected_mol":      Key("mol", "CO2 actually injected this tick"),
     "crop.biomass_store_kg": Key("kg", "harvested biomass in Biomass_Store"),
+    "gh.temp_C":             Key("degC", "greenhouse sensed air temperature"),
+    "gh.temp_truth_C":       Key("degC", "greenhouse true physical air temperature"),
+    "gh.temp_alarm":         Key("-", "temperature alarm band (NOMINAL, WATCH, WARNING, DISTRESS, CRITICAL, SEVERE)"),
+    "mars.temp_ext_C":       Key("degC", "exterior Martian surface temperature"),
+    "power.heater_draw":     Key("W", "power actually drawn by greenhouse heater this tick"),
 }
 
 # Per-shelf keys are crop.s{i}.<field>, i = shelf index in the config.
@@ -66,6 +71,8 @@ COMMAND_KEYS: Dict[str, Key] = {
     "cmd.crop_power_W":      Key("W", "max power the lettuce bed (lamps) may draw per tick", 0, 20000),
     "cmd.co2_inject_mol":    Key("mol/tick", "CO2 moved from CO2_Store into the greenhouse", 0, 5),
     "cmd.recycler_power_W":  Key("W", "power the water recycler draws; 1540 W treats 4.26 L/tick", 0, 1540),
+    "cmd.heater_W":          Key("W", "max power the greenhouse heater may draw per tick", 0, 5000),
+    "cmd.isru_co2_mol":      Key("mol/tick", "ISRU CO2 extracted from Mars atmosphere", 0, 10),
 }
 
 

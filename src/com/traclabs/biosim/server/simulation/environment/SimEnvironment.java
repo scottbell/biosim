@@ -17,7 +17,10 @@ import java.util.Iterator;
 
 public class SimEnvironment extends PassiveModule {
 
-    private final static float temperature = 23f;
+    // Cabin air temperature in Celsius (mutable via REST/controllers)
+    private float temperature = 22.0f;
+    private float initialTemperature = 22.0f;
+
     private final static float idealGasConstant = 8.314f; // J K ^-1 mol -1
     private final EnvironmentO2Store myO2Store = new EnvironmentO2Store(this);
     private final EnvironmentCO2Store myCO2Store = new EnvironmentCO2Store(this);
@@ -99,6 +102,7 @@ public class SimEnvironment extends PassiveModule {
         super.reset();
         lightIntensity = 0f;
         currentVolume = initialVolume;
+        temperature = initialTemperature;
         for (EnvironmentStore store : myEnvironmentStores)
             store.reset();
     }
@@ -139,6 +143,10 @@ public class SimEnvironment extends PassiveModule {
             return 0f;
         else
             return kelvinTemperature;
+    }
+
+    public void setTemperature(float tempC) {
+        this.temperature = tempC;
     }
 
     protected String getMalfunctionName(MalfunctionIntensity pIntensity,

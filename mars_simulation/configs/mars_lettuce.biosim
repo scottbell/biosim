@@ -47,6 +47,7 @@
     </water>
     <power>
       <PowerStore moduleName="Power_Store" capacity="200000" level="100000"/>
+      <PowerStore moduleName="Heater_Sink" capacity="200000" level="0"/>
       <PowerPS moduleName="Solar_Array" generationType="SOLAR" upperPowerGeneration="20000">
         <powerProducer outputs="Power_Store" desiredFlowRates="20000" maxFlowRates="20000"/>
         <lightConsumer inputs="Greenhouse"   desiredFlowRates="0"     maxFlowRates="0"/>
@@ -71,6 +72,11 @@
       <Injector moduleName="CO2_Injector">
         <CO2Consumer inputs="CO2_Store"   desiredFlowRates="0" maxFlowRates="5"/>
         <CO2Producer outputs="Greenhouse" desiredFlowRates="5" maxFlowRates="5"/>
+      </Injector>
+      <!-- Electric habitat heater drawing power from Power_Store to regulate cabin temperature -->
+      <Injector moduleName="Greenhouse_Heater">
+        <powerConsumer inputs="Power_Store" desiredFlowRates="0"    maxFlowRates="5000"/>
+        <powerProducer outputs="Heater_Sink" desiredFlowRates="5000" maxFlowRates="5000"/>
       </Injector>
     </framework>
   </SimBioModules>

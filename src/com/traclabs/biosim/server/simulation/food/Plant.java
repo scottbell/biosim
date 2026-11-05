@@ -72,6 +72,7 @@ public abstract class Plant {
     private float myProductionRate = 1f;
 
     private float myMolesOfCO2Inhaled = 0f;
+    private float myLastThermalEfficiency = 1.0f;
 
     public Plant(Shelf pShelf) {
         myShelf = pShelf;
@@ -201,6 +202,7 @@ public abstract class Plant {
         totalCO2GramsConsumed = 0f;
         totalWaterLitersTranspired = 0f;
         myTimeTillCanopyClosure = 0f;
+        myLastThermalEfficiency = 1.0f;
 
         //in case crop area has changed
         consumedWaterBuffer.setInitialLevelAndCapacity(WATER_TILL_DEAD
@@ -396,10 +398,53 @@ public abstract class Plant {
         return vaporPressureDeficit;
     }
 
+    public float getEnvironmentTemperature() {
+        if (myShelf != null && myShelf.getBiomassPS() != null) {
+            if (myShelf.getBiomassPS().getAirConsumerDefinition() != null
+                    && myShelf.getBiomassPS().getAirConsumerDefinition().getEnvironments() != null
+                    && myShelf.getBiomassPS().getAirConsumerDefinition().getEnvironments().length > 0
+                    && myShelf.getBiomassPS().getAirConsumerDefinition().getEnvironments()[0] != null) {
+                return myShelf.getBiomassPS().getAirConsumerDefinition().getEnvironments()[0].getTemperature();
+            }
+            if (myShelf.getBiomassPS().getAirProducerDefinition() != null
+                    && myShelf.getBiomassPS().getAirProducerDefinition().getEnvironments() != null
+                    && myShelf.getBiomassPS().getAirProducerDefinition().getEnvironments().length > 0
+                    && myShelf.getBiomassPS().getAirProducerDefinition().getEnvironments()[0] != null) {
+                return myShelf.getBiomassPS().getAirProducerDefinition().getEnvironments()[0].getTemperature();
+            }
+        }
+        return 22.0f;
+    }
+
+    /**
+     * Dimensionless thermal-biological coupling efficiency eta_T(T) in [0, 1].
+     * Modeled as a bell-shaped curve centered at optimal temperature (22 °C),
+     * dropping smoothly to 0 near freezing (0 °C) and upper heat limits (35 °C).
+     */
+    public static float calculateThermalEfficiency(float tempC) {
+        final float T_OPT = 22.0f;
+        final float T_MIN = 0.0f;
+        final float T_MAX = 35.0f;
+
+        if (tempC <= T_MIN || tempC >= T_MAX) {
+            return 0.0f;
+        }
+
+        if (tempC <= T_OPT) {
+            float fraction = (tempC - T_MIN) / (T_OPT - T_MIN);
+            return (float) Math.sin(fraction * (Math.PI / 2.0));
+        } else {
+            float fraction = (T_MAX - tempC) / (T_MAX - T_OPT);
+            return (float) Math.sin(fraction * (Math.PI / 2.0));
+        }
+    }
+
+    public float getThermalEfficiency() {
+        return myLastThermalEfficiency;
+    }
+
     private float calculateSaturatedMoistureVaporPressure() {
-        float temperatureLight = myShelf.getBiomassPS()
-                .getAirProducerDefinition().getEnvironments()[0]
-                .getTemperature();
+        float temperatureLight = getEnvironmentTemperature();
         float exponent = (17.4f * temperatureLight) / (temperatureLight + 239f);
         //myLogger.debug("temperatureLight: " + temperatureLight);
         //myLogger.debug("exponent: " + exponent);
@@ -463,6 +508,11 @@ public abstract class Plant {
         CQY = calculateCQY();
         carbonUseEfficiency24 = getCarbonUseEfficiency24();
         float dailyCarbonGain = calculateDailyCarbonGain();
+
+        // Apply thermal-biological coupling efficiency eta_T(T)
+        myLastThermalEfficiency = calculateThermalEfficiency(getEnvironmentTemperature());
+        dailyCarbonGain *= myLastThermalEfficiency;
+
         // Check for sufficient CO2 & scale dailyCarbonGain as necessary
         // Actual CO2 use may later be reduced even further by waterFraction
         float molesOfCO2Needed = dailyCarbonGain * myShelf.getCropAreaUsed() / 24f;

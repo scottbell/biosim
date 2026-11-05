@@ -65,6 +65,7 @@ def synthetic_raw():
             "Grey_Water_Store": _store("Grey_Water_Store", "GreyWaterStore", 2000.0, 2000.0),
             "Dirty_Water_Store": _store("Dirty_Water_Store", "DirtyWaterStore", 0.0, 5000.0),
             "Power_Store": _store("Power_Store", "PowerStore", 100000.0, 200000.0),
+            "Heater_Sink": _store("Heater_Sink", "PowerStore", 0.0, 200000.0),
             "Biomass_Store": _store("Biomass_Store", "BiomassStore", 0.0, 1000.0),
             "Solar_Array": {"moduleName": "Solar_Array", "moduleType": "SolarPowerPS",
                             "consumers": [{"type": "Light"}],
@@ -89,6 +90,10 @@ def synthetic_raw():
                              "consumers": [_def("CO2", 0, 5, ["CO2_Store"])],
                              "producers": [_def("CO2", 5, 5, ["Greenhouse.CO2Store"], 0)],
                              "malfunctions": []},
+            "Greenhouse_Heater": {"moduleName": "Greenhouse_Heater", "moduleType": "Injector",
+                                  "consumers": [_def("Power", 0, 5000, ["Power_Store"])],
+                                  "producers": [_def("Power", 5000, 5000, ["Heater_Sink"], 0)],
+                                  "malfunctions": []},
         },
     }
 

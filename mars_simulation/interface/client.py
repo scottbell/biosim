@@ -107,6 +107,10 @@ class BioSimClient:
                      connections: Optional[List[str]] = None) -> None:
         self._set_definition("producers", module, flow_type, desired, connections)
 
+    def set_environment_temperature(self, module: str, temperature_C: float) -> None:
+        """Sets the air temperature (°C) of a SimEnvironment module."""
+        self._request("POST", self._sim(f"/modules/{module}/temperature"), json={"temperature": float(temperature_C)})
+
     def _set_definition(self, side: str, module: str, flow_type: str,
                         desired: List[float], connections: Optional[List[str]]) -> None:
         payload: Dict[str, Any] = {"desiredFlowRates": [float(v) for v in desired]}

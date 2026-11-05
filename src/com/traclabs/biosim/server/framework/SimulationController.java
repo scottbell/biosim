@@ -71,6 +71,7 @@ public class SimulationController implements TickListener {
         app.post("/api/simulation/{simID}/tick", this::tickSimulation);
         app.get("/api/simulation/{simID}/globals", this::getGlobalInfo);
         app.get("/api/simulation/{simID}/modules/{moduleName}", this::getModuleInfo);
+        app.post("/api/simulation/{simID}/modules/{moduleName}/temperature", this::updateModuleTemperature);
         app.post("/api/simulation/{simID}/modules/{moduleName}/consumers/{type}", this::updateConsumerDefinition);
         app.post("/api/simulation/{simID}/modules/{moduleName}/producers/{type}", this::updateProducerDefinition);
         app.get("/api/simulation/{simID}", this::getSimulationDetails);
@@ -921,6 +922,37 @@ public class SimulationController implements TickListener {
     // Updated producer definition update method
     private void updateProducerDefinition(Context context) {
         updateDefinition(context, "ProducerDefinition", "Outputs", "Producer");
+    }
+
+    private void updateModuleTemperature(Context context) {
+        BioDriver bioDriver = getBioDriver(context);
+        if (bioDriver == null) return;
+        String moduleName = context.pathParam("moduleName");
+        IBioModule module = findModule(bioDriver, moduleName);
+        if (module instanceof SimEnvironment) {
+            SimEnvironment env = (SimEnvironment) module;
+            try {
+                Map<?, ?> body = context.bodyAsClass(Map.class);
+                Object tempObj = body.get("temperature");
+                if (tempObj instanceof Number) {
+                    float temp = ((Number) tempObj).floatValue();
+                    env.setTemperature(temp);
+                    context.status(200).json(Map.of("status", "ok", "module", moduleName, "temperature", temp));
+                    return;
+                }
+            } catch (Exception e) {
+                try {
+                    float temp = Float.parseFloat(context.body().trim());
+                    env.setTemperature(temp);
+                    context.status(200).json(Map.of("status", "ok", "module", moduleName, "temperature", temp));
+                    return;
+                } catch (Exception ex) {
+                    context.status(400).json(Map.of("error", "Invalid temperature value"));
+                    return;
+                }
+            }
+        }
+        context.status(404).json(Map.of("error", "SimEnvironment not found: " + moduleName));
     }
 
     /**

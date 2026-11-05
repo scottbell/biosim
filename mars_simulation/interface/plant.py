@@ -18,6 +18,12 @@ except ImportError:  # pragma: no cover
 from . import bindings
 from .client import BioSimClient, Intensity, Length
 from .schema import COMMAND_KEYS, Fault, shelf_key
+from .sensors import AtmosphereSensorSuite
+
+try:
+    from ..thermal import GreenhouseThermalModel, MarsAtmosphereCompressorModel
+except (ImportError, ValueError):
+    from thermal import GreenhouseThermalModel, MarsAtmosphereCompressorModel
 
 DEFAULT_CONFIG = Path(__file__).resolve().parent.parent / "configs" / "mars_lettuce.biosim"
 
@@ -135,15 +141,32 @@ class FakePlant:
         self.water_ok_ticks = 0
         self.solar_scale = 1.0
         self.recycler_broken = False
-        self.cmd = {"cmd.crop_water_L": 20.0, "cmd.crop_power_W": 2000.0,
-                    "cmd.co2_inject_mol": 0.0, "cmd.recycler_power_W": 0.0}
-        self.last = {"solar": 0.0, "crop_power": 0.0, "crop_water": 0.0, "co2_in": 0.0, "co2_up": 0.0,
-                     "transp": 0.0, "recycled": 0.0, "recycler_power": 0.0}
+        self.cmd = {
+            "cmd.crop_water_L": 20.0,
+            "cmd.crop_power_W": 2000.0,
+            "cmd.co2_inject_mol": 0.0,
+            "cmd.recycler_power_W": 0.0,
+            "cmd.heater_W": 0.0,
+            "cmd.isru_co2_mol": 0.0,
+        }
+        self.temp_C = 22.0
+        self.last = {
+            "solar": 0.0,
+            "crop_power": 0.0,
+            "crop_water": 0.0,
+            "co2_in": 0.0,
+            "co2_up": 0.0,
+            "transp": 0.0,
+            "recycled": 0.0,
+            "recycler_power": 0.0,
+            "heater_power": 0.0,
+        }
         self.faults: list = []
         return self.read()
 
     def read(self) -> Dict[str, Any]:
         hour = self.tick_n % self.DAY
+        outside_C = -50.15 + 70.0 * math.cos((2.0 * math.pi / self.DAY) * ((hour - 14.0) % self.DAY))
         s = {
             "time.tick": self.tick_n,
             "time.hour_of_day": hour,
@@ -153,11 +176,16 @@ class FakePlant:
             "gh.pressure_kPa": 101.0,
             "gh.light": 50000 * math.sin(math.pi / self.DAY * hour) ** 2,
             "gh.vapor_mol": self.VAPOR_MOL,
+            "gh.temp_C": self.temp_C,
+            "gh.temp_truth_C": self.temp_C,
+            "gh.temp_alarm": "NOMINAL",
+            "mars.temp_ext_C": outside_C,
             "power.store_level": self.power,
             "power.store_capacity": 200000.0,
             "power.solar_out": self.last["solar"],
             "power.crop_draw": self.last["crop_power"],
             "power.recycler_draw": self.last["recycler_power"],
+            "power.heater_draw": self.last.get("heater_power", 0.0),
             "water.potable_L": self.potable,
             "water.grey_L": self.grey,
             "water.dirty_L": self.dirty,
@@ -191,6 +219,12 @@ class FakePlant:
         # recycler: draws all the power it is given, treats dirty water in proportion
         rec_power = 0.0 if self.recycler_broken else min(self.cmd["cmd.recycler_power_W"], 1540.0, self.power)
         self.power -= rec_power
+
+        # heater: draws power to warm greenhouse
+        heater_cmd = self.cmd.get("cmd.heater_W", 0.0)
+        heater_power = min(heater_cmd, 5000.0, self.power)
+        self.power -= heater_power
+
         recycled = min(self.dirty, rec_power / self.RECYCLER_W_PER_L, self.RECYCLER_MAX_L)
         self.dirty -= recycled
         self.potable += recycled
@@ -208,7 +242,6 @@ class FakePlant:
         co2_up = frac * co2_need
         transp = frac * self.TRANSP_PER_CO2 * co2_need
         self.dirty += transp  # dehumidifier condenses all of it, vapor stays put
-
         co2_in = min(self.cmd["cmd.co2_inject_mol"], 5.0, self.co2_store)
         self.co2_store -= co2_in
         self.co2_gh += co2_in - co2_up
@@ -219,8 +252,22 @@ class FakePlant:
             self.biomass += 35.5 * self.water_ok_ticks / self.CYCLE
             self.age_h = 0
             self.water_ok_ticks = 0
-        self.last = {"solar": solar, "crop_power": crop_power, "crop_water": gathered, "co2_in": co2_in,
-                     "co2_up": co2_up, "transp": transp, "recycled": recycled, "recycler_power": rec_power}
+        outside_C = -50.15 + 70.0 * math.cos((2.0 * math.pi / self.DAY) * ((hour - 14.0) % self.DAY))
+        q_in = 0.9 * crop_power + heater_power
+        t_eq = outside_C + (q_in / 14.0)
+        k = 14.0 / 1_771_225.0
+        self.temp_C = t_eq + (self.temp_C - t_eq) * math.exp(-k * 3600.0)
+        self.last = {
+            "solar": solar,
+            "crop_power": crop_power,
+            "crop_water": gathered,
+            "co2_in": co2_in,
+            "co2_up": co2_up,
+            "transp": transp,
+            "recycled": recycled,
+            "recycler_power": rec_power,
+            "heater_power": heater_power,
+        }
         self.tick_n += 1
         return self.read()
 
@@ -246,3 +293,109 @@ class FakePlant:
         self.faults = remaining
         if fault.target == bindings.SOLAR:
             self.solar_scale /= self._SOLAR_FACTOR[Intensity(fault.params.get("intensity", Intensity.MEDIUM)).value]
+
+
+class HybridPlant:
+    """First-class Cyber-Physical System Plant combining BioSim and Python thermal/sensor models.
+
+    Architecture:
+    - BioSimPlant (or FakePlant): Physical life support (water, crop biology, electrical grid, gas stores).
+    - GreenhouseThermalModel: Continuous ODE modeling cabin energy balance against diurnal Mars boundary.
+    - AtmosphereSensorSuite: Sensor instrumentation with first-order lag, noise, drift, and 10 alarm bands.
+    - MarsAtmosphereCompressorModel: Thermodynamic ISRU CO2 extraction from Mars surface atmosphere.
+    """
+
+    def __init__(
+        self,
+        plant: Optional[Plant] = None,
+        thermal_model: Optional[GreenhouseThermalModel] = None,
+        sensor_suite: Optional[AtmosphereSensorSuite] = None,
+        compressor: Optional[MarsAtmosphereCompressorModel] = None,
+        sync_biosim_temperature: bool = True,
+    ):
+        self.plant = plant if plant is not None else BioSimPlant()
+        self.thermal = thermal_model if thermal_model is not None else GreenhouseThermalModel()
+        self.sensors = sensor_suite if sensor_suite is not None else AtmosphereSensorSuite()
+        self.compressor = compressor if compressor is not None else MarsAtmosphereCompressorModel()
+        self.sync_biosim_temperature = sync_biosim_temperature
+        self._last_cmd: Dict[str, float] = {}
+
+    def reset(self) -> Dict[str, Any]:
+        raw_state = self.plant.reset()
+        self.thermal.reset()
+        self.sensors.reset(self.thermal.temp_C)
+        self._last_cmd = {}
+        return self._augment_state(raw_state)
+
+    def read(self) -> Dict[str, Any]:
+        raw_state = self.plant.read()
+        return self._augment_state(raw_state)
+
+    def apply(self, commands: Dict[str, float]) -> None:
+        _check_commands(commands)
+        self._last_cmd.update({k: float(v) for k, v in commands.items()})
+        self.plant.apply(commands)
+
+    def step(self) -> Dict[str, Any]:
+        # Step underlying BioSim/Fake plant
+        state = self.plant.step()
+
+        hour = float(state.get("time.hour_of_day", 0.0))
+        crop_power = float(state.get("power.crop_draw", 0.0))
+        heater_power = float(state.get("power.heater_draw", self._last_cmd.get("cmd.heater_W", 0.0)))
+
+        # Advance thermal ODE
+        true_temp = self.thermal.step(
+            hour=hour,
+            lamp_power_W=crop_power,
+            heater_power_W=heater_power,
+        )
+
+        # Sync temperature to BioSim if real client is present
+        if self.sync_biosim_temperature and hasattr(self.plant, "client"):
+            try:
+                self.plant.client.set_environment_temperature(bindings.GREENHOUSE, true_temp)
+            except Exception:
+                pass
+
+        # Process through sensor suite
+        outside_temp = self.thermal.outside_temp_C(hour)
+        co2_ppm = float(state.get("gh.co2_ppm", 1200.0))
+        o2_frac = float(state.get("gh.o2_frac", 0.21))
+
+        telemetry = self.sensors.process(
+            true_temp_C=true_temp,
+            true_co2_ppm=co2_ppm,
+            true_o2_frac=o2_frac,
+            dt_hours=1.0,
+        )
+
+        state.update(telemetry)
+        state["gh.temp_truth_C"] = true_temp
+        state["mars.temp_ext_C"] = outside_temp
+        return state
+
+    def _augment_state(self, state: Dict[str, Any]) -> Dict[str, Any]:
+        hour = float(state.get("time.hour_of_day", 0.0))
+        outside_temp = self.thermal.outside_temp_C(hour)
+        true_temp = self.thermal.temp_C
+        co2_ppm = float(state.get("gh.co2_ppm", 1200.0))
+        o2_frac = float(state.get("gh.o2_frac", 0.21))
+
+        telemetry = self.sensors.process(
+            true_temp_C=true_temp,
+            true_co2_ppm=co2_ppm,
+            true_o2_frac=o2_frac,
+            dt_hours=1.0,
+        )
+        state.update(telemetry)
+        state["gh.temp_truth_C"] = true_temp
+        state["mars.temp_ext_C"] = outside_temp
+        return state
+
+    def inject(self, fault: Fault) -> None:
+        self.plant.inject(fault)
+
+    def clear(self, fault: Fault) -> None:
+        self.plant.clear(fault)
+
