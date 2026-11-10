@@ -28,7 +28,7 @@ from estimators import ReservoirEstimator, RootZoneMonitor  # noqa: E402
 from interface import BioSimClient, BioSimPlant, FakePlant, Fault, TickLogger, run  # noqa: E402
 from sensors import ROOT_ZONE_KEY, RootZoneSensor  # noqa: E402
 
-N_TICKS = 700
+N_TICKS = 1000      # one 672-tick cycle plus 300+ ticks after the harvest
 TRUE_KEY = "crop.s0.reservoir_L"
 
 
@@ -59,7 +59,7 @@ def replay(records: List[Dict[str, Any]], faults: Iterable[Fault] = (), sigma_L:
             e = dict(e, **{"est.degraded": True})
         t = rec["tick"]
         reading = sensor.read(rec["truth"][TRUE_KEY], t, [f for f in faults if f.active_at(t)])
-        out = mon.update(reading, e, rec["obs"]["gh.co2_ppm"])
+        out = mon.update(reading, e, rec["obs"]["gh.co2_ppm"], rec["obs"]["crop.biomass_store_kg"])
         rows.append(dict(out, tick=t, true_L=rec["truth"][TRUE_KEY],
                          est_L=e["est.reservoir_L"], sensor_L=reading))
     return rows
@@ -105,6 +105,7 @@ def main() -> int:
     ap.add_argument("--sigma", type=float, default=0.1, help="sensor baseline noise, L")
     ap.add_argument("--fault-tick", type=int, default=300)
     ap.add_argument("--fault-len", type=int, default=120)
+    ap.add_argument("--ticks", type=int, default=N_TICKS)
     args = ap.parse_args()
 
     if args.fake:
@@ -118,11 +119,11 @@ def main() -> int:
             return 1
         plant = BioSimPlant(client)
 
-    records = run_cycle(plant)
+    records = run_cycle(plant, args.ticks)
     start, end = args.fault_tick, args.fault_tick + args.fault_len
 
-    nominal = replay(records, sigma_L=args.sigma)[30:672]   # growing period, before harvest
-    print(f"Sensor sigma {args.sigma} L. Level error (RMS) over ticks 30-671: estimate "
+    nominal = replay(records, sigma_L=args.sigma)[30:]
+    print(f"Sensor sigma {args.sigma} L. Level error (RMS) over ticks 30-{args.ticks - 1}: estimate "
           f"{rms(nominal, 'est_L'):.3f} L, sensor {rms(nominal, 'sensor_L'):.3f} L, "
           f"combined {rms(nominal, 'rz.level_L'):.3f} L")
     print(f"Faults run from tick {start} to {end - 1}.\n")

@@ -98,7 +98,7 @@ def first_tick_with(rows, label, after=0):
 def test_no_false_alarms_on_a_nominal_cycle(cycle):
     rows = monitor_run(cycle)
     assert [r["tick"] for r in rows if r["rz.faults"]] == []
-    assert all(r["rz.trusted"] == "both" for r in rows)
+    assert all(r["rz.trusted"] == ("sensor" if r["rz.post_harvest"] else "both") for r in rows)
 
 
 def test_fused_level_beats_the_sensor_alone(cycle):
@@ -180,3 +180,38 @@ def test_layer_chains_with_the_atmosphere_layer():
 def test_layer_says_why_when_truth_is_missing():
     with pytest.raises(KeyError, match="needs run\\(\\) to pass full truth"):
         RootZoneSensorLayer()({}, TickContext(tick=0))
+
+
+# harvest: the estimate settles low and stays there (seen live); the monitor re-zeroes it
+
+import random  # noqa: E402
+
+from estimators import RootZoneMonitor  # noqa: E402
+
+
+def harvest_sequence(monitor, ticks=200, harvest_at=50, settle=-2.4, sensor_fault=None):
+    """True level fixed at 10 L, sensor with SIGMA noise; after the harvest the estimate ramps down to
+    `settle` over 25 ticks and stays. sensor_fault=(start, offset) biases the sensor later."""
+    rows, rng = [], random.Random(0)
+    for t in range(ticks):
+        lag = min(max(t - harvest_at, 0), 25) / 25
+        est = 10.0 + settle * lag
+        sensor = 10.0 + rng.gauss(0.0, SIGMA) + (sensor_fault[1] if sensor_fault and t >= sensor_fault[0] else 0.0)
+        out = monitor.update(sensor, {"est.reservoir_L": est}, 1200.0, 30.0 if t >= harvest_at else 0.0)
+        rows.append(dict(out, tick=t))
+    return rows
+
+
+def test_harvest_holds_then_rezeroes_without_alarms():
+    rows = harvest_sequence(RootZoneMonitor(SIGMA))
+    assert [r["tick"] for r in rows if r["rz.post_harvest"]] == list(range(50, 86))
+    assert all(not r["rz.faults"] for r in rows)
+    assert rows[-1]["rz.est_offset_L"] == pytest.approx(2.4, abs=3 * SIGMA / 12 ** 0.5)
+    assert all(r["rz.trusted"] == "both" and r["rz.level_L"] == pytest.approx(10.0, abs=4 * SIGMA)
+               for r in rows[86:])
+
+
+def test_sensor_faults_are_still_caught_after_a_rezero():
+    rows = harvest_sequence(RootZoneMonitor(SIGMA), sensor_fault=(150, -2.0))
+    assert first_tick_with(rows, "offset") in (150, 151)
+    assert all(not r["rz.faults"] for r in rows[:150])
