@@ -2,8 +2,8 @@
 
 BioSim is hydroponic, so "soil moisture" is the water in the shelf reservoir. The true level
 is truth-only (crop.s0.reservoir_L); this turns it into what a real level sensor would report.
-It takes the true level as an argument, so it works however the loop ends up giving it one
-(see root_zone_sensor.md, section 2).
+RootZoneSensor takes the true level as an argument; RootZoneSensorLayer plugs it into run()
+(or chain_sensor_layers) by reading the level from ctx.truth and adding KEY to the obs.
 
     reading = clip(true + bias + drift + noise, 0, capacity)    then stuck / dropout override
 
@@ -19,9 +19,12 @@ from __future__ import annotations
 import random
 from typing import Iterable, Optional
 
+from interface.loop import State, TickContext
 from interface.schema import Fault
 
 KEY = "crop.s0.root_zone_L"
+TRUE_KEY = "crop.s0.reservoir_L"
+CAPACITY_KEY = "crop.s0.reservoir_capacity_L"
 FAULT_KINDS = ("noise", "bias", "drift", "stuck", "dropout")
 
 
@@ -72,3 +75,27 @@ class RootZoneSensor:
             return None
         self.last = value
         return value
+
+
+class RootZoneSensorLayer:
+    """Sensor layer for run(): adds the sensor's reading of the reservoir as KEY.
+
+    The true level comes from ctx.truth, so this needs the loop to pass full truth. Tank
+    capacity is taken from the (public) state when present, so the clip matches the shelf.
+    """
+
+    def __init__(self, sigma_L: float = 0.1, seed: int = 0):
+        self.sensor = RootZoneSensor(sigma_L=sigma_L, seed=seed)
+
+    def reset(self) -> None:
+        self.sensor.reset()
+
+    def __call__(self, state: State, ctx: TickContext) -> State:
+        if TRUE_KEY not in ctx.truth:
+            raise KeyError(f"{TRUE_KEY!r} is not in ctx.truth; the root-zone sensor needs run() "
+                           "to pass full truth, and a BioSim build that reports the shelf reservoir")
+        obs = dict(state)
+        if obs.get(CAPACITY_KEY) is not None:
+            self.sensor.capacity_L = float(obs[CAPACITY_KEY])
+        obs[KEY] = self.sensor.read(float(ctx.truth[TRUE_KEY]), ctx.tick, ctx.active_faults)
+        return obs

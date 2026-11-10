@@ -143,3 +143,40 @@ def test_broken_estimator_is_blamed_not_the_sensor(cycle):
     after = [r for r in rows if r["tick"] >= 300]
     assert all(r["rz.faults"] == ["estimator"] and r["rz.trusted"] == "sensor" for r in after)
     assert all(abs(r["rz.level_L"] - r["true_L"]) < 0.5 for r in after)
+
+
+# sensor layer inside run()
+
+from interface import TickContext, TickLogger, run  # noqa: E402
+from sensors import AtmosphereSensorLayer, RootZoneSensorLayer, chain_sensor_layers  # noqa: E402
+
+
+def logged_run(sensor_layer, ticks=50, faults=()):
+    seen, log = [], TickLogger()
+    run(FakePlant(), {"spy": lambda obs: seen.append(obs) or {}}, ticks,
+        sensor_layer=sensor_layer, fault_schedule=faults, logger=log)
+    return seen, log.records
+
+
+def test_layer_reports_the_true_level_through_run():
+    seen, records = logged_run(RootZoneSensorLayer(sigma_L=0.0))
+    assert [o[ROOT_ZONE_KEY] for o in seen] == [r["truth"]["crop.s0.reservoir_L"] for r in records]
+    assert all("crop.s0.reservoir_L" not in o for o in seen), "true level stays hidden"
+
+
+def test_layer_applies_scheduled_faults():
+    seen, records = logged_run(RootZoneSensorLayer(sigma_L=0.0), ticks=20,
+                               faults=[fault("bias", tick=10, duration=5, offset=2.0)])
+    for o, r in zip(seen, records):
+        offset = 2.0 if 10 <= r["tick"] < 15 else 0.0
+        assert o[ROOT_ZONE_KEY] == pytest.approx(r["truth"]["crop.s0.reservoir_L"] + offset)
+
+
+def test_layer_chains_with_the_atmosphere_layer():
+    seen, _ = logged_run(chain_sensor_layers(AtmosphereSensorLayer(seed=1), RootZoneSensorLayer()), ticks=5)
+    assert all(ROOT_ZONE_KEY in o and "gh.co2_ppm" in o for o in seen)
+
+
+def test_layer_says_why_when_truth_is_missing():
+    with pytest.raises(KeyError, match="needs run\\(\\) to pass full truth"):
+        RootZoneSensorLayer()({}, TickContext(tick=0))
