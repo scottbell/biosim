@@ -5,10 +5,10 @@ that the cabin stays safe, one run per fault scenario, through the real run() lo
     python scripts/atmosphere_fault_check.py --fake           # HybridPlant(FakePlant), no server
     python scripts/atmosphere_fault_check.py --ticks 100 --fault-tick 30 --fault-len 30
 
-Pipeline per tick: truth -> AtmosphereSensorLayer (lag, noise, sensor faults) -> HVAC controller and a CO2/lamp hold
--> monitor -> AtmosphereActuatorLayer (actuator faults) -> plant. The monitor runs as the
-supervisor: it sees the obs and the commands but passes the commands through unchanged.
-Nothing acts on its output yet, so a fault it detects can still drive the cabin unsafe.
+Pipeline per tick: truth -> AtmosphereSensorLayer (lag, noise, sensor faults) -> monitor
+(adds fused_temp_C and fault flags to obs) -> HVAC controller and a CO2/lamp hold
+-> AtmosphereActuatorLayer (actuator faults) -> plant. The HVAC controls on fused_temp_C, so a
+sensor fault the monitor catches doesn't reach the heater. See estimators.MonitorInLoop.
 
 A scenario passes when:
   - the fault is flagged while it is active (fault scenarios only),
@@ -32,11 +32,10 @@ sys.path.insert(0, str(ROOT))
 
 from actuators import AtmosphereActuatorLayer  # noqa: E402
 from controllers import HVACTemperatureController  # noqa: E402
-from estimators import AtmosphereTemperatureMonitor  # noqa: E402
+from estimators import AtmosphereTemperatureMonitor, MonitorInLoop  # noqa: E402
 from interface import BioSimClient, BioSimPlant, FakePlant, Fault, TickLogger, run  # noqa: E402
-from interface.loop import merge_commands  # noqa: E402
 from interface.plant import HybridPlant  # noqa: E402
-from sensors import AtmosphereSensorLayer  # noqa: E402
+from sensors import AtmosphereSensorLayer, chain_sensor_layers  # noqa: E402
 
 
 def atmosphere(obs: Dict[str, Any]) -> Dict[str, float]:
@@ -46,33 +45,18 @@ def atmosphere(obs: Dict[str, Any]) -> Dict[str, float]:
     return {"cmd.crop_power_W": 200.0, "cmd.co2_inject_mol": max(0.0, min(5.0, mol))}
 
 
-class WatchingMonitor:
-    """Supervisor that runs the monitor on each tick's obs and commands, and records its output."""
-
-    def __init__(self):
-        self.monitor = AtmosphereTemperatureMonitor(temp_sensor_sigma_C=0.15, temp_model_sigma_C=0.25,
-                                                    temp_shift_C=1.0, temp_h_sigmas=4.0)
-        self.diag: Dict[int, Dict[str, Any]] = {}
-
-    def __call__(self, obs, per_controller, ctx):
-        commands = merge_commands(obs, per_controller, ctx)
-        if not self.diag:
-            self.monitor.reset(initial_temp_C=obs.get("gh.temp_C") or 22.0,
-                               initial_co2_ppm=obs.get("gh.co2_ppm") or 1200.0)
-        self.diag[ctx.tick] = self.monitor.update(obs, commands=commands)
-        return commands
-
-
 def run_scenario(make_plant, faults: List[Fault], n_ticks: int, seed: int = 42) -> List[Dict[str, Any]]:
-    watcher = WatchingMonitor()
+    loop = MonitorInLoop(AtmosphereTemperatureMonitor(temp_sensor_sigma_C=0.15, temp_model_sigma_C=0.25,
+                                                      temp_shift_C=1.0, temp_h_sigmas=4.0))
+    sensors = AtmosphereSensorLayer(temp_sigma_C=0.15, co2_sigma_ppm=5.0, seed=seed)
     log = TickLogger()
     run(make_plant(), {"hvac": HVACTemperatureController(), "atmo": atmosphere}, n_ticks,
-        sensor_layer=AtmosphereSensorLayer(temp_sigma_C=0.15, co2_sigma_ppm=5.0, seed=seed),
-        supervisor=watcher, actuator_layer=AtmosphereActuatorLayer(),
+        sensor_layer=chain_sensor_layers(sensors, loop.sensor_layer),
+        supervisor=loop.supervisor, actuator_layer=AtmosphereActuatorLayer(),
         fault_schedule=faults, logger=log)
     rows = []
     for rec in log.records:
-        d = watcher.diag[rec["tick"]]
+        d = loop.diag[rec["tick"]]
         rows.append({
             "tick": rec["tick"],
             "true_temp": rec["truth"]["gh.temp_truth_C"],
@@ -127,7 +111,7 @@ def scenarios(start: int, length: int):
         ("temp dropout",             f("dropout", "gh.temp_C")),
         ("temp stuck",               f("stuck", "gh.temp_C")),
         ("temp bias +3.5 °C",        f("bias", "gh.temp_C", offset=3.5)),
-        # a controller on the raw reading holds it at 22 °C, so the real cabin goes to ~34 °C
+        # a controller on the raw reading would hold it at 22 °C, driving the real cabin to ~34 °C
         ("temp bias -12 °C",         f("bias", "gh.temp_C", offset=-12.0)),
         ("temp drift +0.15 °C/tick", f("drift", "gh.temp_C", rate=0.15)),
         ("heater burnout",           f("stuck", "cmd.heater_W", value=0.0)),

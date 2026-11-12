@@ -30,7 +30,7 @@ if str(SIM_ROOT) not in sys.path:
 
 from actuators import ATMOSPHERE_ACTUATOR_KEYS, AtmosphereActuatorLayer, chain_actuator_layers
 from controllers.hvac import HVACTemperatureController
-from estimators import AtmosphereGasEstimator, AtmosphereTemperatureMonitor, ThermalEstimator
+from estimators import AtmosphereGasEstimator, AtmosphereTemperatureMonitor, MonitorInLoop, ThermalEstimator
 from interface import TickLogger, run
 from interface.loop import State, TickContext, merge_commands
 from interface.plant import FakePlant, HybridPlant
@@ -455,6 +455,34 @@ class TestFaultRecovery(unittest.TestCase):
         fused = [diag[r["tick"]]["fused_temp_C"] for r in records[60:]]
         sensed = [r["obs"]["gh.temp_C"] for r in records[60:]]
         self.assertLess(rms([f - t for f, t in zip(fused, truth)]), rms([s - t for s, t in zip(sensed, truth)]))
+
+
+class TestMonitorInLoop(unittest.TestCase):
+    """The HVAC controls on the monitor's fused temperature, so a sensor fault the monitor
+    catches doesn't drive the heater."""
+
+    def test_large_sensor_bias_does_not_reach_the_heater(self):
+        # on the raw reading the controller holds it at 22 °C, so the real cabin went to ~35 °C
+        loop = MonitorInLoop(AtmosphereTemperatureMonitor(temp_sensor_sigma_C=0.15, temp_model_sigma_C=0.25,
+                                                          temp_shift_C=1.0, temp_h_sigmas=4.0))
+        bias = Fault(tick=30, kind="bias", target="gh.temp_C", params={"offset": -12.0}, duration=30)
+        log = TickLogger()
+        run(HybridPlant(plant=FakePlant(), sync_biosim_temperature=False),
+            {"hvac": HVACTemperatureController(), "atmo": TestFaultRecovery._hold_co2}, 100,
+            sensor_layer=chain_sensor_layers(AtmosphereSensorLayer(seed=42), loop.sensor_layer),
+            supervisor=loop.supervisor, fault_schedule=[bias], logger=log)
+        self.assertIn("low_bias_or_drift", loop.diag[30]["temp_faults"])
+        temps = [r["truth"]["gh.temp_truth_C"] for r in log.records]
+        self.assertLess(max(temps), 24.0)
+        self.assertGreater(min(temps), 18.0)
+
+    def test_controllers_see_the_monitor_output(self):
+        loop = MonitorInLoop()
+        seen = []
+        run(HybridPlant(plant=FakePlant(), sync_biosim_temperature=False),
+            {"spy": lambda obs: seen.append(obs.get("fused_temp_C")) or {}}, 3,
+            sensor_layer=loop.sensor_layer, supervisor=loop.supervisor)
+        self.assertTrue(seen and all(v is not None for v in seen))
 
 
 if __name__ == "__main__":

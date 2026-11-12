@@ -18,6 +18,8 @@ from collections import deque
 import math
 from typing import Any, Dict, List, Optional, Tuple
 
+from interface.loop import merge_commands
+
 
 class ThermalEstimator:
     """Physics-based greenhouse thermal state estimator with sensor lag modeling."""
@@ -475,3 +477,37 @@ class AtmosphereTemperatureMonitor:
 
         self._last_cmd_heater = next_cmd_heater
         self._last_cmd_co2 = next_cmd_co2
+
+
+class MonitorInLoop:
+    """Puts AtmosphereTemperatureMonitor into run() so controllers act on its output.
+
+    run() has no stage between the sensors and the controllers, so the monitor is split over two
+    hooks:
+      sensor_layer  checks this tick's readings and adds its diagnostics (fused_temp_C,
+                    temp_faults, ...) to obs, so controllers see them
+      supervisor    merges the controllers' commands, then steps the monitor's models with them
+
+        loop = MonitorInLoop()
+        run(plant, controllers, n, sensor_layer=chain_sensor_layers(AtmosphereSensorLayer(), loop.sensor_layer),
+            supervisor=loop.supervisor)
+    """
+
+    def __init__(self, monitor: Optional[AtmosphereTemperatureMonitor] = None, inner_supervisor=None):
+        self.monitor = monitor or AtmosphereTemperatureMonitor()
+        self.inner_supervisor = inner_supervisor or merge_commands
+        self.diag: Dict[int, Dict[str, Any]] = {}
+
+    def sensor_layer(self, obs: Dict[str, Any], ctx) -> Dict[str, Any]:
+        if not self.diag:
+            self.monitor.reset(initial_temp_C=obs.get("gh.temp_C") or 22.0,
+                               initial_co2_ppm=obs.get("gh.co2_ppm") or 1200.0)
+        self.diag[ctx.tick] = self.monitor.update(obs)
+        return {**obs, **self.diag[ctx.tick]}
+
+    def supervisor(self, obs: Dict[str, Any], per_controller: Dict[str, Dict[str, float]], ctx) -> Dict[str, float]:
+        commands = self.inner_supervisor(obs, per_controller, ctx)
+        self.monitor.step_prediction(commands, hour=float(obs.get("time.hour_of_day", 0.0)),
+                                     actuator_faults=self.diag[ctx.tick]["actuator_faults"],
+                                     inhaled_co2=obs.get("crop.s0.co2_inhaled_mol"))
+        return commands
