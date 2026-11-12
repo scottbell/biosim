@@ -2,7 +2,7 @@
 
 BioSimPlant talks to the real server. FakePlant is a deterministic stand-in with the same
 keys, so controllers, fault layers and the dashboard can be built without Docker.
-Later, a HybridPlant (BioSim + Python thermal model) slots in here; see plant_next_steps.md.
+HybridPlant wraps either one and adds the Python thermal model.
 """
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ except ImportError:  # pragma: no cover
 from . import bindings
 from .client import BioSimClient, Intensity, Length
 from .schema import COMMAND_KEYS, Fault, shelf_key
-from .sensors import AtmosphereSensorSuite
+from .sensors import temp_alarm_band
 
 try:
     from ..thermal import GreenhouseThermalModel, MarsAtmosphereCompressorModel
@@ -178,7 +178,7 @@ class FakePlant:
             "gh.vapor_mol": self.VAPOR_MOL,
             "gh.temp_C": self.temp_C,
             "gh.temp_truth_C": self.temp_C,
-            "gh.temp_alarm": "NOMINAL",
+            "gh.temp_alarm": temp_alarm_band(self.temp_C),
             "mars.temp_ext_C": outside_C,
             "power.store_level": self.power,
             "power.store_capacity": 200000.0,
@@ -301,21 +301,22 @@ class HybridPlant:
     Architecture:
     - BioSimPlant (or FakePlant): Physical life support (water, crop biology, electrical grid, gas stores).
     - GreenhouseThermalModel: Continuous ODE modeling cabin energy balance against diurnal Mars boundary.
-    - AtmosphereSensorSuite: Sensor instrumentation with first-order lag, noise, drift, and 10 alarm bands.
     - MarsAtmosphereCompressorModel: Thermodynamic ISRU CO2 extraction from Mars surface atmosphere.
+
+    The state it returns is truth: gh.temp_C is the true cabin temperature and the gas keys are
+    BioSim's own values. Sensor lag, noise and faults belong in the sensor layer
+    (sensors.AtmosphereSensorLayer), so the log keeps an untouched truth to score against.
     """
 
     def __init__(
         self,
         plant: Optional[Plant] = None,
         thermal_model: Optional[GreenhouseThermalModel] = None,
-        sensor_suite: Optional[AtmosphereSensorSuite] = None,
         compressor: Optional[MarsAtmosphereCompressorModel] = None,
         sync_biosim_temperature: bool = True,
     ):
         self.plant = plant if plant is not None else BioSimPlant()
         self.thermal = thermal_model if thermal_model is not None else GreenhouseThermalModel()
-        self.sensors = sensor_suite if sensor_suite is not None else AtmosphereSensorSuite()
         self.compressor = compressor if compressor is not None else MarsAtmosphereCompressorModel()
         self.sync_biosim_temperature = sync_biosim_temperature
         self._last_cmd: Dict[str, float] = {}
@@ -323,7 +324,7 @@ class HybridPlant:
     def reset(self) -> Dict[str, Any]:
         raw_state = self.plant.reset()
         self.thermal.reset()
-        self.sensors.reset(self.thermal.temp_C)
+        self._sync_temperature()
         self._last_cmd = {}
         return self._augment_state(raw_state)
 
@@ -345,52 +346,28 @@ class HybridPlant:
         heater_power = float(state.get("power.heater_draw", self._last_cmd.get("cmd.heater_W", 0.0)))
 
         # Advance thermal ODE
-        true_temp = self.thermal.step(
+        self.thermal.step(
             hour=hour,
             lamp_power_W=crop_power,
             heater_power_W=heater_power,
         )
 
-        # Sync temperature to BioSim if real client is present
+        self._sync_temperature()
+        return self._augment_state(state)
+
+    def _sync_temperature(self) -> None:
+        # no try/except: if BioSim can't take the temperature, its crop grows at a stale one,
+        # and the run is invalid
         if self.sync_biosim_temperature and hasattr(self.plant, "client"):
-            try:
-                self.plant.client.set_environment_temperature(bindings.GREENHOUSE, true_temp)
-            except Exception:
-                pass
-
-        # Process through sensor suite
-        outside_temp = self.thermal.outside_temp_C(hour)
-        co2_ppm = float(state.get("gh.co2_ppm", 1200.0))
-        o2_frac = float(state.get("gh.o2_frac", 0.21))
-
-        telemetry = self.sensors.process(
-            true_temp_C=true_temp,
-            true_co2_ppm=co2_ppm,
-            true_o2_frac=o2_frac,
-            dt_hours=1.0,
-        )
-
-        state.update(telemetry)
-        state["gh.temp_truth_C"] = true_temp
-        state["mars.temp_ext_C"] = outside_temp
-        return state
+            self.plant.client.set_environment_temperature(bindings.GREENHOUSE, self.thermal.temp_C)
 
     def _augment_state(self, state: Dict[str, Any]) -> Dict[str, Any]:
         hour = float(state.get("time.hour_of_day", 0.0))
-        outside_temp = self.thermal.outside_temp_C(hour)
         true_temp = self.thermal.temp_C
-        co2_ppm = float(state.get("gh.co2_ppm", 1200.0))
-        o2_frac = float(state.get("gh.o2_frac", 0.21))
-
-        telemetry = self.sensors.process(
-            true_temp_C=true_temp,
-            true_co2_ppm=co2_ppm,
-            true_o2_frac=o2_frac,
-            dt_hours=1.0,
-        )
-        state.update(telemetry)
+        state["gh.temp_C"] = true_temp
         state["gh.temp_truth_C"] = true_temp
-        state["mars.temp_ext_C"] = outside_temp
+        state["gh.temp_alarm"] = temp_alarm_band(true_temp)
+        state["mars.temp_ext_C"] = self.thermal.outside_temp_C(hour)
         return state
 
     def inject(self, fault: Fault) -> None:

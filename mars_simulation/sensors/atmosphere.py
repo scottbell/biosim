@@ -8,6 +8,10 @@ Fault schema (target, kind, params, duration):
 - stuck:   output frozen at previous pre-fault measurement
 - dropout: measurement unavailable (None)
 
+Sensor physics applied before faults (these used to live in HybridPlant):
+- temperature probe lag: first order, time constant temp_tau_hours
+- NDIR CO2 cross-sensitivity: co2_temp_cross_sensitivity ppm per °C away from 22 °C
+
 Targets:
     gh.temp_C        Cabin sensed temperature (°C)
     gh.co2_ppm       NDIR carbon dioxide concentration (ppm)
@@ -22,7 +26,7 @@ from typing import Any, Callable, Dict, Iterable, List, Optional, Set
 
 from interface.loop import State, TickContext, SensorLayer
 from interface.schema import Fault
-from interface.sensors import AlarmSeverity
+from interface.sensors import temp_alarm_band
 
 ATMOSPHERE_SENSOR_KEYS = frozenset({
     "gh.temp_C",
@@ -133,8 +137,14 @@ class AtmosphereSensorLayer:
         o2_sigma_frac: float = 0.0005,
         pressure_sigma_kPa: float = 0.1,
         seed: Optional[int] = 42,
+        temp_tau_hours: float = 0.5,
+        co2_temp_cross_sensitivity: float = 5.0,
+        calibration_temp_C: float = 22.0,
     ):
         base_seed = seed if seed is not None else 42
+        self.temp_tau_hours = float(temp_tau_hours)
+        self.co2_temp_cross_sensitivity = float(co2_temp_cross_sensitivity)
+        self.calibration_temp_C = float(calibration_temp_C)
         self.channels: Dict[str, AtmosphereChannelSensor] = {
             "gh.temp_C": AtmosphereChannelSensor(
                 "gh.temp_C",
@@ -170,38 +180,30 @@ class AtmosphereSensorLayer:
     def reset(self) -> None:
         for ch in self.channels.values():
             ch.reset()
+        self._lag_temp: Optional[float] = None
+
+    def _physics(self, truth: State) -> Dict[str, float]:
+        """What a healthy sensor would read: true values with lag and cross-sensitivity."""
+        raw = {k: float(truth[k]) for k in self.channels if truth.get(k) is not None}
+        if "gh.temp_C" in raw:
+            true_temp = raw["gh.temp_C"]
+            if self._lag_temp is None:
+                self._lag_temp = true_temp
+            alpha = 1.0 - math.exp(-1.0 / max(1e-3, self.temp_tau_hours))
+            self._lag_temp += alpha * (true_temp - self._lag_temp)
+            raw["gh.temp_C"] = self._lag_temp
+            if "gh.co2_ppm" in raw:
+                raw["gh.co2_ppm"] += self.co2_temp_cross_sensitivity * (true_temp - self.calibration_temp_C)
+        return raw
 
     def __call__(self, truth: State, ctx: TickContext) -> State:
         obs = dict(truth)
-        tick = ctx.tick
-        active = ctx.active_faults
+        for key, value in self._physics(truth).items():
+            obs[key] = self.channels[key].read(value, tick=ctx.tick, active_faults=ctx.active_faults)
 
-        for key, sensor in self.channels.items():
-            if key in truth and truth[key] is not None:
-                obs[key] = sensor.read(float(truth[key]), tick=tick, active_faults=active)
-
-        # Update alarm state to reflect sensed temperature
         sensed_temp = obs.get("gh.temp_C")
-        if sensed_temp is None:
-            obs["gh.temp_alarm"] = None
-        else:
-            obs["gh.temp_alarm"] = self._evaluate_temp_alarm(sensed_temp)
-
+        obs["gh.temp_alarm"] = None if sensed_temp is None else temp_alarm_band(sensed_temp)
         return obs
-
-    @staticmethod
-    def _evaluate_temp_alarm(t: float) -> str:
-        if t < 2.0 or t > 35.0:
-            return AlarmSeverity.SEVERE_LOW.value if t < 2.0 else AlarmSeverity.SEVERE_HIGH.value
-        if t < 7.0 or t > 32.0:
-            return AlarmSeverity.CRITICAL_LOW.value if t < 7.0 else AlarmSeverity.CRITICAL_HIGH.value
-        if t < 12.0 or t > 29.0:
-            return AlarmSeverity.DISTRESS_LOW.value if t < 12.0 else AlarmSeverity.DISTRESS_HIGH.value
-        if t < 16.0 or t > 26.0:
-            return AlarmSeverity.WARNING_LOW.value if t < 16.0 else AlarmSeverity.WARNING_HIGH.value
-        if t < 18.0 or t > 24.0:
-            return AlarmSeverity.WATCH_LOW.value if t < 18.0 else AlarmSeverity.WATCH_HIGH.value
-        return AlarmSeverity.NOMINAL.value
 
 
 def chain_sensor_layers(*layers: SensorLayer) -> SensorLayer:

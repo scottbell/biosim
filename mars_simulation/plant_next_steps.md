@@ -98,3 +98,7 @@ These limit what the thermal model can do.
     - The captured fixture is regenerated from the patched build. Siddhant's branch has an older one without the new shelf fields; keep the new one when merging.
 
 11. **Fault detection.** Ask whoever owns detection whether `obs`, plus `truth["faults.active"]` and the logged fault schedule, is enough for them to score against.
+    - 2026-11-12: yes, now that truth is clean. `HybridPlant` used to write sensor readings over the true temperature and CO2, and `gh.temp_truth_C` reached controllers. Both are fixed.
+    - `scripts/atmosphere_fault_check.py` scores each fault scenario for detection, false alarms and cabin safety.
+    - The monitor's CO2 model now uses the flows BioSim reports (`co2.injected_mol`, `crop.s0.co2_inhaled_mol`) and scales total gas by $P/T$. The old one integrated commanded injection against a fixed 2050 mol, drifted 170 ppm over a live cycle, and flagged the healthy CO2 sensor from about tick 360. Now it stays within 5.5 ppm.
+    - Still open: nothing acts on the monitor's output. The HVAC controller reads the raw sensor, so in the "temp bias -12 °C" scenario the fault is caught at once but the cabin still reaches about 35 °C.

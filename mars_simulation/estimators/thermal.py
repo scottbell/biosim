@@ -87,16 +87,24 @@ class AtmosphereGasEstimator:
 
     def __init__(self, initial_co2_ppm: float = 1200.0, total_moles: float = TOTAL_MOLES):
         self.total_moles = float(total_moles)
-        self.co2_moles = (float(initial_co2_ppm) / 1e6) * self.total_moles
-        self.age_h = 0
+        self.reset(initial_co2_ppm)
 
     def reset(self, initial_co2_ppm: float = 1200.0) -> None:
         self.co2_moles = (float(initial_co2_ppm) / 1e6) * self.total_moles
         self.age_h = 0
+        # total gas relative to the start, from P V = n R T; injection and crop gas exchange
+        # change it by a few % over a cycle, which is ~40 ppm at 1200 ppm
+        self.gas_scale = 1.0
 
     @property
     def co2_ppm(self) -> float:
-        return (self.co2_moles / self.total_moles) * 1e6
+        return (self.co2_moles / (self.total_moles * self.gas_scale)) * 1e6
+
+    def apply_measured(self, injected_co2_mol: float, co2_inhaled_mol: float) -> float:
+        """Advances the balance with the flows BioSim reports for the step that just ran.
+        Unlike step(), nothing is predicted, so errors don't pile up in the integral."""
+        self.co2_moles = max(0.0, self.co2_moles + float(injected_co2_mol) - float(co2_inhaled_mol))
+        return self.co2_ppm
 
     def step(
         self,
@@ -187,6 +195,12 @@ class AtmosphereTemperatureMonitor:
         self._last_cmd_heater = 0.0
         self._last_cmd_co2 = 0.0
         self._heater_unresponsive_count = 0
+        self._actuator_fault_last = False
+
+        self._first_update = True
+        self._gas_measured = False
+        self._p0_kPa: Optional[float] = None
+        self._t0_K: Optional[float] = None
 
     def _check_stuck(
         self,
@@ -241,7 +255,6 @@ class AtmosphereTemperatureMonitor:
         # 2. Model predictions for current tick k
         model_temp_sensor = self.thermal_est.lag_temp_C
         true_model_temp = self.thermal_est.temp_C
-        model_co2 = self.gas_est.co2_ppm
 
         temp_faults: List[str] = []
         co2_faults: List[str] = []
@@ -257,6 +270,7 @@ class AtmosphereTemperatureMonitor:
             self._prev_temp_sensor = None
             self._same_temp_count = 0
         else:
+            prev_sensed = self._prev_temp_sensor
             is_stuck, self._same_temp_count = self._check_stuck(
                 current=sensed_temp,
                 previous=self._prev_temp_sensor,
@@ -269,6 +283,21 @@ class AtmosphereTemperatureMonitor:
             if is_stuck:
                 temp_faults.append("stuck")
                 temp_sensor_healthy = False
+
+            # The model's heater input was wrong this step (or the step the fault cleared), so its
+            # prediction is void. Restart it from the sensor, or it stays off for ~C/UA = 35 h and
+            # the CUSUM blames the healthy sensor once the heater is back.
+            if (actuator_faults or self._actuator_fault_last) and temp_sensor_healthy:
+                # undo the sensor lag, s_k = s_{k-1} + alpha (T_k - s_{k-1}), so the restart isn't
+                # biased low while the cabin is reheating fast
+                true_now = float(sensed_temp)
+                if prev_sensed is not None:
+                    alpha = 1.0 - math.exp(-1.0 / self.thermal_est.tau)
+                    true_now = prev_sensed + (sensed_temp - prev_sensed) / alpha
+                self.thermal_est.temp_C, self.thermal_est.lag_temp_C = true_now, float(sensed_temp)
+                model_temp_sensor, true_model_temp = float(sensed_temp), true_now
+                self.temp_g_pos = self.temp_g_neg = 0.0
+                self.temp_offset_alarm, self._temp_calm = False, 0
 
             r_temp = sensed_temp - model_temp_sensor
 
@@ -300,6 +329,34 @@ class AtmosphereTemperatureMonitor:
         ext_temp = self.thermal_est.outside_temp_C(hour)
         if actual_heater_draw >= 4500.0 and true_model_temp < 10.0 and sensed_temp is not None and sensed_temp < 5.0 and ext_temp < -40.0:
             actuator_faults.append("thermal_envelope_breach")
+
+        # Temperature Fusion (before CO2, which needs the cabin temperature)
+        if "heater_burnout" in actuator_faults and sensed_temp is not None:
+            fused_temp = sensed_temp
+            temp_trusted = "sensor"
+        elif temp_sensor_healthy and sensed_temp is not None:
+            w_temp = self.temp_model_var / (self.temp_sensor_var + self.temp_model_var)
+            fused_temp = (w_temp * sensed_temp) + ((1.0 - w_temp) * true_model_temp)
+            temp_trusted = "both"
+        else:
+            fused_temp = true_model_temp
+            temp_trusted = "model"
+
+        # CO2 model for tick k: from the flows BioSim measured over the last step when they're in
+        # obs, otherwise the prediction step_prediction made from last tick's commands
+        injected = obs.get("co2.injected_mol")
+        inhaled = obs.get("crop.s0.co2_inhaled_mol")
+        self._gas_measured = injected is not None and inhaled is not None
+        if self._gas_measured and not self._first_update:
+            self.gas_est.apply_measured(injected, inhaled)
+        pressure = obs.get("gh.pressure_kPa")
+        if pressure is not None:
+            t_K = fused_temp + 273.15
+            if self._p0_kPa is None:
+                self._p0_kPa, self._t0_K = float(pressure), t_K
+            self.gas_est.gas_scale = (float(pressure) / self._p0_kPa) * (self._t0_K / t_K)
+        model_co2 = self.gas_est.co2_ppm
+        self._first_update = False
 
         # 4. Check CO2 Sensed Telemetry at tick k
         sensed_co2: Optional[float] = obs.get("gh.co2_ppm")
@@ -357,18 +414,6 @@ class AtmosphereTemperatureMonitor:
                     co2_faults.append("ndir_thermal_shift")
 
         # 5. Fault-Tolerant Fusion
-        # Temperature Fusion
-        if "heater_burnout" in actuator_faults and sensed_temp is not None:
-            fused_temp = sensed_temp
-            temp_trusted = "sensor"
-        elif temp_sensor_healthy and sensed_temp is not None:
-            w_temp = self.temp_model_var / (self.temp_sensor_var + self.temp_model_var)
-            fused_temp = (w_temp * sensed_temp) + ((1.0 - w_temp) * true_model_temp)
-            temp_trusted = "both"
-        else:
-            fused_temp = true_model_temp
-            temp_trusted = "model"
-
         # CO2 Fusion
         if co2_sensor_healthy and sensed_co2 is not None:
             w_co2 = self.co2_model_var / (self.co2_sensor_var + self.co2_model_var)
@@ -377,6 +422,8 @@ class AtmosphereTemperatureMonitor:
         else:
             fused_co2 = model_co2
             co2_trusted = "model"
+
+        self._actuator_fault_last = bool(actuator_faults)
 
         # 6. Step physics estimators for step k -> k+1 if commands are explicitly passed
         if commands:
@@ -419,11 +466,12 @@ class AtmosphereTemperatureMonitor:
 
         next_hour = (hour + 1.0) % self.thermal_est.MARS_SOL_HOURS
         self.thermal_est.step(hour=next_hour, crop_power_W=next_cmd_crop, heater_power_W=effective_heater_power)
-        self.gas_est.step(
-            injected_co2_mol=effective_co2_inject,
-            crop_power_W=next_cmd_crop,
-            co2_inhaled_mol=inhaled_co2,
-        )
+        if not self._gas_measured:
+            self.gas_est.step(
+                injected_co2_mol=effective_co2_inject,
+                crop_power_W=next_cmd_crop,
+                co2_inhaled_mol=inhaled_co2,
+            )
 
         self._last_cmd_heater = next_cmd_heater
         self._last_cmd_co2 = next_cmd_co2

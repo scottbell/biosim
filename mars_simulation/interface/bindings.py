@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from typing import Any, Callable, Dict, List
 
 from .schema import COMMAND_KEYS, SHELF_FIELDS, SHELF_TRUTH_ONLY_FIELDS, shelf_key
+from .sensors import temp_alarm_band
 
 GREENHOUSE = "Greenhouse"
 CROP_BED = "Lettuce_Bed"
@@ -132,7 +133,7 @@ STATE_READERS: Dict[str, Callable[[Dict[str, Any]], Any]] = {
     "gh.vapor_mol":          lambda r: float(_props(r, GREENHOUSE)["vaporMoles"]),
     "gh.temp_C":             _gh_temp,
     "gh.temp_truth_C":       _gh_temp,
-    "gh.temp_alarm":         lambda r: "NOMINAL",
+    "gh.temp_alarm":         lambda r: temp_alarm_band(_gh_temp(r)),
     "mars.temp_ext_C":       lambda r: -50.15,
     "power.store_level":     lambda r: _level(r, POWER_STORE),
     "power.store_capacity":  lambda r: float(_props(r, POWER_STORE)["currentCapacity"]),

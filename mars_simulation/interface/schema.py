@@ -40,8 +40,7 @@ STATE_KEYS: Dict[str, Key] = {
     "co2.store_mol":         Key("mol", "CO2 tank level for injection"),
     "co2.injected_mol":      Key("mol", "CO2 actually injected this tick"),
     "crop.biomass_store_kg": Key("kg", "harvested biomass in Biomass_Store"),
-    "gh.temp_C":             Key("degC", "greenhouse sensed air temperature"),
-    "gh.temp_truth_C":       Key("degC", "greenhouse true physical air temperature"),
+    "gh.temp_C":             Key("degC", "greenhouse air temperature (true in truth, sensed in obs)"),
     "gh.temp_alarm":         Key("-", "temperature alarm band (NOMINAL, WATCH, WARNING, DISTRESS, CRITICAL, SEVERE)"),
     "mars.temp_ext_C":       Key("degC", "exterior Martian surface temperature"),
     "power.heater_draw":     Key("W", "power actually drawn by greenhouse heater this tick"),
@@ -61,6 +60,7 @@ SHELF_FIELDS: Dict[str, Key] = {
 TRUTH_ONLY_KEYS: Dict[str, Key] = {
     "sim.ended":     Key("bool", "BioSim reports the run met an end criterion"),
     "faults.active": Key("list", "malfunctions BioSim has actually applied"),
+    "gh.temp_truth_C": Key("degC", "greenhouse true air temperature, kept even after a sensor layer replaces gh.temp_C"),
 }
 SHELF_TRUTH_ONLY_FIELDS: Dict[str, Key] = {
     "reservoir_L": Key("L", "water left in the shelf reservoir at the end of the tick"),

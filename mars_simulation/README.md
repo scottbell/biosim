@@ -18,6 +18,7 @@ pip install -r requirements.txt
 
 python scripts/smoke_test.py               # first check against the live server
 python scripts/water_check.py              # one lettuce cycle with the irrigation controller
+python scripts/atmosphere_fault_check.py   # temperature/CO2 fault scenarios, PASS/FAIL per scenario
 pytest                                     # offline tests (no server needed)
 pytest -m live                             # tests against the live server
 ```
@@ -117,18 +118,20 @@ All faults go into the log, so detection can be scored against them.
 | `interface/schema.py` | Every state and command key with units. Start here. |
 | `interface/bindings.py` | The only place that knows BioSim module names. Change it when the config changes. |
 | `interface/client.py` | 1:1 REST wrapper (`BioSimClient`). |
-| `interface/plant.py` | `BioSimPlant`, `FakePlant`. A future `HybridPlant` (BioSim + thermal model) goes here. |
+| `interface/plant.py` | `BioSimPlant`, `FakePlant`, and `HybridPlant` (either one plus the Python thermal model). |
 | `interface/loop.py` | `run()`, the per-tick pipeline. |
 | `interface/log.py` | JSONL tick log, read by the dashboard and evaluation. |
 | `configs/mars_lettuce.biosim` | Greenhouse, 10 m² lettuce, solar power, water loop with recycler, CO2 injector. |
 | `estimators/water.py` | `ReservoirEstimator`, the hidden reservoir level from observable flows. |
 | `controllers/irrigation.py` | `IrrigationController`, reservoir buffer and recycler. |
 | `scripts/water_check.py` | Live check: one cycle, estimator scored against BioSim's true reservoir. |
+| `scripts/atmosphere_fault_check.py` | Live check: one run per temperature/CO2/heater fault, scored for detection and cabin safety. Exits 1 if any scenario fails. `--fake` for FakePlant. |
 | `plant_next_steps.md` | Open decisions for the thermal model and plant coupling. |
 
 ## Things that will bite you
 
-- **No temperature in the state.** BioSim's 23 °C is a hard-coded constant, so it's deliberately left out. `gh.temp_C` will come from our own thermal model.
+- **Temperature comes from `HybridPlant`.** BioSim has no thermal model of its own. `HybridPlant` steps ours and pushes the result to BioSim each tick, so the crop grows at that temperature. If the push fails (an old BioSim build without the temperature endpoint), the run stops instead of carrying on at a stale temperature.
+- **Truth is truth.** `HybridPlant` puts the true cabin temperature in `gh.temp_C` and leaves BioSim's gas values alone. Sensor lag, noise and faults are added only by `sensors.AtmosphereSensorLayer`. `gh.temp_truth_C` is truth-only, so controllers can't read around a faulty sensor.
 - **Commands act one tick later.** A command computed at tick $k$ shows up in the state at tick $k+1$.
 - **The XML sets the command ceilings.** `maxFlowRates` in the config is the upper limit for each command, and REST can't raise it. `BioSimPlant.reset()` refuses to run if a ceiling is below the range in `schema.COMMAND_KEYS`.
 - **Two settings in the config must stay.** `tickLength="1"` (the crop model assumes it) and `startPaused="true"` (otherwise BioSim ticks on its own). Both are checked at reset.

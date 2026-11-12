@@ -30,6 +30,21 @@ class AlarmSeverity(str, Enum):
     SEVERE_HIGH = "SEVERE_HIGH"
 
 
+def temp_alarm_band(t: float) -> str:
+    """Alarm band for a cabin temperature in °C. Open-ended at both extremes."""
+    if t < 2.0 or t > 35.0:
+        return AlarmSeverity.SEVERE_LOW.value if t < 2.0 else AlarmSeverity.SEVERE_HIGH.value
+    if t < 7.0 or t > 32.0:
+        return AlarmSeverity.CRITICAL_LOW.value if t < 7.0 else AlarmSeverity.CRITICAL_HIGH.value
+    if t < 12.0 or t > 29.0:
+        return AlarmSeverity.DISTRESS_LOW.value if t < 12.0 else AlarmSeverity.DISTRESS_HIGH.value
+    if t < 16.0 or t > 26.0:
+        return AlarmSeverity.WARNING_LOW.value if t < 16.0 else AlarmSeverity.WARNING_HIGH.value
+    if t < 18.0 or t > 24.0:
+        return AlarmSeverity.WATCH_LOW.value if t < 18.0 else AlarmSeverity.WATCH_HIGH.value
+    return AlarmSeverity.NOMINAL.value
+
+
 @dataclass
 class AlarmBand:
     min_val: float
@@ -71,8 +86,8 @@ class TemperatureSensorModel:
 
         # 10 Alarm Bands (default calibrated for Martian lettuce greenhouse: optimal ~22°C)
         self.bands: Dict[AlarmSeverity, AlarmBand] = {
-            AlarmSeverity.SEVERE_LOW:    AlarmBand(-100.0, 2.0),
-            AlarmSeverity.SEVERE_HIGH:   AlarmBand(35.0, 100.0),
+            AlarmSeverity.SEVERE_LOW:    AlarmBand(-math.inf, 2.0),
+            AlarmSeverity.SEVERE_HIGH:   AlarmBand(35.0, math.inf),
             AlarmSeverity.CRITICAL_LOW:  AlarmBand(2.0, 7.0),
             AlarmSeverity.CRITICAL_HIGH: AlarmBand(32.0, 35.0),
             AlarmSeverity.DISTRESS_LOW:  AlarmBand(7.0, 12.0),

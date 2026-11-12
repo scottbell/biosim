@@ -31,7 +31,8 @@ if str(SIM_ROOT) not in sys.path:
 from actuators import ATMOSPHERE_ACTUATOR_KEYS, AtmosphereActuatorLayer, chain_actuator_layers
 from controllers.hvac import HVACTemperatureController
 from estimators import AtmosphereGasEstimator, AtmosphereTemperatureMonitor, ThermalEstimator
-from interface.loop import State, TickContext
+from interface import TickLogger, run
+from interface.loop import State, TickContext, merge_commands
 from interface.plant import FakePlant, HybridPlant
 from interface.schema import Fault
 from sensors import (
@@ -341,6 +342,119 @@ class TestClosedLoopFDIRIntegration(unittest.TestCase):
         final_temp = float(truth["gh.temp_truth_C"])
         self.assertGreater(final_temp, 14.0)
         self.assertLess(final_temp, 28.0)
+
+
+class TestTruthStaysClean(unittest.TestCase):
+    """HybridPlant truth holds physical values only; sensing happens in the sensor layer."""
+
+    def test_hybrid_truth_is_physical(self):
+        plant = HybridPlant(plant=FakePlant(), sync_biosim_temperature=False)
+        plant.reset()
+        plant.apply({"cmd.heater_W": 1500.0, "cmd.crop_power_W": 200.0})
+        truth = plant.step()
+        self.assertEqual(truth["gh.temp_C"], plant.thermal.temp_C)
+        self.assertEqual(truth["gh.temp_truth_C"], plant.thermal.temp_C)
+        self.assertEqual(truth["gh.co2_ppm"], plant.plant.read()["gh.co2_ppm"])
+
+    def test_controllers_never_see_true_temperature(self):
+        seen = []
+        run(HybridPlant(plant=FakePlant(), sync_biosim_temperature=False),
+            {"spy": lambda obs: seen.append(set(obs)) or {}}, 3,
+            sensor_layer=AtmosphereSensorLayer(seed=1))
+        self.assertTrue(seen and all("gh.temp_truth_C" not in keys for keys in seen))
+
+    def test_temperature_sync_failure_is_not_swallowed(self):
+        class BrokenClient:
+            def set_environment_temperature(self, module, temperature_C):
+                raise RuntimeError("no temperature endpoint")
+
+        inner = FakePlant()
+        inner.client = BrokenClient()
+        with self.assertRaises(RuntimeError):
+            HybridPlant(plant=inner).reset()
+
+
+class TestSensorPhysicsInLayer(unittest.TestCase):
+
+    def test_temperature_lag(self):
+        layer = AtmosphereSensorLayer(temp_sigma_C=0.0, temp_tau_hours=2.0, seed=1)
+        layer({"gh.temp_C": 20.0}, TickContext(tick=0))
+        obs = layer({"gh.temp_C": 30.0}, TickContext(tick=1))
+        self.assertAlmostEqual(obs["gh.temp_C"], 20.0 + (1.0 - math.exp(-0.5)) * 10.0, places=4)
+
+    def test_co2_cross_sensitivity_uses_true_temperature(self):
+        layer = AtmosphereSensorLayer(temp_sigma_C=0.0, co2_sigma_ppm=0.0, co2_temp_cross_sensitivity=5.0, seed=1)
+        obs = layer({"gh.temp_C": 27.0, "gh.co2_ppm": 1200.0}, TickContext(tick=0))
+        self.assertAlmostEqual(obs["gh.co2_ppm"], 1225.0, places=4)
+
+    def test_alarm_bands_are_open_ended(self):
+        from interface.sensors import TemperatureSensorModel, temp_alarm_band
+        self.assertEqual(temp_alarm_band(150.0), "SEVERE_HIGH")
+        self.assertEqual(temp_alarm_band(-150.0), "SEVERE_LOW")
+        self.assertEqual(TemperatureSensorModel().evaluate_alarms(150.0).value, "SEVERE_HIGH")
+
+    def test_biosim_alarm_follows_temperature(self):
+        from interface import bindings
+        from test_thermal_phase1 import synthetic_raw
+        raw = synthetic_raw()
+        raw["modules"]["Greenhouse"]["properties"]["temperature"] = 40.0
+        self.assertEqual(bindings.to_state(raw)["gh.temp_alarm"], "SEVERE_HIGH")
+
+
+class TestFaultRecovery(unittest.TestCase):
+    """Closed loop through run(): HVAC holds the cabin, and a heater fault doesn't leave the
+    monitor blaming the healthy temperature sensor afterwards."""
+
+    @staticmethod
+    def _hold_co2(obs):
+        co2 = obs.get("gh.co2_ppm")
+        mol = 0.0 if co2 is None else (1200.0 - co2) * 1e-6 * 2050.0
+        return {"cmd.crop_power_W": 200.0, "cmd.co2_inject_mol": max(0.0, min(5.0, mol))}
+
+    def _run(self, faults, n_ticks):
+        monitor = AtmosphereTemperatureMonitor(temp_sensor_sigma_C=0.15, temp_model_sigma_C=0.25,
+                                               temp_shift_C=1.0, temp_h_sigmas=4.0)
+        diag = {}
+
+        def watch(obs, per_controller, ctx):
+            cmds = merge_commands(obs, per_controller, ctx)
+            diag[ctx.tick] = monitor.update(obs, commands=cmds)
+            return cmds
+
+        log = TickLogger()
+        run(HybridPlant(plant=FakePlant(), sync_biosim_temperature=False),
+            {"hvac": HVACTemperatureController(), "atmo": self._hold_co2},
+            n_ticks, sensor_layer=AtmosphereSensorLayer(seed=42), supervisor=watch,
+            actuator_layer=AtmosphereActuatorLayer(), fault_schedule=faults, logger=log)
+        return log.records, diag
+
+    def test_hvac_holds_watch_band_over_a_cycle(self):
+        records, _ = self._run([], 700)
+        temps = [r["truth"]["gh.temp_truth_C"] for r in records]
+        self.assertGreaterEqual(min(temps), 18.0)
+        self.assertLessEqual(max(temps), 24.0)
+
+    def test_no_false_alarms_over_a_cycle_with_co2_held(self):
+        # the CO2 model used to integrate commanded injection against a fixed 2050 mol of air and
+        # drifted ~50 ppm by tick 370, after which the healthy CO2 sensor was flagged
+        _, diag = self._run([], 700)
+        flagged = [t for t, d in diag.items() if d["temp_faults"] or d["co2_faults"] or d["actuator_faults"]]
+        self.assertEqual(flagged, [])
+
+    def test_no_sensor_blame_after_heater_burnout(self):
+        burnout = Fault(tick=30, kind="stuck", target="cmd.heater_W", params={"value": 0.0}, duration=30)
+        records, diag = self._run([burnout], 100)
+        self.assertIn("heater_burnout", diag[32]["actuator_faults"])
+        after = [diag[t] for t in range(60, 100)]
+        self.assertTrue(all(not d["temp_faults"] for d in after))
+        self.assertTrue(all(d["temp_trusted"] == "both" for d in after[2:]))
+        # before the fix the fused value fell back to a model ~8 °C off and did far worse than the sensor
+        def rms(err):
+            return math.sqrt(sum(e * e for e in err) / len(err))
+        truth = [r["truth"]["gh.temp_truth_C"] for r in records[60:]]
+        fused = [diag[r["tick"]]["fused_temp_C"] for r in records[60:]]
+        sensed = [r["obs"]["gh.temp_C"] for r in records[60:]]
+        self.assertLess(rms([f - t for f, t in zip(fused, truth)]), rms([s - t for s, t in zip(sensed, truth)]))
 
 
 if __name__ == "__main__":
