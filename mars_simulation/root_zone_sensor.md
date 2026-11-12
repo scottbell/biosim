@@ -54,7 +54,7 @@ Readings are clipped to 0 to capacity, as a real sensor would be.
 
 - **Residual:** each tick, `r = root_zone_L - est.reservoir_L`.
   - Nominal: the estimator's RMS error is 0.31 L (measured, `water_check.py`), so `r` is that plus sensor noise.
-  - Known estimator behaviour: after harvest it drifts low, about 0.08 L/tick.
+  - Known estimator behaviour: after a harvest it settles about 2.4 L low within ~25 ticks and stays there (see Results).
 - **Detection** (one detector per fault signature, so we can tell *what* broke):
   - **Dropout:** reading is `None`.
   - **Stuck:** the reading hasn't changed for N ticks while the estimator has moved more than a threshold.
@@ -97,8 +97,9 @@ Typical run:
 | | Result |
 |---|---|
 | Level error, ticks 30–671 (RMS) | estimate 0.184 L, sensor 0.100 L, **combined 0.092 L** |
+| Level error, ticks 30–999 (RMS, 2026-11-10, with re-zeroing) | estimate 1.36–1.62 L, sensor 0.10 L, **combined 0.09 L** |
 | False alarms before harvest | 0 |
-| False alarms after harvest (ticks 692–699) | 8 "offset" alarms, in 2 of 3 runs (BioSim varies a little between runs) |
+| False alarms after harvest | before the fix: about 315 "offset" alarms over ticks 684–999. **After the fix: none** (2 runs of 1000 ticks) |
 | Estimator marked broken | caught immediately, sensor takes over, worst level error 0.24 L |
 | Alarm clears after the fault ends | offsets 23 h, stuck and dropout immediately |
 | Bias −2 L | caught after 1 tick, worst level error 1.65 L |
@@ -108,7 +109,11 @@ Typical run:
 
 - **Combining helps live.** The combined level is better than either source on its own.
 - **The worst errors are the ticks before an offset is caught.** Until then the combined level still trusts the sensor at about 90 % weight.
-- **The post-harvest alarms are the known estimator weakness.** After harvest the estimate drifts low until the new crop reports its own CO2 uptake (`plant_next_steps.md` item 8). The monitor reads that as a sensor offset. The fix is either in the estimator (Sophia) or by treating the hours after a harvest as an estimator fault. To discuss.
+- **Post-harvest drift, fixed in the monitor (2026-11-10).**
+  - After a harvest the estimate settles about 2.4 L low within ~25 ticks and **never recovers**: the replanted crop reports the old CO2 uptake. Over a 1000-tick run that gave about 315 false "offset" alarms.
+  - `RootZoneMonitor` now watches `crop.biomass_store_kg`. For 36 ticks after a harvest it uses the sensor alone and flags nothing (`rz.post_harvest`).
+  - At the end of that window it re-zeroes the estimate: the mean residual over the last 12 ticks becomes a standing correction (`rz.est_offset_L`).
+  - The estimator itself is unchanged. Fixing it at the source would make the re-zero unnecessary.
 
 ## 7. Steps (one commit each)
 

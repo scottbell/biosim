@@ -4,6 +4,10 @@ do-nothing default, so the loop runs end to end before any controller or fault l
     truth --strip truth-only--> sensor_layer --> obs --> controllers --> supervisor
           --> actuator_layer --> plant.apply --> plant.step --> next truth
 
+A sensor that measures something truth-only (e.g. the reservoir level) reads it from the
+read-only ctx.truth and writes its measurement under its own key. Truth-only keys are
+stripped from the sensor layer's output too, so they never reach controllers.
+
 Timing: commands computed from the state at tick k act during the step k -> k+1.
 BioSim stores report last tick's values, so there is always one tick of actuation delay.
 """
@@ -11,7 +15,8 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, Iterable, List, Optional
+from types import MappingProxyType
+from typing import Any, Callable, Dict, Iterable, List, Mapping, Optional
 
 from .log import TickLogger
 from .plant import Plant
@@ -26,6 +31,8 @@ Controller = Callable[[State], Commands]
 class TickContext:
     tick: int
     active_faults: List[Fault] = field(default_factory=list)
+    # full truth, truth-only keys included; read-only so sensor layers can't alter the log
+    truth: Mapping[str, Any] = field(default_factory=lambda: MappingProxyType({}))
 
 
 SensorLayer = Callable[[State, TickContext], State]
@@ -84,9 +91,9 @@ def run(plant: Plant,
         for f in ended:
             plant.clear(f)
         started = [f for f in started if not any(f is e for e in ended)]
-        ctx = TickContext(tick=tick, active_faults=list(started))
+        ctx = TickContext(tick=tick, active_faults=list(started), truth=MappingProxyType(truth))
 
-        obs = sensor_layer(public(truth), ctx)
+        obs = public(sensor_layer(public(truth), ctx))
         per_controller = {name: dict(c(obs)) for name, c in controllers.items()}
         commands = supervisor(obs, per_controller, ctx)
         applied = actuator_layer(commands, ctx)

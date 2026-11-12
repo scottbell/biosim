@@ -13,8 +13,11 @@ Two independent readings of the same hidden quantity, so each can catch the othe
 
 The level reported is the inverse-variance average of whichever sources are healthy.
 
-Known weak spot: after a harvest the estimator drifts low by ~0.08 L/tick until the new crop
-reports its own CO2 uptake, which the CUSUM reads as a positive sensor offset.
+After a harvest (crop.biomass_store_kg goes up) the estimator settles about 2.4 L low within
+~25 ticks and stays there (measured live, 2026-11-10): the replanted crop reports the old CO2
+uptake. That is expected, not a fault, so for harvest_hold_ticks the estimate isn't used and
+nothing is flagged. At the end of the hold the estimate is re-zeroed against the sensor: the
+mean residual over the hold's last rezero_ticks becomes a standing offset on the estimate.
 """
 from __future__ import annotations
 
@@ -26,7 +29,8 @@ class RootZoneMonitor:
     def __init__(self, sensor_sigma_L: float = 0.1, estimate_sigma_L: float = 0.31,
                  shift_L: float = 2.0, h_sigmas: float = 5.0, stuck_ticks: int = 3,
                  capacity_L: float = 500.0, move_threshold_L: float = 0.5,
-                 co2_min_ppm: float = 300.0, clear_ticks: int = 24):
+                 co2_min_ppm: float = 300.0, clear_ticks: int = 24,
+                 harvest_hold_ticks: int = 36, rezero_ticks: int = 12):
         self.sensor_var = float(sensor_sigma_L) ** 2
         self.estimate_var = float(estimate_sigma_L) ** 2
         self.spread = (self.sensor_var + self.estimate_var) ** 0.5
@@ -37,6 +41,8 @@ class RootZoneMonitor:
         self.move_threshold_L = float(move_threshold_L)
         self.co2_min_ppm = float(co2_min_ppm)
         self.clear_ticks = int(clear_ticks)
+        self.harvest_hold_ticks = int(harvest_hold_ticks)
+        self.rezero_ticks = int(rezero_ticks)
         self.reset()
 
     def reset(self) -> None:
@@ -47,6 +53,10 @@ class RootZoneMonitor:
         self._prev_sensor: Optional[float] = None
         self._same = 0
         self._recent_est: deque = deque(maxlen=self.stuck_ticks + 1)
+        self.est_offset = 0.0
+        self._hold = 0
+        self._hold_res: deque = deque(maxlen=self.rezero_ticks)
+        self._prev_biomass: Optional[float] = None
 
     def _stuck(self, sensor_L: float, est_L: float) -> bool:
         self._recent_est.append(est_L)
@@ -61,8 +71,15 @@ class RootZoneMonitor:
         return max(self._recent_est) - min(self._recent_est) > self.move_threshold_L
 
     def update(self, sensor_L: Optional[float], est: Dict[str, Any],
-               co2_ppm: Optional[float] = None) -> Dict[str, Any]:
-        est_L = float(est["est.reservoir_L"])
+               co2_ppm: Optional[float] = None, biomass_kg: Optional[float] = None) -> Dict[str, Any]:
+        if biomass_kg is not None:
+            if self._prev_biomass is not None and biomass_kg > self._prev_biomass:
+                self._hold = self.harvest_hold_ticks
+                self._hold_res.clear()
+            self._prev_biomass = biomass_kg
+        post_harvest = self._hold > 0
+
+        est_L = float(est["est.reservoir_L"]) + self.est_offset
         est_ok = not est.get("est.degraded", False) and (co2_ppm is None or co2_ppm >= self.co2_min_ppm)
         faults: List[str] = []
 
@@ -76,10 +93,18 @@ class RootZoneMonitor:
         else:
             sensor_ok, r = True, sensor_L - est_L
 
-        if not est_ok:
-            faults.append("estimator")
+        if not est_ok or post_harvest:
+            if not est_ok:
+                faults.append("estimator")
             self.g_pos = self.g_neg = 0.0
             self.offset_alarm, self._calm = False, 0
+            if post_harvest:
+                if sensor_ok:
+                    self._hold_res.append(r)
+                self._hold -= 1
+                if self._hold == 0 and self._hold_res:
+                    self.est_offset += sum(self._hold_res) / len(self._hold_res)
+            est_ok = False
         elif sensor_ok:
             self.g_pos = max(0.0, self.g_pos + r - self.k)
             self.g_neg = max(0.0, self.g_neg - r - self.k)
@@ -109,4 +134,6 @@ class RootZoneMonitor:
             "rz.trusted": trusted,
             "rz.faults": faults,
             "rz.residual_L": r,
+            "rz.post_harvest": post_harvest,
+            "rz.est_offset_L": self.est_offset,
         }

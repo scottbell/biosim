@@ -71,3 +71,37 @@ def test_supervisor_sees_who_asked():
     log = TickLogger()
     run(FakePlant(), {"lamps": lamp_controller}, 2, supervisor=halve_lamps, logger=log)
     assert log.records[0]["applied"] == {"cmd.crop_power_W": 1500.0}
+
+
+# ctx.truth: sensors can measure truth-only values, controllers still can't see them
+
+RESERVOIR = "crop.s0.reservoir_L"
+
+
+def test_sensor_layer_reads_truth_only_values_from_ctx():
+    seen = []
+
+    def level_sensor(state, ctx):
+        assert RESERVOIR not in state, "the state argument stays public"
+        return dict(state, **{"meas.reservoir_L": ctx.truth[RESERVOIR]})
+
+    log = TickLogger()
+    run(FakePlant(), {"spy": lambda obs: seen.append(obs["meas.reservoir_L"]) or {}}, 5,
+        sensor_layer=level_sensor, logger=log)
+    assert seen == [r["truth"][RESERVOIR] for r in log.records]
+
+
+def test_truth_only_keys_copied_by_a_sensor_layer_are_still_stripped():
+    seen = []
+    leaky = lambda state, ctx: dict(ctx.truth)  # noqa: E731
+    run(FakePlant(), {"spy": lambda obs: seen.append(set(obs)) or {}}, 3, sensor_layer=leaky)
+    assert seen and all(not any(is_truth_only(k) for k in keys) for keys in seen)
+
+
+def test_ctx_truth_is_read_only():
+    def vandal(state, ctx):
+        ctx.truth[RESERVOIR] = -1.0
+        return state
+
+    with pytest.raises(TypeError):
+        run(FakePlant(), {}, 1, sensor_layer=vandal)

@@ -98,7 +98,7 @@ def first_tick_with(rows, label, after=0):
 def test_no_false_alarms_on_a_nominal_cycle(cycle):
     rows = monitor_run(cycle)
     assert [r["tick"] for r in rows if r["rz.faults"]] == []
-    assert all(r["rz.trusted"] == "both" for r in rows)
+    assert all(r["rz.trusted"] == ("sensor" if r["rz.post_harvest"] else "both") for r in rows)
 
 
 def test_fused_level_beats_the_sensor_alone(cycle):
@@ -143,3 +143,75 @@ def test_broken_estimator_is_blamed_not_the_sensor(cycle):
     after = [r for r in rows if r["tick"] >= 300]
     assert all(r["rz.faults"] == ["estimator"] and r["rz.trusted"] == "sensor" for r in after)
     assert all(abs(r["rz.level_L"] - r["true_L"]) < 0.5 for r in after)
+
+
+# sensor layer inside run()
+
+from interface import TickContext, TickLogger, run  # noqa: E402
+from sensors import AtmosphereSensorLayer, RootZoneSensorLayer, chain_sensor_layers  # noqa: E402
+
+
+def logged_run(sensor_layer, ticks=50, faults=()):
+    seen, log = [], TickLogger()
+    run(FakePlant(), {"spy": lambda obs: seen.append(obs) or {}}, ticks,
+        sensor_layer=sensor_layer, fault_schedule=faults, logger=log)
+    return seen, log.records
+
+
+def test_layer_reports_the_true_level_through_run():
+    seen, records = logged_run(RootZoneSensorLayer(sigma_L=0.0))
+    assert [o[ROOT_ZONE_KEY] for o in seen] == [r["truth"]["crop.s0.reservoir_L"] for r in records]
+    assert all("crop.s0.reservoir_L" not in o for o in seen), "true level stays hidden"
+
+
+def test_layer_applies_scheduled_faults():
+    seen, records = logged_run(RootZoneSensorLayer(sigma_L=0.0), ticks=20,
+                               faults=[fault("bias", tick=10, duration=5, offset=2.0)])
+    for o, r in zip(seen, records):
+        offset = 2.0 if 10 <= r["tick"] < 15 else 0.0
+        assert o[ROOT_ZONE_KEY] == pytest.approx(r["truth"]["crop.s0.reservoir_L"] + offset)
+
+
+def test_layer_chains_with_the_atmosphere_layer():
+    seen, _ = logged_run(chain_sensor_layers(AtmosphereSensorLayer(seed=1), RootZoneSensorLayer()), ticks=5)
+    assert all(ROOT_ZONE_KEY in o and "gh.co2_ppm" in o for o in seen)
+
+
+def test_layer_says_why_when_truth_is_missing():
+    with pytest.raises(KeyError, match="needs run\\(\\) to pass full truth"):
+        RootZoneSensorLayer()({}, TickContext(tick=0))
+
+
+# harvest: the estimate settles low and stays there (seen live); the monitor re-zeroes it
+
+import random  # noqa: E402
+
+from estimators import RootZoneMonitor  # noqa: E402
+
+
+def harvest_sequence(monitor, ticks=200, harvest_at=50, settle=-2.4, sensor_fault=None):
+    """True level fixed at 10 L, sensor with SIGMA noise; after the harvest the estimate ramps down to
+    `settle` over 25 ticks and stays. sensor_fault=(start, offset) biases the sensor later."""
+    rows, rng = [], random.Random(0)
+    for t in range(ticks):
+        lag = min(max(t - harvest_at, 0), 25) / 25
+        est = 10.0 + settle * lag
+        sensor = 10.0 + rng.gauss(0.0, SIGMA) + (sensor_fault[1] if sensor_fault and t >= sensor_fault[0] else 0.0)
+        out = monitor.update(sensor, {"est.reservoir_L": est}, 1200.0, 30.0 if t >= harvest_at else 0.0)
+        rows.append(dict(out, tick=t))
+    return rows
+
+
+def test_harvest_holds_then_rezeroes_without_alarms():
+    rows = harvest_sequence(RootZoneMonitor(SIGMA))
+    assert [r["tick"] for r in rows if r["rz.post_harvest"]] == list(range(50, 86))
+    assert all(not r["rz.faults"] for r in rows)
+    assert rows[-1]["rz.est_offset_L"] == pytest.approx(2.4, abs=3 * SIGMA / 12 ** 0.5)
+    assert all(r["rz.trusted"] == "both" and r["rz.level_L"] == pytest.approx(10.0, abs=4 * SIGMA)
+               for r in rows[86:])
+
+
+def test_sensor_faults_are_still_caught_after_a_rezero():
+    rows = harvest_sequence(RootZoneMonitor(SIGMA), sensor_fault=(150, -2.0))
+    assert first_tick_with(rows, "offset") in (150, 151)
+    assert all(not r["rz.faults"] for r in rows[:150])
