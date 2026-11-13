@@ -99,32 +99,27 @@ def test_control_heater_burnout_is_detected():
 
 # Sensors with fault injection but no detector
 
-@xfail
 def test_o2_sensor_bias_is_detected():
     # reads 19 % O2 when the air is at 21 %
     assert_detected(sensor_fault("bias", "gh.o2_frac", offset=-0.02), must_flag="o2")
 
 
-@xfail
 def test_o2_sensor_stuck_is_detected():
     assert_detected(sensor_fault("stuck", "gh.o2_frac"), must_flag="o2")
 
 
-@xfail
 def test_pressure_sensor_bias_is_detected():
     # the CO2 model scales total gas by measured pressure, so today this blames the CO2 sensor
     assert_detected(sensor_fault("bias", "gh.pressure_kPa", offset=5.0), must_flag="pressure",
                     must_stay_clear=["co2_faults"])
 
 
-@xfail
 def test_pressure_sensor_dropout_is_detected():
     assert_detected(sensor_fault("dropout", "gh.pressure_kPa"), must_flag="pressure")
 
 
 # Actuator faults the monitor misses or blames on a sensor
 
-@xfail
 def test_heater_at_half_output_is_detected():
     # burnout detection only fires when the draw is under 10 W
     assert_detected(sensor_fault("efficiency", "cmd.heater_W", factor=0.5), must_flag="heater",
